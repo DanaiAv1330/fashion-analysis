@@ -1,0 +1,1499 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Capsule Wardrobe Workbook — Seasonal Guide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --cream: #FAF7F2;
+      --warm-white: #F5F0E8;
+      --ink: #1C1814;
+      --warm-grey: #8A857C;
+      --light-grey: #E8E3DA;
+      --accent-warm: #C4956A;
+      --accent-deep: #6B4F3A;
+      --spring: #D4A574;
+      --summer: #9BB5C8;
+      --autumn: #C4784A;
+      --winter: #5B7A8E;
+      --spring-light: #FDF5EC;
+      --summer-light: #EEF4F8;
+      --autumn-light: #FBF0E8;
+      --winter-light: #EBF0F4;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(250, 247, 242, 0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--light-grey);
+      padding: 0 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+    }
+
+    .nav-brand {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--warm-grey);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--ink); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 8rem 2rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -20%;
+      right: -10%;
+      width: 55vw;
+      height: 55vw;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(196,149,106,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -10%;
+      left: -10%;
+      width: 40vw;
+      height: 40vw;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(91,122,142,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-label {
+      display: inline-block;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent-warm);
+      border: 1px solid rgba(196,149,106,0.4);
+      padding: 0.4rem 1.2rem;
+      border-radius: 2rem;
+      margin-bottom: 2.5rem;
+      animation: fadeUp 0.8s ease both;
+    }
+
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3rem, 7vw, 6rem);
+      font-weight: 300;
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+      max-width: 800px;
+      margin-bottom: 1.5rem;
+      animation: fadeUp 0.8s 0.1s ease both;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      color: var(--accent-warm);
+    }
+
+    .hero-sub {
+      font-size: 1.05rem;
+      color: var(--warm-grey);
+      max-width: 520px;
+      margin-bottom: 3rem;
+      animation: fadeUp 0.8s 0.2s ease both;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      animation: fadeUp 0.8s 0.3s ease both;
+    }
+
+    .btn-primary {
+      background: var(--ink);
+      color: var(--cream);
+      padding: 0.85rem 2.2rem;
+      border-radius: 0.25rem;
+      font-size: 0.85rem;
+      letter-spacing: 0.06em;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .btn-primary:hover { background: var(--accent-deep); transform: translateY(-1px); }
+
+    .btn-secondary {
+      border: 1px solid var(--ink);
+      color: var(--ink);
+      padding: 0.85rem 2.2rem;
+      border-radius: 0.25rem;
+      font-size: 0.85rem;
+      letter-spacing: 0.06em;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .btn-secondary:hover { background: var(--light-grey); transform: translateY(-1px); }
+
+    /* ── SECTIONS COMMON ── */
+    section { padding: 7rem 2rem; }
+
+    .container { max-width: 1050px; margin: 0 auto; }
+
+    .section-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent-warm);
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 4.5vw, 3.8rem);
+      font-weight: 300;
+      line-height: 1.15;
+      margin-bottom: 1.5rem;
+    }
+
+    .section-title em { font-style: italic; color: var(--accent-warm); }
+
+    .section-desc {
+      font-size: 1rem;
+      color: var(--warm-grey);
+      max-width: 580px;
+      line-height: 1.8;
+    }
+
+    hr.divider {
+      border: none;
+      border-top: 1px solid var(--light-grey);
+      margin: 5rem 0;
+    }
+
+    /* ── WHY SECTION ── */
+    .why-section { background: var(--warm-white); }
+
+    .why-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+      margin-top: 4rem;
+    }
+
+    .why-card {
+      border-left: 2px solid var(--accent-warm);
+      padding-left: 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .why-card h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+
+    .why-card p {
+      font-size: 0.95rem;
+      color: var(--warm-grey);
+    }
+
+    .why-quote {
+      background: var(--cream);
+      border-radius: 0.5rem;
+      padding: 2.5rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-style: italic;
+      font-weight: 300;
+      line-height: 1.5;
+      position: relative;
+    }
+
+    .why-quote::before {
+      content: '"';
+      position: absolute;
+      top: -1rem;
+      left: 1.5rem;
+      font-size: 6rem;
+      color: var(--accent-warm);
+      opacity: 0.3;
+      font-family: 'Cormorant Garamond', serif;
+      line-height: 1;
+    }
+
+    /* ── WHAT IS CAPSULE ── */
+    .capsule-numbers {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-top: 4rem;
+    }
+
+    .num-card {
+      text-align: center;
+      padding: 2.5rem 1.5rem;
+      border: 1px solid var(--light-grey);
+      border-radius: 0.5rem;
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+
+    .num-card:hover { transform: translateY(-4px); box-shadow: 0 10px 30px rgba(0,0,0,0.06); }
+
+    .num-card .big-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 4rem;
+      font-weight: 300;
+      color: var(--accent-warm);
+      line-height: 1;
+      margin-bottom: 0.75rem;
+    }
+
+    .num-card h4 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+
+    .num-card p { font-size: 0.88rem; color: var(--warm-grey); }
+
+    /* ── SEASONAL PALETTES ── */
+    .seasons-section { background: var(--warm-white); }
+
+    .season-tabs {
+      display: flex;
+      gap: 0;
+      margin: 3rem 0 2.5rem;
+      border: 1px solid var(--light-grey);
+      border-radius: 0.5rem;
+      overflow: hidden;
+      width: fit-content;
+    }
+
+    .season-tab {
+      padding: 0.75rem 1.8rem;
+      font-size: 0.82rem;
+      letter-spacing: 0.07em;
+      cursor: pointer;
+      background: transparent;
+      border: none;
+      color: var(--warm-grey);
+      transition: all 0.2s;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 400;
+    }
+
+    .season-tab:hover { background: var(--light-grey); color: var(--ink); }
+    .season-tab.active { background: var(--ink); color: var(--cream); }
+
+    .season-content { display: none; }
+    .season-content.active { display: block; animation: fadeIn 0.4s ease; }
+
+    .season-hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+      margin-bottom: 3rem;
+    }
+
+    .season-header { margin-bottom: 1.5rem; }
+
+    .season-emoji { font-size: 2.5rem; margin-bottom: 1rem; }
+
+    .season-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem;
+      font-weight: 400;
+      margin-bottom: 0.5rem;
+    }
+
+    .season-tagline { font-size: 0.9rem; color: var(--warm-grey); margin-bottom: 1.5rem; }
+
+    .season-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+
+    .tag {
+      font-size: 0.73rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border: 1px solid var(--light-grey);
+      padding: 0.3rem 0.85rem;
+      border-radius: 2rem;
+      color: var(--warm-grey);
+    }
+
+    .palette-swatches {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+    }
+
+    .swatch {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.5);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .swatch:hover { transform: scale(1.15); }
+    .swatch::after {
+      content: attr(data-name);
+      position: absolute;
+      bottom: -1.8rem;
+      left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
+      font-size: 0.65rem;
+      color: var(--warm-grey);
+      opacity: 0;
+      transition: opacity 0.2s;
+      pointer-events: none;
+    }
+    .swatch:hover::after { opacity: 1; }
+
+    /* ── PIECES CAROUSEL ── */
+    .pieces-carousel-wrap {
+      position: relative;
+      overflow: hidden;
+      margin-top: 2rem;
+    }
+
+    .pieces-carousel-track {
+      display: flex;
+      gap: 1.25rem;
+      transition: transform 0.45s cubic-bezier(0.4,0,0.2,1);
+      will-change: transform;
+    }
+
+    .piece-card {
+      background: var(--cream);
+      border: 1px solid var(--light-grey);
+      border-radius: 0.5rem;
+      padding: 1.5rem;
+      min-width: 200px;
+      flex-shrink: 0;
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+
+    .piece-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+
+    .piece-icon { font-size: 1.8rem; margin-bottom: 0.75rem; }
+
+    .piece-category {
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent-warm);
+      margin-bottom: 0.4rem;
+    }
+
+    .piece-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+      font-weight: 500;
+      margin-bottom: 0.4rem;
+    }
+
+    .piece-desc { font-size: 0.83rem; color: var(--warm-grey); }
+
+    .carousel-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+    }
+
+    .carousel-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1px solid var(--light-grey);
+      background: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      color: var(--ink);
+      transition: background 0.2s, border-color 0.2s;
+      flex-shrink: 0;
+    }
+
+    .carousel-btn:hover { background: var(--ink); color: white; border-color: var(--ink); }
+    .carousel-btn:disabled { opacity: 0.3; cursor: default; }
+
+    .carousel-dots {
+      display: flex;
+      gap: 0.4rem;
+    }
+
+    .carousel-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--light-grey);
+      transition: background 0.2s, transform 0.2s;
+      cursor: pointer;
+    }
+
+    .carousel-dot.active { background: var(--accent-warm); transform: scale(1.3); }
+
+    /* ── CHECKLIST ── */
+    .checklist-section {}
+
+    .checklist-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-top: 3.5rem;
+    }
+
+    .checklist-group {
+      background: var(--warm-white);
+      border-radius: 0.5rem;
+      padding: 2rem;
+    }
+
+    .checklist-group-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      font-weight: 500;
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .checklist-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.85rem;
+      padding: 0.7rem 0;
+      border-bottom: 1px solid var(--light-grey);
+      cursor: pointer;
+    }
+
+    .checklist-item:last-child { border-bottom: none; }
+
+    .check-box {
+      width: 20px;
+      height: 20px;
+      border: 1.5px solid var(--light-grey);
+      border-radius: 3px;
+      flex-shrink: 0;
+      margin-top: 0.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      background: white;
+    }
+
+    .checklist-item.checked .check-box {
+      background: var(--accent-warm);
+      border-color: var(--accent-warm);
+    }
+
+    .checklist-item.checked .check-box::after {
+      content: '✓';
+      font-size: 0.75rem;
+      color: white;
+      font-weight: 500;
+    }
+
+    .checklist-item.checked .check-text { text-decoration: line-through; color: var(--warm-grey); }
+
+    .check-text { font-size: 0.92rem; line-height: 1.5; }
+
+    /* ── OUTFIT FORMULAS ── */
+    .formulas-section { background: var(--warm-white); }
+
+    .formula-carousel-wrap {
+      position: relative;
+      overflow: hidden;
+      margin-top: 3.5rem;
+    }
+
+    .formula-carousel-track {
+      display: flex;
+      gap: 2rem;
+      transition: transform 0.45s cubic-bezier(0.4,0,0.2,1);
+      will-change: transform;
+    }
+
+    .formula-card {
+      border: 1px solid var(--light-grey);
+      border-radius: 0.5rem;
+      padding: 2rem;
+      background: var(--cream);
+      min-width: 340px;
+      flex-shrink: 0;
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+
+    .formula-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+
+    .formula-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3.5rem;
+      font-weight: 300;
+      color: var(--accent-warm);
+      opacity: 0.4;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+
+    .formula-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      font-weight: 500;
+      margin-bottom: 0.75rem;
+    }
+
+    .formula-equation {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+
+    .eq-piece {
+      background: var(--warm-white);
+      border: 1px solid var(--light-grey);
+      padding: 0.3rem 0.75rem;
+      border-radius: 0.25rem;
+      font-size: 0.82rem;
+      letter-spacing: 0.03em;
+    }
+
+    .eq-plus {
+      color: var(--accent-warm);
+      font-weight: 500;
+      font-size: 1.1rem;
+    }
+
+    .formula-tip { font-size: 0.85rem; color: var(--warm-grey); }
+
+    /* ── MISTAKES ── */
+    .mistakes-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 3.5rem;
+    }
+
+    .mistake-card {
+      padding: 1.75rem;
+      border: 1px solid var(--light-grey);
+      border-radius: 0.5rem;
+      position: relative;
+    }
+
+    .mistake-x {
+      font-size: 1.5rem;
+      color: #C97B7B;
+      margin-bottom: 0.75rem;
+    }
+
+    .mistake-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+
+    .mistake-desc { font-size: 0.85rem; color: var(--warm-grey); }
+
+    /* ── SHOPPING PLAN ── */
+    .shopping-section {}
+
+    .shopping-phases {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-top: 3.5rem;
+      counter-reset: phase;
+    }
+
+    .phase-card {
+      padding: 2rem;
+      border-radius: 0.5rem;
+      background: var(--warm-white);
+      border: 1px solid var(--light-grey);
+      counter-increment: phase;
+    }
+
+    .phase-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent-warm);
+      margin-bottom: 0.5rem;
+    }
+
+    .phase-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      font-weight: 500;
+      margin-bottom: 1rem;
+    }
+
+    .phase-items { list-style: none; }
+
+    .phase-items li {
+      font-size: 0.88rem;
+      color: var(--warm-grey);
+      padding: 0.4rem 0;
+      border-bottom: 1px solid var(--light-grey);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .phase-items li:last-child { border-bottom: none; }
+
+    .phase-items li::before { content: '→'; color: var(--accent-warm); font-size: 0.75rem; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--ink);
+      color: rgba(255,255,255,0.5);
+      padding: 3rem 2rem;
+      text-align: center;
+    }
+
+    footer .footer-brand {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 300;
+      color: white;
+      margin-bottom: 0.75rem;
+    }
+
+    footer p { font-size: 0.82rem; }
+
+    footer a { color: rgba(255,255,255,0.6); text-decoration: none; }
+    footer a:hover { color: white; }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 0 1.5rem; }
+      .nav-links { display: none; }
+      .why-grid, .season-hero, .checklist-grid, .formula-cards { grid-template-columns: 1fr; gap: 2rem; }
+      .capsule-numbers, .pieces-grid, .mistakes-grid, .shopping-phases { grid-template-columns: 1fr; }
+      .season-tabs { flex-wrap: wrap; width: 100%; }
+      .season-tab { flex: 1 1 45%; text-align: center; }
+    }
+
+    /* ── PROGRESS TRACKER ── */
+    .progress-bar-wrap {
+      background: var(--light-grey);
+      height: 4px;
+      border-radius: 2px;
+      margin-top: 2rem;
+      max-width: 400px;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent-warm), var(--accent-deep));
+      border-radius: 2px;
+      transition: width 0.4s ease;
+      width: 0%;
+    }
+
+    .progress-label {
+      font-size: 0.78rem;
+      color: var(--warm-grey);
+      margin-top: 0.5rem;
+    }
+
+    /* Scroll reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-brand" href="#">Capsule Wardrobe Workbook</a>
+  <ul class="nav-links">
+    <li><a href="#what">Τι είναι</a></li>
+    <li><a href="#seasons">Εποχές</a></li>
+    <li><a href="#checklist">Checklist</a></li>
+    <li><a href="#formulas">Φόρμουλες</a></li>
+    <li><a href="#shopping">Αγορές</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <span class="hero-label">Free Workbook · Seasonal System</span>
+  <h1>Φτιάξε <em>την ντουλάπα</em><br>που πάντα ήθελες</h1>
+  <p class="hero-sub">Ένας πλήρης οδηγός για να φτιάξεις capsule wardrobe με βάση την εποχή σου — λιγότερα κομμάτια, περισσότεροι συνδυασμοί, καμία σύγχυση.</p>
+  <div class="hero-cta">
+    <a href="#what" class="btn-primary">Ξεκίνα εδώ</a>
+    <a href="#seasons" class="btn-secondary">Δες τις εποχές</a>
+  </div>
+</section>
+
+<!-- WHY -->
+<section class="why-section" id="why">
+  <div class="container">
+    <div class="reveal">
+      <p class="section-label">Γιατί έχει σημασία</p>
+      <h2 class="section-title">Η ντουλάπα σου δεν είναι<br><em>ποσότητα</em> — είναι ποιότητα</h2>
+    </div>
+    <div class="why-grid reveal">
+      <div>
+        <div class="why-card">
+          <h3>Ξέρεις τι έχεις</h3>
+          <p>Δεν υπάρχει το "δεν έχω τίποτα να φορέσω" όταν κάθε κομμάτι έχει λόγο ύπαρξης.</p>
+        </div>
+        <div class="why-card">
+          <h3>Αγοράζεις σωστά</h3>
+          <p>Σταματάς τις παρορμητικές αγορές. Κάθε νέο κομμάτι ταιριάζει με αυτά που ήδη έχεις.</p>
+        </div>
+        <div class="why-card">
+          <h3>Εκφράζεσαι εύκολα</h3>
+          <p>Τα σωστά βασικά σου δίνουν ελευθερία — όχι περιορισμό.</p>
+        </div>
+      </div>
+      <div class="why-quote">
+        Δεν χρειάζεσαι περισσότερα ρούχα. Χρειάζεσαι τα <em>σωστά</em> ρούχα.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT IS CAPSULE -->
+<section id="what">
+  <div class="container">
+    <div class="reveal">
+      <p class="section-label">Τι είναι</p>
+      <h2 class="section-title">Η λογική του<br><em>capsule wardrobe</em></h2>
+      <p class="section-desc">Ένα capsule wardrobe είναι μια μικρή, επιλεγμένη συλλογή κομματιών που συνδυάζονται μεταξύ τους. Η βάση: neutrals + χρώμα εποχής + accent.</p>
+    </div>
+    <div class="capsule-numbers reveal">
+      <div class="num-card">
+        <div class="big-num">10–15</div>
+        <h4>Βασικά κομμάτια</h4>
+        <p>Τα neutrals της ντουλάπας σου. Παντοτινά, πολυχρηστικά, σε χρώματα της παλέτας σου.</p>
+      </div>
+      <div class="num-card">
+        <div class="big-num">5–8</div>
+        <h4>Χρωματιστά κομμάτια</h4>
+        <p>Εποχιακά χρώματα που ανασαίνουν τη ντουλάπα σου και σε κολακεύουν.</p>
+      </div>
+      <div class="num-card">
+        <div class="big-num">3–5</div>
+        <h4>Accent pieces</h4>
+        <p>Statement κομμάτια, αξεσουάρ, υφές — αυτά που εκφράζουν την προσωπικότητά σου.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SEASONS -->
+<section class="seasons-section" id="seasons">
+  <div class="container">
+    <div class="reveal">
+      <p class="section-label">Εποχιακές παλέτες</p>
+      <h2 class="section-title">Τα κομμάτια <em>της εποχής σου</em></h2>
+      <p class="section-desc">Κάθε εποχή έχει τη δική της παλέτα, τα δικά της neutrals και τα δικά της accent χρώματα.</p>
+    </div>
+
+    <div class="season-tabs reveal">
+      <button class="season-tab active" onclick="showSeason('spring')">🌸 Άνοιξη</button>
+      <button class="season-tab" onclick="showSeason('summer')">☀️ Καλοκαίρι</button>
+      <button class="season-tab" onclick="showSeason('autumn')">🍂 Φθινόπωρο</button>
+      <button class="season-tab" onclick="showSeason('winter')">❄️ Χειμώνας</button>
+    </div>
+
+    <!-- SPRING -->
+    <div class="season-content active" id="season-spring">
+      <div class="season-hero">
+        <div>
+          <div class="season-emoji">🌸</div>
+          <div class="season-title">Άνοιξη</div>
+          <div class="season-tagline">Ζεστά, φρέσκα, απαλά ή έντονα</div>
+          <div class="season-tags">
+            <span class="tag">Warm</span><span class="tag">Light–Medium</span><span class="tag">Bright ή Muted</span>
+          </div>
+          <br>
+          <div class="palette-swatches">
+            <div class="swatch" style="background:#E8C9A0" data-name="Peach"></div>
+            <div class="swatch" style="background:#D4856A" data-name="Coral"></div>
+            <div class="swatch" style="background:#8EC6C2" data-name="Aqua"></div>
+            <div class="swatch" style="background:#C5D98A" data-name="Warm Green"></div>
+            <div class="swatch" style="background:#F2E0B0" data-name="Warm Ivory"></div>
+            <div class="swatch" style="background:#D4AF7A" data-name="Golden"></div>
+            <div class="swatch" style="background:#A0C4C2" data-name="Turquoise"></div>
+            <div class="swatch" style="background:#E8B89A" data-name="Warm Pink"></div>
+          </div>
+          <p style="font-size:0.85rem; color:var(--warm-grey)"><strong>Neutrals:</strong> Warm ivory, camel, light tan, warm beige<br><strong>Αποφεύγεις:</strong> Ψυχρά γκρι, μαύρο κοντά στο πρόσωπο, navy</p>
+        </div>
+        <div>
+          <div class="pieces-grid">
+            <div class="piece-card">
+              <div class="piece-icon">👗</div>
+              <div class="piece-category">Φόρεμα</div>
+              <div class="piece-name">Wrap dress</div>
+              <div class="piece-desc">Peach ή coral tone, midi length</div>
+            </div>
+            <div class="piece-card">
+              <div class="piece-icon">👔</div>
+              <div class="piece-category">Top</div>
+              <div class="piece-name">Linen πουκάμισο</div>
+              <div class="piece-desc">Warm ivory ή light camel</div>
+            </div>
+            <div class="piece-card">
+              <div class="piece-icon">🧥</div>
+              <div class="piece-category">Jacket</div>
+              <div class="piece-name">Blazer</div>
+              <div class="piece-desc">Warm tan ή soft camel</div>
+            </div>
+            <div class="piece-card">
+              <div class="piece-icon">👖</div>
+              <div class="piece-category">Παντελόνι</div>
+              <div class="piece-name">Wide-leg trousers</div>
+              <div class="piece-desc">Cream ή warm beige</div>
+            </div>
+            <div class="piece-card">
+              <div class="piece-icon">👟</div>
+              <div class="piece-category">Παπούτσια</div>
+              <div class="piece-name">Nude pumps</div>
+              <div class="piece-desc">Warm nude, όχι ψυχρό beige</div>
+            </div>
+            <div class="piece-card">
+              <div class="piece-icon">👜</div>
+              <div class="piece-category">Τσάντα</div>
+              <div class="piece-name">Tan leather</div>
+              <div class="piece-desc">Caramel ή warm cognac</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUMMER -->
+    <div class="season-content" id="season-summer">
+      <div class="season-hero">
+        <div>
+          <div class="season-emoji">☀️</div>
+          <div class="season-title">Καλοκαίρι</div>
+          <div class="season-tagline">Ψυχρά, muted, απαλά και αρμονικά</div>
+          <div class="season-tags">
+            <span class="tag">Cool</span><span class="tag">Light–Medium</span><span class="tag">Muted</span>
+          </div>
+          <br>
+          <div class="palette-swatches">
+            <div class="swatch" style="background:#B8D0E0" data-name="Powder Blue"></div>
+            <div class="swatch" style="background:#C9A8B8" data-name="Dusty Rose"></div>
+            <div class="swatch" style="background:#B0BEC8" data-name="Cool Grey"></div>
+            <div class="swatch" style="background:#D4C5D8" data-name="Lavender"></div>
+            <div class="swatch" style="background:#A8C4B8" data-name="Soft Mint"></div>
+            <div class="swatch" style="background:#E0D8E8" data-name="Lilac"></div>
+            <div class="swatch" style="background:#C0B8C8" data-name="Mauve"></div>
+            <div class="swatch" style="background:#D8E8F0" data-name="Ice Blue"></div>
+          </div>
+          <p style="font-size:0.85rem; color:var(--warm-grey)"><strong>Neutrals:</strong> Soft white, cool grey, light navy, rose grey<br><strong>Αποφεύγεις:</strong> Ζεστά καφέ, πορτοκαλί, mustard, camel</p>
+        </div>
+        <div>
+          <div class="pieces-grid">
+            <div class="piece-card">
+              <div class="piece-icon">👗</div>
+              <div class="piece-category">Φόρεμα</div>
+              <div class="piece-name">Slip dress</div>
+              <div class="piece-desc">Dusty rose ή powder blue</div>
+            </div>
+            <div class="piece-card">
+              <div class="piece-icon">👔</div>
+              <div class="piece-category">Top</div>
+              <div class="piece-name">Silk blouse</div>
+              <div class="piece-desc">Lavender ή soft white</div>
+            </div>
+            <div class="piece-card">
+              <div class="piece-icon">🧥</div>
+              <div class="piece-category">Jacket</div>
+              <div class="piece-name">Blazer</div>
+              <div class="piece-desc">Cool grey ή powder blue</div>
+            </div>
+            <div class="piece-card">
+              <div class="piece-icon">👖</div>
+              <div class="piece-category">Παντελόνι</div>
+              <div class="piece-name">Tailored trousers</div>
+              <div class="piece-desc">Soft grey ή cool navy</div>
+            </div>
+            <div class="piece-card">
+              <div class="piece-icon">👟</div>
+              <div class="piece-category">Παπούτσια</div>
+              <div class="piece-name">Grey mules</div>
+              <div class="piece-desc">Cool stone ή dusty nude</div>
+            </div>
+            <div class="piece-card">
+              <div class="piece-icon">👜</div>
+              <div class="piece-category">Τσάντα</div>
+              <div class="piece-name">Grey suede</div>
+              <div class="piece-desc">Cool taupe ή soft silver</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AUTUMN -->
+    <div class="season-content" id="season-autumn">
+      <div class="season-hero">
+        <div>
+          <div class="season-emoji">🍂</div>
+          <div class="season-title">Φθινόπωρο</div>
+          <div class="season-tagline">Ζεστά, γήινα, πλούσια, muted</div>
+          <div class="season-tags">
+            <span class="tag">Warm</span><span class="tag">Medium–Dark</span><span class="tag">Muted</span>
+          </div>
+          <br>
+          <div class="palette-swatches">
+            <div class="swatch" style="background:#C4784A" data-name="Rust"></div>
+            <div class="swatch" style="background:#C9A84C" data-name="Mustard"></div>
+            <div class="swatch" style="background:#7A8C5A" data-name="Olive"></div>
+            <div class="swatch" style="background:#8B5E3C" data-name="Warm Brown"></div>
+            <div class="swatch" style="background:#D4956A" data-name="Terracotta"></div>
+            <div class="swatch" style="background:#6B8C7A" data-name="Sage"></div>
+            <div class="swatch" style="background:#C4A882" data-name="Camel"></div>
+            <div class="swatch" style="background:#9C5A40" data-name="Pumpkin"></div>
+          </div>
+          <p style="font-size:0.85rem; color:var(--warm-grey)"><strong>Neutrals:</strong> Camel, warm tan, chocolate brown, ivory<br><strong>Αποφεύγεις:</strong> Ψυχρό γκρι, navy, φούξια, ψυχρά pastels</p>
+        </div>
+        <div>
+          <div class="pieces-grid">
+            <div class="piece-card">
+              <div class="piece-icon">🧶</div>
+              <div class="piece-category">Πλεκτό</div>
+              <div class="piece-name">Chunky sweater</div>
+              <div class="piece-desc">Rust ή camel, merino wool</div>
+            </div>
+            <div class="piece-card">
+              <div class="piece-icon">🧥</div>
+              <div class="piece-category">Coat</div>
+              <div class="piece-name">Camel coat</div>
+              <div class="piece-desc">Το βασικό κομμάτι της εποχής</div>
+            </div>
+            <div class="piece-card">
+              <div class="piece-icon">👖</div>
+              <div class="piece-category">Παντελόνι</div>
+              <div class="piece-name">Corduroy trousers</div>
+              <div class="piece-desc">Warm brown ή olive</div>
+            </div>
+            <div class="piece-card">
+              <div class="piece-icon">👔</div>
+              <div class="piece-category">Shirt</div>
+              <div class="piece-name">Flannel shirt</div>
+              <div class="piece-desc">Mustard ή terracotta check</div>
+            </div>
+            <div class="piece-card">
+              <div class="piece-icon">👢</div>
+              <div class="piece-category">Παπούτσια</div>
+              <div class="piece-name">Tan boots</div>
+              <div class="piece-desc">Warm cognac ή deep camel</div>
+            </div>
+            <div class="piece-card">
+              <div class="piece-icon">👜</div>
+              <div class="piece-category">Τσάντα</div>
+              <div class="piece-name">Leather tote</div>
+              <div class="piece-desc">Warm brown ή rust</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WINTER -->
+    <div class="season-content" id="season-winter">
+      <div class="season-hero">
+        <div>
+          <div class="season-emoji">❄️</div>
+          <div class="season-title">Χειμώνας</div>
+          <div class="season-tagline">Ψυχρά, καθαρά, έντονα ή βαθιά</div>
+          <div class="season-tags">
+            <span class="tag">Cool</span><span class="tag">Medium–Dark</span><span class="tag">Bright ή Deep</span>
+          </div>
+          <br>
+          <div class="palette-swatches">
+            <div class="swatch" style="background:#4A6B8C" data-name="Navy"></div>
+            <div class="swatch" style="background:#8C3A5C" data-name="Burgundy"></div>
+            <div class="swatch" style="background:#2E5C4A" data-name="Emerald"></div>
+            <div class="swatch" style="background:#6B4A8C" data-name="Deep Purple"></div>
+            <div class="swatch" style="background:#C0392B" data-name="True Red"></div>
+            <div class="swatch" style="background:#1C3A5C" data-name="Deep Navy"></div>
+            <div class="swatch" style="background:#E8F0F8" data-name="Icy White"></div>
+            <div class="swatch" style="background:#3A6C7A" data-name="Teal"></div>
+          </div>
+          <p style="font-size:0.85rem; color:var(--warm-grey)"><strong>Neutrals:</strong> Pure white, black, charcoal, cool grey<br><strong>Αποφεύγεις:</strong> Ζεστά camel, mustard, peach, πορτοκαλί</p>
+        </div>
+        <div>
+          <div class="pieces-grid">
+            <div class="piece-card">
+              <div class="piece-icon">🧥</div>
+              <div class="piece-category">Coat</div>
+              <div class="piece-name">Tailored coat</div>
+              <div class="piece-desc">Charcoal, navy ή deep emerald</div>
+            </div>
+            <div class="piece-card">
+              <div class="piece-icon">👗</div>
+              <div class="piece-category">Φόρεμα</div>
+              <div class="piece-name">Sheath dress</div>
+              <div class="piece-desc">Burgundy ή deep navy</div>
+            </div>
+            <div class="piece-card">
+              <div class="piece-icon">🧶</div>
+              <div class="piece-category">Πλεκτό</div>
+              <div class="piece-name">Turtleneck</div>
+              <div class="piece-desc">Pure white ή charcoal grey</div>
+            </div>
+            <div class="piece-card">
+              <div class="piece-icon">👖</div>
+              <div class="piece-category">Παντελόνι</div>
+              <div class="piece-name">Straight trousers</div>
+              <div class="piece-desc">Black ή charcoal</div>
+            </div>
+            <div class="piece-card">
+              <div class="piece-icon">👢</div>
+              <div class="piece-category">Παπούτσια</div>
+              <div class="piece-name">Knee-high boots</div>
+              <div class="piece-desc">Black leather ή deep navy</div>
+            </div>
+            <div class="piece-card">
+              <div class="piece-icon">👜</div>
+              <div class="piece-category">Τσάντα</div>
+              <div class="piece-name">Structured bag</div>
+              <div class="piece-desc">Black ή burgundy</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CHECKLIST -->
+<section id="checklist">
+  <div class="container">
+    <div class="reveal">
+      <p class="section-label">Βήμα προς βήμα</p>
+      <h2 class="section-title">Checklist για να φτιάξεις<br><em>την ντουλάπα σου</em></h2>
+      <p class="section-desc">Σημείωνε κάθε βήμα καθώς το ολοκληρώνεις. Η πρόοδός σου αποθηκεύεται αυτόματα.</p>
+      <div class="progress-bar-wrap">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+      <div class="progress-label" id="progressLabel">0 / 16 ολοκληρωμένα</div>
+    </div>
+
+    <div class="checklist-grid reveal">
+      <div class="checklist-group">
+        <div class="checklist-group-title">🔍 Ανάλυση & Προετοιμασία</div>
+        <div class="checklist-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <span class="check-text">Βρήκα την εποχή μου (χρωματική ανάλυση)</span>
+        </div>
+        <div class="checklist-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <span class="check-text">Έγραψα τα 5 κύρια χρώματα της παλέτας μου</span>
+        </div>
+        <div class="checklist-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <span class="check-text">Καθόρισα τα neutrals μου (3 βασικά χρώματα)</span>
+        </div>
+        <div class="checklist-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <span class="check-text">Σκέφτηκα τον τρόπο ζωής μου (εργασία, καθημερινό, events)</span>
+        </div>
+      </div>
+
+      <div class="checklist-group">
+        <div class="checklist-group-title">🗂️ Ντουλάπα — Αξιολόγηση</div>
+        <div class="checklist-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <span class="check-text">Άδειασα και είδα όλα τα ρούχα μου</span>
+        </div>
+        <div class="checklist-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <span class="check-text">Χώρισα σε: κρατώ / δίνω / σκέφτομαι</span>
+        </div>
+        <div class="checklist-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <span class="check-text">Αφαίρεσα κομμάτια λάθους χρώματος/κοντά στο πρόσωπο</span>
+        </div>
+        <div class="checklist-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <span class="check-text">Κράτησα μόνο κομμάτια που φοράω πραγματικά</span>
+        </div>
+      </div>
+
+      <div class="checklist-group">
+        <div class="checklist-group-title">🛍️ Αγορές & Κενά</div>
+        <div class="checklist-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <span class="check-text">Κατέγραψα τα κενά (τι λείπει)</span>
+        </div>
+        <div class="checklist-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <span class="check-text">Έφτιαξα λίστα για αγορά (με σειρά προτεραιότητας)</span>
+        </div>
+        <div class="checklist-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <span class="check-text">Κάθε νέο κομμάτι ταιριάζει με 3+ ήδη υπάρχοντα</span>
+        </div>
+        <div class="checklist-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <span class="check-text">Αγόρασα ποιότητα έναντι ποσότητας</span>
+        </div>
+      </div>
+
+      <div class="checklist-group">
+        <div class="checklist-group-title">✨ Οργάνωση & Συντήρηση</div>
+        <div class="checklist-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <span class="check-text">Οργάνωσα τη ντουλάπα ανά κατηγορία</span>
+        </div>
+        <div class="checklist-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <span class="check-text">Δοκίμασα 5+ συνδυασμούς με τα κομμάτια μου</span>
+        </div>
+        <div class="checklist-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <span class="check-text">Έφτιαξα mood board ή φωτογράφισα τους αγαπημένους συνδυασμούς</span>
+        </div>
+        <div class="checklist-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <span class="check-text">Επαναξιολογώ κάθε εποχή (2x το χρόνο)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OUTFIT FORMULAS -->
+<section class="formulas-section" id="formulas">
+  <div class="container">
+    <div class="reveal">
+      <p class="section-label">Φόρμουλες</p>
+      <h2 class="section-title">Οι 8 φόρμουλες<br><em>που πάντα δουλεύουν</em></h2>
+      <p class="section-desc">Απλές εξισώσεις για ντύσιμο χωρίς σκέψη — οποιαδήποτε μέρα.</p>
+    </div>
+    <div class="formula-cards reveal">
+      <div class="formula-card">
+        <div class="formula-num">01</div>
+        <div class="formula-title">Το Casual Classic</div>
+        <div class="formula-equation">
+          <span class="eq-piece">White shirt</span>
+          <span class="eq-plus">+</span>
+          <span class="eq-piece">Straight jeans</span>
+          <span class="eq-plus">+</span>
+          <span class="eq-piece">Loafers</span>
+        </div>
+        <div class="formula-tip">Πρόσθεσε χρώμα με τσάντα ή μαντήλι στην παλέτα σου.</div>
+      </div>
+      <div class="formula-card">
+        <div class="formula-num">02</div>
+        <div class="formula-title">Το Power Look</div>
+        <div class="formula-equation">
+          <span class="eq-piece">Tailored blazer</span>
+          <span class="eq-plus">+</span>
+          <span class="eq-piece">Trousers</span>
+          <span class="eq-plus">+</span>
+          <span class="eq-piece">Structured bag</span>
+        </div>
+        <div class="formula-tip">Το blazer να είναι στο κύριο neutral. Τα παπούτσια να επιτείνουν.</div>
+      </div>
+      <div class="formula-card">
+        <div class="formula-num">03</div>
+        <div class="formula-title">Το Effortless Chic</div>
+        <div class="formula-equation">
+          <span class="eq-piece">Slip dress</span>
+          <span class="eq-plus">+</span>
+          <span class="eq-piece">Trench coat</span>
+          <span class="eq-plus">+</span>
+          <span class="eq-piece">Ankle boots</span>
+        </div>
+        <div class="formula-tip">Φόρεμα στο accent χρώμα. Coat στο neutral.</div>
+      </div>
+      <div class="formula-card">
+        <div class="formula-num">04</div>
+        <div class="formula-title">Το Tonal Look</div>
+        <div class="formula-equation">
+          <span class="eq-piece">Sweater</span>
+          <span class="eq-plus">+</span>
+          <span class="eq-piece">Παντελόνι ίδιου τόνου</span>
+          <span class="eq-plus">+</span>
+          <span class="eq-piece">Μονοχρωμία</span>
+        </div>
+        <div class="formula-tip">Ίδιο χρώμα, διαφορετικές υφές. Τέλεσπα για εποχιακές παλέτες.</div>
+      </div>
+      <div class="formula-card">
+        <div class="formula-num">05</div>
+        <div class="formula-title">Το Weekend Look</div>
+        <div class="formula-equation">
+          <span class="eq-piece">Knit top</span>
+          <span class="eq-plus">+</span>
+          <span class="eq-piece">Wide-leg pants</span>
+          <span class="eq-plus">+</span>
+          <span class="eq-piece">Sneakers</span>
+        </div>
+        <div class="formula-tip">Το top στο χρώμα της εποχής σου. Παντελόνι στο neutral.</div>
+      </div>
+      <div class="formula-card">
+        <div class="formula-num">06</div>
+        <div class="formula-title">Το Smart Casual</div>
+        <div class="formula-equation">
+          <span class="eq-piece">Πλεκτό polo</span>
+          <span class="eq-plus">+</span>
+          <span class="eq-piece">Midi skirt</span>
+          <span class="eq-plus">+</span>
+          <span class="eq-piece">Mules</span>
+        </div>
+        <div class="formula-tip">Φούστα σε neutral. Πόλο στο accent χρώμα.</div>
+      </div>
+      <div class="formula-card">
+        <div class="formula-num">07</div>
+        <div class="formula-title">Το Evening Look</div>
+        <div class="formula-equation">
+          <span class="eq-piece">Silk blouse</span>
+          <span class="eq-plus">+</span>
+          <span class="eq-piece">Tailored trousers</span>
+          <span class="eq-plus">+</span>
+          <span class="eq-piece">Statement earrings</span>
+        </div>
+        <div class="formula-tip">Το χρώμα εμφανίζεται στα αξεσουάρ για εύκολο elegance.</div>
+      </div>
+      <div class="formula-card">
+        <div class="formula-num">08</div>
+        <div class="formula-title">Το Layered Look</div>
+        <div class="formula-equation">
+          <span class="eq-piece">Turtleneck</span>
+          <span class="eq-plus">+</span>
+          <span class="eq-piece">Blazer</span>
+          <span class="eq-plus">+</span>
+          <span class="eq-piece">Straight jeans</span>
+        </div>
+        <div class="formula-tip">Εξαιρετικό για εποχές μετάβασης. Layering στα neutrals.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MISTAKES -->
+<section id="mistakes">
+  <div class="container">
+    <div class="reveal">
+      <p class="section-label">Συχνά λάθη</p>
+      <h2 class="section-title">Γιατί το capsule<br><em>δεν λειτουργεί</em> για πολλούς</h2>
+    </div>
+    <div class="mistakes-grid reveal">
+      <div class="mistake-card">
+        <div class="mistake-x">✕</div>
+        <div class="mistake-title">Αγνοούν την παλέτα τους</div>
+        <div class="mistake-desc">Ένα capsule wardrobe με λάθος χρώματα δεν λειτουργεί, ακόμα κι αν τα κομμάτια είναι τέλεια.</div>
+      </div>
+      <div class="mistake-card">
+        <div class="mistake-x">✕</div>
+        <div class="mistake-title">Πάρα πολλά neutrals</div>
+        <div class="mistake-desc">Όλο μαύρο ή όλο λευκό κουράζει. Τα neutrals είναι η βάση — όχι η ιστορία.</div>
+      </div>
+      <div class="mistake-card">
+        <div class="mistake-x">✕</div>
+        <div class="mistake-title">Δεν ταιριάζουν μεταξύ τους</div>
+        <div class="mistake-desc">Αγοράζουν μεμονωμένα κομμάτια χωρίς να σκέφτονται το σύνολο. Κανόνας: 3+ συνδυασμοί ανά κομμάτι.</div>
+      </div>
+      <div class="mistake-card">
+        <div class="mistake-x">✕</div>
+        <div class="mistake-title">Ξεχνούν τα αξεσουάρ</div>
+        <div class="mistake-desc">Τα αξεσουάρ φέρνουν χρώμα, υφή και προσωπικότητα. Δεν είναι "extra" — είναι απαραίτητα.</div>
+      </div>
+      <div class="mistake-card">
+        <div class="mistake-x">✕</div>
+        <div class="mistake-title">Αγοράζουν για το "μελλοντικό εγώ"</div>
+        <div class="mistake-desc">Ρούχα για "όταν αδυνατίσω" ή "για κάποια εκδήλωση" δεν ανήκουν σε capsule wardrobe.</div>
+      </div>
+      <div class="mistake-card">
+        <div class="mistake-x">✕</div>
+        <div class="mistake-title">Δεν το ξαναξιολογούν</div>
+        <div class="mistake-desc">Η ζωή αλλάζει. Το capsule wardrobe χρειάζεται refresh 2x τον χρόνο για να παραμένει relevant.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SHOPPING PLAN -->
+<section class="shopping-section" id="shopping" style="background:var(--warm-white)">
+  <div class="container">
+    <div class="reveal">
+      <p class="section-label">Πλάνο αγορών</p>
+      <h2 class="section-title">Πώς να αγοράζεις<br><em>σωστά και στρατηγικά</em></h2>
+      <p class="section-desc">Μην αγοράσεις τα πάντα μαζί. Χτίσε τη ντουλάπα σου σε 3 φάσεις.</p>
+    </div>
+    <div class="shopping-phases reveal">
+      <div class="phase-card">
+        <div class="phase-num">Φάση 01</div>
+        <div class="phase-title">Η Βάση</div>
+        <ul class="phase-items">
+          <li>2–3 neutral tops (λευκό/cream/ανοιχτό)</li>
+          <li>2 παντελόνια (ένα casual, ένα smart)</li>
+          <li>1 blazer στο κύριο neutral</li>
+          <li>1 ζεύγος παπούτσια για κάθε ημέρα</li>
+          <li>1 βασική τσάντα</li>
+        </ul>
+      </div>
+      <div class="phase-card">
+        <div class="phase-num">Φάση 02</div>
+        <div class="phase-title">Τα Χρώματα</div>
+        <ul class="phase-items">
+          <li>2–3 κομμάτια στα χρώματα εποχής</li>
+          <li>1 φόρεμα στο βασικό χρώμα</li>
+          <li>1 πλεκτό / layer piece</li>
+          <li>Αξεσουάρ στην παλέτα (μαντήλι, σκουλαρίκια)</li>
+        </ul>
+      </div>
+      <div class="phase-card">
+        <div class="phase-num">Φάση 03</div>
+        <div class="phase-title">Τα Accent Pieces</div>
+        <ul class="phase-items">
+          <li>1–2 statement κομμάτια</li>
+          <li>Ένα παπούτσι στο accent χρώμα</li>
+          <li>Κοσμήματα στο σωστό μέταλλο (χρυσό/ασημί)</li>
+          <li>Seasonal piece (coat, boots, κλπ)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSING -->
+<section>
+  <div class="container" style="text-align:center; max-width: 600px;">
+    <div class="reveal">
+      <p class="section-label">Θυμήσου</p>
+      <h2 class="section-title">Δεν είναι <em>κανόνες</em><br>— είναι εργαλεία</h2>
+      <p style="color:var(--warm-grey); font-size:1rem; line-height:1.8; margin-bottom:2.5rem;">Το capsule wardrobe δεν σε περιορίζει. Σου δίνει τη βάση για να εκφραστείς πιο εύκολα, πιο αυθεντικά και πιο αρμονικά — κάθε μέρα.</p>
+      <a href="#top" class="btn-primary">Ξαναδές από την αρχή</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">Fashion Analysis by Danai</div>
+  <p style="margin-bottom:0.5rem;">Capsule Wardrobe Workbook · Seasonal Color System · Σε συνδυασμό με το <a href="https://coloranalysisguide-bydanai.netlify.app/" target="_blank">Color Analysis Guide</a></p>
+  <p><a href="/cdn-cgi/l/email-protection#e185839780839885808f8088a1868c80888dcf828e8c"><span class="__cf_email__" data-cfemail="cca8aebaadaeb5a8ada2ada58caba1ada5a0e2afa3a1">[email&#160;protected]</span></a></p>
+</footer>
+
+<script>
+  // Season tabs
+  function showSeason(season) {
+    document.querySelectorAll('.season-content').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.season-tab').forEach(el => el.classList.remove('active'));
+    document.getElementById('season-' + season).classList.add('active');
+    event.target.classList.add('active');
+  }
+
+  // Checklist
+  function toggleCheck(item) {
+    item.classList.toggle('checked');
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const total = document.querySelectorAll('.checklist-item').length;
+    const done  = document.querySelectorAll('.checklist-item.checked').length;
+    const pct   = Math.round((done / total) * 100);
+    document.getElementById('progressBar').style.width = pct + '%';
+    document.getElementById('progressLabel').textContent = done + ' / ' + total + ' ολοκληρωμένα';
+  }
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (

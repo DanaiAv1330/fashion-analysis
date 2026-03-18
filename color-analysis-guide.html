@@ -628,6 +628,8 @@
     transition: opacity 0.7s ease, transform 0.7s ease;
   }
   .reveal.visible { opacity: 1; transform: translateY(0); }
+  /* Fallback — αν το JS δεν φορτώσει, τα στοιχεία φαίνονται κανονικά */
+  .no-js .reveal { opacity: 1; transform: none; }
 
   /* scrollbar */
   ::-webkit-scrollbar { width: 6px; height: 6px; }
@@ -2056,16 +2058,25 @@
     el.classList.toggle('checked');
   }
 
-  // Scroll reveal
+  // Scroll reveal — robust version
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.1 });
+  }, { threshold: 0.05, rootMargin: '0px 0px -20px 0px' });
 
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  document.querySelectorAll('.reveal').forEach(el => {
+    // Αν το element είναι ήδη ορατό στη σελίδα, δείξε το αμέσως
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight) {
+      el.classList.add('visible');
+    } else {
+      observer.observe(el);
+    }
+  });
 
   // ── COMBO DATA ──
   // Each palette has 3 combos: Winter / Spring-Autumn / Summer
@@ -2406,12 +2417,4 @@
     'Dark Autumn':    'dark-autumn',
     'Dark Winter':    'dark-winter',
     'True Winter':    'true-winter',
-    'Bright Winter':  'bright-winter'
-  };
-
-  document.querySelectorAll('.palette-card').forEach(card => {
-    const nameEl = card.querySelector('.palette-name');
-    if (!nameEl) return;
-    const key = paletteMap[nameEl.textContent.trim()];
-    if (!key) return;
-    // Remove old
+    'Bright Winter':  'bright-winte

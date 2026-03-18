@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About — Fashion Analysis by Danai</title>
+  <meta name="description" content="Certified Image Consultant & Fashion Analyst με 10 χρόνια εμπειρία στο beauty industry. Βοηθώ γυναίκες να ντύνονται με πρόθεση." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'GA_MEASUREMENT_ID');
+  </script>
+
+  <style>
+    .credential-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 1.25rem;
+      padding: 1.75rem;
+      border: 1px solid var(--light-grey);
+      border-radius: 2px;
+      background: var(--cream);
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .credential-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+    .credential-icon { font-size: 2rem; flex-shrink: 0; margin-top: 0.2rem; }
+    .credential-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.4rem;
+      display: block;
+    }
+    .credential-title {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 500;
+      margin-bottom: 0.3rem;
+    }
+    .credential-desc { font-size: 0.88rem; color: var(--warm-grey); line-height: 1.6; }
+    .credential-link { font-size: 0.78rem; color: var(--gold); margin-top: 0.5rem; display: inline-block; transition: letter-spacing 0.2s; }
+    .credential-link:hover { letter-spacing: 0.04em; }
+
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin: 4rem 0;
+      text-align: center;
+    }
+    .stat-item {}
+    .stat-num {
+      font-family: var(--font-display);
+      font-size: 3.5rem;
+      font-weight: 300;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+    .stat-label { font-size: 0.82rem; color: var(--warm-grey); letter-spacing: 0.06em; }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    .service-card {
+      padding: 2rem;
+      border: 1px solid var(--light-grey);
+      border-radius: 2px;
+      background: var(--cream);
+    }
+    .service-num {
+      font-family: var(--font-display);
+      font-size: 2.5rem;
+      font-weight: 300;
+      color: var(--gold);
+      opacity: 0.35;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+    .service-title { font-family: var(--font-display); font-size: 1.2rem; font-weight: 500; margin-bottom: 0.4rem; }
+    .service-desc { font-size: 0.88rem; color: var(--warm-grey); line-height: 1.7; }
+
+    @media (max-width: 680px) {
+      .stat-row { grid-template-columns: 1fr 1fr; }
+      .services-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav id="navbar">
+    <a href="index.html" class="nav-brand">
+      <span class="brand-main">Fashion Analysis</span>
+      <span class="brand-sub">by Danai</span>
+    </a>
+    <button class="nav-toggle" onclick="toggleMenu()" aria-label="menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="https://dbvabydanai.wordpress.com" target="_blank">Articles</a></li>
+      <li><a href="guides.html">Guides</a></li>
+      <li><a href="about.html" class="active">About</a></li>
+      <li><a href="mailto:dbvabydanai@gmail.com" class="nav-cta">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <div class="page-hero">
+    <div class="container">
+      <p class="section-label">About</p>
+      <h1 class="section-title" style="font-size: clamp(2.5rem, 5vw, 4.5rem);">Γεια, είμαι <em>η Δανάη</em></h1>
+      <p class="section-desc">Certified Image Consultant, Consumer Insights & Digital Manager με 10 χρόνια στο beauty industry — και πάθος για το fashion που κολακεύει, όχι απλά εντυπωσιάζει.</p>
+    </div>
+  </div>
+
+  <!-- BIO SECTION -->
+  <section>
+    <div class="container">
+      <div class="about-hero-grid reveal">
+        <div class="about-teaser-img">
+          <div class="img-placeholder" style="aspect-ratio:3/4;">
+            <span class="img-initials">D</span>
+            <p class="img-hint">Πρόσθεσε τη φωτογραφία σου εδώ</p>
+          </div>
+        </div>
+        <div>
+          <p class="section-label">Η ιστορία μου</p>
+          <h2 class="section-title">10 χρόνια beauty industry.<br><em>Μια πιστοποίηση.</em><br>Ένα πάθος.</h2>
+
+          <p class="body-text">
+            Δουλεύω χρόνια στο beauty industry ως Consumer Insights & Digital Manager — μια δουλειά που με έμαθε να κοιτάω πέρα από την επιφάνεια. Να καταλαβαίνω τι θέλουν οι άνθρωποι πραγματικά, γιατί κάνουν τις επιλογές που κάνουν, και τι τους κάνει να νιώθουν καλά.
+          </p>
+          <p class="body-text">
+            Παράλληλα, απέκτησα πιστοποίηση ως <strong>Certified Image Consultant</strong> από το IELFS (Italian E-Learning Fashion School) — με εξειδίκευση στην ανάλυση εικόνας, το style consulting και το digital personal shopping.
+          </p>
+          <p class="body-text">
+            Το Fashion Analysis by Danai γεννήθηκε από αυτόν τον συνδυασμό: της αναλυτικής ματιάς του digital manager και της εκπαίδευσης του image consultant. Δεν μιλώ για trends. Μιλώ για κατανόηση — του εαυτού σου, των χαρακτηριστικών σου, της παλέτας σου.
+          </p>
+          <a href="newsletter.html" class="btn-primary" style="margin-top:0.5rem; margin-right: 1rem;">Εγγραφή στο Newsletter</a>
+          <a href="mailto:dbvabydanai@gmail.com" class="btn-outline" style="margin-top:0.5rem;">Επικοινώνησε μαζί μου</a>
+        </div>
+      </div>
+
+      <!-- STATS -->
+      <div class="stat-row reveal">
+        <div class="stat-item">
+          <div class="stat-num">10+</div>
+          <div class="stat-label">Χρόνια στο Beauty Industry</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">2</div>
+          <div class="stat-label">Πιστοποιήσεις IELFS</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">12</div>
+          <div class="stat-label">Παλέτες Χρωματικής Ανάλυσης</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CREDENTIALS -->
+  <section style="background: var(--warm-white); padding-top: 0;">
+    <div class="container">
+      <div class="reveal">
+        <p class="section-label">Εκπαίδευση & Πιστοποιήσεις</p>
+        <h2 class="section-title">Τι με <em>εκπαίδευσε</em></h2>
+      </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2.5rem;" class="reveal">
+        <div class="credential-card">
+          <div class="credential-icon">🎓</div>
+          <div>
+            <span class="credential-label">IELFS — Italian E-Learning Fashion School</span>
+            <div class="credential-title">Certified Image Consultant</div>
+            <div class="credential-desc">Πιστοποίηση στην ανάλυση εικόνας, color analysis, style consulting και δημιουργία capsule wardrobe. Εξειδίκευση σε style analysis και image consulting.</div>
+            <a href="https://ielfs.com/stylists/danai-avratoglou/" target="_blank" class="credential-link">Δες την πιστοποίηση →</a>
+          </div>
+        </div>
+        <div class="credential-card">
+          <div class="credential-icon">📊</div>
+          <div>
+            <span class="credential-label">IELFS — Italian E-Learning Fashion School</span>
+            <div class="credential-title">Fashion Trend Report</div>
+            <div class="credential-desc">Εκπαίδευση στην ανάλυση fashion trends, κατανόηση του κύκλου ζωής ενός trend και πώς να τα εφαρμόζεις στρατηγικά σε real wardrobes.</div>
+            <a href="https://ielfs.com/stylists/danai-avratoglou/" target="_blank" class="credential-link">Δες την πιστοποίηση →</a>
+          </div>
+        </div>
+        <div class="credential-card">
+          <div class="credential-icon">💼</div>
+          <div>
+            <span class="credential-label">Professional Experience</span>
+            <div class="credential-title">Consumer Insights & Digital Manager</div>
+            <div class="credential-desc">10+ χρόνια στο beauty industry — κατανοώντας τι θέλουν πραγματικά οι γυναίκες, πώς λαμβάνουν αποφάσεις και τι τις κάνει να νιώθουν καλά με την εικόνα τους.</div>
+          </div>
+        </div>
+        <div class="credential-card">
+          <div class="credential-icon">🛍️</div>
+          <div>
+            <span class="credential-label">Specialization</span>
+            <div class="credential-title">Digital Personal Shopping</div>
+            <div class="credential-desc">Εξειδίκευση στο digital personal shopping — βοηθώ γυναίκες να αγοράζουν στρατηγικά online με βάση τη χρωματική τους παλέτα και τις ανάγκες τους.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT I DO -->
+  <section>
+    <div class="container">
+      <div class="reveal">
+        <p class="section-label">Τι κάνω</p>
+        <h2 class="section-title">Fashion <em>Intelligence</em></h2>
+        <p class="section-desc">Δεν είμαι stylist που σου λέει τι να αγοράσεις. Είμαι αναλύτρια που σε βοηθά να καταλάβεις γιατί.</p>
+      </div>
+      <div class="services-grid reveal">
+        <div class="service-card">
+          <div class="service-num">01</div>
+          <div class="service-title">Color Analysis</div>
+          <p class="service-desc">Βρίσκω τη χρωματική παλέτα που σε κολακεύει με βάση τα φυσικά σου χαρακτηριστικά — undertone, ένταση, βάθος. 12-season σύστημα.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-num">02</div>
+          <div class="service-title">Capsule Wardrobe</div>
+          <p class="service-desc">Σε βοηθώ να χτίσεις μια ντουλάπα που λειτουργεί — με λιγότερα κομμάτια, περισσότερους συνδυασμούς και μηδέν σύγχυση.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-num">03</div>
+          <div class="service-title">Style Education</div>
+          <p class="service-desc">Δωρεάν guides, workbooks και άρθρα — γιατί πιστεύω ότι η γνώση για το στυλ πρέπει να είναι προσβάσιμη σε όλες.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-num">04</div>
+          <div class="service-title">Fashion Analysis</div>
+          <p class="service-desc">Αναλύω trends, συστήματα και μεθόδους με την ματιά του Consumer Insights professional — τι πραγματικά λειτουργεί και γιατί.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PHILOSOPHY -->
+  <section style="background: var(--ink);">
+    <div class="container">
+      <div class="philosophy-inner reveal">
+        <p class="section-label">Philosophy</p>
+        <blockquote class="philosophy-quote">
+          "Δεν ντυνόμαστε για τους άλλους.<br>
+          Ντυνόμαστε για να <em>θυμόμαστε ποιες είμαστε</em>."
+        </blockquote>
+        <p class="philosophy-sub">— Fashion Analysis by Danai</p>
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+          <a href="guides.html" class="btn-outline-light">Δες τους δωρεάν οδηγούς</a>
+          <a href="newsletter.html" class="btn-outline-light">Εγγραφή στο Newsletter</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section>
+    <div class="container" style="max-width: 600px; text-align: center;">
+      <div class="reveal">
+        <p class="section-label">Contact</p>
+        <h2 class="section-title">Ας <em>μιλήσουμε</em></h2>
+        <p class="section-desc" style="margin: 0 auto 1.5rem;">Για ερωτήσεις, συνεργασίες ή αν θέλεις να μάθεις περισσότερα για τις υπηρεσίες μου.</p>
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem;">
+          <a href="mailto:dbvabydanai@gmail.com" class="btn-primary">dbvabydanai@gmail.com</a>
+        </div>
+        <div style="display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap;">
+          <a href="https://www.instagram.com/fashion.analysis.by.danai" target="_blank" style="font-size: 0.82rem; color: var(--warm-grey); letter-spacing: 0.06em; transition: color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--warm-grey)'">Instagram</a>
+          <a href="https://www.facebook.com/fashionanalysisbydanai/" target="_blank" style="font-size: 0.82rem; color: var(--warm-grey); letter-spacing: 0.06em; transition: color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--warm-grey)'">Facebook</a>
+          <a href="https://www.youtube.com/@danaiav12" target="_blank" style="font-size: 0.82rem; color: var(--warm-grey); letter-spacing: 0.06em; transition: color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--warm-grey)'">YouTube</a>
+          <a href="https://gr.pinterest.com/Danai12Av/" target="_blank" style="font-size: 0.82rem; color: var(--warm-grey); letter-spacing: 0.06em; transition: color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--warm-grey)'">Pinterest</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand-col">
+          <div class="footer-brand-name">Fashion Analysis<br><span>by Danai</span></div>
+          <p class="footer-tagline">Certified Image Consultant & Fashion Analyst</p>
+          <a href="mailto:dbvabydanai@gmail.com" class="footer-email">dbvabydanai@gmail.com</a>
+        </div>
+        <div class="footer-nav-col">
+          <p class="footer-col-title">Σελίδες</p>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="https://dbvabydanai.wordpress.com" target="_blank">Articles</a></li>
+            <li><a href="guides.html">Guides</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="newsletter.html">Newsletter</a></li>
+          </ul>
+        </div>
+        <div class="footer-nav-col">
+          <p class="footer-col-title">Οδηγοί</p>
+          <ul>
+            <li><a href="https://coloranalysisguide-bydanai.netlify.app/" target="_blank">Color Analysis Guide</a></li>
+            <li><a href="capsule-workbook.html">Capsule Wardrobe Workbook</a></li>
+          </ul>
+        </div>
+        <div class="footer-nav-col">
+          <p class="footer-col-title">Follow</p>
+          <ul>
+            <li><a href="https://www.instagram.com/fashion.analysis.by.danai" target="_blank">Instagram</a></li>
+            <li><a href="https://www.youtube.com/@danaiav12" target="_blank">YouTube</a></li>
+            <li><a href="https://gr.pinterest.com/Danai12Av/" target="_blank">Pinterest</a></li>
+            <li><a href="mailto:dbvabydanai@gmail.com">Email</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 Fashion Analysis by Danai. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>

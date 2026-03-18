@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fashion Analysis by Danai — Personal Stylist & Fashion Analyst</title>
+  <meta name="description" content="Personal Stylist & Fashion Analyst. Χρωματική ανάλυση, capsule wardrobe, fashion guides για γυναίκες που θέλουν να ντύνονται με πρόθεση." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <a href="index.html" class="nav-brand">
+      <span class="brand-main">Fashion Analysis</span>
+      <span class="brand-sub">by Danai</span>
+    </a>
+    <button class="nav-toggle" onclick="toggleMenu()" aria-label="menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="https://dbvabydanai.wordpress.com" target="_blank">Articles</a></li>
+      <li><a href="guides.html">Guides</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="newsletter.html" class="nav-cta">Newsletter</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg-text">STYLE</div>
+    <div class="hero-inner">
+      <div class="hero-label-row">
+        <span class="hero-line"></span>
+        <span class="hero-label">Personal Stylist & Fashion Analyst</span>
+        <span class="hero-line"></span>
+      </div>
+      <h1 class="hero-title">
+        Η ντουλάπα σου<br>
+        είναι <em>γλώσσα</em>.<br>
+        <span class="hero-title-en">Learn to speak it.</span>
+      </h1>
+      <p class="hero-desc">
+        Χρωματική ανάλυση, capsule wardrobe &amp; fashion intelligence<br class="hide-mob">
+        για γυναίκες που θέλουν να ντύνονται με πρόθεση — όχι τύχη.
+      </p>
+      <div class="hero-cta-row">
+        <a href="guides.html" class="btn-primary">Δες τους δωρεάν οδηγούς</a>
+        <a href="about.html" class="btn-ghost">Ποια είμαι →</a>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <span>scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- INTRO STRIP -->
+  <div class="intro-strip">
+    <span>Color Analysis</span>
+    <span class="strip-dot">◆</span>
+    <span>Capsule Wardrobe</span>
+    <span class="strip-dot">◆</span>
+    <span>Fashion Intelligence</span>
+    <span class="strip-dot">◆</span>
+    <span>Personal Styling</span>
+    <span class="strip-dot">◆</span>
+    <span>Style Education</span>
+  </div>
+
+  <!-- ABOUT TEASER -->
+  <section class="about-teaser">
+    <div class="container">
+      <div class="about-teaser-grid">
+        <div class="about-teaser-img">
+          <div class="img-placeholder">
+            <span class="img-initials">D</span>
+            <p class="img-hint">Πρόσθεσε τη φωτογραφία σου εδώ</p>
+          </div>
+        </div>
+        <div class="about-teaser-text">
+          <p class="section-label">Γεια σου, είμαι η Δανάη</p>
+          <h2 class="section-title">Fashion δεν είναι<br><em>τι φοράς</em> —<br>είναι πώς το σκέφτεσαι.</h2>
+          <p class="body-text">Είμαι Personal Stylist & Fashion Analyst και βοηθώ γυναίκες να καταλάβουν τι τους κολακεύει, γιατί — και πώς να χτίσουν μια ντουλάπα που δουλεύει για εκείνες κάθε μέρα.</p>
+          <p class="body-text">Η δουλειά μου συνδυάζει χρωματική ανάλυση, style strategy και fashion education. Όχι trends. Όχι rules. Λογική και αυτογνωσία.</p>
+          <a href="about.html" class="btn-outline">Μάθε περισσότερα</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURED GUIDES -->
+  <section class="featured-section">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-label">Δωρεάν Οδηγοί</p>
+        <h2 class="section-title">Guides &amp; <em>Workbooks</em></h2>
+        <p class="section-desc">Πρακτικά εργαλεία για να καταλάβεις τη χρωματική σου παλέτα και να χτίσεις τη ντουλάπα που πάντα ήθελες.</p>
+      </div>
+      <div class="guides-grid">
+        <a href="https://coloranalysisguide-bydanai.netlify.app/" target="_blank" class="guide-card guide-card--featured">
+          <div class="guide-card-tag">Free Guide</div>
+          <div class="guide-card-emoji">🎨</div>
+          <h3 class="guide-card-title">Color Analysis Guide</h3>
+          <p class="guide-card-desc">Βρες τη χρωματική σου παλέτα με το 12-season σύστημα. Undertone, ένταση, βάθος — όλα εξηγημένα απλά.</p>
+          <span class="guide-card-link">Άνοιξε τον οδηγό →</span>
+        </a>
+        <a href="capsule-workbook.html" class="guide-card">
+          <div class="guide-card-tag">Free Workbook</div>
+          <div class="guide-card-emoji">👗</div>
+          <h3 class="guide-card-title">Capsule Wardrobe Workbook</h3>
+          <p class="guide-card-desc">Χτίσε τη ντουλάπα της εποχής σου βήμα-βήμα. Checklist, outfit formulas, shopping plan και seasonal pieces.</p>
+          <span class="guide-card-link">Άνοιξε το workbook →</span>
+        </a>
+        <div class="guide-card guide-card--coming">
+          <div class="guide-card-tag">Coming Soon</div>
+          <div class="guide-card-emoji">✨</div>
+          <h3 class="guide-card-title">Style Identity Guide</h3>
+          <p class="guide-card-desc">Βρες το προσωπικό σου στυλ πέρα από τα trends — με βάση την προσωπικότητα, τον τρόπο ζωής και τα φυσικά σου χαρακτηριστικά.</p>
+          <span class="guide-card-link coming-label">Σύντομα διαθέσιμο</span>
+        </div>
+      </div>
+      <div class="section-footer-link">
+        <a href="guides.html">Δες όλους τους οδηγούς →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURED ARTICLES — τελευταία άρθρα από WordPress -->
+  <section class="articles-section">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-label">Fashion Intelligence</p>
+        <h2 class="section-title">Τελευταία <em>Άρθρα</em></h2>
+        <p class="section-desc">Ανάλυση, εκπαίδευση και σκέψεις για τη σχέση μας με τα ρούχα — πέρα από τα magazines.</p>
+      </div>
+      <div class="articles-grid" id="homeArticlesGrid">
+        <!-- Γεμίζει αυτόματα από JS — πάντα τα 3 πιο πρόσφατα -->
+      </div>
+      <div class="section-footer-link">
+        <a href="https://dbvabydanai.wordpress.com" target="_blank">Δες όλα τα άρθρα →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PHILOSOPHY -->
+  <section class="philosophy-section">
+    <div class="container">
+      <div class="philosophy-inner">
+        <p class="section-label">Philosophy</p>
+        <blockquote class="philosophy-quote">
+          "Δεν ντυνόμαστε για τους άλλους.<br>
+          Ντυνόμαστε για να <em>θυμόμαστε ποιες είμαστε</em>."
+        </blockquote>
+        <p class="philosophy-sub">— Fashion Analysis by Danai</p>
+        <a href="about.html" class="btn-outline-light">Η φιλοσοφία μου</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand-col">
+          <div class="footer-brand-name">Fashion Analysis<br><span>by Danai</span></div>
+          <p class="footer-tagline">Certified Image Consultant & Fashion Analyst</p>
+          <a href="mailto:dbvabydanai@gmail.com" class="footer-email">dbvabydanai@gmail.com</a>
+        </div>
+        <div class="footer-nav-col">
+          <p class="footer-col-title">Σελίδες</p>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="https://dbvabydanai.wordpress.com" target="_blank">Articles</a></li>
+            <li><a href="guides.html">Guides</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="newsletter.html">Newsletter</a></li>
+          </ul>
+        </div>
+        <div class="footer-nav-col">
+          <p class="footer-col-title">Οδηγοί</p>
+          <ul>
+            <li><a href="https://coloranalysisguide-bydanai.netlify.app/" target="_blank">Color Analysis Guide</a></li>
+            <li><a href="capsule-workbook.html">Capsule Wardrobe Workbook</a></li>
+          </ul>
+        </div>
+        <div class="footer-nav-col">
+          <p class="footer-col-title">Follow</p>
+          <ul>
+            <li><a href="https://www.instagram.com/fashion.analysis.by.danai" target="_blank">Instagram</a></li>
+            <li><a href="https://www.youtube.com/@danaiav12" target="_blank">YouTube</a></li>
+            <li><a href="https://gr.pinterest.com/Danai12Av/" target="_blank">Pinterest</a></li>
+            <li><a href="mailto:dbvabydanai@gmail.com">Email</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 Fashion Analysis by Danai. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Google Analytics — αντικατέστησε GA_MEASUREMENT_ID με το δικό σου -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'GA_MEASUREMENT_ID');
+  </script>
+
+  <script src="main.js"></script>
+  <script>
+    // Φορτώνει αυτόματα τα 3 πιο πρόσφατα άρθρα στην homepage
+    fetch('articles.json')
+      .then(r => r.json())
+      .then(articles => {
+        const latest = articles.slice(0, 3);
+        document.getElementById('homeArticlesGrid').innerHTML = latest.map((a, i) => `
+          <article class="article-card ${i === 0 ? 'article-card--large' : ''} reveal">
+            <div class="article-cat">${a.categoryLabel}</div>
+            <h3 class="article-title">${a.title}</h3>
+            <p class="article-excerpt">${a.excerpt}</p>
+            <a href="${a.url}" class="article-link">Διάβασε →</a>
+          </article>
+        `).join('');
+        document.querySelectorAll('.reveal:not(.visible)').forEach(el => revealObserver.observe(el));
+      });
+  </script>
+</body>
+</html>

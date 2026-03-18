@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Articles — Fashion Analysis by Danai</title>
+  <meta name="description" content="Fashion articles για χρωματική ανάλυση, capsule wardrobe και style education." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <!-- Google Analytics — αντικατέστησε GA_MEASUREMENT_ID με το δικό σου -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'GA_MEASUREMENT_ID');
+  </script>
+  <style>
+    .filter-btn { background: transparent; border: 1px solid var(--light-grey); color: var(--warm-grey); padding: 0.5rem 1.2rem; font-family: var(--font-body); font-size: 0.78rem; letter-spacing: 0.08em; cursor: pointer; border-radius: 2rem; transition: all 0.2s; }
+    .filter-btn:hover { border-color: var(--gold); color: var(--gold); }
+    .filter-btn.active { background: var(--ink); border-color: var(--ink); color: var(--cream); }
+    .articles-count { font-size: 0.78rem; color: var(--warm-grey); margin-bottom: 2rem; letter-spacing: 0.04em; }
+    .no-results { grid-column: 1/-1; text-align: center; padding: 4rem 0; color: var(--warm-grey); font-family: var(--font-display); font-size: 1.3rem; font-style: italic; }
+  </style>
+</head>
+<body>
+  <nav id="navbar">
+    <a href="index.html" class="nav-brand">
+      <span class="brand-main">Fashion Analysis</span>
+      <span class="brand-sub">by Danai</span>
+    </a>
+    <button class="nav-toggle" onclick="toggleMenu()" aria-label="menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="articles.html" class="active">Articles</a></li>
+      <li><a href="guides.html">Guides</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="mailto:dbvabydanai@gmail.com" class="nav-cta">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-hero">
+    <div class="container">
+      <p class="section-label">Fashion Intelligence</p>
+      <h1 class="section-title" style="font-size: clamp(2.5rem, 5vw, 4.5rem);">Fashion <em>Articles</em></h1>
+      <p class="section-desc">Ανάλυση, εκπαίδευση και σκέψεις για τη σχέση μας με τα ρούχα — πέρα από τα magazines.</p>
+    </div>
+  </div>
+
+  <section>
+    <div class="container">
+      <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom:1.5rem;" id="filterRow">
+        <button class="filter-btn active" data-cat="all">Όλα</button>
+        <button class="filter-btn" data-cat="color">Color Analysis</button>
+        <button class="filter-btn" data-cat="capsule">Capsule Wardrobe</button>
+        <button class="filter-btn" data-cat="style">Style Education</button>
+        <button class="filter-btn" data-cat="wardrobe">My Closet</button>
+      </div>
+      <p class="articles-count" id="articlesCount"></p>
+      <div class="articles-page-grid" id="articlesGrid"></div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand-col">
+          <div class="footer-brand-name">Fashion Analysis<br><span>by Danai</span></div>
+          <p class="footer-tagline">Personal Stylist & Fashion Analyst</p>
+          <a href="mailto:dbvabydanai@gmail.com" class="footer-email">dbvabydanai@gmail.com</a>
+        </div>
+        <div class="footer-nav-col">
+          <p class="footer-col-title">Σελίδες</p>
+          <ul><li><a href="index.html">Home</a></li><li><a href="articles.html">Articles</a></li><li><a href="guides.html">Guides</a></li><li><a href="about.html">About</a></li></ul>
+        </div>
+        <div class="footer-nav-col">
+          <p class="footer-col-title">Οδηγοί</p>
+          <ul><li><a href="https://coloranalysisguide-bydanai.netlify.app/" target="_blank">Color Analysis Guide</a></li><li><a href="capsule-workbook.html">Capsule Wardrobe Workbook</a></li></ul>
+        </div>
+        <div class="footer-nav-col">
+          <p class="footer-col-title">Contact</p>
+          <ul><li><a href="mailto:dbvabydanai@gmail.com">Email</a></li></ul>
+        </div>
+      </div>
+      <div class="footer-bottom"><p>© 2026 Fashion Analysis by Danai. All rights reserved.</p></div>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+  <script>
+    let allArticles = [];
+
+    function renderArticles(articles) {
+      const grid = document.getElementById('articlesGrid');
+      const count = document.getElementById('articlesCount');
+      if (articles.length === 0) {
+        grid.innerHTML = '<p class="no-results">Δεν βρέθηκαν άρθρα σε αυτή την κατηγορία.</p>';
+        count.textContent = '';
+        return;
+      }
+      count.textContent = articles.length + ' άρθρα';
+      grid.innerHTML = articles.map(a => `
+        <article class="article-card-full reveal">
+          <div class="article-cat">${a.categoryLabel}</div>
+          <div class="article-date">${a.dateLabel}</div>
+          <h3 class="article-title" style="font-size:1.2rem; margin-bottom:0.85rem; flex-grow:1;">${a.title}</h3>
+          <p class="article-excerpt">${a.excerpt}</p>
+          <a href="${a.url}" class="article-link" style="margin-top:auto;">Διάβασε →</a>
+        </article>
+      `).join('');
+      document.querySelectorAll('.reveal:not(.visible)').forEach(el => revealObserver.observe(el));
+    }
+
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const cat = btn.dataset.cat;
+        renderArticles(cat === 'all' ? allArticles : allArticles.filter(a => a.category === cat));
+      });
+    });
+
+    fetch('articles.json')
+      .then(r => r.json())
+      .then(data => { allArticles = data; renderArticles(allArticles); })
+      .catch(() => {
+        document.getElementById('articlesGrid').innerHTML = '<p class="no-results">Δεν ήταν δυνατή η φόρτωση των άρθρων.</p>';
+      });
+  </script>
+</body>
+</html>

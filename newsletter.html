@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Newsletter — Fashion Analysis by Danai</title>
+  <meta name="description" content="Εγγράψου στο newsletter και μάθε πρώτη για νέους δωρεάν οδηγούς, workbooks και fashion insights." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'GA_MEASUREMENT_ID');
+  </script>
+
+  <style>
+    .newsletter-hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      background: var(--ink);
+      position: relative;
+      overflow: hidden;
+      padding: calc(var(--nav-h) + 4rem) 2rem 6rem;
+    }
+
+    .newsletter-hero::before {
+      content: 'N';
+      position: absolute;
+      right: -5%;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: var(--font-display);
+      font-size: 40vw;
+      font-weight: 600;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(196,149,106,0.08);
+      pointer-events: none;
+      user-select: none;
+      line-height: 1;
+    }
+
+    .newsletter-inner {
+      max-width: 680px;
+      position: relative;
+      z-index: 2;
+      animation: fadeUp 0.9s ease both;
+    }
+
+    .newsletter-inner .section-label { color: var(--gold); }
+
+    .newsletter-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.8rem, 6vw, 5.5rem);
+      font-weight: 300;
+      line-height: 1.1;
+      color: white;
+      margin-bottom: 1.5rem;
+    }
+
+    .newsletter-title em { font-style: italic; color: var(--gold); }
+
+    .newsletter-desc {
+      font-size: 1.05rem;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.8;
+      margin-bottom: 3rem;
+    }
+
+    /* ── FORM ── */
+    .newsletter-form-wrap {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 4px;
+      padding: 2.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .form-group.full { grid-column: 1 / -1; }
+
+    .form-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+    }
+
+    .form-input {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 2px;
+      padding: 0.82rem 1rem;
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      color: white;
+      transition: border-color 0.2s, background 0.2s;
+      outline: none;
+      -webkit-appearance: none;
+    }
+
+    .form-input::placeholder { color: rgba(255,255,255,0.25); }
+    .form-input:focus { border-color: var(--gold); background: rgba(255,255,255,0.09); }
+
+    .form-select {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 2px;
+      padding: 0.82rem 1rem;
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.7);
+      transition: border-color 0.2s;
+      outline: none;
+      cursor: pointer;
+      -webkit-appearance: none;
+    }
+    .form-select:focus { border-color: var(--gold); }
+    .form-select option { background: #1C1814; color: white; }
+
+    .form-submit {
+      width: 100%;
+      background: var(--gold);
+      color: var(--ink);
+      border: none;
+      padding: 1rem 2rem;
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+      margin-top: 0.5rem;
+    }
+    .form-submit:hover { background: var(--gold-deep); transform: translateY(-1px); }
+
+    .form-note {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.3);
+      text-align: center;
+      margin-top: 1rem;
+      line-height: 1.6;
+    }
+
+    /* ── SUCCESS STATE ── */
+    .success-msg {
+      display: none;
+      text-align: center;
+      padding: 3rem 2rem;
+    }
+    .success-msg .success-icon { font-size: 3rem; margin-bottom: 1rem; }
+    .success-msg h3 {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 300;
+      color: white;
+      margin-bottom: 0.75rem;
+    }
+    .success-msg p { color: rgba(255,255,255,0.6); font-size: 0.95rem; }
+
+    /* ── WHAT YOU GET ── */
+    .perks-section { background: var(--warm-white); }
+
+    .perks-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .perk-card {
+      text-align: center;
+      padding: 2.5rem 1.5rem;
+      border: 1px solid var(--light-grey);
+      border-radius: 2px;
+      background: var(--cream);
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .perk-card:hover { transform: translateY(-4px); box-shadow: 0 10px 30px rgba(0,0,0,0.06); }
+    .perk-emoji { font-size: 2.2rem; margin-bottom: 1rem; }
+    .perk-title { font-family: var(--font-display); font-size: 1.2rem; font-weight: 500; margin-bottom: 0.5rem; }
+    .perk-desc { font-size: 0.88rem; color: var(--warm-grey); line-height: 1.7; }
+
+    /* ── MAILCHIMP NOTE ── */
+    .platform-note {
+      background: var(--cream);
+      border: 1px solid var(--light-grey);
+      border-left: 3px solid var(--gold);
+      padding: 1.5rem 2rem;
+      border-radius: 0 2px 2px 0;
+      margin-top: 3rem;
+      max-width: 680px;
+    }
+    .platform-note p { font-size: 0.88rem; color: var(--warm-grey); line-height: 1.7; margin: 0; }
+    .platform-note strong { color: var(--ink); }
+
+    @media (max-width: 680px) {
+      .form-row { grid-template-columns: 1fr; }
+      .perks-grid { grid-template-columns: 1fr; }
+      .newsletter-form-wrap { padding: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav id="navbar" style="--nav-bg: rgba(28,24,20,0.95);">
+    <a href="index.html" class="nav-brand">
+      <span class="brand-main">Fashion Analysis</span>
+      <span class="brand-sub">by Danai</span>
+    </a>
+    <button class="nav-toggle" onclick="toggleMenu()" aria-label="menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="https://dbvabydanai.wordpress.com" target="_blank">Articles</a></li>
+      <li><a href="guides.html">Guides</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="mailto:dbvabydanai@gmail.com" class="nav-cta">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO + FORM -->
+  <section class="newsletter-hero">
+    <div class="container">
+      <div class="newsletter-inner">
+        <p class="section-label">Newsletter</p>
+        <h1 class="newsletter-title">
+          Μάθε πρώτη<br>
+          για κάθε νέο<br>
+          <em>δωρεάν οδηγό.</em>
+        </h1>
+        <p class="newsletter-desc">
+          Εγγράψου και λάβε ειδοποίηση κάθε φορά που ανεβαίνει νέο workbook, guide ή fashion insight — χωρίς spam, μόνο ουσία.
+        </p>
+
+        <div class="newsletter-form-wrap">
+          <!-- ΕΠΙΛΟΓΗ Α: Απλή φόρμα που στέλνει email (αντικατέστησε με Mailchimp ή ConvertKit embed) -->
+          <div id="formContainer">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="firstName">Όνομα</label>
+                <input class="form-input" type="text" id="firstName" name="firstName" placeholder="Δανάη" required />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="email">Email</label>
+                <input class="form-input" type="email" id="email" name="email" placeholder="email@example.com" required />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group full">
+                <label class="form-label" for="interest">Με ενδιαφέρει κυρίως</label>
+                <select class="form-select" id="interest" name="interest">
+                  <option value="">Επίλεξε...</option>
+                  <option value="color">Color Analysis</option>
+                  <option value="capsule">Capsule Wardrobe</option>
+                  <option value="style">Style Education</option>
+                  <option value="all">Όλα τα παραπάνω</option>
+                </select>
+              </div>
+            </div>
+            <button class="form-submit" onclick="submitForm(event)">
+              Εγγραφή στο Newsletter →
+            </button>
+            <p class="form-note">Κανένα spam. Μόνο νέοι οδηγοί & fashion insights.<br>Μπορείς να διαγραφείς οποτεδήποτε.</p>
+          </div>
+
+          <!-- Success message -->
+          <div class="success-msg" id="successMsg">
+            <div class="success-icon">✨</div>
+            <h3>Καλωσήρθες!</h3>
+            <p>Σε έχω προσθέσει στη λίστα. Θα σου στείλω email μόλις ανέβει το επόμενο guide.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT YOU GET -->
+  <section class="perks-section">
+    <div class="container">
+      <div class="reveal">
+        <p class="section-label">Τι λαμβάνεις</p>
+        <h2 class="section-title">Γιατί να <em>εγγραφείς</em></h2>
+      </div>
+      <div class="perks-grid reveal">
+        <div class="perk-card">
+          <div class="perk-emoji">📖</div>
+          <div class="perk-title">Νέοι Δωρεάν Οδηγοί</div>
+          <p class="perk-desc">Μαθαίνεις πρώτη για κάθε νέο workbook ή guide πριν το ανακοινώσω αλλού.</p>
+        </div>
+        <div class="perk-card">
+          <div class="perk-emoji">💡</div>
+          <div class="perk-title">Fashion Insights</div>
+          <p class="perk-desc">Μικρά, πρακτικά insights για color analysis, capsule wardrobe και style — μόνο για subscribers.</p>
+        </div>
+        <div class="perk-card">
+          <div class="perk-emoji">🎯</div>
+          <div class="perk-title">Χωρίς Spam</div>
+          <p class="perk-desc">Στέλνω μόνο όταν έχω κάτι ουσιαστικό να μοιραστώ. Όχι weekly fillers, όχι promotions.</p>
+        </div>
+      </div>
+
+      <!-- Note for Mailchimp setup -->
+      <div class="platform-note reveal">
+        <p>
+          <strong>💌 Σημείωση για τη ρύθμιση:</strong> Αυτή η φόρμα χρειάζεται να συνδεθεί με μια email πλατφόρμα.
+          Η καλύτερη δωρεάν επιλογή είναι το <strong>Mailchimp</strong> (δωρεάν έως 500 subscribers) ή το <strong>MailerLite</strong> (δωρεάν έως 1.000 subscribers).
+          Αφού δημιουργήσεις λογαριασμό, αντικατέστησε τον κώδικα της φόρμας με το embed που σου δίνουν — ή γράψε μου και το φτιάχνουμε μαζί.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand-col">
+          <div class="footer-brand-name">Fashion Analysis<br><span>by Danai</span></div>
+          <p class="footer-tagline">Certified Image Consultant & Fashion Analyst</p>
+          <a href="mailto:dbvabydanai@gmail.com" class="footer-email">dbvabydanai@gmail.com</a>
+        </div>
+        <div class="footer-nav-col">
+          <p class="footer-col-title">Σελίδες</p>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="https://dbvabydanai.wordpress.com" target="_blank">Articles</a></li>
+            <li><a href="guides.html">Guides</a></li>
+            <li><a href="about.html">About</a></li>
+          </ul>
+        </div>
+        <div class="footer-nav-col">
+          <p class="footer-col-title">Οδηγοί</p>
+          <ul>
+            <li><a href="https://coloranalysisguide-bydanai.netlify.app/" target="_blank">Color Analysis Guide</a></li>
+            <li><a href="capsule-workbook.html">Capsule Wardrobe Workbook</a></li>
+          </ul>
+        </div>
+        <div class="footer-nav-col">
+          <p class="footer-col-title">Follow</p>
+          <ul>
+            <li><a href="https://www.instagram.com/fashion.analysis.by.danai" target="_blank">Instagram</a></li>
+            <li><a href="https://www.youtube.com/@danaiav12" target="_blank">YouTube</a></li>
+            <li><a href="https://gr.pinterest.com/Danai12Av/" target="_blank">Pinterest</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 Fashion Analysis by Danai. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+  <script>
+    function submitForm(e) {
+      e.preventDefault();
+      const email = document.getElementById('email').value;
+      const name  = document.getElementById('firstName').value;
+      if (!email || !name) { alert('Συμπλήρωσε όνομα και email.'); return; }
+      // Εδώ θα μπει η σύνδεση με Mailchimp / MailerLite
+      document.getElementById('formContainer').style.display = 'none';
+      document.getElementById('successMsg').style.display = 'block';
+    }
+  </script>
+</body>
+</html>

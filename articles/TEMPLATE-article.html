@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ═══ ΑΛΛΑΞΕ ΑΥΤΑ ΓΙΑ ΚΑΘΕ ΑΡΘΡΟ ═══ -->
+  <title>ΤΙΤΛΟΣ ΑΡΘΡΟΥ — Fashion Analysis by Danai</title>
+  <meta name="description" content="ΠΕΡΙΓΡΑΦΗ ΑΡΘΡΟΥ (1-2 προτάσεις)" />
+  <!-- ═══════════════════════════════════ -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'GA_MEASUREMENT_ID');
+  </script>
+
+  <style>
+    .article-hero {
+      padding: calc(var(--nav-h) + 4rem) 0 3rem;
+      background: var(--warm-white);
+      border-bottom: 1px solid var(--light-grey);
+    }
+
+    .article-hero-inner { max-width: 760px; }
+
+    .article-breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.75rem;
+      color: var(--warm-grey);
+      margin-bottom: 2rem;
+      letter-spacing: 0.04em;
+    }
+
+    .article-breadcrumb a { color: var(--warm-grey); transition: color 0.2s; }
+    .article-breadcrumb a:hover { color: var(--gold); }
+    .article-breadcrumb span { color: var(--light-grey); }
+
+    .article-hero-cat {
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .article-hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 5vw, 3.8rem);
+      font-weight: 300;
+      line-height: 1.15;
+      margin-bottom: 1.25rem;
+    }
+
+    .article-hero-excerpt {
+      font-size: 1.05rem;
+      color: var(--warm-grey);
+      line-height: 1.8;
+      max-width: 600px;
+      margin-bottom: 1.5rem;
+    }
+
+    .article-meta {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      font-size: 0.78rem;
+      color: var(--warm-grey);
+      letter-spacing: 0.04em;
+    }
+
+    .article-meta-dot { color: var(--light-grey); }
+
+    .article-cover {
+      width: 100%;
+      max-width: 760px;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      border-radius: 2px;
+      margin: 3rem 0;
+      background: var(--parchment);
+      display: block;
+    }
+
+    .article-cover-placeholder {
+      width: 100%;
+      max-width: 760px;
+      aspect-ratio: 16/9;
+      background: var(--parchment);
+      border-radius: 2px;
+      margin: 3rem 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--light-grey);
+    }
+
+    .article-cover-placeholder span {
+      font-size: 0.8rem;
+      color: var(--warm-grey);
+      letter-spacing: 0.08em;
+    }
+
+    /* ── ARTICLE BODY ── */
+    .article-body {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 4rem 0 6rem;
+    }
+
+    .article-body h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      font-weight: 400;
+      line-height: 1.2;
+      margin: 3rem 0 1.25rem;
+      color: var(--ink);
+    }
+
+    .article-body h3 {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 500;
+      margin: 2.5rem 0 1rem;
+      color: var(--ink);
+    }
+
+    .article-body p {
+      font-size: 1rem;
+      line-height: 1.9;
+      color: var(--ink-light);
+      margin-bottom: 1.4rem;
+    }
+
+    .article-body ul, .article-body ol {
+      margin: 0 0 1.4rem 1.2rem;
+    }
+
+    .article-body li {
+      font-size: 1rem;
+      line-height: 1.85;
+      color: var(--ink-light);
+      margin-bottom: 0.4rem;
+    }
+
+    .article-body strong { font-weight: 500; color: var(--ink); }
+
+    .article-body em { font-style: italic; color: var(--gold-deep); }
+
+    .article-body img {
+      width: 100%;
+      border-radius: 2px;
+      margin: 2rem 0;
+    }
+
+    .article-body hr {
+      border: none;
+      border-top: 1px solid var(--light-grey);
+      margin: 3rem 0;
+    }
+
+    .article-body blockquote {
+      border-left: 2px solid var(--gold);
+      padding-left: 1.5rem;
+      margin: 2rem 0;
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-style: italic;
+      color: var(--ink-light);
+      line-height: 1.6;
+    }
+
+    /* ── ARTICLE FOOTER ── */
+    .article-footer {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 2.5rem 0 4rem;
+      border-top: 1px solid var(--light-grey);
+    }
+
+    .article-tags {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 2.5rem;
+    }
+
+    .article-tag {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border: 1px solid var(--light-grey);
+      padding: 0.3rem 0.85rem;
+      border-radius: 2rem;
+      color: var(--warm-grey);
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .article-tag:hover { border-color: var(--gold); color: var(--gold); }
+
+    .article-nav {
+      display: flex;
+      justify-content: space-between;
+      gap: 2rem;
+    }
+
+    .article-nav-link {
+      font-size: 0.82rem;
+      color: var(--warm-grey);
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      max-width: 45%;
+      transition: color 0.2s;
+    }
+
+    .article-nav-link:hover { color: var(--gold); }
+
+    .article-nav-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .article-nav-title {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.3;
+    }
+
+    /* ── RELATED ── */
+    .related-section {
+      background: var(--warm-white);
+      padding: 5rem 0;
+    }
+
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+
+    @media (max-width: 680px) {
+      .related-grid { grid-template-columns: 1fr; }
+      .article-nav { flex-direction: column; }
+      .article-nav-link { max-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <a href="../index.html" class="nav-brand">
+      <span class="brand-main">Fashion Analysis</span>
+      <span class="brand-sub">by Danai</span>
+    </a>
+    <button class="nav-toggle" onclick="toggleMenu()" aria-label="menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../articles.html" class="active">Articles</a></li>
+      <li><a href="../guides.html">Guides</a></li>
+      <li><a href="../about.html">About</a></li>
+      <li><a href="mailto:dbvabydanai@gmail.com" class="nav-cta">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- ARTICLE HERO -->
+  <div class="article-hero">
+    <div class="container">
+      <div class="article-hero-inner">
+
+        <!-- Breadcrumb -->
+        <div class="article-breadcrumb">
+          <a href="../index.html">Home</a>
+          <span>›</span>
+          <a href="../articles.html">Articles</a>
+          <span>›</span>
+          <!-- ═══ ΑΛΛΑΞΕ: Κατηγορία ═══ -->
+          <span>Style Education</span>
+        </div>
+
+        <!-- ═══ ΑΛΛΑΞΕ: Κατηγορία label ═══ -->
+        <span class="article-hero-cat">Style Education</span>
+
+        <!-- ═══ ΑΛΛΑΞΕ: Τίτλος ═══ -->
+        <h1 class="article-hero-title">Τίτλος του Άρθρου Εδώ</h1>
+
+        <!-- ═══ ΑΛΛΑΞΕ: Excerpt ═══ -->
+        <p class="article-hero-excerpt">
+          Μια σύντομη περιγραφή του άρθρου, 1-2 προτάσεις που τραβούν την προσοχή.
+        </p>
+
+        <div class="article-meta">
+          <span>Danai Av.</span>
+          <span class="article-meta-dot">·</span>
+          <!-- ═══ ΑΛΛΑΞΕ: Ημερομηνία ═══ -->
+          <span>15 Μαρτίου 2026</span>
+          <span class="article-meta-dot">·</span>
+          <!-- ═══ ΑΛΛΑΞΕ: Χρόνος ανάγνωσης ═══ -->
+          <span>5 λεπτά ανάγνωση</span>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="container">
+
+    <!-- Cover Image — αντικατέστησε src με τη δική σου εικόνα -->
+    <!-- <img src="../images/ΕΙΚΟΝΑ.jpg" alt="ΤΙΤΛΟΣ" class="article-cover" /> -->
+    <div class="article-cover-placeholder">
+      <span>Πρόσθεσε την εικόνα εξωφύλλου εδώ</span>
+    </div>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- ΕΔΩ ΓΡΑΦΕΙΣ ΤΟ ΠΕΡΙΕΧΟΜΕΝΟ ΤΟΥ ΑΡΘΡΟΥ -->
+    <!-- ═══════════════════════════════════════ -->
+    <article class="article-body">
+
+      <p>
+        Εδώ γράφεις την εισαγωγή του άρθρου σου. Μπορείς να χρησιμοποιείς
+        <strong>έντονη γραφή</strong>, <em>πλάγια</em> και οποιαδήποτε
+        μορφοποίηση θέλεις.
+      </p>
+
+      <h2>Πρώτη Ενότητα</h2>
+
+      <p>
+        Κείμενο της πρώτης ενότητας. Μπορείς να προσθέσεις εικόνες
+        ανάμεσα στις παραγράφους.
+      </p>
+
+      <!-- Εικόνα μέσα στο άρθρο -->
+      <!-- <img src="../images/ΕΙΚΟΝΑ.jpg" alt="Περιγραφή εικόνας" /> -->
+
+      <h3>Υποενότητα</h3>
+
+      <p>Κείμενο υποενότητας.</p>
+
+      <ul>
+        <li>Πρώτο σημείο</li>
+        <li>Δεύτερο σημείο</li>
+        <li>Τρίτο σημείο</li>
+      </ul>
+
+      <hr />
+
+      <h2>Δεύτερη Ενότητα</h2>
+
+      <p>Συνέχεια του άρθρου...</p>
+
+      <blockquote>
+        Μια εντυπωσιακή φράση ή quote που θέλεις να ξεχωρίσει.
+      </blockquote>
+
+      <p>Συμπέρασμα του άρθρου.</p>
+
+    </article>
+    <!-- ═══ ΤΕΛΟΣ ΠΕΡΙΕΧΟΜΕΝΟΥ ═══ -->
+
+    <!-- Article Footer -->
+    <div class="article-footer">
+      <div class="article-tags">
+        <!-- ═══ ΑΛΛΑΞΕ: Tags ανάλογα με το άρθρο ═══ -->
+        <span class="article-tag">Style Education</span>
+        <span class="article-tag">Fashion</span>
+      </div>
+
+      <!-- Prev / Next navigation — θα γεμίσει αυτόματα από JS -->
+      <div class="article-nav" id="articleNav"></div>
+    </div>
+
+  </div>
+
+  <!-- RELATED ARTICLES -->
+  <div class="related-section">
+    <div class="container">
+      <p class="section-label">Διάβασε επίσης</p>
+      <h2 class="section-title" style="font-size:2rem;">Σχετικά <em>Άρθρα</em></h2>
+      <div class="related-grid" id="relatedGrid">
+        <!-- Γεμίζει αυτόματα από JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand-col">
+          <div class="footer-brand-name">Fashion Analysis<br><span>by Danai</span></div>
+          <p class="footer-tagline">Personal Stylist & Fashion Analyst</p>
+          <a href="mailto:dbvabydanai@gmail.com" class="footer-email">dbvabydanai@gmail.com</a>
+        </div>
+        <div class="footer-nav-col">
+          <p class="footer-col-title">Σελίδες</p>
+          <ul>
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="../articles.html">Articles</a></li>
+            <li><a href="../guides.html">Guides</a></li>
+            <li><a href="../about.html">About</a></li>
+          </ul>
+        </div>
+        <div class="footer-nav-col">
+          <p class="footer-col-title">Οδηγοί</p>
+          <ul>
+            <li><a href="https://coloranalysisguide-bydanai.netlify.app/" target="_blank">Color Analysis Guide</a></li>
+            <li><a href="../capsule-workbook.html">Capsule Wardrobe Workbook</a></li>
+          </ul>
+        </div>
+        <div class="footer-nav-col">
+          <p class="footer-col-title">Contact</p>
+          <ul>
+            <li><a href="mailto:dbvabydanai@gmail.com">Email</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 Fashion Analysis by Danai. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../main.js"></script>
+  <script>
+    // ═══ ΑΛΛΑΞΕ: το ID αυτού του άρθρου ═══
+    const CURRENT_ARTICLE_ID = 'ARTICLE-ID-HERE';
+    const CURRENT_CATEGORY   = 'style'; // color | style | capsule | wardrobe
+
+    // Αυτόματο prev/next + related από articles.json
+    fetch('../articles.json')
+      .then(r => r.json())
+      .then(articles => {
+        const idx = articles.findIndex(a => a.id === CURRENT_ARTICLE_ID);
+
+        // Prev / Next
+        const nav = document.getElementById('articleNav');
+        let navHTML = '';
+        if (idx < articles.length - 1) {
+          const prev = articles[idx + 1];
+          navHTML += `<a href="${prev.url.replace('articles/','')}${prev.url.startsWith('articles/') ? '' : ''}" class="article-nav-link">
+            <span class="article-nav-label">← Προηγούμενο</span>
+            <span class="article-nav-title">${prev.title}</span>
+          </a>`;
+        } else { navHTML += '<span></span>'; }
+
+        if (idx > 0) {
+          const next = articles[idx - 1];
+          navHTML += `<a href="${next.url.replace('articles/','')}" class="article-nav-link" style="text-align:right;">
+            <span class="article-nav-label">Επόμενο →</span>
+            <span class="article-nav-title">${next.title}</span>
+          </a>`;
+        }
+        nav.innerHTML = navHTML;
+
+        // Related (ίδια κατηγορία, εκτός του τρέχοντος)
+        const related = articles
+          .filter(a => a.id !== CURRENT_ARTICLE_ID && a.category === CURRENT_CATEGORY)
+          .slice(0, 3);
+
+        if (related.length === 0) {
+          // Αν δεν υπάρχουν ίδιας κατηγορίας, πάρε τυχαία
+          related.push(...articles.filter(a => a.id !== CURRENT_ARTICLE_ID).slice(0, 3));
+        }
+
+        document.getElementById('relatedGrid').innerHTML = related.map(a => `
+          <article class="article-card-full">
+            <div class="article-cat">${a.categoryLabel}</div>
+            <div class="article-date">${a.dateLabel}</div>
+            <h3 class="article-title" style="font-size:1.15rem; margin-bottom:0.85rem;">${a.title}</h3>
+            <p class="article-excerpt">${a.excerpt}</p>
+            <a href="../${a.url}" class="article-link" style="margin-top:auto;">Διάβασε →</a>
+          </article>
+        `).join('');
+      });
+  </script>
+</body>
+</html>

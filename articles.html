@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
-  <!-- Google Analytics — αντικατέστησε GA_MEASUREMENT_ID με το δικό σου -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
   <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -18,14 +18,26 @@
     gtag('config', 'GA_MEASUREMENT_ID');
   </script>
   <style>
-    .filter-btn { background: transparent; border: 1px solid var(--light-grey); color: var(--warm-grey); padding: 0.5rem 1.2rem; font-family: var(--font-body); font-size: 0.78rem; letter-spacing: 0.08em; cursor: pointer; border-radius: 2rem; transition: all 0.2s; }
+    .filter-btn {
+      background: transparent;
+      border: 1px solid var(--light-grey);
+      color: var(--warm-grey);
+      padding: 0.5rem 1.2rem;
+      font-family: var(--font-body);
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      border-radius: 2rem;
+      transition: all 0.2s;
+    }
     .filter-btn:hover { border-color: var(--gold); color: var(--gold); }
     .filter-btn.active { background: var(--ink); border-color: var(--ink); color: var(--cream); }
     .articles-count { font-size: 0.78rem; color: var(--warm-grey); margin-bottom: 2rem; letter-spacing: 0.04em; }
-    .no-results { grid-column: 1/-1; text-align: center; padding: 4rem 0; color: var(--warm-grey); font-family: var(--font-display); font-size: 1.3rem; font-style: italic; }
+    .hidden { display: none; }
   </style>
 </head>
 <body>
+
   <nav id="navbar">
     <a href="index.html" class="nav-brand">
       <span class="brand-main">Fashion Analysis</span>
@@ -36,10 +48,10 @@
     </button>
     <ul class="nav-links" id="navLinks">
       <li><a href="index.html">Home</a></li>
-      <li><a href="articles.html" class="active">Articles</a></li>
+      <li><a href="https://dbvabydanai.wordpress.com" target="_blank">Articles</a></li>
       <li><a href="guides.html">Guides</a></li>
       <li><a href="about.html">About</a></li>
-      <li><a href="mailto:dbvabydanai@gmail.com" class="nav-cta">Contact</a></li>
+      <li><a href="newsletter.html" class="nav-cta">Newsletter</a></li>
     </ul>
   </nav>
 
@@ -53,15 +65,127 @@
 
   <section>
     <div class="container">
-      <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom:1.5rem;" id="filterRow">
-        <button class="filter-btn active" data-cat="all">Όλα</button>
-        <button class="filter-btn" data-cat="color">Color Analysis</button>
-        <button class="filter-btn" data-cat="capsule">Capsule Wardrobe</button>
-        <button class="filter-btn" data-cat="style">Style Education</button>
-        <button class="filter-btn" data-cat="wardrobe">My Closet</button>
+
+      <!-- Filters -->
+      <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom:1.5rem;">
+        <button class="filter-btn active" onclick="filter('all', this)">Όλα</button>
+        <button class="filter-btn" onclick="filter('color', this)">Color Analysis</button>
+        <button class="filter-btn" onclick="filter('capsule', this)">Capsule Wardrobe</button>
+        <button class="filter-btn" onclick="filter('style', this)">Style Education</button>
+        <button class="filter-btn" onclick="filter('wardrobe', this)">My Closet</button>
       </div>
-      <p class="articles-count" id="articlesCount"></p>
-      <div class="articles-page-grid" id="articlesGrid"></div>
+
+      <p class="articles-count" id="count">8 άρθρα</p>
+
+      <div class="articles-page-grid" id="grid">
+
+        <!-- ═══════════════════════════════════════════════════ -->
+        <!-- ΓΙΑ ΝΕΟ ΑΡΘΡΟ: αντέγραψε ένα article-card-full    -->
+        <!-- και πρόσθεσέ το ΠΡΩΤΟ στη λίστα                   -->
+        <!-- ═══════════════════════════════════════════════════ -->
+
+        <article class="article-card-full reveal" data-cat="style">
+          <div class="article-cat">Style Education</div>
+          <div class="article-date">15 Μαρτίου 2026</div>
+          <h3 class="article-title" style="font-size:1.2rem; margin-bottom:0.85rem; flex-grow:1;">
+            Episode 1: Casual Style — Τι είναι και πότε το φοράμε
+          </h3>
+          <p class="article-excerpt">
+            Casual δεν σημαίνει πρόχειρο. Είναι ένα από τα πιο δύσκολα στυλ να γίνει σωστά — γιατί η γραμμή ανάμεσα στο «άνετο» και στο «ατημέλητο» είναι πολύ λεπτή.
+          </p>
+          <a href="https://dbvabydanai.wordpress.com/2026/03/15/episode-1-casual-style-%cf%84%ce%b9-%ce%b5%ce%af%ce%bd%ce%b1%ce%b9-%ce%ba%ce%b1%ce%b9-%cf%80%cf%8c%cf%84%ce%b5-%cf%84%ce%bf-%cf%86%ce%bf%cf%81%ce%ac%ce%bc%ce%b5/" target="_blank" class="article-link" style="margin-top:auto;">Διάβασε →</a>
+        </article>
+
+        <article class="article-card-full reveal" data-cat="wardrobe">
+          <div class="article-cat">My Closet</div>
+          <div class="article-date">9 Μαρτίου 2026</div>
+          <h3 class="article-title" style="font-size:1.2rem; margin-bottom:0.85rem; flex-grow:1;">
+            My Closet | February Recap | Νέα Κομμάτια & Color CPW Ανάλυση
+          </h3>
+          <p class="article-excerpt">
+            Αναλύω τις νέες προσθήκες στη ντουλάπα μου για τον Φεβρουάριο και πώς τις επέλεξα συνειδητά για να μεγιστοποιήσω τη χρήση τους.
+          </p>
+          <a href="https://dbvabydanai.wordpress.com/2026/03/09/my-closet-february-recap-%ce%bd%ce%ad%ce%b1-%ce%ba%ce%bf%ce%bc%ce%bc%ce%ac%cf%84%ce%b9%ce%b1-color-cpw-%ce%b1%ce%bd%ce%ac%ce%bb%cf%85%cf%83%ce%b7/" target="_blank" class="article-link" style="margin-top:auto;">Διάβασε →</a>
+        </article>
+
+        <article class="article-card-full reveal" data-cat="color">
+          <div class="article-cat">Color Analysis</div>
+          <div class="article-date">7 Μαρτίου 2026</div>
+          <h3 class="article-title" style="font-size:1.2rem; margin-bottom:0.85rem; flex-grow:1;">
+            Πώς να Βρεις τη Χρωματική σου Παλέτα | Τα 3 Τεστ που Αποκαλύπτουν το Season σου
+          </h3>
+          <p class="article-excerpt">
+            Αναρωτιέσαι γιατί κάποια χρώματα σε κάνουν να δείχνεις πιο φωτεινή; Η απάντηση βρίσκεται στο color analysis και στη χρωματική παλέτα που ταιριάζει στα φυσικά σου χαρακτηριστικά.
+          </p>
+          <a href="https://dbvabydanai.wordpress.com/2026/03/07/%cf%80%cf%8e%cf%82-%ce%bd%ce%b1-%ce%b2%cf%81%ce%b5%ce%b9%cf%82-%cf%84%ce%b7-%cf%87%cf%81%cf%89%ce%bc%ce%b1%cf%84%ce%b9%ce%ba%ce%ae-%cf%83%ce%bf%cf%85-%cf%80%ce%b1%ce%bb%ce%ad%cf%84%ce%b1-color-analys/" target="_blank" class="article-link" style="margin-top:auto;">Διάβασε →</a>
+        </article>
+
+        <article class="article-card-full reveal" data-cat="style">
+          <div class="article-cat">Style Education</div>
+          <div class="article-date">2 Μαρτίου 2026</div>
+          <h3 class="article-title" style="font-size:1.2rem; margin-bottom:0.85rem; flex-grow:1;">
+            Πώς να επενδύσεις σωστά σε δερμάτινη τσάντα
+          </h3>
+          <p class="article-excerpt">
+            Το ακριβό δεν σημαίνει πάντα καλό. Και το «genuine leather» δεν σημαίνει premium. Μαθαίνουμε να ξεχωρίζουμε την ποιότητα.
+          </p>
+          <a href="https://dbvabydanai.wordpress.com/2026/03/02/%cf%80%cf%8e%cf%82-%ce%bd%ce%b1-%ce%b5%cf%80%ce%b5%ce%bd%ce%b4%cf%8d%cf%83%ce%b5%ce%b9%cf%82-%cf%83%cf%89%cf%83%cf%84%ce%ac-%cf%83%ce%b5-%ce%b4%ce%b5%cf%81%ce%bc%ce%ac%cf%84%ce%b9%ce%bd%ce%b7-%cf%84/" target="_blank" class="article-link" style="margin-top:auto;">Διάβασε →</a>
+        </article>
+
+        <article class="article-card-full reveal" data-cat="color">
+          <div class="article-cat">Color Analysis</div>
+          <div class="article-date">26 Φεβρουαρίου 2026</div>
+          <h3 class="article-title" style="font-size:1.2rem; margin-bottom:0.85rem; flex-grow:1;">
+            Μπεζ: Η Ήρεμη Δύναμη της Γκαρνταρόμπας
+          </h3>
+          <p class="article-excerpt">
+            Το μπεζ είναι από τα πιο παρεξηγημένα χρώματα. Στην πραγματικότητα είναι η βάση της ήσυχης πολυτέλειας και της capsule wardrobe.
+          </p>
+          <a href="https://dbvabydanai.wordpress.com/2026/02/26/%ce%bc%cf%80%ce%b5%ce%b6-%ce%b7-%ce%ae%cf%81%ce%b5%ce%bc%ce%b7-%ce%b4%cf%8d%ce%bd%ce%b1%ce%bc%ce%b7-%cf%84%ce%b7%cf%82-%ce%b3%ce%ba%ce%b1%cf%81%ce%bd%cf%84%ce%b1%cf%81%cf%8c%ce%bc%cf%80%ce%b1%cf%82/" target="_blank" class="article-link" style="margin-top:auto;">Διάβασε →</a>
+        </article>
+
+        <article class="article-card-full reveal" data-cat="capsule">
+          <div class="article-cat">Capsule Wardrobe</div>
+          <div class="article-date">20 Φεβρουαρίου 2026</div>
+          <h3 class="article-title" style="font-size:1.2rem; margin-bottom:0.85rem; flex-grow:1;">
+            Capsule Wardrobe: Ανακαλύψτε το Προσωπικό σας Στυλ
+          </h3>
+          <p class="article-excerpt">
+            Capsule wardrobe χωρίς ξεκάθαρο προσωπικό στυλ δεν μπορεί να λειτουργήσει. Με τη μέθοδο των 3 λέξεων και το moodboard, βρίσκεις τη στιλιστική σου ταυτότητα.
+          </p>
+          <a href="https://dbvabydanai.wordpress.com/2026/02/20/capsule-wardrobe-%ce%b1%ce%bd%ce%b1%ce%ba%ce%b1%ce%bb%cf%8d%cf%88%cf%84%ce%b5-%cf%84%ce%bf-%cf%80%cf%81%ce%bf%cf%83%cf%89%cf%80%ce%b9%ce%ba%cf%8c-%cf%83%ce%b1%cf%82-%cf%83%cf%84%cf%85%ce%bb/" target="_blank" class="article-link" style="margin-top:auto;">Διάβασε →</a>
+        </article>
+
+        <article class="article-card-full reveal" data-cat="wardrobe">
+          <div class="article-cat">My Closet</div>
+          <div class="article-date">19 Φεβρουαρίου 2026</div>
+          <h3 class="article-title" style="font-size:1.2rem; margin-bottom:0.85rem; flex-grow:1;">
+            Low Buy Year: Τι Φόρεσα Τον Ιανουάριο & Τι Μου Έδειξε Το Cost Per Wear
+          </h3>
+          <p class="article-excerpt">
+            Φέτος κάνω έναν low buy year. Τι φόρεσα τον Ιανουάριο από 138 κομμάτια; Αποτέλεσμα: μόνο το 16% — ακριβώς ο νόμος του Pareto.
+          </p>
+          <a href="https://dbvabydanai.wordpress.com/2026/02/19/low-buy-year-%cf%84%ce%b9-%cf%86%cf%8c%cf%81%ce%b5%cf%83%ce%b1-%cf%84%ce%bf%ce%bd-%ce%b9%ce%b1%ce%bd%ce%bf%cf%85%ce%ac%cf%81%ce%b9%ce%bf-%cf%84%ce%b9-%ce%bc%ce%bf%cf%85-%ce%ad%ce%b4%ce%b5%ce%b9/" target="_blank" class="article-link" style="margin-top:auto;">Διάβασε →</a>
+        </article>
+
+        <article class="article-card-full reveal" data-cat="style">
+          <div class="article-cat">Style Education</div>
+          <div class="article-date">13 Φεβρουαρίου 2026</div>
+          <h3 class="article-title" style="font-size:1.2rem; margin-bottom:0.85rem; flex-grow:1;">
+            Υφάσματα & Blends Ρούχων: Οδηγός για να Ξεχωρίζεις Πολυτελή και Πρακτικά Υλικά
+          </h3>
+          <p class="article-excerpt">
+            Μαθαίνουμε να αναγνωρίζουμε τα υφάσματα, τα blends και ποια είναι ποιοτικά κομμάτια — εύκολα και γρήγορα.
+          </p>
+          <a href="https://dbvabydanai.wordpress.com/2026/02/13/%cf%85%cf%86%ce%ac%cf%83%ce%bc%ce%b1%cf%84%ce%b1-blends-%cf%81%ce%bf%cf%8d%cf%87%cf%89%ce%bd-%ce%bf%ce%b4%ce%b7%ce%b3%cf%8c%cf%82-%ce%b3%ce%b9%ce%b1-%ce%bd%ce%b1-%ce%be%ce%b5%cf%87%cf%89%cf%81/" target="_blank" class="article-link" style="margin-top:auto;">Διάβασε →</a>
+        </article>
+
+      </div><!-- end grid -->
+
+      <div class="section-footer-link" style="margin-top:3rem;">
+        <a href="https://dbvabydanai.wordpress.com" target="_blank">Δες όλα τα άρθρα στο blog →</a>
+      </div>
+
     </div>
   </section>
 
@@ -70,66 +194,60 @@
       <div class="footer-grid">
         <div class="footer-brand-col">
           <div class="footer-brand-name">Fashion Analysis<br><span>by Danai</span></div>
-          <p class="footer-tagline">Personal Stylist & Fashion Analyst</p>
+          <p class="footer-tagline">Certified Image Consultant & Fashion Analyst</p>
           <a href="mailto:dbvabydanai@gmail.com" class="footer-email">dbvabydanai@gmail.com</a>
         </div>
         <div class="footer-nav-col">
           <p class="footer-col-title">Σελίδες</p>
-          <ul><li><a href="index.html">Home</a></li><li><a href="articles.html">Articles</a></li><li><a href="guides.html">Guides</a></li><li><a href="about.html">About</a></li></ul>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="https://dbvabydanai.wordpress.com" target="_blank">Articles</a></li>
+            <li><a href="guides.html">Guides</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="newsletter.html">Newsletter</a></li>
+          </ul>
         </div>
         <div class="footer-nav-col">
           <p class="footer-col-title">Οδηγοί</p>
-          <ul><li><a href="https://coloranalysisguide-bydanai.netlify.app/" target="_blank">Color Analysis Guide</a></li><li><a href="capsule-workbook.html">Capsule Wardrobe Workbook</a></li></ul>
+          <ul>
+            <li><a href="https://coloranalysisguide-bydanai.netlify.app/" target="_blank">Color Analysis Guide</a></li>
+            <li><a href="capsule-workbook.html">Capsule Wardrobe Workbook</a></li>
+          </ul>
         </div>
         <div class="footer-nav-col">
-          <p class="footer-col-title">Contact</p>
-          <ul><li><a href="mailto:dbvabydanai@gmail.com">Email</a></li></ul>
+          <p class="footer-col-title">Follow</p>
+          <ul>
+            <li><a href="https://www.instagram.com/fashion.analysis.by.danai" target="_blank">Instagram</a></li>
+            <li><a href="https://www.youtube.com/@danaiav12" target="_blank">YouTube</a></li>
+            <li><a href="https://gr.pinterest.com/Danai12Av/" target="_blank">Pinterest</a></li>
+            <li><a href="mailto:dbvabydanai@gmail.com">Email</a></li>
+          </ul>
         </div>
       </div>
-      <div class="footer-bottom"><p>© 2026 Fashion Analysis by Danai. All rights reserved.</p></div>
+      <div class="footer-bottom">
+        <p>© 2026 Fashion Analysis by Danai. All rights reserved.</p>
+      </div>
     </div>
   </footer>
 
   <script src="main.js"></script>
   <script>
-    let allArticles = [];
+    function filter(cat, btn) {
+      // Update buttons
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
 
-    function renderArticles(articles) {
-      const grid = document.getElementById('articlesGrid');
-      const count = document.getElementById('articlesCount');
-      if (articles.length === 0) {
-        grid.innerHTML = '<p class="no-results">Δεν βρέθηκαν άρθρα σε αυτή την κατηγορία.</p>';
-        count.textContent = '';
-        return;
-      }
-      count.textContent = articles.length + ' άρθρα';
-      grid.innerHTML = articles.map(a => `
-        <article class="article-card-full reveal">
-          <div class="article-cat">${a.categoryLabel}</div>
-          <div class="article-date">${a.dateLabel}</div>
-          <h3 class="article-title" style="font-size:1.2rem; margin-bottom:0.85rem; flex-grow:1;">${a.title}</h3>
-          <p class="article-excerpt">${a.excerpt}</p>
-          <a href="${a.url}" class="article-link" style="margin-top:auto;">Διάβασε →</a>
-        </article>
-      `).join('');
-      document.querySelectorAll('.reveal:not(.visible)').forEach(el => revealObserver.observe(el));
+      // Show/hide articles
+      const cards = document.querySelectorAll('.article-card-full');
+      let visible = 0;
+      cards.forEach(card => {
+        const show = cat === 'all' || card.dataset.cat === cat;
+        card.style.display = show ? 'flex' : 'none';
+        if (show) visible++;
+      });
+
+      document.getElementById('count').textContent = visible + ' άρθρα';
     }
-
-    document.querySelectorAll('.filter-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const cat = btn.dataset.cat;
-        renderArticles(cat === 'all' ? allArticles : allArticles.filter(a => a.category === cat));
-      });
-    });
-
-    fetch('articles.json')
-      .then(r => r.json())
-      .then(data => { allArticles = data; renderArticles(allArticles); })
-      .catch(() => {
-        document.getElementById('articlesGrid').innerHTML = '<p class="no-results">Δεν ήταν δυνατή η φόρτωση των άρθρων.</p>';
-      });
   </script>
 </body>
 </html>

@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
 </head>
 <body>
 
@@ -36,7 +37,7 @@
     <div class="hero-inner">
       <div class="hero-label-row">
         <span class="hero-line"></span>
-        <span class="hero-label">Personal Stylist & Fashion Analyst</span>
+        <span class="hero-label">Fashion Education & Color Analysis</span>
         <span class="hero-line"></span>
       </div>
       <h1 class="hero-title">
@@ -83,10 +84,10 @@
           </div>
         </div>
         <div class="about-teaser-text">
-          <p class="section-label">Γεια σου, είμαι η Δανάη</p>
-          <h2 class="section-title">Fashion δεν είναι<br><em>τι φοράς</em> —<br>είναι πώς το σκέφτεσαι.</h2>
-          <p class="body-text">Είμαι Personal Stylist & Fashion Analyst και βοηθώ γυναίκες να καταλάβουν τι τους κολακεύει, γιατί — και πώς να χτίσουν μια ντουλάπα που δουλεύει για εκείνες κάθε μέρα.</p>
-          <p class="body-text">Η δουλειά μου συνδυάζει χρωματική ανάλυση, style strategy και fashion education. Όχι trends. Όχι rules. Λογική και αυτογνωσία.</p>
+          <p class="section-label">Γεια, είμαι η Δανάη</p>
+          <h2 class="section-title">Beauty industry.<br>Πιστοποίηση image consultant.<br><em>Πάθος για τη μόδα.</em></h2>
+          <p class="body-text">Εργάζομαι στο beauty industry και έχω πιστοποίηση Certified Image Consultant. Το Fashion Analysis by Danai είναι ο χώρος όπου μοιράζομαι δωρεάν ό,τι έχω μάθει — για color analysis, capsule wardrobe και style.</p>
+          <p class="body-text">Όχι trends. Όχι rules. Κατανόηση του εαυτού σου.</p>
           <a href="about.html" class="btn-outline">Μάθε περισσότερα</a>
         </div>
       </div>
@@ -168,7 +169,7 @@
       <div class="footer-grid">
         <div class="footer-brand-col">
           <div class="footer-brand-name">Fashion Analysis<br><span>by Danai</span></div>
-          <p class="footer-tagline">Certified Image Consultant & Fashion Analyst</p>
+          <p class="footer-tagline">Fashion Education & Color Analysis</p>
           <a href="mailto:dbvabydanai@gmail.com" class="footer-email">dbvabydanai@gmail.com</a>
         </div>
         <div class="footer-nav-col">
@@ -215,21 +216,38 @@
 
   <script src="main.js"></script>
   <script>
-    // Φορτώνει αυτόματα τα 3 πιο πρόσφατα άρθρα στην homepage
-    fetch('articles.json')
-      .then(r => r.json())
-      .then(articles => {
-        const latest = articles.slice(0, 3);
-        document.getElementById('homeArticlesGrid').innerHTML = latest.map((a, i) => `
-          <article class="article-card ${i === 0 ? 'article-card--large' : ''} reveal">
-            <div class="article-cat">${a.categoryLabel}</div>
-            <h3 class="article-title">${a.title}</h3>
-            <p class="article-excerpt">${a.excerpt}</p>
-            <a href="${a.url}" class="article-link">Διάβασε →</a>
-          </article>
-        `).join('');
-        document.querySelectorAll('.reveal:not(.visible)').forEach(el => revealObserver.observe(el));
-      });
+    // 3 πιο πρόσφατα άρθρα — ενημέρωσε αυτά όταν γράφεις νέο άρθρο
+    const latestArticles = [
+      {
+        cat: "Style Education",
+        title: "Episode 1: Casual Style — Τι είναι και πότε το φοράμε",
+        excerpt: "Casual δεν σημαίνει πρόχειρο. Είναι ένα από τα πιο δύσκολα στυλ να γίνει σωστά — γιατί η γραμμή ανάμεσα στο «άνετο» και στο «ατημέλητο» είναι πολύ λεπτή.",
+        url: "https://dbvabydanai.wordpress.com/2026/03/15/episode-1-casual-style-%cf%84%ce%b9-%ce%b5%ce%af%ce%bd%ce%b1%ce%b9-%ce%ba%ce%b1%ce%b9-%cf%80%cf%8c%cf%84%ce%b5-%cf%84%ce%bf-%cf%86%ce%bf%cf%81%ce%ac%ce%bc%ce%b5/"
+      },
+      {
+        cat: "My Closet",
+        title: "My Closet | February Recap | Νέα Κομμάτια & Color CPW Ανάλυση",
+        excerpt: "Αναλύω τις νέες προσθήκες στη ντουλάπα μου για τον Φεβρουάριο και πώς τις επέλεξα συνειδητά για να μεγιστοποιήσω τη χρήση τους.",
+        url: "https://dbvabydanai.wordpress.com/2026/03/09/my-closet-february-recap-%ce%bd%ce%ad%ce%b1-%ce%ba%ce%bf%ce%bc%ce%bc%ce%ac%cf%84%ce%b9%ce%b1-color-cpw-%ce%b1%ce%bd%ce%ac%ce%bb%cf%85%cf%83%ce%b7/"
+      },
+      {
+        cat: "Color Analysis",
+        title: "Πώς να Βρεις τη Χρωματική σου Παλέτα | Τα 3 Τεστ που Αποκαλύπτουν το Season σου",
+        excerpt: "Αναρωτιέσαι γιατί κάποια χρώματα σε κάνουν να δείχνεις πιο φωτεινή; Η απάντηση βρίσκεται στο color analysis.",
+        url: "https://dbvabydanai.wordpress.com/2026/03/07/%cf%80%cf%8e%cf%82-%ce%bd%ce%b1-%ce%b2%cf%81%ce%b5%ce%b9%cf%82-%cf%84%ce%b7-%cf%87%cf%81%cf%89%ce%bc%ce%b1%cf%84%ce%b9%ce%ba%ce%ae-%cf%83%ce%bf%cf%85-%cf%80%ce%b1%ce%bb%ce%ad%cf%84%ce%b1-color-analys/"
+      }
+    ];
+
+    document.getElementById('homeArticlesGrid').innerHTML = latestArticles.map((a, i) => `
+      <article class="article-card ${i === 0 ? 'article-card--large' : ''} reveal">
+        <div class="article-cat">${a.cat}</div>
+        <h3 class="article-title">${a.title}</h3>
+        <p class="article-excerpt">${a.excerpt}</p>
+        <a href="${a.url}" target="_blank" class="article-link">Διάβασε →</a>
+      </article>
+    `).join('');
+
+    document.querySelectorAll('.reveal:not(.visible)').forEach(el => revealObserver.observe(el));
   </script>
 </body>
 </html>

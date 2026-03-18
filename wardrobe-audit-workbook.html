@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wardrobe Audit Workbook — Fashion Analysis by Danai</title>
+  <meta name="description" content="Βήμα-βήμα οδηγός για να οργανώσεις τη ντουλάπα σου και να ντύνεσαι εύκολα κάθε μέρα." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+
+  <style>
+    :root {
+      --cream:       #FAF7F2;
+      --warm-white:  #F5F0E8;
+      --parchment:   #EDE8DF;
+      --ink:         #1C1814;
+      --ink-light:   #3A3530;
+      --warm-grey:   #8A857C;
+      --light-grey:  #E8E3DA;
+      --gold:        #C4956A;
+      --gold-deep:   #9B6F46;
+      --gold-light:  #F0DFC8;
+      --keep:        #5A8A6A;
+      --keep-light:  #EAF3EC;
+      --maybe:       #C4956A;
+      --maybe-light: #FDF5EC;
+      --remove:      #B85C5C;
+      --remove-light:#FBF0F0;
+      --repair:      #5B7A8E;
+      --repair-light:#EBF0F4;
+      --serif:       'Cormorant Garamond', serif;
+      --sans:        'Jost', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-weight: 300;
+      line-height: 1.75;
+      overflow-x: hidden;
+    }
+
+    a { text-decoration: none; color: inherit; }
+
+    /* ── HEADER ── */
+    header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(250,247,242,0.94);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--light-grey);
+      padding: 0 2.5rem;
+      height: 60px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+
+    .brand {
+      font-family: var(--serif);
+      font-size: 1.1rem; font-weight: 500;
+      color: var(--ink);
+      display: flex; flex-direction: column; line-height: 1.1;
+    }
+    .brand span { font-style: italic; color: var(--gold); font-size: 0.78rem; font-weight: 300; }
+
+    header nav { display: flex; gap: 2rem; align-items: center; }
+    header nav a {
+      font-size: 0.75rem; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--warm-grey);
+      transition: color 0.2s;
+    }
+    header nav a:hover { color: var(--ink); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      background: var(--ink);
+      position: relative; overflow: hidden;
+      padding: calc(60px + 5rem) 2rem 5rem;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute; top: -20%; right: -5%;
+      width: 60vw; height: 60vw;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(196,149,106,0.08) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .hero-bg-text {
+      position: absolute; bottom: -5%; left: -2%;
+      font-family: var(--serif);
+      font-size: clamp(8rem, 18vw, 18rem);
+      font-weight: 600; color: transparent;
+      -webkit-text-stroke: 1px rgba(196,149,106,0.07);
+      pointer-events: none; user-select: none; line-height: 1;
+    }
+
+    .hero-inner { max-width: 700px; position: relative; z-index: 2; }
+
+    .hero-label {
+      font-size: 0.7rem; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--gold);
+      display: flex; align-items: center; gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .hero-label::before {
+      content: ''; width: 36px; height: 1px; background: var(--gold); opacity: 0.6;
+    }
+
+    .hero h1 {
+      font-family: var(--serif);
+      font-size: clamp(3rem, 7vw, 6rem);
+      font-weight: 300; line-height: 1.08;
+      color: white; margin-bottom: 1.5rem;
+    }
+    .hero h1 em { font-style: italic; color: var(--gold); }
+
+    .hero-desc {
+      font-size: 1.05rem; color: rgba(255,255,255,0.55);
+      line-height: 1.8; margin-bottom: 3rem; max-width: 520px;
+    }
+
+    .hero-cta-row { display: flex; gap: 1.2rem; flex-wrap: wrap; }
+
+    .btn-gold {
+      background: var(--gold); color: var(--ink);
+      padding: 0.85rem 2.2rem;
+      font-family: var(--sans); font-size: 0.8rem;
+      font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+      border-radius: 2px; transition: background 0.2s, transform 0.2s;
+      display: inline-block;
+    }
+    .btn-gold:hover { background: var(--gold-deep); transform: translateY(-2px); }
+
+    .btn-ghost-light {
+      border: 1px solid rgba(255,255,255,0.25); color: rgba(255,255,255,0.7);
+      padding: 0.85rem 2.2rem;
+      font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase;
+      border-radius: 2px; transition: border-color 0.2s, color 0.2s;
+      display: inline-block;
+    }
+    .btn-ghost-light:hover { border-color: white; color: white; }
+
+    /* ── SECTIONS ── */
+    section { padding: 6rem 0; }
+    .container { max-width: 1000px; margin: 0 auto; padding: 0 2rem; }
+    .container-narrow { max-width: 720px; margin: 0 auto; padding: 0 2rem; }
+
+    .section-label {
+      font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 0.85rem; display: block;
+    }
+    .section-title {
+      font-family: var(--serif);
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 300; line-height: 1.15; margin-bottom: 1.25rem;
+    }
+    .section-title em { font-style: italic; color: var(--gold); }
+    .section-desc { font-size: 0.97rem; color: var(--warm-grey); line-height: 1.85; max-width: 560px; }
+
+    /* ── PROBLEM ── */
+    .problem-section { background: var(--warm-white); }
+
+    .problem-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 3rem;
+    }
+
+    .problem-card {
+      padding: 2rem; border-radius: 2px;
+      border-left: 3px solid var(--remove);
+      background: var(--cream);
+    }
+    .problem-card .icon { font-size: 1.8rem; margin-bottom: 0.75rem; }
+    .problem-card h3 {
+      font-family: var(--serif); font-size: 1.2rem; font-weight: 500; margin-bottom: 0.5rem;
+    }
+    .problem-card p { font-size: 0.88rem; color: var(--warm-grey); line-height: 1.7; }
+
+    /* ── WHAT IS ── */
+    .what-is-section {}
+
+    .definition-box {
+      background: var(--ink); color: white;
+      padding: 3rem; border-radius: 2px; margin-top: 3rem;
+    }
+    .definition-box .def-label {
+      font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1rem; display: block;
+    }
+    .definition-box blockquote {
+      font-family: var(--serif); font-size: clamp(1.5rem, 3vw, 2.2rem);
+      font-weight: 300; line-height: 1.4; color: white; margin-bottom: 1.5rem;
+    }
+    .definition-box blockquote em { color: var(--gold); font-style: italic; }
+    .definition-box p { font-size: 0.9rem; color: rgba(255,255,255,0.5); line-height: 1.8; }
+
+    .vs-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2.5rem;
+    }
+    .vs-card {
+      padding: 2rem; border: 1px solid var(--light-grey); border-radius: 2px;
+    }
+    .vs-card h4 {
+      font-family: var(--serif); font-size: 1.15rem; font-weight: 500;
+      margin-bottom: 1rem;
+    }
+    .vs-card ul { list-style: none; }
+    .vs-card ul li {
+      font-size: 0.88rem; color: var(--warm-grey);
+      padding: 0.4rem 0; border-bottom: 1px solid var(--light-grey);
+      display: flex; align-items: center; gap: 0.6rem;
+    }
+    .vs-card ul li:last-child { border-bottom: none; }
+    .vs-card ul li::before { font-size: 0.75rem; }
+    .vs-card.bad ul li::before { content: '✕'; color: var(--remove); }
+    .vs-card.good ul li::before { content: '✓'; color: var(--keep); }
+
+    /* ── PREP ── */
+    .prep-section { background: var(--warm-white); }
+
+    .prep-steps {
+      display: grid; grid-template-columns: repeat(4,1fr); gap: 1.5rem; margin-top: 3rem;
+    }
+    .prep-step {
+      text-align: center; padding: 2rem 1.25rem;
+      border: 1px solid var(--light-grey); border-radius: 2px;
+      background: var(--cream);
+    }
+    .prep-num {
+      font-family: var(--serif); font-size: 3rem; font-weight: 300;
+      color: var(--gold); opacity: 0.4; line-height: 1; margin-bottom: 0.5rem;
+    }
+    .prep-icon { font-size: 1.8rem; margin-bottom: 0.75rem; }
+    .prep-title {
+      font-family: var(--serif); font-size: 1.1rem; font-weight: 500; margin-bottom: 0.4rem;
+    }
+    .prep-desc { font-size: 0.82rem; color: var(--warm-grey); line-height: 1.6; }
+
+    .categories-grid {
+      display: grid; grid-template-columns: repeat(4,1fr); gap: 1rem; margin-top: 2rem;
+    }
+    .cat-pill {
+      text-align: center; padding: 1.2rem;
+      border: 1px solid var(--light-grey); border-radius: 2px; background: var(--warm-white);
+    }
+    .cat-pill .cat-icon { font-size: 1.8rem; margin-bottom: 0.5rem; }
+    .cat-pill .cat-name { font-size: 0.82rem; letter-spacing: 0.06em; color: var(--warm-grey); }
+
+    /* ── 4 QUESTIONS ── */
+    .questions-section {}
+
+    .questions-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 3rem;
+    }
+    .question-card {
+      padding: 2.5rem; border: 1px solid var(--light-grey); border-radius: 2px;
+      position: relative; background: var(--warm-white);
+    }
+    .question-card:hover { box-shadow: 0 8px 30px rgba(0,0,0,0.06); }
+    .q-num {
+      position: absolute; top: -1rem; left: 2rem;
+      background: var(--gold); color: white;
+      font-family: var(--serif); font-size: 1.1rem; font-weight: 500;
+      padding: 0.2rem 0.8rem; border-radius: 2px;
+    }
+    .q-title {
+      font-family: var(--serif); font-size: 1.5rem; font-weight: 400;
+      margin: 0.75rem 0 1rem;
+    }
+    .q-detail { font-size: 0.9rem; color: var(--warm-grey); line-height: 1.75; margin-bottom: 1rem; }
+    .q-flag {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--remove-light);
+      border: 1px solid rgba(184,92,92,0.2);
+      padding: 0.4rem 1rem; border-radius: 2rem;
+      font-size: 0.78rem; color: var(--remove);
+    }
+    .q-tip {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--keep-light);
+      border: 1px solid rgba(90,138,106,0.2);
+      padding: 0.4rem 1rem; border-radius: 2rem;
+      font-size: 0.78rem; color: var(--keep);
+    }
+
+    /* ── 3 PILES ── */
+    .piles-section { background: var(--warm-white); }
+
+    .piles-grid {
+      display: grid; grid-template-columns: repeat(4,1fr); gap: 1.5rem; margin-top: 3rem;
+    }
+    .pile-card {
+      padding: 2rem; border-radius: 2px; border-top: 3px solid;
+    }
+    .pile-card.keep   { background: var(--keep-light);   border-color: var(--keep); }
+    .pile-card.maybe  { background: var(--maybe-light);  border-color: var(--maybe); }
+    .pile-card.remove { background: var(--remove-light); border-color: var(--remove); }
+    .pile-card.repair { background: var(--repair-light); border-color: var(--repair); }
+
+    .pile-label {
+      font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+      margin-bottom: 0.5rem; font-weight: 500;
+    }
+    .pile-card.keep   .pile-label { color: var(--keep); }
+    .pile-card.maybe  .pile-label { color: var(--maybe); }
+    .pile-card.remove .pile-label { color: var(--remove); }
+    .pile-card.repair .pile-label { color: var(--repair); }
+
+    .pile-icon { font-size: 2rem; margin-bottom: 0.75rem; }
+    .pile-title { font-family: var(--serif); font-size: 1.3rem; font-weight: 500; margin-bottom: 0.75rem; }
+    .pile-criteria { list-style: none; }
+    .pile-criteria li {
+      font-size: 0.85rem; color: var(--ink-light);
+      padding: 0.35rem 0; border-bottom: 1px solid rgba(0,0,0,0.06);
+      display: flex; gap: 0.5rem; align-items: flex-start;
+    }
+    .pile-criteria li:last-child { border-bottom: none; }
+    .pile-criteria li::before { content: '→'; color: var(--warm-grey); font-size: 0.75rem; margin-top: 0.15rem; flex-shrink: 0; }
+
+    .maybe-tip {
+      background: var(--ink); color: white;
+      padding: 1.5rem 2rem; border-radius: 2px; margin-top: 2rem;
+      display: flex; align-items: center; gap: 1.5rem;
+    }
+    .maybe-tip .tip-icon { font-size: 2rem; flex-shrink: 0; }
+    .maybe-tip p { font-size: 0.9rem; color: rgba(255,255,255,0.75); line-height: 1.7; }
+    .maybe-tip strong { color: var(--gold); }
+
+    /* ── CPW CHECK ── */
+    .cpw-section {}
+
+    .cpw-formula {
+      display: flex; align-items: center; justify-content: center;
+      gap: 1.5rem; flex-wrap: wrap;
+      margin: 3rem 0 2rem;
+    }
+    .cpw-box {
+      background: var(--warm-white); border: 1px solid var(--light-grey);
+      padding: 1.5rem 2rem; border-radius: 2px; text-align: center;
+      min-width: 160px;
+    }
+    .cpw-box .cpw-label { font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--warm-grey); margin-bottom: 0.5rem; }
+    .cpw-box .cpw-value { font-family: var(--serif); font-size: 2rem; font-weight: 300; color: var(--gold); }
+    .cpw-op { font-family: var(--serif); font-size: 2.5rem; font-weight: 300; color: var(--light-grey); }
+
+    .cpw-rules {
+      display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-top: 2rem;
+    }
+    .cpw-rule {
+      padding: 1.75rem; border: 1px solid var(--light-grey); border-radius: 2px;
+      background: var(--warm-white);
+    }
+    .cpw-rule .rule-icon { font-size: 1.5rem; margin-bottom: 0.75rem; }
+    .cpw-rule h4 { font-family: var(--serif); font-size: 1.1rem; font-weight: 500; margin-bottom: 0.4rem; }
+    .cpw-rule p { font-size: 0.85rem; color: var(--warm-grey); line-height: 1.7; }
+
+    /* ── COLOR CHECK ── */
+    .color-section { background: var(--warm-white); }
+
+    .color-checks {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 3rem;
+    }
+    .color-check-card {
+      padding: 2rem; border: 1px solid var(--light-grey); border-radius: 2px; background: var(--cream);
+    }
+    .color-check-card h3 { font-family: var(--serif); font-size: 1.3rem; font-weight: 500; margin-bottom: 1rem; }
+    .color-check-card ul { list-style: none; }
+    .color-check-card li {
+      font-size: 0.88rem; color: var(--ink-light);
+      padding: 0.5rem 0; border-bottom: 1px solid var(--light-grey);
+      display: flex; gap: 0.6rem;
+    }
+    .color-check-card li:last-child { border-bottom: none; }
+    .color-check-card li::before { content: '◆'; color: var(--gold); font-size: 0.5rem; margin-top: 0.35rem; flex-shrink: 0; }
+
+    .color-link-box {
+      background: var(--ink); color: white;
+      padding: 2rem 2.5rem; border-radius: 2px; margin-top: 2rem;
+      display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap;
+    }
+    .color-link-box p { font-size: 0.95rem; color: rgba(255,255,255,0.7); max-width: 500px; line-height: 1.7; }
+    .color-link-box p strong { color: white; }
+
+    /* ── SEASONAL ── */
+    .seasonal-section {}
+
+    .seasonal-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 3rem;
+    }
+    .seasonal-card {
+      padding: 2rem; border: 1px solid var(--light-grey); border-radius: 2px; background: var(--warm-white);
+    }
+    .seasonal-card h3 { font-family: var(--serif); font-size: 1.2rem; font-weight: 500; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; }
+    .seasonal-card p { font-size: 0.88rem; color: var(--warm-grey); line-height: 1.75; }
+
+    /* ── CHECKLIST ── */
+    .checklist-section { background: var(--warm-white); }
+
+    .progress-wrap { background: var(--light-grey); height: 4px; border-radius: 2px; margin: 2rem 0 0.5rem; max-width: 400px; }
+    .progress-bar { height: 100%; background: linear-gradient(90deg, var(--gold), var(--gold-deep)); border-radius: 2px; transition: width 0.4s; width: 0%; }
+    .progress-label { font-size: 0.78rem; color: var(--warm-grey); margin-bottom: 3rem; }
+
+    .checklist-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+
+    .cl-group { background: var(--cream); border-radius: 2px; padding: 2rem; }
+    .cl-group-title {
+      font-family: var(--serif); font-size: 1.2rem; font-weight: 500;
+      margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.6rem;
+    }
+    .cl-item {
+      display: flex; align-items: flex-start; gap: 0.85rem;
+      padding: 0.65rem 0; border-bottom: 1px solid var(--light-grey); cursor: pointer;
+    }
+    .cl-item:last-child { border-bottom: none; }
+    .cl-box {
+      width: 20px; height: 20px; border: 1.5px solid var(--light-grey);
+      border-radius: 3px; flex-shrink: 0; margin-top: 0.15rem;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s; background: white;
+    }
+    .cl-item.checked .cl-box { background: var(--gold); border-color: var(--gold); }
+    .cl-item.checked .cl-box::after { content: '✓'; font-size: 0.72rem; color: white; font-weight: 500; }
+    .cl-item.checked .cl-text { text-decoration: line-through; color: var(--warm-grey); }
+    .cl-text { font-size: 0.9rem; line-height: 1.5; }
+
+    /* ── NEXT STEPS ── */
+    .next-section {}
+
+    .next-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; margin-top: 3rem; }
+    .next-card {
+      padding: 2.5rem 2rem; border: 1px solid var(--light-grey); border-radius: 2px;
+      background: var(--warm-white); transition: transform 0.25s, box-shadow 0.25s;
+      display: flex; flex-direction: column;
+    }
+    .next-card:hover { transform: translateY(-4px); box-shadow: 0 10px 30px rgba(0,0,0,0.07); }
+    .next-num {
+      font-family: var(--serif); font-size: 3rem; font-weight: 300;
+      color: var(--gold); opacity: 0.35; line-height: 1; margin-bottom: 0.5rem;
+    }
+    .next-title { font-family: var(--serif); font-size: 1.2rem; font-weight: 500; margin-bottom: 0.5rem; }
+    .next-desc { font-size: 0.87rem; color: var(--warm-grey); line-height: 1.7; flex-grow: 1; margin-bottom: 1.2rem; }
+    .next-link { font-size: 0.78rem; color: var(--gold); letter-spacing: 0.06em; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--ink); color: rgba(255,255,255,0.5);
+      padding: 4rem 2rem 2.5rem; text-align: center;
+    }
+    .footer-brand {
+      font-family: var(--serif); font-size: 1.5rem; font-weight: 300;
+      color: white; margin-bottom: 0.5rem;
+    }
+    .footer-brand span { font-style: italic; color: var(--gold); }
+    footer p { font-size: 0.82rem; margin-bottom: 0.4rem; }
+    footer a { color: rgba(255,255,255,0.5); transition: color 0.2s; }
+    footer a:hover { color: var(--gold); }
+    .footer-back { margin-top: 1.5rem; }
+    .footer-back a { font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.35); }
+
+    /* ── UTILS ── */
+    .divider { border: none; border-top: 1px solid var(--light-grey); margin: 4rem 0; }
+
+    @media (max-width: 768px) {
+      .problem-grid, .vs-grid, .questions-grid, .color-checks, .seasonal-grid, .checklist-grid { grid-template-columns: 1fr; }
+      .prep-steps, .piles-grid, .categories-grid, .cpw-rules, .next-grid { grid-template-columns: 1fr 1fr; }
+      .hero h1 { font-size: clamp(2.5rem, 10vw, 4rem); }
+    }
+
+    @media (max-width: 480px) {
+      .prep-steps, .piles-grid, .categories-grid, .cpw-rules, .next-grid { grid-template-columns: 1fr; }
+      header nav { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <a href="index.html" class="brand">
+    Fashion Analysis
+    <span>by Danai</span>
+  </a>
+  <nav>
+    <a href="index.html">← Αρχική</a>
+    <a href="guides.html">Guides</a>
+    <a href="about.html">About</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-text">AUDIT</div>
+  <div class="hero-inner">
+    <div class="hero-label">Free Workbook · Wardrobe System</div>
+    <h1>Closet Audit:<br>Ντύσου εύκολα<br><em>κάθε μέρα.</em></h1>
+    <p class="hero-desc">
+      Γεμάτη ντουλάπα, τίποτα να φορέσεις; Το πρόβλημα δεν είναι πόσα ρούχα έχεις.
+      Είναι ότι η ντουλάπα σου δεν δουλεύει <em style="color:var(--gold);">για σένα</em>.
+    </p>
+    <div class="hero-cta-row">
+      <a href="#prep" class="btn-gold">Ξεκίνα το Audit</a>
+      <a href="#checklist" class="btn-ghost-light">Δες το Checklist</a>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="problem-section" id="problem">
+  <div class="container">
+    <p class="section-label">Το πρόβλημα</p>
+    <h2 class="section-title">Γιατί η ντουλάπα σου<br>δεν <em>λειτουργεί</em></h2>
+    <p class="section-desc">Αυτά είναι τα 4 πιο συνηθισμένα λάθη που κάνουν οι περισσότερες γυναίκες.</p>
+    <div class="problem-grid">
+      <div class="problem-card">
+        <div class="icon">⏳</div>
+        <h3>«Όταν χάσω κιλά»</h3>
+        <p>Ρούχα που κρατάμε για ένα μελλοντικό εαυτό που δεν έχει έρθει ακόμα — και παίρνουν χώρο από τον σημερινό.</p>
+      </div>
+      <div class="problem-card">
+        <div class="icon">🎪</div>
+        <h3>«Κάπου θα το φορέσω»</h3>
+        <p>Κομμάτια που αγοράστηκαν για μια ειδική περίσταση που ποτέ δεν έφτασε — ή έφτασε μία φορά.</p>
+      </div>
+      <div class="problem-card">
+        <div class="icon">💸</div>
+        <h3>«Είναι κρίμα να το δώσω»</h3>
+        <p>Το κόστος αγοράς δεν δικαιολογεί τη διατήρηση. Ένα ρούχο που δεν φοριέται έχει ήδη χάσει την αξία του.</p>
+      </div>
+      <div class="problem-card">
+        <div class="icon">🌀</div>
+        <h3>Κομμάτια χωρίς σύστημα</h3>
+        <p>Αγορές που φαίνονταν ωραίες μεμονωμένα αλλά δεν συνδυάζονται με τίποτα άλλο στη ντουλάπα σου.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT IS -->
+<section class="what-is-section" id="what">
+  <div class="container">
+    <p class="section-label">Τι είναι</p>
+    <h2 class="section-title">Closet Audit ≠<br><em>Απλό ξεκαθάρισμα</em></h2>
+
+    <div class="definition-box">
+      <span class="def-label">Ορισμός</span>
+      <blockquote>Closet audit είναι μια <em>στρατηγική διαδικασία</em> — όχι απλά ξεκαθάρισμα. Δεν πετάς ρούχα. Αποφασίζεις τι αξίζει να μείνει και τι εξυπηρετεί το στυλ και τη ζωή σου.</blockquote>
+      <p>Το αποτέλεσμα δεν είναι μια άδεια ντουλάπα. Είναι μια ντουλάπα που δουλεύει — γρήγορα, εύκολα, κάθε μέρα.</p>
+    </div>
+
+    <div class="vs-grid" style="margin-top:2rem;">
+      <div class="vs-card bad">
+        <h4>✕ Απλό ξεκαθάρισμα</h4>
+        <ul>
+          <li>Πετάς ό,τι δεν χωράει</li>
+          <li>Αποφασίζεις με βάση το συναίσθημα</li>
+          <li>Δεν αλλάζει το σύστημα</li>
+          <li>Σε 3 μήνες γέμισε πάλι</li>
+        </ul>
+      </div>
+      <div class="vs-card good">
+        <h4>✓ Closet Audit</h4>
+        <ul>
+          <li>Αξιολογείς με κριτήρια</li>
+          <li>Κατανοείς τα patterns σου</li>
+          <li>Χτίζεις σύστημα για το μέλλον</li>
+          <li>Η ντουλάπα παραμένει λειτουργική</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PREP -->
+<section class="prep-section" id="prep">
+  <div class="container">
+    <p class="section-label">Βήμα 1 — Προετοιμασία</p>
+    <h2 class="section-title">Πριν ξεκινήσεις</h2>
+    <p class="section-desc">Αυτά τα 4 βήματα κάνουν τη διαφορά ανάμεσα στο να αισθάνεσαι overwhelmed και στο να έχεις έλεγχο.</p>
+
+    <div class="prep-steps">
+      <div class="prep-step">
+        <div class="prep-num">01</div>
+        <div class="prep-icon">📦</div>
+        <div class="prep-title">Βγάλε τα πάντα έξω</div>
+        <p class="prep-desc">Βγάλε ΟΛΑ τα ρούχα από τη ντουλάπα. Το να τα βλέπεις μπροστά σου είναι eye-opening από μόνο του.</p>
+      </div>
+      <div class="prep-step">
+        <div class="prep-num">02</div>
+        <div class="prep-icon">🗂️</div>
+        <div class="prep-title">Χώρισε ανά κατηγορία</div>
+        <p class="prep-desc">Tops, bottoms, dresses, outerwear, shoes, αξεσουάρ. Δούλεψε μία κατηγορία τη φορά.</p>
+      </div>
+      <div class="prep-step">
+        <div class="prep-num">03</div>
+        <div class="prep-icon">☀️</div>
+        <div class="prep-title">Φυσικό φως</div>
+        <p class="prep-desc">Φυσικός φωτισμός για να βλέπεις σωστά τα χρώματα — ειδικά για το color check που θα ακολουθήσει.</p>
+      </div>
+      <div class="prep-step">
+        <div class="prep-num">04</div>
+        <div class="prep-icon">⏰</div>
+        <div class="prep-title">Αφιέρωσε χρόνο</div>
+        <p class="prep-desc">Minimum 2–3 ώρες. Μην το κάνεις βιαστικά — οι αποφάσεις που παίρνεις εδώ αλλάζουν πώς ντύνεσαι κάθε μέρα.</p>
+      </div>
+    </div>
+
+    <h3 style="font-family:var(--serif);font-size:1.4rem;font-weight:400;margin:3rem 0 1rem;">Κατηγορίες αξιολόγησης</h3>
+    <div class="categories-grid">
+      <div class="cat-pill"><div class="cat-icon">👔</div><div class="cat-name">Tops & Blouses</div></div>
+      <div class="cat-pill"><div class="cat-icon">👖</div><div class="cat-name">Bottoms & Skirts</div></div>
+      <div class="cat-pill"><div class="cat-icon">👗</div><div class="cat-name">Dresses & Jumpsuits</div></div>
+      <div class="cat-pill"><div class="cat-icon">🧥</div><div class="cat-name">Outerwear & Jackets</div></div>
+      <div class="cat-pill"><div class="cat-icon">👟</div><div class="cat-name">Παπούτσια</div></div>
+      <div class="cat-pill"><div class="cat-icon">👜</div><div class="cat-name">Τσάντες</div></div>
+      <div class="cat-pill"><div class="cat-icon">💎</div><div class="cat-name">Αξεσουάρ</div></div>
+      <div class="cat-pill"><div class="cat-icon">🧶</div><div class="cat-name">Πλεκτά & Knitwear</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 QUESTIONS -->
+<section class="questions-section" id="questions">
+  <div class="container">
+    <p class="section-label">Βήμα 2 — Αξιολόγηση</p>
+    <h2 class="section-title">Οι 4 ερωτήσεις για<br><em>κάθε κομμάτι</em></h2>
+    <p class="section-desc">Κρατήσου σε αυτές τις 4 ερωτήσεις για κάθε κομμάτι. Δεν χρειάζεσαι άλλα κριτήρια.</p>
+
+    <div class="questions-grid">
+      <div class="question-card">
+        <span class="q-num">01</span>
+        <div class="q-title">Το φοράω;</div>
+        <p class="q-detail">Πόσες φορές το έχεις φορέσει τους τελευταίους 12 μήνες; Αν δυσκολεύεσαι να θυμηθείς έστω μία φορά — αυτό είναι η απάντησή σου.</p>
+        <span class="q-flag">🚩 Δεν φορέθηκε σε 12 μήνες → red flag</span>
+      </div>
+      <div class="question-card">
+        <span class="q-num">02</span>
+        <div class="q-title">Μου ταιριάζει <em>τώρα</em>;</div>
+        <p class="q-detail">Όχι "όταν χάσω κιλά". Όχι "στο μέλλον". Τώρα, στο σώμα που έχεις σήμερα, νιώθεις καλά με αυτό το κομμάτι;</p>
+        <span class="q-tip">✓ Σημείο κλειδί: πώς νιώθεις όταν το φοράς</span>
+      </div>
+      <div class="question-card">
+        <span class="q-num">03</span>
+        <div class="q-title">Συνδυάζεται με άλλα;</div>
+        <p class="q-detail">Μπορείς να φτιάξεις τουλάχιστον 3 διαφορετικά outfits με αυτό το κομμάτι και άλλα που ήδη έχεις; Αν όχι, δεν ανήκει στο σύστημά σου.</p>
+        <span class="q-flag">🚩 Λιγότεροι από 3 συνδυασμοί → αξιολόγησε ξανά</span>
+      </div>
+      <div class="question-card">
+        <span class="q-num">04</span>
+        <div class="q-title">Θα το αγόραζα σήμερα;</div>
+        <p class="q-detail">Αν το έβλεπες τώρα σε κατάστημα, στην ίδια τιμή, θα το έπαιρνες; Αυτή είναι η πιο ειλικρινής ερώτηση.</p>
+        <span class="q-tip">✓ Η πιο powerful ερώτηση — απάντησε γρήγορα, χωρίς σκέψη</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 PILES -->
+<section class="piles-section" id="piles">
+  <div class="container">
+    <p class="section-label">Βήμα 3 — Ταξινόμηση</p>
+    <h2 class="section-title">Το σύστημα<br><em>4 στοιβών</em></h2>
+    <p class="section-desc">Καθώς απαντάς στις 4 ερωτήσεις, κάθε κομμάτι ανήκει σε μία από αυτές τις 4 κατηγορίες.</p>
+
+    <div class="piles-grid">
+      <div class="pile-card keep">
+        <div class="pile-label">Κατηγορία 1</div>
+        <div class="pile-icon">✅</div>
+        <div class="pile-title">KEEP</div>
+        <ul class="pile-criteria">
+          <li>Το φοράς τακτικά</li>
+          <li>Σου ταιριάζει τώρα</li>
+          <li>Συνδυάζεται με 3+ άλλα</li>
+          <li>Θα το αγόραζες σήμερα</li>
+        </ul>
+      </div>
+      <div class="pile-card maybe">
+        <div class="pile-label">Κατηγορία 2</div>
+        <div class="pile-icon">🤔</div>
+        <div class="pile-title">MAYBE</div>
+        <ul class="pile-criteria">
+          <li>Δεν είσαι σίγουρη</li>
+          <li>Το αγαπάς αλλά δεν το φοράς</li>
+          <li>Χρειάζεται δοκιμή</li>
+          <li>Deadline: 30 μέρες</li>
+        </ul>
+      </div>
+      <div class="pile-card remove">
+        <div class="pile-label">Κατηγορία 3</div>
+        <div class="pile-icon">🚫</div>
+        <div class="pile-title">REMOVE</div>
+        <ul class="pile-criteria">
+          <li>Δεν το φοράς 12+ μήνες</li>
+          <li>Δεν σου ταιριάζει τώρα</li>
+          <li>Δεν συνδυάζεται</li>
+          <li>Δίνε, πούλα ή ανακύκλωσε</li>
+        </ul>
+      </div>
+      <div class="pile-card repair">
+        <div class="pile-label">Κατηγορία 4</div>
+        <div class="pile-icon">🔧</div>
+        <div class="pile-title">REPAIR</div>
+        <ul class="pile-criteria">
+          <li>Το αγαπάς αλλά χρειάζεται κάτι</li>
+          <li>Κουμπί, ούγια, καθάρισμα</li>
+          <li>Deadline: 2 εβδομάδες</li>
+          <li>Αν δεν επισκευαστεί → REMOVE</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="maybe-tip">
+      <div class="tip-icon">⏱️</div>
+      <p><strong>Το Maybe Deadline Rule:</strong> Βάλε τα "Maybe" σε μια τσάντα ή ξεχωριστή γωνιά. Αν δεν τα φορέσεις στις επόμενες <strong>30 μέρες</strong> — πάνε αυτόματα REMOVE. Δεν χρειάζεσαι άλλη συζήτηση με τον εαυτό σου.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CPW CHECK -->
+<section class="cpw-section" id="cpw">
+  <div class="container">
+    <p class="section-label">Βήμα 4 — Cost Per Wear</p>
+    <h2 class="section-title">Ποια κομμάτια<br><em>αξίζουν πραγματικά</em></h2>
+    <p class="section-desc">Το Cost Per Wear (CPW) σου δείχνει την πραγματική αξία κάθε κομματιού — όχι την τιμή που πλήρωσες.</p>
+
+    <div class="cpw-formula">
+      <div class="cpw-box">
+        <div class="cpw-label">Τιμή αγοράς</div>
+        <div class="cpw-value">50€</div>
+      </div>
+      <div class="cpw-op">÷</div>
+      <div class="cpw-box">
+        <div class="cpw-label">Φορές που φορέθηκε</div>
+        <div class="cpw-value">25</div>
+      </div>
+      <div class="cpw-op">=</div>
+      <div class="cpw-box" style="border-color:var(--gold); border-width:2px;">
+        <div class="cpw-label">Cost Per Wear</div>
+        <div class="cpw-value" style="color:var(--gold);">2€</div>
+      </div>
+    </div>
+
+    <div class="cpw-rules">
+      <div class="cpw-rule">
+        <div class="rule-icon">💚</div>
+        <h4>CPW < 2€</h4>
+        <p>Εξαιρετική επένδυση. Αυτό το κομμάτι έχει αποδώσει — κράτησέ το και σκέψου να επενδύσεις ξανά σε παρόμοιο.</p>
+      </div>
+      <div class="cpw-rule">
+        <div class="rule-icon">🟡</div>
+        <h4>CPW 2–10€</h4>
+        <p>Αποδεκτό, ανάλογα με την ποιότητα και τη συχνότητα χρήσης. Αξιολόγησε αν θα συνεχίσεις να το φοράς.</p>
+      </div>
+      <div class="cpw-rule">
+        <div class="rule-icon">🔴</div>
+        <h4>CPW > 10€</h4>
+        <p>Χαμηλή απόδοση. Αν δεν υπάρχει πλάνο να αυξήσεις τη χρήση, ίσως να είναι ώρα για REMOVE.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COLOR CHECK -->
+<section class="color-section" id="color">
+  <div class="container">
+    <p class="section-label">Βήμα 5 — Color Check</p>
+    <h2 class="section-title">Σε κολακεύει<br><em>το χρώμα</em>;</h2>
+    <p class="section-desc">Ένα κομμάτι μπορεί να είναι τέλειο σε κόψιμο και ποιότητα — αλλά αν το χρώμα δεν ταιριάζει στην παλέτα σου, δεν θα το φοράς ποτέ.</p>
+
+    <div class="color-checks">
+      <div class="color-check-card">
+        <h3>🟢 Κράτησε αν...</h3>
+        <ul>
+          <li>Το χρώμα είναι στη χρωματική σου παλέτα</li>
+          <li>Σε κάνει να φαίνεσαι πιο φωτεινή και ξεκούραστη</li>
+          <li>Τα μάτια σου φαίνονται πιο έντονα όταν το φοράς</li>
+          <li>Λαμβάνεις συχνά compliments όταν το φοράς</li>
+          <li>Νιώθεις "εσύ" όταν το βλέπεις στον καθρέφτη</li>
+        </ul>
+      </div>
+      <div class="color-check-card">
+        <h3>🔴 Αξιολόγησε ξανά αν...</h3>
+        <ul>
+          <li>Το χρώμα δεν ανήκει στη χρωματική σου παλέτα</li>
+          <li>Το πρόσωπό σου φαίνεται κουρασμένο ή "σβηστό"</li>
+          <li>Νιώθεις ότι πρέπει να φοράς περισσότερο makeup</li>
+          <li>Δεν παίρνεις ποτέ compliments με αυτό</li>
+          <li>Το αποφεύγεις ενστικτωδώς κάθε πρωί</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="color-link-box">
+      <p><strong>Δεν ξέρεις ακόμα τη χρωματική σου παλέτα;</strong><br>
+      Το Color Analysis Guide σε βοηθά να βρεις την εποχή σου (12-season σύστημα) και να καταλάβεις ακριβώς ποια χρώματα σε κολακεύουν — δωρεάν.</p>
+      <a href="color-analysis-guide.html" class="btn-gold">Δες το Color Analysis Guide →</a>
+    </div>
+  </div>
+</section>
+
+<!-- SEASONAL ROTATION -->
+<section class="seasonal-section" id="seasonal">
+  <div class="container">
+    <p class="section-label">Βήμα 6 — Seasonal Rotation</p>
+    <h2 class="section-title">Τα εκτός εποχής<br><em>κομμάτια</em></h2>
+    <p class="section-desc">Ένα κομμάτι που δεν φοριέται τώρα δεν σημαίνει ότι πρέπει να φύγει. Χρειάζεται μόνο σωστή οργάνωση.</p>
+
+    <div class="seasonal-grid">
+      <div class="seasonal-card">
+        <h3>📦 Τι αποθηκεύεις</h3>
+        <p>Κομμάτια που δεν ταιριάζουν στην τρέχουσα εποχή αλλά θα τα φορέσεις σίγουρα στην επόμενη. Παλτά το καλοκαίρι, φορέματα τον χειμώνα — αν το έχεις φορέσει πέρυσι, αξίζει να μείνει.</p>
+      </div>
+      <div class="seasonal-card">
+        <h3>🗓️ Πότε κάνεις review</h3>
+        <p>2 φορές τον χρόνο — Μάρτιο/Απρίλιο (για καλοκαίρι) και Σεπτέμβριο/Οκτώβριο (για χειμώνα). Αυτό το review είναι πολύ πιο γρήγορο από το πλήρες audit.</p>
+      </div>
+      <div class="seasonal-card">
+        <h3>❓ Αξιολόγησε πριν αποθηκεύσεις</h3>
+        <p>Πριν το βάλεις στη seasonal αποθήκευση, ρώτησε: το φόρεσα έστω 3 φορές αυτή την εποχή; Αν όχι — δεν χρειάζεται να περνά στην επόμενη.</p>
+      </div>
+      <div class="seasonal-card">
+        <h3>🏷️ Tip: Hanger trick</h3>
+        <p>Γύρνα όλα τα κρεμάστρα ανάποδα στην αρχή της εποχής. Όταν φοράς κάτι, βάλε το κανονικά. Στο τέλος της εποχής, ό,τι έμεινε ανάποδα — δεν φορέθηκε.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CHECKLIST -->
+<section class="checklist-section" id="checklist">
+  <div class="container">
+    <p class="section-label">Το Checklist</p>
+    <h2 class="section-title">Wardrobe Audit<br><em>Step by Step</em></h2>
+    <p class="section-desc">Σημείωνε κάθε βήμα καθώς το ολοκληρώνεις.</p>
+    <div class="progress-wrap">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+    <div class="progress-label" id="progressLabel">0 / 20 ολοκληρωμένα</div>
+
+    <div class="checklist-grid">
+      <div class="cl-group">
+        <div class="cl-group-title">📦 Προετοιμασία</div>
+        <div class="cl-item" onclick="toggleCheck(this)"><div class="cl-box"></div><span class="cl-text">Έβγαλα ΟΛΑ τα ρούχα έξω από τη ντουλάπα</span></div>
+        <div class="cl-item" onclick="toggleCheck(this)"><div class="cl-box"></div><span class="cl-text">Χώρισα σε κατηγορίες (tops, bottoms, κλπ)</span></div>
+        <div class="cl-item" onclick="toggleCheck(this)"><div class="cl-box"></div><span class="cl-text">Έχω φυσικό φωτισμό στο χώρο</span></div>
+        <div class="cl-item" onclick="toggleCheck(this)"><div class="cl-box"></div><span class="cl-text">Αφιέρωσα 2–3 ώρες — χωρίς βιασύνη</span></div>
+      </div>
+
+      <div class="cl-group">
+        <div class="cl-group-title">❓ Αξιολόγηση</div>
+        <div class="cl-item" onclick="toggleCheck(this)"><div class="cl-box"></div><span class="cl-text">Έκανα τις 4 ερωτήσεις για κάθε κομμάτι</span></div>
+        <div class="cl-item" onclick="toggleCheck(this)"><div class="cl-box"></div><span class="cl-text">Έχωρισα σε 4 στοίβες: Keep / Maybe / Remove / Repair</span></div>
+        <div class="cl-item" onclick="toggleCheck(this)"><div class="cl-box"></div><span class="cl-text">Έβαλα deadline 30 ημερών στα "Maybe"</span></div>
+        <div class="cl-item" onclick="toggleCheck(this)"><div class="cl-box"></div><span class="cl-text">Έβαλα deadline 2 εβδομάδων στα "Repair"</span></div>
+      </div>
+
+      <div class="cl-group">
+        <div class="cl-group-title">🎨 Color & CPW Check</div>
+        <div class="cl-item" onclick="toggleCheck(this)"><div class="cl-box"></div><span class="cl-text">Έκανα color check — ταιριάζει στην παλέτα μου;</span></div>
+        <div class="cl-item" onclick="toggleCheck(this)"><div class="cl-box"></div><span class="cl-text">Υπολόγισα CPW για τα πιο ακριβά κομμάτια</span></div>
+        <div class="cl-item" onclick="toggleCheck(this)"><div class="cl-box"></div><span class="cl-text">Εντόπισα τα κομμάτια με το καλύτερο CPW</span></div>
+        <div class="cl-item" onclick="toggleCheck(this)"><div class="cl-box"></div><span class="cl-text">Εντόπισα τα κομμάτια με χαμηλή χρήση & υψηλό CPW</span></div>
+      </div>
+
+      <div class="cl-group">
+        <div class="cl-group-title">🔄 Seasonal & Οργάνωση</div>
+        <div class="cl-item" onclick="toggleCheck(this)"><div class="cl-box"></div><span class="cl-text">Χώρισα εκτός εποχής κομμάτια για αποθήκευση</span></div>
+        <div class="cl-item" onclick="toggleCheck(this)"><div class="cl-box"></div><span class="cl-text">Οργάνωσα τα Keep ανά κατηγορία</span></div>
+        <div class="cl-item" onclick="toggleCheck(this)"><div class="cl-box"></div><span class="cl-text">Γύρνα τις κρεμάστρες ανάποδα (hanger trick)</span></div>
+        <div class="cl-item" onclick="toggleCheck(this)"><div class="cl-box"></div><span class="cl-text">Έστειλα τα Remove: δώρο, πώληση ή ανακύκλωση</span></div>
+      </div>
+
+      <div class="cl-group">
+        <div class="cl-group-title">📊 Ανάλυση αποτελεσμάτων</div>
+        <div class="cl-item" onclick="toggleCheck(this)"><div class="cl-box"></div><span class="cl-text">Μέτρησα πόσα κομμάτια έχω τελικά (Keep)</span></div>
+        <div class="cl-item" onclick="toggleCheck(this)"><div class="cl-box"></div><span class="cl-text">Εντόπισα κενά — τι λείπει για να δουλεύει η ντουλάπα</span></div>
+        <div class="cl-item" onclick="toggleCheck(this)"><div class="cl-box"></div><span class="cl-text">Έγραψα λίστα για στρατηγικές αγορές</span></div>
+      </div>
+
+      <div class="cl-group">
+        <div class="cl-group-title">🎯 Επόμενα βήματα</div>
+        <div class="cl-item" onclick="toggleCheck(this)"><div class="cl-box"></div><span class="cl-text">Έφτιαξα 5+ outfits από τα Keep κομμάτια</span></div>
+        <div class="cl-item" onclick="toggleCheck(this)"><div class="cl-box"></div><span class="cl-text">Έθεσα ημερομηνία για το επόμενο seasonal review</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEXT STEPS -->
+<section class="next-section" id="next">
+  <div class="container">
+    <p class="section-label">Τι έρχεται μετά</p>
+    <h2 class="section-title">Το audit ήταν<br><em>το πρώτο βήμα</em></h2>
+    <p class="section-desc">Τώρα που η ντουλάπα σου είναι καθαρή, ήρθε η ώρα να χτίσεις σύστημα.</p>
+
+    <div class="next-grid">
+      <div class="next-card">
+        <div class="next-num">01</div>
+        <div class="next-title">Color Analysis</div>
+        <p class="next-desc">Βρες τη χρωματική σου παλέτα — ποια χρώματα σε κολακεύουν πραγματικά και γιατί. Αυτό αλλάζει πώς αγοράζεις στο μέλλον.</p>
+        <a href="color-analysis-guide.html" class="next-link">Color Analysis Guide →</a>
+      </div>
+      <div class="next-card">
+        <div class="next-num">02</div>
+        <div class="next-title">Capsule Wardrobe</div>
+        <p class="next-desc">Χτίσε τη ντουλάπα της εποχής σου με βάση τη χρωματική παλέτα — seasonal pieces, outfit formulas και shopping plan.</p>
+        <a href="capsule-workbook.html" class="next-link">Capsule Wardrobe Workbook →</a>
+      </div>
+      <div class="next-card">
+        <div class="next-num">03</div>
+        <div class="next-title">Style Identity</div>
+        <p class="next-desc">Βρες το προσωπικό σου στυλ πέρα από τα trends — με quiz, moodboard method και style words.</p>
+        <a href="style-identity-guide.html" class="next-link">Style Identity Guide →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">Fashion Analysis <span>by Danai</span></div>
+  <p>Wardrobe Audit Workbook · Fashion Education · Σε συνδυασμό με όλους τους οδηγούς</p>
+  <p><a href="mailto:dbvabydanai@gmail.com">dbvabydanai@gmail.com</a></p>
+  <div class="footer-back">
+    <a href="guides.html">← Πίσω στους Οδηγούς</a>
+  </div>
+</footer>
+
+<script>
+  // Checklist
+  function toggleCheck(item) {
+    item.classList.toggle('checked');
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const total = document.querySelectorAll('.cl-item').length;
+    const done  = document.querySelectorAll('.cl-item.checked').length;
+    const pct   = Math.round((done / total) * 100);
+    document.getElementById('progressBar').style.width = pct + '%';
+    document.getElementById('progressLabel').textContent = done + ' / ' + total + ' ολοκληρωμένα';
+  }
+</script>
+
+</body>
+</html>

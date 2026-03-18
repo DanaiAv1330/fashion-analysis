@@ -438,7 +438,7 @@
   .season-tab.active { color: var(--bark); border-bottom-color: var(--gold); }
   .season-tab:hover { color: var(--bark); }
 
-  .season-content { display: none; }
+  .season-content { display: block; }
   .season-content.active { display: block; }
 
   .palettes-grid {
@@ -988,15 +988,9 @@
       <span style="font-size:0.75rem;color:var(--dust);font-style:italic">Hover για όνομα χρώματος</span>
     </div>
 
-    <div class="season-tabs">
-      <button class="season-tab active" onclick="showSeason('spring',this)">🌸 Άνοιξη</button>
-      <button class="season-tab" onclick="showSeason('summer',this)">☀️ Καλοκαίρι</button>
-      <button class="season-tab" onclick="showSeason('autumn',this)">🍂 Φθινόπωρο</button>
-      <button class="season-tab" onclick="showSeason('winter',this)">❄️ Χειμώνας</button>
-    </div>
-
     <!-- SPRING -->
-    <div class="season-content active" id="season-spring">
+    <div class="season-block" id="season-spring" style="display:block; margin-top:3rem; padding-top:3rem; border-top:2px solid var(--line);">
+<h3 style="font-family:var(--serif);font-size:1.8rem;font-weight:300;color:var(--bark);margin-bottom:2rem;">🌸 Άνοιξη</h3>
       <div class="palettes-grid">
 
         <div class="palette-card">
@@ -1223,7 +1217,8 @@
     </div>
 
     <!-- SUMMER -->
-    <div class="season-content" id="season-summer">
+    <div class="season-block" id="season-summer" style="display:block; margin-top:4rem; padding-top:3rem; border-top:2px solid var(--line);">
+<h3 style="font-family:var(--serif);font-size:1.8rem;font-weight:300;color:var(--bark);margin-bottom:2rem;">☀️ Καλοκαίρι</h3>
       <div class="palettes-grid">
 
         <div class="palette-card">
@@ -1449,7 +1444,8 @@
     </div>
 
     <!-- AUTUMN -->
-    <div class="season-content" id="season-autumn">
+    <div class="season-block" id="season-autumn" style="display:block; margin-top:4rem; padding-top:3rem; border-top:2px solid var(--line);">
+<h3 style="font-family:var(--serif);font-size:1.8rem;font-weight:300;color:var(--bark);margin-bottom:2rem;">🍂 Φθινόπωρο</h3>
       <div class="palettes-grid">
 
         <div class="palette-card">
@@ -1675,7 +1671,8 @@
     </div>
 
     <!-- WINTER -->
-    <div class="season-content" id="season-winter">
+    <div class="season-block" id="season-winter" style="display:block; margin-top:4rem; padding-top:3rem; border-top:2px solid var(--line);">
+<h3 style="font-family:var(--serif);font-size:1.8rem;font-weight:300;color:var(--bark);margin-bottom:2rem;">❄️ Χειμώνας</h3>
       <div class="palettes-grid">
 
         <div class="palette-card">
@@ -2048,14 +2045,7 @@
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   // Season tabs
-  function showSeason(season, btn) {
-    document.querySelectorAll('.season-content').forEach(el => el.classList.remove('active'));
-    document.querySelectorAll('.season-tab').forEach(el => el.classList.remove('active'));
-    document.getElementById('season-' + season).classList.add('active');
-    btn.classList.add('active');
-  }
-
-  // Checklist toggle
+    // Checklist toggle
   function toggleCheck(el) {
     el.classList.toggle('checked');
   }

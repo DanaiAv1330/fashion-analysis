@@ -622,14 +622,16 @@
     to { opacity: 1; }
   }
 
-  .reveal {
+  .reveal-disabled {
     opacity: 0;
     transform: translateY(20px);
     transition: opacity 0.7s ease, transform 0.7s ease;
   }
-  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-disabled.visible { opacity: 1; transform: translateY(0); }
   /* Fallback — αν το JS δεν φορτώσει, τα στοιχεία φαίνονται κανονικά */
-  .no-js .reveal { opacity: 1; transform: none; }
+  .no-js .reveal-disabled { opacity: 1; transform: none; }
+
+  .reveal { opacity: 1 !important; transform: none !important; }
 
   /* scrollbar */
   ::-webkit-scrollbar { width: 6px; height: 6px; }
@@ -2040,11 +2042,11 @@
 <footer>
   <a href="index.html" class="footer-logo" style="text-decoration:none;">Fashion Analysis by Danai</a>
   <p style="margin-bottom:0.6rem">Δωρεάν οδηγός χρωματικής ανάλυσης &nbsp;·&nbsp; Seasonal Color Analysis System &nbsp;·&nbsp; 12 Παλέτες</p>
-  <p style="margin-bottom:0.8rem"><a href="mailto:dbvabydanai@gmail.com" style="color:var(--gold);text-decoration:none;font-size:0.85rem;letter-spacing:0.05em">dbvabydanai@gmail.com</a></p>
+  <p style="margin-bottom:0.8rem"><a href="/cdn-cgi/l/email-protection#3551574354574c51545b545c755258545c591b565a58" style="color:var(--gold);text-decoration:none;font-size:0.85rem;letter-spacing:0.05em"><span class="__cf_email__" data-cfemail="9ffbfde9fefde6fbfef1fef6dff8f2fef6f3b1fcf0f2">[email&#160;protected]</span></a></p>
   <p><a href="guides.html" style="color:var(--dust);text-decoration:none;font-size:0.8rem;letter-spacing:0.08em;text-transform:uppercase;">← Πίσω στους Οδηγούς</a></p>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   // Season tabs
   function showSeason(season, btn) {
     document.querySelectorAll('.season-content').forEach(el => el.classList.remove('active'));
@@ -2411,10 +2413,4 @@
     'Bright Spring':  'bright-spring',
     'Light Summer':   'light-summer',
     'True Summer':    'true-summer',
-    'Soft Summer':    'soft-summer',
-    'Soft Autumn':    'soft-autumn',
-    'True Autumn':    'true-autumn',
-    'Dark Autumn':    'dark-autumn',
-    'Dark Winter':    'dark-winter',
-    'True Winter':    'true-winter',
-    'Bright Winter':  'bright-winte
+    'Soft 

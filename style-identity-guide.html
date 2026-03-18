@@ -1,0 +1,1451 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Style Identity Guide — Fashion Analysis by Danai</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --cream:     #faf7f4;
+      --warm-off:  #f3ede6;
+      --latte:     #e8ddd3;
+      --taupe:     #c5b5a7;
+      --mocha:     #8b6f5e;
+      --espresso:  #4a3028;
+      --blush:     #e8c4b2;
+      --sage:      #b5bea8;
+      --gold:      #c9a96e;
+      --ink:       #2a2018;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--cream);
+      color: var(--espresso);
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: 15px;
+      line-height: 1.75;
+      overflow-x: hidden;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: var(--espresso);
+      color: var(--cream);
+      padding: 18px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      letter-spacing: .12em;
+      font-size: 11px;
+      text-transform: uppercase;
+    }
+    header .brand {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 17px;
+      font-weight: 400;
+      letter-spacing: .05em;
+      text-transform: none;
+    }
+    header a {
+      color: var(--latte);
+      text-decoration: none;
+      transition: color .2s;
+    }
+    header a:hover { color: var(--gold); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 88vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 80px 24px 60px;
+      position: relative;
+      background: var(--warm-off);
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 70% 60% at 80% 20%, rgba(201,169,110,.12) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 50% at 10% 80%, rgba(181,190,168,.14) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .hero-label {
+      font-size: 10px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--mocha);
+      margin-bottom: 28px;
+      opacity: 0;
+      animation: fadeUp .7s .1s forwards;
+    }
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(52px, 10vw, 96px);
+      font-weight: 300;
+      line-height: 1.05;
+      color: var(--ink);
+      max-width: 720px;
+      opacity: 0;
+      animation: fadeUp .8s .25s forwards;
+    }
+    .hero h1 em {
+      font-style: italic;
+      color: var(--mocha);
+    }
+    .hero-sub {
+      margin-top: 28px;
+      font-size: 14px;
+      color: var(--mocha);
+      max-width: 420px;
+      letter-spacing: .04em;
+      opacity: 0;
+      animation: fadeUp .8s .45s forwards;
+    }
+    .hero-divider {
+      width: 40px;
+      height: 1px;
+      background: var(--gold);
+      margin: 36px auto 0;
+      opacity: 0;
+      animation: fadeUp .8s .6s forwards;
+    }
+    .hero-scroll {
+      position: absolute;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 9px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--taupe);
+      opacity: 0;
+      animation: fadeUp .8s 1s forwards;
+    }
+    .hero-scroll::after {
+      content: '';
+      display: block;
+      width: 1px;
+      height: 28px;
+      background: var(--taupe);
+      margin: 8px auto 0;
+      animation: scrollLine 1.8s 1.5s ease-in-out infinite;
+    }
+
+    /* ── INTRO STRIP ── */
+    .intro-strip {
+      background: var(--espresso);
+      color: var(--latte);
+      padding: 22px 48px;
+      display: flex;
+      justify-content: center;
+      gap: 48px;
+      font-size: 10px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+    .intro-strip span { display: flex; align-items: center; gap: 10px; }
+    .intro-strip span::before { content: '◆'; color: var(--gold); font-size: 7px; }
+
+    /* ── SECTION WRAPPER ── */
+    section {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 100px 32px;
+    }
+    .section-label {
+      font-size: 9px;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(36px, 6vw, 58px);
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--ink);
+      margin-bottom: 20px;
+    }
+    .section-title em { font-style: italic; color: var(--mocha); }
+    .section-intro {
+      font-size: 14px;
+      color: var(--mocha);
+      max-width: 580px;
+      margin-bottom: 60px;
+      line-height: 1.9;
+    }
+
+    /* ── STEP CARDS ── */
+    .steps {
+      display: grid;
+      gap: 2px;
+    }
+    .step {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      background: var(--warm-off);
+      transition: background .3s;
+      cursor: default;
+    }
+    .step:hover { background: var(--latte); }
+    .step-num {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 36px 0 0;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 42px;
+      font-weight: 300;
+      color: var(--taupe);
+      line-height: 1;
+    }
+    .step-body { padding: 32px 40px 32px 0; }
+    .step-body h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 400;
+      color: var(--espresso);
+      margin-bottom: 10px;
+    }
+    .step-body p { font-size: 13.5px; color: #6b5247; line-height: 1.85; }
+
+    /* ── QUIZ SECTION ── */
+    .quiz-wrap {
+      background: var(--espresso);
+      color: var(--cream);
+      padding: 100px 0;
+    }
+    .quiz-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+    .quiz-inner .section-label { color: var(--gold); }
+    .quiz-inner .section-title { color: var(--cream); }
+    .quiz-inner .section-intro { color: var(--latte); }
+
+    .quiz-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+    }
+    .quiz-card {
+      border: 1px solid rgba(255,255,255,.1);
+      padding: 28px 24px;
+      cursor: pointer;
+      transition: all .3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .quiz-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 0; height: 2px;
+      background: var(--gold);
+      transition: width .35s;
+    }
+    .quiz-card:hover::after { width: 100%; }
+    .quiz-card:hover { background: rgba(255,255,255,.05); }
+    .quiz-card.selected {
+      background: rgba(201,169,110,.15);
+      border-color: var(--gold);
+    }
+    .quiz-card.selected::after { width: 100%; }
+    .quiz-icon { font-size: 24px; margin-bottom: 12px; }
+    .quiz-card h4 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 19px;
+      font-weight: 400;
+      margin-bottom: 8px;
+      color: var(--cream);
+    }
+    .quiz-card p { font-size: 12px; color: var(--latte); line-height: 1.7; }
+
+    .quiz-question { margin-bottom: 48px; }
+    .quiz-question-label {
+      font-size: 10px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--taupe);
+      margin-bottom: 10px;
+    }
+    .quiz-question h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px;
+      font-weight: 300;
+      color: var(--cream);
+      margin-bottom: 24px;
+    }
+
+    .quiz-result {
+      display: none;
+      margin-top: 60px;
+      padding: 48px;
+      border: 1px solid var(--gold);
+      text-align: center;
+      animation: fadeUp .6s forwards;
+    }
+    .quiz-result.show { display: block; }
+    .quiz-result h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 36px;
+      font-weight: 300;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+    .quiz-result p { color: var(--latte); max-width: 500px; margin: 0 auto; font-size: 14px; line-height: 1.9; }
+
+    .btn-primary {
+      display: inline-block;
+      margin-top: 36px;
+      padding: 14px 40px;
+      background: var(--gold);
+      color: var(--ink);
+      font-family: 'Jost', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: all .3s;
+    }
+    .btn-primary:hover { background: var(--cream); }
+    .btn-outline {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 13px 38px;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      background: transparent;
+      transition: all .3s;
+      font-family: 'Jost', sans-serif;
+    }
+    .btn-outline:hover { background: var(--gold); color: var(--ink); }
+
+    /* ── PILLARS ── */
+    .pillars {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      margin-top: 0;
+    }
+    .pillar {
+      background: var(--warm-off);
+      padding: 48px 36px;
+      text-align: center;
+      transition: background .3s;
+    }
+    .pillar:hover { background: var(--latte); }
+    .pillar-icon { font-size: 28px; margin-bottom: 20px; }
+    .pillar h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 400;
+      color: var(--espresso);
+      margin-bottom: 12px;
+    }
+    .pillar p { font-size: 12.5px; color: #6b5247; line-height: 1.85; }
+
+    /* ── QUOTE ── */
+    .quote-section {
+      background: var(--warm-off);
+      padding: 0;
+    }
+    .quote-inner {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 100px 32px;
+      text-align: center;
+    }
+    blockquote {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(26px, 4vw, 42px);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--espresso);
+      line-height: 1.4;
+      position: relative;
+    }
+    blockquote::before {
+      content: '\201C';
+      font-size: 120px;
+      color: var(--latte);
+      position: absolute;
+      top: -30px; left: -20px;
+      line-height: 1;
+      font-family: 'Cormorant Garamond', serif;
+    }
+    blockquote em { color: var(--mocha); }
+    blockquote cite {
+      display: block;
+      font-family: 'Jost', sans-serif;
+      font-size: 10px;
+      font-style: normal;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--taupe);
+      margin-top: 28px;
+    }
+
+    /* ── ARCHETYPES ── */
+    .archetype-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 24px;
+    }
+    .archetype-card {
+      background: var(--warm-off);
+      padding: 36px 28px;
+      border-bottom: 3px solid transparent;
+      transition: all .3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .archetype-card:nth-child(1) { border-bottom-color: var(--blush); }
+    .archetype-card:nth-child(2) { border-bottom-color: var(--sage); }
+    .archetype-card:nth-child(3) { border-bottom-color: var(--gold); }
+    .archetype-card:nth-child(4) { border-bottom-color: var(--mocha); }
+    .archetype-card:nth-child(5) { border-bottom-color: var(--taupe); }
+    .archetype-card:nth-child(6) { border-bottom-color: var(--espresso); }
+    .archetype-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(74,48,40,.08); }
+    .archetype-tag {
+      font-size: 9px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--taupe);
+      margin-bottom: 10px;
+    }
+    .archetype-card h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 24px;
+      font-weight: 400;
+      color: var(--espresso);
+      margin-bottom: 12px;
+    }
+    .archetype-card p { font-size: 12.5px; color: #6b5247; line-height: 1.8; }
+    .archetype-keywords {
+      margin-top: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .kw {
+      font-size: 10px;
+      padding: 3px 10px;
+      background: var(--latte);
+      color: var(--espresso);
+      letter-spacing: .05em;
+    }
+
+    /* ── WARDROBE FORMULA ── */
+    .formula-wrap {
+      background: var(--espresso);
+      color: var(--cream);
+      padding: 100px 0;
+    }
+    .formula-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+    .formula-inner .section-label { color: var(--gold); }
+    .formula-inner .section-title { color: var(--cream); }
+    .formula-inner .section-intro { color: var(--latte); }
+    .formula-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+    .formula-item {
+      background: rgba(255,255,255,.04);
+      padding: 40px 32px;
+      border-top: 1px solid rgba(255,255,255,.08);
+      transition: background .3s;
+    }
+    .formula-item:hover { background: rgba(255,255,255,.08); }
+    .formula-percent {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 56px;
+      font-weight: 300;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: 12px;
+    }
+    .formula-item h4 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      font-weight: 400;
+      color: var(--cream);
+      margin-bottom: 10px;
+    }
+    .formula-item p { font-size: 12.5px; color: var(--latte); line-height: 1.8; }
+
+    /* ── CHECKLIST ── */
+    .checklist-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+    }
+    .checklist-col h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 26px;
+      font-weight: 400;
+      color: var(--espresso);
+      margin-bottom: 24px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--latte);
+    }
+    .checklist-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--warm-off);
+      cursor: pointer;
+      transition: padding-left .2s;
+    }
+    .checklist-item:hover { padding-left: 6px; }
+    .check-box {
+      width: 18px; height: 18px;
+      border: 1px solid var(--taupe);
+      flex-shrink: 0;
+      margin-top: 2px;
+      display: flex; align-items: center; justify-content: center;
+      transition: all .2s;
+    }
+    .checklist-item.checked .check-box {
+      background: var(--gold);
+      border-color: var(--gold);
+    }
+    .checklist-item.checked .check-box::after { content: '✓'; color: var(--ink); font-size: 11px; }
+    .checklist-item.checked .check-text { text-decoration: line-through; color: var(--taupe); }
+    .check-text { font-size: 13px; color: var(--espresso); line-height: 1.6; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--ink);
+      color: var(--latte);
+      padding: 60px 48px 40px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 48px;
+      align-items: end;
+    }
+    footer .brand {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 300;
+      color: var(--cream);
+      margin-bottom: 10px;
+    }
+    footer p { font-size: 12px; color: var(--taupe); line-height: 1.8; }
+    footer .copy { font-size: 10px; letter-spacing: .1em; color: var(--taupe); margin-top: 32px; }
+    footer a { color: var(--gold); text-decoration: none; font-size: 12px; }
+    footer a:hover { color: var(--cream); }
+    .footer-links { display: flex; flex-direction: column; gap: 10px; text-align: right; }
+
+    /* ── PROGRESS BAR ── */
+    .progress-bar {
+      position: fixed;
+      top: 0; left: 0;
+      height: 2px;
+      background: var(--gold);
+      width: 0;
+      z-index: 1000;
+      transition: width .1s;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes scrollLine {
+      0%, 100% { opacity: 1; transform: scaleY(1); transform-origin: top; }
+      50%       { opacity: .3; transform: scaleY(.4); transform-origin: top; }
+    }
+
+    .reveal { opacity: 1 !important; transform: none !important; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── EXERCISE BOX ── */
+    .step-exercise {
+      margin-top: 20px;
+      padding: 22px 24px;
+      background: var(--latte);
+      border-left: 3px solid var(--gold);
+    }
+    .exercise-label {
+      font-size: 10px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--mocha);
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+    .exercise-list {
+      list-style: none;
+      margin: 14px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .exercise-list li {
+      font-size: 13px;
+      color: var(--espresso);
+      padding-left: 18px;
+      position: relative;
+      line-height: 1.6;
+    }
+    .exercise-list li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--gold);
+    }
+    .exercise-note {
+      font-size: 12px;
+      font-style: italic;
+      color: var(--mocha);
+      margin-top: 12px;
+      border-top: 1px solid var(--taupe);
+      padding-top: 12px;
+    }
+
+    /* ── STYLE WORDS ── */
+    .words-wrap {
+      background: var(--warm-off);
+      padding: 100px 0;
+    }
+    .words-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+    .words-inner .section-label { color: var(--gold); }
+
+    .words-columns {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+      margin-bottom: 60px;
+    }
+    .words-column {
+      background: var(--cream);
+      padding: 32px 28px 28px;
+    }
+    .words-column-header {
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--latte);
+    }
+    .words-column-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 38px;
+      font-weight: 300;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .words-column-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      font-weight: 400;
+      color: var(--espresso);
+      margin-bottom: 4px;
+    }
+    .words-column-desc {
+      font-size: 11px;
+      color: var(--taupe);
+      letter-spacing: .06em;
+      line-height: 1.6;
+    }
+    .words-column-selected {
+      min-height: 42px;
+      margin-bottom: 16px;
+      padding: 10px 14px;
+      border: 1px dashed var(--taupe);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      font-style: italic;
+      color: var(--espresso);
+      display: flex;
+      align-items: center;
+      transition: all .3s;
+    }
+    .words-column-selected.has-word {
+      border-color: var(--gold);
+      background: rgba(201,169,110,.07);
+    }
+    .words-column-selected .placeholder-text {
+      font-size: 11px;
+      font-style: normal;
+      font-family: 'Jost', sans-serif;
+      color: var(--taupe);
+      letter-spacing: .08em;
+    }
+
+    .words-category {
+      margin-bottom: 16px;
+    }
+    .words-category-label {
+      font-size: 9px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--taupe);
+      margin-bottom: 8px;
+    }
+    .words-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .word-tag {
+      font-size: 11px;
+      padding: 5px 13px;
+      background: var(--latte);
+      color: var(--espresso);
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all .2s;
+      letter-spacing: .04em;
+    }
+    .word-tag:hover { background: var(--taupe); color: var(--cream); }
+    .word-tag.selected-tag {
+      background: var(--gold);
+      color: var(--ink);
+      border-color: var(--gold);
+    }
+
+    .words-result {
+      display: none;
+      padding: 48px;
+      border: 1px solid var(--latte);
+      background: var(--cream);
+      text-align: center;
+      animation: fadeUp .6s forwards;
+    }
+    .words-result.show { display: block; }
+    .words-result-trio {
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      margin: 28px 0 32px;
+    }
+    .words-result-word {
+      padding: 20px 36px;
+      background: var(--warm-off);
+      border-right: 1px solid var(--latte);
+    }
+    .words-result-word:last-child { border-right: none; }
+    .words-result-word .label {
+      font-size: 9px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--taupe);
+      margin-bottom: 8px;
+    }
+    .words-result-word .word {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--espresso);
+    }
+    .words-result-text {
+      font-size: 13.5px;
+      color: var(--mocha);
+      max-width: 580px;
+      margin: 0 auto;
+      line-height: 1.9;
+    }
+    .words-result h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 30px;
+      font-weight: 300;
+      color: var(--espresso);
+      margin-bottom: 8px;
+    }
+    .words-filter-rule {
+      margin-top: 40px;
+      padding: 28px 32px;
+      background: var(--espresso);
+      color: var(--latte);
+      text-align: left;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .words-filter-rule h4 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 400;
+      color: var(--cream);
+      margin-bottom: 14px;
+    }
+    .filter-questions { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .filter-questions li {
+      font-size: 13px;
+      padding-left: 18px;
+      position: relative;
+      line-height: 1.6;
+    }
+    .filter-questions li::before { content: '◆'; position: absolute; left: 0; color: var(--gold); font-size: 7px; top: 6px; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      header { padding: 16px 24px; }
+      header nav { display: none; }
+      .intro-strip { flex-direction: column; gap: 12px; padding: 20px 24px; }
+      section { padding: 70px 24px; }
+      .pillars, .formula-grid, .checklist-grid { grid-template-columns: 1fr; }
+      .step { grid-template-columns: 60px 1fr; }
+      .words-columns { grid-template-columns: 1fr; }
+      .words-result-trio { flex-direction: column; gap: 0; }
+      .words-result-word { border-right: none; border-bottom: 1px solid var(--latte); }
+      footer { grid-template-columns: 1fr; }
+      .footer-links { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- HEADER -->
+<header>
+  <span class="brand">Fashion Analysis by Danai</span>
+  <nav style="display:flex;gap:32px;">
+    <a href="https://danaiav1330.github.io/fashion-analysis/index.html">Home</a>
+    <a href="https://danaiav1330.github.io/fashion-analysis/guides.html">Guides</a>
+    <a href="https://danaiav1330.github.io/fashion-analysis/about.html">About</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <p class="hero-label">Free Guide · Style Education</p>
+  <h1>Style Identity <em>Guide</em></h1>
+  <p class="hero-sub">Βρες το προσωπικό σου στυλ πέρα από τα trends — με βάση ποια πραγματικά είσαι.</p>
+  <div class="hero-divider"></div>
+  <span class="hero-scroll">Scroll</span>
+</div>
+
+<!-- INTRO STRIP -->
+<div class="intro-strip">
+  <span>Personality</span>
+  <span>Lifestyle</span>
+  <span>Aesthetic</span>
+  <span>Wardrobe Formula</span>
+</div>
+
+<!-- WHAT IS STYLE IDENTITY -->
+<section>
+  <div class="reveal">
+    <p class="section-label">01 — Introduction</p>
+    <h2 class="section-title">Τι είναι το <em>Style Identity</em>;</h2>
+    <p class="section-intro">
+      Το style identity δεν είναι ένα look. Είναι η σταθερή αίσθηση που αφήνεις — ακόμα και όταν αλλάζεις ρούχα.
+      Είναι η τομή ανάμεσα στο ποια είσαι, πώς ζεις και πώς θέλεις να εκφράζεσαι.
+    </p>
+  </div>
+
+  <div class="steps reveal">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div class="step-body">
+        <h3>Personality — Ποια είσαι πέρα από τα ρούχα</h3>
+        <p>Τα ρούχα σου είναι επέκταση της προσωπικότητάς σου, όχι μάσκα. Πριν επιλέξεις styles, κατανόησε τι αξίες, ενέργεια και εικόνα θέλεις να μεταφέρεις στον κόσμο.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div class="step-body">
+        <h3>Lifestyle — Η ζωή σου ορίζει τη ντουλάπα σου</h3>
+        <p>Μια ντουλάπα που δεν εξυπηρετεί τον τρόπο ζωής σου δεν έχει νόημα. Το πού πηγαίνεις, τι κάνεις και ποιους συναντάς — είναι το πρώτο φίλτρο για κάθε αγορά.</p>
+        <div class="step-exercise">
+          <p class="exercise-label">✦ Άσκηση: Outfit Diary — 2 εβδομάδες</p>
+          <p>Για τις επόμενες δύο εβδομάδες, φωτογράφισε κάθε μέρα το outfit σου — πριν βγεις από το σπίτι. Δεν χρειάζεται να είναι "τέλειο". Χρειάζεται να είναι αληθινό.</p>
+          <ul class="exercise-list">
+            <li>Φωτογράφισε το σύνολο (full body) κάθε μέρα</li>
+            <li>Σημείωσε: <em>Πού πήγες;</em> / <em>Πώς ένιωσες με αυτό το outfit;</em></li>
+            <li>Στο τέλος των 2 εβδομάδων, κοίτα τις φωτογραφίες ως σύνολο</li>
+            <li>Ποια patterns επαναλαμβάνονται; Τι λείπει; Τι φόρεσες μόνο μία φορά;</li>
+            <li>Ποια μέρα ένιωσες πιο "εσύ"; Γιατί;</li>
+          </ul>
+          <p class="exercise-note">Αυτή η άσκηση σου δείχνει την πραγματική σου ντουλάπα — όχι αυτή που νομίζεις ότι έχεις.</p>
+        </div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div class="step-body">
+        <h3>Aesthetic — Η γλώσσα των εικόνων</h3>
+        <p>Ποιες εικόνες σε τραβούν; Ποια ρούχα σε κάνουν να νιώθεις "αυτό είμαι εγώ"; Η αισθητική σου είναι σήμα, όχι τύχη — μπορεί να αναλυθεί και να κατανοηθεί.</p>
+        <div class="step-exercise">
+          <p class="exercise-label">✦ Άσκηση: Φτιάξε το Moodboard σου</p>
+          <p>Άνοιξε Pinterest, Instagram ή κόψε εικόνες από περιοδικά. Χωρίς φίλτρο, χωρίς λογική — αποθήκευσε <strong>30–50 εικόνες</strong> που σε τραβούν. Μετά κοίτα τι έχεις μπροστά σου:</p>
+          <ul class="exercise-list">
+            <li>Ποια χρώματα επαναλαμβάνονται;</li>
+            <li>Ποιες σιλουέτες εμφανίζονται συχνά; (structured / flowy / oversized…)</li>
+            <li>Ποιες υφές; (linen, leather, silk, knit…)</li>
+            <li>Ποια είναι η γενική "αίσθηση"; (clean / layered / dramatic / effortless…)</li>
+            <li>Τι <em>δεν</em> υπάρχει καθόλου στο moodboard σου;</li>
+          </ul>
+          <p class="exercise-note">Το moodboard σου είναι ο χάρτης της αισθητικής σου. Αποθήκευσέ το — θα το χρειαστείς πριν από κάθε αγορά.</p>
+        </div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <div class="step-body">
+        <h3>Color Harmony — Τα χρώματα που σε αναδεικνύουν</h3>
+        <p>Η χρωματική ανάλυση δεν είναι αισθητική μόνο — είναι επιστήμη. Τα σωστά χρώματα κάνουν το πρόσωπό σου να φωτίζεται, τα λάθος το κουράζουν χωρίς να ξέρεις γιατί.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STYLE QUIZ -->
+<div class="quiz-wrap">
+  <div class="quiz-inner">
+
+    <div class="reveal">
+      <p class="section-label">02 — Style Quiz</p>
+      <h2 class="section-title">Βρες το <em>Style Archetype</em> σου</h2>
+      <p class="section-intro">Απάντησε στις παρακάτω ερωτήσεις διαλέγοντας αυτό που σε εκφράζει περισσότερο.</p>
+    </div>
+
+    <!-- Q1 -->
+    <div class="quiz-question reveal" data-q="1">
+      <p class="quiz-question-label">Ερώτηση 1 από 3</p>
+      <h3>Πώς θέλεις να νιώθεις όταν φοράς τα ρούχα σου;</h3>
+      <div class="quiz-grid">
+        <div class="quiz-card" data-q="1" data-val="classic" onclick="selectCard(this)">
+          <div class="quiz-icon">🤍</div>
+          <h4>Αυτοσίγουρη & Τακτοποιημένη</h4>
+          <p>Θέλω να δείχνω ότι έχω τα πράγματα υπό έλεγχο. Timeless, refined.</p>
+        </div>
+        <div class="quiz-card" data-q="1" data-val="romantic" onclick="selectCard(this)">
+          <div class="quiz-icon">🌸</div>
+          <h4>Θηλυκή & Ποιητική</h4>
+          <p>Θέλω να νιώθω απαλή, γυναικεία και dreamlike.</p>
+        </div>
+        <div class="quiz-card" data-q="1" data-val="editorial" onclick="selectCard(this)">
+          <div class="quiz-icon">🖤</div>
+          <h4>Bold & Ξεχωριστή</h4>
+          <p>Θέλω να τραβώ βλέμματα. Το ρούχο είναι statement.</p>
+        </div>
+        <div class="quiz-card" data-q="1" data-val="natural" onclick="selectCard(this)">
+          <div class="quiz-icon">🌿</div>
+          <h4>Άνετη & Αυθεντική</h4>
+          <p>Θέλω να νιώθω σαν τον εαυτό μου — χωρίς προσπάθεια.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="quiz-question reveal" data-q="2">
+      <p class="quiz-question-label">Ερώτηση 2 από 3</p>
+      <h3>Ποια λέξη σε εκφράζει περισσότερο σε σχέση με τα ρούχα;</h3>
+      <div class="quiz-grid">
+        <div class="quiz-card" data-q="2" data-val="classic" onclick="selectCard(this)">
+          <div class="quiz-icon">🪞</div>
+          <h4>Polished</h4>
+          <p>Κάθε λεπτομέρεια είναι στη θέση της. Ποιότητα πάνω από ποσότητα.</p>
+        </div>
+        <div class="quiz-card" data-q="2" data-val="romantic" onclick="selectCard(this)">
+          <div class="quiz-icon">🕯️</div>
+          <h4>Dreamy</h4>
+          <p>Μαλακές υφές, floral, lace. Αισθητική που θυμίζει παλιό φιλμ.</p>
+        </div>
+        <div class="quiz-card" data-q="2" data-val="editorial" onclick="selectCard(this)">
+          <div class="quiz-icon">✂️</div>
+          <h4>Sculptural</h4>
+          <p>Γραμμές, κοψίματα, γεωμετρία. Το ρούχο σαν τέχνη.</p>
+        </div>
+        <div class="quiz-card" data-q="2" data-val="natural" onclick="selectCard(this)">
+          <div class="quiz-icon">☁️</div>
+          <h4>Effortless</h4>
+          <p>Χωρίς πολλές σκέψεις — αλλά πάντα cohesive και σωστό.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="quiz-question reveal" data-q="3">
+      <p class="quiz-question-label">Ερώτηση 3 από 3</p>
+      <h3>Ποια palette σε τραβά περισσότερο;</h3>
+      <div class="quiz-grid">
+        <div class="quiz-card" data-q="3" data-val="classic" onclick="selectCard(this)">
+          <div class="quiz-icon">⬛</div>
+          <h4>Navy, Ivory, Camel</h4>
+          <p>Neutral χρώματα που δεν περνούν ποτέ από μόδα.</p>
+        </div>
+        <div class="quiz-card" data-q="3" data-val="romantic" onclick="selectCard(this)">
+          <div class="quiz-icon">🌷</div>
+          <h4>Dusty Rose, Lavender, Cream</h4>
+          <p>Παστέλ, muted, feminine. Χρώματα σαν watercolor.</p>
+        </div>
+        <div class="quiz-card" data-q="3" data-val="editorial" onclick="selectCard(this)">
+          <div class="quiz-icon">🖤</div>
+          <h4>Black, Ecru, Pops of Color</h4>
+          <p>Δυνατές αντιθέσεις και unexpected χρωματικά accents.</p>
+        </div>
+        <div class="quiz-card" data-q="3" data-val="natural" onclick="selectCard(this)">
+          <div class="quiz-icon">🌰</div>
+          <h4>Terracotta, Sand, Olive</h4>
+          <p>Earth tones που αισθάνονται σαν φύση και σπίτι.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- RESULT -->
+    <div class="quiz-result" id="quizResult">
+      <h3 id="resultTitle">—</h3>
+      <p id="resultDesc">—</p>
+      <button class="btn-outline" onclick="resetQuiz()">Ξαναρχίσω</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- STYLE ARCHETYPES -->
+<section>
+  <div class="reveal">
+    <p class="section-label">03 — Archetypes</p>
+    <h2 class="section-title">Τα 6 Style <em>Archetypes</em></h2>
+    <p class="section-intro">Κάθε γυναίκα είναι ένα μείγμα. Αλλά συνήθως ένα archetype κυριαρχεί — και αυτό είναι η βάση της ντουλάπας σου.</p>
+  </div>
+
+  <div class="archetype-grid reveal">
+    <div class="archetype-card">
+      <p class="archetype-tag">Archetype 01</p>
+      <h3>The Classic</h3>
+      <p>Timeless πάνω από trendy. Επενδύει σε quality basics, tailored pieces και neutral palettes. Δεν αλλάζει — evolves.</p>
+      <div class="archetype-keywords">
+        <span class="kw">Tailored</span><span class="kw">Refined</span><span class="kw">Timeless</span>
+      </div>
+    </div>
+    <div class="archetype-card">
+      <p class="archetype-tag">Archetype 02</p>
+      <h3>The Romantic</h3>
+      <p>Feminine, soft, poetic. Lace, florals, flowing silhouettes. Η αισθητική της θυμίζει παλιό φιλμ — με μια ευαισθησία που δεν μπορείς να αντιγράψεις.</p>
+      <div class="archetype-keywords">
+        <span class="kw">Feminine</span><span class="kw">Dreamy</span><span class="kw">Soft</span>
+      </div>
+    </div>
+    <div class="archetype-card">
+      <p class="archetype-tag">Archetype 03</p>
+      <h3>The Editorial</h3>
+      <p>Το ρούχο ως τέχνη. Sculptural forms, unexpected textures, bold statements. Δεν φοβάται την προσοχή — τη χρησιμοποιεί.</p>
+      <div class="archetype-keywords">
+        <span class="kw">Bold</span><span class="kw">Structural</span><span class="kw">Avant-garde</span>
+      </div>
+    </div>
+    <div class="archetype-card">
+      <p class="archetype-tag">Archetype 04</p>
+      <h3>The Natural</h3>
+      <p>Effortless και grounded. Earth tones, natural fabrics, minimal effort — maximum authenticity. Η ντουλάπα της δεν φωνάζει, αλλά πάντα κάνει αίσθηση.</p>
+      <div class="archetype-keywords">
+        <span class="kw">Casual</span><span class="kw">Organic</span><span class="kw">Relaxed</span>
+      </div>
+    </div>
+    <div class="archetype-card">
+      <p class="archetype-tag">Archetype 05</p>
+      <h3>The Minimalist</h3>
+      <p>Less is more. Monochrome looks, clean lines, impeccable fit. Η δύναμή της είναι στη σιγή — και στην τελειότητα της κάθε λεπτομέρειας.</p>
+      <div class="archetype-keywords">
+        <span class="kw">Clean</span><span class="kw">Monochrome</span><span class="kw">Precise</span>
+      </div>
+    </div>
+    <div class="archetype-card">
+      <p class="archetype-tag">Archetype 06</p>
+      <h3>The Eclectic</h3>
+      <p>Mix, layer, reinterpret. Δεν ακολουθεί ένα αρχέτυπο — τα συνδυάζει όλα με έναν τρόπο που αισθάνεται totally her own.</p>
+      <div class="archetype-keywords">
+        <span class="kw">Playful</span><span class="kw">Mixed</span><span class="kw">Unique</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTE -->
+<div class="quote-section">
+  <div class="quote-inner reveal">
+    <blockquote>
+      "Δεν ντυνόμαστε για τους άλλους.<br>
+      Ντυνόμαστε για να <em>θυμόμαστε ποιες είμαστε</em>."
+      <cite>— Fashion Analysis by Danai</cite>
+    </blockquote>
+  </div>
+</div>
+
+<!-- WARDROBE FORMULA -->
+<div class="formula-wrap">
+  <div class="formula-inner">
+    <div class="reveal">
+      <p class="section-label">04 — Wardrobe Formula</p>
+      <h2 class="section-title">Η Φόρμουλα της <em>Ιδανικής Ντουλάπας</em></h2>
+      <p class="section-intro">Ανεξάρτητα από το archetype σου, κάθε ισορροπημένη ντουλάπα χτίζεται πάνω σε αυτή τη λογική.</p>
+    </div>
+    <div class="formula-grid reveal">
+      <div class="formula-item">
+        <div class="formula-percent">70%</div>
+        <h4>Foundation Pieces</h4>
+        <p>Versatile basics που δουλεύουν με όλα. Καλής ποιότητας, neutral ή σχεδόν neutral. Αυτά είναι η σπονδυλική στήλη της ντουλάπας σου.</p>
+      </div>
+      <div class="formula-item">
+        <div class="formula-percent">20%</div>
+        <h4>Statement Pieces</h4>
+        <p>Κομμάτια που εκφράζουν το style archetype σου. Ένα bold coat, ένα sculptural dress, ένα print που σε αντιπροσωπεύει.</p>
+      </div>
+      <div class="formula-item">
+        <div class="formula-percent">10%</div>
+        <h4>Trend Items</h4>
+        <p>Επιλεγμένα, όχι παρορμητικά. Μόνο αν ταιριάζουν στο archetype σου — ποτέ για χάρη της μόδας.</p>
+      </div>
+    </div>
+    <div class="reveal" style="margin-top:48px;">
+      <a href="https://danaiav1330.github.io/fashion-analysis/capsule-workbook.html" class="btn-primary">Capsule Wardrobe Workbook →</a>
+    </div>
+  </div>
+</div>
+
+<!-- CHECKLIST -->
+<section>
+  <div class="reveal">
+    <p class="section-label">05 — Action Steps</p>
+    <h2 class="section-title">Style Identity <em>Checklist</em></h2>
+    <p class="section-intro">Κάνε tick σε αυτά που έχεις ήδη κάνει — και σημείωσε τα επόμενα βήματα.</p>
+  </div>
+  <div class="checklist-grid reveal">
+    <div class="checklist-col">
+      <h3>Κατανόηση του εαυτού σου</h3>
+      <div class="checklist-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <span class="check-text">Έχω κάνει χρωματική ανάλυση (ή γνωρίζω το undertone μου)</span>
+      </div>
+      <div class="checklist-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <span class="check-text">Ξέρω ποιο style archetype με εκφράζει</span>
+      </div>
+      <div class="checklist-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <span class="check-text">Έχω αναλύσει τον τρόπο ζωής μου (occasions, activities)</span>
+      </div>
+      <div class="checklist-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <span class="check-text">Έχω συλλέξει εικόνες που με εκφράζουν (mood board)</span>
+      </div>
+      <div class="checklist-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <span class="check-text">Γνωρίζω ποιες σιλουέτες με αναδεικνύουν</span>
+      </div>
+    </div>
+    <div class="checklist-col">
+      <h3>Η ντουλάπα σου</h3>
+      <div class="checklist-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <span class="check-text">Έχω κάνει wardrobe edit (αφαίρεσα αυτά που δεν φοράω)</span>
+      </div>
+      <div class="checklist-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <span class="check-text">Τα foundation pieces μου καλύπτουν τουλάχιστον το 70%</span>
+      </div>
+      <div class="checklist-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <span class="check-text">Έχω ορίσει την palette χρωμάτων της ντουλάπας μου</span>
+      </div>
+      <div class="checklist-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <span class="check-text">Τα ρούχα μου ταιριάζουν όλα μεταξύ τους (cohesion)</span>
+      </div>
+      <div class="checklist-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <span class="check-text">Αγοράζω με πρόθεση — όχι παρορμητικά</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PILLARS -->
+<section style="padding-top:0;">
+  <div class="reveal">
+    <p class="section-label">06 — Style Pillars</p>
+    <h2 class="section-title">Τρεις <em>Αρχές</em> που δεν αλλάζουν</h2>
+  </div>
+  <div class="pillars reveal">
+    <div class="pillar">
+      <div class="pillar-icon">🪡</div>
+      <h3>Fit Over Everything</h3>
+      <p>Η εφαρμογή είναι πάνω από brand, price ή trend. Ένα ρούχο που κάθεται σωστά στο σώμα σου είναι πάντα elegant.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-icon">🧵</div>
+      <h3>Quality Over Quantity</h3>
+      <p>Λιγότερα, καλύτερα. Ένα κομμάτι που διαρκεί 10 χρόνια είναι πιο sustainable — και πιο stylish — από 10 κομμάτια που διαρκούν ένα χρόνο.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-icon">🔑</div>
+      <h3>Intention Over Impulse</h3>
+      <p>Πριν κάθε αγορά: ταιριάζει στο archetype μου; Έχω ήδη κάτι παρόμοιο; Θα το φορώ σε 3 χρόνια; Αν η απάντηση δεν είναι "ναι" — άσε το.</p>
+    </div>
+  </div>
+</section>
+
+<!-- STYLE WORDS -->
+<div class="words-wrap">
+  <div class="words-inner">
+    <div class="reveal">
+      <p class="section-label">07 — Style Words</p>
+      <h2 class="section-title" style="color:var(--ink);">Οι 3 Λέξεις που <em>Ορίζουν</em> το Στυλ σου</h2>
+      <p class="section-intro">Επίλεξε μία λέξη για κάθε στήλη. Αυτές οι τρεις λέξεις μαζί γίνονται ο κανόνας σου — για να αξιολογείς την τωρινή ντουλάπα και να φιλτράρεις κάθε νέα αγορά.</p>
+    </div>
+
+    <div class="words-columns reveal">
+
+      <!-- COLUMN 1: LIFESTYLE -->
+      <div class="words-column">
+        <div class="words-column-header">
+          <div class="words-column-num">01</div>
+          <div class="words-column-title">Τωρινό Lifestyle</div>
+          <div class="words-column-desc">Τι αντιπροσωπεύει το σημερινό σου στυλ; Πώς ζεις και τι χρειάζεσαι καθημερινά;</div>
+        </div>
+        <div class="words-column-selected" id="selected-lifestyle"><span class="placeholder-text">Επίλεξε μία λέξη →</span></div>
+        <div id="words-lifestyle"></div>
+      </div>
+
+      <!-- COLUMN 2: MOODBOARD -->
+      <div class="words-column">
+        <div class="words-column-header">
+          <div class="words-column-num">02</div>
+          <div class="words-column-title">Moodboard Αίσθηση</div>
+          <div class="words-column-desc">Ποια λέξη περιγράφει τις εικόνες που σε τραβούν; Τι θέλεις να γίνει;</div>
+        </div>
+        <div class="words-column-selected" id="selected-moodboard"><span class="placeholder-text">Επίλεξε μία λέξη →</span></div>
+        <div id="words-moodboard"></div>
+      </div>
+
+      <!-- COLUMN 3: FEELING -->
+      <div class="words-column">
+        <div class="words-column-header">
+          <div class="words-column-num">03</div>
+          <div class="words-column-title">Αίσθημα που θέλω</div>
+          <div class="words-column-desc">Πώς θέλεις να νιώθεις όταν φοράς τα ρούχα σου; Τι θέλεις να εκπέμπεις;</div>
+        </div>
+        <div class="words-column-selected" id="selected-feeling"><span class="placeholder-text">Επίλεξε μία λέξη →</span></div>
+        <div id="words-feeling"></div>
+      </div>
+
+    </div>
+
+    <!-- RESULT -->
+    <div class="words-result reveal" id="wordsResult">
+      <h3>Το Style DNA σου</h3>
+      <div class="words-result-trio">
+        <div class="words-result-word">
+          <div class="label">Lifestyle</div>
+          <div class="word" id="wr-lifestyle">—</div>
+        </div>
+        <div class="words-result-word">
+          <div class="label">Moodboard</div>
+          <div class="word" id="wr-moodboard">—</div>
+        </div>
+        <div class="words-result-word">
+          <div class="label">Αίσθημα</div>
+          <div class="word" id="wr-feeling">—</div>
+        </div>
+      </div>
+      <p class="words-result-text">
+        Αυτές είναι οι τρεις λέξεις που ορίζουν το style DNA σου. Κράτα τες στο μυαλό σου — ή γράψε τες σε ένα post-it στην ντουλάπα σου. Κάθε φορά που αξιολογείς ένα κομμάτι, ρώτα: <em>εξυπηρετεί αυτές τις τρεις λέξεις;</em>
+      </p>
+      <div class="words-filter-rule">
+        <h4>Το Φίλτρο Αγοράς</h4>
+        <ul class="filter-questions">
+          <li>Ταιριάζει στον τρόπο ζωής μου (<span id="fr-lifestyle">—</span>);</li>
+          <li>Εκφράζει την αισθητική μου (<span id="fr-moodboard">—</span>);</li>
+          <li>Θα με κάνει να νιώθω (<span id="fr-feeling">—</span>);</li>
+          <li>Αν δεν απαντώ "ναι" και στα τρία — δεν το αγοράζω.</li>
+        </ul>
+      </div>
+      <button class="btn-outline" onclick="resetWords()" style="margin-top:32px;">Ξαναρχίζω</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="brand">Fashion Analysis by Danai</div>
+    <p>Fashion Education & Color Analysis<br>για γυναίκες που ντύνονται με πρόθεση.</p>
+    <p class="copy">© 2025 Fashion Analysis by Danai. All rights reserved.</p>
+  </div>
+  <div class="footer-links">
+    <a href="https://danaiav1330.github.io/fashion-analysis/index.html">Home</a>
+    <a href="https://danaiav1330.github.io/fashion-analysis/guides.html">Guides</a>
+    <a href="https://danaiav1330.github.io/fashion-analysis/color-analysis-guide.html">Color Analysis</a>
+    <a href="https://danaiav1330.github.io/fashion-analysis/capsule-workbook.html">Capsule Workbook</a>
+    <a href="mailto:dbvabydanai@gmail.com">dbvabydanai@gmail.com</a>
+  </div>
+</footer>
+
+<script>  // Style Words
+  const styleData = {
+    "Classic":    ["Old Money","Academic","Bourgeois","Business","Chic","Effortless","Elegant","French","Preppy","Simple","Sophisticated"],
+    "Minimal":    ["Monochromatic","Neutral","Austere","Graphic","Modern","Polished","Tailored","Thoughtful"],
+    "Soft":       ["Sensual","Floral","Demure","Ethereal","Graceful","Light","Romantic","Whimsical"],
+    "Bohemian":   ["Beachy","Baroque","Crafty","Eclectic","Slowly","Textured","Western","Witchy"],
+    "Sporty":     ["Comfortable","Boxy","Boyish","Casual","Oversized","Practical","Slouchy","Tomboy","Undone"],
+    "Daring":     ["Artsy","Bright","Iconic","Mismatch","Playful","Printed","Quirky","Unexpected"],
+    "Elaborate":  ["Bold","Colorful","Glitchy","Global","Maximalist","Opulent","Ornate","Vibrant"],
+    "Hard":       ["Edgy","Exaggerated","Fitted","Grungy","Rock","Rock n Roll","Rockabilly","Sculptural","Sexy","Tough"],
+    "Vintage":    ["80s","90s","Futuristic","Retro","Seventies","Sixties","Victorian","Y2K"],
+    "Casual":     ["Business"]
+  };
+
+  const selectedWords = { lifestyle: null, moodboard: null, feeling: null };
+
+  function buildWordLists() {
+    ['lifestyle','moodboard','feeling'].forEach(col => {
+      const container = document.getElementById('words-' + col);
+      Object.entries(styleData).forEach(([category, words]) => {
+        const catDiv = document.createElement('div');
+        catDiv.className = 'words-category';
+        catDiv.innerHTML = `<div class="words-category-label">${category}</div><div class="words-tags" data-col="${col}"></div>`;
+        const tagsDiv = catDiv.querySelector('.words-tags');
+        words.forEach(word => {
+          const tag = document.createElement('span');
+          tag.className = 'word-tag';
+          tag.textContent = word;
+          tag.setAttribute('data-col', col);
+          tag.setAttribute('data-word', word);
+          tag.onclick = () => selectWord(col, word, tag);
+          tagsDiv.appendChild(tag);
+        });
+        container.appendChild(catDiv);
+      });
+    });
+  }
+
+  function selectWord(col, word, tagEl) {
+    // Deselect previous in same column
+    document.querySelectorAll(`.word-tag[data-col="${col}"]`).forEach(t => t.classList.remove('selected-tag'));
+    tagEl.classList.add('selected-tag');
+    selectedWords[col] = word;
+
+    const display = document.getElementById('selected-' + col);
+    display.innerHTML = word;
+    display.classList.add('has-word');
+
+    if (selectedWords.lifestyle && selectedWords.moodboard && selectedWords.feeling) {
+      showWordsResult();
+    }
+  }
+
+  function showWordsResult() {
+    document.getElementById('wr-lifestyle').textContent = selectedWords.lifestyle;
+    document.getElementById('wr-moodboard').textContent = selectedWords.moodboard;
+    document.getElementById('wr-feeling').textContent = selectedWords.feeling;
+    document.getElementById('fr-lifestyle').textContent = selectedWords.lifestyle;
+    document.getElementById('fr-moodboard').textContent = selectedWords.moodboard;
+    document.getElementById('fr-feeling').textContent = selectedWords.feeling;
+    const el = document.getElementById('wordsResult');
+    el.classList.add('show');
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  function resetWords() {
+    Object.keys(selectedWords).forEach(k => selectedWords[k] = null);
+    document.querySelectorAll('.word-tag').forEach(t => t.classList.remove('selected-tag'));
+    ['lifestyle','moodboard','feeling'].forEach(col => {
+      const d = document.getElementById('selected-' + col);
+      d.innerHTML = '<span class="placeholder-text">Επίλεξε μία λέξη →</span>';
+      d.classList.remove('has-word');
+    });
+    document.getElementById('wordsResult').classList.remove('show');
+  }
+
+  buildWordLists();
+</script><script>
+  // Progress bar
+  window.addEventListener('scroll', () => {
+    const el = document.getElementById('progressBar');
+    const h = document.documentElement;
+    const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+    el.style.width = pct + '%';
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        e.target.style.transitionDelay = (i % 3) * .1 + 's';
+        e.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(r => observer.observe(r));
+
+  // Quiz logic
+  const answers = {};
+  function selectCard(card) {
+    const q = card.getAttribute('data-q');
+    const val = card.getAttribute('data-val');
+    document.querySelectorAll(`.quiz-card[data-q="${q}"]`).forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+    answers[q] = val;
+    if (Object.keys(answers).length === 3) showResult();
+  }
+
+  const results = {
+    classic:   { title: 'The Classic', desc: 'Το στυλ σου είναι refined και διαχρονικό. Προτιμάς ποιότητα από ποσότητα και επιλέγεις versatile κομμάτια που αντέχουν στον χρόνο. Η παλέτα σου κυριαρχείται από sophisticated neutrals — navy, camel, ivory.' },
+    romantic:  { title: 'The Romantic', desc: 'Είσαι ποιητική και θηλυκή. Η αισθητική σου είναι soft, ονειρική, με μαλακές υφές και παστέλ παλέτα. Επιλέγεις κομμάτια που σε κάνουν να νιώθεις πρωταγωνίστρια ενός παλιού φιλμ.' },
+    editorial: { title: 'The Editorial', desc: 'Τολμηρή και δημιουργική. Το ρούχο για σένα είναι τέχνη. Αγαπάς τις sculptural φόρμες, τις έντονες αντιθέσεις, τα looks που τραβούν βλέμματα. Το στυλ σου είναι δήλωση.' },
+    natural:   { title: 'The Natural', desc: 'Effortless και αυθεντική. Τα outfits σου δεν φωνάζουν — αλλά πάντα επικοινωνούν. Earth tones, φυσικά υφάσματα, άνεση χωρίς να χάνεις την αισθητική συνοχή.' },
+  };
+
+  function getMajority() {
+    const count = {};
+    Object.values(answers).forEach(v => count[v] = (count[v] || 0) + 1);
+    return Object.entries(count).sort((a,b) => b[1]-a[1])[0][0];
+  }
+
+  function showResult() {
+    const type = getMajority();
+    const r = results[type];
+    document.getElementById('resultTitle').textContent = r.title;
+    document.getElementById('resultDesc').textContent = r.desc;
+    const el = document.getElementById('quizResult');
+    el.classList.add('show');
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  function resetQuiz() {
+    Object.keys(answers).forEach(k => delete answers[k]);
+    document.querySelectorAll('.quiz-card').forEach(c => c.classList.remove('selected'));
+    document.getElementById('quizResult')

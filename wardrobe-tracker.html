@@ -491,7 +491,7 @@ body{font-family:var(--font-sans);font-weight:300;background:var(--bg);color:var
           </div>
           <div class="chart-card">
             <div class="chart-title">Χρώματα</div>
-            <div class="pie-wrap"><div class="pie pie-color"></div>
+            <div class="pie-wrap"><div class="pie" id="color-pie" style="width:68px;height:68px;border-radius:50%;position:relative;flex-shrink:0;background:var(--surface3);"></div>
               <div class="legend" id="color-legend">
                 <div style="color:var(--text-dim);font-size:10px;">Δεν υπάρχουν δεδομένα</div>
               </div>
@@ -537,7 +537,7 @@ body{font-family:var(--font-sans);font-weight:300;background:var(--bg);color:var
           </div>
           <div class="chart-card">
             <div class="chart-title">Χρώματα (σύνολο)</div>
-            <div class="pie-wrap"><div class="pie pie-color"></div><div class="legend" id="t-color-legend"><div style="color:var(--text-dim);font-size:10px;">—</div></div></div>
+            <div class="pie-wrap"><div class="pie" id="t-color-pie" style="width:68px;height:68px;border-radius:50%;position:relative;flex-shrink:0;background:var(--surface3);"></div><div class="legend" id="t-color-legend"><div style="color:var(--text-dim);font-size:10px;">—</div></div></div>
           </div>
         </div>
         <div class="section-title">Top κομμάτια — καλύτερο CPW συνολικά</div>
@@ -604,7 +604,50 @@ body{font-family:var(--font-sans);font-weight:300;background:var(--bg);color:var
             </optgroup>
           </select>
         </div>
-        <div class="form-group"><label>Χρώμα</label><input type="text" id="f-color" placeholder="π.χ. Λευκό, Navy"></div>
+        <div class="form-group"><label>Χρώμα</label>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div id="color-preview-dot" style="width:18px;height:18px;border-radius:50%;border:1px solid var(--border);background:var(--surface3);flex-shrink:0;transition:background 0.2s;"></div>
+            <select id="f-color" onchange="updateColorDot(this)" style="flex:1">
+            <option value="">— Επιλογή —</option>
+            <optgroup label="Neutrals">
+              <option value="Λευκό" data-hex="#F5F5F0">Λευκό</option>
+              <option value="Εκρού / Off-white" data-hex="#EDE8DC">Εκρού / Off-white</option>
+              <option value="Beige / Camel" data-hex="#C9A96E">Beige / Camel</option>
+              <option value="Γκρι ανοιχτό" data-hex="#C4C4C0">Γκρι ανοιχτό</option>
+              <option value="Γκρι σκούρο" data-hex="#6B6B6B">Γκρι σκούρο</option>
+              <option value="Μαύρο" data-hex="#1A1A1A">Μαύρο</option>
+              <option value="Καφέ / Ταμπά" data-hex="#8B5E3C">Καφέ / Ταμπά</option>
+              <option value="Chocolate" data-hex="#4A2C17">Chocolate</option>
+            </optgroup>
+            <optgroup label="Blues & Greens">
+              <option value="Navy" data-hex="#1B2A4A">Navy</option>
+              <option value="Μπλε ρουά" data-hex="#1E3A8A">Μπλε ρουά</option>
+              <option value="Γαλάζιο" data-hex="#7EB8D4">Γαλάζιο</option>
+              <option value="Denim" data-hex="#4A6FA5">Denim</option>
+              <option value="Πράσινο σκούρο" data-hex="#2D5A27">Πράσινο σκούρο</option>
+              <option value="Χακί / Olive" data-hex="#7A7A45">Χακί / Olive</option>
+              <option value="Mint / Sage" data-hex="#9DC4B0">Mint / Sage</option>
+            </optgroup>
+            <optgroup label="Reds & Pinks">
+              <option value="Κόκκινο" data-hex="#C0392B">Κόκκινο</option>
+              <option value="Burgundy / Μπορντό" data-hex="#6D1A2A">Burgundy / Μπορντό</option>
+              <option value="Ροζ παλ" data-hex="#E8B4B8">Ροζ παλ</option>
+              <option value="Fuchsia / Hot pink" data-hex="#D5006D">Fuchsia / Hot pink</option>
+              <option value="Terracotta / Ώχρα" data-hex="#C4673A">Terracotta / Ώχρα</option>
+              <option value="Πορτοκαλί" data-hex="#E8720C">Πορτοκαλί</option>
+            </optgroup>
+            <optgroup label="Purples & Yellows">
+              <option value="Μωβ / Λιλά" data-hex="#9B59B6">Μωβ / Λιλά</option>
+              <option value="Κίτρινο / Mustard" data-hex="#D4A017">Κίτρινο / Mustard</option>
+            </optgroup>
+            <optgroup label="Patterns">
+              <option value="Ριγέ" data-hex="#888888">Ριγέ</option>
+              <option value="Καρό / Vichy" data-hex="#888888">Καρό / Vichy</option>
+              <option value="Floral / Print" data-hex="#888888">Floral / Print</option>
+              <option value="Animal print" data-hex="#888888">Animal print</option>
+              <option value="Πολύχρωμο" data-hex="#888888">Πολύχρωμο</option>
+            </optgroup>
+          </select></div></div>
         <div class="form-group"><label>Υλικό</label><input type="text" id="f-material" placeholder="π.χ. Λινό, Δέρμα"></div>
         <div class="form-group"><label>Τιμή (€)</label><input type="number" id="f-price" placeholder="0.00" step="0.01"></div>
         <div class="form-group"><label>Ημερομηνία αγοράς</label><input type="date" id="f-purchased-at"></div>
@@ -922,12 +965,16 @@ function openItemModal(itemId = null) {
   document.getElementById('f-fav').checked = false;
   document.getElementById('photo-preview').style.display = 'none';
   document.getElementById('photo-placeholder').style.display = 'block';
+  document.getElementById('color-preview-dot').style.background = 'var(--surface3)';
 
   if (item) {
     ['title','brand','category','color','material','price','season','notes'].forEach(f => {
       const el = document.getElementById('f-' + f); if (el && item[f]) el.value = item[f];
     });
     document.getElementById('f-purchased-at').value = item.purchased_at || '';
+    const colorSel = document.getElementById('f-color');
+    colorSel.value = item.color || '';
+    updateColorDot(colorSel);
     document.getElementById('f-sleeve').value = item.sleeve_length || '';
     document.getElementById('f-neckline').value = item.neckline || '';
     document.getElementById('f-length').value = item.item_length || '';
@@ -1212,6 +1259,73 @@ function buildMonthSelect() {
   }
 }
 
+
+const COLOR_HEX = {
+  'Λευκό': '#F5F5F0',
+  'Εκρού / Off-white': '#EDE8DC',
+  'Beige / Camel': '#C9A96E',
+  'Γκρι ανοιχτό': '#C4C4C0',
+  'Γκρι σκούρο': '#6B6B6B',
+  'Μαύρο': '#1A1A1A',
+  'Καφέ / Ταμπά': '#8B5E3C',
+  'Chocolate': '#4A2C17',
+  'Navy': '#1B2A4A',
+  'Μπλε ρουά': '#1E3A8A',
+  'Γαλάζιο': '#7EB8D4',
+  'Denim': '#4A6FA5',
+  'Πράσινο σκούρο': '#2D5A27',
+  'Χακί / Olive': '#7A7A45',
+  'Mint / Sage': '#9DC4B0',
+  'Κόκκινο': '#C0392B',
+  'Burgundy / Μπορντό': '#6D1A2A',
+  'Ροζ παλ': '#E8B4B8',
+  'Fuchsia / Hot pink': '#D5006D',
+  'Terracotta / Ώχρα': '#C4673A',
+  'Πορτοκαλί': '#E8720C',
+  'Μωβ / Λιλά': '#9B59B6',
+  'Κίτρινο / Mustard': '#D4A017',
+  'Ριγέ': '#AAAAAA',
+  'Καρό / Vichy': '#AAAAAA',
+  'Floral / Print': '#AAAAAA',
+  'Animal print': '#AAAAAA',
+  'Πολύχρωμο': '#AAAAAA',
+};
+
+function buildColorPie(elId, colorSorted, total) {
+  const el = document.getElementById(elId);
+  if (!el) return;
+  if (!colorSorted.length) { el.style.background = 'var(--surface3)'; return; }
+  let pct = 0;
+  const stops = colorSorted.slice(0,6).map(([col, cnt]) => {
+    const hex = COLOR_HEX[col] || '#AAAAAA';
+    const share = total ? cnt / total * 100 : 0;
+    const stop = `${hex} ${pct.toFixed(1)}% ${(pct + share).toFixed(1)}%`;
+    pct += share;
+    return stop;
+  });
+  if (pct < 100) stops.push(`#DDDDDD ${pct.toFixed(1)}% 100%`);
+  el.style.background = `conic-gradient(${stops.join(',')})`;
+  el.style.position = 'relative';
+  // donut hole
+  el.innerHTML = '<div style="position:absolute;inset:17px;background:var(--surface);border-radius:50%"></div>';
+}
+
+
+function updateColorDot(sel) {
+  const dot = document.getElementById('color-preview-dot');
+  if (!dot) return;
+  const opt = sel.options[sel.selectedIndex];
+  const hex = opt ? (opt.getAttribute('data-hex') || '') : '';
+  if (hex && hex !== '#888888') {
+    dot.style.background = hex;
+    const isLight = ['#F5F5F0','#EDE8DC','#C4C4C0','#E8B4B8','#9DC4B0'].includes(hex);
+    dot.style.border = isLight ? '1px solid var(--border)' : '1px solid transparent';
+  } else {
+    dot.style.background = hex || 'var(--surface3)';
+    dot.style.border = '1px solid var(--border)';
+  }
+}
+
 function getAvgAgeMonths(items) {
   const now = new Date();
   const withDate = items.filter(i => i.purchased_at);
@@ -1306,8 +1420,14 @@ function loadMonthDash() {
   const colorSorted = Object.entries(colorCounts).sort((a,b)=>b[1]-a[1]).slice(0,6);
   const colorTotal = colorSorted.reduce((s,[,v])=>s+v,0);
   document.getElementById('color-legend').innerHTML = colorSorted.length
-    ? colorSorted.map(([col,cnt]) => `<div class="legend-item"><div class="legend-dot" style="background:var(--surface3);border:1px solid var(--border)"></div>${escHtml(col)} ${colorTotal?Math.round(cnt/colorTotal*100):0}%</div>`).join('')
+    ? colorSorted.map(([col,cnt]) => {
+        const hex = COLOR_HEX[col] || '#AAAAAA';
+        const border = (col === 'Λευκό' || col === 'Εκρού / Off-white') ? ';border:1px solid #ccc' : '';
+        return `<div class="legend-item"><div class="legend-dot" style="background:${hex}${border}"></div>${escHtml(col)} ${colorTotal?Math.round(cnt/colorTotal*100):0}%</div>`;
+      }).join('')
     : '<div style="color:var(--text-dim);font-size:10px;">Δεν υπάρχουν δεδομένα</div>';
+  // Dynamic color pie
+  buildColorPie('color-pie', colorSorted, colorTotal);
 
   // CPW table
   const cpwTable = document.getElementById('cpw-table-month');
@@ -1442,8 +1562,13 @@ function loadTotalDash() {
   const colorSorted = Object.entries(colorCounts).sort((a,b)=>b[1]-a[1]).slice(0,6);
   const colorTotal = colorSorted.reduce((s,[,v])=>s+v,0);
   document.getElementById('t-color-legend').innerHTML = colorSorted.length
-    ? colorSorted.map(([col,cnt]) => `<div class="legend-item"><div class="legend-dot" style="background:var(--surface3);border:1px solid var(--border)"></div>${escHtml(col)} ${colorTotal?Math.round(cnt/colorTotal*100):0}%</div>`).join('')
+    ? colorSorted.map(([col,cnt]) => {
+        const hex = COLOR_HEX[col] || '#AAAAAA';
+        const border = (col === 'Λευκό' || col === 'Εκρού / Off-white') ? ';border:1px solid #ccc' : '';
+        return `<div class="legend-item"><div class="legend-dot" style="background:${hex}${border}"></div>${escHtml(col)} ${colorTotal?Math.round(cnt/colorTotal*100):0}%</div>`;
+      }).join('')
     : '<div style="color:var(--text-dim);font-size:10px;">—</div>';
+  buildColorPie('t-color-pie', colorSorted, colorTotal);
 
   const catCounts = {};
   rangeLogs.forEach(l => { const item = allItems.find(i => i.id === l.wardrobe_item_id); if (item?.category) catCounts[item.category] = (catCounts[item.category]||0)+1; });

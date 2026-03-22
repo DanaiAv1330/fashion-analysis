@@ -472,6 +472,7 @@ body{font-family:var(--font-sans);font-weight:300;background:var(--bg);color:var
           <div class="kpi-card alert"><div class="kpi-label">Dormant Capital</div><div class="kpi-value" id="kpi-dormant">—</div><div class="kpi-sub" id="kpi-dormant-sub">—</div></div>
           <div class="kpi-card"><div class="kpi-label">Cost / Μήνα</div><div class="kpi-value" id="kpi-cost">—</div><div class="kpi-sub">CPW × χρήσεις</div></div>
           <div class="kpi-card"><div class="kpi-label">Αξία ντουλάπας</div><div class="kpi-value" id="kpi-value">—</div><div class="kpi-sub" id="kpi-value-sub">—</div></div>
+          <div class="kpi-card"><div class="kpi-label">Μέση ηλικία ντουλάπας</div><div class="kpi-value" id="kpi-avg-age">—</div><div class="kpi-sub" id="kpi-avg-age-sub">βάσει ημ. αγοράς</div></div>
         </div>
         <div class="charts-row three">
           <div class="chart-card">
@@ -521,6 +522,7 @@ body{font-family:var(--font-sans);font-weight:300;background:var(--bg);color:var
           <div class="kpi-card alert"><div class="kpi-label">Dormant Capital</div><div class="kpi-value" id="t-dormant">—</div><div class="kpi-sub" id="t-dormant-sub">—</div></div>
           <div class="kpi-card"><div class="kpi-label">Συν. Επένδυση</div><div class="kpi-value" id="t-invest">—</div><div class="kpi-sub" id="t-invest-sub">—</div></div>
           <div class="kpi-card"><div class="kpi-label">Συν. Χρήσεις</div><div class="kpi-value" id="t-uses">—</div><div class="kpi-sub" id="t-uses-sub">—</div></div>
+          <div class="kpi-card"><div class="kpi-label">Μέση ηλικία ντουλάπας</div><div class="kpi-value" id="t-avg-age">—</div><div class="kpi-sub" id="t-avg-age-sub">βάσει ημ. αγοράς</div></div>
         </div>
         <div class="charts-row three">
           <div class="chart-card">
@@ -605,6 +607,7 @@ body{font-family:var(--font-sans);font-weight:300;background:var(--bg);color:var
         <div class="form-group"><label>Χρώμα</label><input type="text" id="f-color" placeholder="π.χ. Λευκό, Navy"></div>
         <div class="form-group"><label>Υλικό</label><input type="text" id="f-material" placeholder="π.χ. Λινό, Δέρμα"></div>
         <div class="form-group"><label>Τιμή (€)</label><input type="number" id="f-price" placeholder="0.00" step="0.01"></div>
+        <div class="form-group"><label>Ημερομηνία αγοράς</label><input type="date" id="f-purchased-at"></div>
         <div class="form-group"><label>Εποχή</label>
           <select id="f-season"><option value="">—</option><option>Άνοιξη / Καλοκαίρι</option><option>Φθινόπωρο / Χειμώνας</option><option>4 εποχές</option></select>
         </div>
@@ -878,7 +881,7 @@ function renderWardrobe() {
       <div class="list-thumb">${item.photo_url ? `<img src="${escHtml(item.photo_url)}" onerror="this.outerHTML='👗'">` : '👗'}</div>
       <div class="list-body">
         <div class="list-name">${escHtml(item.title)}</div>
-        <div class="list-meta-s">${[item.brand, item.category, item.color].filter(Boolean).join(' · ') || '—'}</div>
+        <div class="list-meta-s">${[item.brand, item.category, item.color].filter(Boolean).join(' · ') || '—'}${item.purchased_at ? ` · <span style="color:var(--text-dim)">αγορά ${new Date(item.purchased_at).toLocaleDateString('el-GR',{month:'short',year:'numeric'})}</span>` : ''}</div>
       </div>
       <div class="list-right">
         <div class="list-cpw ${cc}">${cpw ? `€${cpw.toFixed(2)}` : '—'}</div>
@@ -913,7 +916,7 @@ function openItemModal(itemId = null) {
   document.getElementById('item-delete-btn').style.display = item ? 'block' : 'none';
 
   // reset
-  ['f-title','f-brand','f-category','f-color','f-material','f-price','f-season','f-sleeve','f-neckline','f-length','f-notes','f-photo-url'].forEach(id => {
+  ['f-title','f-brand','f-category','f-color','f-material','f-price','f-purchased-at','f-season','f-sleeve','f-neckline','f-length','f-notes','f-photo-url'].forEach(id => {
     const el = document.getElementById(id); if (el) el.value = '';
   });
   document.getElementById('f-fav').checked = false;
@@ -924,6 +927,7 @@ function openItemModal(itemId = null) {
     ['title','brand','category','color','material','price','season','notes'].forEach(f => {
       const el = document.getElementById('f-' + f); if (el && item[f]) el.value = item[f];
     });
+    document.getElementById('f-purchased-at').value = item.purchased_at || '';
     document.getElementById('f-sleeve').value = item.sleeve_length || '';
     document.getElementById('f-neckline').value = item.neckline || '';
     document.getElementById('f-length').value = item.item_length || '';
@@ -988,6 +992,7 @@ async function saveItem() {
     item_length: document.getElementById('f-length').value || null,
     season: document.getElementById('f-season').value || null,
     price: parseFloat(document.getElementById('f-price').value) || null,
+    purchased_at: document.getElementById('f-purchased-at').value || null,
     notes: document.getElementById('f-notes').value.trim() || null,
     is_favorite: document.getElementById('f-fav').checked,
     photo_url: photoUrl,
@@ -1207,6 +1212,27 @@ function buildMonthSelect() {
   }
 }
 
+function getAvgAgeMonths(items) {
+  const now = new Date();
+  const withDate = items.filter(i => i.purchased_at);
+  if (!withDate.length) return null;
+  const totalMonths = withDate.reduce((sum, i) => {
+    const bought = new Date(i.purchased_at);
+    const months = (now.getFullYear() - bought.getFullYear()) * 12 + (now.getMonth() - bought.getMonth());
+    return sum + Math.max(0, months);
+  }, 0);
+  return Math.round(totalMonths / withDate.length);
+}
+
+function formatAge(months) {
+  if (months === null) return '—';
+  if (months < 1) return '<1μ.';
+  if (months < 12) return `${months} μήνες`;
+  const years = Math.floor(months / 12);
+  const rem = months % 12;
+  return rem > 0 ? `${years}χ. ${rem}μ.` : `${years} χρόν.`;
+}
+
 function loadMonthDash() {
   buildMonthSelect();
   document.getElementById('dash-month-label').textContent = fmtMonthYear(dashYear, dashMonth);
@@ -1245,6 +1271,14 @@ function loadMonthDash() {
   const totalValue = allItems.reduce((s,i) => s+(i.price||0), 0);
   document.getElementById('kpi-value').textContent = `€${totalValue.toLocaleString('el-GR')}`;
   document.getElementById('kpi-value-sub').textContent = `${totalItems} κομμάτια`;
+
+  // Μέση ηλικία ντουλάπας
+  const avgAge = getAvgAgeMonths(allItems);
+  document.getElementById('kpi-avg-age').textContent = formatAge(avgAge);
+  const withDateCount = allItems.filter(i => i.purchased_at).length;
+  document.getElementById('kpi-avg-age-sub').textContent = withDateCount
+    ? `βάσει ${withDateCount}/${totalItems} κομματιών`
+    : 'Βάλε ημ. αγοράς στα κομμάτια';
 
   // Week bars
   const weekBars = document.getElementById('week-bars');
@@ -1359,6 +1393,14 @@ function loadTotalDash() {
   document.getElementById('t-invest-sub').textContent = `${totalItems} κομμάτια`;
   document.getElementById('t-uses').textContent = rangeLogs.length;
   document.getElementById('t-uses-sub').textContent = `${fromVal} → ${toVal}`;
+
+  // Μέση ηλικία ντουλάπας (total — βάσει όλων των κομματιών)
+  const avgAgeTotal = getAvgAgeMonths(allItems);
+  document.getElementById('t-avg-age').textContent = formatAge(avgAgeTotal);
+  const withDateCountTotal = allItems.filter(i => i.purchased_at).length;
+  document.getElementById('t-avg-age-sub').textContent = withDateCountTotal
+    ? `βάσει ${withDateCountTotal}/${allItems.length} κομματιών`
+    : 'Βάλε ημ. αγοράς στα κομμάτια';
 
   // Monthly bars
   const monthMap = {};

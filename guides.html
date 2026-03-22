@@ -10,14 +10,166 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" type="image/x-icon" href="favicon.ico" />
-</head>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-DBRDY0FNX7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-DBRDY0FNX7');
-</script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-DBRDY0FNX7');
+  </script>
+
+  <style>
+    /* NAV DROPDOWN */
+    .nav-dropdown { position: relative; }
+    .nav-dropdown-toggle { cursor: pointer; }
+    .nav-dropdown-menu {
+      display: none;
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: #fff;
+      border: 1px solid #e8e2d8;
+      border-radius: 3px;
+      min-width: 210px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.10);
+      z-index: 200;
+      padding: 6px 0;
+      list-style: none;
+    }
+    .nav-dropdown-menu li a {
+      display: block;
+      padding: 9px 18px;
+      font-size: 12px;
+      letter-spacing: 0.04em;
+      color: #2a231a;
+      text-decoration: none;
+      transition: background 0.15s;
+      white-space: nowrap;
+    }
+    .nav-dropdown-menu li a:hover { background: #f5f0e8; color: #9a7a4a; }
+    .nav-dropdown:hover .nav-dropdown-menu,
+    .nav-dropdown.open .nav-dropdown-menu { display: block; }
+
+    /* TOOLS SECTION */
+    .tools-section-guides {
+      background: #0d0d0d;
+      padding: 80px 0;
+    }
+    .tools-section-guides .section-label { color: #9a7a4a; }
+    .tools-section-guides .section-title { color: #e8e2d9; }
+    .tools-section-guides .section-title em { color: #c9a96e; }
+    .tools-section-guides .section-desc { color: #7a7570; }
+
+    .tools-grid-guides {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 36px;
+    }
+    .tool-card-g {
+      background: #161616;
+      border: 1px solid #2a2a2a;
+      border-radius: 3px;
+      padding: 26px 26px 22px;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .tool-card-g:hover { border-color: #9a7a4a; box-shadow: 0 4px 20px rgba(154,122,74,0.10); }
+    .tool-card-g::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #9a7a4a, #c9a96e);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .tool-card-g:hover::before { opacity: 1; }
+    .tool-tag-g {
+      font-family: 'Jost', sans-serif;
+      font-size: 9px;
+      font-weight: 400;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #9a7a4a;
+      border: 1px solid rgba(154,122,74,0.3);
+      padding: 3px 9px;
+      border-radius: 1px;
+      display: inline-block;
+      width: fit-content;
+    }
+    .tool-emoji-g { font-size: 26px; line-height: 1; }
+    .tool-title-g {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 21px;
+      font-weight: 400;
+      color: #e8e2d9;
+      line-height: 1.2;
+    }
+    .tool-title-g em { font-style: italic; color: #c9a96e; }
+    .tool-desc-g {
+      font-family: 'Jost', sans-serif;
+      font-size: 13px;
+      font-weight: 300;
+      color: #7a7570;
+      line-height: 1.65;
+    }
+    .tool-features-g {
+      list-style: none;
+      padding: 0; margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .tool-features-g li {
+      font-family: 'Jost', sans-serif;
+      font-size: 11px;
+      font-weight: 300;
+      color: #5a5550;
+      letter-spacing: 0.04em;
+      display: flex;
+      align-items: baseline;
+      gap: 7px;
+    }
+    .tool-features-g li::before { content: '◆'; font-size: 6px; color: #9a7a4a; flex-shrink: 0; }
+    .tool-link-g {
+      font-family: 'Jost', sans-serif;
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #c9a96e;
+      margin-top: auto;
+      padding-top: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .tool-link-g::after { content: '→'; transition: transform 0.15s; }
+    .tool-card-g:hover .tool-link-g::after { transform: translateX(4px); }
+
+    @media (max-width: 640px) {
+      .tools-grid-guides { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 768px) {
+      .nav-dropdown-menu {
+        position: static; transform: none; box-shadow: none;
+        border: none; border-left: 2px solid #e8e2d8;
+        border-radius: 0; padding: 0 0 0 12px;
+        margin: 4px 0 4px 8px; background: transparent;
+      }
+      .nav-dropdown-menu li a { padding: 7px 8px; font-size: 12px; color: #8a7d6e; }
+      .nav-dropdown-menu { display: none; }
+      .nav-dropdown.open .nav-dropdown-menu { display: block; }
+    }
+  </style>
+</head>
 <body>
 
   <!-- NAV -->
@@ -31,8 +183,16 @@
     </button>
     <ul class="nav-links" id="navLinks">
       <li><a href="index.html">Home</a></li>
-      <li><a href="articles.html">Articles</a></li>
+      <li><a href="https://dbvabydanai.wordpress.com" target="_blank">Articles</a></li>
       <li><a href="guides.html" class="active">Guides</a></li>
+      <li class="nav-dropdown">
+        <a href="#" onclick="return false" class="nav-dropdown-toggle">Tools ▾</a>
+        <ul class="nav-dropdown-menu">
+          <li><a href="wishlist.html">🛍 Wardrobe Wishlist</a></li>
+          <li><a href="wardrobe-tracker.html">👗 Wardrobe Tracker</a></li>
+          <li><a href="wardrobe-calculator.html">📊 KPIs Calculator</a></li>
+        </ul>
+      </li>
       <li><a href="about.html">About</a></li>
       <li><a href="mailto:dbvabydanai@gmail.com" class="nav-cta">Contact</a></li>
     </ul>
@@ -131,6 +291,48 @@
     </div>
   </section>
 
+  <!-- WARDROBE TOOLS -->
+  <section class="tools-section-guides">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-label">Wardrobe Tools</p>
+        <h2 class="section-title">Τα <em>εργαλεία</em> της ντουλάπας σου</h2>
+        <p class="section-desc">Πέρα από τους οδηγούς — δύο εφαρμογές για να παρακολουθείς τη ντουλάπα σου με πραγματικά δεδομένα.</p>
+      </div>
+      <div class="tools-grid-guides">
+
+        <a href="wishlist.html" class="tool-card-g reveal">
+          <div class="tool-tag-g">Free Tool</div>
+          <div class="tool-emoji-g">🛍</div>
+          <div class="tool-title-g">Wardrobe <em>Wishlist</em></div>
+          <p class="tool-desc-g">Κατέγραψε ό,τι θέλεις να αγοράσεις και δες αν αξίζει πραγματικά πριν το αγοράσεις.</p>
+          <ul class="tool-features-g">
+            <li>CPW calculator βάσει χρήσεων / εβδομάδα</li>
+            <li>Κανόνας 2 μηνών & αντικατάσταση</li>
+            <li>3 συνδυασμοί με υπάρχοντα</li>
+            <li>Πράσινο / κόκκινο status αυτόματα</li>
+          </ul>
+          <span class="tool-link-g">Άνοιξε το Wishlist</span>
+        </a>
+
+        <a href="wardrobe-tracker.html" class="tool-card-g reveal">
+          <div class="tool-tag-g">Free Tool</div>
+          <div class="tool-emoji-g">👗</div>
+          <div class="tool-title-g">Wardrobe <em>Tracker</em></div>
+          <p class="tool-desc-g">Η ντουλάπα σου σε αριθμούς. Κατέγραψε τι φοράς κάθε μέρα και δες πού πάνε τα χρήματά σου.</p>
+          <ul class="tool-features-g">
+            <li>Ημερολόγιο χρήσεων ανά κομμάτι</li>
+            <li>CPW αυτόματα από πραγματικές χρήσεις</li>
+            <li>Dormant Capital & Utilization Rate</li>
+            <li>Dashboard με στατιστικά ανά μήνα</li>
+          </ul>
+          <span class="tool-link-g">Άνοιξε τον Tracker</span>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
   <!-- CTA STRIP -->
   <section style="background:var(--ink); padding:5rem 0;">
     <div class="container" style="text-align:center; max-width:580px;">
@@ -154,7 +356,7 @@
           <p class="footer-col-title">Σελίδες</p>
           <ul>
             <li><a href="index.html">Home</a></li>
-            <li><a href="articles.html">Articles</a></li>
+            <li><a href="https://dbvabydanai.wordpress.com" target="_blank">Articles</a></li>
             <li><a href="guides.html">Guides</a></li>
             <li><a href="about.html">About</a></li>
           </ul>
@@ -170,6 +372,14 @@
           </ul>
         </div>
         <div class="footer-nav-col">
+          <p class="footer-col-title">Εργαλεία</p>
+          <ul>
+            <li><a href="wishlist.html">Wardrobe Wishlist</a></li>
+            <li><a href="wardrobe-tracker.html">Wardrobe Tracker</a></li>
+            <li><a href="wardrobe-calculator.html">KPIs Calculator</a></li>
+          </ul>
+        </div>
+        <div class="footer-nav-col">
           <p class="footer-col-title">Contact</p>
           <ul>
             <li><a href="mailto:dbvabydanai@gmail.com">Email</a></li>
@@ -177,11 +387,19 @@
         </div>
       </div>
       <div class="footer-bottom">
-        <p>© 2025 Fashion Analysis by Danai. All rights reserved.</p>
+        <p>© 2026 Fashion Analysis by Danai. All rights reserved.</p>
       </div>
     </div>
   </footer>
 
   <script src="main.js"></script>
+  <script>
+    document.querySelector('.nav-dropdown-toggle').addEventListener('click', function(e) {
+      if (window.innerWidth <= 768) {
+        e.preventDefault();
+        this.closest('.nav-dropdown').classList.toggle('open');
+      }
+    });
+  </script>
 </body>
 </html>

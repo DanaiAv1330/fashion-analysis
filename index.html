@@ -10,6 +10,207 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" type="image/x-icon" href="favicon.ico" />
+
+  <style>
+
+    /* ── NAV DROPDOWN ── */
+    .nav-dropdown { position: relative; }
+    .nav-dropdown-toggle { cursor: pointer; }
+    .nav-dropdown-menu {
+      display: none;
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: #fff;
+      border: 1px solid #e8e2d8;
+      border-radius: 3px;
+      min-width: 210px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.10);
+      z-index: 200;
+      padding: 6px 0;
+      list-style: none;
+    }
+    .nav-dropdown-menu li a {
+      display: block;
+      padding: 9px 18px;
+      font-size: 12px;
+      letter-spacing: 0.04em;
+      color: #2a231a;
+      text-decoration: none;
+      transition: background 0.15s;
+      white-space: nowrap;
+    }
+    .nav-dropdown-menu li a:hover { background: #f5f0e8; color: #9a7a4a; }
+    .nav-dropdown:hover .nav-dropdown-menu,
+    .nav-dropdown.open .nav-dropdown-menu { display: block; }
+
+    /* Mobile: dropdown shows inline */
+    @media (max-width: 768px) {
+      .nav-dropdown-menu {
+        position: static;
+        transform: none;
+        box-shadow: none;
+        border: none;
+        border-left: 2px solid #e8e2d8;
+        border-radius: 0;
+        padding: 0 0 0 12px;
+        margin: 4px 0 4px 8px;
+        background: transparent;
+      }
+      .nav-dropdown-menu li a { padding: 7px 8px; font-size: 12px; color: #8a7d6e; }
+      .nav-dropdown.open .nav-dropdown-menu { display: block; }
+      .nav-dropdown-menu { display: none; }
+    }
+
+    /* ── TOOLS SECTION ── */
+    .tools-section {
+      padding: 80px 0;
+      background: #0d0d0d;
+    }
+    .tools-section .section-label { color: #9a7a4a; }
+    .tools-section .section-title { color: #e8e2d9; }
+    .tools-section .section-title em { color: #c9a96e; }
+    .tools-section .section-desc { color: #7a7570; }
+
+    .tools-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 40px;
+    }
+    @media (max-width: 640px) {
+      .tools-grid { grid-template-columns: 1fr; }
+    }
+
+    .tool-card {
+      background: #161616;
+      border: 1px solid #2a2a2a;
+      border-radius: 3px;
+      padding: 28px 28px 24px;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .tool-card:hover {
+      border-color: #9a7a4a;
+      box-shadow: 0 4px 24px rgba(154,122,74,0.10);
+    }
+    .tool-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #9a7a4a, #c9a96e);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .tool-card:hover::before { opacity: 1; }
+
+    .tool-tag {
+      font-family: 'Jost', sans-serif;
+      font-size: 9px;
+      font-weight: 400;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #9a7a4a;
+      border: 1px solid rgba(154,122,74,0.3);
+      padding: 3px 9px;
+      border-radius: 1px;
+      display: inline-block;
+      width: fit-content;
+    }
+
+    .tool-emoji {
+      font-size: 28px;
+      line-height: 1;
+    }
+
+    .tool-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 400;
+      color: #e8e2d9;
+      letter-spacing: 0.02em;
+      line-height: 1.2;
+    }
+    .tool-title em {
+      font-style: italic;
+      color: #c9a96e;
+    }
+
+    .tool-desc {
+      font-family: 'Jost', sans-serif;
+      font-size: 13px;
+      font-weight: 300;
+      color: #7a7570;
+      line-height: 1.65;
+    }
+
+    .tool-features {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .tool-features li {
+      font-family: 'Jost', sans-serif;
+      font-size: 11px;
+      font-weight: 300;
+      color: #5a5550;
+      letter-spacing: 0.04em;
+      display: flex;
+      align-items: baseline;
+      gap: 7px;
+    }
+    .tool-features li::before {
+      content: '◆';
+      font-size: 6px;
+      color: #9a7a4a;
+      flex-shrink: 0;
+    }
+
+    .tool-link {
+      font-family: 'Jost', sans-serif;
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #c9a96e;
+      margin-top: auto;
+      padding-top: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .tool-link::after {
+      content: '→';
+      transition: transform 0.15s;
+    }
+    .tool-card:hover .tool-link::after { transform: translateX(4px); }
+
+    /* ABOUT TEASER — χωρίς φωτογραφία, compact */
+    .about-teaser-compact {
+      padding: 64px 0;
+    }
+    .about-teaser-compact .container {
+      max-width: 680px;
+      text-align: center;
+    }
+    .about-teaser-compact .section-label { margin-bottom: 10px; }
+    .about-teaser-compact .section-title { margin-bottom: 16px; }
+    .about-teaser-compact .body-text {
+      margin-bottom: 10px;
+      color: var(--text-muted, #666);
+    }
+    .about-teaser-compact .btn-outline { margin-top: 10px; }
+  </style>
 </head>
 <body>
 
@@ -26,6 +227,14 @@
       <li><a href="index.html" class="active">Home</a></li>
       <li><a href="https://dbvabydanai.wordpress.com" target="_blank">Articles</a></li>
       <li><a href="guides.html">Guides</a></li>
+      <li class="nav-dropdown">
+        <a href="#" onclick="return false" class="nav-dropdown-toggle">Tools ▾</a>
+        <ul class="nav-dropdown-menu">
+          <li><a href="wishlist.html">🛍 Wardrobe Wishlist</a></li>
+          <li><a href="wardrobe-tracker.html">👗 Wardrobe Tracker</a></li>
+          <li><a href="wardrobe-calculator.html">📊 KPIs Calculator</a></li>
+        </ul>
+      </li>
       <li><a href="about.html">About</a></li>
       <li><a href="newsletter.html" class="nav-cta">Newsletter</a></li>
     </ul>
@@ -73,21 +282,13 @@
     <span>Style Education</span>
   </div>
 
-  <!-- ABOUT TEASER -->
-  <section class="about-teaser">
+  <!-- ABOUT TEASER — compact, χωρίς φωτογραφία -->
+  <section class="about-teaser about-teaser-compact">
     <div class="container">
-      <div class="about-teaser-grid">
-        <div class="about-teaser-img">
-          <img src="https://yt3.ggpht.com/YHrEyLijlHkZObo1b86RZ6F2UjNx6Oxj9hIlcny0m92CNJsbmjXxZbhife3olLnaizyjd_T5=s600-c-k-c0x00ffffff-no-rj-rp-mo" alt="Δανάη — Fashion Analysis by Danai" style="width:100%; border-radius:2px; aspect-ratio:3/4; object-fit:cover;" />
-        </div>
-        <div class="about-teaser-text">
-          <p class="section-label">Γεια, είμαι η Δανάη</p>
-          <h2 class="section-title">Beauty industry.<br>Πιστοποίηση image consultant.<br><em>Πάθος για τη μόδα.</em></h2>
-          <p class="body-text">Εργάζομαι στο beauty industry και έχω πιστοποίηση Certified Image Consultant. Το Fashion Analysis by Danai είναι ο χώρος όπου μοιράζομαι δωρεάν ό,τι έχω μάθει — για color analysis, capsule wardrobe και style.</p>
-          <p class="body-text">Όχι trends. Όχι rules. Κατανόηση του εαυτού σου.</p>
-          <a href="about.html" class="btn-outline">Μάθε περισσότερα</a>
-        </div>
-      </div>
+      <p class="section-label">Γεια, είμαι η Δανάη</p>
+      <h2 class="section-title">Certified Image Consultant.<br><em>Πάθος για τη μόδα.</em></h2>
+      <p class="body-text">Εργάζομαι στο beauty industry και μοιράζομαι δωρεάν ό,τι έχω μάθει για color analysis, capsule wardrobe και style — με επενδυτική λογική, όχι trends.</p>
+      <a href="about.html" class="btn-outline">Μάθε περισσότερα</a>
     </div>
   </section>
 
@@ -128,7 +329,53 @@
     </div>
   </section>
 
-  <!-- FEATURED ARTICLES — τελευταία άρθρα από WordPress -->
+  <!-- ── WARDROBE TOOLS ── -->
+  <section class="tools-section">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-label">Wardrobe Tools</p>
+        <h2 class="section-title">Τα <em>εργαλεία</em> της ντουλάπας σου</h2>
+        <p class="section-desc">Δύο εφαρμογές για να παρακολουθείς τη ντουλάπα σου με δεδομένα — wishlist με λογική αγορών και tracker με ιστορικό χρήσεων.</p>
+      </div>
+      <div class="tools-grid">
+
+        <!-- WISHLIST -->
+        <a href="wishlist.html" class="tool-card reveal">
+          <div class="tool-tag">Free Tool</div>
+          <div class="tool-emoji">🛍</div>
+          <div class="tool-title">Wardrobe <em>Wishlist</em></div>
+          <p class="tool-desc">Κατέγραψε ό,τι θέλεις να αγοράσεις — και δες αν αξίζει πραγματικά πριν το αγοράσεις.</p>
+          <ul class="tool-features">
+            <li>CPW calculator βάσει χρήσεων / εβδομάδα</li>
+            <li>Κανόνας 2 μηνών & αντικατάσταση</li>
+            <li>3 συνδυασμοί με υπάρχοντα</li>
+            <li>Πράσινο / κόκκινο status αυτόματα</li>
+            <li>Ξεχωριστά profiles ανά χρήστη</li>
+          </ul>
+          <span class="tool-link">Άνοιξε το Wishlist</span>
+        </a>
+
+        <!-- WARDROBE TRACKER -->
+        <a href="wardrobe-tracker.html" class="tool-card reveal">
+          <div class="tool-tag">Free Tool</div>
+          <div class="tool-emoji">👗</div>
+          <div class="tool-title">Wardrobe <em>Tracker</em></div>
+          <p class="tool-desc">Η ντουλάπα σου σε αριθμούς. Κατέγραψε τι φοράς κάθε μέρα και δες πού πάνε τα χρήματά σου.</p>
+          <ul class="tool-features">
+            <li>Ημερολόγιο χρήσεων ανά κομμάτι</li>
+            <li>CPW αυτόματα από πραγματικές χρήσεις</li>
+            <li>Dormant Capital — κεφάλαιο που κοιμάται</li>
+            <li>Utilization Rate & Cost per Month</li>
+            <li>Dashboard με στατιστικά ανά μήνα</li>
+          </ul>
+          <span class="tool-link">Άνοιξε τον Tracker</span>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURED ARTICLES -->
   <section class="articles-section">
     <div class="container">
       <div class="section-header">
@@ -136,9 +383,7 @@
         <h2 class="section-title">Τελευταία <em>Άρθρα</em></h2>
         <p class="section-desc">Ανάλυση, εκπαίδευση και σκέψεις για τη σχέση μας με τα ρούχα — πέρα από τα magazines.</p>
       </div>
-      <div class="articles-grid" id="homeArticlesGrid">
-        <!-- Γεμίζει αυτόματα από JS — πάντα τα 3 πιο πρόσφατα -->
-      </div>
+      <div class="articles-grid" id="homeArticlesGrid"></div>
       <div class="section-footer-link">
         <a href="https://dbvabydanai.wordpress.com" target="_blank">Δες όλα τα άρθρα →</a>
       </div>
@@ -187,6 +432,14 @@
           </ul>
         </div>
         <div class="footer-nav-col">
+          <p class="footer-col-title">Εργαλεία</p>
+          <ul>
+            <li><a href="wishlist.html">Wardrobe Wishlist</a></li>
+            <li><a href="wardrobe-tracker.html">Wardrobe Tracker</a></li>
+            <li><a href="wardrobe-calculator.html">KPIs Calculator</a></li>
+          </ul>
+        </div>
+        <div class="footer-nav-col">
           <p class="footer-col-title">Follow</p>
           <ul>
             <li><a href="https://www.instagram.com/fashion.analysis.by.danai" target="_blank">Instagram</a></li>
@@ -208,13 +461,11 @@
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-DBRDY0FNX7');
 </script>
 
   <script src="main.js"></script>
   <script>
-    // 3 πιο πρόσφατα άρθρα — ενημέρωσε αυτά όταν γράφεις νέο άρθρο
     const latestArticles = [
       {
         cat: "Style Education",
@@ -247,5 +498,16 @@
 
     document.querySelectorAll('.reveal:not(.visible)').forEach(el => revealObserver.observe(el));
   </script>
+
+  <script>
+    // Mobile dropdown toggle
+    document.querySelector('.nav-dropdown-toggle').addEventListener('click', function(e) {
+      if (window.innerWidth <= 768) {
+        e.preventDefault();
+        this.closest('.nav-dropdown').classList.toggle('open');
+      }
+    });
+  </script>
+
 </body>
 </html>

@@ -97,7 +97,7 @@ body{font-family:var(--font-sans);font-weight:300;background:var(--bg);color:var
 
 .item-card{background:var(--surface);border:1px solid var(--border);border-radius:2px;overflow:hidden;cursor:pointer;transition:box-shadow 0.2s;}
 .item-card:hover{box-shadow:0 3px 10px rgba(90,70,40,0.10);}
-.item-photo{width:100%;aspect-ratio:3/4;object-fit:cover;display:block;background:var(--surface3);}
+.item-photo{width:100%;aspect-ratio:3/4;object-fit:contain;display:block;background:var(--surface2);padding:4px;}
 .item-photo-placeholder{width:100%;aspect-ratio:3/4;background:var(--surface3);display:flex;align-items:center;justify-content:center;font-size:28px;position:relative;}
 .cpw-badge{position:absolute;top:4px;right:4px;background:rgba(250,247,242,0.94);border:1px solid var(--border);font-family:var(--font-serif);font-size:9px;padding:1px 5px;border-radius:1px;}
 .cpw-badge.good{color:var(--green-text);border-color:rgba(74,124,90,0.3);}
@@ -118,7 +118,8 @@ body{font-family:var(--font-sans);font-weight:300;background:var(--bg);color:var
 .list-row{display:flex;gap:9px;padding:9px 10px;border:1px solid var(--border);border-radius:2px;background:var(--surface);margin-bottom:5px;align-items:center;cursor:pointer;transition:box-shadow 0.15s;}
 .list-row:hover{box-shadow:0 2px 8px rgba(90,70,40,0.07);}
 .list-thumb{width:36px;height:44px;flex-shrink:0;border-radius:1px;object-fit:cover;background:var(--surface3);display:flex;align-items:center;justify-content:center;font-size:16px;}
-.list-thumb img{width:36px;height:44px;object-fit:cover;border-radius:1px;}
+.list-thumb img{width:36px;height:44px;object-fit:contain;border-radius:1px;background:var(--surface2);}
+
 .list-body{flex:1;min-width:0;}
 .list-name{font-family:var(--font-serif);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .list-meta-s{font-size:9px;color:var(--text-muted);margin-top:1px;}
@@ -483,7 +484,7 @@ body{font-family:var(--font-sans);font-weight:300;background:var(--bg);color:var
           </div>
           <div class="chart-card">
             <div class="chart-title">Κατηγορίες</div>
-            <div class="pie-wrap"><div class="pie pie-cat"></div>
+            <div class="pie-wrap"><div class="pie" id="cat-pie" style="width:68px;height:68px;border-radius:50%;position:relative;flex-shrink:0;background:var(--surface3);"></div>
               <div class="legend" id="cat-legend">
                 <div style="color:var(--text-dim);font-size:10px;">Δεν υπάρχουν δεδομένα</div>
               </div>
@@ -498,6 +499,13 @@ body{font-family:var(--font-sans);font-weight:300;background:var(--bg);color:var
             </div>
           </div>
         </div>
+
+        <!-- Avg Cost Worn / Unworn -->
+        <div class="kpi-grid" style="margin-bottom:12px;">
+          <div class="kpi-card"><div class="kpi-label">Avg Cost Worn</div><div class="kpi-value" id="kpi-cost-worn">—</div><div class="kpi-sub">μέσο κόστος φορεμένων</div></div>
+          <div class="kpi-card alert"><div class="kpi-label">Avg Cost Unworn</div><div class="kpi-value" id="kpi-cost-unworn">—</div><div class="kpi-sub">μέσο κόστος αφόρετων</div></div>
+        </div>
+
         <div class="section-title">CPW ανά κομμάτι</div>
         <div class="cpw-table" id="cpw-table-month">
           <div class="loading"><div class="spinner"></div></div>
@@ -524,6 +532,11 @@ body{font-family:var(--font-sans);font-weight:300;background:var(--bg);color:var
           <div class="kpi-card"><div class="kpi-label">Συν. Χρήσεις</div><div class="kpi-value" id="t-uses">—</div><div class="kpi-sub" id="t-uses-sub">—</div></div>
           <div class="kpi-card"><div class="kpi-label">Μέση ηλικία ντουλάπας</div><div class="kpi-value" id="t-avg-age">—</div><div class="kpi-sub" id="t-avg-age-sub">βάσει ημ. αγοράς</div></div>
         </div>
+        <!-- Avg Cost Worn / Unworn total -->
+        <div class="kpi-grid" style="margin-bottom:12px;">
+          <div class="kpi-card"><div class="kpi-label">Avg Cost Worn</div><div class="kpi-value" id="t-cost-worn">—</div><div class="kpi-sub">μέσο κόστος φορεμένων</div></div>
+          <div class="kpi-card alert"><div class="kpi-label">Avg Cost Unworn</div><div class="kpi-value" id="t-cost-unworn">—</div><div class="kpi-sub">μέσο κόστος αφόρετων</div></div>
+        </div>
         <div class="charts-row three">
           <div class="chart-card">
             <div class="chart-title">Χρήσεις ανά μήνα</div>
@@ -532,11 +545,11 @@ body{font-family:var(--font-sans);font-weight:300;background:var(--bg);color:var
             </div>
           </div>
           <div class="chart-card">
-            <div class="chart-title">Κατηγορίες (σύνολο)</div>
-            <div class="pie-wrap"><div class="pie pie-cat"></div><div class="legend" id="t-cat-legend"><div style="color:var(--text-dim);font-size:10px;">—</div></div></div>
+            <div class="chart-title">Κατηγορίες ντουλάπας (σύνολο)</div>
+            <div class="pie-wrap"><div class="pie" id="t-cat-pie" style="width:68px;height:68px;border-radius:50%;position:relative;flex-shrink:0;background:var(--surface3);"></div><div class="legend" id="t-cat-legend"><div style="color:var(--text-dim);font-size:10px;">—</div></div></div>
           </div>
           <div class="chart-card">
-            <div class="chart-title">Χρώματα (σύνολο)</div>
+            <div class="chart-title">Χρώματα ντουλάπας (σύνολο)</div>
             <div class="pie-wrap"><div class="pie" id="t-color-pie" style="width:68px;height:68px;border-radius:50%;position:relative;flex-shrink:0;background:var(--surface3);"></div><div class="legend" id="t-color-legend"><div style="color:var(--text-dim);font-size:10px;">—</div></div></div>
           </div>
         </div>
@@ -1294,7 +1307,7 @@ const COLOR_HEX = {
 function buildColorPie(elId, colorSorted, total) {
   const el = document.getElementById(elId);
   if (!el) return;
-  if (!colorSorted.length) { el.style.background = 'var(--surface3)'; return; }
+  if (!colorSorted.length) { el.style.background = 'var(--surface3)'; el.innerHTML=''; return; }
   let pct = 0;
   const stops = colorSorted.slice(0,6).map(([col, cnt]) => {
     const hex = COLOR_HEX[col] || '#AAAAAA';
@@ -1306,8 +1319,36 @@ function buildColorPie(elId, colorSorted, total) {
   if (pct < 100) stops.push(`#DDDDDD ${pct.toFixed(1)}% 100%`);
   el.style.background = `conic-gradient(${stops.join(',')})`;
   el.style.position = 'relative';
-  // donut hole
   el.innerHTML = '<div style="position:absolute;inset:17px;background:var(--surface);border-radius:50%"></div>';
+}
+
+const CAT_COLORS = ['#9a7a4a','#c9a96e','#d4b88a','#7a9a6a','#6a7a9a','#9a6a7a','#7a6a9a','#aaa'];
+
+function buildCatPie(elId, catSorted, total) {
+  const el = document.getElementById(elId);
+  if (!el) return;
+  if (!catSorted.length) { el.style.background = 'var(--surface3)'; el.innerHTML=''; return; }
+  let pct = 0;
+  const stops = catSorted.slice(0,8).map(([,cnt], i) => {
+    const hex = CAT_COLORS[i] || '#AAAAAA';
+    const share = total ? cnt / total * 100 : 0;
+    const stop = `${hex} ${pct.toFixed(1)}% ${(pct + share).toFixed(1)}%`;
+    pct += share;
+    return stop;
+  });
+  if (pct < 100) stops.push(`#DDDDDD ${pct.toFixed(1)}% 100%`);
+  el.style.background = `conic-gradient(${stops.join(',')})`;
+  el.style.position = 'relative';
+  el.innerHTML = '<div style="position:absolute;inset:17px;background:var(--surface);border-radius:50%"></div>';
+}
+
+function calcAvgCostWornUnworn(monthLogsForPeriod) {
+  const wornIds = new Set(monthLogsForPeriod.map(l => l.wardrobe_item_id));
+  const worn   = allItems.filter(i => i.price && wornIds.has(i.id));
+  const unworn = allItems.filter(i => i.price && !wornIds.has(i.id));
+  const avgWorn   = worn.length   ? worn.reduce((s,i)=>s+i.price,0)   / worn.length   : null;
+  const avgUnworn = unworn.length ? unworn.reduce((s,i)=>s+i.price,0) / unworn.length : null;
+  return { avgWorn, avgUnworn, wornCount: worn.length, unwornCount: unworn.length };
 }
 
 
@@ -1404,17 +1445,17 @@ function loadMonthDash() {
     `<div class="bar-col"><div class="bar-val">${w}</div><div class="bar${w===Math.max(...weeks)?' hi':''}" style="height:${Math.max(5,w/maxW*100)}%"></div><div class="bar-lbl">W${i+1}</div></div>`
   ).join('');
 
-  // Category legend
+  // Category legend + pie
   const catCounts = {};
   monthLogs.forEach(l => { const item = allItems.find(i => i.id === l.wardrobe_item_id); if (item?.category) catCounts[item.category] = (catCounts[item.category]||0)+1; });
-  const catSorted = Object.entries(catCounts).sort((a,b)=>b[1]-a[1]).slice(0,5);
+  const catSorted = Object.entries(catCounts).sort((a,b)=>b[1]-a[1]).slice(0,8);
   const catTotal = catSorted.reduce((s,[,v])=>s+v,0);
-  const catColors = ['#9a7a4a','#c9a96e','#d4b88a','#ddd7cc','#e8e2d8'];
   document.getElementById('cat-legend').innerHTML = catSorted.length
-    ? catSorted.map(([cat,cnt],i) => `<div class="legend-item"><div class="legend-dot" style="background:${catColors[i]}"></div>${escHtml(cat)} ${catTotal?Math.round(cnt/catTotal*100):0}%</div>`).join('')
+    ? catSorted.map(([cat,cnt],i) => `<div class="legend-item"><div class="legend-dot" style="background:${CAT_COLORS[i]||'#aaa'}"></div>${escHtml(cat)} ${catTotal?Math.round(cnt/catTotal*100):0}%</div>`).join('')
     : '<div style="color:var(--text-dim);font-size:10px;">Δεν υπάρχουν δεδομένα</div>';
+  buildCatPie('cat-pie', catSorted, catTotal);
 
-  // Color legend
+  // Color legend + pie
   const colorCounts = {};
   monthLogs.forEach(l => { const item = allItems.find(i => i.id === l.wardrobe_item_id); if (item?.color) colorCounts[item.color] = (colorCounts[item.color]||0)+1; });
   const colorSorted = Object.entries(colorCounts).sort((a,b)=>b[1]-a[1]).slice(0,6);
@@ -1426,8 +1467,12 @@ function loadMonthDash() {
         return `<div class="legend-item"><div class="legend-dot" style="background:${hex}${border}"></div>${escHtml(col)} ${colorTotal?Math.round(cnt/colorTotal*100):0}%</div>`;
       }).join('')
     : '<div style="color:var(--text-dim);font-size:10px;">Δεν υπάρχουν δεδομένα</div>';
-  // Dynamic color pie
   buildColorPie('color-pie', colorSorted, colorTotal);
+
+  // Avg Cost Worn / Unworn (month)
+  const { avgWorn, avgUnworn, wornCount, unwornCount } = calcAvgCostWornUnworn(monthLogs);
+  document.getElementById('kpi-cost-worn').textContent   = avgWorn   ? `€${avgWorn.toFixed(0)}`   : '—';
+  document.getElementById('kpi-cost-unworn').textContent = avgUnworn ? `€${avgUnworn.toFixed(0)}` : '—';
 
   // CPW table
   const cpwTable = document.getElementById('cpw-table-month');
@@ -1556,28 +1601,35 @@ function loadTotalDash() {
       }).join('')
     : '<div style="padding:16px;color:var(--text-dim);font-size:11px;text-align:center">Δεν υπάρχουν δεδομένα ακόμα</div>';
 
-  // Legends
-  const colorCounts = {};
-  rangeLogs.forEach(l => { const item = allItems.find(i => i.id === l.wardrobe_item_id); if (item?.color) colorCounts[item.color] = (colorCounts[item.color]||0)+1; });
-  const colorSorted = Object.entries(colorCounts).sort((a,b)=>b[1]-a[1]).slice(0,6);
-  const colorTotal = colorSorted.reduce((s,[,v])=>s+v,0);
-  document.getElementById('t-color-legend').innerHTML = colorSorted.length
-    ? colorSorted.map(([col,cnt]) => {
+  // Legends — ΟΛΟΚΛΗΡΗ η ντουλάπα (ανεξάρτητα αν φορεθήκαν στο range)
+  // Χρώματα
+  const colorCountsAll = {};
+  allItems.forEach(i => { if (i.color) colorCountsAll[i.color] = (colorCountsAll[i.color]||0)+1; });
+  const colorSortedAll = Object.entries(colorCountsAll).sort((a,b)=>b[1]-a[1]).slice(0,6);
+  const colorTotalAll = colorSortedAll.reduce((s,[,v])=>s+v,0);
+  document.getElementById('t-color-legend').innerHTML = colorSortedAll.length
+    ? colorSortedAll.map(([col,cnt]) => {
         const hex = COLOR_HEX[col] || '#AAAAAA';
         const border = (col === 'Λευκό' || col === 'Εκρού / Off-white') ? ';border:1px solid #ccc' : '';
-        return `<div class="legend-item"><div class="legend-dot" style="background:${hex}${border}"></div>${escHtml(col)} ${colorTotal?Math.round(cnt/colorTotal*100):0}%</div>`;
+        return `<div class="legend-item"><div class="legend-dot" style="background:${hex}${border}"></div>${escHtml(col)} ${colorTotalAll?Math.round(cnt/colorTotalAll*100):0}%</div>`;
       }).join('')
     : '<div style="color:var(--text-dim);font-size:10px;">—</div>';
-  buildColorPie('t-color-pie', colorSorted, colorTotal);
+  buildColorPie('t-color-pie', colorSortedAll, colorTotalAll);
 
-  const catCounts = {};
-  rangeLogs.forEach(l => { const item = allItems.find(i => i.id === l.wardrobe_item_id); if (item?.category) catCounts[item.category] = (catCounts[item.category]||0)+1; });
-  const catSorted = Object.entries(catCounts).sort((a,b)=>b[1]-a[1]).slice(0,5);
-  const catTotal = catSorted.reduce((s,[,v])=>s+v,0);
-  const catColors = ['#9a7a4a','#c9a96e','#d4b88a','#ddd7cc','#e8e2d8'];
-  document.getElementById('t-cat-legend').innerHTML = catSorted.length
-    ? catSorted.map(([cat,cnt],i) => `<div class="legend-item"><div class="legend-dot" style="background:${catColors[i]}"></div>${escHtml(cat)} ${catTotal?Math.round(cnt/catTotal*100):0}%</div>`).join('')
+  // Κατηγορίες
+  const catCountsAll = {};
+  allItems.forEach(i => { if (i.category) catCountsAll[i.category] = (catCountsAll[i.category]||0)+1; });
+  const catSortedAll = Object.entries(catCountsAll).sort((a,b)=>b[1]-a[1]).slice(0,8);
+  const catTotalAll = catSortedAll.reduce((s,[,v])=>s+v,0);
+  document.getElementById('t-cat-legend').innerHTML = catSortedAll.length
+    ? catSortedAll.map(([cat,cnt],i) => `<div class="legend-item"><div class="legend-dot" style="background:${CAT_COLORS[i]||'#aaa'}"></div>${escHtml(cat)} ${catTotalAll?Math.round(cnt/catTotalAll*100):0}%</div>`).join('')
     : '<div style="color:var(--text-dim);font-size:10px;">—</div>';
+  buildCatPie('t-cat-pie', catSortedAll, catTotalAll);
+
+  // Avg Cost Worn / Unworn (total — βάσει range logs)
+  const { avgWorn: tAvgWorn, avgUnworn: tAvgUnworn } = calcAvgCostWornUnworn(rangeLogs);
+  document.getElementById('t-cost-worn').textContent   = tAvgWorn   ? `€${tAvgWorn.toFixed(0)}`   : '—';
+  document.getElementById('t-cost-unworn').textContent = tAvgUnworn ? `€${tAvgUnworn.toFixed(0)}` : '—';
 }
 
 // ── NAVIGATION ──

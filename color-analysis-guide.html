@@ -438,7 +438,7 @@
   .season-tab.active { color: var(--bark); border-bottom-color: var(--gold); }
   .season-tab:hover { color: var(--bark); }
 
-  .season-content { display: block; }
+  .season-content { display: none; }
   .season-content.active { display: block; }
 
   .palettes-grid {
@@ -622,16 +622,12 @@
     to { opacity: 1; }
   }
 
-  .reveal-disabled {
+  .reveal {
     opacity: 0;
     transform: translateY(20px);
     transition: opacity 0.7s ease, transform 0.7s ease;
   }
-  .reveal-disabled.visible { opacity: 1; transform: translateY(0); }
-  /* Fallback — αν το JS δεν φορτώσει, τα στοιχεία φαίνονται κανονικά */
-  .no-js .reveal-disabled { opacity: 1; transform: none; }
-
-  .reveal { opacity: 1 !important; transform: none !important; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
 
   /* scrollbar */
   ::-webkit-scrollbar { width: 6px; height: 6px; }
@@ -719,11 +715,10 @@
 
 <!-- NAV -->
 <nav>
-  <a href="index.html" class="nav-logo">Fashion Analysis by Danai</a>
+  <span class="nav-logo">Fashion Analysis by Danai</span>
   <ul class="nav-links">
-    <li><a href="index.html">← Αρχική</a></li>
-    <li><a href="guides.html">Guides</a></li>
     <li><a href="#steps">Βήματα</a></li>
+    <li><a href="#quiz">Quiz</a></li>
     <li><a href="#palettes">Παλέτες</a></li>
     <li><a href="#checklist">Checklist</a></li>
   </ul>
@@ -988,9 +983,15 @@
       <span style="font-size:0.75rem;color:var(--dust);font-style:italic">Hover για όνομα χρώματος</span>
     </div>
 
+    <div class="season-tabs">
+      <button class="season-tab active" onclick="showSeason('spring',this)">🌸 Άνοιξη</button>
+      <button class="season-tab" onclick="showSeason('summer',this)">☀️ Καλοκαίρι</button>
+      <button class="season-tab" onclick="showSeason('autumn',this)">🍂 Φθινόπωρο</button>
+      <button class="season-tab" onclick="showSeason('winter',this)">❄️ Χειμώνας</button>
+    </div>
+
     <!-- SPRING -->
-    <div class="season-block" id="season-spring" style="display:block; margin-top:3rem; padding-top:3rem; border-top:2px solid var(--line);">
-<h3 style="font-family:var(--serif);font-size:1.8rem;font-weight:300;color:var(--bark);margin-bottom:2rem;">🌸 Άνοιξη</h3>
+    <div class="season-content active" id="season-spring">
       <div class="palettes-grid">
 
         <div class="palette-card">
@@ -1217,8 +1218,7 @@
     </div>
 
     <!-- SUMMER -->
-    <div class="season-block" id="season-summer" style="display:block; margin-top:4rem; padding-top:3rem; border-top:2px solid var(--line);">
-<h3 style="font-family:var(--serif);font-size:1.8rem;font-weight:300;color:var(--bark);margin-bottom:2rem;">☀️ Καλοκαίρι</h3>
+    <div class="season-content" id="season-summer">
       <div class="palettes-grid">
 
         <div class="palette-card">
@@ -1444,8 +1444,7 @@
     </div>
 
     <!-- AUTUMN -->
-    <div class="season-block" id="season-autumn" style="display:block; margin-top:4rem; padding-top:3rem; border-top:2px solid var(--line);">
-<h3 style="font-family:var(--serif);font-size:1.8rem;font-weight:300;color:var(--bark);margin-bottom:2rem;">🍂 Φθινόπωρο</h3>
+    <div class="season-content" id="season-autumn">
       <div class="palettes-grid">
 
         <div class="palette-card">
@@ -1671,8 +1670,7 @@
     </div>
 
     <!-- WINTER -->
-    <div class="season-block" id="season-winter" style="display:block; margin-top:4rem; padding-top:3rem; border-top:2px solid var(--line);">
-<h3 style="font-family:var(--serif);font-size:1.8rem;font-weight:300;color:var(--bark);margin-bottom:2rem;">❄️ Χειμώνας</h3>
+    <div class="season-content" id="season-winter">
       <div class="palettes-grid">
 
         <div class="palette-card">
@@ -1937,6 +1935,47 @@
   </div>
 </section>
 
+<!-- QUIZ -->
+<section id="quiz" style="background:var(--warm-white)">
+  <div class="container reveal">
+    <p class="section-label">Ανακάλυψε την παλέτα σου</p>
+    <h2>Color Analysis <em>Quiz</em></h2>
+    <div class="divider"></div>
+    <p style="max-width:520px;margin-bottom:2.5rem">Απάντησε σε 5 ερωτήσεις και θα βρούμε σε ποια από τις 12 παλέτες ανήκεις. Κάνε το χωρίς μακιγιάζ, σε φυσικό φως.</p>
+
+    <div id="quiz-container">
+
+      <!-- PROGRESS BAR -->
+      <div style="margin-bottom:2rem">
+        <div style="display:flex;justify-content:space-between;margin-bottom:0.5rem">
+          <span id="quiz-progress-label" style="font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--dust)">Ερώτηση 1 από 5</span>
+          <span id="quiz-progress-pct" style="font-size:0.72rem;color:var(--gold)">0%</span>
+        </div>
+        <div style="height:3px;background:var(--line);border-radius:2px">
+          <div id="quiz-progress-bar" style="height:3px;background:var(--gold);border-radius:2px;width:0%;transition:width 0.4s ease"></div>
+        </div>
+      </div>
+
+      <!-- QUESTIONS -->
+      <div id="quiz-questions"></div>
+
+      <!-- NAVIGATION -->
+      <div id="quiz-nav" style="display:flex;gap:1rem;margin-top:2rem">
+        <button id="quiz-prev" onclick="quizNav(-1)" class="btn-ghost" style="display:none">← Πίσω</button>
+        <button id="quiz-next" onclick="quizNav(1)" class="btn-primary" style="display:none">Επόμενο →</button>
+        <button id="quiz-submit" onclick="quizSubmit()" class="btn-primary" style="display:none">Δες το αποτέλεσμά σου ✨</button>
+      </div>
+    </div>
+
+    <!-- RESULT -->
+    <div id="quiz-result" style="display:none"></div>
+
+    <div id="quiz-restart" style="display:none;margin-top:2rem">
+      <button onclick="quizRestart()" class="btn-ghost">↺ Ξανακάνε το quiz</button>
+    </div>
+  </div>
+</section>
+
 <!-- CHECKLIST -->
 <section id="checklist">
   <div class="container reveal" style="text-align:center">
@@ -2037,38 +2076,35 @@
 
 <!-- FOOTER -->
 <footer>
-  <a href="index.html" class="footer-logo" style="text-decoration:none;">Fashion Analysis by Danai</a>
+  <span class="footer-logo">Fashion Analysis by Danai</span>
   <p style="margin-bottom:0.6rem">Δωρεάν οδηγός χρωματικής ανάλυσης &nbsp;·&nbsp; Seasonal Color Analysis System &nbsp;·&nbsp; 12 Παλέτες</p>
-  <p style="margin-bottom:0.8rem"><a href="/cdn-cgi/l/email-protection#3551574354574c51545b545c755258545c591b565a58" style="color:var(--gold);text-decoration:none;font-size:0.85rem;letter-spacing:0.05em"><span class="__cf_email__" data-cfemail="9ffbfde9fefde6fbfef1fef6dff8f2fef6f3b1fcf0f2">[email&#160;protected]</span></a></p>
-  <p><a href="guides.html" style="color:var(--dust);text-decoration:none;font-size:0.8rem;letter-spacing:0.08em;text-transform:uppercase;">← Πίσω στους Οδηγούς</a></p>
+  <p><a href="/cdn-cgi/l/email-protection#91f5f3e7f0f3e8f5f0fff0f8d1f6fcf0f8fdbff2fefc" style="color:var(--gold);text-decoration:none;font-size:0.85rem;letter-spacing:0.05em"><span class="__cf_email__" data-cfemail="5135332730332835303f303811363c30383d7f323e3c">[email&#160;protected]</span></a></p>
 </footer>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   // Season tabs
-    // Checklist toggle
+  function showSeason(season, btn) {
+    document.querySelectorAll('.season-content').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.season-tab').forEach(el => el.classList.remove('active'));
+    document.getElementById('season-' + season).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  // Checklist toggle
   function toggleCheck(el) {
     el.classList.toggle('checked');
   }
 
-  // Scroll reveal — robust version
+  // Scroll reveal
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('visible');
-        observer.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.05, rootMargin: '0px 0px -20px 0px' });
+  }, { threshold: 0.1 });
 
-  document.querySelectorAll('.reveal').forEach(el => {
-    // Αν το element είναι ήδη ορατό στη σελίδα, δείξε το αμέσως
-    const rect = el.getBoundingClientRect();
-    if (rect.top < window.innerHeight) {
-      el.classList.add('visible');
-    } else {
-      observer.observe(el);
-    }
-  });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
   // ── COMBO DATA ──
   // Each palette has 3 combos: Winter / Spring-Autumn / Summer
@@ -2403,4 +2439,219 @@
     'Bright Spring':  'bright-spring',
     'Light Summer':   'light-summer',
     'True Summer':    'true-summer',
-    'Soft 
+    'Soft Summer':    'soft-summer',
+    'Soft Autumn':    'soft-autumn',
+    'True Autumn':    'true-autumn',
+    'Dark Autumn':    'dark-autumn',
+    'Dark Winter':    'dark-winter',
+    'True Winter':    'true-winter',
+    'Bright Winter':  'bright-winter'
+  };
+
+  document.querySelectorAll('.palette-card').forEach(card => {
+    const nameEl = card.querySelector('.palette-name');
+    if (!nameEl) return;
+    const key = paletteMap[nameEl.textContent.trim()];
+    if (!key) return;
+    // Remove old combos-section if any
+    const old = card.querySelector('.combos-section');
+    if (old) old.remove();
+    card.querySelector('.palette-body').insertAdjacentHTML('beforeend', buildCombos(key));
+  });
+
+  // ── QUIZ ──
+  const QUESTIONS = [
+    {
+      id: 'undertone',
+      text: 'Κοίτα τις φλέβες στον καρπό σου σε φυσικό φως. Τι χρώμα έχουν;',
+      hint: 'Χωρίς βραχιόλια, σε λευκό φόντο αν είναι δυνατόν',
+      options: [
+        { label: 'Μπλε ή μοβ', value: 'cool' },
+        { label: 'Πράσινες ή κιτρινοπράσινες', value: 'warm' },
+        { label: 'Μικτές — βλέπω και τα δύο', value: 'neutral' }
+      ]
+    },
+    {
+      id: 'jewelry',
+      text: 'Ποιο κόσμημα σε κολακεύει περισσότερο κοντά στο πρόσωπο;',
+      hint: 'Κράτα τα κοντά στο πρόσωπό σου χωρίς μακιγιάζ',
+      options: [
+        { label: 'Ασημί — κάνει το δέρμα να λάμπει', value: 'cool' },
+        { label: 'Χρυσό — με κάνει πιο ζεστή και φωτεινή', value: 'warm' },
+        { label: 'Και τα δύο μου πάνε εξίσου', value: 'neutral' }
+      ]
+    },
+    {
+      id: 'intensity',
+      text: 'Κράτα ένα έντονο κόκκινο και ένα dusty μπορντό κοντά στο πρόσωπό σου. Τι παρατηρείς;',
+      hint: 'Κοίτα ποιο κάνει το δέρμα πιο φωτεινό και τα μάτια πιο έντονα',
+      options: [
+        { label: 'Το έντονο κόκκινο — το πρόσωπό μου ζωντανεύει', value: 'bright' },
+        { label: 'Το muted μπορντό — δείχνω πιο αρμονική', value: 'muted' },
+        { label: 'Κάπου στη μέση', value: 'neutral_c' }
+      ]
+    },
+    {
+      id: 'depth',
+      text: 'Κοίτα μαλλιά, μάτια και δέρμα συνολικά. Πού βρίσκονται στη χρωματική κλίμακα;',
+      hint: 'Σκέψου τη συνολική εικόνα — όχι μόνο ένα χαρακτηριστικό',
+      options: [
+        { label: 'Κυρίως ανοιχτά — ξανθά μαλλιά, ανοιχτά μάτια', value: 'light' },
+        { label: 'Κυρίως σκούρα — σκούρα μαλλιά, σκούρα μάτια', value: 'dark' },
+        { label: 'Μέτρια — ούτε πολύ ανοιχτά ούτε πολύ σκούρα', value: 'medium' }
+      ]
+    },
+    {
+      id: 'contrast',
+      text: 'Πόση αντίθεση υπάρχει μεταξύ μαλλιών και δέρματός σου;',
+      hint: 'Π.χ. πολύ σκούρα μαλλιά + ανοιχτό δέρμα = υψηλή αντίθεση',
+      options: [
+        { label: 'Υψηλή — μαλλιά και δέρμα πολύ διαφορετικά', value: 'high' },
+        { label: 'Χαμηλή — σε παρόμοιες αποχρώσεις', value: 'low' },
+        { label: 'Μέτρια αντίθεση', value: 'medium' }
+      ]
+    }
+  ];
+
+  function calcPalette(a) {
+    const warmH = [a.undertone, a.jewelry].filter(v=>v==='warm').length;
+    const coolH = [a.undertone, a.jewelry].filter(v=>v==='cool').length;
+    let hue = warmH > coolH ? 'warm' : coolH > warmH ? 'cool' : 'neutral';
+    let chroma = a.intensity === 'bright' ? 'bright' : a.intensity === 'muted' ? 'muted' : 'neutral';
+    let value = a.depth;
+    let contrast = a.contrast;
+
+    if (hue === 'warm') {
+      if (value === 'light') return chroma === 'bright' ? 'True Spring' : 'Light Spring';
+      if (value === 'dark') return chroma === 'muted' ? (contrast === 'low' ? 'Soft Autumn' : 'True Autumn') : 'Dark Autumn';
+      if (chroma === 'bright') return 'Bright Spring';
+      if (chroma === 'muted') return contrast === 'low' ? 'Soft Autumn' : 'True Autumn';
+      return 'True Spring';
+    }
+    if (hue === 'cool') {
+      if (value === 'light') return chroma === 'muted' ? 'Light Summer' : 'Light Summer';
+      if (value === 'dark') return 'Dark Winter';
+      if (chroma === 'bright') return contrast === 'high' ? 'Bright Winter' : 'True Winter';
+      if (chroma === 'muted') return contrast === 'low' ? 'Soft Summer' : 'True Summer';
+      return 'True Winter';
+    }
+    // neutral
+    if (value === 'light') return chroma === 'bright' ? 'Light Spring' : 'Light Summer';
+    if (value === 'dark') return contrast === 'high' ? 'Dark Winter' : 'Dark Autumn';
+    if (chroma === 'muted') return contrast === 'low' ? 'Soft Summer' : 'Soft Autumn';
+    if (chroma === 'bright') return contrast === 'high' ? 'Bright Winter' : 'Bright Spring';
+    return 'True Summer';
+  }
+
+  const PALETTE_DATA = {
+    'Light Spring':  { season:'🌸', desc:'Ανοιχτά, φρέσκα και ζεστά χαρακτηριστικά με χαμηλή αντίθεση.', colors:['#F5C8A0','#E8906A','#90D0C0','#F0D890','#C8E8A8','#F8E8D0'], names:['Peach','Light Coral','Aqua','Butter','Powder Green','Cream'], avoid:['#1A1A1A','#4A1030','#303050'], avoidNames:['Μαύρο','Βαθύ Μπορντό','Σκούρο Navy'], celeb:'Margot Robbie' },
+    'True Spring':   { season:'🌸', desc:'Ζεστά, καθαρά και φωτεινά χρώματα. Η πλήρης άνθηση της άνοιξης.', colors:['#E88060','#D4A030','#60C890','#F0A870','#50B8D0','#E8D070'], names:['Coral','Golden Yellow','Warm Green','Peach','Turquoise','Butter'], avoid:['#8080A0','#604850','#A0A8C0'], avoidNames:['Muted Cool Grey','Dusty Mauve','Icy Blue'], celeb:'Blake Lively' },
+    'Bright Spring': { season:'🌸', desc:'Η πιο έντονη ανοιξιάτικη παλέτα. Καθαρά, δυνατά χρώματα.', colors:['#E02030','#20C0A0','#F01880','#18A820','#E86020','#2080E8'], names:['Clear Red','Bright Teal','Hot Pink','Bright Green','Clear Orange','Electric Blue'], avoid:['#A09080','#787870','#C0B8A8'], avoidNames:['Dusty Taupe','Muted Grey','Warm Beige'], celeb:'Emma Stone' },
+    'Light Summer':  { season:'☀️', desc:'Ψυχρά, απαλά και δροσερά χρώματα. Χαμηλή αντίθεση χαρακτηριστικών.', colors:['#A8C8E0','#D8A8C0','#B8D8C8','#E0C8D8','#A8B8C8','#C8D8E8'], names:['Powder Blue','Soft Pink','Cool Mint','Blush','Silver Blue','Pale Sky'], avoid:['#D48030','#201808','#C87830'], avoidNames:['Orange','Σκούρο Καφέ','Warm Rust'], celeb:'Elle Fanning' },
+    'True Summer':   { season:'☀️', desc:'Ψυχρά muted χρώματα με ελαφριά γκριζάδα. Η ψυχρότητα κυριαρχεί.', colors:['#C090A8','#8098C0','#D0A8B8','#9888A8','#7090A8','#B8A8C0'], names:['Dusty Rose','Cool Blue','Muted Pink','Dusty Violet','Steel Blue','Lavender'], avoid:['#C88030','#E82020','#D4A030'], avoidNames:['Warm Orange','Bright Red','Golden Yellow'], celeb:'Kate Middleton' },
+    'Soft Summer':   { season:'☀️', desc:'Ανάμεσα σε καλοκαίρι και φθινόπωρο. Πολύ muted με ελαφρά ψυχρότητα.', colors:['#A888A0','#9098A8','#B8A8B0','#8090A0','#C0A8A8','#A0A8B8'], names:['Soft Mauve','Blue-Grey','Dusty Pink','Slate','Muted Blush','Periwinkle'], avoid:['#E02020','#101020','#D4A030'], avoidNames:['Bright Red','Μαύρο','Mustard'], celeb:'Jennifer Aniston' },
+    'Soft Autumn':   { season:'🍂', desc:'Η πιο απαλή φθινοπωρινή παλέτα. Ζεστά muted χρώματα χαμηλής έντασης.', colors:['#A8B870','#C0A878','#D0A880','#B09870','#C8B890','#98A870'], names:['Sage Green','Warm Tan','Soft Terracotta','Taupe','Dusty Olive','Muted Olive'], avoid:['#E01878','#101828','#9898C8'], avoidNames:['Fuchsia','Σκούρο Navy','Cool Purple'], celeb:'Gisele Bündchen' },
+    'True Autumn':   { season:'🍂', desc:'Η πιο χαρακτηριστική φθινοπωρινή παλέτα. Ζεστά, γήινα χρώματα.', colors:['#C07830','#B89830','#788840','#A06830','#D0A050','#885830'], names:['Rust','Mustard','Olive','Burnt Sienna','Pumpkin','Warm Brown'], avoid:['#9898C8','#D0D8E0','#C0C8E0'], avoidNames:['Cool Purple','Icy Blue','Pastel Blue'], celeb:'Julia Roberts' },
+    'Dark Autumn':   { season:'🍂', desc:'Φθινοπωρινή ζεστασιά με μεγάλο βάθος. Σκούρα και πλούσια χρώματα.', colors:['#604020','#486030','#783020','#884820','#305040','#503818'], names:['Chocolate','Deep Olive','Dark Rust','Burnt Sienna','Forest Teal','Dark Caramel'], avoid:['#F0D0E0','#C0D0E8','#E8C8D8'], avoidNames:['Pastel Pink','Icy Blue','Light Rose'], celeb:'Salma Hayek' },
+    'Dark Winter':   { season:'❄️', desc:'Ψυχρά, βαθιά χρώματα. Υψηλή αντίθεση μεταξύ δέρματος και μαλλιών.', colors:['#481830','#182048','#183838','#381840','#204828','#281030'], names:['Burgundy','Deep Navy','Dark Teal','Deep Purple','Dark Emerald','Deep Wine'], avoid:['#D4A030','#E8B880','#C8A060'], avoidNames:['Golden Yellow','Peach','Warm Camel'], celeb:'Anne Hathaway' },
+    'True Winter':   { season:'❄️', desc:'Η πιο ψυχρή παλέτα. Καθαρά, έντονα χρώματα χωρίς ζεστές αποχρώσεις.', colors:['#2040C0','#E01878','#D81818','#F0E8F0','#101020','#7020B0'], names:['Cobalt Blue','Fuchsia','True Red','Icy Pink','Black','Royal Purple'], avoid:['#C8A030','#A87840','#D4A060'], avoidNames:['Mustard','Camel','Warm Tan'], celeb:'Courteney Cox' },
+    'Bright Winter': { season:'❄️', desc:'Υψηλή αντίθεση και τα πιο έντονα χρώματα από όλες τις παλέτες.', colors:['#0840E0','#E01898','#E01010','#10C070','#F8F8F8','#8010C8'], names:['Electric Blue','Magenta','Bright Red','Emerald','Pure White','Violet'], avoid:['#B09878','#908880','#C8A870'], avoidNames:['Warm Beige','Muted Taupe','Camel'], celeb:'Megan Fox' }
+  };
+
+  let quizAnswers = {}, currentQ = 0;
+
+  function quizInit() {
+    quizAnswers = {}; currentQ = 0; renderQuestion();
+  }
+
+  function renderQuestion() {
+    const q = QUESTIONS[currentQ];
+    const total = QUESTIONS.length;
+    const pct = Math.round((currentQ / total) * 100);
+    document.getElementById('quiz-progress-label').textContent = `Ερώτηση ${currentQ+1} από ${total}`;
+    document.getElementById('quiz-progress-pct').textContent = pct + '%';
+    document.getElementById('quiz-progress-bar').style.width = pct + '%';
+    const selected = quizAnswers[q.id];
+    document.getElementById('quiz-questions').innerHTML = `
+      <div>
+        <h3 style="font-family:var(--serif);font-size:1.4rem;color:var(--bark);margin-bottom:0.5rem">${q.text}</h3>
+        ${q.hint ? `<p style="font-size:0.82rem;color:var(--dust);margin-bottom:1.5rem;font-style:italic">💡 ${q.hint}</p>` : ''}
+        <div style="display:flex;flex-direction:column;gap:0.8rem;margin-top:1rem">
+          ${q.options.map(opt => `
+            <label style="display:flex;align-items:center;gap:1rem;padding:1rem 1.2rem;border:1px solid ${selected===opt.value?'var(--gold)':'var(--line)'};border-radius:2px;cursor:pointer;background:${selected===opt.value?'rgba(200,169,106,0.1)':'var(--cream)'};transition:all 0.2s">
+              <input type="radio" name="q_${q.id}" value="${opt.value}" ${selected===opt.value?'checked':''} onchange="quizAnswer('${q.id}','${opt.value}')" style="accent-color:var(--gold);width:18px;height:18px;flex-shrink:0">
+              <span style="font-size:0.95rem;color:var(--bark)">${opt.label}</span>
+            </label>`).join('')}
+        </div>
+      </div>`;
+    const isLast = currentQ === total - 1;
+    const hasAns = !!quizAnswers[q.id];
+    document.getElementById('quiz-prev').style.display = currentQ > 0 ? 'block' : 'none';
+    document.getElementById('quiz-next').style.display = (!isLast && hasAns) ? 'block' : 'none';
+    document.getElementById('quiz-submit').style.display = (isLast && hasAns) ? 'block' : 'none';
+  }
+
+  function quizAnswer(qId, val) { quizAnswers[qId] = val; renderQuestion(); }
+  function quizNav(dir) { currentQ = Math.max(0, Math.min(QUESTIONS.length-1, currentQ+dir)); renderQuestion(); }
+
+  function quizSubmit() {
+    const palette = calcPalette(quizAnswers);
+    const d = PALETTE_DATA[palette];
+    document.getElementById('quiz-progress-bar').style.width = '100%';
+    document.getElementById('quiz-progress-pct').textContent = '100%';
+    document.getElementById('quiz-questions').style.display = 'none';
+    document.getElementById('quiz-nav').style.display = 'none';
+    document.getElementById('quiz-result').style.display = 'block';
+    document.getElementById('quiz-result').innerHTML = `
+      <div>
+        <div style="text-align:center;margin-bottom:2rem">
+          <div style="font-size:2.5rem;margin-bottom:0.5rem">${d.season}</div>
+          <p style="font-size:0.72rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:0.5rem">Η παλέτα σου είναι</p>
+          <h2 style="font-family:var(--serif);font-size:2.8rem;font-weight:300;color:var(--bark);margin-bottom:0.8rem">${palette}</h2>
+          <p style="color:var(--dust);max-width:480px;margin:0 auto">${d.desc}</p>
+          <p style="font-size:0.8rem;color:var(--gold);margin-top:0.8rem">Celebrity example: ${d.celeb}</p>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:2rem">
+          <div style="background:var(--cream);border:1px solid var(--line);border-radius:2px;padding:1.5rem">
+            <p style="font-size:0.68rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--dust);margin-bottom:1rem">✦ Χρώματα που σε κολακεύουν</p>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:1rem">
+              ${d.colors.map((c,i)=>`<div style="width:36px;height:36px;border-radius:50%;background:${c};box-shadow:0 2px 8px rgba(0,0,0,0.12);cursor:help;transition:transform 0.2s" title="${d.names[i]}" onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform='scale(1)'"></div>`).join('')}
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:4px">
+              ${d.names.map(n=>`<span style="font-size:0.7rem;color:var(--dust);background:var(--warm-white);padding:2px 8px;border-radius:20px">${n}</span>`).join('')}
+            </div>
+          </div>
+          <div style="background:var(--cream);border:1px solid var(--line);border-radius:2px;padding:1.5rem">
+            <p style="font-size:0.68rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--dust);margin-bottom:1rem">✕ Χρώματα να αποφύγεις</p>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:1rem">
+              ${d.avoid.map((c,i)=>`<div style="width:36px;height:36px;border-radius:50%;background:${c};box-shadow:0 2px 8px rgba(0,0,0,0.12);position:relative;cursor:help" title="${d.avoidNames[i]}"><div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.85);font-size:1rem;font-weight:700">✕</div></div>`).join('')}
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:4px">
+              ${d.avoidNames.map(n=>`<span style="font-size:0.7rem;color:var(--dust);background:var(--warm-white);padding:2px 8px;border-radius:20px">${n}</span>`).join('')}
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:2rem;padding:1.5rem;background:rgba(200,169,106,0.08);border:1px solid rgba(200,169,106,0.3);border-radius:2px;text-align:center">
+          <p style="font-size:0.88rem;color:var(--bark);margin-bottom:0.8rem">Θες να δεις τα χρωματικά combos για το <strong>${palette}</strong>;</p>
+          <a href="#palettes" class="btn-primary" style="font-size:0.78rem;padding:0.6rem 1.6rem">Δες την παλέτα σου →</a>
+        </div>
+        <div style="margin-top:1.2rem;text-align:center">
+          <p style="font-size:0.78rem;color:var(--dust);font-style:italic">Το quiz είναι εργαλείο παρατήρησης. Αν νιώθεις ότι δεν ταιριάζει απόλυτα, διάβασε και τις γειτονικές παλέτες — τα όρια δεν είναι πάντα απόλυτα.</p>
+        </div>
+      </div>`;
+    document.getElementById('quiz-restart').style.display = 'block';
+  }
+
+  function quizRestart() {
+    quizAnswers = {}; currentQ = 0;
+    document.getElementById('quiz-questions').style.display = 'block';
+    document.getElementById('quiz-nav').style.display = 'flex';
+    document.getElementById('quiz-result').style.display = 'none';
+    document.getElementById('quiz-restart').style.display = 'none';
+    renderQuestion();
+  }
+
+  quizInit();
+</script>
+</body>
+</html>

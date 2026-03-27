@@ -24,6 +24,52 @@
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:var(--font-sans);font-weight:300;background:var(--bg);color:var(--text);min-height:100vh;font-size:13px;}
 
+/* ── INLINE FORM ── */
+.inline-form-header{
+display:flex;align-items:center;justify-content:space-between;
+margin-bottom:16px;
+}
+.inline-form-title{
+font-family:var(–font-serif);font-size:18px;font-weight:300;
+}
+.inline-form-title em{font-style:italic;color:var(–accent);}
+.inline-form-close{
+background:none;border:1px solid var(–border);color:var(–text-muted);
+width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:12px;
+display:flex;align-items:center;justify-content:center;flex-shrink:0;
+transition:all 0.15s;
+}
+.inline-form-close:hover{border-color:var(–red);color:var(–red-text);}
+
+#inline-form-wrap{
+background:var(–surface);
+border:1px solid var(–border);
+border-radius:3px;
+padding:18px 16px 16px;
+animation:slideDown 0.2s ease;
+}
+@keyframes slideDown{from{opacity:0;transform:translateY(-8px);}to{opacity:1;transform:translateY(0);}}
+
+.iform-section{margin-bottom:16px;}
+.iform-section-title{font-size:8px;letter-spacing:0.16em;text-transform:uppercase;color:var(–text-dim);margin-bottom:9px;padding-bottom:5px;border-bottom:1px solid var(–border-soft);}
+.iform-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+@media(max-width:480px){.iform-grid{grid-template-columns:1fr;}}
+.iform-group{display:flex;flex-direction:column;gap:4px;}
+.iform-group.full{grid-column:1/-1;}
+.iform-group label{font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(–text-muted);}
+.iform-group input,.iform-group select,.iform-group textarea{
+font-family:var(–font-sans);font-size:12px;font-weight:300;
+border:1px solid var(–border);background:var(–surface2);
+padding:7px 9px;border-radius:1px;color:var(–text);outline:none;
+transition:border-color 0.15s;-webkit-appearance:none;width:100%;
+}
+.iform-group input::placeholder{color:var(–text-dim);}
+.iform-group select option{background:var(–surface2);color:var(–text);}
+.iform-group input:focus,.iform-group select:focus,.iform-group textarea:focus{border-color:var(–accent);}
+.iform-group textarea{resize:vertical;min-height:52px;}
+.iform-hint{font-size:9px;color:var(–text-dim);margin-top:3px;letter-spacing:0;}
+.iform-actions{display:flex;gap:8px;justify-content:flex-end;padding-top:14px;border-top:1px solid var(–border);}
+
 /* ── AUTH SCREEN ── */
 #auth-screen {
 min-height:100vh;display:flex;align-items:center;justify-content:center;
@@ -384,7 +430,7 @@ border:1px solid rgba(140,74,58,0.22);
     <div class="header-right">
       <div class="user-info" id="user-email-display"></div>
       <button class="btn-logout" onclick="handleLogout()">Έξοδος</button>
-      <button class="btn-new" onclick="openModal()" id="btn-new-main">+ Νέα Εγγραφή</button>
+      <button class="btn-new" onclick="openInlineForm()" id="btn-new-main">+ Νέα Εγγραφή</button>
     </div>
   </header>
 
@@ -422,7 +468,151 @@ border:1px solid rgba(140,74,58,0.22);
       <div id="items-list">
         <div class="loading"><div class="spinner"></div><br>Φόρτωση...</div>
       </div>
+
+```
+  <!-- INLINE FORM -->
+  <div id="inline-form-wrap" style="display:none;margin-top:10px;">
+    <div class="inline-form-header">
+      <div class="inline-form-title" id="inline-form-title">Νέα <em>Εγγραφή</em></div>
+      <button class="inline-form-close" onclick="closeInlineForm()">✕</button>
     </div>
+
+    <div class="iform-section">
+      <div class="iform-section-title">Βασικά στοιχεία</div>
+      <div class="iform-grid">
+        <div class="iform-group full"><label>Τίτλος *</label><input type="text" id="f-title" placeholder="π.χ. Λευκό λινό πουκάμισο"></div>
+        <div class="iform-group"><label>Ημερομηνία εγγραφής</label>
+          <input type="date" id="f-entry-date">
+          <div class="iform-hint">Κενό = σήμερα · παλιά ημ. αν το είχες νωρίτερα</div>
+        </div>
+        <div class="iform-group"><label>Μάρκα</label><input type="text" id="f-brand" placeholder="π.χ. Zara, Mango…"></div>
+        <div class="iform-group">
+          <label>Κατηγορία</label>
+          <select id="f-category">
+            <option value="">— Επιλογή —</option>
+            <optgroup label="Ρούχα">
+              <option>Μπλούζες / Tops</option><option>Πουκάμισα</option><option>Φούστες</option>
+              <option>Παντελόνια</option><option>Φορέματα</option><option>Πλεκτά / Πουλόβερ</option>
+              <option>Jackets</option><option>Παλτά</option><option>Σετ / Coordinates</option>
+            </optgroup>
+            <optgroup label="Παπούτσια">
+              <option>Sneakers</option><option>Boots / Booties</option>
+              <option>Flats</option><option>Sandals</option><option>Heels</option>
+            </optgroup>
+            <optgroup label="Αξεσουάρ">
+              <option>Τσάντες</option><option>Γυαλιά ηλίου</option>
+              <option>Πορτοφόλι</option><option>Κοσμήματα</option><option>Αξεσουάρ — Other</option>
+            </optgroup>
+          </select>
+        </div>
+        <div class="iform-group">
+          <label>Χρώμα</label>
+          <select id="f-color">
+            <option value="">— Επιλογή —</option>
+            <optgroup label="Neutrals">
+              <option value="Λευκό">Λευκό</option><option value="Εκρού / Off-white">Εκρού / Off-white</option>
+              <option value="Beige / Camel">Beige / Camel</option><option value="Γκρι ανοιχτό">Γκρι ανοιχτό</option>
+              <option value="Γκρι σκούρο">Γκρι σκούρο</option><option value="Μαύρο">Μαύρο</option>
+              <option value="Καφέ / Ταμπά">Καφέ / Ταμπά</option><option value="Chocolate">Chocolate</option>
+            </optgroup>
+            <optgroup label="Blues & Greens">
+              <option value="Navy">Navy</option><option value="Μπλε ρουά">Μπλε ρουά</option>
+              <option value="Γαλάζιο">Γαλάζιο</option><option value="Denim">Denim</option>
+              <option value="Πράσινο σκούρο">Πράσινο σκούρο</option><option value="Χακί / Olive">Χακί / Olive</option>
+              <option value="Mint / Sage">Mint / Sage</option>
+            </optgroup>
+            <optgroup label="Reds & Pinks">
+              <option value="Κόκκινο">Κόκκινο</option><option value="Burgundy / Μπορντό">Burgundy / Μπορντό</option>
+              <option value="Ροζ παλ">Ροζ παλ</option><option value="Fuchsia / Hot pink">Fuchsia / Hot pink</option>
+              <option value="Terracotta / Ώχρα">Terracotta / Ώχρα</option><option value="Πορτοκαλί">Πορτοκαλί</option>
+            </optgroup>
+            <optgroup label="Purples & Yellows">
+              <option value="Μωβ / Λιλά">Μωβ / Λιλά</option><option value="Κίτρινο / Mustard">Κίτρινο / Mustard</option>
+            </optgroup>
+            <optgroup label="Patterns">
+              <option value="Ριγέ">Ριγέ</option><option value="Καρό / Vichy">Καρό / Vichy</option>
+              <option value="Floral / Print">Floral / Print</option><option value="Animal print">Animal print</option>
+              <option value="Πολύχρωμο">Πολύχρωμο</option>
+            </optgroup>
+          </select>
+        </div>
+        <div class="iform-group"><label>Υλικό</label><input type="text" id="f-material" placeholder="π.χ. Λινό, Βαμβάκι"></div>
+      </div>
+    </div>
+
+    <div class="iform-section">
+      <div class="iform-section-title">Χαρακτηριστικά (προαιρετικά)</div>
+      <div class="iform-grid">
+        <div class="iform-group">
+          <label>Μανίκι</label>
+          <select id="f-sleeve"><option value="">—</option><option>Αμάνικο</option><option>Κοντό</option><option>3/4</option><option>Μακρύ</option><option>N/A</option></select>
+        </div>
+        <div class="iform-group">
+          <label>Λαιμόκοψη</label>
+          <select id="f-neckline"><option value="">—</option><option>V-neck</option><option>Στρόγγυλη</option><option>Κλασική</option><option>Off-shoulder</option><option>Turtleneck</option><option>Boat neck</option><option>Square neck</option><option>N/A</option></select>
+        </div>
+        <div class="iform-group">
+          <label>Μήκος</label>
+          <select id="f-length"><option value="">—</option><option>Crop</option><option>Κανονικό</option><option>Midi</option><option>Maxi</option><option>N/A</option></select>
+        </div>
+        <div class="iform-group">
+          <label>Εποχή</label>
+          <select id="f-season"><option value="">—</option><option>Άνοιξη / Καλοκαίρι</option><option>Φθινόπωρο / Χειμώνας</option><option>4 εποχές</option></select>
+        </div>
+      </div>
+    </div>
+
+    <div class="iform-section">
+      <div class="iform-section-title">CPW — Τιμή & Κατηγορία</div>
+      <div class="iform-grid">
+        <div class="iform-group"><label>Τιμή (€)</label><input type="number" id="f-price" placeholder="0.00" step="0.01" oninput="calcCPW()"></div>
+        <div class="iform-group">
+          <label>Κατηγορία CPW</label>
+          <select id="f-cpw-cat" onchange="calcCPW()">
+            <option value="">— Επιλογή —</option>
+            <option value="5">Καθημερινό (&lt;5€)</option>
+            <option value="10">Αξεσουάρ (&lt;10€)</option>
+            <option value="8">Outerwear (&lt;8€)</option>
+            <option value="10">Περιστασιακό (&lt;10€)</option>
+            <option value="20">Ειδική Περίσταση (&lt;20€)</option>
+          </select>
+        </div>
+        <div class="iform-group"><label>Χρήσεις / εβδομάδα</label><input type="number" id="f-times" placeholder="π.χ. 1 ή 0.5" step="0.5" min="0.5" oninput="calcCPW()"></div>
+        <div class="iform-group"><label>Link</label><input type="url" id="f-link" placeholder="https://…"></div>
+      </div>
+      <div class="cpw-preview-box">
+        <div class="cpw-row"><span class="cpw-row-label">CPW σε 1 χρόνο</span><span class="cpw-row-value" id="cpw-val">—</span></div>
+        <div class="cpw-row"><span class="cpw-row-label">Target</span><span class="cpw-row-value" id="cpw-target">—</span></div>
+        <div class="cpw-row"><span class="cpw-row-label">Χρήσεις για να αξίζει</span><span class="cpw-row-value" id="cpw-needed">—</span></div>
+        <hr style="border:none;border-top:1px solid var(--border-soft);margin:6px 0">
+        <div class="cpw-verdict" id="cpw-verdict"></div>
+      </div>
+    </div>
+
+    <div class="iform-section">
+      <div class="iform-section-title">Συνδυασμοί & Σημειώσεις</div>
+      <div class="iform-grid">
+        <div class="iform-group full"><label>Συνδυασμός 1</label><input type="text" id="f-outfit1" placeholder="π.χ. Beige παντελόνι + λευκά sneakers"></div>
+        <div class="iform-group full"><label>Συνδυασμός 2</label><input type="text" id="f-outfit2" placeholder="…"></div>
+        <div class="iform-group full"><label>Συνδυασμός 3</label><input type="text" id="f-outfit3" placeholder="…"></div>
+        <div class="iform-group full"><label>Σημειώσεις</label><textarea id="f-notes" placeholder="…"></textarea></div>
+      </div>
+      <div class="checkbox-row" style="margin-top:9px">
+        <input type="checkbox" id="f-replacement">
+        <label for="f-replacement">🔄 Αντικατάσταση υπάρχοντος item — αναιρεί το δίμηνο</label>
+      </div>
+    </div>
+
+    <div class="iform-actions">
+      <button class="btn-sm" onclick="closeInlineForm()">Ακύρωση</button>
+      <button class="btn-sm primary" id="save-btn" onclick="saveItem()">Αποθήκευση</button>
+    </div>
+  </div>
+  <!-- END INLINE FORM -->
+
+</div>
+```
+
   </div>
 
   <!-- ═══ TAB: YEARLY PURCHASES ═══ -->
@@ -475,160 +665,6 @@ border:1px solid rgba(140,74,58,0.22);
     </div>
   </div>
 
-</div>
-
-<!-- ══ MODAL ══ -->
-
-<div class="modal-overlay" id="modal" onclick="if(event.target===this||event.target.classList.contains('modal-scroll-wrap'))closeModal()">
-  <div class="modal-scroll-wrap">
-  <div class="modal">
-    <div class="modal-title" id="modal-title">Νέα <em>Εγγραφή</em></div>
-
-```
-<div class="form-section">
-  <div class="form-section-title">Βασικά στοιχεία</div>
-  <div class="form-grid">
-    <div class="form-group full"><label>Τίτλος *</label><input type="text" id="f-title" placeholder="π.χ. Λευκό λινό πουκάμισο"></div>
-    <div class="form-group"><label>Ημερομηνία εγγραφής</label>
-      <input type="date" id="f-entry-date">
-      <div style="font-size:9px;color:var(--text-dim);margin-top:3px;">Άφησε κενό για σημερινή · βάλε παλιά ημερομηνία αν το είχες στη λίστα νωρίτερα</div>
-    </div>
-    <div class="form-group"><label>Μάρκα</label><input type="text" id="f-brand" placeholder="π.χ. Zara, Mango…"></div>
-    <div class="form-group">
-      <label>Κατηγορία</label>
-      <select id="f-category">
-        <option value="">— Επιλογή —</option>
-        <optgroup label="Ρούχα">
-          <option>Μπλούζες / Tops</option><option>Πουκάμισα</option><option>Φούστες</option>
-          <option>Παντελόνια</option><option>Φορέματα</option><option>Πλεκτά / Πουλόβερ</option>
-          <option>Jackets</option><option>Παλτά</option><option>Σετ / Coordinates</option>
-        </optgroup>
-        <optgroup label="Παπούτσια">
-          <option>Sneakers</option><option>Boots / Booties</option>
-          <option>Flats</option><option>Sandals</option><option>Heels</option>
-        </optgroup>
-        <optgroup label="Αξεσουάρ">
-          <option>Τσάντες</option><option>Γυαλιά ηλίου</option>
-          <option>Πορτοφόλι</option><option>Κοσμήματα</option><option>Αξεσουάρ — Other</option>
-        </optgroup>
-      </select>
-    </div>
-    <div class="form-group"><label>Χρώμα</label><select id="f-color">
-        <option value="">— Επιλογή —</option>
-        <optgroup label="Neutrals">
-          <option value="Λευκό" data-hex="#F5F5F0">Λευκό</option>
-          <option value="Εκρού / Off-white" data-hex="#EDE8DC">Εκρού / Off-white</option>
-          <option value="Beige / Camel" data-hex="#C9A96E">Beige / Camel</option>
-          <option value="Γκρι ανοιχτό" data-hex="#C4C4C0">Γκρι ανοιχτό</option>
-          <option value="Γκρι σκούρο" data-hex="#6B6B6B">Γκρι σκούρο</option>
-          <option value="Μαύρο" data-hex="#1A1A1A">Μαύρο</option>
-          <option value="Καφέ / Ταμπά" data-hex="#8B5E3C">Καφέ / Ταμπά</option>
-          <option value="Chocolate" data-hex="#4A2C17">Chocolate</option>
-        </optgroup>
-        <optgroup label="Blues & Greens">
-          <option value="Navy" data-hex="#1B2A4A">Navy</option>
-          <option value="Μπλε ρουά" data-hex="#1E3A8A">Μπλε ρουά</option>
-          <option value="Γαλάζιο" data-hex="#7EB8D4">Γαλάζιο</option>
-          <option value="Denim" data-hex="#4A6FA5">Denim</option>
-          <option value="Πράσινο σκούρο" data-hex="#2D5A27">Πράσινο σκούρο</option>
-          <option value="Χακί / Olive" data-hex="#7A7A45">Χακί / Olive</option>
-          <option value="Mint / Sage" data-hex="#9DC4B0">Mint / Sage</option>
-        </optgroup>
-        <optgroup label="Reds & Pinks">
-          <option value="Κόκκινο" data-hex="#C0392B">Κόκκινο</option>
-          <option value="Burgundy / Μπορντό" data-hex="#6D1A2A">Burgundy / Μπορντό</option>
-          <option value="Ροζ παλ" data-hex="#E8B4B8">Ροζ παλ</option>
-          <option value="Fuchsia / Hot pink" data-hex="#D5006D">Fuchsia / Hot pink</option>
-          <option value="Terracotta / Ώχρα" data-hex="#C4673A">Terracotta / Ώχρα</option>
-          <option value="Πορτοκαλί" data-hex="#E8720C">Πορτοκαλί</option>
-        </optgroup>
-        <optgroup label="Purples & Yellows">
-          <option value="Μωβ / Λιλά" data-hex="#9B59B6">Μωβ / Λιλά</option>
-          <option value="Κίτρινο / Mustard" data-hex="#D4A017">Κίτρινο / Mustard</option>
-        </optgroup>
-        <optgroup label="Patterns">
-          <option value="Ριγέ" data-hex="#888888">Ριγέ</option>
-          <option value="Καρό / Vichy" data-hex="#888888">Καρό / Vichy</option>
-          <option value="Floral / Print" data-hex="#888888">Floral / Print</option>
-          <option value="Animal print" data-hex="#888888">Animal print</option>
-          <option value="Πολύχρωμο" data-hex="#888888">Πολύχρωμο</option>
-        </optgroup>
-      </select></div>
-    <div class="form-group"><label>Υλικό</label><input type="text" id="f-material" placeholder="π.χ. Λινό, Βαμβάκι"></div>
-  </div>
-</div>
-
-<div class="form-section">
-  <div class="form-section-title">Χαρακτηριστικά (προαιρετικά)</div>
-  <div class="form-grid">
-    <div class="form-group">
-      <label>Μανίκι</label>
-      <select id="f-sleeve"><option value="">—</option><option>Αμάνικο</option><option>Κοντό</option><option>3/4</option><option>Μακρύ</option><option>N/A</option></select>
-    </div>
-    <div class="form-group">
-      <label>Λαιμόκοψη</label>
-      <select id="f-neckline"><option value="">—</option><option>V-neck</option><option>Στρόγγυλη</option><option>Κλασική</option><option>Off-shoulder</option><option>Turtleneck</option><option>Boat neck</option><option>Square neck</option><option>N/A</option></select>
-    </div>
-    <div class="form-group">
-      <label>Μήκος</label>
-      <select id="f-length"><option value="">—</option><option>Crop</option><option>Κανονικό</option><option>Midi</option><option>Maxi</option><option>N/A</option></select>
-    </div>
-    <div class="form-group">
-      <label>Εποχή</label>
-      <select id="f-season"><option value="">—</option><option>Άνοιξη / Καλοκαίρι</option><option>Φθινόπωρο / Χειμώνας</option><option>4 εποχές</option></select>
-    </div>
-  </div>
-</div>
-
-<div class="form-section">
-  <div class="form-section-title">CPW — Τιμή & Κατηγορία</div>
-  <div class="form-grid">
-    <div class="form-group"><label>Τιμή (€)</label><input type="number" id="f-price" placeholder="0.00" step="0.01" oninput="calcCPW()"></div>
-    <div class="form-group">
-      <label>Κατηγορία CPW</label>
-      <select id="f-cpw-cat" onchange="calcCPW()">
-        <option value="">— Επιλογή —</option>
-        <option value="5">Καθημερινό (target &lt;5€)</option>
-        <option value="10">Αξεσουάρ (target &lt;10€)</option>
-        <option value="8">Outerwear (target &lt;8€)</option>
-        <option value="10">Περιστασιακό (target &lt;10€)</option>
-        <option value="20">Ειδική Περίσταση (target &lt;20€)</option>
-      </select>
-    </div>
-    <div class="form-group"><label>Χρήσεις / εβδομάδα</label><input type="number" id="f-times" placeholder="π.χ. 1 ή 0.5" step="0.5" min="0.5" oninput="calcCPW()"></div>
-    <div class="form-group"><label>Link</label><input type="url" id="f-link" placeholder="https://…"></div>
-  </div>
-  <div class="cpw-preview-box">
-    <div class="cpw-row"><span class="cpw-row-label">CPW σε 1 χρόνο</span><span class="cpw-row-value" id="cpw-val">—</span></div>
-    <div class="cpw-row"><span class="cpw-row-label">Target κατηγορίας</span><span class="cpw-row-value" id="cpw-target">—</span></div>
-    <div class="cpw-row"><span class="cpw-row-label">Χρήσεις για να αξίζει</span><span class="cpw-row-value" id="cpw-needed">—</span></div>
-    <hr class="cpw-divider">
-    <div class="cpw-verdict" id="cpw-verdict"></div>
-  </div>
-</div>
-
-<div class="form-section">
-  <div class="form-section-title">Συνδυασμοί & Σημειώσεις</div>
-  <div class="form-grid">
-    <div class="form-group full"><label>Συνδυασμός 1</label><input type="text" id="f-outfit1" placeholder="π.χ. Beige παντελόνι + λευκά sneakers"></div>
-    <div class="form-group full"><label>Συνδυασμός 2</label><input type="text" id="f-outfit2" placeholder="…"></div>
-    <div class="form-group full"><label>Συνδυασμός 3</label><input type="text" id="f-outfit3" placeholder="…"></div>
-    <div class="form-group full"><label>Σημειώσεις</label><textarea id="f-notes" placeholder="Οποιαδήποτε επιπλέον πληροφορία…"></textarea></div>
-  </div>
-  <div class="checkbox-row" style="margin-top:9px">
-    <input type="checkbox" id="f-replacement">
-    <label for="f-replacement">Αντικατάσταση υπάρχοντος item — αναιρεί το δίμηνο</label>
-  </div>
-</div>
-
-<div class="modal-actions">
-  <button class="btn-sm" onclick="closeModal()">Ακύρωση</button>
-  <button class="btn-sm primary" id="save-btn" onclick="saveItem()">Αποθήκευση</button>
-</div>
-```
-
-  </div>
-  </div><!-- end modal-scroll-wrap -->
 </div>
 
 <!-- ══ PURCHASE DATE MODAL ══ -->
@@ -966,46 +1002,63 @@ function calcCPW() {
   vrdEl.className = 'cpw-verdict ' + cls;
 }
 
-function openModal(item = null) {
+function openInlineForm(item = null) {
   editingId = item ? item.id : null;
-  document.getElementById('modal-title').innerHTML = item ? 'Επεξεργασία <em>Εγγραφής</em>' : 'Νέα <em>Εγγραφή</em>';
-  const fields = ['title','brand','category','color','material','sleeve','neckline','length','season','price','cpw-cat','times','link','outfit1','outfit2','outfit3','notes','entry-date'];
-  fields.forEach(f => { const el = document.getElementById('f-' + f); if (el) el.value = ''; });
+  document.getElementById('inline-form-title').innerHTML = item ? 'Επεξεργασία <em>Εγγραφής</em>' : 'Νέα <em>Εγγραφή</em>';
+
+  ['f-title','f-brand','f-category','f-color','f-material','f-sleeve','f-neckline',
+   'f-length','f-season','f-price','f-cpw-cat','f-times','f-link',
+   'f-outfit1','f-outfit2','f-outfit3','f-notes','f-entry-date'].forEach(id => {
+    const el = document.getElementById(id); if (el) el.value = '';
+  });
   document.getElementById('f-replacement').checked = false;
+  ['cpw-val','cpw-target','cpw-needed'].forEach(id => {
+    const el = document.getElementById(id); if (el) el.textContent = '—';
+  });
+  const vrd = document.getElementById('cpw-verdict'); if (vrd) vrd.textContent = '';
 
   if (item) {
-    document.getElementById('f-title').value = item.title || '';
-    document.getElementById('f-brand').value = item.brand || '';
-    document.getElementById('f-category').value = item.category || '';
-    document.getElementById('f-color').value = item.color || '';
-    document.getElementById('f-material').value = item.material || '';
-    document.getElementById('f-sleeve').value = item.sleeve_length || '';
-    document.getElementById('f-neckline').value = item.neckline || '';
-    document.getElementById('f-length').value = item.item_length || '';
-    document.getElementById('f-season').value = item.season || '';
-    document.getElementById('f-price').value = item.price || '';
-    document.getElementById('f-cpw-cat').value = item.cpw_category || '';
-    document.getElementById('f-times').value = item.times_per_week || '';
-    document.getElementById('f-link').value = item.link || '';
-    document.getElementById('f-outfit1').value = item.outfit_1 || '';
-    document.getElementById('f-outfit2').value = item.outfit_2 || '';
-    document.getElementById('f-outfit3').value = item.outfit_3 || '';
-    document.getElementById('f-notes').value = item.notes || '';
+    document.getElementById('f-title').value      = item.title || '';
+    document.getElementById('f-brand').value      = item.brand || '';
+    document.getElementById('f-category').value   = item.category || '';
+    document.getElementById('f-color').value      = item.color || '';
+    document.getElementById('f-material').value   = item.material || '';
+    document.getElementById('f-sleeve').value     = item.sleeve_length || '';
+    document.getElementById('f-neckline').value   = item.neckline || '';
+    document.getElementById('f-length').value     = item.item_length || '';
+    document.getElementById('f-season').value     = item.season || '';
+    document.getElementById('f-price').value      = item.price || '';
+    document.getElementById('f-cpw-cat').value    = item.cpw_category || '';
+    document.getElementById('f-times').value      = item.times_per_week || '';
+    document.getElementById('f-link').value       = item.link || '';
+    document.getElementById('f-outfit1').value    = item.outfit_1 || '';
+    document.getElementById('f-outfit2').value    = item.outfit_2 || '';
+    document.getElementById('f-outfit3').value    = item.outfit_3 || '';
+    document.getElementById('f-notes').value      = item.notes || '';
     document.getElementById('f-replacement').checked = item.is_replacement || false;
-    if (item.created_at) {
-      document.getElementById('f-entry-date').value = item.created_at.split('T')[0];
-    }
+    if (item.created_at) document.getElementById('f-entry-date').value = item.created_at.split('T')[0];
     calcCPW();
   }
-  document.getElementById('modal').classList.add('open');
-  document.body.style.overflow = 'hidden';
+
+  // Switch to wishlist tab first
+  document.querySelectorAll('.app-tab').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.app-panel').forEach(p => p.classList.remove('active'));
+  document.querySelector('.app-tab').classList.add('active');
+  document.getElementById('panel-wishlist').classList.add('active');
+
+  const wrap = document.getElementById('inline-form-wrap');
+  wrap.style.display = 'block';
+  setTimeout(() => wrap.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80);
 }
 
-function closeModal() {
-  document.getElementById('modal').classList.remove('open');
-  document.body.style.overflow = '';
+function closeInlineForm() {
+  document.getElementById('inline-form-wrap').style.display = 'none';
   editingId = null;
 }
+
+// Aliases for compatibility
+function openModal(item = null) { openInlineForm(item); }
+function closeModal() { closeInlineForm(); }
 
 // ── SAVE ──
 async function saveItem() {

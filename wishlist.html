@@ -105,6 +105,16 @@ color:var(–text-dim);margin-bottom:8px;padding-bottom:5px;
 border-bottom:1px solid var(–border);
 }
 
+/* Insight cards */
+.insight-card {
+display:flex;align-items:flex-start;gap:10px;
+padding:10px 13px;
+background:var(–surface);border:1px solid var(–border);
+border-radius:2px;margin-bottom:6px;
+}
+.insight-icon { font-size:16px;flex-shrink:0;margin-top:1px; }
+.insight-msg { font-size:11px;color:var(–text-muted);line-height:1.6; }
+
 /* Category breakdown bars */
 .cat-bar-row{
 display:flex;align-items:center;gap:10px;
@@ -129,6 +139,7 @@ align-items:center;
 .purch-row-price{font-family:var(–font-serif);font-size:14px;}
 .purch-badge{font-size:8px;letter-spacing:0.08em;text-transform:uppercase;padding:2px 7px;border-radius:1px;}
 .purch-badge.conscious{background:var(–green-soft);color:var(–green-text);border:1px solid var(–green-border);}
+.purch-badge.small-thought{background:rgba(154,106,26,0.09);color:var(–amber);border:1px solid rgba(154,106,26,0.25);}
 .purch-badge.impulse{background:var(–red-soft);color:var(–red-text);border:1px solid rgba(140,74,58,0.25);}
 .purch-badge.replacement{background:rgba(80,110,160,0.1);color:#5a7ab0;border:1px solid rgba(80,110,160,0.2);}
 
@@ -232,17 +243,22 @@ min-height:52px;
 
 /* ── MODAL ── */
 .modal-overlay{
-display:none;position:fixed;
-top:0;left:0;right:0;bottom:0;
+display:none;
+position:fixed;
+top:0;left:0;
 width:100%;height:100%;
-background:rgba(42,35,26,0.55);
-z-index:200;
-align-items:flex-start;justify-content:center;
-padding:12px;
+background:rgba(42,35,26,0.60);
+z-index:9999;
 overflow-y:auto;
 -webkit-overflow-scrolling:touch;
+padding:16px 14px;
+box-sizing:border-box;
 }
-.modal-overlay.open{display:flex;}
+.modal-overlay.open{display:block;}
+.modal-overlay .modal{
+margin:0 auto;
+position:relative;
+}
 .modal{
 background:var(–surface);border:1px solid var(–border);border-radius:2px;
 width:100%;max-width:620px;
@@ -405,21 +421,24 @@ border:1px solid rgba(140,74,58,0.22);
 <div class="purch-kpi-grid" id="purch-kpis">
   <div class="purch-kpi"><div class="purch-kpi-num" id="pk-total">—</div><div class="purch-kpi-label">Συνολικές αγορές</div></div>
   <div class="purch-kpi"><div class="purch-kpi-num" id="pk-cost">—</div><div class="purch-kpi-label">Συνολικό κόστος</div></div>
-  <div class="purch-kpi good"><div class="purch-kpi-num" id="pk-conscious">—</div><div class="purch-kpi-label">Συνειδητές αγορές<br><small>περίμεναν 2 μήνες</small></div></div>
-  <div class="purch-kpi bad"><div class="purch-kpi-num" id="pk-impulse">—</div><div class="purch-kpi-label">Impulse buys<br><small>δεν περίμεναν</small></div></div>
+  <div class="purch-kpi good"><div class="purch-kpi-num" id="pk-conscious">—</div><div class="purch-kpi-label">Συνειδητές<br><small>2+ μήνες αναμονή</small></div></div>
+  <div class="purch-kpi" style="border-left:3px solid var(--amber)"><div class="purch-kpi-num" id="pk-small-thought" style="color:var(--amber)">—</div><div class="purch-kpi-label">Σκεφτήκατε<br><small>48ω — 2 μήνες</small></div></div>
+  <div class="purch-kpi bad"><div class="purch-kpi-num" id="pk-impulse">—</div><div class="purch-kpi-label">Impulse<br><small>εντός 48 ωρών</small></div></div>
   <div class="purch-kpi"><div class="purch-kpi-num" id="pk-replacement">—</div><div class="purch-kpi-label">Αντικαταστάσεις</div></div>
 </div>
 
 <!-- Category breakdown -->
 <div class="list-container" style="padding-top:0">
   <div class="purch-section-title">Κόστος ανά κατηγορία</div>
+  <div id="purch-insights" style="margin-bottom:14px;"></div>
   <div id="purch-by-category"></div>
 
   <div class="purch-section-title" style="margin-top:20px">Αναλυτική λίστα αγορών</div>
   <!-- Sub-filters -->
   <div class="filters" style="padding:8px 0;border:none;background:none;margin-bottom:8px;">
     <button class="filter-btn active" onclick="setPurchFilter('all',this)">Όλες</button>
-    <button class="filter-btn" onclick="setPurchFilter('conscious',this)">✓ Συνειδητές</button>
+    <button class="filter-btn" onclick="setPurchFilter('conscious',this)">✅ Συνειδητές</button>
+    <button class="filter-btn" onclick="setPurchFilter('small-thought',this)">🤔 Σκέφτηκα</button>
     <button class="filter-btn" onclick="setPurchFilter('impulse',this)">⚡ Impulse</button>
     <button class="filter-btn" onclick="setPurchFilter('replacement',this)">🔄 Αντικατάσταση</button>
   </div>
@@ -468,8 +487,8 @@ border:1px solid rgba(140,74,58,0.22);
           <option>Jackets</option><option>Παλτά</option><option>Σετ / Coordinates</option>
         </optgroup>
         <optgroup label="Παπούτσια">
-          <option>Παπούτσια — Casual</option><option>Παπούτσια — Heels</option>
-          <option>Παπούτσια — Boots</option><option>Παπούτσια — Sandals</option>
+          <option>Sneakers</option><option>Boots / Booties</option>
+          <option>Flats</option><option>Sandals</option><option>Heels</option>
         </optgroup>
         <optgroup label="Αξεσουάρ">
           <option>Τσάντες</option><option>Γυαλιά ηλίου</option>
@@ -596,7 +615,7 @@ border:1px solid rgba(140,74,58,0.22);
 
 <!-- ══ PURCHASE DATE MODAL ══ -->
 
-<div class="modal-overlay" id="purchase-modal" onclick="if(event.target===this)this.classList.remove('open')">
+<div class="modal-overlay" id="purchase-modal" onclick="if(event.target===this){this.classList.remove('open');document.body.style.overflow='';}">
   <div class="modal" style="max-width:420px">
     <div class="modal-title">Καταγραφή <em>Αγοράς</em></div>
     <div style="font-family:var(--font-serif);font-size:15px;color:var(--text);margin-bottom:16px;" id="purchase-item-name"></div>
@@ -618,7 +637,7 @@ border:1px solid rgba(140,74,58,0.22);
 <div id="purchase-verdict" class="purchase-verdict" style="margin:12px 0 16px;"></div>
 
 <div class="modal-actions">
-  <button class="btn-sm" onclick="document.getElementById('purchase-modal').classList.remove('open')">Ακύρωση</button>
+  <button class="btn-sm" onclick="document.getElementById('purchase-modal').classList.remove('open');document.body.style.overflow='';">Ακύρωση</button>
   <button class="btn-sm primary" id="confirm-purchase-btn" onclick="confirmPurchase()">Καταγραφή</button>
 </div>
 ```
@@ -902,7 +921,6 @@ function calcCPW() {
   vrdEl.className = 'cpw-verdict ' + cls;
 }
 
-// ── MODAL ──
 function openModal(item = null) {
   editingId = item ? item.id : null;
   document.getElementById('modal-title').innerHTML = item ? 'Επεξεργασία <em>Εγγραφής</em>' : 'Νέα <em>Εγγραφή</em>';
@@ -929,17 +947,20 @@ function openModal(item = null) {
     document.getElementById('f-outfit3').value = item.outfit_3 || '';
     document.getElementById('f-notes').value = item.notes || '';
     document.getElementById('f-replacement').checked = item.is_replacement || false;
-    // Εμφάνισε την ημερομηνία εγγραφής στο πεδίο (για ενημέρωση)
     if (item.created_at) {
       document.getElementById('f-entry-date').value = item.created_at.split('T')[0];
     }
     calcCPW();
   }
   document.getElementById('modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
 }
 
-function closeModal() { document.getElementById('modal').classList.remove('open'); editingId = null; }
-function handleOverlayClick(e) { if (e.target === document.getElementById('modal')) closeModal(); }
+function closeModal() {
+  document.getElementById('modal').classList.remove('open');
+  document.body.style.overflow = '';
+  editingId = null;
+}
 
 // ── SAVE ──
 async function saveItem() {
@@ -1023,20 +1044,54 @@ function markPurchased(id) {
   updatePurchaseVerdict(item);
 
   document.getElementById('purchase-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
 }
+
+function getPurchaseCategory(hoursWaited, isReplacement) {
+  if (isReplacement) return 'replacement';
+  if (hoursWaited >= 24 * 60) return 'conscious';   // 2+ μήνες
+  if (hoursWaited >= 48) return 'small-thought';     // 48ω+
+  return 'impulse';
+}
+
+const VERDICT_MESSAGES = {
+  conscious: {
+    icon: '✅',
+    title: 'Συνειδητή αγορά',
+    msg: 'Περίμενες τουλάχιστον 2 μήνες — αυτό δείχνει πραγματική ανάγκη. Καλά έκανες!',
+    cls: 'good'
+  },
+  'small-thought': {
+    icon: '🤔',
+    title: 'Σκεφτήκες πριν αγοράσεις',
+    msg: 'Περίμενες πάνω από 48 ώρες — καλό βήμα! Αν μπορείς, την επόμενη φορά δοκίμασε να περιμένεις λίγο παραπάνω.',
+    cls: 'warn'
+  },
+  impulse: {
+    icon: '⚡',
+    title: 'Γρήγορη απόφαση',
+    msg: 'Αγόρασες μέσα σε 48 ώρες. Δεν πειράζει — όλοι το κάνουμε. Την επόμενη φορά δοκίμασε να το αφήσεις για 2 μέρες και να δεις αν εξακολουθείς να το θέλεις!',
+    cls: 'bad'
+  },
+  replacement: {
+    icon: '🔄',
+    title: 'Αντικατάσταση',
+    msg: 'Αντικαθιστάς κάτι που ήδη έχεις — αυτό είναι συνειδητή κατανάλωση!',
+    cls: 'good'
+  }
+};
 
 function updatePurchaseVerdict(item) {
   const dateVal = document.getElementById('purchase-date-input').value;
   if (!dateVal || !item) return;
   const purchaseDate = new Date(dateVal);
   const createdAt = new Date(item.created_at);
-  const monthsWaited = (purchaseDate - createdAt) / (1000 * 60 * 60 * 24 * 30);
-  const waited = monthsWaited >= 2 || item.is_replacement;
+  const hoursWaited = (purchaseDate - createdAt) / (1000 * 60 * 60);
+  const cat = getPurchaseCategory(hoursWaited, item.is_replacement);
+  const v = VERDICT_MESSAGES[cat];
   const verdictEl = document.getElementById('purchase-verdict');
-  verdictEl.textContent = waited
-    ? '✅ Συνειδητή αγορά — περίμενες τουλάχιστον 2 μήνες'
-    : `⚡ Impulse buy — ${monthsWaited < 0 ? 'ημερομηνία πριν την καταχώρηση' : `πέρασαν μόνο ${Math.round(Math.max(0,monthsWaited))} μήνες`}`;
-  verdictEl.className = 'purchase-verdict ' + (waited ? 'good' : 'bad');
+  verdictEl.innerHTML = `<strong>${v.icon} ${v.title}</strong><br><span style="font-size:10px;letter-spacing:0;text-transform:none;font-weight:300;">${v.msg}</span>`;
+  verdictEl.className = 'purchase-verdict ' + v.cls;
 }
 
 async function confirmPurchase() {
@@ -1049,8 +1104,9 @@ async function confirmPurchase() {
 
   const purchaseDate = new Date(purchasedAt);
   const createdAt = new Date(item.created_at);
-  const monthsWaited = (purchaseDate - createdAt) / (1000 * 60 * 60 * 24 * 30);
-  const waitedTwoMonths = monthsWaited >= 2 || item.is_replacement;
+  const hoursWaited = (purchaseDate - createdAt) / (1000 * 60 * 60);
+  const purchCat = getPurchaseCategory(hoursWaited, item.is_replacement);
+  const waitedTwoMonths = purchCat === 'conscious' || purchCat === 'replacement';
   const purchaseYear = purchaseDate.getFullYear();
 
   const btn = document.getElementById('confirm-purchase-btn');
@@ -1061,6 +1117,7 @@ async function confirmPurchase() {
     purchased_at: purchasedAt,
     purchase_year: purchaseYear,
     waited_two_months: waitedTwoMonths,
+    purchase_category: purchCat,
   }).eq('id', id);
 
   btn.disabled = false; btn.textContent = 'Καταγραφή';
@@ -1068,11 +1125,13 @@ async function confirmPurchase() {
   if (error) { showToast('Σφάλμα: ' + error.message); return; }
 
   document.getElementById('purchase-modal').classList.remove('open');
+  document.body.style.overflow = '';
   pendingPurchaseId = null;
   allItems = allItems.filter(i => i.id !== id);
   renderItems();
   updateStats();
-  showToast(waitedTwoMonths ? '✅ Συνειδητή αγορά καταγράφηκε!' : '⚡ Impulse buy καταγράφηκε');
+  const v = VERDICT_MESSAGES[purchCat];
+  showToast(`${v.icon} ${v.title} καταγράφηκε!`);
   await loadPurchases();
 }
 
@@ -1107,20 +1166,70 @@ async function loadPurchases() {
   renderPurchases();
 }
 
+function getPurchCat(item) {
+  if (item.purchase_category) return item.purchase_category;
+  if (item.is_replacement) return 'replacement';
+  return item.waited_two_months ? 'conscious' : 'impulse';
+}
+
 function renderPurchases() {
   const items = purchasedItems;
   const total = items.length;
   const totalCost = items.reduce((s, i) => s + (i.price || 0), 0);
-  const conscious = items.filter(i => i.waited_two_months && !i.is_replacement);
-  const impulse = items.filter(i => !i.waited_two_months && !i.is_replacement);
-  const replacements = items.filter(i => i.is_replacement);
+  const conscious    = items.filter(i => getPurchCat(i) === 'conscious');
+  const smallThought = items.filter(i => getPurchCat(i) === 'small-thought');
+  const impulse      = items.filter(i => getPurchCat(i) === 'impulse');
+  const replacements = items.filter(i => getPurchCat(i) === 'replacement');
 
   // KPIs
   document.getElementById('pk-total').textContent = total;
   document.getElementById('pk-cost').textContent = totalCost ? `€${totalCost.toLocaleString('el-GR')}` : '—';
   document.getElementById('pk-conscious').textContent = conscious.length;
+  document.getElementById('pk-small-thought').textContent = smallThought.length;
   document.getElementById('pk-impulse').textContent = impulse.length;
   document.getElementById('pk-replacement').textContent = replacements.length;
+
+  // ── Insights ──
+  const insightsEl = document.getElementById('purch-insights');
+  if (insightsEl && total >= 2) {
+    const impulseCost  = impulse.reduce((s,i) => s+(i.price||0), 0);
+    const consciousCost= conscious.reduce((s,i) => s+(i.price||0), 0);
+    const impulseRate  = total ? Math.round(impulse.length / total * 100) : 0;
+    const insights = [];
+
+    if (impulse.length === 0 && conscious.length > 0) {
+      insights.push({ icon:'🌟', msg:'Εξαιρετικό — καμία impulse αγορά φέτος! Η υπομονή σου αποδίδει.' });
+    } else if (impulseRate >= 50) {
+      insights.push({ icon:'💡', msg:`Το ${impulseRate}% των αγορών σου έγιναν εντός 48 ωρών. Δοκίμασε τον «κανόνα των 48 ωρών» — αφησέ το στο καλάθι και επέστρεψε αύριο.` });
+    } else if (impulseRate > 0 && impulseRate < 50) {
+      insights.push({ icon:'👍', msg:`Οι περισσότερες αγορές σου είναι σκεφτημένες. Τα ${impulse.length} impulse items αξίζει να τα παρακολουθείς στο Wardrobe Tracker.` });
+    }
+
+    if (impulseCost > 0 && consciousCost > 0) {
+      const avgImpulse   = impulseCost / impulse.length;
+      const avgConscious = consciousCost / conscious.length;
+      if (avgImpulse > avgConscious * 0.8) {
+        insights.push({ icon:'💰', msg:`Τα impulse items κοστίζουν κατά μέσο όρο €${Math.round(avgImpulse)} — παρόμοιο με τις συνειδητές αγορές (€${Math.round(avgConscious)}). Αξίζει να βάλεις ένα budget cap για αυθόρμητες αγορές.` });
+      }
+    }
+
+    if (smallThought.length > 0 && impulse.length === 0) {
+      insights.push({ icon:'🎯', msg:`Κανένα impulse buy — μόνο σκεφτημένες αποφάσεις. Αν θέλεις να πας ένα βήμα παραπάνω, δοκίμασε να φτάσεις και στο δίμηνο.` });
+    }
+
+    if (replacements.length > 0) {
+      const replRate = Math.round(replacements.length / total * 100);
+      insights.push({ icon:'♻️', msg:`${replRate}% των αγορών σου είναι αντικαταστάσεις — αυτό δείχνει συνειδητή κατανάλωση!` });
+    }
+
+    insightsEl.innerHTML = insights.length
+      ? insights.map(ins => `
+        <div class="insight-card">
+          <span class="insight-icon">${ins.icon}</span>
+          <span class="insight-msg">${ins.msg}</span>
+        </div>`).join('')
+      : '';
+  }
 
   // Category breakdown
   const catMap = {};
@@ -1144,17 +1253,21 @@ function renderPurchases() {
 
   // Filtered list
   let filtered = items;
-  if (purchFilter === 'conscious') filtered = conscious;
-  else if (purchFilter === 'impulse') filtered = impulse;
+  if (purchFilter === 'conscious')     filtered = conscious;
+  else if (purchFilter === 'small-thought') filtered = smallThought;
+  else if (purchFilter === 'impulse')  filtered = impulse;
   else if (purchFilter === 'replacement') filtered = replacements;
+
+  const BADGE = {
+    'conscious':    { cls:'conscious',    label:'✅ Συνειδητή' },
+    'small-thought':{ cls:'small-thought',label:'🤔 Σκέφτηκα' },
+    'impulse':      { cls:'impulse',      label:'⚡ Impulse' },
+    'replacement':  { cls:'replacement',  label:'🔄 Αντικατάσταση' },
+  };
 
   document.getElementById('purch-list').innerHTML = filtered.length
     ? filtered.map(item => {
-        let badgeClass, badgeLabel;
-        if (item.is_replacement) { badgeClass = 'replacement'; badgeLabel = '🔄 Αντικατάσταση'; }
-        else if (item.waited_two_months) { badgeClass = 'conscious'; badgeLabel = '✅ Συνειδητή'; }
-        else { badgeClass = 'impulse'; badgeLabel = '⚡ Impulse'; }
-
+        const { cls, label } = BADGE[getPurchCat(item)] || BADGE.impulse;
         return `<div class="purch-row">
           <div class="purch-row-body">
             <div class="purch-row-name">${escHtml(item.title)}</div>
@@ -1162,7 +1275,7 @@ function renderPurchases() {
           </div>
           <div class="purch-row-right">
             <div class="purch-row-price">${item.price ? `€${item.price}` : '—'}</div>
-            <span class="purch-badge ${badgeClass}">${badgeLabel}</span>
+            <span class="purch-badge ${cls}">${label}</span>
           </div>
         </div>`;
       }).join('')
@@ -1210,9 +1323,10 @@ async function loadArchive() {
     .sort((a, b) => b[0] - a[0])
     .map(([year, items]) => {
       const totalCost = items.reduce((s, i) => s + (i.price || 0), 0);
-      const conscious = items.filter(i => i.waited_two_months && !i.is_replacement).length;
-      const impulse = items.filter(i => !i.waited_two_months && !i.is_replacement).length;
-      const repl = items.filter(i => i.is_replacement).length;
+      const conscious = items.filter(i => ['conscious','replacement'].includes(getPurchCat(i))).length;
+      const impulse = items.filter(i => getPurchCat(i) === 'impulse').length;
+      const smallThought = items.filter(i => getPurchCat(i) === 'small-thought').length;
+      const repl = items.filter(i => getPurchCat(i) === 'replacement').length;
 
       return `<div class="archive-year-block">
         <div class="archive-year-title"><em>${year}</em></div>
@@ -1220,14 +1334,17 @@ async function loadArchive() {
           <span><strong>${items.length}</strong> αγορές</span>
           <span><strong>€${totalCost.toLocaleString('el-GR')}</strong> συνολικό κόστος</span>
           <span style="color:var(--green-text)"><strong>${conscious}</strong> συνειδητές</span>
+          <span style="color:var(--amber)"><strong>${smallThought}</strong> σκεφτήκα</span>
           <span style="color:var(--red-text)"><strong>${impulse}</strong> impulse</span>
           <span style="color:#5a7ab0"><strong>${repl}</strong> αντικαταστάσεις</span>
         </div>
         ${items.map(item => {
-          let badgeClass, badgeLabel;
-          if (item.is_replacement) { badgeClass = 'replacement'; badgeLabel = '🔄 Αντικατάσταση'; }
-          else if (item.waited_two_months) { badgeClass = 'conscious'; badgeLabel = '✅ Συνειδητή'; }
-          else { badgeClass = 'impulse'; badgeLabel = '⚡ Impulse'; }
+          const { cls: archCls, label: archLabel } = ({
+            'conscious':    { cls:'conscious',    label:'✅ Συνειδητή' },
+            'small-thought':{ cls:'small-thought',label:'🤔 Σκέφτηκα' },
+            'impulse':      { cls:'impulse',      label:'⚡ Impulse' },
+            'replacement':  { cls:'replacement',  label:'🔄 Αντικατάσταση' },
+          })[getPurchCat(item)] || { cls:'impulse', label:'⚡ Impulse' };
           return `<div class="purch-row">
             <div class="purch-row-body">
               <div class="purch-row-name">${escHtml(item.title)}</div>
@@ -1235,7 +1352,7 @@ async function loadArchive() {
             </div>
             <div class="purch-row-right">
               <div class="purch-row-price">${item.price ? `€${item.price}` : '—'}</div>
-              <span class="purch-badge ${badgeClass}">${badgeLabel}</span>
+              <span class="purch-badge ${archCls}">${archLabel}</span>
             </div>
           </div>`;
         }).join('')}

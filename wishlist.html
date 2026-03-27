@@ -14,7 +14,8 @@
   --border:#ddd7cc;--border-soft:#e8e2d8;
   --text:#2a231a;--text-muted:#8a7d6e;--text-dim:#b5a898;
   --accent:#9a7a4a;--accent-light:#c9a96e;--accent-dim:rgba(154,122,74,0.10);
-  --green:#4a7c5a;--green-soft:rgba(74,124,90,0.09);--green-text:#2d5e3f;
+  --green:#4a7c5a;--green-soft:rgba(74,124,90,0.09);--green-text:#2d5e3f;--green-border:rgba(74,124,90,0.25);
+  --yellow:#8a6e00;--yellow-soft:rgba(180,150,0,0.08);--yellow-text:#6b5200;--yellow-border:rgba(180,150,0,0.28);
   --red:#8c4a3a;--red-soft:rgba(140,74,58,0.08);--red-text:#7a3020;
   --amber:#9a6a1a;
   --font-serif:'Noto Serif',Georgia,serif;
@@ -196,6 +197,7 @@ min-height:52px;
 .card{border:1px solid var(–border);border-radius:2px;margin-bottom:6px;background:var(–surface);overflow:hidden;transition:box-shadow 0.2s;cursor:pointer;}
 .card:hover{box-shadow:0 2px 10px rgba(90,70,40,0.08);}
 .card.green{border-left:3px solid var(–green);}
+.card.yellow{border-left:3px solid #b8960a;}
 .card.red{border-left:3px solid var(–red);}
 
 .card-row{display:grid;grid-template-columns:2fr 90px 70px 130px 80px;gap:8px;padding:12px 12px;align-items:center;}
@@ -214,8 +216,10 @@ min-height:52px;
 .col-status{font-size:9px;letter-spacing:0.08em;text-transform:uppercase;display:flex;align-items:center;gap:5px;}
 .status-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
 .card.green .status-dot{background:var(–green-text);}
+.card.yellow .status-dot{background:#8a6e00;}
 .card.red .status-dot{background:var(–red-text);}
 .card.green .col-status{color:var(–green-text);}
+.card.yellow .col-status{color:#8a6e00;}
 .card.red .col-status{color:var(–red-text);}
 
 /* DETAIL PANEL */
@@ -230,6 +234,7 @@ min-height:52px;
 .outfit-tag{display:inline-block;font-size:10px;background:var(–surface);border:1px solid var(–border);padding:3px 9px;border-radius:1px;margin:2px 3px 2px 0;color:var(–text-muted);}
 .reasons-section{margin-top:10px;padding:9px 12px;border-radius:2px;font-size:10px;line-height:1.9;}
 .card.green .reasons-section{background:var(–green-soft);border:1px solid rgba(74,124,90,0.22);color:var(–green-text);}
+.card.yellow .reasons-section{background:rgba(184,150,10,0.07);border:1px solid rgba(184,150,10,0.25);color:#6b5200;}
 .card.red .reasons-section{background:var(–red-soft);border:1px solid rgba(140,74,58,0.22);color:var(–red-text);}
 .detail-actions{display:flex;gap:7px;margin-top:12px;padding-top:11px;border-top:1px solid var(–border-soft);align-items:center;flex-wrap:wrap;}
 .btn-sm{font-family:var(–font-sans);font-size:9px;letter-spacing:0.09em;text-transform:uppercase;padding:5px 12px;border-radius:1px;cursor:pointer;border:1px solid var(–border);background:none;color:var(–text-muted);transition:all 0.15s;}
@@ -247,17 +252,26 @@ display:none;
 position:fixed;
 top:0;left:0;
 width:100%;height:100%;
-background:rgba(42,35,26,0.60);
+background:rgba(42,35,26,0.65);
 z-index:9999;
-overflow-y:auto;
--webkit-overflow-scrolling:touch;
-padding:16px 14px;
-box-sizing:border-box;
+overflow:hidden;
 }
 .modal-overlay.open{display:block;}
+.modal-scroll-wrap{
+position:absolute;
+top:0;left:0;right:0;bottom:0;
+overflow-y:auto;
+-webkit-overflow-scrolling:touch;
+display:flex;
+align-items:flex-start;
+justify-content:center;
+padding:20px 14px 40px;
+}
 .modal-overlay .modal{
 margin:0 auto;
 position:relative;
+width:100%;max-width:620px;
+flex-shrink:0;
 }
 .modal{
 background:var(–surface);border:1px solid var(–border);border-radius:2px;
@@ -387,16 +401,18 @@ border:1px solid rgba(140,74,58,0.22);
   <div class="app-panel active" id="panel-wishlist">
     <div class="stats-bar" id="stats-bar">
       <div class="stat"><div class="stat-num" id="stat-total">—</div><div class="stat-label">Σύνολο</div></div>
-      <div class="stat"><div class="stat-num" style="color:var(--green-text)" id="stat-ready">—</div><div class="stat-label">Έτοιμα ✓</div></div>
-      <div class="stat"><div class="stat-num" style="color:var(--red-text)" id="stat-waiting">—</div><div class="stat-label">Αναμονή</div></div>
-      <div class="stat"><div class="stat-num" style="color:var(--accent)" id="stat-value">—</div><div class="stat-label">Συνολική αξία</div></div>
+      <div class="stat"><div class="stat-num" style="color:var(--green-text)" id="stat-ready">—</div><div class="stat-label">Conscious ✅</div></div>
+      <div class="stat"><div class="stat-num" style="color:#8a6e00" id="stat-yellow">—</div><div class="stat-label">48h Rule 🤔</div></div>
+      <div class="stat"><div class="stat-num" style="color:var(--red-text)" id="stat-waiting">—</div><div class="stat-label">Impulse ⚡</div></div>
+      <div class="stat"><div class="stat-num" style="color:var(--accent)" id="stat-value">—</div><div class="stat-label">Αξία</div></div>
     </div>
     <div class="filters">
       <span class="filter-label">Φίλτρο ·</span>
       <button class="filter-btn active" onclick="setFilter('all',this)">Όλα</button>
-      <button class="filter-btn" onclick="setFilter('green',this)">✓ Έτοιμα</button>
-      <button class="filter-btn" onclick="setFilter('red',this)">⏳ Αναμονή</button>
-      <button class="filter-btn" onclick="setFilter('replacement',this)">Αντικατάσταση</button>
+      <button class="filter-btn" onclick="setFilter('green',this)">✅ Conscious</button>
+      <button class="filter-btn" onclick="setFilter('yellow',this)">🤔 48h Rule</button>
+      <button class="filter-btn" onclick="setFilter('red',this)">⚡ Impulse</button>
+      <button class="filter-btn" onclick="setFilter('replacement',this)">🔄 Αντικατάσταση</button>
     </div>
     <div class="list-container">
       <div class="list-header">
@@ -421,9 +437,9 @@ border:1px solid rgba(140,74,58,0.22);
 <div class="purch-kpi-grid" id="purch-kpis">
   <div class="purch-kpi"><div class="purch-kpi-num" id="pk-total">—</div><div class="purch-kpi-label">Συνολικές αγορές</div></div>
   <div class="purch-kpi"><div class="purch-kpi-num" id="pk-cost">—</div><div class="purch-kpi-label">Συνολικό κόστος</div></div>
-  <div class="purch-kpi good"><div class="purch-kpi-num" id="pk-conscious">—</div><div class="purch-kpi-label">Συνειδητές<br><small>2+ μήνες αναμονή</small></div></div>
-  <div class="purch-kpi" style="border-left:3px solid var(--amber)"><div class="purch-kpi-num" id="pk-small-thought" style="color:var(--amber)">—</div><div class="purch-kpi-label">Σκεφτήκατε<br><small>48ω — 2 μήνες</small></div></div>
-  <div class="purch-kpi bad"><div class="purch-kpi-num" id="pk-impulse">—</div><div class="purch-kpi-label">Impulse<br><small>εντός 48 ωρών</small></div></div>
+  <div class="purch-kpi good"><div class="purch-kpi-num" id="pk-conscious">—</div><div class="purch-kpi-label">Συνειδητές<br><small>2+ months</small></div></div>
+  <div class="purch-kpi" style="border-left:3px solid var(--amber)"><div class="purch-kpi-num" id="pk-small-thought" style="color:var(--amber)">—</div><div class="purch-kpi-label">48h Rule<br><small>48h — 2 months</small></div></div>
+  <div class="purch-kpi bad"><div class="purch-kpi-num" id="pk-impulse">—</div><div class="purch-kpi-label">Impulse<br><small>under 48h</small></div></div>
   <div class="purch-kpi"><div class="purch-kpi-num" id="pk-replacement">—</div><div class="purch-kpi-label">Αντικαταστάσεις</div></div>
 </div>
 
@@ -437,8 +453,8 @@ border:1px solid rgba(140,74,58,0.22);
   <!-- Sub-filters -->
   <div class="filters" style="padding:8px 0;border:none;background:none;margin-bottom:8px;">
     <button class="filter-btn active" onclick="setPurchFilter('all',this)">Όλες</button>
-    <button class="filter-btn" onclick="setPurchFilter('conscious',this)">✅ Συνειδητές</button>
-    <button class="filter-btn" onclick="setPurchFilter('small-thought',this)">🤔 Σκέφτηκα</button>
+    <button class="filter-btn" onclick="setPurchFilter('conscious',this)">✅ Conscious</button>
+    <button class="filter-btn" onclick="setPurchFilter('small-thought',this)">🤔 48h Rule</button>
     <button class="filter-btn" onclick="setPurchFilter('impulse',this)">⚡ Impulse</button>
     <button class="filter-btn" onclick="setPurchFilter('replacement',this)">🔄 Αντικατάσταση</button>
   </div>
@@ -463,7 +479,8 @@ border:1px solid rgba(140,74,58,0.22);
 
 <!-- ══ MODAL ══ -->
 
-<div class="modal-overlay" id="modal" onclick="handleOverlayClick(event)">
+<div class="modal-overlay" id="modal" onclick="if(event.target===this||event.target.classList.contains('modal-scroll-wrap'))closeModal()">
+  <div class="modal-scroll-wrap">
   <div class="modal">
     <div class="modal-title" id="modal-title">Νέα <em>Εγγραφή</em></div>
 
@@ -611,11 +628,13 @@ border:1px solid rgba(140,74,58,0.22);
 ```
 
   </div>
+  </div><!-- end modal-scroll-wrap -->
 </div>
 
 <!-- ══ PURCHASE DATE MODAL ══ -->
 
 <div class="modal-overlay" id="purchase-modal" onclick="if(event.target===this){this.classList.remove('open');document.body.style.overflow='';}">
+  <div class="modal-scroll-wrap">
   <div class="modal" style="max-width:420px">
     <div class="modal-title">Καταγραφή <em>Αγοράς</em></div>
     <div style="font-family:var(--font-serif);font-size:15px;color:var(--text);margin-bottom:16px;" id="purchase-item-name"></div>
@@ -643,6 +662,7 @@ border:1px solid rgba(140,74,58,0.22);
 ```
 
   </div>
+  </div><!-- end modal-scroll-wrap -->
 </div>
 
 <div class="toast" id="toast"></div>
@@ -746,6 +766,7 @@ function renderItems() {
   let items = [...allItems];
 
   if (currentFilter === 'green') items = items.filter(i => getStatus(i) === 'green');
+  else if (currentFilter === 'yellow') items = items.filter(i => getStatus(i) === 'yellow');
   else if (currentFilter === 'red') items = items.filter(i => getStatus(i) === 'red');
   else if (currentFilter === 'replacement') items = items.filter(i => i.is_replacement);
 
@@ -763,8 +784,11 @@ function renderItems() {
 function getStatus(item) {
   const now = new Date();
   const created = new Date(item.created_at);
-  const monthsDiff = (now - created) / (1000 * 60 * 60 * 24 * 30);
+  const hoursDiff = (now - created) / (1000 * 60 * 60);
+  const monthsDiff = hoursDiff / (24 * 30);
+
   const twoMonthsPassed = monthsDiff >= 2 || item.is_replacement;
+  const fortyEightHoursPassed = hoursDiff >= 48 || item.is_replacement;
 
   const cpwOk = item.price && item.times_per_week && item.cpw_category
     ? (item.price / (item.times_per_week * 52)) <= parseFloat(item.cpw_category)
@@ -773,7 +797,12 @@ function getStatus(item) {
   const outfits = [item.outfit_1, item.outfit_2, item.outfit_3].filter(Boolean);
   const outfitsOk = outfits.length >= 3;
 
-  return (twoMonthsPassed && cpwOk && outfitsOk) ? 'green' : 'red';
+  // GREEN: all criteria met including 2-month wait
+  if (twoMonthsPassed && cpwOk && outfitsOk) return 'green';
+  // YELLOW: 48h passed + CPW ok + outfits ok (but not yet 2 months)
+  if (fortyEightHoursPassed && cpwOk && outfitsOk) return 'yellow';
+  // RED: not ready
+  return 'red';
 }
 
 function getCPW(item) {
@@ -804,15 +833,27 @@ function renderCard(item) {
 
   const now = new Date();
   const created = new Date(item.created_at);
-  const monthsDiff = (now - created) / (1000 * 60 * 60 * 24 * 30);
+  const hoursDiff = (now - created) / (1000 * 60 * 60);
+  const monthsDiff = hoursDiff / (24 * 30);
   const twoMonthsPassed = monthsDiff >= 2 || item.is_replacement;
+  const fortyEightHoursPassed = hoursDiff >= 48 || item.is_replacement;
   const cpwOk = cpw && item.cpw_category ? cpw <= parseFloat(item.cpw_category) : false;
   const target = item.cpw_category ? parseFloat(item.cpw_category) : null;
 
+  // Time criterion reason
+  let timeReason;
+  if (twoMonthsPassed) {
+    timeReason = `✓ &nbsp;${item.is_replacement ? 'Αντικατάσταση — το δίμηνο αναιρείται' : 'Πέρασαν 2+ μήνες — Conscious ✅'}`;
+  } else if (fortyEightHoursPassed) {
+    const daysLeft = Math.max(0, Math.round(60 - monthsDiff * 30));
+    timeReason = `◐ &nbsp;48h Rule ✓ — απομένουν ${daysLeft} μέρες για το δίμηνο`;
+  } else {
+    const hoursLeft = Math.max(0, Math.round(48 - hoursDiff));
+    timeReason = `✗ &nbsp;Impulse zone — απομένουν ${hoursLeft} ώρες για το 48h rule`;
+  }
+
   const reasons = [
-    twoMonthsPassed
-      ? `✓ &nbsp;${item.is_replacement ? 'Αντικατάσταση — το δίμηνο αναιρείται' : 'Πέρασαν 2+ μήνες από την εγγραφή'}`
-      : `✗ &nbsp;Δεν πέρασαν ακόμα 2 μήνες (${Math.max(0, Math.round((2 - monthsDiff) * 4.3))} εβδ. ακόμα)`,
+    timeReason,
     cpw
       ? (cpwOk ? `✓ &nbsp;CPW €${cpw.toFixed(2)} — εντός target` : `✗ &nbsp;CPW €${cpw.toFixed(2)} — πάνω από target (${target ? `<${target}€` : ''})`)
       : `✗ &nbsp;CPW δεν υπολογίστηκε — συμπλήρωσε τιμή & χρήσεις`,
@@ -820,6 +861,8 @@ function renderCard(item) {
       ? `✓ &nbsp;${outfits.length}/3 συνδυασμοί καταγεγραμμένοι`
       : `✗ &nbsp;${outfits.length}/3 συνδυασμοί — χρειάζονται ${3 - outfits.length} ακόμα`
   ].join('<br>');
+
+  const statusLabel = status === 'green' ? 'Conscious ✅' : status === 'yellow' ? '48h Rule 🤔' : 'Impulse ⚡';
 
   return `
   <div class="card ${status}" id="card-${item.id}" onclick="toggleCard('${item.id}')">
@@ -832,7 +875,7 @@ function renderCard(item) {
       <div class="col-date">${formatDate(item.created_at)}</div>
       <div class="col-price">${item.price ? '€' + item.price : '—'}</div>
       <div class="col-cpw">${cpw ? `<span class="cpw-pill ${cpwCls}">€${cpw.toFixed(2)}<small>/χρήση</small></span>` : '<span style="color:var(--text-dim)">—</span>'}</div>
-      <div class="col-status"><span class="status-dot"></span>${status === 'green' ? 'Έτοιμο' : 'Αναμονή'}</div>
+      <div class="col-status"><span class="status-dot"></span>${statusLabel}</div>
     </div>
     <div class="card-detail">
       <div class="detail-grid">
@@ -867,12 +910,14 @@ function renderCard(item) {
 
 function updateStats() {
   const total = allItems.length;
-  const ready = allItems.filter(i => getStatus(i) === 'green').length;
-  const waiting = total - ready;
+  const green = allItems.filter(i => getStatus(i) === 'green').length;
+  const yellow = allItems.filter(i => getStatus(i) === 'yellow').length;
+  const red = allItems.filter(i => getStatus(i) === 'red').length;
   const value = allItems.reduce((s, i) => s + (i.price || 0), 0);
   document.getElementById('stat-total').textContent = total;
-  document.getElementById('stat-ready').textContent = ready;
-  document.getElementById('stat-waiting').textContent = waiting;
+  document.getElementById('stat-ready').textContent = green;
+  document.getElementById('stat-yellow').textContent = yellow;
+  document.getElementById('stat-waiting').textContent = red;
   document.getElementById('stat-value').textContent = value > 0 ? '€' + value.toLocaleString('el-GR') : '—';
 }
 
@@ -1057,25 +1102,25 @@ function getPurchaseCategory(hoursWaited, isReplacement) {
 const VERDICT_MESSAGES = {
   conscious: {
     icon: '✅',
-    title: 'Συνειδητή αγορά',
+    title: 'Conscious Purchase',
     msg: 'Περίμενες τουλάχιστον 2 μήνες — αυτό δείχνει πραγματική ανάγκη. Καλά έκανες!',
     cls: 'good'
   },
   'small-thought': {
     icon: '🤔',
-    title: 'Σκεφτήκες πριν αγοράσεις',
+    title: '48h Rule ✓',
     msg: 'Περίμενες πάνω από 48 ώρες — καλό βήμα! Αν μπορείς, την επόμενη φορά δοκίμασε να περιμένεις λίγο παραπάνω.',
     cls: 'warn'
   },
   impulse: {
     icon: '⚡',
-    title: 'Γρήγορη απόφαση',
+    title: 'Impulse Buy',
     msg: 'Αγόρασες μέσα σε 48 ώρες. Δεν πειράζει — όλοι το κάνουμε. Την επόμενη φορά δοκίμασε να το αφήσεις για 2 μέρες και να δεις αν εξακολουθείς να το θέλεις!',
     cls: 'bad'
   },
   replacement: {
     icon: '🔄',
-    title: 'Αντικατάσταση',
+    title: 'Replacement',
     msg: 'Αντικαθιστάς κάτι που ήδη έχεις — αυτό είναι συνειδητή κατανάλωση!',
     cls: 'good'
   }
@@ -1131,7 +1176,7 @@ async function confirmPurchase() {
   renderItems();
   updateStats();
   const v = VERDICT_MESSAGES[purchCat];
-  showToast(`${v.icon} ${v.title} καταγράφηκε!`);
+  showToast(`${v.icon} ${v.title} recorded!`);
   await loadPurchases();
 }
 
@@ -1259,8 +1304,8 @@ function renderPurchases() {
   else if (purchFilter === 'replacement') filtered = replacements;
 
   const BADGE = {
-    'conscious':    { cls:'conscious',    label:'✅ Συνειδητή' },
-    'small-thought':{ cls:'small-thought',label:'🤔 Σκέφτηκα' },
+    'conscious':    { cls:'conscious',    label:'✅ Conscious' },
+    'small-thought':{ cls:'small-thought',label:'🤔 48h Rule' },
     'impulse':      { cls:'impulse',      label:'⚡ Impulse' },
     'replacement':  { cls:'replacement',  label:'🔄 Αντικατάσταση' },
   };
@@ -1333,15 +1378,15 @@ async function loadArchive() {
         <div class="archive-summary">
           <span><strong>${items.length}</strong> αγορές</span>
           <span><strong>€${totalCost.toLocaleString('el-GR')}</strong> συνολικό κόστος</span>
-          <span style="color:var(--green-text)"><strong>${conscious}</strong> συνειδητές</span>
-          <span style="color:var(--amber)"><strong>${smallThought}</strong> σκεφτήκα</span>
+          <span style="color:var(--green-text)"><strong>${conscious}</strong> conscious</span>
+          <span style="color:var(--amber)"><strong>${smallThought}</strong> 48h rule</span>
           <span style="color:var(--red-text)"><strong>${impulse}</strong> impulse</span>
           <span style="color:#5a7ab0"><strong>${repl}</strong> αντικαταστάσεις</span>
         </div>
         ${items.map(item => {
           const { cls: archCls, label: archLabel } = ({
-            'conscious':    { cls:'conscious',    label:'✅ Συνειδητή' },
-            'small-thought':{ cls:'small-thought',label:'🤔 Σκέφτηκα' },
+            'conscious':    { cls:'conscious',    label:'✅ Conscious' },
+            'small-thought':{ cls:'small-thought',label:'🤔 48h Rule' },
             'impulse':      { cls:'impulse',      label:'⚡ Impulse' },
             'replacement':  { cls:'replacement',  label:'🔄 Αντικατάσταση' },
           })[getPurchCat(item)] || { cls:'impulse', label:'⚡ Impulse' };

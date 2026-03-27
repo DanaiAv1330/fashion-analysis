@@ -420,6 +420,140 @@ body{padding-bottom:0;}
 <div class="wardrobe-list" id="wlist"></div>
 ```
 
+<!-- INLINE ITEM FORM -->
+
+<div id="inline-item-wrap" style="display:none;padding:0 10px 16px;">
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:16px;animation:slideDown 0.2s ease;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+      <div style="font-family:var(--font-serif);font-size:17px;font-weight:300;" id="inline-item-title">Νέο <em style="font-style:italic;color:var(--accent)">Κομμάτι</em></div>
+      <button onclick="closeItemModal()" style="background:none;border:1px solid var(--border);color:var(--text-muted);width:26px;height:26px;border-radius:50%;cursor:pointer;font-size:11px;display:flex;align-items:center;justify-content:center;">✕</button>
+    </div>
+
+```
+<!-- Photo -->
+<div style="margin-bottom:14px;">
+  <div style="font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-dim);margin-bottom:8px;padding-bottom:5px;border-bottom:1px solid var(--border-soft);">Φωτογραφία</div>
+  <div class="photo-upload-area" id="photo-upload-area" onclick="document.getElementById('photo-file-input').click()">
+    <input type="file" id="photo-file-input" accept="image/*" style="display:none" onchange="handlePhotoFile(event)">
+    <img id="photo-preview" class="photo-preview" style="display:none">
+    <div id="photo-placeholder">
+      <div class="photo-upload-label">📷 Ανέβασε φωτογραφία</div>
+    </div>
+  </div>
+</div>
+
+<!-- Basic fields -->
+<div style="margin-bottom:14px;">
+  <div style="font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-dim);margin-bottom:8px;padding-bottom:5px;border-bottom:1px solid var(--border-soft);">Βασικά στοιχεία</div>
+  <div class="form-grid">
+    <div class="form-group full"><label>Τίτλος *</label><input type="text" id="f-title" placeholder="π.χ. Λευκό λινό πουκάμισο"></div>
+    <div class="form-group"><label>Μάρκα</label><input type="text" id="f-brand" placeholder="π.χ. Zara…"></div>
+    <div class="form-group">
+      <label>Κατηγορία</label>
+      <select id="f-category">
+        <option value="">— Επιλογή —</option>
+        <optgroup label="Ρούχα">
+          <option>Μπλούζες / Tops</option><option>Πουκάμισα</option><option>Φούστες</option>
+          <option>Παντελόνια</option><option>Φορέματα</option><option>Πλεκτά / Πουλόβερ</option>
+          <option>Blazers</option><option>Jackets</option><option>Παλτά</option><option>Σετ / Coordinates</option>
+        </optgroup>
+        <optgroup label="Παπούτσια">
+          <option>Sneakers</option><option>Boots / Booties</option>
+          <option>Flats</option><option>Sandals</option><option>Heels</option>
+        </optgroup>
+        <optgroup label="Αξεσουάρ">
+          <option>Τσάντες</option><option>Γυαλιά ηλίου</option>
+          <option>Πορτοφόλι</option><option>Κοσμήματα</option><option>Αξεσουάρ — Other</option>
+        </optgroup>
+      </select>
+    </div>
+    <div class="form-group"><label>Χρώμα</label>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <div id="color-preview-dot" style="width:18px;height:18px;border-radius:50%;border:1px solid var(--border);background:var(--surface3);flex-shrink:0;transition:background 0.2s;"></div>
+        <select id="f-color" onchange="updateColorDot(this)" style="flex:1">
+          <option value="">— Επιλογή —</option>
+          <optgroup label="Neutrals">
+            <option value="Λευκό" data-hex="#F5F5F0">Λευκό</option>
+            <option value="Εκρού / Off-white" data-hex="#EDE8DC">Εκρού / Off-white</option>
+            <option value="Beige / Camel" data-hex="#C9A96E">Beige / Camel</option>
+            <option value="Γκρι ανοιχτό" data-hex="#C4C4C0">Γκρι ανοιχτό</option>
+            <option value="Γκρι σκούρο" data-hex="#6B6B6B">Γκρι σκούρο</option>
+            <option value="Μαύρο" data-hex="#1A1A1A">Μαύρο</option>
+            <option value="Καφέ / Ταμπά" data-hex="#8B5E3C">Καφέ / Ταμπά</option>
+            <option value="Chocolate" data-hex="#4A2C17">Chocolate</option>
+          </optgroup>
+          <optgroup label="Blues & Greens">
+            <option value="Navy" data-hex="#1B2A4A">Navy</option>
+            <option value="Μπλε ρουά" data-hex="#1E3A8A">Μπλε ρουά</option>
+            <option value="Γαλάζιο" data-hex="#7EB8D4">Γαλάζιο</option>
+            <option value="Denim" data-hex="#4A6FA5">Denim</option>
+            <option value="Πράσινο σκούρο" data-hex="#2D5A27">Πράσινο σκούρο</option>
+            <option value="Χακί / Olive" data-hex="#7A7A45">Χακί / Olive</option>
+            <option value="Mint / Sage" data-hex="#9DC4B0">Mint / Sage</option>
+          </optgroup>
+          <optgroup label="Reds & Pinks">
+            <option value="Κόκκινο" data-hex="#C0392B">Κόκκινο</option>
+            <option value="Burgundy / Μπορντό" data-hex="#6D1A2A">Burgundy / Μπορντό</option>
+            <option value="Ροζ παλ" data-hex="#E8B4B8">Ροζ παλ</option>
+            <option value="Fuchsia / Hot pink" data-hex="#D5006D">Fuchsia / Hot pink</option>
+            <option value="Terracotta / Ώχρα" data-hex="#C4673A">Terracotta / Ώχρα</option>
+            <option value="Πορτοκαλί" data-hex="#E8720C">Πορτοκαλί</option>
+          </optgroup>
+          <optgroup label="Purples & Yellows">
+            <option value="Μωβ / Λιλά" data-hex="#9B59B6">Μωβ / Λιλά</option>
+            <option value="Κίτρινο / Mustard" data-hex="#D4A017">Κίτρινο / Mustard</option>
+          </optgroup>
+          <optgroup label="Patterns">
+            <option value="Ριγέ" data-hex="#888888">Ριγέ</option>
+            <option value="Καρό / Vichy" data-hex="#888888">Καρό / Vichy</option>
+            <option value="Floral / Print" data-hex="#888888">Floral / Print</option>
+            <option value="Animal print" data-hex="#888888">Animal print</option>
+            <option value="Πολύχρωμο" data-hex="#888888">Πολύχρωμο</option>
+          </optgroup>
+        </select>
+      </div>
+    </div>
+    <div class="form-group"><label>Υλικό</label><input type="text" id="f-material" placeholder="π.χ. Λινό, Δέρμα"></div>
+    <div class="form-group"><label>Νούμερο / Size</label><input type="text" id="f-size" placeholder="π.χ. S, M, 38, 42…"></div>
+    <div class="form-group"><label>Τιμή (€)</label><input type="number" id="f-price" placeholder="0.00" step="0.01"></div>
+    <div class="form-group"><label>Ημερομηνία αγοράς</label><input type="date" id="f-purchased-at"></div>
+    <div class="form-group"><label>Εποχή</label>
+      <select id="f-season"><option value="">—</option><option>Άνοιξη / Καλοκαίρι</option><option>Φθινόπωρο / Χειμώνας</option><option>4 εποχές</option></select>
+    </div>
+  </div>
+</div>
+
+<!-- Extra characteristics -->
+<div style="margin-bottom:14px;">
+  <div style="font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-dim);margin-bottom:8px;padding-bottom:5px;border-bottom:1px solid var(--border-soft);">Χαρακτηριστικά (προαιρετικά)</div>
+  <div class="form-grid">
+    <div class="form-group"><label>Μανίκι</label>
+      <select id="f-sleeve"><option value="">—</option><option>Αμάνικο</option><option>Κοντό</option><option>3/4</option><option>Μακρύ</option><option>N/A</option></select>
+    </div>
+    <div class="form-group"><label>Λαιμόκοψη</label>
+      <select id="f-neckline"><option value="">—</option><option>V-neck</option><option>Στρόγγυλη</option><option>Κλασική</option><option>Off-shoulder</option><option>Turtleneck</option><option>Boat neck</option><option>Square neck</option><option>N/A</option></select>
+    </div>
+    <div class="form-group"><label>Μήκος</label>
+      <select id="f-length"><option value="">—</option><option>Crop</option><option>Κανονικό</option><option>Midi</option><option>Maxi</option><option>N/A</option></select>
+    </div>
+    <div class="form-group full"><label>Σημειώσεις</label><textarea id="f-notes" placeholder="…"></textarea></div>
+  </div>
+  <div class="checkbox-row" style="margin-top:8px;">
+    <input type="checkbox" id="f-fav">
+    <label for="f-fav">♥ Αγαπημένο</label>
+  </div>
+</div>
+
+<div style="display:flex;gap:8px;justify-content:flex-end;padding-top:12px;border-top:1px solid var(--border);">
+  <button class="btn-sm danger" id="item-delete-btn" style="display:none" onclick="deleteItem()">Διαγραφή</button>
+  <div style="flex:1"></div>
+  <button class="btn-sm" onclick="closeItemModal()">Ακύρωση</button>
+  <button class="btn-sm primary" id="item-save-btn" onclick="saveItem()">Αποθήκευση</button>
+</div>
+```
+
+  </div>
+</div>
   </div>
 
   <!-- ══ CALENDAR ══ -->
@@ -583,130 +717,6 @@ body{padding-bottom:0;}
       <span class="nav-icon">📊</span><span class="nav-label">Dashboard</span>
     </button>
   </nav>
-</div>
-
-<!-- ITEM MODAL -->
-
-<div class="modal-overlay" id="item-modal" onclick="if(event.target===this)closeItemModal()">
-  <div class="modal">
-    <div class="modal-title" id="item-modal-title">Νέο <em>Κομμάτι</em></div>
-    <div class="form-section">
-      <div class="form-section-title">Φωτογραφία</div>
-      <div class="photo-upload-area" id="photo-upload-area" onclick="document.getElementById('photo-file-input').click()">
-        <input type="file" id="photo-file-input" accept="image/*" style="display:none" onchange="handlePhotoFile(event)">
-        <img id="photo-preview" class="photo-preview" style="display:none">
-        <div id="photo-placeholder">
-          <div class="photo-upload-label">📷 Ανέβασε φωτογραφία</div>
-
-```
-    </div>
-  </div>
-
-</div>
-<div class="form-section">
-  <div class="form-section-title">Βασικά στοιχεία</div>
-  <div class="form-grid">
-    <div class="form-group full"><label>Τίτλος *</label><input type="text" id="f-title" placeholder="π.χ. Λευκό λινό πουκάμισο"></div>
-    <div class="form-group"><label>Μάρκα</label><input type="text" id="f-brand" placeholder="π.χ. Zara…"></div>
-    <div class="form-group">
-      <label>Κατηγορία</label>
-      <select id="f-category">
-        <option value="">— Επιλογή —</option>
-        <optgroup label="Ρούχα">
-          <option>Μπλούζες / Tops</option><option>Πουκάμισα</option><option>Φούστες</option>
-          <option>Παντελόνια</option><option>Φορέματα</option><option>Πλεκτά / Πουλόβερ</option>
-          <option>Jackets</option><option>Παλτά</option><option>Σετ / Coordinates</option>
-        </optgroup>
-        <optgroup label="Παπούτσια">
-          <option>Sneakers</option><option>Boots / Booties</option>
-          <option>Flats</option><option>Sandals</option><option>Heels</option>
-        </optgroup>
-        <optgroup label="Αξεσουάρ">
-          <option>Τσάντες</option><option>Γυαλιά ηλίου</option>
-          <option>Πορτοφόλι</option><option>Κοσμήματα</option><option>Αξεσουάρ — Other</option>
-        </optgroup>
-      </select>
-    </div>
-    <div class="form-group"><label>Χρώμα</label>
-      <div style="display:flex;align-items:center;gap:8px;">
-        <div id="color-preview-dot" style="width:18px;height:18px;border-radius:50%;border:1px solid var(--border);background:var(--surface3);flex-shrink:0;transition:background 0.2s;"></div>
-        <select id="f-color" onchange="updateColorDot(this)" style="flex:1">
-        <option value="">— Επιλογή —</option>
-        <optgroup label="Neutrals">
-          <option value="Λευκό" data-hex="#F5F5F0">Λευκό</option>
-          <option value="Εκρού / Off-white" data-hex="#EDE8DC">Εκρού / Off-white</option>
-          <option value="Beige / Camel" data-hex="#C9A96E">Beige / Camel</option>
-          <option value="Γκρι ανοιχτό" data-hex="#C4C4C0">Γκρι ανοιχτό</option>
-          <option value="Γκρι σκούρο" data-hex="#6B6B6B">Γκρι σκούρο</option>
-          <option value="Μαύρο" data-hex="#1A1A1A">Μαύρο</option>
-          <option value="Καφέ / Ταμπά" data-hex="#8B5E3C">Καφέ / Ταμπά</option>
-          <option value="Chocolate" data-hex="#4A2C17">Chocolate</option>
-        </optgroup>
-        <optgroup label="Blues & Greens">
-          <option value="Navy" data-hex="#1B2A4A">Navy</option>
-          <option value="Μπλε ρουά" data-hex="#1E3A8A">Μπλε ρουά</option>
-          <option value="Γαλάζιο" data-hex="#7EB8D4">Γαλάζιο</option>
-          <option value="Denim" data-hex="#4A6FA5">Denim</option>
-          <option value="Πράσινο σκούρο" data-hex="#2D5A27">Πράσινο σκούρο</option>
-          <option value="Χακί / Olive" data-hex="#7A7A45">Χακί / Olive</option>
-          <option value="Mint / Sage" data-hex="#9DC4B0">Mint / Sage</option>
-        </optgroup>
-        <optgroup label="Reds & Pinks">
-          <option value="Κόκκινο" data-hex="#C0392B">Κόκκινο</option>
-          <option value="Burgundy / Μπορντό" data-hex="#6D1A2A">Burgundy / Μπορντό</option>
-          <option value="Ροζ παλ" data-hex="#E8B4B8">Ροζ παλ</option>
-          <option value="Fuchsia / Hot pink" data-hex="#D5006D">Fuchsia / Hot pink</option>
-          <option value="Terracotta / Ώχρα" data-hex="#C4673A">Terracotta / Ώχρα</option>
-          <option value="Πορτοκαλί" data-hex="#E8720C">Πορτοκαλί</option>
-        </optgroup>
-        <optgroup label="Purples & Yellows">
-          <option value="Μωβ / Λιλά" data-hex="#9B59B6">Μωβ / Λιλά</option>
-          <option value="Κίτρινο / Mustard" data-hex="#D4A017">Κίτρινο / Mustard</option>
-        </optgroup>
-        <optgroup label="Patterns">
-          <option value="Ριγέ" data-hex="#888888">Ριγέ</option>
-          <option value="Καρό / Vichy" data-hex="#888888">Καρό / Vichy</option>
-          <option value="Floral / Print" data-hex="#888888">Floral / Print</option>
-          <option value="Animal print" data-hex="#888888">Animal print</option>
-          <option value="Πολύχρωμο" data-hex="#888888">Πολύχρωμο</option>
-        </optgroup>
-      </select></div></div>
-    <div class="form-group"><label>Υλικό</label><input type="text" id="f-material" placeholder="π.χ. Λινό, Δέρμα"></div>
-    <div class="form-group"><label>Τιμή (€)</label><input type="number" id="f-price" placeholder="0.00" step="0.01"></div>
-    <div class="form-group"><label>Ημερομηνία αγοράς</label><input type="date" id="f-purchased-at"></div>
-    <div class="form-group"><label>Εποχή</label>
-      <select id="f-season"><option value="">—</option><option>Άνοιξη / Καλοκαίρι</option><option>Φθινόπωρο / Χειμώνας</option><option>4 εποχές</option></select>
-    </div>
-  </div>
-</div>
-<div class="form-section">
-  <div class="form-section-title">Χαρακτηριστικά (προαιρετικά)</div>
-  <div class="form-grid">
-    <div class="form-group"><label>Μανίκι</label>
-      <select id="f-sleeve"><option value="">—</option><option>Αμάνικο</option><option>Κοντό</option><option>3/4</option><option>Μακρύ</option><option>N/A</option></select>
-    </div>
-    <div class="form-group"><label>Λαιμόκοψη</label>
-      <select id="f-neckline"><option value="">—</option><option>V-neck</option><option>Στρόγγυλη</option><option>Κλασική</option><option>Off-shoulder</option><option>Turtleneck</option><option>Boat neck</option><option>Square neck</option><option>N/A</option></select>
-    </div>
-    <div class="form-group"><label>Μήκος</label>
-      <select id="f-length"><option value="">—</option><option>Crop</option><option>Κανονικό</option><option>Midi</option><option>Maxi</option><option>N/A</option></select>
-    </div>
-    <div class="form-group full"><label>Σημειώσεις</label><textarea id="f-notes" placeholder="…"></textarea></div>
-  </div>
-  <div class="checkbox-row">
-    <input type="checkbox" id="f-fav">
-    <label for="f-fav">♥ Αγαπημένο</label>
-  </div>
-</div>
-<div class="modal-actions">
-  <button class="btn-sm danger" id="item-delete-btn" style="display:none" onclick="deleteItem()">Διαγραφή</button>
-  <div style="flex:1"></div>
-  <button class="btn-sm" onclick="closeItemModal()">Ακύρωση</button>
-  <button class="btn-sm primary" id="item-save-btn" onclick="saveItem()">Αποθήκευση</button>
-</div>
-```
-
-  </div>
 </div>
 
 <!-- PICK ITEMS MODAL -->
@@ -887,7 +897,7 @@ function filterItems() {
   const catMap = {
     tops:['Μπλούζες / Tops','Πουκάμισα','Πλεκτά / Πουλόβερ','Σετ / Coordinates'],
     pants:['Παντελόνια'], skirts:['Φούστες'], dresses:['Φορέματα'],
-    outer:['Jackets','Παλτά'],
+    outer:['Blazers','Jackets','Παλτά'],
     shoes:['Sneakers','Boots / Booties','Flats','Sandals','Heels'],
     access:['Τσάντες','Γυαλιά ηλίου','Πορτοφόλι','Κοσμήματα','Αξεσουάρ — Other']
   };
@@ -981,11 +991,15 @@ function openItemModal(itemId = null) {
   editingItemId = itemId;
   uploadedPhotoFile = null;
   const item = itemId ? allItems.find(i => i.id === itemId) : null;
-  document.getElementById('item-modal-title').innerHTML = item ? 'Επεξεργασία <em>Κομματιού</em>' : 'Νέο <em>Κομμάτι</em>';
+
+  const titleEl = document.getElementById('inline-item-title');
+  if (titleEl) titleEl.innerHTML = item
+    ? 'Επεξεργασία <em style="font-style:italic;color:var(--accent)">Κομματιού</em>'
+    : 'Νέο <em style="font-style:italic;color:var(--accent)">Κομμάτι</em>';
   document.getElementById('item-delete-btn').style.display = item ? 'block' : 'none';
 
-  // reset
-  ['f-title','f-brand','f-category','f-color','f-material','f-price','f-purchased-at','f-season','f-sleeve','f-neckline','f-length','f-notes'].forEach(id => {
+  ['f-title','f-brand','f-category','f-color','f-material','f-size','f-price',
+   'f-purchased-at','f-season','f-sleeve','f-neckline','f-length','f-notes'].forEach(id => {
     const el = document.getElementById(id); if (el) el.value = '';
   });
   document.getElementById('f-fav').checked = false;
@@ -998,21 +1012,31 @@ function openItemModal(itemId = null) {
       const el = document.getElementById('f-' + f); if (el && item[f]) el.value = item[f];
     });
     document.getElementById('f-purchased-at').value = item.purchased_at || '';
+    document.getElementById('f-size').value = item.size_field || '';
     const colorSel = document.getElementById('f-color');
     colorSel.value = item.color || '';
     updateColorDot(colorSel);
     document.getElementById('f-sleeve').value = item.sleeve_length || '';
-    document.getElementById('f-neckline').value = item.neckline || '';
     document.getElementById('f-length').value = item.item_length || '';
     document.getElementById('f-fav').checked = item.is_favorite || false;
-    if (item.photo_url) {
-      previewPhotoUrl(item.photo_url);
-    }
+    if (item.photo_url) previewPhotoUrl(item.photo_url);
   }
-  document.getElementById('item-modal').classList.add('open');
+
+  // Switch to wardrobe tab & show inline form
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn,.desktop-tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-wardrobe').classList.add('active');
+  const nb = document.getElementById('nav-wardrobe'); if (nb) nb.classList.add('active');
+  const wrap = document.getElementById('inline-item-wrap');
+  wrap.style.display = 'block';
+  setTimeout(() => wrap.scrollIntoView({ behavior:'smooth', block:'start' }), 80);
 }
 
-function closeItemModal() { document.getElementById('item-modal').classList.remove('open'); editingItemId = null; uploadedPhotoFile = null; }
+function closeItemModal() {
+  const wrap = document.getElementById('inline-item-wrap');
+  if (wrap) wrap.style.display = 'none';
+  editingItemId = null; uploadedPhotoFile = null;
+}
 
 function handlePhotoFile(event) {
   const file = event.target.files[0];
@@ -1066,6 +1090,7 @@ async function saveItem() {
     price: parseFloat(document.getElementById('f-price').value) || null,
     purchased_at: document.getElementById('f-purchased-at').value || null,
     notes: document.getElementById('f-notes').value.trim() || null,
+    size_field: document.getElementById('f-size').value.trim() || null,
     is_favorite: document.getElementById('f-fav').checked,
     photo_url: photoUrl,
   };

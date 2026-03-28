@@ -1585,43 +1585,65 @@ async function loadArchive() {
     byYear[y].push(item);
   });
 
+  const fmt = n => n >= 1000 ? '€'+(n/1000).toFixed(1)+'k' : n > 0 ? '€'+Math.round(n) : '—';
+
   archiveEl.innerHTML = Object.entries(byYear)
     .sort((a, b) => b[0] - a[0])
     .map(([year, items]) => {
-      const totalCost = items.reduce((s, i) => s + (i.price || 0), 0);
-      const conscious = items.filter(i => ['conscious','replacement'].includes(getPurchCat(i))).length;
-      const impulse = items.filter(i => getPurchCat(i) === 'impulse').length;
-      const smallThought = items.filter(i => getPurchCat(i) === 'small-thought').length;
-      const repl = items.filter(i => getPurchCat(i) === 'replacement').length;
+      const total = items.length;
+      const totalCost = items.reduce((s,i) => s+(i.price||0), 0);
+
+      const nConscious    = items.filter(i => getPurchCat(i) === 'conscious').length;
+      const nRule48       = items.filter(i => getPurchCat(i) === 'small-thought').length;
+      const nImpulse      = items.filter(i => getPurchCat(i) === 'impulse').length;
+      const nRepl         = items.filter(i => getPurchCat(i) === 'replacement').length;
+
+      const cConscious    = items.filter(i => getPurchCat(i) === 'conscious').reduce((s,i)=>s+(i.price||0),0);
+      const cConscPlusRepl= items.filter(i => ['conscious','replacement'].includes(getPurchCat(i))).reduce((s,i)=>s+(i.price||0),0);
+      const cRule48       = items.filter(i => getPurchCat(i) === 'small-thought').reduce((s,i)=>s+(i.price||0),0);
+      const cImpulse      = items.filter(i => getPurchCat(i) === 'impulse').reduce((s,i)=>s+(i.price||0),0);
+      const cRepl         = items.filter(i => getPurchCat(i) === 'replacement').reduce((s,i)=>s+(i.price||0),0);
+
+      // Overall year comment
+      const impulseRate = total ? Math.round(nImpulse / total * 100) : 0;
+      const consciousRate = total ? Math.round((nConscious + nRepl) / total * 100) : 0;
+      const rule48Rate = total ? Math.round(nRule48 / total * 100) : 0;
+      let comment = '';
+      if (nImpulse === 0) comment = '🌟 Zero impulse purchases this year — great discipline!';
+      else if (consciousRate >= 60) comment = `✨ ${consciousRate}% conscious decisions in ${year}. Keep it up!`;
+      else if (rule48Rate >= impulseRate) comment = `🤔 Most purchases followed the 48h rule in ${year}. Next step: stretch to 2 months!`;
+      else comment = `⚡ ${impulseRate}% of ${year} purchases were impulse. The 48-hour rule would have helped here.`;
 
       return `<div class="archive-year-block">
         <div class="archive-year-title"><em>${year}</em></div>
-        <div class="archive-summary">
-          <span><strong>${items.length}</strong> αγορές</span>
-          <span><strong>€${totalCost.toLocaleString('el-GR')}</strong> συνολικό κόστος</span>
-          <span style="color:var(--green-text)"><strong>${conscious}</strong> conscious</span>
-          <span style="color:var(--amber)"><strong>${smallThought}</strong> 48h rule</span>
-          <span style="color:var(--red-text)"><strong>${impulse}</strong> impulse</span>
-          <span style="color:#5a7ab0"><strong>${repl}</strong> αντικαταστάσεις</span>
+
+        <div style="font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);margin:6px 0 4px;">Τεμάχια</div>
+        <div class="purch-compare-row" style="margin-bottom:8px;">
+          <div class="purch-compare-card total" style="min-width:46px;"><div class="purch-compare-num">${total}</div><div class="purch-compare-lbl">Σύνολο</div></div>
+          <div class="purch-compare-sep">=</div>
+          <div class="purch-compare-card conscious" style="min-width:46px;"><div class="purch-compare-num">${nConscious||'—'}</div><div class="purch-compare-lbl">Conscious</div></div>
+          <div class="purch-compare-sep">+</div>
+          <div class="purch-compare-card rule48" style="min-width:46px;"><div class="purch-compare-num">${nRule48||'—'}</div><div class="purch-compare-lbl">48h Rule</div></div>
+          <div class="purch-compare-sep">+</div>
+          <div class="purch-compare-card impulse" style="min-width:46px;"><div class="purch-compare-num">${nImpulse||'—'}</div><div class="purch-compare-lbl">Impulse</div></div>
+          <div class="purch-compare-sep">+</div>
+          <div class="purch-compare-card repl" style="min-width:46px;"><div class="purch-compare-num">${nRepl||'—'}</div><div class="purch-compare-lbl">Repl.</div></div>
         </div>
-        ${items.map(item => {
-          const { cls: archCls, label: archLabel } = ({
-            'conscious':    { cls:'conscious',    label:'✅ Conscious' },
-            'small-thought':{ cls:'small-thought',label:'🤔 48h Rule' },
-            'impulse':      { cls:'impulse',      label:'⚡ Impulse' },
-            'replacement':  { cls:'replacement',  label:'🔄 Αντικατάσταση' },
-          })[getPurchCat(item)] || { cls:'impulse', label:'⚡ Impulse' };
-          return `<div class="purch-row">
-            <div class="purch-row-body">
-              <div class="purch-row-name">${escHtml(item.title)}</div>
-              <div class="purch-row-meta">${[item.brand, item.category, item.purchased_at ? fmtDateShort(item.purchased_at) : ''].filter(Boolean).join(' · ')}</div>
-            </div>
-            <div class="purch-row-right">
-              <div class="purch-row-price">${item.price ? `€${item.price}` : '—'}</div>
-              <span class="purch-badge ${archCls}">${archLabel}</span>
-            </div>
-          </div>`;
-        }).join('')}
+
+        <div style="font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);margin-bottom:4px;">Κόστος</div>
+        <div class="purch-compare-row" style="margin-bottom:10px;">
+          <div class="purch-compare-card total" style="min-width:46px;"><div class="purch-compare-num">${fmt(totalCost)}</div><div class="purch-compare-lbl">Σύνολο</div></div>
+          <div class="purch-compare-sep">=</div>
+          <div class="purch-compare-card conscious" style="min-width:46px;"><div class="purch-compare-num">${fmt(cConscPlusRepl)}</div><div class="purch-compare-lbl">Conscious</div></div>
+          <div class="purch-compare-sep">+</div>
+          <div class="purch-compare-card rule48" style="min-width:46px;"><div class="purch-compare-num">${fmt(cRule48)}</div><div class="purch-compare-lbl">48h Rule</div></div>
+          <div class="purch-compare-sep">+</div>
+          <div class="purch-compare-card impulse" style="min-width:46px;"><div class="purch-compare-num">${fmt(cImpulse)}</div><div class="purch-compare-lbl">Impulse</div></div>
+          <div class="purch-compare-sep">+</div>
+          <div class="purch-compare-card repl" style="min-width:46px;"><div class="purch-compare-num">${fmt(cRepl)}</div><div class="purch-compare-lbl">Repl.</div></div>
+        </div>
+
+        <div class="cat-comment">${comment}</div>
       </div>`;
     }).join('');
 }

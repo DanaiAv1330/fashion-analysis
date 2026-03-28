@@ -732,11 +732,14 @@ header{
           <div class="purch-compare-lbl">Repl.</div>
         </div>
       </div>
+
+      <!-- Overall comment -->
+      <div id="purch-overall-comment" style="margin-top:10px;"></div>
     </div>
 
     <!-- Category breakdown -->
     <div class="list-container" style="padding-top:0">
-      <div class="purch-section-title">Κόστος ανά κατηγορία</div>
+      <div class="purch-section-title">Ανά κατηγορία</div>
       <div id="purch-by-category"></div>
 
       <div class="purch-section-title" style="margin-top:20px">Αναλυτική λίστα αγορών</div>
@@ -1408,15 +1411,36 @@ function renderPurchases() {
     const raw = i.category || 'Άλλο';
     const cat = CAT_GROUP[raw] || raw;
     const pc = getPurchCat(i);
-    if (!catMap[cat]) catMap[cat] = { count:0, cost:0, conscious:0, rule48:0, impulse:0 };
+    if (!catMap[cat]) catMap[cat] = { count:0, cost:0, conscious:0, rule48:0, impulse:0, nConscious:0, nRule48:0, nImpulse:0 };
     catMap[cat].count++;
     catMap[cat].cost += i.price || 0;
-    if (pc === 'conscious' || pc === 'replacement') catMap[cat].conscious += i.price || 0;
-    else if (pc === 'small-thought') catMap[cat].rule48 += i.price || 0;
-    else catMap[cat].impulse += i.price || 0;
+    if (pc === 'conscious' || pc === 'replacement') { catMap[cat].conscious += i.price||0; catMap[cat].nConscious++; }
+    else if (pc === 'small-thought') { catMap[cat].rule48 += i.price||0; catMap[cat].nRule48++; }
+    else { catMap[cat].impulse += i.price||0; catMap[cat].nImpulse++; }
   });
   const catSorted = Object.entries(catMap).sort((a, b) => b[1].cost - a[1].cost);
   const maxCost = catSorted[0]?.[1].cost || 1;
+
+  // Overall comment
+  const impulseRate = total ? Math.round(impulse.length / total * 100) : 0;
+  const consciousRate = total ? Math.round((conscious.length + replacements.length) / total * 100) : 0;
+  const rule48Rate = total ? Math.round(smallThought.length / total * 100) : 0;
+  let overallComment = '';
+  if (total === 0) {
+    overallComment = '';
+  } else if (impulse.length === 0) {
+    overallComment = `🌟 Zero impulse purchases this year — your patience is paying off. Keep going!`;
+  } else if (consciousRate >= 60) {
+    overallComment = `✨ ${consciousRate}% of your purchases were conscious decisions. Keep it up — conscious shopping is the best investment you can make in your wardrobe.`;
+  } else if (rule48Rate >= impulseRate) {
+    overallComment = `🤔 It's great that you've learned to wait 48 hours. ${rule48Rate}% of your purchases followed the 48h rule — let's see if you can shift some of those to 2 months!`;
+  } else {
+    overallComment = `⚡ ${impulseRate}% of your purchases were made within 48 hours. Still working on pausing before every purchase? Try the 48-hour rule for the next one — you might surprise yourself.`;
+  }
+  const overallEl = document.getElementById('purch-overall-comment');
+  if (overallEl) overallEl.innerHTML = overallComment
+    ? `<div class="insight-card"><span class="insight-msg">${overallComment}</span></div>`
+    : '';
 
   function getCatComment(d) {
     const total = d.conscious + d.rule48 + d.impulse || 1;
@@ -1442,23 +1466,48 @@ function renderPurchases() {
             <div class="cat-card-total">€${Math.round(d.cost).toLocaleString('el-GR')}</div>
           </div>
           <div class="cat-bar-track"><div class="cat-bar-fill" style="width:${Math.round(d.cost/maxCost*100)}%"></div></div>
-          <div class="purch-compare-row" style="margin:8px 0 0;overflow:visible;">
-            <div class="purch-compare-card total" style="min-width:50px;">
+
+          <div style="font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);margin:8px 0 4px;">Τεμάχια</div>
+          <div class="purch-compare-row" style="margin-bottom:8px;overflow:visible;">
+            <div class="purch-compare-card total" style="min-width:46px;">
+              <div class="purch-compare-num">${d.count}</div>
+              <div class="purch-compare-lbl">Σύνολο</div>
+            </div>
+            <div class="purch-compare-sep">=</div>
+            <div class="purch-compare-card conscious" style="min-width:46px;">
+              <div class="purch-compare-num">${d.nConscious||'—'}</div>
+              <div class="purch-compare-lbl">Conscious</div>
+            </div>
+            <div class="purch-compare-sep">+</div>
+            <div class="purch-compare-card rule48" style="min-width:46px;">
+              <div class="purch-compare-num">${d.nRule48||'—'}</div>
+              <div class="purch-compare-lbl">48h Rule</div>
+            </div>
+            <div class="purch-compare-sep">+</div>
+            <div class="purch-compare-card impulse" style="min-width:46px;">
+              <div class="purch-compare-num">${d.nImpulse||'—'}</div>
+              <div class="purch-compare-lbl">Impulse</div>
+            </div>
+          </div>
+
+          <div style="font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);margin-bottom:4px;">Κόστος</div>
+          <div class="purch-compare-row" style="overflow:visible;">
+            <div class="purch-compare-card total" style="min-width:46px;">
               <div class="purch-compare-num">€${Math.round(d.cost)}</div>
               <div class="purch-compare-lbl">Σύνολο</div>
             </div>
             <div class="purch-compare-sep">=</div>
-            <div class="purch-compare-card conscious" style="min-width:50px;">
+            <div class="purch-compare-card conscious" style="min-width:46px;">
               <div class="purch-compare-num">${fmtC(d.conscious)}</div>
               <div class="purch-compare-lbl">Conscious</div>
             </div>
             <div class="purch-compare-sep">+</div>
-            <div class="purch-compare-card rule48" style="min-width:50px;">
+            <div class="purch-compare-card rule48" style="min-width:46px;">
               <div class="purch-compare-num">${fmtC(d.rule48)}</div>
               <div class="purch-compare-lbl">48h Rule</div>
             </div>
             <div class="purch-compare-sep">+</div>
-            <div class="purch-compare-card impulse" style="min-width:50px;">
+            <div class="purch-compare-card impulse" style="min-width:46px;">
               <div class="purch-compare-num">${fmtC(d.impulse)}</div>
               <div class="purch-compare-lbl">Impulse</div>
             </div>

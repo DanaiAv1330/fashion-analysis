@@ -3,7 +3,7 @@
 <html lang="el">
 <head>
 <meta charset="UTF-8">
-  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+<link rel="icon" type="image/x-icon" href="favicon.ico" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Wardrobe Wishlist</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Sans:wght@300;400;500&display=swap" rel="stylesheet">
@@ -25,31 +25,13 @@
 body{font-family:var(--font-sans);font-weight:300;background:var(--bg);color:var(--text);min-height:100vh;font-size:13px;}
 
 /* ── INLINE FORM ── */
-.inline-form-header{
-display:flex;align-items:center;justify-content:space-between;
-margin-bottom:16px;
-}
-.inline-form-title{
-font-family:var(–font-serif);font-size:18px;font-weight:300;
-}
+.inline-form-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.inline-form-title{font-family:var(–font-serif);font-size:18px;font-weight:300;}
 .inline-form-title em{font-style:italic;color:var(–accent);}
-.inline-form-close{
-background:none;border:1px solid var(–border);color:var(–text-muted);
-width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:12px;
-display:flex;align-items:center;justify-content:center;flex-shrink:0;
-transition:all 0.15s;
-}
+.inline-form-close{background:none;border:1px solid var(–border);color:var(–text-muted);width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.15s;}
 .inline-form-close:hover{border-color:var(–red);color:var(–red-text);}
-
-#inline-form-wrap{
-background:var(–surface);
-border:1px solid var(–border);
-border-radius:3px;
-padding:18px 16px 16px;
-animation:slideDown 0.2s ease;
-}
+#inline-form-wrap{background:var(–surface);border:1px solid var(–border);border-radius:3px;padding:18px 16px 16px;animation:slideDown 0.2s ease;}
 @keyframes slideDown{from{opacity:0;transform:translateY(-8px);}to{opacity:1;transform:translateY(0);}}
-
 .iform-section{margin-bottom:16px;}
 .iform-section-title{font-size:8px;letter-spacing:0.16em;text-transform:uppercase;color:var(–text-dim);margin-bottom:9px;padding-bottom:5px;border-bottom:1px solid var(–border-soft);}
 .iform-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
@@ -57,12 +39,7 @@ animation:slideDown 0.2s ease;
 .iform-group{display:flex;flex-direction:column;gap:4px;}
 .iform-group.full{grid-column:1/-1;}
 .iform-group label{font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(–text-muted);}
-.iform-group input,.iform-group select,.iform-group textarea{
-font-family:var(–font-sans);font-size:12px;font-weight:300;
-border:1px solid var(–border);background:var(–surface2);
-padding:7px 9px;border-radius:1px;color:var(–text);outline:none;
-transition:border-color 0.15s;-webkit-appearance:none;width:100%;
-}
+.iform-group input,.iform-group select,.iform-group textarea{font-family:var(–font-sans);font-size:12px;font-weight:300;border:1px solid var(–border);background:var(–surface2);padding:7px 9px;border-radius:1px;color:var(–text);outline:none;transition:border-color 0.15s;-webkit-appearance:none;width:100%;}
 .iform-group input::placeholder{color:var(–text-dim);}
 .iform-group select option{background:var(–surface2);color:var(–text);}
 .iform-group input:focus,.iform-group select:focus,.iform-group textarea:focus{border-color:var(–accent);}
@@ -71,20 +48,9 @@ transition:border-color 0.15s;-webkit-appearance:none;width:100%;
 .iform-actions{display:flex;gap:8px;justify-content:flex-end;padding-top:14px;border-top:1px solid var(–border);}
 
 /* ── AUTH SCREEN ── */
-#auth-screen {
-min-height:100vh;display:flex;align-items:center;justify-content:center;
-padding:20px;
-}
-.auth-box {
-background:var(–surface);border:1px solid var(–border);border-radius:3px;
-padding:36px 32px;width:100%;max-width:380px;
-box-shadow:0 4px 24px rgba(90,70,40,0.08);
-}
-.auth-logo {
-font-family:var(–font-serif);font-size:20px;font-weight:300;
-letter-spacing:0.12em;text-transform:uppercase;text-align:center;
-margin-bottom:6px;
-}
+#auth-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;}
+.auth-box{background:var(–surface);border:1px solid var(–border);border-radius:3px;padding:36px 32px;width:100%;max-width:380px;box-shadow:0 4px 24px rgba(90,70,40,0.08);}
+.auth-logo{font-family:var(–font-serif);font-size:20px;font-weight:300;letter-spacing:0.12em;text-transform:uppercase;text-align:center;margin-bottom:6px;}
 .auth-logo em{font-style:italic;color:var(–accent);}
 .auth-subtitle{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(–text-dim);text-align:center;margin-bottom:28px;}
 .auth-tabs{display:flex;border-bottom:1px solid var(–border);margin-bottom:22px;}
@@ -104,148 +70,65 @@ margin-bottom:6px;
 
 /* ── APP TABS ── */
 #app-screen{display:none;}
-.app-tab {
-font-family:var(–font-sans);font-size:10px;letter-spacing:0.11em;text-transform:uppercase;
-background:none;border:none;border-bottom:2px solid transparent;
-color:var(–text-muted);padding:12px 20px;cursor:pointer;transition:all 0.15s;
-}
+.app-tab{font-family:var(–font-sans);font-size:10px;letter-spacing:0.11em;text-transform:uppercase;background:none;border:none;border-bottom:2px solid transparent;color:var(–text-muted);padding:12px 20px;cursor:pointer;transition:all 0.15s;}
 .app-tab.active{color:var(–accent);border-bottom-color:var(–accent);font-weight:500;}
 .app-tab:hover{color:var(–text);}
 .app-panel{display:none;}.app-panel.active{display:block;}
 
 /* ── PURCHASES ── */
-.purchases-header{
-padding:16px 14px 0;
-display:flex;align-items:center;justify-content:space-between;
-}
+.purchases-header{padding:16px 14px 0;display:flex;align-items:center;justify-content:space-between;}
 @media(min-width:768px){.purchases-header{padding:18px 32px 0;}}
-.purchases-year-label{
-font-family:var(–font-serif);font-size:20px;font-weight:300;
-}
+.purchases-year-label{font-family:var(–font-serif);font-size:20px;font-weight:300;}
 .purchases-year-label em{font-style:italic;color:var(–accent);}
-
-.purch-kpi-grid{
-display:grid;grid-template-columns:repeat(2,1fr);gap:8px;
-padding:14px 14px 0;
-}
+.purch-kpi-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;padding:14px 14px 0;}
 @media(min-width:540px){.purch-kpi-grid{grid-template-columns:repeat(3,1fr);}}
 @media(min-width:900px){.purch-kpi-grid{grid-template-columns:repeat(5,1fr);padding:16px 32px 0;}}
-
-.purch-kpi{
-background:var(–surface);border:1px solid var(–border);border-radius:2px;
-padding:12px 14px;
-}
+.purch-kpi{background:var(–surface);border:1px solid var(–border);border-radius:2px;padding:12px 14px;}
 .purch-kpi.good{border-left:3px solid var(–green);}
 .purch-kpi.bad{border-left:3px solid var(–red);}
-.purch-kpi-num{
-font-family:var(–font-serif);font-size:22px;font-weight:400;line-height:1;
-margin-bottom:4px;
-}
+.purch-kpi-num{font-family:var(–font-serif);font-size:22px;font-weight:400;line-height:1;margin-bottom:4px;}
 .purch-kpi.good .purch-kpi-num{color:var(–green-text);}
 .purch-kpi.bad .purch-kpi-num{color:var(–red-text);}
 .purch-kpi-label{font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(–text-muted);line-height:1.4;}
 .purch-kpi-label small{font-size:8px;color:var(–text-dim);display:block;letter-spacing:0;text-transform:none;margin-top:2px;}
-
-.purch-section-title{
-font-size:9px;letter-spacing:0.13em;text-transform:uppercase;
-color:var(–text-dim);margin-bottom:8px;padding-bottom:5px;
-border-bottom:1px solid var(–border);
-}
-
-/* Metric switcher tabs */
+.purch-section-title{font-size:9px;letter-spacing:0.13em;text-transform:uppercase;color:var(–text-dim);margin-bottom:8px;padding-bottom:5px;border-bottom:1px solid var(–border);}
 .metric-tabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap;}
-.metric-tab{
-font-family:var(–font-sans);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;
-background:none;border:1px solid var(–border);color:var(–text-muted);
-padding:6px 14px;cursor:pointer;border-radius:10px;transition:all 0.15s;
-}
+.metric-tab{font-family:var(–font-sans);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;background:none;border:1px solid var(–border);color:var(–text-muted);padding:6px 14px;cursor:pointer;border-radius:10px;transition:all 0.15s;}
 .metric-tab.active{background:var(–accent);color:var(–surface);border-color:var(–accent);}
 .metric-tab:hover:not(.active){border-color:var(–accent);color:var(–accent);}
-
-/* Compare rows */
-.purch-compare-row{
-display:flex;align-items:center;gap:4px;
-margin-bottom:6px;overflow-x:auto;
--webkit-overflow-scrolling:touch;
-scrollbar-width:none;
-}
+.purch-compare-row{display:flex;align-items:center;gap:4px;margin-bottom:6px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
 .purch-compare-row::-webkit-scrollbar{display:none;}
-.purch-compare-sep{
-font-size:12px;color:var(–text-dim);flex-shrink:0;padding:0 1px;
-}
-.purch-compare-card{
-flex-shrink:0;
-background:var(–surface);border:1px solid var(–border);
-border-radius:2px;padding:8px 10px;text-align:center;
-min-width:54px;
-}
+.purch-compare-sep{font-size:12px;color:var(–text-dim);flex-shrink:0;padding:0 1px;}
+.purch-compare-card{flex-shrink:0;background:var(–surface);border:1px solid var(–border);border-radius:2px;padding:8px 10px;text-align:center;min-width:54px;}
 .purch-compare-card.total{border-color:var(–border);min-width:62px;}
 .purch-compare-card.conscious{border-left:3px solid var(–green);background:var(–green-soft);}
 .purch-compare-card.rule48{border-left:3px solid #b8960a;background:rgba(184,150,10,0.06);}
 .purch-compare-card.impulse{border-left:3px solid var(–red);background:var(–red-soft);}
 .purch-compare-card.repl{border-left:3px solid #5a7ab0;background:rgba(80,110,160,0.06);}
-.purch-compare-num{
-font-family:var(–font-serif);font-size:16px;font-weight:400;line-height:1;
-white-space:nowrap;
-}
+.purch-compare-num{font-family:var(–font-serif);font-size:16px;font-weight:400;line-height:1;white-space:nowrap;}
 .purch-compare-card.conscious .purch-compare-num{color:var(–green-text);}
 .purch-compare-card.rule48 .purch-compare-num{color:#6b5200;}
 .purch-compare-card.impulse .purch-compare-num{color:var(–red-text);}
 .purch-compare-card.repl .purch-compare-num{color:#5a7ab0;}
-.purch-compare-lbl{
-font-size:8px;letter-spacing:0.08em;text-transform:uppercase;
-color:var(–text-dim);margin-top:3px;white-space:nowrap;
-}
-
-/* Category breakdown cards */
-.cat-card{
-background:var(–surface);border:1px solid var(–border);border-radius:2px;
-padding:11px 13px;margin-bottom:7px;
-}
+.purch-compare-lbl{font-size:8px;letter-spacing:0.08em;text-transform:uppercase;color:var(–text-dim);margin-top:3px;white-space:nowrap;}
+.cat-card{background:var(–surface);border:1px solid var(–border);border-radius:2px;padding:11px 13px;margin-bottom:7px;}
 .cat-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
 .cat-card-name{font-family:var(–font-serif);font-size:13px;font-weight:400;}
 .cat-card-total{font-family:var(–font-serif);font-size:15px;color:var(–accent);}
-.cat-card-amounts{display:flex;gap:6px;margin-bottom:8px;}
-.cat-amount{flex:1;padding:6px 8px;border-radius:2px;text-align:center;}
-.cat-amount.conscious{background:var(–green-soft);border:1px solid rgba(74,124,90,0.18);}
-.cat-amount.rule48{background:rgba(184,150,10,0.07);border:1px solid rgba(184,150,10,0.22);}
-.cat-amount.impulse{background:var(–red-soft);border:1px solid rgba(140,74,58,0.18);}
-.cat-amount-val{font-family:var(–font-serif);font-size:14px;line-height:1;}
-.cat-amount.conscious .cat-amount-val{color:var(–green-text);}
-.cat-amount.rule48 .cat-amount-val{color:#6b5200;}
-.cat-amount.impulse .cat-amount-val{color:var(–red-text);}
-.cat-amount-lbl{font-size:8px;letter-spacing:0.07em;text-transform:uppercase;color:var(–text-dim);margin-top:2px;}
 .cat-bar-track{width:100%;height:5px;background:var(–surface3);border-radius:3px;overflow:hidden;margin-bottom:7px;}
 .cat-bar-fill{height:100%;border-radius:3px;background:var(–accent-light);}
 .cat-comment{font-size:10px;color:var(–text-muted);line-height:1.5;font-style:italic;padding-top:6px;border-top:1px solid var(–border-soft);}
-
-/* Insight cards */
-.insight-card {
-display:flex;align-items:flex-start;gap:10px;
-padding:10px 13px;
-background:var(–surface);border:1px solid var(–border);
-border-radius:2px;margin-bottom:6px;
-}
-.insight-icon { font-size:16px;flex-shrink:0;margin-top:1px; }
-.insight-msg { font-size:11px;color:var(–text-muted);line-height:1.6; }
-
-/* Category breakdown bars */
-.cat-bar-row{
-display:flex;align-items:center;gap:10px;
-margin-bottom:7px;
-}
+.material-chips-wrap{display:flex;flex-wrap:wrap;gap:5px;margin-top:4px;}
+.mat-chip{font-family:var(–font-sans);font-size:9px;letter-spacing:0.07em;text-transform:uppercase;border:1px solid var(–border);padding:4px 9px;border-radius:10px;cursor:pointer;color:var(–text-muted);transition:all 0.15s;display:flex;align-items:center;gap:4px;}
+.mat-chip input{display:none;}
+.mat-chip:has(input:checked){border-color:var(–accent);color:var(–accent);background:var(–accent-dim);}
+.insight-card{display:flex;align-items:flex-start;gap:10px;padding:10px 13px;background:var(–surface);border:1px solid var(–border);border-radius:2px;margin-bottom:6px;}
+.insight-icon{font-size:16px;flex-shrink:0;margin-top:1px;}
+.insight-msg{font-size:11px;color:var(–text-muted);line-height:1.6;}
+.cat-bar-row{display:flex;align-items:center;gap:10px;margin-bottom:7px;}
 .cat-bar-label{font-size:11px;color:var(–text-muted);width:140px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.cat-bar-track{flex:1;height:6px;background:var(–surface3);border-radius:3px;overflow:hidden;}
-.cat-bar-fill{height:100%;border-radius:3px;background:var(–accent-light);}
 .cat-bar-val{font-family:var(–font-serif);font-size:12px;color:var(–text-muted);flex-shrink:0;width:50px;text-align:right;}
-
-/* Purchase list rows */
-.purch-row{
-display:flex;gap:10px;padding:9px 10px;
-border:1px solid var(–border);border-radius:2px;
-background:var(–surface);margin-bottom:5px;
-align-items:center;
-}
+.purch-row{display:flex;gap:10px;padding:9px 10px;border:1px solid var(–border);border-radius:2px;background:var(–surface);margin-bottom:5px;align-items:center;}
 .purch-row-body{flex:1;min-width:0;}
 .purch-row-name{font-family:var(–font-serif);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .purch-row-meta{font-size:9px;color:var(–text-muted);margin-top:2px;}
@@ -256,29 +139,11 @@ align-items:center;
 .purch-badge.small-thought{background:rgba(154,106,26,0.09);color:var(–amber);border:1px solid rgba(154,106,26,0.25);}
 .purch-badge.impulse{background:var(–red-soft);color:var(–red-text);border:1px solid rgba(140,74,58,0.25);}
 .purch-badge.replacement{background:rgba(80,110,160,0.1);color:#5a7ab0;border:1px solid rgba(80,110,160,0.2);}
-
-/* Archive */
 .archive-year-block{margin-bottom:24px;}
-.archive-year-title{
-font-family:var(–font-serif);font-size:18px;font-weight:300;
-margin-bottom:10px;color:var(–text);
-}
+.archive-year-title{font-family:var(–font-serif);font-size:18px;font-weight:300;margin-bottom:10px;color:var(–text);}
 .archive-year-title em{font-style:italic;color:var(–accent);}
-.archive-summary{
-display:flex;gap:16px;flex-wrap:wrap;
-padding:10px 14px;background:var(–surface);
-border:1px solid var(–border);border-radius:2px;
-margin-bottom:8px;font-size:11px;color:var(–text-muted);
-}
-.archive-summary strong{color:var(–text);font-weight:400;font-family:var(–font-serif);font-size:14px;}
 
-header{
-background:var(–surface);border-bottom:1px solid var(–border);
-padding:0 16px;display:flex;align-items:center;justify-content:space-between;
-position:sticky;top:0;z-index:100;
-box-shadow:0 1px 6px rgba(90,70,40,0.06);
-min-height:52px;
-}
+header{background:var(–surface);border-bottom:1px solid var(–border);padding:0 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 1px 6px rgba(90,70,40,0.06);min-height:52px;}
 .logo{font-family:var(–font-serif);font-size:16px;font-weight:300;letter-spacing:0.14em;text-transform:uppercase;}
 .logo em{font-style:italic;color:var(–accent);}
 .header-right{display:flex;align-items:center;gap:10px;}
@@ -304,7 +169,6 @@ min-height:52px;
 /* ── LIST ── */
 .list-container{padding:14px 14px 60px;max-width:900px;margin:0 auto;}
 @media(min-width:768px){.list-container{padding:18px 32px 60px;}}
-
 .list-header{display:grid;grid-template-columns:2fr 90px 70px 130px 80px;gap:8px;padding:0 12px 8px;font-size:8px;letter-spacing:0.13em;text-transform:uppercase;color:var(–text-dim);border-bottom:1px solid var(–border);margin-bottom:5px;}
 @media(max-width:600px){.list-header{display:none;}}
 
@@ -313,10 +177,8 @@ min-height:52px;
 .card.green{border-left:3px solid var(–green);}
 .card.yellow{border-left:3px solid #b8960a;}
 .card.red{border-left:3px solid var(–red);}
-
 .card-row{display:grid;grid-template-columns:2fr 90px 70px 130px 80px;gap:8px;padding:12px 12px;align-items:center;}
 @media(max-width:600px){.card-row{grid-template-columns:1fr auto;}.col-date,.col-price,.col-cpw{display:none;}}
-
 .item-name{font-family:var(–font-serif);font-size:14px;font-weight:400;line-height:1.2;}
 .item-sub{font-size:9px;color:var(–text-muted);margin-top:2px;}
 .badge-repl{display:inline-block;font-size:7px;letter-spacing:0.08em;text-transform:uppercase;padding:1px 6px;border-radius:1px;margin-top:3px;background:rgba(80,110,160,0.1);color:#5a7ab0;border:1px solid rgba(80,110,160,0.2);}
@@ -361,42 +223,11 @@ min-height:52px;
 .link-ext:hover{text-decoration:underline;}
 
 /* ── MODAL ── */
-.modal-overlay{
-display:none;
-position:fixed;
-top:0;left:0;
-width:100%;height:100%;
-background:rgba(42,35,26,0.65);
-z-index:9999;
-overflow:hidden;
-}
+.modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(42,35,26,0.65);z-index:9999;overflow:hidden;}
 .modal-overlay.open{display:block;}
-.modal-scroll-wrap{
-position:absolute;
-top:0;left:0;right:0;bottom:0;
-overflow-y:auto;
--webkit-overflow-scrolling:touch;
-display:flex;
-align-items:flex-start;
-justify-content:center;
-padding:20px 14px 40px;
-}
-.modal-overlay .modal{
-margin:0 auto;
-position:relative;
-width:100%;max-width:620px;
-flex-shrink:0;
-}
-.modal{
-background:var(–surface);border:1px solid var(–border);border-radius:2px;
-width:100%;max-width:620px;
-max-height:none;
-overflow-y:visible;
-padding:24px 20px 22px;
-animation:modalIn 0.22s ease;
-margin:auto;
-position:relative;
-}
+.modal-scroll-wrap{position:absolute;top:0;left:0;right:0;bottom:0;overflow-y:auto;-webkit-overflow-scrolling:touch;display:flex;align-items:flex-start;justify-content:center;padding:20px 14px 40px;}
+.modal-overlay .modal{margin:0 auto;position:relative;width:100%;max-width:620px;flex-shrink:0;}
+.modal{background:var(–surface);border:1px solid var(–border);border-radius:2px;width:100%;max-width:620px;max-height:none;overflow-y:visible;padding:24px 20px 22px;animation:modalIn 0.22s ease;margin:auto;position:relative;}
 @keyframes modalIn{from{opacity:0;transform:translateY(10px) scale(0.98);}to{opacity:1;transform:translateY(0) scale(1);}}
 .modal-title{font-family:var(–font-serif);font-size:19px;font-weight:300;margin-bottom:20px;}
 .modal-title em{color:var(–accent);font-style:italic;}
@@ -421,12 +252,10 @@ position:relative;
 .cpw-row{display:flex;justify-content:space-between;align-items:baseline;padding:2px 0;}
 .cpw-row-label{font-size:9px;letter-spacing:0.09em;text-transform:uppercase;color:var(–text-muted);}
 .cpw-row-value{font-family:var(–font-serif);font-size:15px;color:var(–text);}
-.cpw-divider{border:none;border-top:1px solid var(–border-soft);margin:6px 0;}
 .cpw-verdict{font-size:10px;letter-spacing:0.07em;text-transform:uppercase;margin-top:5px;font-weight:400;}
 .cpw-verdict.good{color:var(–green-text);}
 .cpw-verdict.warn{color:var(–amber);}
 .cpw-verdict.bad{color:var(–red-text);}
-
 .modal-actions{display:flex;gap:9px;justify-content:flex-end;margin-top:20px;padding-top:16px;border-top:1px solid var(–border);}
 
 /* EMPTY STATE */
@@ -435,27 +264,20 @@ position:relative;
 .empty-sub{font-size:11px;color:var(–text-muted);margin-bottom:20px;}
 
 /* Purchase verdict */
-.purchase-verdict {
-font-size:11px;letter-spacing:0.06em;
-padding:10px 14px;border-radius:2px;
-}
-.purchase-verdict.good {
-background:var(–green-soft);color:var(–green-text);
-border:1px solid var(–green-border);
-}
-.purchase-verdict.bad {
-background:var(–red-soft);color:var(–red-text);
-border:1px solid rgba(140,74,58,0.22);
-}
+.purchase-verdict{font-size:11px;letter-spacing:0.06em;padding:10px 14px;border-radius:2px;}
+.purchase-verdict.good{background:var(–green-soft);color:var(–green-text);border:1px solid var(–green-border);}
+.purchase-verdict.bad{background:var(–red-soft);color:var(–red-text);border:1px solid rgba(140,74,58,0.22);}
 
-/* ── TOAST ── */
+/* ── TOAST / LOADING ── */
 .loading{text-align:center;padding:40px;color:var(–text-muted);font-size:12px;letter-spacing:0.1em;}
 .spinner{display:inline-block;width:20px;height:20px;border:2px solid var(–border);border-top-color:var(–accent);border-radius:50%;animation:spin 0.7s linear infinite;margin-bottom:8px;}
 @keyframes spin{to{transform:rotate(360deg);}}
-
-/* TOAST */
 .toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(–text);color:var(–surface);font-size:11px;padding:9px 18px;border-radius:2px;z-index:300;opacity:0;transition:opacity 0.2s;pointer-events:none;white-space:nowrap;}
 .toast.show{opacity:1;}
+
+/* Uniforms panel */
+.uniform-card{background:var(–surface);border:1px solid var(–border);border-radius:2px;padding:14px;margin-bottom:8px;}
+.uniform-card-name{font-family:var(–font-serif);font-size:15px;font-weight:400;margin-bottom:4px;}
 
 ::-webkit-scrollbar{width:4px;}
 ::-webkit-scrollbar-track{background:transparent;}
@@ -504,10 +326,11 @@ border:1px solid rgba(140,74,58,0.22);
 
   <!-- APP TABS -->
 
-  <div style="background:var(--surface);border-bottom:1px solid var(--border);display:flex;">
+  <div style="background:var(--surface);border-bottom:1px solid var(--border);display:flex;overflow-x:auto;">
     <button class="app-tab active" onclick="showAppTab('wishlist',this)">📋 Wishlist</button>
     <button class="app-tab" onclick="showAppTab('purchases',this)">🛍 Αγορές <span id="year-badge" style="font-size:9px;background:var(--accent-dim);color:var(--accent);border-radius:2px;padding:1px 5px;margin-left:4px;"></span></button>
     <button class="app-tab" onclick="showAppTab('archive',this)">📁 Αρχείο</button>
+    <button class="app-tab" onclick="showAppTab('uniforms',this)">👗 Uniforms</button>
   </div>
 
   <!-- ═══ TAB: WISHLIST ═══ -->
@@ -545,91 +368,185 @@ border:1px solid rgba(140,74,58,0.22);
       <button class="inline-form-close" onclick="closeInlineForm()">✕</button>
     </div>
 
+    <!-- ΒΑΣΙΚΑ -->
     <div class="iform-section">
       <div class="iform-section-title">Βασικά στοιχεία</div>
       <div class="iform-grid">
-        <div class="iform-group full"><label>Τίτλος *</label><input type="text" id="f-title" placeholder="π.χ. Λευκό λινό πουκάμισο"></div>
-        <div class="iform-group"><label>Ημερομηνία εγγραφής</label>
+        <div class="iform-group full">
+          <label>Τίτλος *</label>
+          <input type="text" id="f-title" placeholder="π.χ. Λευκό λινό πουκάμισο">
+        </div>
+        <div class="iform-group">
+          <label>Ημερομηνία εγγραφής</label>
           <input type="date" id="f-entry-date">
           <div class="iform-hint">Κενό = σήμερα · παλιά ημ. αν το είχες νωρίτερα</div>
         </div>
-        <div class="iform-group"><label>Μάρκα</label><input type="text" id="f-brand" placeholder="π.χ. Zara, Mango…"></div>
+
+        <!-- BRAND DROPDOWN -->
+        <div class="iform-group">
+          <label>Μάρκα</label>
+          <select id="f-brand" onchange="handleBrandChange(this)">
+            <option value="">— Επιλογή —</option>
+            <option>H&amp;M</option>
+            <option>Zara</option>
+            <option>Mango</option>
+            <option>Ralph Lauren</option>
+            <option>Coach</option>
+            <option>Michael Kors</option>
+            <option>Marks and Spencer</option>
+            <option>Lynne</option>
+            <option>Doretta</option>
+            <option>Chloe</option>
+            <option>Herschel</option>
+            <option>Valentino</option>
+            <!-- custom brands inserted here by JS -->
+            <option value="__other__">+ Other…</option>
+          </select>
+          <input type="text" id="f-brand-other" placeholder="Γράψε τη μάρκα…"
+            style="display:none;margin-top:6px;"
+            onkeydown="if(event.key==='Enter'){event.preventDefault();commitCustomBrand();}"
+            onblur="commitCustomBrand()">
+        </div>
+
+        <!-- CATEGORY -->
         <div class="iform-group">
           <label>Κατηγορία</label>
           <select id="f-category">
             <option value="">— Επιλογή —</option>
             <optgroup label="Ρούχα">
-              <option>Μπλούζες / Tops</option><option>Πουκάμισα</option><option>Φούστες</option>
-              <option>Παντελόνια</option><option>Φορέματα</option><option>Πλεκτά / Πουλόβερ</option>
-              <option>Jackets</option><option>Παλτά</option><option>Σετ / Coordinates</option>
+              <option>Μπλούζες / Tops</option>
+              <option>Πουκάμισα</option>
+              <option>Φούστες</option>
+              <option>Παντελόνια</option>
+              <option>Φορέματα</option>
+              <option>Πλεκτά / Πουλόβερ</option>
+              <option>Blazers</option>
+              <option>Jackets</option>
+              <option>Ζακέτες / Cardigans</option>
+              <option>Καμπαρντίνες / Trench</option>
+              <option>Παλτά</option>
+              <option>Σετ / Coordinates</option>
             </optgroup>
             <optgroup label="Παπούτσια">
-              <option>Sneakers</option><option>Boots / Booties</option>
-              <option>Flats</option><option>Sandals</option><option>Heels</option>
+              <option>Sneakers</option>
+              <option>Boots / Booties</option>
+              <option>Flats</option>
+              <option>Sandals</option>
+              <option>Heels</option>
             </optgroup>
             <optgroup label="Αξεσουάρ">
-              <option>Τσάντες</option><option>Γυαλιά ηλίου</option>
-              <option>Πορτοφόλι</option><option>Κοσμήματα</option><option>Αξεσουάρ — Other</option>
+              <option>Τσάντες</option>
+              <option>Γυαλιά ηλίου</option>
+              <option>Πορτοφόλι</option>
+              <option>Κοσμήματα</option>
+              <option>Αξεσουάρ — Other</option>
             </optgroup>
           </select>
         </div>
+
+        <!-- COLOR -->
         <div class="iform-group">
           <label>Χρώμα</label>
           <select id="f-color">
             <option value="">— Επιλογή —</option>
             <optgroup label="Neutrals">
-              <option value="Λευκό">Λευκό</option><option value="Εκρού / Off-white">Εκρού / Off-white</option>
-              <option value="Beige / Camel">Beige / Camel</option><option value="Γκρι ανοιχτό">Γκρι ανοιχτό</option>
-              <option value="Γκρι σκούρο">Γκρι σκούρο</option><option value="Μαύρο">Μαύρο</option>
-              <option value="Καφέ / Ταμπά">Καφέ / Ταμπά</option><option value="Chocolate">Chocolate</option>
+              <option>Λευκό</option><option>Εκρού / Off-white</option>
+              <option>Beige / Camel</option><option>Γκρι ανοιχτό</option>
+              <option>Γκρι σκούρο</option><option>Μαύρο</option>
+              <option>Καφέ / Ταμπά</option><option>Chocolate</option>
             </optgroup>
             <optgroup label="Blues & Greens">
-              <option value="Navy">Navy</option><option value="Μπλε ρουά">Μπλε ρουά</option>
-              <option value="Γαλάζιο">Γαλάζιο</option><option value="Denim">Denim</option>
-              <option value="Πράσινο σκούρο">Πράσινο σκούρο</option><option value="Χακί / Olive">Χακί / Olive</option>
-              <option value="Mint / Sage">Mint / Sage</option>
+              <option>Navy</option><option>Μπλε ρουά</option>
+              <option>Γαλάζιο</option><option>Denim</option>
+              <option>Πράσινο σκούρο</option><option>Χακί / Olive</option>
+              <option>Mint / Sage</option>
             </optgroup>
             <optgroup label="Reds & Pinks">
-              <option value="Κόκκινο">Κόκκινο</option><option value="Burgundy / Μπορντό">Burgundy / Μπορντό</option>
-              <option value="Ροζ παλ">Ροζ παλ</option><option value="Fuchsia / Hot pink">Fuchsia / Hot pink</option>
-              <option value="Terracotta / Ώχρα">Terracotta / Ώχρα</option><option value="Πορτοκαλί">Πορτοκαλί</option>
+              <option>Κόκκινο</option><option>Burgundy / Μπορντό</option>
+              <option>Ροζ παλ</option><option>Dusty Pink</option>
+              <option>Fuchsia / Hot pink</option>
+              <option>Terracotta / Ώχρα</option><option>Πορτοκαλί</option>
             </optgroup>
             <optgroup label="Purples & Yellows">
-              <option value="Μωβ / Λιλά">Μωβ / Λιλά</option><option value="Κίτρινο / Mustard">Κίτρινο / Mustard</option>
+              <option>Μωβ / Λιλά</option><option>Κίτρινο / Mustard</option>
             </optgroup>
             <optgroup label="Patterns">
-              <option value="Ριγέ">Ριγέ</option><option value="Καρό / Vichy">Καρό / Vichy</option>
-              <option value="Floral / Print">Floral / Print</option><option value="Animal print">Animal print</option>
-              <option value="Πολύχρωμο">Πολύχρωμο</option>
+              <option>Ριγέ</option><option>Καρό / Vichy</option>
+              <option>Floral / Print</option><option>Animal print</option>
+              <option>Πολύχρωμο</option>
             </optgroup>
           </select>
         </div>
-        <div class="iform-group"><label>Υλικό</label><input type="text" id="f-material" placeholder="π.χ. Λινό, Βαμβάκι"></div>
+
+        <!-- MATERIAL CHIPS -->
+        <div class="iform-group full">
+          <label>Υλικό <span style="font-weight:300;text-transform:none;letter-spacing:0;font-size:9px;color:var(--text-dim)">(επίλεξε όσα θέλεις)</span></label>
+          <div id="material-chips" class="material-chips-wrap">
+            <label class="mat-chip"><input type="checkbox" value="Βαμβάκι"> Βαμβάκι</label>
+            <label class="mat-chip"><input type="checkbox" value="Λινό"> Λινό</label>
+            <label class="mat-chip"><input type="checkbox" value="Μαλλί"> Μαλλί</label>
+            <label class="mat-chip"><input type="checkbox" value="Κασμίρ"> Κασμίρ</label>
+            <label class="mat-chip"><input type="checkbox" value="Μετάξι"> Μετάξι</label>
+            <label class="mat-chip"><input type="checkbox" value="Σατέν"> Σατέν</label>
+            <label class="mat-chip"><input type="checkbox" value="Δένιμ"> Δένιμ</label>
+            <label class="mat-chip"><input type="checkbox" value="Δέρμα"> Δέρμα</label>
+            <label class="mat-chip"><input type="checkbox" value="Suede"> Suede</label>
+            <label class="mat-chip"><input type="checkbox" value="Πολυεστέρας"> Πολυεστέρας</label>
+            <label class="mat-chip"><input type="checkbox" value="Viscose"> Viscose</label>
+            <label class="mat-chip"><input type="checkbox" value="Νάιλον"> Νάιλον</label>
+            <div id="material-custom-chips"></div>
+          </div>
+          <div style="display:flex;gap:6px;margin-top:6px;align-items:center;">
+            <input type="text" id="f-material-other" placeholder="+ Other υλικό…"
+              style="flex:1;font-size:11px;padding:5px 8px;border:1px solid var(--border);background:var(--surface2);border-radius:1px;outline:none;"
+              onkeydown="if(event.key==='Enter'){event.preventDefault();addCustomMaterial(this.value);this.value='';}">
+            <button type="button"
+              onclick="addCustomMaterial(document.getElementById('f-material-other').value);document.getElementById('f-material-other').value='';"
+              style="font-size:9px;padding:5px 10px;background:none;border:1px solid var(--border);cursor:pointer;border-radius:1px;color:var(--text-muted);">+</button>
+          </div>
+          <input type="hidden" id="f-material">
+        </div>
       </div>
     </div>
 
+    <!-- ΧΑΡΑΚΤΗΡΙΣΤΙΚΑ -->
     <div class="iform-section">
       <div class="iform-section-title">Χαρακτηριστικά (προαιρετικά)</div>
       <div class="iform-grid">
         <div class="iform-group">
           <label>Μανίκι</label>
-          <select id="f-sleeve"><option value="">—</option><option>Αμάνικο</option><option>Κοντό</option><option>3/4</option><option>Μακρύ</option><option>N/A</option></select>
+          <select id="f-sleeve">
+            <option value="">—</option><option>Αμάνικο</option><option>Κοντό</option>
+            <option>3/4</option><option>Μακρύ</option><option>N/A</option>
+          </select>
         </div>
         <div class="iform-group">
           <label>Λαιμόκοψη</label>
-          <select id="f-neckline"><option value="">—</option><option>V-neck</option><option>Στρόγγυλη</option><option>Κλασική</option><option>Off-shoulder</option><option>Turtleneck</option><option>Boat neck</option><option>Square neck</option><option>N/A</option></select>
+          <select id="f-neckline">
+            <option value="">—</option><option>V-neck</option><option>Στρόγγυλη</option>
+            <option>Κλασική</option><option>Polo</option><option>Off-shoulder</option>
+            <option>Turtleneck</option><option>Boat neck</option><option>Square neck</option>
+            <option>N/A</option>
+          </select>
         </div>
         <div class="iform-group">
           <label>Μήκος</label>
-          <select id="f-length"><option value="">—</option><option>Crop</option><option>Κανονικό</option><option>Midi</option><option>Maxi</option><option>N/A</option></select>
+          <select id="f-length">
+            <option value="">—</option><option>Crop</option><option>Κανονικό</option>
+            <option>Midi</option><option>Maxi</option><option>N/A</option>
+          </select>
         </div>
         <div class="iform-group">
           <label>Εποχή</label>
-          <select id="f-season"><option value="">—</option><option>Άνοιξη / Καλοκαίρι</option><option>Φθινόπωρο / Χειμώνας</option><option>4 εποχές</option></select>
+          <select id="f-season">
+            <option value="">—</option><option>Άνοιξη / Καλοκαίρι</option>
+            <option>Φθινόπωρο / Χειμώνας</option><option>4 εποχές</option>
+          </select>
         </div>
       </div>
     </div>
 
+    <!-- CPW -->
     <div class="iform-section">
       <div class="iform-section-title">CPW — Τιμή & Κατηγορία</div>
       <div class="iform-grid">
@@ -657,6 +574,19 @@ border:1px solid rgba(140,74,58,0.22);
       </div>
     </div>
 
+    <!-- OUTFIT UNIFORMS SELECTOR -->
+    <div class="iform-section">
+      <div class="iform-section-title">Outfit Uniforms</div>
+      <div class="iform-hint" style="margin-bottom:8px;">Με ποιο από τα uniforms σου ταιριάζει αυτό το item;</div>
+      <div id="uniform-selector" class="material-chips-wrap">
+        <div style="color:var(--text-dim);font-size:10px;">Φόρτωση uniforms…</div>
+      </div>
+      <div id="uniform-warning" style="display:none;margin-top:8px;padding:8px 11px;background:rgba(140,74,58,0.08);border:1px solid rgba(140,74,58,0.22);border-radius:2px;font-size:10px;color:var(--red-text);">
+        ⚠️ Αυτό το item δεν ταιριάζει με κανένα από τα outfit uniforms σου. Σκέψου αν πραγματικά χρειάζεται!
+      </div>
+    </div>
+
+    <!-- OUTFITS & NOTES -->
     <div class="iform-section">
       <div class="iform-section-title">Συνδυασμοί & Σημειώσεις</div>
       <div class="iform-grid">
@@ -677,7 +607,6 @@ border:1px solid rgba(140,74,58,0.22);
     </div>
   </div>
   <!-- END INLINE FORM -->
-
 </div>
 ```
 
@@ -689,46 +618,29 @@ border:1px solid rgba(140,74,58,0.22);
     <div class="purchases-header">
       <div class="purchases-year-label">Αγορές <em id="purchases-year-label">2026</em></div>
     </div>
-
-```
-<!-- KPI summary -->
-<div class="list-container" style="padding-bottom:0;padding-top:14px;">
-
-  <!-- Metric switcher -->
-  <div class="metric-tabs">
-    <button class="metric-tab active" onclick="setMetric('cost',this)">€ Κόστος</button>
-    <button class="metric-tab" onclick="setMetric('items',this)"># Τεμάχια</button>
-    <button class="metric-tab" onclick="setMetric('avg',this)">⌀ Μέσο κόστος</button>
-  </div>
-
-  <!-- Dynamic KPI row -->
-  <div class="purch-section-title" id="metric-row-title">Κόστος</div>
-  <div class="purch-compare-row" id="metric-row">
-    <!-- filled by JS -->
-  </div>
-
-  <!-- Overall comment -->
-  <div id="purch-overall-comment" style="margin-top:10px;"></div>
-</div>
-
-<!-- Category breakdown -->
-<div class="list-container" style="padding-top:0">
-  <div class="purch-section-title">Ανά κατηγορία</div>
-  <div id="purch-by-category"></div>
-
-  <div class="purch-section-title" style="margin-top:20px">Αναλυτική λίστα αγορών</div>
-  <!-- Sub-filters -->
-  <div class="filters" style="padding:8px 0;border:none;background:none;margin-bottom:8px;">
-    <button class="filter-btn active" onclick="setPurchFilter('all',this)">Όλες</button>
-    <button class="filter-btn" onclick="setPurchFilter('conscious',this)">✅ Conscious</button>
-    <button class="filter-btn" onclick="setPurchFilter('small-thought',this)">🤔 48h Rule</button>
-    <button class="filter-btn" onclick="setPurchFilter('impulse',this)">⚡ Impulse</button>
-    <button class="filter-btn" onclick="setPurchFilter('replacement',this)">🔄 Αντικατάσταση</button>
-  </div>
-  <div id="purch-list"></div>
-</div>
-```
-
+    <div class="list-container" style="padding-bottom:0;padding-top:14px;">
+      <div class="metric-tabs">
+        <button class="metric-tab active" onclick="setMetric('cost',this)">€ Κόστος</button>
+        <button class="metric-tab" onclick="setMetric('items',this)"># Τεμάχια</button>
+        <button class="metric-tab" onclick="setMetric('avg',this)">⌀ Μέσο κόστος</button>
+      </div>
+      <div class="purch-section-title" id="metric-row-title">Κόστος</div>
+      <div class="purch-compare-row" id="metric-row"></div>
+      <div id="purch-overall-comment" style="margin-top:10px;"></div>
+    </div>
+    <div class="list-container" style="padding-top:0">
+      <div class="purch-section-title">Ανά κατηγορία</div>
+      <div id="purch-by-category"></div>
+      <div class="purch-section-title" style="margin-top:20px">Αναλυτική λίστα αγορών</div>
+      <div class="filters" style="padding:8px 0;border:none;background:none;margin-bottom:8px;">
+        <button class="filter-btn active" onclick="setPurchFilter('all',this)">Όλες</button>
+        <button class="filter-btn" onclick="setPurchFilter('conscious',this)">✅ Conscious</button>
+        <button class="filter-btn" onclick="setPurchFilter('small-thought',this)">🤔 48h Rule</button>
+        <button class="filter-btn" onclick="setPurchFilter('impulse',this)">⚡ Impulse</button>
+        <button class="filter-btn" onclick="setPurchFilter('replacement',this)">🔄 Αντικατάσταση</button>
+      </div>
+      <div id="purch-list"></div>
+    </div>
   </div>
 
   <!-- ═══ TAB: ARCHIVE ═══ -->
@@ -736,46 +648,71 @@ border:1px solid rgba(140,74,58,0.22);
   <div class="app-panel" id="panel-archive">
     <div class="list-container">
       <div class="purch-section-title">Αρχείο προηγούμενων ετών</div>
-      <div id="archive-list">
-        <div class="loading"><div class="spinner"></div></div>
-      </div>
+      <div id="archive-list"><div class="loading"><div class="spinner"></div></div></div>
     </div>
   </div>
 
+  <!-- ═══ TAB: UNIFORMS ═══ -->
+
+  <div class="app-panel" id="panel-uniforms">
+    <div class="list-container">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+        <div>
+          <div class="purch-section-title" style="margin:0;border:none;padding:0;">👗 Outfit Uniforms</div>
+          <div style="font-size:10px;color:var(--text-dim);margin-top:3px;">Τα βασικά looks που επαναλαμβάνεις — έως 3</div>
+        </div>
+        <button class="btn-sm primary" id="btn-add-uniform" onclick="openUniformForm()">+ Νέο</button>
+      </div>
+      <div id="uniforms-list"><div class="loading"><div class="spinner"></div></div></div>
+
+```
+  <!-- Inline uniform form -->
+  <div id="uniform-form-wrap" style="display:none;margin-top:14px;background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:16px;animation:slideDown 0.2s ease;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+      <div style="font-family:var(--font-serif);font-size:16px;font-weight:300;" id="uniform-form-title">Νέο <em style="font-style:italic;color:var(--accent)">Uniform</em></div>
+      <button onclick="closeUniformForm()" style="background:none;border:1px solid var(--border);color:var(--text-muted);width:26px;height:26px;border-radius:50%;cursor:pointer;font-size:11px;">✕</button>
+    </div>
+    <div class="form-grid">
+      <div class="form-group full"><label>Όνομα *</label><input type="text" id="uf-name" placeholder="π.χ. Business Casual, Weekend Casual…"></div>
+      <div class="form-group full"><label>Περιγραφή</label><textarea id="uf-desc" placeholder="Πότε το φοράς, ποια η αισθητική…" style="min-height:60px;font-family:var(--font-sans);font-size:12px;border:1px solid var(--border);background:var(--surface2);padding:7px 9px;border-radius:1px;outline:none;resize:vertical;width:100%;"></textarea></div>
+      <div class="form-group full"><label>Βασικά χρώματα</label><input type="text" id="uf-colors" placeholder="π.χ. Beige, Λευκό, Navy…" style="font-family:var(--font-sans);font-size:12px;border:1px solid var(--border);background:var(--surface2);padding:7px 9px;border-radius:1px;outline:none;width:100%;"></div>
+      <div class="form-group full"><label>Style notes</label><input type="text" id="uf-notes-field" placeholder="π.χ. Minimalist, Smart casual…" style="font-family:var(--font-sans);font-size:12px;border:1px solid var(--border);background:var(--surface2);padding:7px 9px;border-radius:1px;outline:none;width:100%;"></div>
+    </div>
+    <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px;padding-top:10px;border-top:1px solid var(--border);">
+      <button class="btn-sm" onclick="closeUniformForm()">Ακύρωση</button>
+      <button class="btn-sm primary" onclick="saveUniform()">Αποθήκευση</button>
+    </div>
+  </div>
+</div>
+```
+
+  </div>
 </div>
 
 <!-- ══ PURCHASE DATE MODAL ══ -->
 
 <div class="modal-overlay" id="purchase-modal" onclick="if(event.target===this){this.classList.remove('open');document.body.style.overflow='';}">
   <div class="modal-scroll-wrap">
-  <div class="modal" style="max-width:420px">
-    <div class="modal-title">Καταγραφή <em>Αγοράς</em></div>
-    <div style="font-family:var(--font-serif);font-size:15px;color:var(--text);margin-bottom:16px;" id="purchase-item-name"></div>
-
-```
-<div class="form-section">
-  <div class="form-section-title">Ημερομηνία αγοράς</div>
-  <div class="form-group full">
-    <label>Πότε το αγόρασες;</label>
-    <input type="date" id="purchase-date-input"
-      oninput="updatePurchaseVerdict(allItems.find(i=>i.id===pendingPurchaseId))"
-      style="font-size:14px;padding:9px 11px;">
-    <div style="font-size:10px;color:var(--text-dim);margin-top:5px;">
-      Μπορείς να βάλεις παρελθοντική ημερομηνία για παλιές αγορές
+    <div class="modal" style="max-width:420px">
+      <div class="modal-title">Καταγραφή <em>Αγοράς</em></div>
+      <div style="font-family:var(--font-serif);font-size:15px;color:var(--text);margin-bottom:16px;" id="purchase-item-name"></div>
+      <div class="form-section">
+        <div class="form-section-title">Ημερομηνία αγοράς</div>
+        <div class="form-group full">
+          <label>Πότε το αγόρασες;</label>
+          <input type="date" id="purchase-date-input"
+            oninput="updatePurchaseVerdict(allItems.find(i=>i.id===pendingPurchaseId))"
+            style="font-size:14px;padding:9px 11px;">
+          <div style="font-size:10px;color:var(--text-dim);margin-top:5px;">Μπορείς να βάλεις παρελθοντική ημερομηνία για παλιές αγορές</div>
+        </div>
+      </div>
+      <div id="purchase-verdict" class="purchase-verdict" style="margin:12px 0 16px;"></div>
+      <div class="modal-actions">
+        <button class="btn-sm" onclick="document.getElementById('purchase-modal').classList.remove('open');document.body.style.overflow='';">Ακύρωση</button>
+        <button class="btn-sm primary" id="confirm-purchase-btn" onclick="confirmPurchase()">Καταγραφή</button>
+      </div>
     </div>
   </div>
-</div>
-
-<div id="purchase-verdict" class="purchase-verdict" style="margin:12px 0 16px;"></div>
-
-<div class="modal-actions">
-  <button class="btn-sm" onclick="document.getElementById('purchase-modal').classList.remove('open');document.body.style.overflow='';">Ακύρωση</button>
-  <button class="btn-sm primary" id="confirm-purchase-btn" onclick="confirmPurchase()">Καταγραφή</button>
-</div>
-```
-
-  </div>
-  </div><!-- end modal-scroll-wrap -->
 </div>
 
 <div class="toast" id="toast"></div>
@@ -788,7 +725,6 @@ const sb = createClient(
   'sb_publishable_GEUNs3IBvjSktOQRHYMsLA_W_tlje3D'
 );
 
-const CPW_TARGETS = {5:'Καθημερινό',8:'Outerwear',10:'Αξεσουάρ / Περιστασιακό',20:'Ειδική Περίσταση'};
 let currentUser = null;
 let allItems = [];
 let currentFilter = 'all';
@@ -860,6 +796,7 @@ sb.auth.onAuthStateChange((event, session) => {
     document.getElementById('app-screen').style.display = 'block';
     document.getElementById('user-email-display').textContent = session.user.email.split('@')[0];
     loadItems();
+    loadUniforms();
   }
 });
 
@@ -877,7 +814,6 @@ async function loadItems() {
 function renderItems() {
   const list = document.getElementById('items-list');
   let items = [...allItems];
-
   if (currentFilter === 'green') items = items.filter(i => getStatus(i) === 'green');
   else if (currentFilter === 'yellow') items = items.filter(i => getStatus(i) === 'yellow');
   else if (currentFilter === 'red') items = items.filter(i => getStatus(i) === 'red');
@@ -890,7 +826,6 @@ function renderItems() {
     </div>`;
     return;
   }
-
   list.innerHTML = items.map(item => renderCard(item)).join('');
 }
 
@@ -899,22 +834,15 @@ function getStatus(item) {
   const created = new Date(item.created_at);
   const hoursDiff = (now - created) / (1000 * 60 * 60);
   const monthsDiff = hoursDiff / (24 * 30);
-
   const twoMonthsPassed = monthsDiff >= 2 || item.is_replacement;
   const fortyEightHoursPassed = hoursDiff >= 48 || item.is_replacement;
-
   const cpwOk = item.price && item.times_per_week && item.cpw_category
     ? (item.price / (item.times_per_week * 52)) <= parseFloat(item.cpw_category)
     : false;
-
   const outfits = [item.outfit_1, item.outfit_2, item.outfit_3].filter(Boolean);
   const outfitsOk = outfits.length >= 3;
-
-  // GREEN: all criteria met including 2-month wait
   if (twoMonthsPassed && cpwOk && outfitsOk) return 'green';
-  // YELLOW: 48h passed + CPW ok + outfits ok (but not yet 2 months)
   if (fortyEightHoursPassed && cpwOk && outfitsOk) return 'yellow';
-  // RED: not ready
   return 'red';
 }
 
@@ -926,7 +854,6 @@ function getCPW(item) {
 function cpwClass(cpw, target) {
   if (!cpw || !target) return '';
   const ratio = cpw / parseFloat(target);
-  if (ratio <= 0.5) return 'good';
   if (ratio <= 1.0) return 'good';
   if (ratio <= 1.6) return 'warn';
   return 'bad';
@@ -943,7 +870,6 @@ function renderCard(item) {
   const cpw = getCPW(item);
   const cpwCls = cpwClass(cpw, item.cpw_category);
   const outfits = [item.outfit_1, item.outfit_2, item.outfit_3].filter(Boolean);
-
   const now = new Date();
   const created = new Date(item.created_at);
   const hoursDiff = (now - created) / (1000 * 60 * 60);
@@ -953,7 +879,6 @@ function renderCard(item) {
   const cpwOk = cpw && item.cpw_category ? cpw <= parseFloat(item.cpw_category) : false;
   const target = item.cpw_category ? parseFloat(item.cpw_category) : null;
 
-  // Time criterion reason
   let timeReason;
   if (twoMonthsPassed) {
     timeReason = `✓ &nbsp;${item.is_replacement ? 'Αντικατάσταση — το δίμηνο αναιρείται' : 'Πέρασαν 2+ μήνες — Conscious ✅'}`;
@@ -976,6 +901,18 @@ function renderCard(item) {
   ].join('<br>');
 
   const statusLabel = status === 'green' ? 'Conscious ✅' : status === 'yellow' ? '48h Rule 🤔' : 'Impulse ⚡';
+
+  // Show matched uniform names
+  let uniformHtml = '';
+  if (item.uniform_ids && item.uniform_ids.length && allUniforms.length) {
+    const matched = allUniforms.filter(u => item.uniform_ids.includes(u.id));
+    if (matched.length) {
+      uniformHtml = `<div class="outfits-section">
+        <label>Outfit Uniforms</label>
+        ${matched.map(u => `<span class="outfit-tag">👗 ${escHtml(u.name)}</span>`).join('')}
+      </div>`;
+    }
+  }
 
   return `
   <div class="card ${status}" id="card-${item.id}" onclick="toggleCard('${item.id}')">
@@ -1009,6 +946,7 @@ function renderCard(item) {
         <label>Συνδυασμοί ${outfits.length >= 3 ? '✓' : `✗ ${outfits.length}/3`}</label>
         ${outfits.map(o => `<span class="outfit-tag">${escHtml(o)}</span>`).join('')}
       </div>` : ''}
+      ${uniformHtml}
       <div class="reasons-section">${reasons}</div>
       <div class="detail-actions">
         ${item.link ? `<a href="${item.link}" target="_blank" class="link-ext">↗ Δες το link</a>` : ''}
@@ -1031,13 +969,10 @@ function updateStats() {
   document.getElementById('stat-ready').textContent = green;
   document.getElementById('stat-yellow').textContent = yellow;
   document.getElementById('stat-waiting').textContent = red;
-  const valueDisplay = value >= 1000
-    ? '€' + (value/1000).toFixed(1) + 'k'
-    : value > 0 ? '€' + value.toFixed(0) : '—';
+  const valueDisplay = value >= 1000 ? '€' + (value/1000).toFixed(1) + 'k' : value > 0 ? '€' + value.toFixed(0) : '—';
   document.getElementById('stat-value').textContent = valueDisplay;
 }
 
-// ── FILTER ──
 function setFilter(f, btn) {
   currentFilter = f;
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -1045,7 +980,6 @@ function setFilter(f, btn) {
   renderItems();
 }
 
-// ── TOGGLE CARD ──
 function toggleCard(id) {
   const card = document.getElementById('card-' + id);
   document.querySelectorAll('.card.open').forEach(c => { if (c !== card) c.classList.remove('open'); });
@@ -1061,16 +995,11 @@ function calcCPW() {
   const tgtEl = document.getElementById('cpw-target');
   const needEl = document.getElementById('cpw-needed');
   const vrdEl = document.getElementById('cpw-verdict');
-
-  if (target) tgtEl.textContent = `<${target}€`;
-  else tgtEl.textContent = '—';
-
+  if (target) tgtEl.textContent = `<${target}€`; else tgtEl.textContent = '—';
   if (!price || !times) { valEl.textContent = '—'; needEl.textContent = target ? `${Math.ceil(price/target)} χρήσεις` : '—'; vrdEl.textContent = ''; return; }
-
   const cpw = price / (times * 52);
   valEl.textContent = `€${cpw.toFixed(2)} / χρήση`;
   needEl.textContent = target ? `${Math.ceil(price/target)} χρήσεις` : '—';
-
   if (!target) { vrdEl.textContent = ''; return; }
   const ratio = cpw / target;
   let msg, cls;
@@ -1082,45 +1011,57 @@ function calcCPW() {
   vrdEl.className = 'cpw-verdict ' + cls;
 }
 
+// ── INLINE FORM ──
 function openInlineForm(item = null) {
   editingId = item ? item.id : null;
   document.getElementById('inline-form-title').innerHTML = item ? 'Επεξεργασία <em>Εγγραφής</em>' : 'Νέα <em>Εγγραφή</em>';
 
-  ['f-title','f-brand','f-category','f-color','f-material','f-sleeve','f-neckline',
-   'f-length','f-season','f-price','f-cpw-cat','f-times','f-link',
-   'f-outfit1','f-outfit2','f-outfit3','f-notes','f-entry-date'].forEach(id => {
+  // Reset fields
+  ['f-title','f-category','f-color','f-sleeve','f-neckline','f-length','f-season',
+   'f-price','f-cpw-cat','f-times','f-link','f-outfit1','f-outfit2','f-outfit3','f-notes','f-entry-date'].forEach(id => {
     const el = document.getElementById(id); if (el) el.value = '';
   });
   document.getElementById('f-replacement').checked = false;
+  document.getElementById('f-brand').value = '';
+  document.getElementById('f-brand-other').style.display = 'none';
+  document.getElementById('f-brand-other').value = '';
+  resetMaterialChips();
+  renderUniformSelector(item?.uniform_ids || []);
   ['cpw-val','cpw-target','cpw-needed'].forEach(id => {
     const el = document.getElementById(id); if (el) el.textContent = '—';
   });
   const vrd = document.getElementById('cpw-verdict'); if (vrd) vrd.textContent = '';
 
   if (item) {
-    document.getElementById('f-title').value      = item.title || '';
-    document.getElementById('f-brand').value      = item.brand || '';
-    document.getElementById('f-category').value   = item.category || '';
-    document.getElementById('f-color').value      = item.color || '';
-    document.getElementById('f-material').value   = item.material || '';
-    document.getElementById('f-sleeve').value     = item.sleeve_length || '';
-    document.getElementById('f-neckline').value   = item.neckline || '';
-    document.getElementById('f-length').value     = item.item_length || '';
-    document.getElementById('f-season').value     = item.season || '';
-    document.getElementById('f-price').value      = item.price || '';
-    document.getElementById('f-cpw-cat').value    = item.cpw_category || '';
-    document.getElementById('f-times').value      = item.times_per_week || '';
-    document.getElementById('f-link').value       = item.link || '';
-    document.getElementById('f-outfit1').value    = item.outfit_1 || '';
-    document.getElementById('f-outfit2').value    = item.outfit_2 || '';
-    document.getElementById('f-outfit3').value    = item.outfit_3 || '';
-    document.getElementById('f-notes').value      = item.notes || '';
+    document.getElementById('f-title').value = item.title || '';
+    // Brand
+    if (item.brand) {
+      const bSel = document.getElementById('f-brand');
+      const match = [...bSel.options].find(o => o.value === item.brand);
+      if (match) { bSel.value = item.brand; }
+      else { addCustomBrand(item.brand); bSel.value = item.brand; }
+    }
+    document.getElementById('f-category').value = item.category || '';
+    document.getElementById('f-color').value = item.color || '';
+    if (item.material) fillMaterialChips(item.material);
+    document.getElementById('f-sleeve').value = item.sleeve_length || '';
+    document.getElementById('f-neckline').value = item.neckline || '';
+    document.getElementById('f-length').value = item.item_length || '';
+    document.getElementById('f-season').value = item.season || '';
+    document.getElementById('f-price').value = item.price || '';
+    document.getElementById('f-cpw-cat').value = item.cpw_category || '';
+    document.getElementById('f-times').value = item.times_per_week || '';
+    document.getElementById('f-link').value = item.link || '';
+    document.getElementById('f-outfit1').value = item.outfit_1 || '';
+    document.getElementById('f-outfit2').value = item.outfit_2 || '';
+    document.getElementById('f-outfit3').value = item.outfit_3 || '';
+    document.getElementById('f-notes').value = item.notes || '';
     document.getElementById('f-replacement').checked = item.is_replacement || false;
     if (item.created_at) document.getElementById('f-entry-date').value = item.created_at.split('T')[0];
     calcCPW();
   }
 
-  // Switch to wishlist tab first
+  // Switch to wishlist tab
   document.querySelectorAll('.app-tab').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('.app-panel').forEach(p => p.classList.remove('active'));
   document.querySelector('.app-tab').classList.add('active');
@@ -1136,11 +1077,139 @@ function closeInlineForm() {
   editingId = null;
 }
 
-// Aliases for compatibility
 function openModal(item = null) { openInlineForm(item); }
 function closeModal() { closeInlineForm(); }
 
-// ── SAVE ──
+// ── BRAND DROPDOWN ──
+// Single source of truth — stored in localStorage key 'wb_brands'
+let customBrands = JSON.parse(localStorage.getItem('wb_brands') || '[]');
+
+function handleBrandChange(sel) {
+  const other = document.getElementById('f-brand-other');
+  if (sel.value === '__other__') {
+    other.style.display = 'block';
+    other.focus();
+  } else {
+    other.style.display = 'none';
+  }
+}
+
+function commitCustomBrand() {
+  const val = document.getElementById('f-brand-other').value.trim();
+  addCustomBrand(val);
+}
+
+function addCustomBrand(val) {
+  if (!val) {
+    document.getElementById('f-brand').value = '';
+    document.getElementById('f-brand-other').style.display = 'none';
+    return;
+  }
+  val = val.trim();
+  const sel = document.getElementById('f-brand');
+  // Check if already in select
+  const existing = [...sel.options].find(o => o.value === val && o.value !== '__other__');
+  if (existing) {
+    sel.value = val;
+    document.getElementById('f-brand-other').style.display = 'none';
+    return;
+  }
+  // Add to localStorage
+  if (!customBrands.includes(val)) {
+    customBrands.push(val);
+    localStorage.setItem('wb_brands', JSON.stringify(customBrands));
+  }
+  // Add to select before __other__
+  const otherOpt = sel.querySelector('option[value="__other__"]');
+  const newOpt = new Option(val, val);
+  newOpt.dataset.custom = '1';
+  sel.insertBefore(newOpt, otherOpt);
+  sel.value = val;
+  document.getElementById('f-brand-other').style.display = 'none';
+  document.getElementById('f-brand-other').value = '';
+}
+
+function getBrandValue() {
+  const sel = document.getElementById('f-brand');
+  if (sel.value === '__other__') return document.getElementById('f-brand-other').value.trim() || null;
+  return sel.value || null;
+}
+
+function initCustomBrands() {
+  const sel = document.getElementById('f-brand');
+  const otherOpt = sel.querySelector('option[value="__other__"]');
+  customBrands.forEach(b => {
+    if (![...sel.options].some(o => o.value === b)) {
+      const opt = new Option(b, b);
+      opt.dataset.custom = '1';
+      sel.insertBefore(opt, otherOpt);
+    }
+  });
+}
+
+// ── MATERIAL CHIPS ──
+let customMaterials = JSON.parse(localStorage.getItem('wb_materials') || '[]');
+
+function initMaterialChips() {
+  // Render saved custom materials
+  const wrap = document.getElementById('material-custom-chips');
+  if (!wrap) return;
+  customMaterials.forEach(val => {
+    if (!document.querySelector(`#material-chips input[value="${CSS.escape(val)}"]`)) {
+      const lbl = document.createElement('label');
+      lbl.className = 'mat-chip';
+      lbl.innerHTML = `<input type="checkbox" value="${escHtml(val)}"> ${escHtml(val)}`;
+      wrap.appendChild(lbl);
+    }
+  });
+  // Sync on any chip change
+  document.getElementById('material-chips').addEventListener('change', syncMaterialHidden);
+}
+
+function addCustomMaterial(val) {
+  val = val.trim();
+  if (!val) return;
+  // Check not duplicate
+  const allCbs = [...document.querySelectorAll('#material-chips input[type=checkbox]')];
+  const existing = allCbs.find(cb => cb.value === val);
+  if (existing) { existing.checked = true; syncMaterialHidden(); return; }
+  // Add to localStorage
+  if (!customMaterials.includes(val)) {
+    customMaterials.push(val);
+    localStorage.setItem('wb_materials', JSON.stringify(customMaterials));
+  }
+  // Add chip
+  const wrap = document.getElementById('material-custom-chips');
+  const lbl = document.createElement('label');
+  lbl.className = 'mat-chip';
+  lbl.innerHTML = `<input type="checkbox" value="${escHtml(val)}" checked> ${escHtml(val)}`;
+  lbl.querySelector('input').addEventListener('change', syncMaterialHidden);
+  wrap.appendChild(lbl);
+  syncMaterialHidden();
+}
+
+function syncMaterialHidden() {
+  const checked = [...document.querySelectorAll('#material-chips input[type=checkbox]:checked')].map(c => c.value);
+  document.getElementById('f-material').value = checked.join(', ');
+}
+
+function resetMaterialChips() {
+  document.querySelectorAll('#material-chips input[type=checkbox]').forEach(cb => cb.checked = false);
+  document.getElementById('f-material').value = '';
+}
+
+function fillMaterialChips(val) {
+  if (!val) return;
+  const parts = val.split(',').map(s => s.trim()).filter(Boolean);
+  parts.forEach(p => {
+    const cb = document.querySelector(`#material-chips input[type=checkbox][value="${CSS.escape(p)}"]`);
+    if (cb) { cb.checked = true; }
+    else { addCustomMaterial(p); }
+  });
+  syncMaterialHidden();
+}
+
+// ── SAVE ITEM ──
 async function saveItem() {
   const title = document.getElementById('f-title').value.trim();
   if (!title) { showToast('Ο τίτλος είναι υποχρεωτικός'); return; }
@@ -1148,15 +1217,17 @@ async function saveItem() {
   const btn = document.getElementById('save-btn');
   btn.disabled = true; btn.textContent = '…';
 
+  syncMaterialHidden();
   const entryDateVal = document.getElementById('f-entry-date').value;
 
   const payload = {
     user_id: currentUser.id,
     title,
-    brand: document.getElementById('f-brand').value.trim() || null,
+    brand: getBrandValue(),
     category: document.getElementById('f-category').value || null,
     color: document.getElementById('f-color').value || null,
     material: document.getElementById('f-material').value.trim() || null,
+    uniform_ids: getSelectedUniformIds(),
     sleeve_length: document.getElementById('f-sleeve').value || null,
     neckline: document.getElementById('f-neckline').value || null,
     item_length: document.getElementById('f-length').value || null,
@@ -1170,9 +1241,7 @@ async function saveItem() {
     outfit_3: document.getElementById('f-outfit3').value.trim() || null,
     notes: document.getElementById('f-notes').value.trim() || null,
     is_replacement: document.getElementById('f-replacement').checked,
-    // Αν έχει παρελθοντική ημερομηνία, χρησιμοποίησέ την
-    ...(entryDateVal && !editingId ? { created_at: new Date(entryDateVal).toISOString() } : {}),
-    ...(entryDateVal && editingId ? { created_at: new Date(entryDateVal).toISOString() } : {}),
+    ...(entryDateVal ? { created_at: new Date(entryDateVal).toISOString() } : {}),
   };
 
   let error;
@@ -1183,7 +1252,6 @@ async function saveItem() {
   }
 
   btn.disabled = false; btn.textContent = 'Αποθήκευση';
-
   if (error) { showToast('Σφάλμα αποθήκευσης: ' + error.message); return; }
 
   closeModal();
@@ -1191,13 +1259,11 @@ async function saveItem() {
   await loadItems();
 }
 
-// ── EDIT ──
 function editItem(id) {
   const item = allItems.find(i => i.id === id);
   if (item) openModal(item);
 }
 
-// ── DELETE ──
 async function deleteItem(id) {
   if (!confirm('Διαγραφή αυτής της εγγραφής;')) return;
   const { error } = await sb.from('wishlist').delete().eq('id', id);
@@ -1213,50 +1279,25 @@ function markPurchased(id) {
   const item = allItems.find(i => i.id === id);
   if (!item) return;
   pendingPurchaseId = id;
-
-  // Pre-fill with today
   document.getElementById('purchase-date-input').value = new Date().toISOString().split('T')[0];
   document.getElementById('purchase-item-name').textContent = item.title;
-
-  // Show verdict preview based on today
   updatePurchaseVerdict(item);
-
   document.getElementById('purchase-modal').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
 
 function getPurchaseCategory(hoursWaited, isReplacement) {
   if (isReplacement) return 'replacement';
-  if (hoursWaited >= 24 * 60) return 'conscious';   // 2+ μήνες
-  if (hoursWaited >= 48) return 'small-thought';     // 48ω+
+  if (hoursWaited >= 24 * 60) return 'conscious';
+  if (hoursWaited >= 48) return 'small-thought';
   return 'impulse';
 }
 
 const VERDICT_MESSAGES = {
-  conscious: {
-    icon: '✅',
-    title: 'Conscious Purchase',
-    msg: 'Περίμενες τουλάχιστον 2 μήνες — αυτό δείχνει πραγματική ανάγκη. Καλά έκανες!',
-    cls: 'good'
-  },
-  'small-thought': {
-    icon: '🤔',
-    title: '48h Rule ✓',
-    msg: 'Περίμενες πάνω από 48 ώρες — καλό βήμα! Αν μπορείς, την επόμενη φορά δοκίμασε να περιμένεις λίγο παραπάνω.',
-    cls: 'warn'
-  },
-  impulse: {
-    icon: '⚡',
-    title: 'Impulse Buy',
-    msg: 'Αγόρασες μέσα σε 48 ώρες. Δεν πειράζει — όλοι το κάνουμε. Την επόμενη φορά δοκίμασε να το αφήσεις για 2 μέρες και να δεις αν εξακολουθείς να το θέλεις!',
-    cls: 'bad'
-  },
-  replacement: {
-    icon: '🔄',
-    title: 'Replacement',
-    msg: 'Αντικαθιστάς κάτι που ήδη έχεις — αυτό είναι συνειδητή κατανάλωση!',
-    cls: 'good'
-  }
+  conscious: { icon:'✅', title:'Conscious Purchase', msg:'Περίμενες τουλάχιστον 2 μήνες — αυτό δείχνει πραγματική ανάγκη. Καλά έκανες!', cls:'good' },
+  'small-thought': { icon:'🤔', title:'48h Rule ✓', msg:'Περίμενες πάνω από 48 ώρες — καλό βήμα! Αν μπορείς, την επόμενη φορά δοκίμασε να περιμένεις λίγο παραπάνω.', cls:'warn' },
+  impulse: { icon:'⚡', title:'Impulse Buy', msg:'Αγόρασες μέσα σε 48 ώρες. Δεν πειράζει — όλοι το κάνουμε. Την επόμενη φορά δοκίμασε να το αφήσεις για 2 μέρες!', cls:'bad' },
+  replacement: { icon:'🔄', title:'Replacement', msg:'Αντικαθιστάς κάτι που ήδη έχεις — αυτό είναι συνειδητή κατανάλωση!', cls:'good' },
 };
 
 function updatePurchaseVerdict(item) {
@@ -1276,32 +1317,22 @@ async function confirmPurchase() {
   const id = pendingPurchaseId;
   const item = allItems.find(i => i.id === id);
   if (!item) return;
-
   const purchasedAt = document.getElementById('purchase-date-input').value;
   if (!purchasedAt) { showToast('Βάλε ημερομηνία αγοράς'); return; }
-
   const purchaseDate = new Date(purchasedAt);
   const createdAt = new Date(item.created_at);
   const hoursWaited = (purchaseDate - createdAt) / (1000 * 60 * 60);
   const purchCat = getPurchaseCategory(hoursWaited, item.is_replacement);
   const waitedTwoMonths = purchCat === 'conscious' || purchCat === 'replacement';
   const purchaseYear = purchaseDate.getFullYear();
-
   const btn = document.getElementById('confirm-purchase-btn');
   btn.disabled = true; btn.textContent = '…';
-
   const { error } = await sb.from('wishlist').update({
-    purchased: true,
-    purchased_at: purchasedAt,
-    purchase_year: purchaseYear,
-    waited_two_months: waitedTwoMonths,
-    purchase_category: purchCat,
+    purchased: true, purchased_at: purchasedAt, purchase_year: purchaseYear,
+    waited_two_months: waitedTwoMonths, purchase_category: purchCat,
   }).eq('id', id);
-
   btn.disabled = false; btn.textContent = 'Καταγραφή';
-
   if (error) { showToast('Σφάλμα: ' + error.message); return; }
-
   document.getElementById('purchase-modal').classList.remove('open');
   document.body.style.overflow = '';
   pendingPurchaseId = null;
@@ -1319,16 +1350,16 @@ function showAppTab(id, btn) {
   document.querySelectorAll('.app-panel').forEach(p => p.classList.remove('active'));
   btn.classList.add('active');
   document.getElementById('panel-' + id).classList.add('active');
-  // Hide "Νέα Εγγραφή" on non-wishlist tabs
   document.getElementById('btn-new-main').style.display = id === 'wishlist' ? '' : 'none';
   if (id === 'purchases') loadPurchases();
   if (id === 'archive') loadArchive();
+  if (id === 'uniforms') loadUniforms();
 }
 
 // ── PURCHASES ──
 let purchasedItems = [];
 let purchFilter = 'all';
-let currentMetric = 'cost'; // 'cost' | 'items' | 'avg'
+let currentMetric = 'cost';
 
 function setMetric(metric, btn) {
   currentMetric = metric;
@@ -1341,13 +1372,7 @@ async function loadPurchases() {
   const currentYear = new Date().getFullYear();
   document.getElementById('purchases-year-label').textContent = currentYear;
   document.getElementById('year-badge').textContent = currentYear;
-
-  const { data } = await sb.from('wishlist')
-    .select('*')
-    .eq('purchased', true)
-    .eq('purchase_year', currentYear)
-    .order('purchased_at', { ascending: false });
-
+  const { data } = await sb.from('wishlist').select('*').eq('purchased', true).eq('purchase_year', currentYear).order('purchased_at', { ascending: false });
   purchasedItems = data || [];
   renderPurchases();
 }
@@ -1361,248 +1386,112 @@ function getPurchCat(item) {
 function renderPurchases() {
   const items = purchasedItems;
   const total = items.length;
-  const totalCost = items.reduce((s, i) => s + (i.price || 0), 0);
+  const totalCost = items.reduce((s,i) => s+(i.price||0), 0);
   const conscious    = items.filter(i => getPurchCat(i) === 'conscious');
   const smallThought = items.filter(i => getPurchCat(i) === 'small-thought');
   const impulse      = items.filter(i => getPurchCat(i) === 'impulse');
   const replacements = items.filter(i => getPurchCat(i) === 'replacement');
-
-  // Pre-compute values
-  const nC = conscious.length, n48 = smallThought.length, nI = impulse.length, nR = replacements.length;
-  const cC = conscious.reduce((s,i)=>s+(i.price||0),0);
-  const c48 = smallThought.reduce((s,i)=>s+(i.price||0),0);
-  const cI = impulse.reduce((s,i)=>s+(i.price||0),0);
-  const cR = replacements.reduce((s,i)=>s+(i.price||0),0);
-  const avgC  = nC  ? cC/nC   : 0;
-  const avg48 = n48 ? c48/n48 : 0;
-  const avgI  = nI  ? cI/nI   : 0;
-  const avgR  = nR  ? cR/nR   : 0;
-  const avgTot = total ? totalCost/total : 0;
-
-  const fmtE = n => n >= 1000 ? '€'+(n/1000).toFixed(1)+'k' : n > 0 ? '€'+Math.round(n) : '—';
-  const fmtA = n => n > 0 ? '€'+Math.round(n) : '—';
-  const fmtN = n => n || '—';
-
-  // Dynamic metric row
-  const metricConfigs = {
-    cost:  { title:'Κόστος', totalVal: fmtE(totalCost), cVal: fmtE(cC), r48Val: fmtE(c48), iVal: fmtE(cI), rVal: fmtE(cR), sep:'+' },
-    items: { title:'Τεμάχια', totalVal: total, cVal: fmtN(nC), r48Val: fmtN(n48), iVal: fmtN(nI), rVal: fmtN(nR), sep:'+' },
-    avg:   { title:'Μέσο κόστος / τεμάχιο', totalVal: fmtA(avgTot), cVal: fmtA(avgC), r48Val: fmtA(avg48), iVal: fmtA(avgI), rVal: fmtA(avgR), sep:'·' },
+  const nC=conscious.length, n48=smallThought.length, nI=impulse.length, nR=replacements.length;
+  const cC=conscious.reduce((s,i)=>s+(i.price||0),0);
+  const c48=smallThought.reduce((s,i)=>s+(i.price||0),0);
+  const cI=impulse.reduce((s,i)=>s+(i.price||0),0);
+  const cR=replacements.reduce((s,i)=>s+(i.price||0),0);
+  const avgC=nC?cC/nC:0, avg48=n48?c48/n48:0, avgI=nI?cI/nI:0, avgTot=total?totalCost/total:0;
+  const fmtE=n=>n>=1000?'€'+(n/1000).toFixed(1)+'k':n>0?'€'+Math.round(n):'—';
+  const fmtA=n=>n>0?'€'+Math.round(n):'—';
+  const fmtN=n=>n||'—';
+  const metricConfigs={
+    cost:{title:'Κόστος',totalVal:fmtE(totalCost),cVal:fmtE(cC),r48Val:fmtE(c48),iVal:fmtE(cI),rVal:fmtE(cR),sep:'+'},
+    items:{title:'Τεμάχια',totalVal:total||'—',cVal:fmtN(nC),r48Val:fmtN(n48),iVal:fmtN(nI),rVal:fmtN(nR),sep:'+'},
+    avg:{title:'Μέσο κόστος / τεμάχιο',totalVal:fmtA(avgTot),cVal:fmtA(avgC),r48Val:fmtA(avg48),iVal:fmtA(avgI),rVal:'—',sep:'·'},
   };
-  const mc = metricConfigs[currentMetric] || metricConfigs.cost;
-  document.getElementById('metric-row-title').textContent = mc.title;
-  document.getElementById('metric-row').innerHTML = `
-    <div class="purch-compare-card total" style="min-width:54px;"><div class="purch-compare-num">${mc.totalVal}</div><div class="purch-compare-lbl">Σύνολο</div></div>
+  const mc=metricConfigs[currentMetric]||metricConfigs.cost;
+  document.getElementById('metric-row-title').textContent=mc.title;
+  document.getElementById('metric-row').innerHTML=`
+    <div class="purch-compare-card total"><div class="purch-compare-num">${mc.totalVal}</div><div class="purch-compare-lbl">Σύνολο</div></div>
     <div class="purch-compare-sep">＝</div>
-    <div class="purch-compare-card conscious" style="min-width:54px;"><div class="purch-compare-num">${mc.cVal}</div><div class="purch-compare-lbl">Conscious</div></div>
+    <div class="purch-compare-card conscious"><div class="purch-compare-num">${mc.cVal}</div><div class="purch-compare-lbl">Conscious</div></div>
     <div class="purch-compare-sep">${mc.sep}</div>
-    <div class="purch-compare-card rule48" style="min-width:54px;"><div class="purch-compare-num">${mc.r48Val}</div><div class="purch-compare-lbl">48h Rule</div></div>
+    <div class="purch-compare-card rule48"><div class="purch-compare-num">${mc.r48Val}</div><div class="purch-compare-lbl">48h Rule</div></div>
     <div class="purch-compare-sep">${mc.sep}</div>
-    <div class="purch-compare-card impulse" style="min-width:54px;"><div class="purch-compare-num">${mc.iVal}</div><div class="purch-compare-lbl">Impulse</div></div>
+    <div class="purch-compare-card impulse"><div class="purch-compare-num">${mc.iVal}</div><div class="purch-compare-lbl">Impulse</div></div>
     <div class="purch-compare-sep">${mc.sep}</div>
-    <div class="purch-compare-card repl" style="min-width:54px;"><div class="purch-compare-num">${mc.rVal}</div><div class="purch-compare-lbl">Repl.</div></div>`;
-
-  // Overall comment — metric-aware
-  let overallComment = '';
-  if (total > 0) {
-    if (currentMetric === 'cost') {
-      const domCost = Math.max(cC, c48, cI);
-      if (cI === 0) overallComment = `🌟 Zero impulse spending this year — every euro was intentional. Keep it up!`;
-      else if (cC === domCost) overallComment = `✨ Most of your spending (${fmtE(cC)}) went to conscious purchases. Your budget is working for your wardrobe!`;
-      else if (c48 === domCost) overallComment = `🤔 Your biggest spend is in the 48h Rule category (${fmtE(c48)}). You're learning to wait — now stretch to 2 months to see if the desire fades!`;
-      else overallComment = `⚡ ${fmtE(cI)} spent on impulse purchases. That money could have gone to fewer, better pieces — try the 48h rule for the next one.`;
-    } else if (currentMetric === 'items') {
-      const domN = Math.max(nC, n48, nI);
-      if (nI === 0) overallComment = `🌟 Zero impulse purchases this year! Every single item was a considered decision.`;
-      else if (nC === domN) overallComment = `✨ ${nC} out of ${total} purchases were conscious decisions. You're building a wardrobe with intention!`;
-      else if (n48 === domN) overallComment = `🤔 Most of your purchases (${n48}) followed the 48h rule. Great progress — next step: stretch that wait to 2 months!`;
-      else overallComment = `⚡ ${nI} out of ${total} purchases were impulse buys. Awareness is the first step — try pausing before the next one.`;
-    } else {
-      const domAvg = Math.max(avgC, avg48, avgI);
-      if (nI === 0) overallComment = `🌟 No impulse purchases — a clean and intentional year!`;
-      else if (avg48 > 0 && avg48 === domAvg) overallComment = `🤔 Interesting: your 48h Rule purchases have the highest avg cost (${fmtA(avg48)}). You wait, but you still spend big — try the full 2-month rule to test if the desire truly fades.`;
-      else if (avgI === domAvg) overallComment = `⚡ Your impulse purchases average ${fmtA(avgI)} each — the highest per-item cost. Pausing 48h before buying could save you real money.`;
-      else overallComment = `✨ Your conscious purchases have the highest avg cost (${fmtA(avgC)}) — which makes sense. You invest more thoughtfully when you take your time.`;
-    }
-  }
-  const overallEl = document.getElementById('purch-overall-comment');
-  if (overallEl) overallEl.innerHTML = overallComment
-    ? `<div class="insight-card"><span class="insight-msg">${overallComment}</span></div>` : '';
-
-  // Category breakdown
-  // Category grouping map
-  const CAT_GROUP = {
-    'Sneakers':'Παπούτσια','Boots / Booties':'Παπούτσια','Flats':'Παπούτσια',
-    'Sandals':'Παπούτσια','Heels':'Παπούτσια',
-    'Παπούτσια — Casual':'Παπούτσια','Παπούτσια — Heels':'Παπούτσια',
-    'Παπούτσια — Boots':'Παπούτσια','Παπούτσια — Sandals':'Παπούτσια',
-    'Τσάντες':'Αξεσουάρ','Γυαλιά ηλίου':'Αξεσουάρ',
-    'Πορτοφόλι':'Αξεσουάρ','Κοσμήματα':'Αξεσουάρ','Αξεσουάρ — Other':'Αξεσουάρ',
-    'Blazers':'Outerwear','Jackets':'Outerwear','Παλτά':'Outerwear',
-  };
-
-  const catMap = {};
-  items.forEach(i => {
-    const raw = i.category || 'Άλλο';
-    const cat = CAT_GROUP[raw] || raw;
-    const pc = getPurchCat(i);
-    if (!catMap[cat]) catMap[cat] = { count:0, cost:0, conscious:0, rule48:0, impulse:0, nConscious:0, nRule48:0, nImpulse:0 };
-    catMap[cat].count++;
-    catMap[cat].cost += i.price || 0;
-    if (pc === 'conscious' || pc === 'replacement') { catMap[cat].conscious += i.price||0; catMap[cat].nConscious++; }
-    else if (pc === 'small-thought') { catMap[cat].rule48 += i.price||0; catMap[cat].nRule48++; }
-    else { catMap[cat].impulse += i.price||0; catMap[cat].nImpulse++; }
-  });
-  const catSorted = Object.entries(catMap).sort((a, b) => b[1].cost - a[1].cost);
-  const maxCost = catSorted[0]?.[1].cost || 1;
+    <div class="purch-compare-card repl"><div class="purch-compare-num">${mc.rVal}</div><div class="purch-compare-lbl">Repl.</div></div>`;
 
   // Overall comment
-  const impulseRate = total ? Math.round(impulse.length / total * 100) : 0;
-  const consciousRate = total ? Math.round((conscious.length + replacements.length) / total * 100) : 0;
-  const rule48Rate = total ? Math.round(smallThought.length / total * 100) : 0;
-  let overallComment = '';
-  if (total === 0) {
-    overallComment = '';
-  } else if (impulse.length === 0) {
-    overallComment = `🌟 Zero impulse purchases this year — your patience is paying off. Keep going!`;
-  } else if (consciousRate >= 60) {
-    overallComment = `✨ ${consciousRate}% of your purchases were conscious decisions. Keep it up!`;
-  } else if (rule48Rate >= impulseRate) {
-    overallComment = `🤔 It's great that you've learned to wait 48 hours. Let's shift to 2 months!`;
-  } else {
-    overallComment = `⚡ ${impulseRate}% impulse. Try the 48-hour rule for the next one.`;
-  }
-  const overallEl = document.getElementById('purch-overall-comment');
-  if (overallEl) overallEl.innerHTML = overallComment
-    ? `<div class="insight-card"><span class="insight-msg">${overallComment}</span></div>` : '';
-
-  function getCatComment(d) {
-    if (currentMetric === 'cost') {
-      const dom = Math.max(d.conscious, d.rule48, d.impulse);
-      if (d.impulse === 0) return '✨ Keep it up — conscious shopping is the best investment you can make in your wardrobe.';
-      if (d.conscious === dom) return '✨ Most spending here is conscious — your patience is paying off in this category.';
-      if (d.rule48 === dom) return "🤔 The 48h Rule dominates this category's spending. You're learning to wait — now stretch to 2 months!";
-      return '⚡ Most spending here is impulse. Try the 48-hour rule before the next purchase in this category.';
-    } else if (currentMetric === 'items') {
-      const dom = Math.max(d.nConscious, d.nRule48, d.nImpulse);
-      if (d.nImpulse === 0) return '✨ Zero impulse purchases in this category — great discipline!';
-      if (d.nConscious === dom) return '✨ Most items here were conscious decisions. This category is well managed!';
-      if (d.nRule48 === dom) return '🤔 Most items followed the 48h rule here. Next step: hold out for the full 2 months!';
-      return '⚡ Most items here were impulse buys. This category needs the most attention.';
-    } else { // avg
-      const avgCC = d.nConscious ? d.conscious/d.nConscious : 0;
-      const avg48 = d.nRule48 ? d.rule48/d.nRule48 : 0;
-      const avgII = d.nImpulse ? d.impulse/d.nImpulse : 0;
-      const dom = Math.max(avgCC, avg48, avgII);
-      if (d.nImpulse === 0) return '✨ No impulse purchases here — every item was a deliberate choice.';
-      if (avg48 > 0 && avg48 === dom) return `🤔 48h Rule items cost the most per piece here (€${Math.round(avg48)}). Waiting longer might change your mind on the price tag.`;
-      if (avgII === dom) return `⚡ Impulse items have the highest avg cost here (€${Math.round(avgII)}). Pausing before buying could save the most in this category.`;
-      return `✨ Conscious items have the highest avg cost (€${Math.round(avgCC)}) — deliberate spending, deliberate value.`;
+  let overallComment='';
+  if(total>0){
+    if(currentMetric==='cost'){
+      if(cI===0)overallComment=`🌟 Zero impulse spending this year — every euro was intentional!`;
+      else if(cC>=cI)overallComment=`✨ Most of your spending (${fmtE(cC)}) went to conscious purchases. Your budget is working for your wardrobe!`;
+      else overallComment=`⚡ ${fmtE(cI)} spent on impulse purchases. Try the 48h rule for the next one.`;
+    }else if(currentMetric==='items'){
+      if(nI===0)overallComment=`🌟 Zero impulse purchases this year! Every single item was a considered decision.`;
+      else if(nC>=nI)overallComment=`✨ ${nC} out of ${total} purchases were conscious decisions!`;
+      else overallComment=`⚡ ${nI} out of ${total} purchases were impulse buys. Try pausing before the next one.`;
+    }else{
+      if(nI===0)overallComment=`🌟 No impulse purchases — a clean and intentional year!`;
+      else if(avgI>avgC)overallComment=`⚡ Your impulse purchases average ${fmtA(avgI)} each. Pausing could save real money.`;
+      else overallComment=`✨ Your conscious purchases have the highest avg cost (${fmtA(avgC)}) — you invest more when you take your time.`;
     }
   }
+  const overallEl=document.getElementById('purch-overall-comment');
+  if(overallEl)overallEl.innerHTML=overallComment?`<div class="insight-card"><span class="insight-msg">${overallComment}</span></div>`:'';
 
-  // Sort & display categories based on metric
-  const catEntries = Object.entries(catMap);
-  const sortedForDisplay = currentMetric === 'items'
-    ? catEntries.sort((a,b) => b[1].count - a[1].count)
-    : currentMetric === 'avg'
-    ? catEntries.sort((a,b) => { const aA=a[1].count?a[1].cost/a[1].count:0, bA=b[1].count?b[1].cost/b[1].count:0; return bA-aA; })
-    : catEntries.sort((a,b) => b[1].cost - a[1].cost);
+  // Category breakdown
+  const CAT_GROUP={'Sneakers':'Παπούτσια','Boots / Booties':'Παπούτσια','Flats':'Παπούτσια','Sandals':'Παπούτσια','Heels':'Παπούτσια','Τσάντες':'Αξεσουάρ','Γυαλιά ηλίου':'Αξεσουάρ','Πορτοφόλι':'Αξεσουάρ','Κοσμήματα':'Αξεσουάρ','Αξεσουάρ — Other':'Αξεσουάρ','Blazers':'Outerwear','Jackets':'Outerwear','Παλτά':'Outerwear','Καμπαρντίνες / Trench':'Outerwear'};
+  const catMap={};
+  items.forEach(i=>{
+    const raw=i.category||'Άλλο';
+    const cat=CAT_GROUP[raw]||raw;
+    const pc=getPurchCat(i);
+    if(!catMap[cat])catMap[cat]={count:0,cost:0,conscious:0,rule48:0,impulse:0,nConscious:0,nRule48:0,nImpulse:0};
+    catMap[cat].count++;catMap[cat].cost+=i.price||0;
+    if(pc==='conscious'||pc==='replacement'){catMap[cat].conscious+=i.price||0;catMap[cat].nConscious++;}
+    else if(pc==='small-thought'){catMap[cat].rule48+=i.price||0;catMap[cat].nRule48++;}
+    else{catMap[cat].impulse+=i.price||0;catMap[cat].nImpulse++;}
+  });
 
-  const maxBar = currentMetric === 'items'
-    ? Math.max(...sortedForDisplay.map(([,d])=>d.count), 1)
-    : currentMetric === 'avg'
-    ? Math.max(...sortedForDisplay.map(([,d])=>d.count?d.cost/d.count:0), 1)
-    : Math.max(...sortedForDisplay.map(([,d])=>d.cost), 1);
+  const catEntries=Object.entries(catMap);
+  const sorted=currentMetric==='items'?catEntries.sort((a,b)=>b[1].count-a[1].count):currentMetric==='avg'?catEntries.sort((a,b)=>{const aA=a[1].count?a[1].cost/a[1].count:0,bA=b[1].count?b[1].cost/b[1].count:0;return bA-aA;}):catEntries.sort((a,b)=>b[1].cost-a[1].cost);
+  const maxBar=currentMetric==='items'?Math.max(...sorted.map(([,d])=>d.count),1):currentMetric==='avg'?Math.max(...sorted.map(([,d])=>d.count?d.cost/d.count:0),1):Math.max(...sorted.map(([,d])=>d.cost),1);
 
-  function catRowHtml(d, sep) {
-    if (currentMetric === 'cost') {
-      const fC = n => n > 0 ? '€'+Math.round(n) : '—';
-      return `<div class="purch-compare-row" style="overflow:visible;">
-        <div class="purch-compare-card total" style="min-width:46px;"><div class="purch-compare-num">€${Math.round(d.cost)}</div><div class="purch-compare-lbl">Σύνολο</div></div>
-        <div class="purch-compare-sep">=</div>
-        <div class="purch-compare-card conscious" style="min-width:46px;"><div class="purch-compare-num">${fC(d.conscious)}</div><div class="purch-compare-lbl">Conscious</div></div>
-        <div class="purch-compare-sep">+</div>
-        <div class="purch-compare-card rule48" style="min-width:46px;"><div class="purch-compare-num">${fC(d.rule48)}</div><div class="purch-compare-lbl">48h Rule</div></div>
-        <div class="purch-compare-sep">+</div>
-        <div class="purch-compare-card impulse" style="min-width:46px;"><div class="purch-compare-num">${fC(d.impulse)}</div><div class="purch-compare-lbl">Impulse</div></div>
-      </div>`;
-    } else if (currentMetric === 'items') {
-      return `<div class="purch-compare-row" style="overflow:visible;">
-        <div class="purch-compare-card total" style="min-width:46px;"><div class="purch-compare-num">${d.count}</div><div class="purch-compare-lbl">Σύνολο</div></div>
-        <div class="purch-compare-sep">=</div>
-        <div class="purch-compare-card conscious" style="min-width:46px;"><div class="purch-compare-num">${d.nConscious||'—'}</div><div class="purch-compare-lbl">Conscious</div></div>
-        <div class="purch-compare-sep">+</div>
-        <div class="purch-compare-card rule48" style="min-width:46px;"><div class="purch-compare-num">${d.nRule48||'—'}</div><div class="purch-compare-lbl">48h Rule</div></div>
-        <div class="purch-compare-sep">+</div>
-        <div class="purch-compare-card impulse" style="min-width:46px;"><div class="purch-compare-num">${d.nImpulse||'—'}</div><div class="purch-compare-lbl">Impulse</div></div>
-      </div>`;
-    } else {
-      const fA = n => n > 0 ? '€'+Math.round(n) : '—';
-      const avgCC=d.nConscious?d.conscious/d.nConscious:0, avg48=d.nRule48?d.rule48/d.nRule48:0, avgII=d.nImpulse?d.impulse/d.nImpulse:0;
-      const avgTotCat = d.count ? d.cost/d.count : 0;
-      return `<div class="purch-compare-row" style="overflow:visible;">
-        <div class="purch-compare-card total" style="min-width:46px;"><div class="purch-compare-num">${fA(avgTotCat)}</div><div class="purch-compare-lbl">Μέσο</div></div>
-        <div class="purch-compare-sep">·</div>
-        <div class="purch-compare-card conscious" style="min-width:46px;"><div class="purch-compare-num">${fA(avgCC)}</div><div class="purch-compare-lbl">Conscious</div></div>
-        <div class="purch-compare-sep">·</div>
-        <div class="purch-compare-card rule48" style="min-width:46px;"><div class="purch-compare-num">${fA(avg48)}</div><div class="purch-compare-lbl">48h Rule</div></div>
-        <div class="purch-compare-sep">·</div>
-        <div class="purch-compare-card impulse" style="min-width:46px;"><div class="purch-compare-num">${fA(avgII)}</div><div class="purch-compare-lbl">Impulse</div></div>
-      </div>`;
-    }
+  function getCatComment(d){
+    if(d.nImpulse===0)return'✨ Zero impulse purchases in this category — great discipline!';
+    if(currentMetric==='items'){return d.nConscious>=d.nImpulse?'✨ Most items here were conscious decisions!':'⚡ Most items here were impulse buys. This category needs attention.';}
+    return d.conscious>=d.impulse?'✨ Most spending here is conscious.':'⚡ Most spending here is impulse — try the 48h rule for this category.';
   }
 
-  document.getElementById('purch-by-category').innerHTML = sortedForDisplay.length
-    ? sortedForDisplay.map(([cat, d]) => {
-        const comment = getCatComment(d);
-        const barPct = currentMetric === 'items' ? Math.round(d.count/maxBar*100)
-          : currentMetric === 'avg' ? Math.round((d.count?d.cost/d.count:0)/maxBar*100)
-          : Math.round(d.cost/maxBar*100);
-        const headerVal = currentMetric === 'items' ? d.count
-          : currentMetric === 'avg' ? (d.count ? '€'+Math.round(d.cost/d.count) : '—')
-          : '€'+Math.round(d.cost);
-        return `<div class="cat-card">
-          <div class="cat-card-header">
-            <div class="cat-card-name">${escHtml(cat)} <span style="color:var(--text-dim);font-size:10px">(${d.count})</span></div>
-            <div class="cat-card-total">${headerVal}</div>
-          </div>
-          <div class="cat-bar-track"><div class="cat-bar-fill" style="width:${barPct}%"></div></div>
-          <div style="margin-top:8px;">${catRowHtml(d)}</div>
-          <div class="cat-comment" style="margin-top:10px;">${comment}</div>
-        </div>`;
-      }).join('')
-    : '<div style="color:var(--text-dim);font-size:11px;padding:8px 0">Καμία αγορά ακόμα φέτος</div>';
+  function catRowHtml(d){
+    const fC=n=>n>0?'€'+Math.round(n):'—';
+    if(currentMetric==='cost')return`<div class="purch-compare-row" style="overflow:visible;"><div class="purch-compare-card total" style="min-width:46px;"><div class="purch-compare-num">€${Math.round(d.cost)}</div><div class="purch-compare-lbl">Σύνολο</div></div><div class="purch-compare-sep">=</div><div class="purch-compare-card conscious" style="min-width:46px;"><div class="purch-compare-num">${fC(d.conscious)}</div><div class="purch-compare-lbl">Conscious</div></div><div class="purch-compare-sep">+</div><div class="purch-compare-card rule48" style="min-width:46px;"><div class="purch-compare-num">${fC(d.rule48)}</div><div class="purch-compare-lbl">48h Rule</div></div><div class="purch-compare-sep">+</div><div class="purch-compare-card impulse" style="min-width:46px;"><div class="purch-compare-num">${fC(d.impulse)}</div><div class="purch-compare-lbl">Impulse</div></div></div>`;
+    if(currentMetric==='items')return`<div class="purch-compare-row" style="overflow:visible;"><div class="purch-compare-card total" style="min-width:46px;"><div class="purch-compare-num">${d.count}</div><div class="purch-compare-lbl">Σύνολο</div></div><div class="purch-compare-sep">=</div><div class="purch-compare-card conscious" style="min-width:46px;"><div class="purch-compare-num">${d.nConscious||'—'}</div><div class="purch-compare-lbl">Conscious</div></div><div class="purch-compare-sep">+</div><div class="purch-compare-card rule48" style="min-width:46px;"><div class="purch-compare-num">${d.nRule48||'—'}</div><div class="purch-compare-lbl">48h Rule</div></div><div class="purch-compare-sep">+</div><div class="purch-compare-card impulse" style="min-width:46px;"><div class="purch-compare-num">${d.nImpulse||'—'}</div><div class="purch-compare-lbl">Impulse</div></div></div>`;
+    const avgCC=d.nConscious?d.conscious/d.nConscious:0,avg48c=d.nRule48?d.rule48/d.nRule48:0,avgII=d.nImpulse?d.impulse/d.nImpulse:0,avgTotC=d.count?d.cost/d.count:0;
+    return`<div class="purch-compare-row" style="overflow:visible;"><div class="purch-compare-card total" style="min-width:46px;"><div class="purch-compare-num">${fC(avgTotC)}</div><div class="purch-compare-lbl">Μέσο</div></div><div class="purch-compare-sep">·</div><div class="purch-compare-card conscious" style="min-width:46px;"><div class="purch-compare-num">${fC(avgCC)}</div><div class="purch-compare-lbl">Conscious</div></div><div class="purch-compare-sep">·</div><div class="purch-compare-card rule48" style="min-width:46px;"><div class="purch-compare-num">${fC(avg48c)}</div><div class="purch-compare-lbl">48h Rule</div></div><div class="purch-compare-sep">·</div><div class="purch-compare-card impulse" style="min-width:46px;"><div class="purch-compare-num">${fC(avgII)}</div><div class="purch-compare-lbl">Impulse</div></div></div>`;
+  }
 
-    // Sort by date newest first
-  let filtered = [...items].sort((a,b) => (b.purchased_at||'').localeCompare(a.purchased_at||''));
-  if (purchFilter === 'conscious')     filtered = conscious.slice().sort((a,b)=>(b.purchased_at||'').localeCompare(a.purchased_at||''));
-  else if (purchFilter === 'small-thought') filtered = smallThought.slice().sort((a,b)=>(b.purchased_at||'').localeCompare(a.purchased_at||''));
-  else if (purchFilter === 'impulse')  filtered = impulse.slice().sort((a,b)=>(b.purchased_at||'').localeCompare(a.purchased_at||''));
-  else if (purchFilter === 'replacement') filtered = replacements.slice().sort((a,b)=>(b.purchased_at||'').localeCompare(a.purchased_at||''));
+  document.getElementById('purch-by-category').innerHTML=sorted.length
+    ?sorted.map(([cat,d])=>{
+      const barPct=currentMetric==='items'?Math.round(d.count/maxBar*100):currentMetric==='avg'?Math.round((d.count?d.cost/d.count:0)/maxBar*100):Math.round(d.cost/maxBar*100);
+      const headerVal=currentMetric==='items'?d.count:currentMetric==='avg'?(d.count?'€'+Math.round(d.cost/d.count):'—'):'€'+Math.round(d.cost);
+      return`<div class="cat-card"><div class="cat-card-header"><div class="cat-card-name">${escHtml(cat)} <span style="color:var(--text-dim);font-size:10px">(${d.count})</span></div><div class="cat-card-total">${headerVal}</div></div><div class="cat-bar-track"><div class="cat-bar-fill" style="width:${barPct}%"></div></div><div style="margin-top:8px;">${catRowHtml(d)}</div><div class="cat-comment" style="margin-top:10px;">${getCatComment(d)}</div></div>`;
+    }).join('')
+    :'<div style="color:var(--text-dim);font-size:11px;padding:8px 0">Καμία αγορά ακόμα φέτος</div>';
 
-  const BADGE = {
-    'conscious':    { cls:'conscious',    label:'✅ Conscious' },
-    'small-thought':{ cls:'small-thought',label:'🤔 48h Rule' },
-    'impulse':      { cls:'impulse',      label:'⚡ Impulse' },
-    'replacement':  { cls:'replacement',  label:'🔄 Αντικατάσταση' },
-  };
+  // Detailed list
+  let filtered=[...items].sort((a,b)=>(b.purchased_at||'').localeCompare(a.purchased_at||''));
+  if(purchFilter==='conscious')filtered=conscious.slice().sort((a,b)=>(b.purchased_at||'').localeCompare(a.purchased_at||''));
+  else if(purchFilter==='small-thought')filtered=smallThought.slice().sort((a,b)=>(b.purchased_at||'').localeCompare(a.purchased_at||''));
+  else if(purchFilter==='impulse')filtered=impulse.slice().sort((a,b)=>(b.purchased_at||'').localeCompare(a.purchased_at||''));
+  else if(purchFilter==='replacement')filtered=replacements.slice().sort((a,b)=>(b.purchased_at||'').localeCompare(a.purchased_at||''));
 
-  document.getElementById('purch-list').innerHTML = filtered.length
-    ? filtered.map(item => {
-        const { cls, label } = BADGE[getPurchCat(item)] || BADGE.impulse;
-        return `<div class="purch-row">
-          <div class="purch-row-body">
-            <div class="purch-row-name">${escHtml(item.title)}</div>
-            <div class="purch-row-meta">${[item.brand, item.category, item.purchased_at ? fmtDateShort(item.purchased_at) : ''].filter(Boolean).join(' · ')}</div>
-          </div>
-          <div class="purch-row-right">
-            <div class="purch-row-price">${item.price ? `€${item.price}` : '—'}</div>
-            <span class="purch-badge ${cls}">${label}</span>
-          </div>
-        </div>`;
-      }).join('')
-    : '<div style="color:var(--text-dim);font-size:11px;padding:8px 0">Καμία αγορά σε αυτή την κατηγορία</div>';
+  const BADGE={'conscious':{cls:'conscious',label:'✅ Conscious'},'small-thought':{cls:'small-thought',label:'🤔 48h Rule'},'impulse':{cls:'impulse',label:'⚡ Impulse'},'replacement':{cls:'replacement',label:'🔄 Αντικατάσταση'}};
+  document.getElementById('purch-list').innerHTML=filtered.length
+    ?filtered.map(item=>{
+      const{cls,label}=BADGE[getPurchCat(item)]||BADGE.impulse;
+      return`<div class="purch-row"><div class="purch-row-body"><div class="purch-row-name">${escHtml(item.title)}</div><div class="purch-row-meta">${[item.brand,item.category,item.purchased_at?fmtDateShort(item.purchased_at):''].filter(Boolean).join(' · ')}</div></div><div class="purch-row-right"><div class="purch-row-price">${item.price?`€${item.price}`:'—'}</div><span class="purch-badge ${cls}">${label}</span></div></div>`;
+    }).join('')
+    :'<div style="color:var(--text-dim);font-size:11px;padding:8px 0">Καμία αγορά σε αυτή την κατηγορία</div>';
 }
 
 function setPurchFilter(f, btn) {
@@ -1614,95 +1503,178 @@ function setPurchFilter(f, btn) {
 
 function fmtDateShort(dateStr) {
   const d = new Date(dateStr);
-  const months = ['Ιαν','Φεβ','Μαρ','Απρ','Μαΐ','Ιουν','Ιουλ','Αυγ','Σεπ','Οκτ','Νοε','Δεκ'];
+  const months=['Ιαν','Φεβ','Μαρ','Απρ','Μαΐ','Ιουν','Ιουλ','Αυγ','Σεπ','Οκτ','Νοε','Δεκ'];
   return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
 }
 
 // ── ARCHIVE ──
 async function loadArchive() {
   const currentYear = new Date().getFullYear();
-  const { data } = await sb.from('wishlist')
-    .select('*')
-    .eq('purchased', true)
-    .lt('purchase_year', currentYear)
-    .order('purchased_at', { ascending: false });
-
+  const { data } = await sb.from('wishlist').select('*').eq('purchased', true).lt('purchase_year', currentYear).order('purchased_at', { ascending: false });
   const archiveEl = document.getElementById('archive-list');
+  if (!data || !data.length) { archiveEl.innerHTML = '<div style="color:var(--text-dim);font-size:11px;padding:12px 0">Δεν υπάρχουν αρχειοθετημένες αγορές ακόμα.</div>'; return; }
+  const byYear = {};
+  data.forEach(item => { const y=item.purchase_year||'Άγνωστο'; if(!byYear[y])byYear[y]=[]; byYear[y].push(item); });
+  const fmt=n=>n>=1000?'€'+(n/1000).toFixed(1)+'k':n>0?'€'+Math.round(n):'—';
+  archiveEl.innerHTML = Object.entries(byYear).sort((a,b)=>b[0]-a[0]).map(([year,items])=>{
+    const total=items.length,totalCost=items.reduce((s,i)=>s+(i.price||0),0);
+    const nC=items.filter(i=>getPurchCat(i)==='conscious').length;
+    const n48=items.filter(i=>getPurchCat(i)==='small-thought').length;
+    const nI=items.filter(i=>getPurchCat(i)==='impulse').length;
+    const nR=items.filter(i=>getPurchCat(i)==='replacement').length;
+    const cC=items.filter(i=>['conscious','replacement'].includes(getPurchCat(i))).reduce((s,i)=>s+(i.price||0),0);
+    const c48=items.filter(i=>getPurchCat(i)==='small-thought').reduce((s,i)=>s+(i.price||0),0);
+    const cI=items.filter(i=>getPurchCat(i)==='impulse').reduce((s,i)=>s+(i.price||0),0);
+    const cR=items.filter(i=>getPurchCat(i)==='replacement').reduce((s,i)=>s+(i.price||0),0);
+    const comment=nI===0?'🌟 Zero impulse purchases this year!':((nC+nR)/total>=0.6?`✨ ${Math.round((nC+nR)/total*100)}% conscious decisions in ${year}.`:`⚡ ${Math.round(nI/total*100)}% of ${year} purchases were impulse.`);
+    return`<div class="archive-year-block"><div class="archive-year-title"><em>${year}</em></div>
+      <div style="font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);margin:6px 0 4px;">Τεμάχια</div>
+      <div class="purch-compare-row" style="margin-bottom:8px;">
+        <div class="purch-compare-card total" style="min-width:46px;"><div class="purch-compare-num">${total}</div><div class="purch-compare-lbl">Σύνολο</div></div>
+        <div class="purch-compare-sep">=</div>
+        <div class="purch-compare-card conscious" style="min-width:46px;"><div class="purch-compare-num">${nC||'—'}</div><div class="purch-compare-lbl">Conscious</div></div>
+        <div class="purch-compare-sep">+</div>
+        <div class="purch-compare-card rule48" style="min-width:46px;"><div class="purch-compare-num">${n48||'—'}</div><div class="purch-compare-lbl">48h Rule</div></div>
+        <div class="purch-compare-sep">+</div>
+        <div class="purch-compare-card impulse" style="min-width:46px;"><div class="purch-compare-num">${nI||'—'}</div><div class="purch-compare-lbl">Impulse</div></div>
+        <div class="purch-compare-sep">+</div>
+        <div class="purch-compare-card repl" style="min-width:46px;"><div class="purch-compare-num">${nR||'—'}</div><div class="purch-compare-lbl">Repl.</div></div>
+      </div>
+      <div style="font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);margin-bottom:4px;">Κόστος</div>
+      <div class="purch-compare-row" style="margin-bottom:10px;">
+        <div class="purch-compare-card total" style="min-width:46px;"><div class="purch-compare-num">${fmt(totalCost)}</div><div class="purch-compare-lbl">Σύνολο</div></div>
+        <div class="purch-compare-sep">=</div>
+        <div class="purch-compare-card conscious" style="min-width:46px;"><div class="purch-compare-num">${fmt(cC)}</div><div class="purch-compare-lbl">Conscious</div></div>
+        <div class="purch-compare-sep">+</div>
+        <div class="purch-compare-card rule48" style="min-width:46px;"><div class="purch-compare-num">${fmt(c48)}</div><div class="purch-compare-lbl">48h Rule</div></div>
+        <div class="purch-compare-sep">+</div>
+        <div class="purch-compare-card impulse" style="min-width:46px;"><div class="purch-compare-num">${fmt(cI)}</div><div class="purch-compare-lbl">Impulse</div></div>
+        <div class="purch-compare-sep">+</div>
+        <div class="purch-compare-card repl" style="min-width:46px;"><div class="purch-compare-num">${fmt(cR)}</div><div class="purch-compare-lbl">Repl.</div></div>
+      </div>
+      <div class="cat-comment">${comment}</div>
+    </div>`;
+  }).join('');
+}
 
-  if (!data || !data.length) {
-    archiveEl.innerHTML = '<div style="color:var(--text-dim);font-size:11px;padding:12px 0">Δεν υπάρχουν αρχειοθετημένες αγορές ακόμα.</div>';
+// ── UNIFORMS ──
+let allUniforms = [];
+let editingUniformId = null;
+
+async function loadUniforms() {
+  if (!currentUser) return;
+  const { data } = await sb.from('outfit_uniforms').select('*').eq('user_id', currentUser.id).order('created_at');
+  allUniforms = data || [];
+  renderUniformsList();
+  renderUniformSelector();
+}
+
+function renderUniformsList() {
+  const el = document.getElementById('uniforms-list');
+  if (!el) return;
+  const btnAdd = document.getElementById('btn-add-uniform');
+  if (btnAdd) btnAdd.style.display = allUniforms.length >= 3 ? 'none' : '';
+
+  if (!allUniforms.length) {
+    el.innerHTML = `<div style="color:var(--text-dim);font-size:11px;padding:12px 0;">
+      Δεν έχεις δημιουργήσει uniforms ακόμα.<br>
+      <span style="font-size:10px;">Δημιούργησε έως 3 outfit uniforms — τα βασικά looks που επαναλαμβάνεις.</span>
+    </div>`;
     return;
   }
 
-  // Group by year
-  const byYear = {};
-  data.forEach(item => {
-    const y = item.purchase_year || 'Άγνωστο';
-    if (!byYear[y]) byYear[y] = [];
-    byYear[y].push(item);
-  });
-
-  const fmt = n => n >= 1000 ? '€'+(n/1000).toFixed(1)+'k' : n > 0 ? '€'+Math.round(n) : '—';
-
-  archiveEl.innerHTML = Object.entries(byYear)
-    .sort((a, b) => b[0] - a[0])
-    .map(([year, items]) => {
-      const total = items.length;
-      const totalCost = items.reduce((s,i) => s+(i.price||0), 0);
-
-      const nConscious    = items.filter(i => getPurchCat(i) === 'conscious').length;
-      const nRule48       = items.filter(i => getPurchCat(i) === 'small-thought').length;
-      const nImpulse      = items.filter(i => getPurchCat(i) === 'impulse').length;
-      const nRepl         = items.filter(i => getPurchCat(i) === 'replacement').length;
-
-      const cConscious    = items.filter(i => getPurchCat(i) === 'conscious').reduce((s,i)=>s+(i.price||0),0);
-      const cConscPlusRepl= items.filter(i => ['conscious','replacement'].includes(getPurchCat(i))).reduce((s,i)=>s+(i.price||0),0);
-      const cRule48       = items.filter(i => getPurchCat(i) === 'small-thought').reduce((s,i)=>s+(i.price||0),0);
-      const cImpulse      = items.filter(i => getPurchCat(i) === 'impulse').reduce((s,i)=>s+(i.price||0),0);
-      const cRepl         = items.filter(i => getPurchCat(i) === 'replacement').reduce((s,i)=>s+(i.price||0),0);
-
-      // Overall year comment
-      const impulseRate = total ? Math.round(nImpulse / total * 100) : 0;
-      const consciousRate = total ? Math.round((nConscious + nRepl) / total * 100) : 0;
-      const rule48Rate = total ? Math.round(nRule48 / total * 100) : 0;
-      let comment = '';
-      if (nImpulse === 0) comment = '🌟 Zero impulse purchases this year — great discipline!';
-      else if (consciousRate >= 60) comment = `✨ ${consciousRate}% conscious decisions in ${year}. Keep it up!`;
-      else if (rule48Rate >= impulseRate) comment = `🤔 Most purchases followed the 48h rule in ${year}. Next step: stretch to 2 months!`;
-      else comment = `⚡ ${impulseRate}% of ${year} purchases were impulse. The 48-hour rule would have helped here.`;
-
-      return `<div class="archive-year-block">
-        <div class="archive-year-title"><em>${year}</em></div>
-
-        <div style="font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);margin:6px 0 4px;">Τεμάχια</div>
-        <div class="purch-compare-row" style="margin-bottom:8px;">
-          <div class="purch-compare-card total" style="min-width:46px;"><div class="purch-compare-num">${total}</div><div class="purch-compare-lbl">Σύνολο</div></div>
-          <div class="purch-compare-sep">=</div>
-          <div class="purch-compare-card conscious" style="min-width:46px;"><div class="purch-compare-num">${nConscious||'—'}</div><div class="purch-compare-lbl">Conscious</div></div>
-          <div class="purch-compare-sep">+</div>
-          <div class="purch-compare-card rule48" style="min-width:46px;"><div class="purch-compare-num">${nRule48||'—'}</div><div class="purch-compare-lbl">48h Rule</div></div>
-          <div class="purch-compare-sep">+</div>
-          <div class="purch-compare-card impulse" style="min-width:46px;"><div class="purch-compare-num">${nImpulse||'—'}</div><div class="purch-compare-lbl">Impulse</div></div>
-          <div class="purch-compare-sep">+</div>
-          <div class="purch-compare-card repl" style="min-width:46px;"><div class="purch-compare-num">${nRepl||'—'}</div><div class="purch-compare-lbl">Repl.</div></div>
+  el.innerHTML = allUniforms.map(u => `
+    <div class="uniform-card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+        <div>
+          <div class="uniform-card-name">👗 ${escHtml(u.name)}</div>
+          ${u.description ? `<div style="font-size:11px;color:var(--text-muted);margin-top:3px;line-height:1.5;">${escHtml(u.description)}</div>` : ''}
+          ${u.colors?.length ? `<div style="font-size:10px;color:var(--text-dim);margin-top:5px;">🎨 ${u.colors.join(', ')}</div>` : ''}
+          ${u.style_notes ? `<div style="font-size:10px;color:var(--text-dim);margin-top:2px;">✏️ ${escHtml(u.style_notes)}</div>` : ''}
         </div>
-
-        <div style="font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);margin-bottom:4px;">Κόστος</div>
-        <div class="purch-compare-row" style="margin-bottom:10px;">
-          <div class="purch-compare-card total" style="min-width:46px;"><div class="purch-compare-num">${fmt(totalCost)}</div><div class="purch-compare-lbl">Σύνολο</div></div>
-          <div class="purch-compare-sep">=</div>
-          <div class="purch-compare-card conscious" style="min-width:46px;"><div class="purch-compare-num">${fmt(cConscPlusRepl)}</div><div class="purch-compare-lbl">Conscious</div></div>
-          <div class="purch-compare-sep">+</div>
-          <div class="purch-compare-card rule48" style="min-width:46px;"><div class="purch-compare-num">${fmt(cRule48)}</div><div class="purch-compare-lbl">48h Rule</div></div>
-          <div class="purch-compare-sep">+</div>
-          <div class="purch-compare-card impulse" style="min-width:46px;"><div class="purch-compare-num">${fmt(cImpulse)}</div><div class="purch-compare-lbl">Impulse</div></div>
-          <div class="purch-compare-sep">+</div>
-          <div class="purch-compare-card repl" style="min-width:46px;"><div class="purch-compare-num">${fmt(cRepl)}</div><div class="purch-compare-lbl">Repl.</div></div>
+        <div style="display:flex;gap:6px;flex-shrink:0;margin-left:8px;">
+          <button class="btn-sm" onclick="editUniform('${u.id}')">Επεξεργασία</button>
+          <button class="btn-sm danger" onclick="deleteUniform('${u.id}')">Διαγραφή</button>
         </div>
+      </div>
+    </div>`).join('');
+}
 
-        <div class="cat-comment">${comment}</div>
-      </div>`;
-    }).join('');
+function renderUniformSelector(selectedIds = []) {
+  const wrap = document.getElementById('uniform-selector');
+  if (!wrap) return;
+  if (!allUniforms.length) {
+    wrap.innerHTML = '<div style="color:var(--text-dim);font-size:10px;">Δεν έχεις ορίσει uniforms ακόμα — πήγαινε στο tab 👗 Uniforms.</div>';
+    document.getElementById('uniform-warning').style.display = 'none';
+    return;
+  }
+  wrap.innerHTML = allUniforms.map(u => {
+    const checked = selectedIds.includes(u.id) || selectedIds.includes(String(u.id));
+    return `<label class="mat-chip" style="cursor:pointer;">
+      <input type="checkbox" value="${u.id}" ${checked ? 'checked' : ''} onchange="checkUniformWarning()">
+      ${escHtml(u.name)}
+    </label>`;
+  }).join('');
+  checkUniformWarning();
+}
+
+function checkUniformWarning() {
+  const anyChecked = [...document.querySelectorAll('#uniform-selector input:checked')].length > 0;
+  const warn = document.getElementById('uniform-warning');
+  if (warn) warn.style.display = allUniforms.length > 0 && !anyChecked ? 'block' : 'none';
+}
+
+function getSelectedUniformIds() {
+  return [...document.querySelectorAll('#uniform-selector input:checked')].map(cb => cb.value);
+}
+
+function openUniformForm(id = null) {
+  editingUniformId = id;
+  const u = id ? allUniforms.find(x => x.id === id) : null;
+  document.getElementById('uniform-form-title').innerHTML = u
+    ? 'Επεξεργασία <em style="font-style:italic;color:var(--accent)">Uniform</em>'
+    : 'Νέο <em style="font-style:italic;color:var(--accent)">Uniform</em>';
+  document.getElementById('uf-name').value = u?.name || '';
+  document.getElementById('uf-desc').value = u?.description || '';
+  document.getElementById('uf-colors').value = u?.colors?.join(', ') || '';
+  document.getElementById('uf-notes-field').value = u?.style_notes || '';
+  document.getElementById('uniform-form-wrap').style.display = 'block';
+  setTimeout(() => document.getElementById('uniform-form-wrap').scrollIntoView({ behavior:'smooth', block:'start' }), 80);
+}
+
+function editUniform(id) { openUniformForm(id); }
+
+function closeUniformForm() {
+  document.getElementById('uniform-form-wrap').style.display = 'none';
+  editingUniformId = null;
+}
+
+async function saveUniform() {
+  const name = document.getElementById('uf-name').value.trim();
+  if (!name) { showToast('Βάλε όνομα για το uniform'); return; }
+  if (!editingUniformId && allUniforms.length >= 3) { showToast('Μπορείς να έχεις έως 3 uniforms'); return; }
+  const colors = document.getElementById('uf-colors').value.split(',').map(s=>s.trim()).filter(Boolean);
+  const payload = {
+    user_id: currentUser.id,
+    name,
+    description: document.getElementById('uf-desc').value.trim() || null,
+    colors: colors.length ? colors : null,
+    style_notes: document.getElementById('uf-notes-field').value.trim() || null,
+  };
+  const { error } = editingUniformId
+    ? await sb.from('outfit_uniforms').update(payload).eq('id', editingUniformId)
+    : await sb.from('outfit_uniforms').insert(payload);
+  if (error) { showToast('Σφάλμα: ' + error.message); return; }
+  showToast(editingUniformId ? '✅ Uniform ενημερώθηκε!' : '✅ Uniform δημιουργήθηκε!');
+  closeUniformForm();
+  await loadUniforms();
+}
+
+async function deleteUniform(id) {
+  if (!confirm('Διαγραφή αυτού του uniform;')) return;
+  await sb.from('outfit_uniforms').delete().eq('id', id);
+  showToast('Διαγράφηκε');
+  await loadUniforms();
 }
 
 // ── TOAST ──
@@ -1717,6 +1689,12 @@ function showToast(msg) {
 function escHtml(str) {
   return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
+
+// ── INIT on load ──
+window.addEventListener('DOMContentLoaded', () => {
+  initCustomBrands();
+  initMaterialChips();
+});
 </script>
 
 <!-- Google tag (gtag.js) -->

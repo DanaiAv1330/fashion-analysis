@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="el">
 <head>
 <meta charset="UTF-8">
@@ -25,437 +26,447 @@ body{font-family:var(--font-sans);font-weight:300;background:var(--bg);color:var
 
 /* ── INLINE FORM ── */
 .inline-form-header{
-  display:flex;align-items:center;justify-content:space-between;
-  margin-bottom:16px;
+display:flex;align-items:center;justify-content:space-between;
+margin-bottom:16px;
 }
 .inline-form-title{
-  font-family:var(--font-serif);font-size:18px;font-weight:300;
+font-family:var(–font-serif);font-size:18px;font-weight:300;
 }
-.inline-form-title em{font-style:italic;color:var(--accent);}
+.inline-form-title em{font-style:italic;color:var(–accent);}
 .inline-form-close{
-  background:none;border:1px solid var(--border);color:var(--text-muted);
-  width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:12px;
-  display:flex;align-items:center;justify-content:center;flex-shrink:0;
-  transition:all 0.15s;
+background:none;border:1px solid var(–border);color:var(–text-muted);
+width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:12px;
+display:flex;align-items:center;justify-content:center;flex-shrink:0;
+transition:all 0.15s;
 }
-.inline-form-close:hover{border-color:var(--red);color:var(--red-text);}
+.inline-form-close:hover{border-color:var(–red);color:var(–red-text);}
 
 #inline-form-wrap{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:3px;
-  padding:18px 16px 16px;
-  animation:slideDown 0.2s ease;
+background:var(–surface);
+border:1px solid var(–border);
+border-radius:3px;
+padding:18px 16px 16px;
+animation:slideDown 0.2s ease;
 }
 @keyframes slideDown{from{opacity:0;transform:translateY(-8px);}to{opacity:1;transform:translateY(0);}}
 
 .iform-section{margin-bottom:16px;}
-.iform-section-title{font-size:8px;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-dim);margin-bottom:9px;padding-bottom:5px;border-bottom:1px solid var(--border-soft);}
+.iform-section-title{font-size:8px;letter-spacing:0.16em;text-transform:uppercase;color:var(–text-dim);margin-bottom:9px;padding-bottom:5px;border-bottom:1px solid var(–border-soft);}
 .iform-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 @media(max-width:480px){.iform-grid{grid-template-columns:1fr;}}
 .iform-group{display:flex;flex-direction:column;gap:4px;}
 .iform-group.full{grid-column:1/-1;}
-.iform-group label{font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);}
+.iform-group label{font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(–text-muted);}
 .iform-group input,.iform-group select,.iform-group textarea{
-  font-family:var(--font-sans);font-size:12px;font-weight:300;
-  border:1px solid var(--border);background:var(--surface2);
-  padding:7px 9px;border-radius:1px;color:var(--text);outline:none;
-  transition:border-color 0.15s;-webkit-appearance:none;width:100%;
+font-family:var(–font-sans);font-size:12px;font-weight:300;
+border:1px solid var(–border);background:var(–surface2);
+padding:7px 9px;border-radius:1px;color:var(–text);outline:none;
+transition:border-color 0.15s;-webkit-appearance:none;width:100%;
 }
-.iform-group input::placeholder{color:var(--text-dim);}
-.iform-group select option{background:var(--surface2);color:var(--text);}
-.iform-group input:focus,.iform-group select:focus,.iform-group textarea:focus{border-color:var(--accent);}
+.iform-group input::placeholder{color:var(–text-dim);}
+.iform-group select option{background:var(–surface2);color:var(–text);}
+.iform-group input:focus,.iform-group select:focus,.iform-group textarea:focus{border-color:var(–accent);}
 .iform-group textarea{resize:vertical;min-height:52px;}
-.iform-hint{font-size:9px;color:var(--text-dim);margin-top:3px;letter-spacing:0;}
-.iform-actions{display:flex;gap:8px;justify-content:flex-end;padding-top:14px;border-top:1px solid var(--border);}
+.iform-hint{font-size:9px;color:var(–text-dim);margin-top:3px;letter-spacing:0;}
+.iform-actions{display:flex;gap:8px;justify-content:flex-end;padding-top:14px;border-top:1px solid var(–border);}
 
 /* ── AUTH SCREEN ── */
 #auth-screen {
-  min-height:100vh;display:flex;align-items:center;justify-content:center;
-  padding:20px;
+min-height:100vh;display:flex;align-items:center;justify-content:center;
+padding:20px;
 }
 .auth-box {
-  background:var(--surface);border:1px solid var(--border);border-radius:3px;
-  padding:36px 32px;width:100%;max-width:380px;
-  box-shadow:0 4px 24px rgba(90,70,40,0.08);
+background:var(–surface);border:1px solid var(–border);border-radius:3px;
+padding:36px 32px;width:100%;max-width:380px;
+box-shadow:0 4px 24px rgba(90,70,40,0.08);
 }
 .auth-logo {
-  font-family:var(--font-serif);font-size:20px;font-weight:300;
-  letter-spacing:0.12em;text-transform:uppercase;text-align:center;
-  margin-bottom:6px;
+font-family:var(–font-serif);font-size:20px;font-weight:300;
+letter-spacing:0.12em;text-transform:uppercase;text-align:center;
+margin-bottom:6px;
 }
-.auth-logo em{font-style:italic;color:var(--accent);}
-.auth-subtitle{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-dim);text-align:center;margin-bottom:28px;}
-.auth-tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:22px;}
-.auth-tab{flex:1;font-family:var(--font-sans);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;background:none;border:none;border-bottom:2px solid transparent;color:var(--text-muted);padding:8px;cursor:pointer;transition:all 0.15s;margin-bottom:-1px;}
-.auth-tab.active{color:var(--accent);border-bottom-color:var(--accent);}
+.auth-logo em{font-style:italic;color:var(–accent);}
+.auth-subtitle{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(–text-dim);text-align:center;margin-bottom:28px;}
+.auth-tabs{display:flex;border-bottom:1px solid var(–border);margin-bottom:22px;}
+.auth-tab{flex:1;font-family:var(–font-sans);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;background:none;border:none;border-bottom:2px solid transparent;color:var(–text-muted);padding:8px;cursor:pointer;transition:all 0.15s;margin-bottom:-1px;}
+.auth-tab.active{color:var(–accent);border-bottom-color:var(–accent);}
 .auth-form{display:flex;flex-direction:column;gap:12px;}
-.auth-form label{font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);}
-.auth-form input{font-family:var(--font-sans);font-size:13px;font-weight:300;border:1px solid var(--border);background:var(--surface2);padding:9px 11px;border-radius:1px;color:var(--text);outline:none;transition:border-color 0.15s;width:100%;}
-.auth-form input:focus{border-color:var(--accent);}
-.auth-form input::placeholder{color:var(--text-dim);}
-.btn-auth{font-family:var(--font-sans);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;background:var(--accent);color:var(--surface);border:none;padding:11px;cursor:pointer;border-radius:1px;transition:opacity 0.2s;width:100%;margin-top:4px;}
+.auth-form label{font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(–text-muted);}
+.auth-form input{font-family:var(–font-sans);font-size:13px;font-weight:300;border:1px solid var(–border);background:var(–surface2);padding:9px 11px;border-radius:1px;color:var(–text);outline:none;transition:border-color 0.15s;width:100%;}
+.auth-form input:focus{border-color:var(–accent);}
+.auth-form input::placeholder{color:var(–text-dim);}
+.btn-auth{font-family:var(–font-sans);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;background:var(–accent);color:var(–surface);border:none;padding:11px;cursor:pointer;border-radius:1px;transition:opacity 0.2s;width:100%;margin-top:4px;}
 .btn-auth:hover{opacity:0.85;}
 .btn-auth:disabled{opacity:0.5;cursor:not-allowed;}
 .auth-msg{font-size:11px;text-align:center;padding:8px;border-radius:2px;margin-top:4px;}
-.auth-msg.error{background:var(--red-soft);color:var(--red-text);border:1px solid rgba(140,74,58,0.2);}
-.auth-msg.success{background:var(--green-soft);color:var(--green-text);border:1px solid rgba(74,124,90,0.2);}
+.auth-msg.error{background:var(–red-soft);color:var(–red-text);border:1px solid rgba(140,74,58,0.2);}
+.auth-msg.success{background:var(–green-soft);color:var(–green-text);border:1px solid rgba(74,124,90,0.2);}
 
 /* ── APP TABS ── */
 #app-screen{display:none;}
 .app-tab {
-  font-family:var(--font-sans);font-size:10px;letter-spacing:0.11em;text-transform:uppercase;
-  background:none;border:none;border-bottom:2px solid transparent;
-  color:var(--text-muted);padding:12px 20px;cursor:pointer;transition:all 0.15s;
+font-family:var(–font-sans);font-size:10px;letter-spacing:0.11em;text-transform:uppercase;
+background:none;border:none;border-bottom:2px solid transparent;
+color:var(–text-muted);padding:12px 20px;cursor:pointer;transition:all 0.15s;
 }
-.app-tab.active{color:var(--accent);border-bottom-color:var(--accent);font-weight:500;}
-.app-tab:hover{color:var(--text);}
+.app-tab.active{color:var(–accent);border-bottom-color:var(–accent);font-weight:500;}
+.app-tab:hover{color:var(–text);}
 .app-panel{display:none;}.app-panel.active{display:block;}
 
 /* ── PURCHASES ── */
 .purchases-header{
-  padding:16px 14px 0;
-  display:flex;align-items:center;justify-content:space-between;
+padding:16px 14px 0;
+display:flex;align-items:center;justify-content:space-between;
 }
 @media(min-width:768px){.purchases-header{padding:18px 32px 0;}}
 .purchases-year-label{
-  font-family:var(--font-serif);font-size:20px;font-weight:300;
+font-family:var(–font-serif);font-size:20px;font-weight:300;
 }
-.purchases-year-label em{font-style:italic;color:var(--accent);}
+.purchases-year-label em{font-style:italic;color:var(–accent);}
 
 .purch-kpi-grid{
-  display:grid;grid-template-columns:repeat(2,1fr);gap:8px;
-  padding:14px 14px 0;
+display:grid;grid-template-columns:repeat(2,1fr);gap:8px;
+padding:14px 14px 0;
 }
 @media(min-width:540px){.purch-kpi-grid{grid-template-columns:repeat(3,1fr);}}
 @media(min-width:900px){.purch-kpi-grid{grid-template-columns:repeat(5,1fr);padding:16px 32px 0;}}
 
 .purch-kpi{
-  background:var(--surface);border:1px solid var(--border);border-radius:2px;
-  padding:12px 14px;
+background:var(–surface);border:1px solid var(–border);border-radius:2px;
+padding:12px 14px;
 }
-.purch-kpi.good{border-left:3px solid var(--green);}
-.purch-kpi.bad{border-left:3px solid var(--red);}
+.purch-kpi.good{border-left:3px solid var(–green);}
+.purch-kpi.bad{border-left:3px solid var(–red);}
 .purch-kpi-num{
-  font-family:var(--font-serif);font-size:22px;font-weight:400;line-height:1;
-  margin-bottom:4px;
+font-family:var(–font-serif);font-size:22px;font-weight:400;line-height:1;
+margin-bottom:4px;
 }
-.purch-kpi.good .purch-kpi-num{color:var(--green-text);}
-.purch-kpi.bad .purch-kpi-num{color:var(--red-text);}
-.purch-kpi-label{font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);line-height:1.4;}
-.purch-kpi-label small{font-size:8px;color:var(--text-dim);display:block;letter-spacing:0;text-transform:none;margin-top:2px;}
+.purch-kpi.good .purch-kpi-num{color:var(–green-text);}
+.purch-kpi.bad .purch-kpi-num{color:var(–red-text);}
+.purch-kpi-label{font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(–text-muted);line-height:1.4;}
+.purch-kpi-label small{font-size:8px;color:var(–text-dim);display:block;letter-spacing:0;text-transform:none;margin-top:2px;}
 
 .purch-section-title{
-  font-size:9px;letter-spacing:0.13em;text-transform:uppercase;
-  color:var(--text-dim);margin-bottom:8px;padding-bottom:5px;
-  border-bottom:1px solid var(--border);
+font-size:9px;letter-spacing:0.13em;text-transform:uppercase;
+color:var(–text-dim);margin-bottom:8px;padding-bottom:5px;
+border-bottom:1px solid var(–border);
 }
+
+/* Metric switcher tabs */
+.metric-tabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap;}
+.metric-tab{
+font-family:var(–font-sans);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;
+background:none;border:1px solid var(–border);color:var(–text-muted);
+padding:6px 14px;cursor:pointer;border-radius:10px;transition:all 0.15s;
+}
+.metric-tab.active{background:var(–accent);color:var(–surface);border-color:var(–accent);}
+.metric-tab:hover:not(.active){border-color:var(–accent);color:var(–accent);}
 
 /* Compare rows */
 .purch-compare-row{
-  display:flex;align-items:center;gap:4px;
-  margin-bottom:6px;overflow-x:auto;
-  -webkit-overflow-scrolling:touch;
-  scrollbar-width:none;
+display:flex;align-items:center;gap:4px;
+margin-bottom:6px;overflow-x:auto;
+-webkit-overflow-scrolling:touch;
+scrollbar-width:none;
 }
 .purch-compare-row::-webkit-scrollbar{display:none;}
 .purch-compare-sep{
-  font-size:12px;color:var(--text-dim);flex-shrink:0;padding:0 1px;
+font-size:12px;color:var(–text-dim);flex-shrink:0;padding:0 1px;
 }
 .purch-compare-card{
-  flex-shrink:0;
-  background:var(--surface);border:1px solid var(--border);
-  border-radius:2px;padding:8px 10px;text-align:center;
-  min-width:54px;
+flex-shrink:0;
+background:var(–surface);border:1px solid var(–border);
+border-radius:2px;padding:8px 10px;text-align:center;
+min-width:54px;
 }
-.purch-compare-card.total{border-color:var(--border);min-width:62px;}
-.purch-compare-card.conscious{border-left:3px solid var(--green);background:var(--green-soft);}
+.purch-compare-card.total{border-color:var(–border);min-width:62px;}
+.purch-compare-card.conscious{border-left:3px solid var(–green);background:var(–green-soft);}
 .purch-compare-card.rule48{border-left:3px solid #b8960a;background:rgba(184,150,10,0.06);}
-.purch-compare-card.impulse{border-left:3px solid var(--red);background:var(--red-soft);}
+.purch-compare-card.impulse{border-left:3px solid var(–red);background:var(–red-soft);}
 .purch-compare-card.repl{border-left:3px solid #5a7ab0;background:rgba(80,110,160,0.06);}
 .purch-compare-num{
-  font-family:var(--font-serif);font-size:16px;font-weight:400;line-height:1;
-  white-space:nowrap;
+font-family:var(–font-serif);font-size:16px;font-weight:400;line-height:1;
+white-space:nowrap;
 }
-.purch-compare-card.conscious .purch-compare-num{color:var(--green-text);}
+.purch-compare-card.conscious .purch-compare-num{color:var(–green-text);}
 .purch-compare-card.rule48 .purch-compare-num{color:#6b5200;}
-.purch-compare-card.impulse .purch-compare-num{color:var(--red-text);}
+.purch-compare-card.impulse .purch-compare-num{color:var(–red-text);}
 .purch-compare-card.repl .purch-compare-num{color:#5a7ab0;}
 .purch-compare-lbl{
-  font-size:8px;letter-spacing:0.08em;text-transform:uppercase;
-  color:var(--text-dim);margin-top:3px;white-space:nowrap;
+font-size:8px;letter-spacing:0.08em;text-transform:uppercase;
+color:var(–text-dim);margin-top:3px;white-space:nowrap;
 }
 
 /* Category breakdown cards */
 .cat-card{
-  background:var(--surface);border:1px solid var(--border);border-radius:2px;
-  padding:11px 13px;margin-bottom:7px;
+background:var(–surface);border:1px solid var(–border);border-radius:2px;
+padding:11px 13px;margin-bottom:7px;
 }
 .cat-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
-.cat-card-name{font-family:var(--font-serif);font-size:13px;font-weight:400;}
-.cat-card-total{font-family:var(--font-serif);font-size:15px;color:var(--accent);}
+.cat-card-name{font-family:var(–font-serif);font-size:13px;font-weight:400;}
+.cat-card-total{font-family:var(–font-serif);font-size:15px;color:var(–accent);}
 .cat-card-amounts{display:flex;gap:6px;margin-bottom:8px;}
 .cat-amount{flex:1;padding:6px 8px;border-radius:2px;text-align:center;}
-.cat-amount.conscious{background:var(--green-soft);border:1px solid rgba(74,124,90,0.18);}
+.cat-amount.conscious{background:var(–green-soft);border:1px solid rgba(74,124,90,0.18);}
 .cat-amount.rule48{background:rgba(184,150,10,0.07);border:1px solid rgba(184,150,10,0.22);}
-.cat-amount.impulse{background:var(--red-soft);border:1px solid rgba(140,74,58,0.18);}
-.cat-amount-val{font-family:var(--font-serif);font-size:14px;line-height:1;}
-.cat-amount.conscious .cat-amount-val{color:var(--green-text);}
+.cat-amount.impulse{background:var(–red-soft);border:1px solid rgba(140,74,58,0.18);}
+.cat-amount-val{font-family:var(–font-serif);font-size:14px;line-height:1;}
+.cat-amount.conscious .cat-amount-val{color:var(–green-text);}
 .cat-amount.rule48 .cat-amount-val{color:#6b5200;}
-.cat-amount.impulse .cat-amount-val{color:var(--red-text);}
-.cat-amount-lbl{font-size:8px;letter-spacing:0.07em;text-transform:uppercase;color:var(--text-dim);margin-top:2px;}
-.cat-bar-track{width:100%;height:5px;background:var(--surface3);border-radius:3px;overflow:hidden;margin-bottom:7px;}
-.cat-bar-fill{height:100%;border-radius:3px;background:var(--accent-light);}
-.cat-comment{font-size:10px;color:var(--text-muted);line-height:1.5;font-style:italic;padding-top:6px;border-top:1px solid var(--border-soft);}
+.cat-amount.impulse .cat-amount-val{color:var(–red-text);}
+.cat-amount-lbl{font-size:8px;letter-spacing:0.07em;text-transform:uppercase;color:var(–text-dim);margin-top:2px;}
+.cat-bar-track{width:100%;height:5px;background:var(–surface3);border-radius:3px;overflow:hidden;margin-bottom:7px;}
+.cat-bar-fill{height:100%;border-radius:3px;background:var(–accent-light);}
+.cat-comment{font-size:10px;color:var(–text-muted);line-height:1.5;font-style:italic;padding-top:6px;border-top:1px solid var(–border-soft);}
 
 /* Insight cards */
 .insight-card {
-  display:flex;align-items:flex-start;gap:10px;
-  padding:10px 13px;
-  background:var(--surface);border:1px solid var(--border);
-  border-radius:2px;margin-bottom:6px;
+display:flex;align-items:flex-start;gap:10px;
+padding:10px 13px;
+background:var(–surface);border:1px solid var(–border);
+border-radius:2px;margin-bottom:6px;
 }
 .insight-icon { font-size:16px;flex-shrink:0;margin-top:1px; }
-.insight-msg { font-size:11px;color:var(--text-muted);line-height:1.6; }
+.insight-msg { font-size:11px;color:var(–text-muted);line-height:1.6; }
 
 /* Category breakdown bars */
 .cat-bar-row{
-  display:flex;align-items:center;gap:10px;
-  margin-bottom:7px;
+display:flex;align-items:center;gap:10px;
+margin-bottom:7px;
 }
-.cat-bar-label{font-size:11px;color:var(--text-muted);width:140px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.cat-bar-track{flex:1;height:6px;background:var(--surface3);border-radius:3px;overflow:hidden;}
-.cat-bar-fill{height:100%;border-radius:3px;background:var(--accent-light);}
-.cat-bar-val{font-family:var(--font-serif);font-size:12px;color:var(--text-muted);flex-shrink:0;width:50px;text-align:right;}
+.cat-bar-label{font-size:11px;color:var(–text-muted);width:140px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.cat-bar-track{flex:1;height:6px;background:var(–surface3);border-radius:3px;overflow:hidden;}
+.cat-bar-fill{height:100%;border-radius:3px;background:var(–accent-light);}
+.cat-bar-val{font-family:var(–font-serif);font-size:12px;color:var(–text-muted);flex-shrink:0;width:50px;text-align:right;}
 
 /* Purchase list rows */
 .purch-row{
-  display:flex;gap:10px;padding:9px 10px;
-  border:1px solid var(--border);border-radius:2px;
-  background:var(--surface);margin-bottom:5px;
-  align-items:center;
+display:flex;gap:10px;padding:9px 10px;
+border:1px solid var(–border);border-radius:2px;
+background:var(–surface);margin-bottom:5px;
+align-items:center;
 }
 .purch-row-body{flex:1;min-width:0;}
-.purch-row-name{font-family:var(--font-serif);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.purch-row-meta{font-size:9px;color:var(--text-muted);margin-top:2px;}
+.purch-row-name{font-family:var(–font-serif);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.purch-row-meta{font-size:9px;color:var(–text-muted);margin-top:2px;}
 .purch-row-right{display:flex;flex-direction:column;align-items:flex-end;gap:3px;flex-shrink:0;}
-.purch-row-price{font-family:var(--font-serif);font-size:14px;}
+.purch-row-price{font-family:var(–font-serif);font-size:14px;}
 .purch-badge{font-size:8px;letter-spacing:0.08em;text-transform:uppercase;padding:2px 7px;border-radius:1px;}
-.purch-badge.conscious{background:var(--green-soft);color:var(--green-text);border:1px solid var(--green-border);}
-.purch-badge.small-thought{background:rgba(154,106,26,0.09);color:var(--amber);border:1px solid rgba(154,106,26,0.25);}
-.purch-badge.impulse{background:var(--red-soft);color:var(--red-text);border:1px solid rgba(140,74,58,0.25);}
+.purch-badge.conscious{background:var(–green-soft);color:var(–green-text);border:1px solid var(–green-border);}
+.purch-badge.small-thought{background:rgba(154,106,26,0.09);color:var(–amber);border:1px solid rgba(154,106,26,0.25);}
+.purch-badge.impulse{background:var(–red-soft);color:var(–red-text);border:1px solid rgba(140,74,58,0.25);}
 .purch-badge.replacement{background:rgba(80,110,160,0.1);color:#5a7ab0;border:1px solid rgba(80,110,160,0.2);}
 
 /* Archive */
 .archive-year-block{margin-bottom:24px;}
 .archive-year-title{
-  font-family:var(--font-serif);font-size:18px;font-weight:300;
-  margin-bottom:10px;color:var(--text);
+font-family:var(–font-serif);font-size:18px;font-weight:300;
+margin-bottom:10px;color:var(–text);
 }
-.archive-year-title em{font-style:italic;color:var(--accent);}
+.archive-year-title em{font-style:italic;color:var(–accent);}
 .archive-summary{
-  display:flex;gap:16px;flex-wrap:wrap;
-  padding:10px 14px;background:var(--surface);
-  border:1px solid var(--border);border-radius:2px;
-  margin-bottom:8px;font-size:11px;color:var(--text-muted);
+display:flex;gap:16px;flex-wrap:wrap;
+padding:10px 14px;background:var(–surface);
+border:1px solid var(–border);border-radius:2px;
+margin-bottom:8px;font-size:11px;color:var(–text-muted);
 }
-.archive-summary strong{color:var(--text);font-weight:400;font-family:var(--font-serif);font-size:14px;}
-
-
+.archive-summary strong{color:var(–text);font-weight:400;font-family:var(–font-serif);font-size:14px;}
 
 header{
-  background:var(--surface);border-bottom:1px solid var(--border);
-  padding:0 16px;display:flex;align-items:center;justify-content:space-between;
-  position:sticky;top:0;z-index:100;
-  box-shadow:0 1px 6px rgba(90,70,40,0.06);
-  min-height:52px;
+background:var(–surface);border-bottom:1px solid var(–border);
+padding:0 16px;display:flex;align-items:center;justify-content:space-between;
+position:sticky;top:0;z-index:100;
+box-shadow:0 1px 6px rgba(90,70,40,0.06);
+min-height:52px;
 }
-.logo{font-family:var(--font-serif);font-size:16px;font-weight:300;letter-spacing:0.14em;text-transform:uppercase;}
-.logo em{font-style:italic;color:var(--accent);}
+.logo{font-family:var(–font-serif);font-size:16px;font-weight:300;letter-spacing:0.14em;text-transform:uppercase;}
+.logo em{font-style:italic;color:var(–accent);}
 .header-right{display:flex;align-items:center;gap:10px;}
-.user-info{font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);}
-.btn-logout{font-family:var(--font-sans);font-size:9px;letter-spacing:0.1em;text-transform:uppercase;background:none;border:1px solid var(--border);color:var(--text-muted);padding:5px 10px;cursor:pointer;border-radius:1px;transition:all 0.15s;}
-.btn-logout:hover{border-color:var(--red);color:var(--red-text);}
-.btn-new{font-family:var(--font-sans);font-size:9px;letter-spacing:0.1em;text-transform:uppercase;background:var(--accent);color:var(--surface);border:none;padding:7px 14px;cursor:pointer;border-radius:1px;}
+.user-info{font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(–text-muted);}
+.btn-logout{font-family:var(–font-sans);font-size:9px;letter-spacing:0.1em;text-transform:uppercase;background:none;border:1px solid var(–border);color:var(–text-muted);padding:5px 10px;cursor:pointer;border-radius:1px;transition:all 0.15s;}
+.btn-logout:hover{border-color:var(–red);color:var(–red-text);}
+.btn-new{font-family:var(–font-sans);font-size:9px;letter-spacing:0.1em;text-transform:uppercase;background:var(–accent);color:var(–surface);border:none;padding:7px 14px;cursor:pointer;border-radius:1px;}
 
 /* ── STATS ── */
-.stats-bar{display:flex;border-bottom:1px solid var(--border);background:var(--surface);overflow-x:auto;-webkit-overflow-scrolling:touch;}
-.stat{flex:1;min-width:70px;padding:10px 8px;border-right:1px solid var(--border);text-align:center;}
+.stats-bar{display:flex;border-bottom:1px solid var(–border);background:var(–surface);overflow-x:auto;-webkit-overflow-scrolling:touch;}
+.stat{flex:1;min-width:70px;padding:10px 8px;border-right:1px solid var(–border);text-align:center;}
 .stat:last-child{border-right:none;}
-.stat-num{font-family:var(--font-serif);font-size:20px;font-weight:400;line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.stat-num{font-family:var(–font-serif);font-size:20px;font-weight:400;line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 @media(max-width:400px){.stat-num{font-size:16px;}.stat{min-width:58px;padding:8px 5px;}}
-.stat-label{font-size:8px;letter-spacing:0.13em;text-transform:uppercase;color:var(--text-muted);margin-top:3px;}
+.stat-label{font-size:8px;letter-spacing:0.13em;text-transform:uppercase;color:var(–text-muted);margin-top:3px;}
 
 /* ── FILTERS ── */
-.filters{padding:10px 14px;display:flex;gap:6px;align-items:center;border-bottom:1px solid var(--border);background:var(--surface2);flex-wrap:wrap;}
-.filter-label{font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-dim);}
-.filter-btn{font-family:var(--font-sans);font-size:9px;letter-spacing:0.08em;text-transform:uppercase;background:none;border:1px solid var(--border);color:var(--text-muted);padding:4px 11px;cursor:pointer;border-radius:10px;transition:all 0.15s;}
-.filter-btn.active,.filter-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-dim);}
+.filters{padding:10px 14px;display:flex;gap:6px;align-items:center;border-bottom:1px solid var(–border);background:var(–surface2);flex-wrap:wrap;}
+.filter-label{font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(–text-dim);}
+.filter-btn{font-family:var(–font-sans);font-size:9px;letter-spacing:0.08em;text-transform:uppercase;background:none;border:1px solid var(–border);color:var(–text-muted);padding:4px 11px;cursor:pointer;border-radius:10px;transition:all 0.15s;}
+.filter-btn.active,.filter-btn:hover{border-color:var(–accent);color:var(–accent);background:var(–accent-dim);}
 
 /* ── LIST ── */
 .list-container{padding:14px 14px 60px;max-width:900px;margin:0 auto;}
 @media(min-width:768px){.list-container{padding:18px 32px 60px;}}
 
-.list-header{display:grid;grid-template-columns:2fr 90px 70px 130px 80px;gap:8px;padding:0 12px 8px;font-size:8px;letter-spacing:0.13em;text-transform:uppercase;color:var(--text-dim);border-bottom:1px solid var(--border);margin-bottom:5px;}
+.list-header{display:grid;grid-template-columns:2fr 90px 70px 130px 80px;gap:8px;padding:0 12px 8px;font-size:8px;letter-spacing:0.13em;text-transform:uppercase;color:var(–text-dim);border-bottom:1px solid var(–border);margin-bottom:5px;}
 @media(max-width:600px){.list-header{display:none;}}
 
-.card{border:1px solid var(--border);border-radius:2px;margin-bottom:6px;background:var(--surface);overflow:hidden;transition:box-shadow 0.2s;cursor:pointer;}
+.card{border:1px solid var(–border);border-radius:2px;margin-bottom:6px;background:var(–surface);overflow:hidden;transition:box-shadow 0.2s;cursor:pointer;}
 .card:hover{box-shadow:0 2px 10px rgba(90,70,40,0.08);}
-.card.green{border-left:3px solid var(--green);}
+.card.green{border-left:3px solid var(–green);}
 .card.yellow{border-left:3px solid #b8960a;}
-.card.red{border-left:3px solid var(--red);}
+.card.red{border-left:3px solid var(–red);}
 
 .card-row{display:grid;grid-template-columns:2fr 90px 70px 130px 80px;gap:8px;padding:12px 12px;align-items:center;}
 @media(max-width:600px){.card-row{grid-template-columns:1fr auto;}.col-date,.col-price,.col-cpw{display:none;}}
 
-.item-name{font-family:var(--font-serif);font-size:14px;font-weight:400;line-height:1.2;}
-.item-sub{font-size:9px;color:var(--text-muted);margin-top:2px;}
+.item-name{font-family:var(–font-serif);font-size:14px;font-weight:400;line-height:1.2;}
+.item-sub{font-size:9px;color:var(–text-muted);margin-top:2px;}
 .badge-repl{display:inline-block;font-size:7px;letter-spacing:0.08em;text-transform:uppercase;padding:1px 6px;border-radius:1px;margin-top:3px;background:rgba(80,110,160,0.1);color:#5a7ab0;border:1px solid rgba(80,110,160,0.2);}
-.col-date{font-size:11px;color:var(--text-muted);}
+.col-date{font-size:11px;color:var(–text-muted);}
 .col-price{font-size:12px;}
-.cpw-pill{font-family:var(--font-serif);font-size:13px;}
-.cpw-pill small{font-family:var(--font-sans);font-size:8px;color:var(--text-muted);}
-.cpw-pill.good{color:var(--green-text);}
-.cpw-pill.warn{color:var(--amber);}
-.cpw-pill.bad{color:var(--red-text);}
+.cpw-pill{font-family:var(–font-serif);font-size:13px;}
+.cpw-pill small{font-family:var(–font-sans);font-size:8px;color:var(–text-muted);}
+.cpw-pill.good{color:var(–green-text);}
+.cpw-pill.warn{color:var(–amber);}
+.cpw-pill.bad{color:var(–red-text);}
 .col-status{font-size:9px;letter-spacing:0.08em;text-transform:uppercase;display:flex;align-items:center;gap:5px;}
 .status-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
-.card.green .status-dot{background:var(--green-text);}
+.card.green .status-dot{background:var(–green-text);}
 .card.yellow .status-dot{background:#8a6e00;}
-.card.red .status-dot{background:var(--red-text);}
-.card.green .col-status{color:var(--green-text);}
+.card.red .status-dot{background:var(–red-text);}
+.card.green .col-status{color:var(–green-text);}
 .card.yellow .col-status{color:#8a6e00;}
-.card.red .col-status{color:var(--red-text);}
+.card.red .col-status{color:var(–red-text);}
 
 /* DETAIL PANEL */
-.card-detail{display:none;border-top:1px solid var(--border-soft);padding:14px 16px 16px;background:var(--surface2);animation:fadeIn 0.18s ease;}
+.card-detail{display:none;border-top:1px solid var(–border-soft);padding:14px 16px 16px;background:var(–surface2);animation:fadeIn 0.18s ease;}
 @keyframes fadeIn{from{opacity:0;transform:translateY(-4px);}to{opacity:1;transform:translateY(0);}}
 .card.open .card-detail{display:block;}
 .detail-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:9px;margin-bottom:12px;}
-.detail-item label{font-size:8px;letter-spacing:0.13em;text-transform:uppercase;color:var(--text-dim);display:block;margin-bottom:2px;}
-.detail-item value{font-size:12px;color:var(--text);}
-.outfits-section{margin-top:10px;padding-top:10px;border-top:1px solid var(--border-soft);}
-.outfits-section>label{font-size:8px;letter-spacing:0.13em;text-transform:uppercase;color:var(--text-dim);display:block;margin-bottom:6px;}
-.outfit-tag{display:inline-block;font-size:10px;background:var(--surface);border:1px solid var(--border);padding:3px 9px;border-radius:1px;margin:2px 3px 2px 0;color:var(--text-muted);}
+.detail-item label{font-size:8px;letter-spacing:0.13em;text-transform:uppercase;color:var(–text-dim);display:block;margin-bottom:2px;}
+.detail-item value{font-size:12px;color:var(–text);}
+.outfits-section{margin-top:10px;padding-top:10px;border-top:1px solid var(–border-soft);}
+.outfits-section>label{font-size:8px;letter-spacing:0.13em;text-transform:uppercase;color:var(–text-dim);display:block;margin-bottom:6px;}
+.outfit-tag{display:inline-block;font-size:10px;background:var(–surface);border:1px solid var(–border);padding:3px 9px;border-radius:1px;margin:2px 3px 2px 0;color:var(–text-muted);}
 .reasons-section{margin-top:10px;padding:9px 12px;border-radius:2px;font-size:10px;line-height:1.9;}
-.card.green .reasons-section{background:var(--green-soft);border:1px solid rgba(74,124,90,0.22);color:var(--green-text);}
+.card.green .reasons-section{background:var(–green-soft);border:1px solid rgba(74,124,90,0.22);color:var(–green-text);}
 .card.yellow .reasons-section{background:rgba(184,150,10,0.07);border:1px solid rgba(184,150,10,0.25);color:#6b5200;}
-.card.red .reasons-section{background:var(--red-soft);border:1px solid rgba(140,74,58,0.22);color:var(--red-text);}
-.detail-actions{display:flex;gap:7px;margin-top:12px;padding-top:11px;border-top:1px solid var(--border-soft);align-items:center;flex-wrap:wrap;}
-.btn-sm{font-family:var(--font-sans);font-size:9px;letter-spacing:0.09em;text-transform:uppercase;padding:5px 12px;border-radius:1px;cursor:pointer;border:1px solid var(--border);background:none;color:var(--text-muted);transition:all 0.15s;}
-.btn-sm:hover{border-color:var(--text-muted);color:var(--text);}
-.btn-sm.primary{background:var(--accent);color:var(--surface);border-color:var(--accent);}
+.card.red .reasons-section{background:var(–red-soft);border:1px solid rgba(140,74,58,0.22);color:var(–red-text);}
+.detail-actions{display:flex;gap:7px;margin-top:12px;padding-top:11px;border-top:1px solid var(–border-soft);align-items:center;flex-wrap:wrap;}
+.btn-sm{font-family:var(–font-sans);font-size:9px;letter-spacing:0.09em;text-transform:uppercase;padding:5px 12px;border-radius:1px;cursor:pointer;border:1px solid var(–border);background:none;color:var(–text-muted);transition:all 0.15s;}
+.btn-sm:hover{border-color:var(–text-muted);color:var(–text);}
+.btn-sm.primary{background:var(–accent);color:var(–surface);border-color:var(–accent);}
 .btn-sm.primary:hover{opacity:0.85;}
-.btn-sm.danger{border-color:rgba(140,74,58,0.3);color:var(--red-text);}
-.btn-sm.danger:hover{background:var(--red-soft);}
-.link-ext{font-size:10px;color:var(--accent);text-decoration:none;}
+.btn-sm.danger{border-color:rgba(140,74,58,0.3);color:var(–red-text);}
+.btn-sm.danger:hover{background:var(–red-soft);}
+.link-ext{font-size:10px;color:var(–accent);text-decoration:none;}
 .link-ext:hover{text-decoration:underline;}
 
 /* ── MODAL ── */
 .modal-overlay{
-  display:none;
-  position:fixed;
-  top:0;left:0;
-  width:100%;height:100%;
-  background:rgba(42,35,26,0.65);
-  z-index:9999;
-  overflow:hidden;
+display:none;
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+background:rgba(42,35,26,0.65);
+z-index:9999;
+overflow:hidden;
 }
 .modal-overlay.open{display:block;}
 .modal-scroll-wrap{
-  position:absolute;
-  top:0;left:0;right:0;bottom:0;
-  overflow-y:auto;
-  -webkit-overflow-scrolling:touch;
-  display:flex;
-  align-items:flex-start;
-  justify-content:center;
-  padding:20px 14px 40px;
+position:absolute;
+top:0;left:0;right:0;bottom:0;
+overflow-y:auto;
+-webkit-overflow-scrolling:touch;
+display:flex;
+align-items:flex-start;
+justify-content:center;
+padding:20px 14px 40px;
 }
 .modal-overlay .modal{
-  margin:0 auto;
-  position:relative;
-  width:100%;max-width:620px;
-  flex-shrink:0;
+margin:0 auto;
+position:relative;
+width:100%;max-width:620px;
+flex-shrink:0;
 }
 .modal{
-  background:var(--surface);border:1px solid var(--border);border-radius:2px;
-  width:100%;max-width:620px;
-  max-height:none;
-  overflow-y:visible;
-  padding:24px 20px 22px;
-  animation:modalIn 0.22s ease;
-  margin:auto;
-  position:relative;
+background:var(–surface);border:1px solid var(–border);border-radius:2px;
+width:100%;max-width:620px;
+max-height:none;
+overflow-y:visible;
+padding:24px 20px 22px;
+animation:modalIn 0.22s ease;
+margin:auto;
+position:relative;
 }
 @keyframes modalIn{from{opacity:0;transform:translateY(10px) scale(0.98);}to{opacity:1;transform:translateY(0) scale(1);}}
-.modal-title{font-family:var(--font-serif);font-size:19px;font-weight:300;margin-bottom:20px;}
-.modal-title em{color:var(--accent);font-style:italic;}
+.modal-title{font-family:var(–font-serif);font-size:19px;font-weight:300;margin-bottom:20px;}
+.modal-title em{color:var(–accent);font-style:italic;}
 .form-section{margin-bottom:18px;}
-.form-section-title{font-size:8px;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-dim);margin-bottom:9px;padding-bottom:5px;border-bottom:1px solid var(--border-soft);}
+.form-section-title{font-size:8px;letter-spacing:0.16em;text-transform:uppercase;color:var(–text-dim);margin-bottom:9px;padding-bottom:5px;border-bottom:1px solid var(–border-soft);}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 @media(max-width:480px){.form-grid{grid-template-columns:1fr;}}
 .form-group{display:flex;flex-direction:column;gap:4px;}
 .form-group.full{grid-column:1/-1;}
-.form-group label{font-size:9px;letter-spacing:0.11em;text-transform:uppercase;color:var(--text-muted);}
-.form-group input,.form-group select,.form-group textarea{font-family:var(--font-sans);font-size:12px;font-weight:300;border:1px solid var(--border);background:var(--surface2);padding:7px 9px;border-radius:1px;color:var(--text);outline:none;transition:border-color 0.15s;-webkit-appearance:none;}
-.form-group input::placeholder{color:var(--text-dim);}
-.form-group select option{background:var(--surface2);color:var(--text);}
-.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--accent);}
+.form-group label{font-size:9px;letter-spacing:0.11em;text-transform:uppercase;color:var(–text-muted);}
+.form-group input,.form-group select,.form-group textarea{font-family:var(–font-sans);font-size:12px;font-weight:300;border:1px solid var(–border);background:var(–surface2);padding:7px 9px;border-radius:1px;color:var(–text);outline:none;transition:border-color 0.15s;-webkit-appearance:none;}
+.form-group input::placeholder{color:var(–text-dim);}
+.form-group select option{background:var(–surface2);color:var(–text);}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(–accent);}
 .form-group textarea{resize:vertical;min-height:52px;}
 .checkbox-row{display:flex;align-items:center;gap:8px;padding:4px 0;}
-.checkbox-row input[type="checkbox"]{width:14px;height:14px;accent-color:var(--accent);cursor:pointer;padding:0;border:none;}
-.checkbox-row label{font-size:11px;letter-spacing:0;text-transform:none;color:var(--text-muted);cursor:pointer;}
+.checkbox-row input[type=“checkbox”]{width:14px;height:14px;accent-color:var(–accent);cursor:pointer;padding:0;border:none;}
+.checkbox-row label{font-size:11px;letter-spacing:0;text-transform:none;color:var(–text-muted);cursor:pointer;}
 
 /* CPW preview */
-.cpw-preview-box{background:var(--surface2);border:1px solid var(--border);border-radius:2px;padding:11px 14px;margin-top:9px;}
+.cpw-preview-box{background:var(–surface2);border:1px solid var(–border);border-radius:2px;padding:11px 14px;margin-top:9px;}
 .cpw-row{display:flex;justify-content:space-between;align-items:baseline;padding:2px 0;}
-.cpw-row-label{font-size:9px;letter-spacing:0.09em;text-transform:uppercase;color:var(--text-muted);}
-.cpw-row-value{font-family:var(--font-serif);font-size:15px;color:var(--text);}
-.cpw-divider{border:none;border-top:1px solid var(--border-soft);margin:6px 0;}
+.cpw-row-label{font-size:9px;letter-spacing:0.09em;text-transform:uppercase;color:var(–text-muted);}
+.cpw-row-value{font-family:var(–font-serif);font-size:15px;color:var(–text);}
+.cpw-divider{border:none;border-top:1px solid var(–border-soft);margin:6px 0;}
 .cpw-verdict{font-size:10px;letter-spacing:0.07em;text-transform:uppercase;margin-top:5px;font-weight:400;}
-.cpw-verdict.good{color:var(--green-text);}
-.cpw-verdict.warn{color:var(--amber);}
-.cpw-verdict.bad{color:var(--red-text);}
+.cpw-verdict.good{color:var(–green-text);}
+.cpw-verdict.warn{color:var(–amber);}
+.cpw-verdict.bad{color:var(–red-text);}
 
-.modal-actions{display:flex;gap:9px;justify-content:flex-end;margin-top:20px;padding-top:16px;border-top:1px solid var(--border);}
+.modal-actions{display:flex;gap:9px;justify-content:flex-end;margin-top:20px;padding-top:16px;border-top:1px solid var(–border);}
 
 /* EMPTY STATE */
-.empty-state{text-align:center;padding:60px 20px;color:var(--text-muted);}
-.empty-title{font-family:var(--font-serif);font-size:22px;font-weight:300;margin-bottom:8px;color:var(--text);}
-.empty-sub{font-size:11px;color:var(--text-muted);margin-bottom:20px;}
+.empty-state{text-align:center;padding:60px 20px;color:var(–text-muted);}
+.empty-title{font-family:var(–font-serif);font-size:22px;font-weight:300;margin-bottom:8px;color:var(–text);}
+.empty-sub{font-size:11px;color:var(–text-muted);margin-bottom:20px;}
 
 /* Purchase verdict */
 .purchase-verdict {
-  font-size:11px;letter-spacing:0.06em;
-  padding:10px 14px;border-radius:2px;
+font-size:11px;letter-spacing:0.06em;
+padding:10px 14px;border-radius:2px;
 }
 .purchase-verdict.good {
-  background:var(--green-soft);color:var(--green-text);
-  border:1px solid var(--green-border);
+background:var(–green-soft);color:var(–green-text);
+border:1px solid var(–green-border);
 }
 .purchase-verdict.bad {
-  background:var(--red-soft);color:var(--red-text);
-  border:1px solid rgba(140,74,58,0.22);
+background:var(–red-soft);color:var(–red-text);
+border:1px solid rgba(140,74,58,0.22);
 }
 
 /* ── TOAST ── */
-.loading{text-align:center;padding:40px;color:var(--text-muted);font-size:12px;letter-spacing:0.1em;}
-.spinner{display:inline-block;width:20px;height:20px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 0.7s linear infinite;margin-bottom:8px;}
+.loading{text-align:center;padding:40px;color:var(–text-muted);font-size:12px;letter-spacing:0.1em;}
+.spinner{display:inline-block;width:20px;height:20px;border:2px solid var(–border);border-top-color:var(–accent);border-radius:50%;animation:spin 0.7s linear infinite;margin-bottom:8px;}
 @keyframes spin{to{transform:rotate(360deg);}}
 
 /* TOAST */
-.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--text);color:var(--surface);font-size:11px;padding:9px 18px;border-radius:2px;z-index:300;opacity:0;transition:opacity 0.2s;pointer-events:none;white-space:nowrap;}
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(–text);color:var(–surface);font-size:11px;padding:9px 18px;border-radius:2px;z-index:300;opacity:0;transition:opacity 0.2s;pointer-events:none;white-space:nowrap;}
 .toast.show{opacity:1;}
 
 ::-webkit-scrollbar{width:4px;}
 ::-webkit-scrollbar-track{background:transparent;}
-::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+::-webkit-scrollbar-thumb{background:var(–border);border-radius:2px;}
 </style>
+
 </head>
 <body>
 
 <!-- ══ AUTH ══ -->
+
 <div id="auth-screen">
   <div class="auth-box">
     <div class="auth-logo">Wardrobe <em>Wishlist</em></div>
@@ -480,6 +491,7 @@ header{
 </div>
 
 <!-- ══ APP ══ -->
+
 <div id="app-screen">
   <header>
     <div class="logo">Wardrobe <em>Wishlist</em></div>
@@ -491,6 +503,7 @@ header{
   </header>
 
   <!-- APP TABS -->
+
   <div style="background:var(--surface);border-bottom:1px solid var(--border);display:flex;">
     <button class="app-tab active" onclick="showAppTab('wishlist',this)">📋 Wishlist</button>
     <button class="app-tab" onclick="showAppTab('purchases',this)">🛍 Αγορές <span id="year-badge" style="font-size:9px;background:var(--accent-dim);color:var(--accent);border-radius:2px;padding:1px 5px;margin-left:4px;"></span></button>
@@ -498,6 +511,7 @@ header{
   </div>
 
   <!-- ═══ TAB: WISHLIST ═══ -->
+
   <div class="app-panel active" id="panel-wishlist">
     <div class="stats-bar" id="stats-bar">
       <div class="stat"><div class="stat-num" id="stat-total">—</div><div class="stat-label">Σύνολο</div></div>
@@ -523,239 +537,202 @@ header{
         <div class="loading"><div class="spinner"></div><br>Φόρτωση...</div>
       </div>
 
-      <!-- INLINE FORM -->
-      <div id="inline-form-wrap" style="display:none;margin-top:10px;">
-        <div class="inline-form-header">
-          <div class="inline-form-title" id="inline-form-title">Νέα <em>Εγγραφή</em></div>
-          <button class="inline-form-close" onclick="closeInlineForm()">✕</button>
-        </div>
+```
+  <!-- INLINE FORM -->
+  <div id="inline-form-wrap" style="display:none;margin-top:10px;">
+    <div class="inline-form-header">
+      <div class="inline-form-title" id="inline-form-title">Νέα <em>Εγγραφή</em></div>
+      <button class="inline-form-close" onclick="closeInlineForm()">✕</button>
+    </div>
 
-        <div class="iform-section">
-          <div class="iform-section-title">Βασικά στοιχεία</div>
-          <div class="iform-grid">
-            <div class="iform-group full"><label>Τίτλος *</label><input type="text" id="f-title" placeholder="π.χ. Λευκό λινό πουκάμισο"></div>
-            <div class="iform-group"><label>Ημερομηνία εγγραφής</label>
-              <input type="date" id="f-entry-date">
-              <div class="iform-hint">Κενό = σήμερα · παλιά ημ. αν το είχες νωρίτερα</div>
-            </div>
-            <div class="iform-group"><label>Μάρκα</label><input type="text" id="f-brand" placeholder="π.χ. Zara, Mango…"></div>
-            <div class="iform-group">
-              <label>Κατηγορία</label>
-              <select id="f-category">
-                <option value="">— Επιλογή —</option>
-                <optgroup label="Ρούχα">
-                  <option>Μπλούζες / Tops</option><option>Πουκάμισα</option><option>Φούστες</option>
-                  <option>Παντελόνια</option><option>Φορέματα</option><option>Πλεκτά / Πουλόβερ</option>
-                  <option>Jackets</option><option>Παλτά</option><option>Σετ / Coordinates</option>
-                </optgroup>
-                <optgroup label="Παπούτσια">
-                  <option>Sneakers</option><option>Boots / Booties</option>
-                  <option>Flats</option><option>Sandals</option><option>Heels</option>
-                </optgroup>
-                <optgroup label="Αξεσουάρ">
-                  <option>Τσάντες</option><option>Γυαλιά ηλίου</option>
-                  <option>Πορτοφόλι</option><option>Κοσμήματα</option><option>Αξεσουάρ — Other</option>
-                </optgroup>
-              </select>
-            </div>
-            <div class="iform-group">
-              <label>Χρώμα</label>
-              <select id="f-color">
-                <option value="">— Επιλογή —</option>
-                <optgroup label="Neutrals">
-                  <option value="Λευκό">Λευκό</option><option value="Εκρού / Off-white">Εκρού / Off-white</option>
-                  <option value="Beige / Camel">Beige / Camel</option><option value="Γκρι ανοιχτό">Γκρι ανοιχτό</option>
-                  <option value="Γκρι σκούρο">Γκρι σκούρο</option><option value="Μαύρο">Μαύρο</option>
-                  <option value="Καφέ / Ταμπά">Καφέ / Ταμπά</option><option value="Chocolate">Chocolate</option>
-                </optgroup>
-                <optgroup label="Blues & Greens">
-                  <option value="Navy">Navy</option><option value="Μπλε ρουά">Μπλε ρουά</option>
-                  <option value="Γαλάζιο">Γαλάζιο</option><option value="Denim">Denim</option>
-                  <option value="Πράσινο σκούρο">Πράσινο σκούρο</option><option value="Χακί / Olive">Χακί / Olive</option>
-                  <option value="Mint / Sage">Mint / Sage</option>
-                </optgroup>
-                <optgroup label="Reds & Pinks">
-                  <option value="Κόκκινο">Κόκκινο</option><option value="Burgundy / Μπορντό">Burgundy / Μπορντό</option>
-                  <option value="Ροζ παλ">Ροζ παλ</option><option value="Fuchsia / Hot pink">Fuchsia / Hot pink</option>
-                  <option value="Terracotta / Ώχρα">Terracotta / Ώχρα</option><option value="Πορτοκαλί">Πορτοκαλί</option>
-                </optgroup>
-                <optgroup label="Purples & Yellows">
-                  <option value="Μωβ / Λιλά">Μωβ / Λιλά</option><option value="Κίτρινο / Mustard">Κίτρινο / Mustard</option>
-                </optgroup>
-                <optgroup label="Patterns">
-                  <option value="Ριγέ">Ριγέ</option><option value="Καρό / Vichy">Καρό / Vichy</option>
-                  <option value="Floral / Print">Floral / Print</option><option value="Animal print">Animal print</option>
-                  <option value="Πολύχρωμο">Πολύχρωμο</option>
-                </optgroup>
-              </select>
-            </div>
-            <div class="iform-group"><label>Υλικό</label><input type="text" id="f-material" placeholder="π.χ. Λινό, Βαμβάκι"></div>
-          </div>
+    <div class="iform-section">
+      <div class="iform-section-title">Βασικά στοιχεία</div>
+      <div class="iform-grid">
+        <div class="iform-group full"><label>Τίτλος *</label><input type="text" id="f-title" placeholder="π.χ. Λευκό λινό πουκάμισο"></div>
+        <div class="iform-group"><label>Ημερομηνία εγγραφής</label>
+          <input type="date" id="f-entry-date">
+          <div class="iform-hint">Κενό = σήμερα · παλιά ημ. αν το είχες νωρίτερα</div>
         </div>
-
-        <div class="iform-section">
-          <div class="iform-section-title">Χαρακτηριστικά (προαιρετικά)</div>
-          <div class="iform-grid">
-            <div class="iform-group">
-              <label>Μανίκι</label>
-              <select id="f-sleeve"><option value="">—</option><option>Αμάνικο</option><option>Κοντό</option><option>3/4</option><option>Μακρύ</option><option>N/A</option></select>
-            </div>
-            <div class="iform-group">
-              <label>Λαιμόκοψη</label>
-              <select id="f-neckline"><option value="">—</option><option>V-neck</option><option>Στρόγγυλη</option><option>Κλασική</option><option>Off-shoulder</option><option>Turtleneck</option><option>Boat neck</option><option>Square neck</option><option>N/A</option></select>
-            </div>
-            <div class="iform-group">
-              <label>Μήκος</label>
-              <select id="f-length"><option value="">—</option><option>Crop</option><option>Κανονικό</option><option>Midi</option><option>Maxi</option><option>N/A</option></select>
-            </div>
-            <div class="iform-group">
-              <label>Εποχή</label>
-              <select id="f-season"><option value="">—</option><option>Άνοιξη / Καλοκαίρι</option><option>Φθινόπωρο / Χειμώνας</option><option>4 εποχές</option></select>
-            </div>
-          </div>
+        <div class="iform-group"><label>Μάρκα</label><input type="text" id="f-brand" placeholder="π.χ. Zara, Mango…"></div>
+        <div class="iform-group">
+          <label>Κατηγορία</label>
+          <select id="f-category">
+            <option value="">— Επιλογή —</option>
+            <optgroup label="Ρούχα">
+              <option>Μπλούζες / Tops</option><option>Πουκάμισα</option><option>Φούστες</option>
+              <option>Παντελόνια</option><option>Φορέματα</option><option>Πλεκτά / Πουλόβερ</option>
+              <option>Jackets</option><option>Παλτά</option><option>Σετ / Coordinates</option>
+            </optgroup>
+            <optgroup label="Παπούτσια">
+              <option>Sneakers</option><option>Boots / Booties</option>
+              <option>Flats</option><option>Sandals</option><option>Heels</option>
+            </optgroup>
+            <optgroup label="Αξεσουάρ">
+              <option>Τσάντες</option><option>Γυαλιά ηλίου</option>
+              <option>Πορτοφόλι</option><option>Κοσμήματα</option><option>Αξεσουάρ — Other</option>
+            </optgroup>
+          </select>
         </div>
-
-        <div class="iform-section">
-          <div class="iform-section-title">CPW — Τιμή & Κατηγορία</div>
-          <div class="iform-grid">
-            <div class="iform-group"><label>Τιμή (€)</label><input type="number" id="f-price" placeholder="0.00" step="0.01" oninput="calcCPW()"></div>
-            <div class="iform-group">
-              <label>Κατηγορία CPW</label>
-              <select id="f-cpw-cat" onchange="calcCPW()">
-                <option value="">— Επιλογή —</option>
-                <option value="5">Καθημερινό (&lt;5€)</option>
-                <option value="10">Αξεσουάρ (&lt;10€)</option>
-                <option value="8">Outerwear (&lt;8€)</option>
-                <option value="10">Περιστασιακό (&lt;10€)</option>
-                <option value="20">Ειδική Περίσταση (&lt;20€)</option>
-              </select>
-            </div>
-            <div class="iform-group"><label>Χρήσεις / εβδομάδα</label><input type="number" id="f-times" placeholder="π.χ. 1 ή 0.5" step="0.5" min="0.5" oninput="calcCPW()"></div>
-            <div class="iform-group"><label>Link</label><input type="url" id="f-link" placeholder="https://…"></div>
-          </div>
-          <div class="cpw-preview-box">
-            <div class="cpw-row"><span class="cpw-row-label">CPW σε 1 χρόνο</span><span class="cpw-row-value" id="cpw-val">—</span></div>
-            <div class="cpw-row"><span class="cpw-row-label">Target</span><span class="cpw-row-value" id="cpw-target">—</span></div>
-            <div class="cpw-row"><span class="cpw-row-label">Χρήσεις για να αξίζει</span><span class="cpw-row-value" id="cpw-needed">—</span></div>
-            <hr style="border:none;border-top:1px solid var(--border-soft);margin:6px 0">
-            <div class="cpw-verdict" id="cpw-verdict"></div>
-          </div>
+        <div class="iform-group">
+          <label>Χρώμα</label>
+          <select id="f-color">
+            <option value="">— Επιλογή —</option>
+            <optgroup label="Neutrals">
+              <option value="Λευκό">Λευκό</option><option value="Εκρού / Off-white">Εκρού / Off-white</option>
+              <option value="Beige / Camel">Beige / Camel</option><option value="Γκρι ανοιχτό">Γκρι ανοιχτό</option>
+              <option value="Γκρι σκούρο">Γκρι σκούρο</option><option value="Μαύρο">Μαύρο</option>
+              <option value="Καφέ / Ταμπά">Καφέ / Ταμπά</option><option value="Chocolate">Chocolate</option>
+            </optgroup>
+            <optgroup label="Blues & Greens">
+              <option value="Navy">Navy</option><option value="Μπλε ρουά">Μπλε ρουά</option>
+              <option value="Γαλάζιο">Γαλάζιο</option><option value="Denim">Denim</option>
+              <option value="Πράσινο σκούρο">Πράσινο σκούρο</option><option value="Χακί / Olive">Χακί / Olive</option>
+              <option value="Mint / Sage">Mint / Sage</option>
+            </optgroup>
+            <optgroup label="Reds & Pinks">
+              <option value="Κόκκινο">Κόκκινο</option><option value="Burgundy / Μπορντό">Burgundy / Μπορντό</option>
+              <option value="Ροζ παλ">Ροζ παλ</option><option value="Fuchsia / Hot pink">Fuchsia / Hot pink</option>
+              <option value="Terracotta / Ώχρα">Terracotta / Ώχρα</option><option value="Πορτοκαλί">Πορτοκαλί</option>
+            </optgroup>
+            <optgroup label="Purples & Yellows">
+              <option value="Μωβ / Λιλά">Μωβ / Λιλά</option><option value="Κίτρινο / Mustard">Κίτρινο / Mustard</option>
+            </optgroup>
+            <optgroup label="Patterns">
+              <option value="Ριγέ">Ριγέ</option><option value="Καρό / Vichy">Καρό / Vichy</option>
+              <option value="Floral / Print">Floral / Print</option><option value="Animal print">Animal print</option>
+              <option value="Πολύχρωμο">Πολύχρωμο</option>
+            </optgroup>
+          </select>
         </div>
+        <div class="iform-group"><label>Υλικό</label><input type="text" id="f-material" placeholder="π.χ. Λινό, Βαμβάκι"></div>
+      </div>
+    </div>
 
-        <div class="iform-section">
-          <div class="iform-section-title">Συνδυασμοί & Σημειώσεις</div>
-          <div class="iform-grid">
-            <div class="iform-group full"><label>Συνδυασμός 1</label><input type="text" id="f-outfit1" placeholder="π.χ. Beige παντελόνι + λευκά sneakers"></div>
-            <div class="iform-group full"><label>Συνδυασμός 2</label><input type="text" id="f-outfit2" placeholder="…"></div>
-            <div class="iform-group full"><label>Συνδυασμός 3</label><input type="text" id="f-outfit3" placeholder="…"></div>
-            <div class="iform-group full"><label>Σημειώσεις</label><textarea id="f-notes" placeholder="…"></textarea></div>
-          </div>
-          <div class="checkbox-row" style="margin-top:9px">
-            <input type="checkbox" id="f-replacement">
-            <label for="f-replacement">🔄 Αντικατάσταση υπάρχοντος item — αναιρεί το δίμηνο</label>
-          </div>
+    <div class="iform-section">
+      <div class="iform-section-title">Χαρακτηριστικά (προαιρετικά)</div>
+      <div class="iform-grid">
+        <div class="iform-group">
+          <label>Μανίκι</label>
+          <select id="f-sleeve"><option value="">—</option><option>Αμάνικο</option><option>Κοντό</option><option>3/4</option><option>Μακρύ</option><option>N/A</option></select>
         </div>
-
-        <div class="iform-actions">
-          <button class="btn-sm" onclick="closeInlineForm()">Ακύρωση</button>
-          <button class="btn-sm primary" id="save-btn" onclick="saveItem()">Αποθήκευση</button>
+        <div class="iform-group">
+          <label>Λαιμόκοψη</label>
+          <select id="f-neckline"><option value="">—</option><option>V-neck</option><option>Στρόγγυλη</option><option>Κλασική</option><option>Off-shoulder</option><option>Turtleneck</option><option>Boat neck</option><option>Square neck</option><option>N/A</option></select>
+        </div>
+        <div class="iform-group">
+          <label>Μήκος</label>
+          <select id="f-length"><option value="">—</option><option>Crop</option><option>Κανονικό</option><option>Midi</option><option>Maxi</option><option>N/A</option></select>
+        </div>
+        <div class="iform-group">
+          <label>Εποχή</label>
+          <select id="f-season"><option value="">—</option><option>Άνοιξη / Καλοκαίρι</option><option>Φθινόπωρο / Χειμώνας</option><option>4 εποχές</option></select>
         </div>
       </div>
-      <!-- END INLINE FORM -->
-
     </div>
+
+    <div class="iform-section">
+      <div class="iform-section-title">CPW — Τιμή & Κατηγορία</div>
+      <div class="iform-grid">
+        <div class="iform-group"><label>Τιμή (€)</label><input type="number" id="f-price" placeholder="0.00" step="0.01" oninput="calcCPW()"></div>
+        <div class="iform-group">
+          <label>Κατηγορία CPW</label>
+          <select id="f-cpw-cat" onchange="calcCPW()">
+            <option value="">— Επιλογή —</option>
+            <option value="5">Καθημερινό (&lt;5€)</option>
+            <option value="10">Αξεσουάρ (&lt;10€)</option>
+            <option value="8">Outerwear (&lt;8€)</option>
+            <option value="10">Περιστασιακό (&lt;10€)</option>
+            <option value="20">Ειδική Περίσταση (&lt;20€)</option>
+          </select>
+        </div>
+        <div class="iform-group"><label>Χρήσεις / εβδομάδα</label><input type="number" id="f-times" placeholder="π.χ. 1 ή 0.5" step="0.5" min="0.5" oninput="calcCPW()"></div>
+        <div class="iform-group"><label>Link</label><input type="url" id="f-link" placeholder="https://…"></div>
+      </div>
+      <div class="cpw-preview-box">
+        <div class="cpw-row"><span class="cpw-row-label">CPW σε 1 χρόνο</span><span class="cpw-row-value" id="cpw-val">—</span></div>
+        <div class="cpw-row"><span class="cpw-row-label">Target</span><span class="cpw-row-value" id="cpw-target">—</span></div>
+        <div class="cpw-row"><span class="cpw-row-label">Χρήσεις για να αξίζει</span><span class="cpw-row-value" id="cpw-needed">—</span></div>
+        <hr style="border:none;border-top:1px solid var(--border-soft);margin:6px 0">
+        <div class="cpw-verdict" id="cpw-verdict"></div>
+      </div>
+    </div>
+
+    <div class="iform-section">
+      <div class="iform-section-title">Συνδυασμοί & Σημειώσεις</div>
+      <div class="iform-grid">
+        <div class="iform-group full"><label>Συνδυασμός 1</label><input type="text" id="f-outfit1" placeholder="π.χ. Beige παντελόνι + λευκά sneakers"></div>
+        <div class="iform-group full"><label>Συνδυασμός 2</label><input type="text" id="f-outfit2" placeholder="…"></div>
+        <div class="iform-group full"><label>Συνδυασμός 3</label><input type="text" id="f-outfit3" placeholder="…"></div>
+        <div class="iform-group full"><label>Σημειώσεις</label><textarea id="f-notes" placeholder="…"></textarea></div>
+      </div>
+      <div class="checkbox-row" style="margin-top:9px">
+        <input type="checkbox" id="f-replacement">
+        <label for="f-replacement">🔄 Αντικατάσταση υπάρχοντος item — αναιρεί το δίμηνο</label>
+      </div>
+    </div>
+
+    <div class="iform-actions">
+      <button class="btn-sm" onclick="closeInlineForm()">Ακύρωση</button>
+      <button class="btn-sm primary" id="save-btn" onclick="saveItem()">Αποθήκευση</button>
+    </div>
+  </div>
+  <!-- END INLINE FORM -->
+
+</div>
+```
+
   </div>
 
   <!-- ═══ TAB: YEARLY PURCHASES ═══ -->
+
   <div class="app-panel" id="panel-purchases">
     <div class="purchases-header">
       <div class="purchases-year-label">Αγορές <em id="purchases-year-label">2026</em></div>
     </div>
 
-    <!-- KPI summary -->
-    <div class="list-container" style="padding-bottom:0;padding-top:14px;">
+```
+<!-- KPI summary -->
+<div class="list-container" style="padding-bottom:0;padding-top:14px;">
 
-      <!-- Row 1: Items breakdown -->
-      <div class="purch-section-title">Τεμάχια</div>
-      <div class="purch-compare-row">
-        <div class="purch-compare-card total">
-          <div class="purch-compare-num" id="pk-total">—</div>
-          <div class="purch-compare-lbl">Σύνολο</div>
-        </div>
-        <div class="purch-compare-sep">＝</div>
-        <div class="purch-compare-card conscious">
-          <div class="purch-compare-num" id="pk-conscious">—</div>
-          <div class="purch-compare-lbl">Conscious</div>
-        </div>
-        <div class="purch-compare-sep">+</div>
-        <div class="purch-compare-card rule48">
-          <div class="purch-compare-num" id="pk-small-thought">—</div>
-          <div class="purch-compare-lbl">48h Rule</div>
-        </div>
-        <div class="purch-compare-sep">+</div>
-        <div class="purch-compare-card impulse">
-          <div class="purch-compare-num" id="pk-impulse">—</div>
-          <div class="purch-compare-lbl">Impulse</div>
-        </div>
-        <div class="purch-compare-sep">+</div>
-        <div class="purch-compare-card repl">
-          <div class="purch-compare-num" id="pk-replacement">—</div>
-          <div class="purch-compare-lbl">Repl.</div>
-        </div>
-      </div>
+  <!-- Metric switcher -->
+  <div class="metric-tabs">
+    <button class="metric-tab active" onclick="setMetric('cost',this)">€ Κόστος</button>
+    <button class="metric-tab" onclick="setMetric('items',this)"># Τεμάχια</button>
+    <button class="metric-tab" onclick="setMetric('avg',this)">⌀ Μέσο κόστος</button>
+  </div>
 
-      <!-- Row 2: Cost breakdown -->
-      <div class="purch-section-title" style="margin-top:12px;">Κόστος</div>
-      <div class="purch-compare-row">
-        <div class="purch-compare-card total">
-          <div class="purch-compare-num" id="pk-cost">—</div>
-          <div class="purch-compare-lbl">Σύνολο</div>
-        </div>
-        <div class="purch-compare-sep">＝</div>
-        <div class="purch-compare-card conscious">
-          <div class="purch-compare-num" id="pk-cost-conscious">—</div>
-          <div class="purch-compare-lbl">Conscious</div>
-        </div>
-        <div class="purch-compare-sep">+</div>
-        <div class="purch-compare-card rule48">
-          <div class="purch-compare-num" id="pk-cost-rule48">—</div>
-          <div class="purch-compare-lbl">48h Rule</div>
-        </div>
-        <div class="purch-compare-sep">+</div>
-        <div class="purch-compare-card impulse">
-          <div class="purch-compare-num" id="pk-cost-impulse">—</div>
-          <div class="purch-compare-lbl">Impulse</div>
-        </div>
-        <div class="purch-compare-sep">+</div>
-        <div class="purch-compare-card repl">
-          <div class="purch-compare-num" id="pk-cost-repl">—</div>
-          <div class="purch-compare-lbl">Repl.</div>
-        </div>
-      </div>
+  <!-- Dynamic KPI row -->
+  <div class="purch-section-title" id="metric-row-title">Κόστος</div>
+  <div class="purch-compare-row" id="metric-row">
+    <!-- filled by JS -->
+  </div>
 
-      <!-- Overall comment -->
-      <div id="purch-overall-comment" style="margin-top:10px;"></div>
-    </div>
+  <!-- Overall comment -->
+  <div id="purch-overall-comment" style="margin-top:10px;"></div>
+</div>
 
-    <!-- Category breakdown -->
-    <div class="list-container" style="padding-top:0">
-      <div class="purch-section-title">Ανά κατηγορία</div>
-      <div id="purch-by-category"></div>
+<!-- Category breakdown -->
+<div class="list-container" style="padding-top:0">
+  <div class="purch-section-title">Ανά κατηγορία</div>
+  <div id="purch-by-category"></div>
 
-      <div class="purch-section-title" style="margin-top:20px">Αναλυτική λίστα αγορών</div>
-      <!-- Sub-filters -->
-      <div class="filters" style="padding:8px 0;border:none;background:none;margin-bottom:8px;">
-        <button class="filter-btn active" onclick="setPurchFilter('all',this)">Όλες</button>
-        <button class="filter-btn" onclick="setPurchFilter('conscious',this)">✅ Conscious</button>
-        <button class="filter-btn" onclick="setPurchFilter('small-thought',this)">🤔 48h Rule</button>
-        <button class="filter-btn" onclick="setPurchFilter('impulse',this)">⚡ Impulse</button>
-        <button class="filter-btn" onclick="setPurchFilter('replacement',this)">🔄 Αντικατάσταση</button>
-      </div>
-      <div id="purch-list"></div>
-    </div>
+  <div class="purch-section-title" style="margin-top:20px">Αναλυτική λίστα αγορών</div>
+  <!-- Sub-filters -->
+  <div class="filters" style="padding:8px 0;border:none;background:none;margin-bottom:8px;">
+    <button class="filter-btn active" onclick="setPurchFilter('all',this)">Όλες</button>
+    <button class="filter-btn" onclick="setPurchFilter('conscious',this)">✅ Conscious</button>
+    <button class="filter-btn" onclick="setPurchFilter('small-thought',this)">🤔 48h Rule</button>
+    <button class="filter-btn" onclick="setPurchFilter('impulse',this)">⚡ Impulse</button>
+    <button class="filter-btn" onclick="setPurchFilter('replacement',this)">🔄 Αντικατάσταση</button>
+  </div>
+  <div id="purch-list"></div>
+</div>
+```
+
   </div>
 
   <!-- ═══ TAB: ARCHIVE ═══ -->
+
   <div class="app-panel" id="panel-archive">
     <div class="list-container">
       <div class="purch-section-title">Αρχείο προηγούμενων ετών</div>
@@ -767,33 +744,36 @@ header{
 
 </div>
 
-
 <!-- ══ PURCHASE DATE MODAL ══ -->
+
 <div class="modal-overlay" id="purchase-modal" onclick="if(event.target===this){this.classList.remove('open');document.body.style.overflow='';}">
   <div class="modal-scroll-wrap">
   <div class="modal" style="max-width:420px">
     <div class="modal-title">Καταγραφή <em>Αγοράς</em></div>
     <div style="font-family:var(--font-serif);font-size:15px;color:var(--text);margin-bottom:16px;" id="purchase-item-name"></div>
 
-    <div class="form-section">
-      <div class="form-section-title">Ημερομηνία αγοράς</div>
-      <div class="form-group full">
-        <label>Πότε το αγόρασες;</label>
-        <input type="date" id="purchase-date-input"
-          oninput="updatePurchaseVerdict(allItems.find(i=>i.id===pendingPurchaseId))"
-          style="font-size:14px;padding:9px 11px;">
-        <div style="font-size:10px;color:var(--text-dim);margin-top:5px;">
-          Μπορείς να βάλεις παρελθοντική ημερομηνία για παλιές αγορές
-        </div>
-      </div>
+```
+<div class="form-section">
+  <div class="form-section-title">Ημερομηνία αγοράς</div>
+  <div class="form-group full">
+    <label>Πότε το αγόρασες;</label>
+    <input type="date" id="purchase-date-input"
+      oninput="updatePurchaseVerdict(allItems.find(i=>i.id===pendingPurchaseId))"
+      style="font-size:14px;padding:9px 11px;">
+    <div style="font-size:10px;color:var(--text-dim);margin-top:5px;">
+      Μπορείς να βάλεις παρελθοντική ημερομηνία για παλιές αγορές
     </div>
+  </div>
+</div>
 
-    <div id="purchase-verdict" class="purchase-verdict" style="margin:12px 0 16px;"></div>
+<div id="purchase-verdict" class="purchase-verdict" style="margin:12px 0 16px;"></div>
 
-    <div class="modal-actions">
-      <button class="btn-sm" onclick="document.getElementById('purchase-modal').classList.remove('open');document.body.style.overflow='';">Ακύρωση</button>
-      <button class="btn-sm primary" id="confirm-purchase-btn" onclick="confirmPurchase()">Καταγραφή</button>
-    </div>
+<div class="modal-actions">
+  <button class="btn-sm" onclick="document.getElementById('purchase-modal').classList.remove('open');document.body.style.overflow='';">Ακύρωση</button>
+  <button class="btn-sm primary" id="confirm-purchase-btn" onclick="confirmPurchase()">Καταγραφή</button>
+</div>
+```
+
   </div>
   </div><!-- end modal-scroll-wrap -->
 </div>
@@ -1348,6 +1328,14 @@ function showAppTab(id, btn) {
 // ── PURCHASES ──
 let purchasedItems = [];
 let purchFilter = 'all';
+let currentMetric = 'cost'; // 'cost' | 'items' | 'avg'
+
+function setMetric(metric, btn) {
+  currentMetric = metric;
+  document.querySelectorAll('.metric-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderPurchases();
+}
 
 async function loadPurchases() {
   const currentYear = new Date().getFullYear();
@@ -1379,20 +1367,67 @@ function renderPurchases() {
   const impulse      = items.filter(i => getPurchCat(i) === 'impulse');
   const replacements = items.filter(i => getPurchCat(i) === 'replacement');
 
-  // KPIs - items
-  document.getElementById('pk-total').textContent = total;
-  document.getElementById('pk-conscious').textContent = conscious.length;
-  document.getElementById('pk-small-thought').textContent = smallThought.length;
-  document.getElementById('pk-impulse').textContent = impulse.length;
-  document.getElementById('pk-replacement').textContent = replacements.length;
+  // Pre-compute values
+  const nC = conscious.length, n48 = smallThought.length, nI = impulse.length, nR = replacements.length;
+  const cC = conscious.reduce((s,i)=>s+(i.price||0),0);
+  const c48 = smallThought.reduce((s,i)=>s+(i.price||0),0);
+  const cI = impulse.reduce((s,i)=>s+(i.price||0),0);
+  const cR = replacements.reduce((s,i)=>s+(i.price||0),0);
+  const avgC  = nC  ? cC/nC   : 0;
+  const avg48 = n48 ? c48/n48 : 0;
+  const avgI  = nI  ? cI/nI   : 0;
+  const avgR  = nR  ? cR/nR   : 0;
+  const avgTot = total ? totalCost/total : 0;
 
-  // KPIs - cost
-  const fmt = n => n > 0 ? (n >= 1000 ? '€'+(n/1000).toFixed(1)+'k' : '€'+Math.round(n)) : '—';
-  document.getElementById('pk-cost').textContent = fmt(totalCost);
-  document.getElementById('pk-cost-conscious').textContent = fmt(conscious.reduce((s,i)=>s+(i.price||0),0) + replacements.reduce((s,i)=>s+(i.price||0),0));
-  document.getElementById('pk-cost-rule48').textContent = fmt(smallThought.reduce((s,i)=>s+(i.price||0),0));
-  document.getElementById('pk-cost-impulse').textContent = fmt(impulse.reduce((s,i)=>s+(i.price||0),0));
-  document.getElementById('pk-cost-repl').textContent = fmt(replacements.reduce((s,i)=>s+(i.price||0),0));
+  const fmtE = n => n >= 1000 ? '€'+(n/1000).toFixed(1)+'k' : n > 0 ? '€'+Math.round(n) : '—';
+  const fmtA = n => n > 0 ? '€'+Math.round(n) : '—';
+  const fmtN = n => n || '—';
+
+  // Dynamic metric row
+  const metricConfigs = {
+    cost:  { title:'Κόστος', totalVal: fmtE(totalCost), cVal: fmtE(cC), r48Val: fmtE(c48), iVal: fmtE(cI), rVal: fmtE(cR), sep:'+' },
+    items: { title:'Τεμάχια', totalVal: total, cVal: fmtN(nC), r48Val: fmtN(n48), iVal: fmtN(nI), rVal: fmtN(nR), sep:'+' },
+    avg:   { title:'Μέσο κόστος / τεμάχιο', totalVal: fmtA(avgTot), cVal: fmtA(avgC), r48Val: fmtA(avg48), iVal: fmtA(avgI), rVal: fmtA(avgR), sep:'·' },
+  };
+  const mc = metricConfigs[currentMetric] || metricConfigs.cost;
+  document.getElementById('metric-row-title').textContent = mc.title;
+  document.getElementById('metric-row').innerHTML = `
+    <div class="purch-compare-card total" style="min-width:54px;"><div class="purch-compare-num">${mc.totalVal}</div><div class="purch-compare-lbl">Σύνολο</div></div>
+    <div class="purch-compare-sep">＝</div>
+    <div class="purch-compare-card conscious" style="min-width:54px;"><div class="purch-compare-num">${mc.cVal}</div><div class="purch-compare-lbl">Conscious</div></div>
+    <div class="purch-compare-sep">${mc.sep}</div>
+    <div class="purch-compare-card rule48" style="min-width:54px;"><div class="purch-compare-num">${mc.r48Val}</div><div class="purch-compare-lbl">48h Rule</div></div>
+    <div class="purch-compare-sep">${mc.sep}</div>
+    <div class="purch-compare-card impulse" style="min-width:54px;"><div class="purch-compare-num">${mc.iVal}</div><div class="purch-compare-lbl">Impulse</div></div>
+    <div class="purch-compare-sep">${mc.sep}</div>
+    <div class="purch-compare-card repl" style="min-width:54px;"><div class="purch-compare-num">${mc.rVal}</div><div class="purch-compare-lbl">Repl.</div></div>`;
+
+  // Overall comment — metric-aware
+  let overallComment = '';
+  if (total > 0) {
+    if (currentMetric === 'cost') {
+      const domCost = Math.max(cC, c48, cI);
+      if (cI === 0) overallComment = `🌟 Zero impulse spending this year — every euro was intentional. Keep it up!`;
+      else if (cC === domCost) overallComment = `✨ Most of your spending (${fmtE(cC)}) went to conscious purchases. Your budget is working for your wardrobe!`;
+      else if (c48 === domCost) overallComment = `🤔 Your biggest spend is in the 48h Rule category (${fmtE(c48)}). You're learning to wait — now stretch to 2 months to see if the desire fades!`;
+      else overallComment = `⚡ ${fmtE(cI)} spent on impulse purchases. That money could have gone to fewer, better pieces — try the 48h rule for the next one.`;
+    } else if (currentMetric === 'items') {
+      const domN = Math.max(nC, n48, nI);
+      if (nI === 0) overallComment = `🌟 Zero impulse purchases this year! Every single item was a considered decision.`;
+      else if (nC === domN) overallComment = `✨ ${nC} out of ${total} purchases were conscious decisions. You're building a wardrobe with intention!`;
+      else if (n48 === domN) overallComment = `🤔 Most of your purchases (${n48}) followed the 48h rule. Great progress — next step: stretch that wait to 2 months!`;
+      else overallComment = `⚡ ${nI} out of ${total} purchases were impulse buys. Awareness is the first step — try pausing before the next one.`;
+    } else {
+      const domAvg = Math.max(avgC, avg48, avgI);
+      if (nI === 0) overallComment = `🌟 No impulse purchases — a clean and intentional year!`;
+      else if (avg48 > 0 && avg48 === domAvg) overallComment = `🤔 Interesting: your 48h Rule purchases have the highest avg cost (${fmtA(avg48)}). You wait, but you still spend big — try the full 2-month rule to test if the desire truly fades.`;
+      else if (avgI === domAvg) overallComment = `⚡ Your impulse purchases average ${fmtA(avgI)} each — the highest per-item cost. Pausing 48h before buying could save you real money.`;
+      else overallComment = `✨ Your conscious purchases have the highest avg cost (${fmtA(avgC)}) — which makes sense. You invest more thoughtfully when you take your time.`;
+    }
+  }
+  const overallEl = document.getElementById('purch-overall-comment');
+  if (overallEl) overallEl.innerHTML = overallComment
+    ? `<div class="insight-card"><span class="insight-msg">${overallComment}</span></div>` : '';
 
   // Category breakdown
   // Category grouping map
@@ -1431,93 +1466,115 @@ function renderPurchases() {
   } else if (impulse.length === 0) {
     overallComment = `🌟 Zero impulse purchases this year — your patience is paying off. Keep going!`;
   } else if (consciousRate >= 60) {
-    overallComment = `✨ ${consciousRate}% of your purchases were conscious decisions. Keep it up — conscious shopping is the best investment you can make in your wardrobe.`;
+    overallComment = `✨ ${consciousRate}% of your purchases were conscious decisions. Keep it up!`;
   } else if (rule48Rate >= impulseRate) {
-    overallComment = `🤔 It's great that you've learned to wait 48 hours. ${rule48Rate}% of your purchases followed the 48h rule — let's see if you can shift some of those to 2 months!`;
+    overallComment = `🤔 It's great that you've learned to wait 48 hours. Let's shift to 2 months!`;
   } else {
-    overallComment = `⚡ ${impulseRate}% of your purchases were made within 48 hours. Still working on pausing before every purchase? Try the 48-hour rule for the next one — you might surprise yourself.`;
+    overallComment = `⚡ ${impulseRate}% impulse. Try the 48-hour rule for the next one.`;
   }
   const overallEl = document.getElementById('purch-overall-comment');
   if (overallEl) overallEl.innerHTML = overallComment
-    ? `<div class="insight-card"><span class="insight-msg">${overallComment}</span></div>`
-    : '';
+    ? `<div class="insight-card"><span class="insight-msg">${overallComment}</span></div>` : '';
 
   function getCatComment(d) {
-    const total = d.conscious + d.rule48 + d.impulse || 1;
-    const consciousPct = d.conscious / total;
-    const rule48Pct    = d.rule48 / total;
-    const impulsePct   = d.impulse / total;
-    const dominant = consciousPct >= rule48Pct && consciousPct >= impulsePct ? 'conscious'
-      : rule48Pct >= impulsePct ? 'rule48' : 'impulse';
-    if (dominant === 'conscious')
-      return '✨ Keep it up — conscious shopping is the best investment you can make in your wardrobe.';
-    if (dominant === 'rule48')
-      return '🤔 It\'s great that you\'ve learned to wait 48 hours. Now let\'s see if you can stretch that to 2 months!';
-    return '⚡ Still working on pausing before every purchase? Try the 48-hour rule for the next one — you might surprise yourself.';
+    if (currentMetric === 'cost') {
+      const dom = Math.max(d.conscious, d.rule48, d.impulse);
+      if (d.impulse === 0) return '✨ Keep it up — conscious shopping is the best investment you can make in your wardrobe.';
+      if (d.conscious === dom) return '✨ Most spending here is conscious — your patience is paying off in this category.';
+      if (d.rule48 === dom) return "🤔 The 48h Rule dominates this category's spending. You're learning to wait — now stretch to 2 months!";
+      return '⚡ Most spending here is impulse. Try the 48-hour rule before the next purchase in this category.';
+    } else if (currentMetric === 'items') {
+      const dom = Math.max(d.nConscious, d.nRule48, d.nImpulse);
+      if (d.nImpulse === 0) return '✨ Zero impulse purchases in this category — great discipline!';
+      if (d.nConscious === dom) return '✨ Most items here were conscious decisions. This category is well managed!';
+      if (d.nRule48 === dom) return '🤔 Most items followed the 48h rule here. Next step: hold out for the full 2 months!';
+      return '⚡ Most items here were impulse buys. This category needs the most attention.';
+    } else { // avg
+      const avgCC = d.nConscious ? d.conscious/d.nConscious : 0;
+      const avg48 = d.nRule48 ? d.rule48/d.nRule48 : 0;
+      const avgII = d.nImpulse ? d.impulse/d.nImpulse : 0;
+      const dom = Math.max(avgCC, avg48, avgII);
+      if (d.nImpulse === 0) return '✨ No impulse purchases here — every item was a deliberate choice.';
+      if (avg48 > 0 && avg48 === dom) return `🤔 48h Rule items cost the most per piece here (€${Math.round(avg48)}). Waiting longer might change your mind on the price tag.`;
+      if (avgII === dom) return `⚡ Impulse items have the highest avg cost here (€${Math.round(avgII)}). Pausing before buying could save the most in this category.`;
+      return `✨ Conscious items have the highest avg cost (€${Math.round(avgCC)}) — deliberate spending, deliberate value.`;
+    }
   }
 
-  document.getElementById('purch-by-category').innerHTML = catSorted.length
-    ? catSorted.map(([cat, d]) => {
+  // Sort & display categories based on metric
+  const catEntries = Object.entries(catMap);
+  const sortedForDisplay = currentMetric === 'items'
+    ? catEntries.sort((a,b) => b[1].count - a[1].count)
+    : currentMetric === 'avg'
+    ? catEntries.sort((a,b) => { const aA=a[1].count?a[1].cost/a[1].count:0, bA=b[1].count?b[1].cost/b[1].count:0; return bA-aA; })
+    : catEntries.sort((a,b) => b[1].cost - a[1].cost);
+
+  const maxBar = currentMetric === 'items'
+    ? Math.max(...sortedForDisplay.map(([,d])=>d.count), 1)
+    : currentMetric === 'avg'
+    ? Math.max(...sortedForDisplay.map(([,d])=>d.count?d.cost/d.count:0), 1)
+    : Math.max(...sortedForDisplay.map(([,d])=>d.cost), 1);
+
+  function catRowHtml(d, sep) {
+    if (currentMetric === 'cost') {
+      const fC = n => n > 0 ? '€'+Math.round(n) : '—';
+      return `<div class="purch-compare-row" style="overflow:visible;">
+        <div class="purch-compare-card total" style="min-width:46px;"><div class="purch-compare-num">€${Math.round(d.cost)}</div><div class="purch-compare-lbl">Σύνολο</div></div>
+        <div class="purch-compare-sep">=</div>
+        <div class="purch-compare-card conscious" style="min-width:46px;"><div class="purch-compare-num">${fC(d.conscious)}</div><div class="purch-compare-lbl">Conscious</div></div>
+        <div class="purch-compare-sep">+</div>
+        <div class="purch-compare-card rule48" style="min-width:46px;"><div class="purch-compare-num">${fC(d.rule48)}</div><div class="purch-compare-lbl">48h Rule</div></div>
+        <div class="purch-compare-sep">+</div>
+        <div class="purch-compare-card impulse" style="min-width:46px;"><div class="purch-compare-num">${fC(d.impulse)}</div><div class="purch-compare-lbl">Impulse</div></div>
+      </div>`;
+    } else if (currentMetric === 'items') {
+      return `<div class="purch-compare-row" style="overflow:visible;">
+        <div class="purch-compare-card total" style="min-width:46px;"><div class="purch-compare-num">${d.count}</div><div class="purch-compare-lbl">Σύνολο</div></div>
+        <div class="purch-compare-sep">=</div>
+        <div class="purch-compare-card conscious" style="min-width:46px;"><div class="purch-compare-num">${d.nConscious||'—'}</div><div class="purch-compare-lbl">Conscious</div></div>
+        <div class="purch-compare-sep">+</div>
+        <div class="purch-compare-card rule48" style="min-width:46px;"><div class="purch-compare-num">${d.nRule48||'—'}</div><div class="purch-compare-lbl">48h Rule</div></div>
+        <div class="purch-compare-sep">+</div>
+        <div class="purch-compare-card impulse" style="min-width:46px;"><div class="purch-compare-num">${d.nImpulse||'—'}</div><div class="purch-compare-lbl">Impulse</div></div>
+      </div>`;
+    } else {
+      const fA = n => n > 0 ? '€'+Math.round(n) : '—';
+      const avgCC=d.nConscious?d.conscious/d.nConscious:0, avg48=d.nRule48?d.rule48/d.nRule48:0, avgII=d.nImpulse?d.impulse/d.nImpulse:0;
+      const avgTotCat = d.count ? d.cost/d.count : 0;
+      return `<div class="purch-compare-row" style="overflow:visible;">
+        <div class="purch-compare-card total" style="min-width:46px;"><div class="purch-compare-num">${fA(avgTotCat)}</div><div class="purch-compare-lbl">Μέσο</div></div>
+        <div class="purch-compare-sep">·</div>
+        <div class="purch-compare-card conscious" style="min-width:46px;"><div class="purch-compare-num">${fA(avgCC)}</div><div class="purch-compare-lbl">Conscious</div></div>
+        <div class="purch-compare-sep">·</div>
+        <div class="purch-compare-card rule48" style="min-width:46px;"><div class="purch-compare-num">${fA(avg48)}</div><div class="purch-compare-lbl">48h Rule</div></div>
+        <div class="purch-compare-sep">·</div>
+        <div class="purch-compare-card impulse" style="min-width:46px;"><div class="purch-compare-num">${fA(avgII)}</div><div class="purch-compare-lbl">Impulse</div></div>
+      </div>`;
+    }
+  }
+
+  document.getElementById('purch-by-category').innerHTML = sortedForDisplay.length
+    ? sortedForDisplay.map(([cat, d]) => {
         const comment = getCatComment(d);
-        const fmtC = n => n > 0 ? '€'+Math.round(n) : '—';
+        const barPct = currentMetric === 'items' ? Math.round(d.count/maxBar*100)
+          : currentMetric === 'avg' ? Math.round((d.count?d.cost/d.count:0)/maxBar*100)
+          : Math.round(d.cost/maxBar*100);
+        const headerVal = currentMetric === 'items' ? d.count
+          : currentMetric === 'avg' ? (d.count ? '€'+Math.round(d.cost/d.count) : '—')
+          : '€'+Math.round(d.cost);
         return `<div class="cat-card">
           <div class="cat-card-header">
             <div class="cat-card-name">${escHtml(cat)} <span style="color:var(--text-dim);font-size:10px">(${d.count})</span></div>
-            <div class="cat-card-total">€${Math.round(d.cost).toLocaleString('el-GR')}</div>
+            <div class="cat-card-total">${headerVal}</div>
           </div>
-          <div class="cat-bar-track"><div class="cat-bar-fill" style="width:${Math.round(d.cost/maxCost*100)}%"></div></div>
-
-          <div style="font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);margin:8px 0 4px;">Τεμάχια</div>
-          <div class="purch-compare-row" style="margin-bottom:8px;overflow:visible;">
-            <div class="purch-compare-card total" style="min-width:46px;">
-              <div class="purch-compare-num">${d.count}</div>
-              <div class="purch-compare-lbl">Σύνολο</div>
-            </div>
-            <div class="purch-compare-sep">=</div>
-            <div class="purch-compare-card conscious" style="min-width:46px;">
-              <div class="purch-compare-num">${d.nConscious||'—'}</div>
-              <div class="purch-compare-lbl">Conscious</div>
-            </div>
-            <div class="purch-compare-sep">+</div>
-            <div class="purch-compare-card rule48" style="min-width:46px;">
-              <div class="purch-compare-num">${d.nRule48||'—'}</div>
-              <div class="purch-compare-lbl">48h Rule</div>
-            </div>
-            <div class="purch-compare-sep">+</div>
-            <div class="purch-compare-card impulse" style="min-width:46px;">
-              <div class="purch-compare-num">${d.nImpulse||'—'}</div>
-              <div class="purch-compare-lbl">Impulse</div>
-            </div>
-          </div>
-
-          <div style="font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);margin-bottom:4px;">Κόστος</div>
-          <div class="purch-compare-row" style="overflow:visible;">
-            <div class="purch-compare-card total" style="min-width:46px;">
-              <div class="purch-compare-num">€${Math.round(d.cost)}</div>
-              <div class="purch-compare-lbl">Σύνολο</div>
-            </div>
-            <div class="purch-compare-sep">=</div>
-            <div class="purch-compare-card conscious" style="min-width:46px;">
-              <div class="purch-compare-num">${fmtC(d.conscious)}</div>
-              <div class="purch-compare-lbl">Conscious</div>
-            </div>
-            <div class="purch-compare-sep">+</div>
-            <div class="purch-compare-card rule48" style="min-width:46px;">
-              <div class="purch-compare-num">${fmtC(d.rule48)}</div>
-              <div class="purch-compare-lbl">48h Rule</div>
-            </div>
-            <div class="purch-compare-sep">+</div>
-            <div class="purch-compare-card impulse" style="min-width:46px;">
-              <div class="purch-compare-num">${fmtC(d.impulse)}</div>
-              <div class="purch-compare-lbl">Impulse</div>
-            </div>
-          </div>
+          <div class="cat-bar-track"><div class="cat-bar-fill" style="width:${barPct}%"></div></div>
+          <div style="margin-top:8px;">${catRowHtml(d)}</div>
           <div class="cat-comment" style="margin-top:10px;">${comment}</div>
         </div>`;
       }).join('')
     : '<div style="color:var(--text-dim);font-size:11px;padding:8px 0">Καμία αγορά ακόμα φέτος</div>';
 
-  // Sort by date newest first
+    // Sort by date newest first
   let filtered = [...items].sort((a,b) => (b.purchased_at||'').localeCompare(a.purchased_at||''));
   if (purchFilter === 'conscious')     filtered = conscious.slice().sort((a,b)=>(b.purchased_at||'').localeCompare(a.purchased_at||''));
   else if (purchFilter === 'small-thought') filtered = smallThought.slice().sort((a,b)=>(b.purchased_at||'').localeCompare(a.purchased_at||''));
@@ -1663,12 +1720,15 @@ function escHtml(str) {
 </script>
 
 <!-- Google tag (gtag.js) -->
+
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-DBRDY0FNX7"></script>
+
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'G-DBRDY0FNX7');
 </script>
+
 </body>
 </html>

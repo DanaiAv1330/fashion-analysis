@@ -1334,7 +1334,9 @@ async function saveItem() {
   const btn = document.getElementById('item-save-btn');
   btn.disabled = true; btn.textContent = '…';
 
-  let photoUrl = null;
+  // Keep existing photo URL when editing and no new photo uploaded
+  const existingItem = editingItemId ? allItems.find(i => i.id === editingItemId) : null;
+  let photoUrl = existingItem ? existingItem.photo_url : null;
 
   if (uploadedPhotoFile) {
     const ext = uploadedPhotoFile.name.split('.').pop();

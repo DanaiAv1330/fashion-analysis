@@ -705,12 +705,12 @@ body{padding-bottom:0;}
   <div class="dash-subpanel" id="dash-purchases">
     <div style="font-family:var(--font-serif);font-size:16px;font-weight:300;margin-bottom:14px;">Αγορές ανά <em style="color:var(--accent);font-style:italic">Μήνα</em></div>
     <div class="chart-card" style="margin-bottom:12px;">
-      <div class="chart-title">Πόσα κομμάτια αγόρασα ανά μήνα (όλα τα χρόνια)</div>
-      <div id="purchase-by-month-chart" class="purchase-month-chart"></div>
+      <div class="chart-title">Τεμάχια ανά μήνα (όλα τα χρόνια)</div>
+      <div id="purchase-by-month-chart"></div>
     </div>
     <div class="chart-card" style="margin-bottom:12px;">
-      <div class="chart-title">Αγορές ανά Χρονιά</div>
-      <div id="purchase-by-year-chart" class="bar-chart" style="height:100px;padding-bottom:20px;"></div>
+      <div class="chart-title">Τεμάχια ανά Χρονιά</div>
+      <div id="purchase-by-year-chart"></div>
     </div>
     <div class="section-title">Μήνας με τις περισσότερες αγορές ανά κατηγορία</div>
     <div class="chart-card" style="margin-bottom:12px;"><div id="purchase-by-cat-month"></div></div>
@@ -1754,12 +1754,35 @@ function loadScoresDash(){
 
 // PURCHASES
 function loadPurchasesDash(){
+  // ── ΑΓΟΡΕΣ ΑΝΑ ΜΗΝΑ — horizontal bars ──
   const mc=new Array(12).fill(0);allItems.forEach(i=>{if(i.purchase_month)mc[i.purchase_month-1]++;});
   const maxM=Math.max(...mc,1);
-  document.getElementById('purchase-by-month-chart').innerHTML=mc.map((v,i)=>{const h=v>0?Math.max(3,Math.round(v/maxM*70)):0,pk=v===Math.max(...mc)&&v>0;return`<div class="pm-col"><div class="pm-bar-val">${v>0?v:''}</div><div class="pm-bar${pk?' hi':''}" style="height:${h}px;width:100%;"></div><div class="pm-bar-lbl">${MN_SHORT[i]}</div></div>`;}).join('');
+  document.getElementById('purchase-by-month-chart').innerHTML=MN_SHORT.map((mn,i)=>{
+    const v=mc[i],pct=Math.round(v/maxM*100);
+    const isPeak=v===maxM&&v>0;
+    return`<div style="display:flex;align-items:center;gap:8px;margin-bottom:7px;">
+      <div style="font-size:11px;color:var(--text-muted);width:36px;flex-shrink:0;">${mn}</div>
+      <div style="flex:1;height:10px;background:var(--surface3);border-radius:5px;overflow:hidden;">
+        <div style="height:100%;width:${pct}%;background:${isPeak?'var(--accent)':'var(--accent-light)'};border-radius:5px;"></div>
+      </div>
+      <div style="font-size:11px;color:var(--text);width:28px;text-align:right;flex-shrink:0;font-weight:${isPeak?'500':'300'};">${v||''}</div>
+    </div>`;
+  }).join('');
+
+  // ── ΑΓΟΡΕΣ ΑΝΑ ΧΡΟΝΙΑ — horizontal bars ──
   const yc={};allItems.forEach(i=>{if(i.purchase_year)yc[i.purchase_year]=(yc[i.purchase_year]||0)+1;});
-  const ys=Object.entries(yc).sort((a,b)=>a[0]-b[0]),maxY=Math.max(...ys.map(([,v])=>v),1);
-  document.getElementById('purchase-by-year-chart').innerHTML=ys.map(([year,v])=>{const h=v>0?Math.max(4,Math.round(v/maxY*80)):0,pk=v===maxY;return`<div class="bar-col"><div class="bar-val">${v}</div><div class="bar${pk?' hi':''}" style="height:${h}px"></div><div class="bar-lbl">${String(year).slice(2)}</div></div>`;}).join('');
+  const ys=Object.entries(yc).sort((a,b)=>a[0]-b[0]);
+  const maxY=Math.max(...ys.map(([,v])=>v),1);
+  document.getElementById('purchase-by-year-chart').innerHTML=ys.map(([year,v])=>{
+    const pct=Math.round(v/maxY*100),isPeak=v===maxY;
+    return`<div style="display:flex;align-items:center;gap:8px;margin-bottom:7px;">
+      <div style="font-size:11px;color:var(--text-muted);width:36px;flex-shrink:0;">${year}</div>
+      <div style="flex:1;height:10px;background:var(--surface3);border-radius:5px;overflow:hidden;">
+        <div style="height:100%;width:${pct}%;background:${isPeak?'var(--accent)':'var(--accent-light)'};border-radius:5px;"></div>
+      </div>
+      <div style="font-size:11px;color:var(--text);width:28px;text-align:right;flex-shrink:0;font-weight:${isPeak?'500':'300'};">${v}</div>
+    </div>`;
+  }).join('');
   const cats=Object.keys(CATEGORIES);
   document.getElementById('purchase-by-cat-month').innerHTML=cats.map(cat=>{
     const ci=allItems.filter(i=>(i.cat1||i.category)===cat&&i.purchase_month);if(!ci.length)return'';

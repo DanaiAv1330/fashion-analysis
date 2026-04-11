@@ -591,7 +591,7 @@ body{padding-bottom:0;}
     <div class="dashboard">
       <div class="dash-subtabs">
         <button class="dash-subtab active" onclick="showDashSub('month',this)">📅 Ανά Μήνα</button>
-        <button class="dash-subtab" onclick="showDashSub('total',this)">∑ Σύνολο</button>
+        <button class="dash-subtab" onclick="showDashSub('total',this)">📈 Ανάλυση Περιόδου</button>
         <button class="dash-subtab" onclick="showDashSub('scores',this)">⭐ Score</button>
         <button class="dash-subtab" onclick="showDashSub('purchases',this)">🛍 Αγορές</button>
         <button class="dash-subtab" onclick="showDashSub('import',this)">📥 Import</button>
@@ -644,25 +644,31 @@ body{padding-bottom:0;}
       <input type="month" class="range-input" id="range-to" onchange="loadTotalDash()">
     </div>
     <div class="kpi-grid">
-      <div class="kpi-card good-k"><div class="kpi-label">Avg Utilization</div><div class="kpi-value" id="t-util">—</div><div class="kpi-sub" id="t-util-sub">—</div></div>
-      <div class="kpi-card"><div class="kpi-label">Avg CPW</div><div class="kpi-value" id="t-cpw">—</div></div>
-      <div class="kpi-card alert"><div class="kpi-label">Dormant Capital</div><div class="kpi-value" id="t-dormant">—</div><div class="kpi-sub" id="t-dormant-sub">—</div></div>
-      <div class="kpi-card"><div class="kpi-label">Συν. Επένδυση</div><div class="kpi-value" id="t-invest">—</div><div class="kpi-sub" id="t-invest-sub">—</div></div>
-      <div class="kpi-card"><div class="kpi-label">Συν. Χρήσεις</div><div class="kpi-value" id="t-uses">—</div></div>
+      <div class="kpi-card good-k"><div class="kpi-label">Utilization Rate</div><div class="kpi-value" id="t-util">—</div><div class="kpi-sub" id="t-util-sub">—</div></div>
+      <div class="kpi-card good-k"><div class="kpi-label">Active Capital περιόδου</div><div class="kpi-value" id="t-active">—</div><div class="kpi-sub" id="t-active-sub">αξία φορεμένων</div></div>
+      <div class="kpi-card alert"><div class="kpi-label">Dormant Capital περιόδου</div><div class="kpi-value" id="t-dormant">—</div><div class="kpi-sub" id="t-dormant-sub">δεν φορέθηκαν</div></div>
+      <div class="kpi-card"><div class="kpi-label">Avg Cost Worn περιόδου</div><div class="kpi-value" id="t-cost-worn">—</div><div class="kpi-sub">μέσο κόστος φορεμένων</div></div>
+      <div class="kpi-card alert"><div class="kpi-label">Avg Cost Unworn περιόδου</div><div class="kpi-value" id="t-cost-unworn">—</div><div class="kpi-sub">μέσο κόστος αφόρετων</div></div>
+      <div class="kpi-card"><div class="kpi-label">Avg CPW φορεμένων</div><div class="kpi-value" id="t-cpw">—</div><div class="kpi-sub">ρούχα που φορέθηκαν</div></div>
+      <div class="kpi-card"><div class="kpi-label">Αξία ντουλάπας</div><div class="kpi-value" id="t-invest">—</div><div class="kpi-sub" id="t-invest-sub">—</div></div>
+      <div class="kpi-card"><div class="kpi-label">Μέση ηλικία φορεμένων</div><div class="kpi-value" id="t-avg-age">—</div></div>
     </div>
     <div class="kpi-grid" style="margin-bottom:12px;">
-      <div class="kpi-card"><div class="kpi-label">Avg Cost Worn</div><div class="kpi-value" id="t-cost-worn">—</div></div>
-      <div class="kpi-card alert"><div class="kpi-label">Avg Cost Unworn</div><div class="kpi-value" id="t-cost-unworn">—</div></div>
+      <div class="kpi-card score-k"><div class="kpi-label">Avg Usage Rate περιόδου</div><div class="kpi-value" id="t-usage-rate">—</div><div class="kpi-sub">χρήσεις/ρούχο</div></div>
+      <div class="kpi-card score-k"><div class="kpi-label">Avg Versatility περιόδου</div><div class="kpi-value" id="t-versatility">—</div><div class="kpi-sub">/10</div></div>
+      <div class="kpi-card score-k"><div class="kpi-label">Avg Conscious (γενικό)</div><div class="kpi-value" id="t-conscious">—</div><div class="kpi-sub">/10</div></div>
+      <div class="kpi-card score-k"><div class="kpi-label">Avg Score φορεμένων</div><div class="kpi-value" id="t-avg-score">—</div><div class="kpi-sub">/30</div></div>
     </div>
     <div class="charts-row three">
       <div class="chart-card"><div class="chart-title">Χρήσεις ανά μήνα</div><div class="bar-chart" id="monthly-bars"></div></div>
-      <div class="chart-card"><div class="chart-title">Κατηγορίες (σύνολο)</div><div class="pie-wrap"><div class="pie" id="t-cat-pie" style="width:68px;height:68px;border-radius:50%;position:relative;flex-shrink:0;background:var(--surface3);"></div><div class="legend" id="t-cat-legend"></div></div></div>
-      <div class="chart-card"><div class="chart-title">Χρώματα (σύνολο)</div><div class="pie-wrap"><div class="pie" id="t-color-pie" style="width:68px;height:68px;border-radius:50%;position:relative;flex-shrink:0;background:var(--surface3);"></div><div class="legend" id="t-color-legend"></div></div></div>
+      <div class="chart-card"><div class="chart-title">Κατηγορίες περιόδου</div><div class="pie-wrap"><div class="pie" id="t-cat-pie" style="width:68px;height:68px;border-radius:50%;position:relative;flex-shrink:0;background:var(--surface3);"></div><div class="legend" id="t-cat-legend"></div></div></div>
+      <div class="chart-card"><div class="chart-title">Χρώματα περιόδου</div><div class="pie-wrap"><div class="pie" id="t-color-pie" style="width:68px;height:68px;border-radius:50%;position:relative;flex-shrink:0;background:var(--surface3);"></div><div class="legend" id="t-color-legend"></div></div></div>
     </div>
-    <div class="section-title">Top κομμάτια — καλύτερο CPW</div>
-    <div class="cpw-table" id="cpw-table-total"><div class="loading"><div class="spinner"></div></div></div>
+    <div class="section-title">🏆 Top 5 χρήσεις περιόδου</div>
+    <div class="cpw-table" id="cpw-table-total"></div>
+    <div class="section-title">⚠ Top 5 αφόρετα περιόδου (βάσει αξίας)</div>
+    <div class="dormant-grid" id="t-dormant-grid" style="grid-template-columns:repeat(2,1fr);"></div>
   </div>
-
   <!-- SCORES -->
   <div class="dash-subpanel" id="dash-scores">
     <div class="kpi-grid" style="margin-bottom:16px;">
@@ -1230,37 +1236,141 @@ function loadMonthDash(){
 function changeDashMonth(dir){dashMonth+=dir;if(dashMonth>11){dashMonth=0;dashYear++;}if(dashMonth<0){dashMonth=11;dashYear--;}loadMonthDash();}
 function selectDashMonth(val){const[y,m]=val.split('-').map(Number);dashYear=y;dashMonth=m;loadMonthDash();}
 function initTotalDash(){
-  const now=new Date(),from=new Date(now.getFullYear()-1,now.getMonth(),1);
-  document.getElementById('range-from').value=`${from.getFullYear()}-${String(from.getMonth()+1).padStart(2,'0')}`;
+  const now=new Date();
+  // Default: Jan 2026 → current month
+  document.getElementById('range-from').value='2026-01';
   document.getElementById('range-to').value=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+  loadTotalDash();
 }
 function loadTotalDash(){
-  const fv=document.getElementById('range-from').value,tv=document.getElementById('range-to').value;if(!fv||!tv)return;
-  const fd=new Date(fv+'-01'),td=new Date(tv+'-01');td.setMonth(td.getMonth()+1);
+  const fv=document.getElementById('range-from').value,toVal=document.getElementById('range-to').value;
+  if(!fv||!toVal)return;
+  const fd=new Date(fv+'-01'),td=new Date(toVal+'-01');td.setMonth(td.getMonth()+1);
+
+  // All wear logs in range
   const rl=wearLogs.filter(l=>{const d=new Date(l.worn_date);return d>=fd&&d<td;});
-  const ti=allItems.length,wi=new Set(rl.map(l=>l.wardrobe_item_id)).size;
-  document.getElementById('t-util').textContent=`${ti?Math.round(wi/ti*100):0}%`;document.getElementById('t-util-sub').textContent=`${wi}/${ti} κομμάτια`;
-  const cpws=allItems.map(i=>getCPW(i)).filter(Boolean);document.getElementById('t-cpw').textContent=cpws.length?`€${(cpws.reduce((a,b)=>a+b,0)/cpws.length).toFixed(2)}`:'—';
-  const di=allItems.filter(i=>isDormant(i));document.getElementById('t-dormant').textContent=`€${di.reduce((s,i)=>s+(i.price||0),0).toLocaleString('el-GR')}`;document.getElementById('t-dormant-sub').textContent=`${di.length} κομμάτια`;
-  const tv2=allItems.reduce((s,i)=>s+(i.price||0),0);document.getElementById('t-invest').textContent=`€${tv2.toLocaleString('el-GR')}`;document.getElementById('t-invest-sub').textContent=`${ti} κομμάτια`;
-  document.getElementById('t-uses').textContent=rl.length;
-  // Monthly bars
-  const mm={};rl.forEach(l=>{const d=new Date(l.worn_date);const k=`${d.getFullYear()}-${d.getMonth()}`;mm[k]=(mm[k]||0)+1;});
-  const months=[];let cur=new Date(fd);while(cur<td){months.push({key:`${cur.getFullYear()}-${cur.getMonth()}`,label:MN_SHORT[cur.getMonth()]});cur.setMonth(cur.getMonth()+1);}
+
+  // Items worn / unworn in period
+  const wornIds=new Set(rl.map(l=>l.wardrobe_item_id));
+  const wornItems=allItems.filter(i=>wornIds.has(i.id));
+  const unwornItems=allItems.filter(i=>!wornIds.has(i.id));
+  const ti=allItems.length,wi=wornItems.length;
+
+  // Total wardrobe value (always needed first)
+  const tv=allItems.reduce((s,i)=>s+(i.price||0),0);
+  document.getElementById('t-invest').textContent=`€${tv.toLocaleString('el-GR')}`;
+  document.getElementById('t-invest-sub').textContent=`${ti} κομμάτια`;
+
+  // Utilization
+  document.getElementById('t-util').textContent=`${ti?Math.round(wi/ti*100):0}%`;
+  document.getElementById('t-util-sub').textContent=`${wi}/${ti} κομμάτια`;
+
+  // Active Capital
+  const activeCapital=wornItems.reduce((s,i)=>s+(i.price||0),0);
+  const activePct=tv>0?Math.round(activeCapital/tv*100):0;
+  document.getElementById('t-active').textContent=`${activePct}%`;
+  document.getElementById('t-active-sub').textContent=`€${activeCapital.toLocaleString('el-GR')} ενεργό`;
+
+  // Dormant Capital
+  const dormantCapital=unwornItems.reduce((s,i)=>s+(i.price||0),0);
+  document.getElementById('t-dormant').textContent=`€${dormantCapital.toLocaleString('el-GR')}`;
+  document.getElementById('t-dormant-sub').textContent=`${unwornItems.length} κομμάτια`;
+
+  // Avg CPW (worn only)
+  const periodCpws=wornItems.map(i=>getCPW(i)).filter(Boolean);
+  const avgCpw=periodCpws.length?periodCpws.reduce((a,b)=>a+b,0)/periodCpws.length:null;
+  document.getElementById('t-cpw').textContent=avgCpw?`€${avgCpw.toFixed(2)}`:'—';
+
+  // Avg Cost Worn / Unworn
+  const avgWorn=wornItems.filter(i=>i.price).length?wornItems.filter(i=>i.price).reduce((s,i)=>s+i.price,0)/wornItems.filter(i=>i.price).length:null;
+  const avgUnworn=unwornItems.filter(i=>i.price).length?unwornItems.filter(i=>i.price).reduce((s,i)=>s+i.price,0)/unwornItems.filter(i=>i.price).length:null;
+  document.getElementById('t-cost-worn').textContent=avgWorn?`€${avgWorn.toFixed(0)}`:'—';
+  document.getElementById('t-cost-unworn').textContent=avgUnworn?`€${avgUnworn.toFixed(0)}`:'—';
+
+  // Avg age of worn items
+  document.getElementById('t-avg-age').textContent=wornItems.length?formatAge(getAvgAgeMonths(wornItems)):'—';
+
+  // Avg Usage Rate — total uses / worn items count
+  const periodUsageRate=wi>0?(rl.length/wi):null;
+  document.getElementById('t-usage-rate').textContent=periodUsageRate?periodUsageRate.toFixed(1):'—';
+
+  // Avg Versatility — unique combos within period per item
+  const periodVersScores=wornItems.map(item=>{
+    const itemLogs=rl.filter(l=>l.wardrobe_item_id===item.id);
+    if(!itemLogs.length)return null;
+    const partners=new Set();
+    itemLogs.forEach(log=>rl.filter(l=>l.worn_date===log.worn_date&&l.wardrobe_item_id!==item.id).forEach(l=>partners.add(l.wardrobe_item_id)));
+    const p=partners.size;
+    if(p===0)return 1;if(p===1)return 2;if(p===2)return 3;if(p<=4)return 4;if(p<=6)return 5;if(p<=9)return 6;if(p<=14)return 7;if(p<=19)return 8;if(p<=29)return 9;return 10;
+  }).filter(v=>v!==null);
+  const avgVers=periodVersScores.length?periodVersScores.reduce((a,b)=>a+b,0)/periodVersScores.length:null;
+  document.getElementById('t-versatility').textContent=avgVers?avgVers.toFixed(1):'—';
+
+  // Avg Conscious (general)
+  const{avgCons}=computeAggKPIs();
+  document.getElementById('t-conscious').textContent=avgCons?avgCons.toFixed(1):'—';
+
+  // Avg Wardrobe Score (worn only)
+  const periodScores=wornItems.map(i=>getWardrobeScore(i)).filter(v=>v!==null);
+  const avgScore=periodScores.length?periodScores.reduce((a,b)=>a+b.total,0)/periodScores.length:null;
+  document.getElementById('t-avg-score').textContent=avgScore?avgScore.toFixed(1):'—';
+
+  // Monthly bars — ALL months in range
+  const mm={};
+  rl.forEach(l=>{const d=new Date(l.worn_date);const k=`${d.getFullYear()}-${d.getMonth()}`;mm[k]=(mm[k]||0)+1;});
+  const months=[];let cur=new Date(fd);
+  while(cur<td){months.push({key:`${cur.getFullYear()}-${cur.getMonth()}`,label:MN_SHORT[cur.getMonth()]+' '+String(cur.getFullYear()).slice(2)});cur.setMonth(cur.getMonth()+1);}
   const maxM=Math.max(...months.map(m=>mm[m.key]||0),1);
-  document.getElementById('monthly-bars').innerHTML=months.slice(-8).map(m=>{const v=mm[m.key]||0,h=v>0?Math.max(4,Math.round(v/maxM*56)):0;return`<div class="bar-col"><div class="bar-val">${v>0?v:''}</div><div class="bar${v===maxM&&v>0?' hi':''}" style="height:${h}px"></div><div class="bar-lbl">${m.label}</div></div>`;}).join('');
-  // Total pies
-  const cca={},cla={};allItems.forEach(i=>{if(i.cat1)cca[i.cat1]=(cca[i.cat1]||0)+1;if(i.color)cla[i.color]=(cla[i.color]||0)+1;});
-  const catSA=Object.entries(cca).sort((a,b)=>b[1]-a[1]),catTA=catSA.reduce((s,[,v])=>s+v,0);
-  document.getElementById('t-cat-legend').innerHTML=catSA.map(([cat,cnt],i)=>`<div class="legend-item"><div class="legend-dot" style="background:${CAT_COLORS[i]||'#aaa'}"></div>${escHtml(cat)} ${catTA?Math.round(cnt/catTA*100):0}%</div>`).join('');
+  document.getElementById('monthly-bars').innerHTML=months.map(m=>{
+    const v=mm[m.key]||0,h=v>0?Math.max(4,Math.round(v/maxM*56)):0,isPeak=v===maxM&&v>0;
+    return`<div class="bar-col"><div class="bar-val">${v>0?v:''}</div><div class="bar${isPeak?' hi':''}" style="height:${h}px"></div><div class="bar-lbl">${m.label}</div></div>`;
+  }).join('');
+
+  // Pies — based on period wear logs
+  const cc={},clc={};
+  rl.forEach(l=>{const item=allItems.find(i=>i.id===l.wardrobe_item_id);if(item?.cat1)cc[item.cat1]=(cc[item.cat1]||0)+1;if(item?.color)clc[item.color]=(clc[item.color]||0)+1;});
+  const catSA=Object.entries(cc).sort((a,b)=>b[1]-a[1]).slice(0,8),catTA=catSA.reduce((s,[,v])=>s+v,0);
+  document.getElementById('t-cat-legend').innerHTML=catSA.map(([cat,cnt],i)=>`<div class="legend-item"><div class="legend-dot" style="background:${CAT_COLORS[i]||'#aaa'}"></div>${escHtml(cat)} ${catTA?Math.round(cnt/catTA*100):0}%</div>`).join('')||'<div style="color:var(--text-dim);font-size:10px">—</div>';
   buildPie('t-cat-pie',catSA,catTA,false);
-  const colorSA=Object.entries(cla).sort((a,b)=>b[1]-a[1]).slice(0,6),colorTA=colorSA.reduce((s,[,v])=>s+v,0);
-  document.getElementById('t-color-legend').innerHTML=colorSA.map(([col,cnt])=>`<div class="legend-item"><div class="legend-dot" style="background:${COLOR_HEX[col]||'#aaa'}"></div>${escHtml(col)} ${colorTA?Math.round(cnt/colorTA*100):0}%</div>`).join('');
+  const colorSA=Object.entries(clc).sort((a,b)=>b[1]-a[1]).slice(0,6),colorTA=colorSA.reduce((s,[,v])=>s+v,0);
+  document.getElementById('t-color-legend').innerHTML=colorSA.map(([col,cnt])=>`<div class="legend-item"><div class="legend-dot" style="background:${COLOR_HEX[col]||'#aaa'}"></div>${escHtml(col)} ${colorTA?Math.round(cnt/colorTA*100):0}%</div>`).join('')||'<div style="color:var(--text-dim);font-size:10px">—</div>';
   buildPie('t-color-pie',colorSA,colorTA,true);
-  const{avgWorn:tAW,avgUnworn:tAU}=calcAvgCostWornUnworn(rl);
-  document.getElementById('t-cost-worn').textContent=tAW?`€${tAW.toFixed(0)}`:'—';document.getElementById('t-cost-unworn').textContent=tAU?`€${tAU.toFixed(0)}`:'—';
-  document.getElementById('cpw-table-total').innerHTML=cpwTableHTML(allItems.map(i=>({item:i,cpw:getCPW(i),total:getTotalWear(i)})).filter(x=>x.cpw).sort((a,b)=>a.cpw-b.cpw).slice(0,8));
+
+  // Top 5 uses in period
+  const itemUsagePeriod=[];
+  wornIds.forEach(id=>{
+    const item=allItems.find(i=>i.id===id);if(!item)return;
+    const uses=rl.filter(l=>l.wardrobe_item_id===id).length;
+    itemUsagePeriod.push({item,uses});
+  });
+  itemUsagePeriod.sort((a,b)=>b.uses-a.uses);
+  const top5=itemUsagePeriod.slice(0,5),maxU=top5[0]?.uses||1;
+  document.getElementById('cpw-table-total').innerHTML=top5.length?top5.map(({item,uses})=>`
+    <div class="cpw-row" onclick="openItemModal('${item.id}')">
+      <div class="cpw-row-thumb">${item.photo_url?`<img src="${escHtml(item.photo_url)}" onerror="this.outerHTML='👗'">`:'👗'}</div>
+      <div class="cpw-row-body">
+        <div class="cpw-row-name">${escHtml(item.title)}</div>
+        <div class="cpw-row-sub">${[item.brand,item.cat2||item.cat1].filter(Boolean).join(' · ')}</div>
+      </div>
+      <div class="cpw-row-right">
+        <div class="cpw-v good">${uses}×</div>
+        <div class="prog-wrap"><div class="prog good" style="width:${Math.round(uses/maxU*100)}%"></div></div>
+      </div>
+    </div>`).join('')
+  :'<div style="padding:16px;color:var(--text-dim);font-size:11px;text-align:center">Καμία καταγραφή στην περίοδο</div>';
+
+  // Top 5 dormant (unworn in period) by value
+  const top5Dormant=unwornItems.filter(i=>i.price).sort((a,b)=>(b.price||0)-(a.price||0)).slice(0,5);
+  document.getElementById('t-dormant-grid').innerHTML=top5Dormant.length?top5Dormant.map(item=>`
+    <div class="dormant-card" onclick="openItemModal('${item.id}')">
+      ${item.photo_url?`<img src="${escHtml(item.photo_url)}" class="dormant-photo" onerror="this.outerHTML='<span style=\'font-size:20px\'>👗</span>'">`:'<span class="dormant-photo" style="font-size:20px">👗</span>'}
+      <div class="dormant-name">${escHtml(item.title)}</div>
+      <div class="dormant-days">${item.cat2||item.cat1||'—'}</div>
+      <div class="dormant-val">${item.price?`€${item.price}`:'—'}</div>
+    </div>`).join('')
+  :'<div style="color:var(--green-text);font-size:11px;padding:8px 0">🎉 Φόρεσες τα πάντα σε αυτή την περίοδο!</div>';
 }
+
 
 // SCORES
 function loadScoresDash(){

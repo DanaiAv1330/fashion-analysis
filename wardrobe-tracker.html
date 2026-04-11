@@ -260,10 +260,6 @@ body{font-family:var(--font-sans);font-weight:300;background:var(--bg);color:var
 .pm-bar-lbl{position:absolute;bottom:0;font-size:7px;color:var(–text-dim);text-align:center;width:100%;}
 
 /* SCORE DIST */
-.dist-chart{display:flex;align-items:flex-end;gap:2px;height:140px;margin-top:8px;}
-.dist-col-wrap{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;flex:1;min-width:0;}
-.dist-bar{width:100%;border-radius:2px 2px 0 0;background:var(–accent-light);}
-.dist-bar.peak{background:var(–accent);}
 .dist-empty{color:var(–text-dim);font-size:10px;width:100%;text-align:center;padding-top:20px;}
 .kpi-help{font-size:8px;color:var(–text-dim);margin-top:1px;font-style:italic;}
 
@@ -1722,15 +1718,15 @@ function loadScoresDash(){
     const el=document.getElementById(elId); if(!el) return;
     if(!values.length||!values.some(v=>v>0)){el.innerHTML='<div class="dist-empty">Δεν υπάρχουν δεδομένα</div>';return;}
     const maxV=Math.max(...values,1);
-    const CHART_H=100; // px available for bars
     el.innerHTML=values.map((v,i)=>{
-      const barH=v>0?Math.max(4,Math.round(v/maxV*CHART_H)):0;
+      const pct=Math.round(v/maxV*100);
       const isPeak=v===maxV&&v>0;
-      const label=labels[i];
-      return `<div class="dist-col-wrap">
-        <div style="font-size:8px;color:var(--text-muted);height:16px;display:flex;align-items:flex-end;justify-content:center;">${v>0?v:''}</div>
-        <div class="dist-bar${isPeak?' peak':''}" style="height:${barH}px;"></div>
-        <div style="font-size:6px;color:var(--text-dim);text-align:center;margin-top:3px;line-height:1.2;">${label}</div>
+      return`<div style="display:flex;align-items:center;gap:8px;margin-bottom:7px;">
+        <div style="font-size:11px;color:var(--text-muted);width:44px;flex-shrink:0;text-align:right;">${labels[i]}</div>
+        <div style="flex:1;height:10px;background:var(--surface3);border-radius:5px;overflow:hidden;">
+          <div style="height:100%;width:${pct}%;background:${isPeak?'var(--accent)':'var(--accent-light)'};border-radius:5px;"></div>
+        </div>
+        <div style="font-size:11px;width:28px;text-align:right;flex-shrink:0;color:var(--text);font-weight:${isPeak?'500':'300'};">${v||''}</div>
       </div>`;
     }).join('');
   }

@@ -610,8 +610,11 @@ body{padding-bottom:0;}
     </div>
     <div class="kpi-grid">
       <div class="kpi-card good-k"><div class="kpi-label">Utilization Rate</div><div class="kpi-value" id="kpi-util">—</div><div class="kpi-sub" id="kpi-util-sub">—</div></div>
-      <div class="kpi-card"><div class="kpi-label">Avg CPW φορεμένων</div><div class="kpi-value" id="kpi-cpw">—</div><div class="kpi-sub">ρούχα που φορέθηκαν</div></div>
+      <div class="kpi-card good-k"><div class="kpi-label">Active Capital μήνα</div><div class="kpi-value" id="kpi-active">—</div><div class="kpi-sub" id="kpi-active-sub">αξία φορεμένων</div></div>
       <div class="kpi-card alert"><div class="kpi-label">Dormant Capital μήνα</div><div class="kpi-value" id="kpi-dormant">—</div><div class="kpi-sub" id="kpi-dormant-sub">δεν φορέθηκαν</div></div>
+      <div class="kpi-card"><div class="kpi-label">Avg Cost Worn μήνα</div><div class="kpi-value" id="kpi-cost-worn">—</div><div class="kpi-sub">μέσο κόστος φορεμένων</div></div>
+      <div class="kpi-card alert"><div class="kpi-label">Avg Cost Unworn μήνα</div><div class="kpi-value" id="kpi-cost-unworn">—</div><div class="kpi-sub">μέσο κόστος αφόρετων</div></div>
+      <div class="kpi-card"><div class="kpi-label">Avg CPW φορεμένων</div><div class="kpi-value" id="kpi-cpw">—</div><div class="kpi-sub">ρούχα που φορέθηκαν</div></div>
       <div class="kpi-card"><div class="kpi-label">Cost / Μήνα</div><div class="kpi-value" id="kpi-cost">—</div></div>
       <div class="kpi-card"><div class="kpi-label">Αξία ντουλάπας</div><div class="kpi-value" id="kpi-value">—</div><div class="kpi-sub" id="kpi-value-sub">—</div></div>
       <div class="kpi-card"><div class="kpi-label">Μέση ηλικία φορεμένων</div><div class="kpi-value" id="kpi-avg-age">—</div></div>
@@ -627,14 +630,10 @@ body{padding-bottom:0;}
       <div class="chart-card"><div class="chart-title">Κατηγορίες</div><div class="pie-wrap"><div class="pie" id="cat-pie" style="width:68px;height:68px;border-radius:50%;position:relative;flex-shrink:0;background:var(--surface3);"></div><div class="legend" id="cat-legend"></div></div></div>
       <div class="chart-card"><div class="chart-title">Χρώματα</div><div class="pie-wrap"><div class="pie" id="color-pie" style="width:68px;height:68px;border-radius:50%;position:relative;flex-shrink:0;background:var(--surface3);"></div><div class="legend" id="color-legend"></div></div></div>
     </div>
-    <div class="kpi-grid" style="margin-bottom:12px;">
-      <div class="kpi-card"><div class="kpi-label">Avg Cost Worn</div><div class="kpi-value" id="kpi-cost-worn">—</div></div>
-      <div class="kpi-card alert"><div class="kpi-label">Avg Cost Unworn</div><div class="kpi-value" id="kpi-cost-unworn">—</div></div>
-    </div>
     <div class="section-title">🏆 Top 5 χρήσεις μήνα</div>
     <div class="cpw-table" id="cpw-table-month"></div>
-    <div class="section-title">⚠ Δεν φορέθηκαν αυτόν τον μήνα (top αξία)</div>
-    <div class="dormant-grid" id="dormant-grid"></div>
+    <div class="section-title">⚠ Top 5 αφόρετα (βάσει αξίας)</div>
+    <div class="dormant-grid" id="dormant-grid" style="grid-template-columns:repeat(2,1fr);"></div>
   </div>
 
   <!-- TOTAL -->
@@ -1123,7 +1122,11 @@ function loadMonthDash(){
   const avgCpw=monthCpws.length?monthCpws.reduce((a,b)=>a+b,0)/monthCpws.length:null;
   document.getElementById('kpi-cpw').textContent=avgCpw?`€${avgCpw.toFixed(2)}`:'—';
 
-  // ── DORMANT CAPITAL — items NOT worn this month ──
+  // ── ACTIVE CAPITAL — ποσοστό αξίας φορεμένων vs σύνολο ──
+  const activeCapital=wornItems.reduce((s,i)=>s+(i.price||0),0);
+  const activePct=tv>0?Math.round(activeCapital/tv*100):0;
+  document.getElementById('kpi-active').textContent=`${activePct}%`;
+  document.getElementById('kpi-active-sub').textContent=`€${activeCapital.toLocaleString('el-GR')} ενεργό`;
   const dormantMonthCapital=unwornItems.reduce((s,i)=>s+(i.price||0),0);
   document.getElementById('kpi-dormant').textContent=`€${dormantMonthCapital.toLocaleString('el-GR')}`;
   document.getElementById('kpi-dormant-sub').textContent=`${unwornItems.length} κομμάτια`;
@@ -1212,7 +1215,7 @@ function loadMonthDash(){
   :'<div style="padding:16px;color:var(--text-dim);font-size:11px;text-align:center">Καμία καταγραφή αυτόν τον μήνα</div>';
 
   // ── DORMANT GRID — ρούχα που δεν φορέθηκαν στον μήνα ──
-  const dormantMonthItems=unwornItems.filter(i=>i.price).sort((a,b)=>(b.price||0)-(a.price||0)).slice(0,8);
+  const dormantMonthItems=unwornItems.filter(i=>i.price).sort((a,b)=>(b.price||0)-(a.price||0)).slice(0,5);
   document.getElementById('dormant-grid').innerHTML=dormantMonthItems.length?dormantMonthItems.map(item=>`
     <div class="dormant-card" onclick="openItemModal('${item.id}')">
       ${item.photo_url?`<img src="${escHtml(item.photo_url)}" class="dormant-photo" onerror="this.outerHTML='<span style=\\'font-size:20px\\'>👗</span>'">`:'<span class="dormant-photo" style="font-size:20px">👗</span>'}

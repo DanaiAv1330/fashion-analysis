@@ -625,8 +625,8 @@ body{padding-bottom:0;}
     </div>
     <div style="display:flex;flex-direction:column;gap:9px;margin-bottom:12px;">
       <div class="chart-card"><div class="chart-title">Χρήσεις ανά εβδομάδα</div><div id="week-bars"></div></div>
-      <div class="chart-card"><div class="chart-title">Κατηγορίες (χρήσεις μήνα)</div><div id="cat-legend"></div></div>
-      <div class="chart-card"><div class="chart-title">Χρώματα (χρήσεις μήνα)</div><div id="color-legend"></div></div>
+      <div class="chart-card"><div class="chart-title">Κατηγορίες (τεμάχια που φορέθηκαν)</div><div id="cat-legend"></div></div>
+      <div class="chart-card"><div class="chart-title">Χρώματα (τεμάχια που φορέθηκαν)</div><div id="color-legend"></div></div>
     </div>
     <div class="section-title">🏆 Top 5 χρήσεις μήνα</div>
     <div class="cpw-table" id="cpw-table-month"></div>
@@ -659,8 +659,8 @@ body{padding-bottom:0;}
     </div>
     <div style="display:flex;flex-direction:column;gap:9px;margin-bottom:12px;">
       <div class="chart-card"><div class="chart-title">Χρήσεις ανά μήνα</div><div id="monthly-bars"></div></div>
-      <div class="chart-card"><div class="chart-title">Κατηγορίες (χρήσεις περιόδου)</div><div id="t-cat-legend"></div></div>
-      <div class="chart-card"><div class="chart-title">Χρώματα (χρήσεις περιόδου)</div><div id="t-color-legend"></div></div>
+      <div class="chart-card"><div class="chart-title">Κατηγορίες (τεμάχια που φορέθηκαν)</div><div id="t-cat-legend"></div></div>
+      <div class="chart-card"><div class="chart-title">Χρώματα (τεμάχια που φορέθηκαν)</div><div id="t-color-legend"></div></div>
     </div>
     <div class="section-title">🏆 Top 5 χρήσεις περιόδου</div>
     <div class="cpw-table" id="cpw-table-total"></div>
@@ -1499,8 +1499,9 @@ function loadMonthDash(){
   document.getElementById('week-bars').innerHTML=weeks.slice(0,numWeeks).map((w,i)=>renderHBar(`Εβδ. ${i+1}`,w,maxW,w>0?String(w):'')).join('');
 
   // ── PIES (βάσει χρήσεων του μήνα) ──
+  // unique items worn this month per cat/color
   const cc={},clc={};
-  ml.forEach(l=>{const item=allItems.find(i=>i.id===l.wardrobe_item_id);if(item?.cat1)cc[item.cat1]=(cc[item.cat1]||0)+1;if(item?.color)clc[item.color]=(clc[item.color]||0)+1;});
+  new Set(ml.map(l=>l.wardrobe_item_id)).forEach(id=>{const item=allItems.find(i=>i.id===id);if(item?.cat1)cc[item.cat1]=(cc[item.cat1]||0)+1;if(item?.color)clc[item.color]=(clc[item.color]||0)+1;});
   const catS=Object.entries(cc).sort((a,b)=>b[1]-a[1]).slice(0,8),catT=catS.reduce((s,[,v])=>s+v,0);
   document.getElementById('cat-legend').innerHTML=catS.length
     ? catS.map(([cat,cnt],i)=>renderHBar(cat,cnt,catT?catT:1,`${cnt}`,CAT_COLORS[i]||'#aaa')).join('')
@@ -1645,8 +1646,9 @@ function loadTotalDash(){
   }).join('');
 
   // Pies — based on period wear logs
+  // unique items worn in period per cat/color
   const cc={},clc={};
-  rl.forEach(l=>{const item=allItems.find(i=>i.id===l.wardrobe_item_id);if(item?.cat1)cc[item.cat1]=(cc[item.cat1]||0)+1;if(item?.color)clc[item.color]=(clc[item.color]||0)+1;});
+  new Set(rl.map(l=>l.wardrobe_item_id)).forEach(id=>{const item=allItems.find(i=>i.id===id);if(item?.cat1)cc[item.cat1]=(cc[item.cat1]||0)+1;if(item?.color)clc[item.color]=(clc[item.color]||0)+1;});
   const catSA=Object.entries(cc).sort((a,b)=>b[1]-a[1]).slice(0,8),catTA=catSA.reduce((s,[,v])=>s+v,0);
   document.getElementById('t-cat-legend').innerHTML=catSA.length
     ? catSA.map(([cat,cnt],i)=>renderHBar(cat,cnt,catTA||1,`${cnt}`,CAT_COLORS[i]||'#aaa')).join('')

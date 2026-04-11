@@ -411,7 +411,7 @@ body{padding-bottom:0;}
         <div class="sort-wrap">
           <span class="sort-label">Ταξινόμηση ·</span>
           <select class="sort-select" onchange="setSortMode(this.value)">
-            <option value="newest">Πιο πρόσφατη προσθήκη</option>
+            <option value="newest">Πιο πρόσφατη αγορά</option>
             <option value="cpw_best">Καλύτερο CPW</option>
             <option value="cpw_worst">Χειρότερο CPW</option>
             <option value="score_best">Καλύτερο Score</option>
@@ -864,7 +864,11 @@ function filterItems(){
   else if(sortMode==='most_worn')items.sort((a,b)=>getTotalWear(b)-getTotalWear(a));
   else if(sortMode==='price_high')items.sort((a,b)=>(b.price||0)-(a.price||0));
   else if(sortMode==='price_low')items.sort((a,b)=>(a.price||0)-(b.price||0));
-  else items.sort((a,b)=>(b.created_at||'').localeCompare(a.created_at||''));
+  else items.sort((a,b)=>{
+    const ay=(a.purchase_year||0)*100+(a.purchase_month||0);
+    const by=(b.purchase_year||0)*100+(b.purchase_month||0);
+    return by-ay;
+  });
   return items;
 }
 function renderWardrobe(){

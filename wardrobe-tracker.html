@@ -388,6 +388,7 @@ body{padding-bottom:0;}
     <button class="desktop-tab-btn active" onclick="showTab('wardrobe',this)">👗 Ντουλάπα</button>
     <button class="desktop-tab-btn" onclick="showTab('calendar',this)">📅 Ημερολόγιο</button>
     <button class="desktop-tab-btn" onclick="showTab('dashboard',this)">📊 Dashboard</button>
+    <button class="desktop-tab-btn" onclick="showTab('gone',this)">📦 Gone</button>
   </div>
 
   <!-- WARDROBE -->
@@ -525,7 +526,7 @@ body{padding-bottom:0;}
       </div>
     </div>
     <div style="display:flex;gap:8px;justify-content:flex-end;padding-top:12px;border-top:1px solid var(--border);">
-      <button class="btn-sm danger" id="item-delete-btn" style="display:none" onclick="deleteItem()">Διαγραφή</button>
+      <button class="btn-sm danger" id="item-delete-btn" style="display:none" onclick="openArchiveModal()">📦 Αποχώρηση</button>
       <div style="flex:1"></div>
       <button class="btn-sm" onclick="closeItemModal()">Ακύρωση</button>
       <button class="btn-sm primary" id="item-save-btn" onclick="saveItem()">Αποθήκευση</button>
@@ -595,6 +596,7 @@ body{padding-bottom:0;}
         <button class="dash-subtab" onclick="showDashSub('scores',this)">⭐ Score</button>
         <button class="dash-subtab" onclick="showDashSub('purchases',this)">🛍 Αγορές</button>
         <button class="dash-subtab" onclick="showDashSub('import',this)">📥 Import</button>
+        <button class="dash-subtab" onclick="showDashSub('gone',this)">📦 Gone</button>
       </div>
 
 ```
@@ -763,8 +765,107 @@ body{padding-bottom:0;}
     <button class="nav-btn active" id="nav-wardrobe" onclick="showTab('wardrobe',this)"><span class="nav-icon">👗</span><span class="nav-label">Ντουλάπα</span></button>
     <button class="nav-btn" id="nav-calendar" onclick="showTab('calendar',this)"><span class="nav-icon">📅</span><span class="nav-label">Ημερολόγιο</span></button>
     <button class="nav-btn" id="nav-dashboard" onclick="showTab('dashboard',this)"><span class="nav-icon">📊</span><span class="nav-label">Dashboard</span></button>
+    <button class="nav-btn" id="nav-gone" onclick="showTab('gone',this)"><span class="nav-icon">📦</span><span class="nav-label">Gone</span></button>
   </nav>
 </div>
+
+<!-- ARCHIVE MODAL -->
+
+<div id="archive-modal" style="display:none;position:fixed;inset:0;background:rgba(42,35,26,0.5);z-index:300;display:none;align-items:center;justify-content:center;padding:16px;">
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:20px;width:100%;max-width:420px;max-height:90vh;overflow-y:auto;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+      <div style="font-family:var(--font-serif);font-size:17px;font-weight:300;">Αποχώρηση <em style="font-style:italic;color:var(--accent)" id="archive-item-name"></em></div>
+      <button onclick="closeArchiveModal()" style="background:none;border:1px solid var(--border);color:var(--text-muted);width:26px;height:26px;border-radius:50%;cursor:pointer;font-size:11px;">✕</button>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div style="display:flex;flex-direction:column;gap:4px;">
+        <label style="font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);">Τι έγινε;</label>
+        <select id="arch-method" style="font-family:var(--font-sans);font-size:12px;border:1px solid var(--border);background:var(--surface2);padding:8px;border-radius:1px;color:var(--text);outline:none;">
+          <option value="">— Επιλογή —</option>
+          <option value="Sold">💰 Το πούλησα</option>
+          <option value="Donated">🤝 Το δώρισα (οργάνωση)</option>
+          <option value="Gifted">🎁 Το έδωσα σε φίλο/α</option>
+          <option value="Threw away">🗑 Το πέταξα</option>
+          <option value="Swapped">🔄 Swap</option>
+          <option value="Other">✏️ Άλλο</option>
+        </select>
+      </div>
+      <div id="arch-sold-wrap" style="display:none;flex-direction:column;gap:4px;">
+        <label style="font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);">Τιμή πώλησης (€)</label>
+        <input type="number" id="arch-sold-price" step="0.01" placeholder="0.00" style="font-family:var(--font-sans);font-size:12px;border:1px solid var(--border);background:var(--surface2);padding:8px;border-radius:1px;color:var(--text);outline:none;">
+      </div>
+      <div style="display:flex;flex-direction:column;gap:4px;">
+        <label style="font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);">Γιατί;</label>
+        <select id="arch-reason" style="font-family:var(--font-sans);font-size:12px;border:1px solid var(--border);background:var(--surface2);padding:8px;border-radius:1px;color:var(--text);outline:none;">
+          <option value="">— Επιλογή —</option>
+          <option value="Too small / Too big">📏 Δεν κάνει (μέγεθος)</option>
+          <option value="Did not wear enough">😴 Δεν το φορούσα αρκετά</option>
+          <option value="Style change">✨ Άλλαξε το στυλ μου</option>
+          <option value="Worn out / Damaged">😔 Φθαρμένο / Χαλασμένο</option>
+          <option value="Duplicate item">👯 Duplicate</option>
+          <option value="Does not suit me">🙅 Δεν μου πηγαίνει</option>
+          <option value="Other">✏️ Άλλο</option>
+        </select>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:4px;">
+        <label style="font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);">Σημειώσεις (προαιρετικό)</label>
+        <textarea id="arch-notes" rows="2" placeholder="Οτιδήποτε θέλεις να θυμάσαι..." style="font-family:var(--font-sans);font-size:12px;border:1px solid var(--border);background:var(--surface2);padding:8px;border-radius:1px;color:var(--text);outline:none;resize:vertical;"></textarea>
+      </div>
+      <div id="arch-msg" style="display:none;font-size:11px;padding:8px;border-radius:2px;"></div>
+      <div style="display:flex;gap:8px;justify-content:flex-end;padding-top:4px;">
+        <button class="btn-sm" onclick="closeArchiveModal()">Ακύρωση</button>
+        <button class="btn-sm primary" id="arch-confirm-btn" onclick="confirmArchive()">📦 Αποχώρηση</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <!-- GONE -->
+
+  <div class="panel" id="tab-gone">
+    <!-- Wardrobe subtab -->
+    <div class="dash-subtabs" style="background:var(--surface);border-bottom:1px solid var(--border);padding:0 12px;">
+      <button class="dash-subtab active" onclick="showGoneSub('list',this)">📋 Λίστα</button>
+      <button class="dash-subtab" onclick="showGoneSub('stats',this)">📊 Ανάλυση</button>
+    </div>
+
+```
+<!-- LIST -->
+<div id="gone-sub-list" style="padding:10px 12px 20px;">
+  <div id="gone-list-content"><div class="loading"><div class="spinner"></div></div></div>
+</div>
+
+<!-- STATS -->
+<div id="gone-sub-stats" style="display:none;padding:10px 12px 20px;">
+  <div class="kpi-grid" style="margin-bottom:12px;">
+    <div class="kpi-card alert"><div class="kpi-label">Σύνολο αποχωρήσεων</div><div class="kpi-value" id="g-total">—</div></div>
+    <div class="kpi-card alert"><div class="kpi-label">Αξία που έφυγε</div><div class="kpi-value" id="g-value">—</div><div class="kpi-sub">αρχική τιμή αγοράς</div></div>
+    <div class="kpi-card good-k"><div class="kpi-label">Έσοδα πώλησης</div><div class="kpi-value" id="g-sold">—</div><div class="kpi-sub" id="g-sold-sub">—</div></div>
+    <div class="kpi-card"><div class="kpi-label">Avg CPW κατά αποχώρηση</div><div class="kpi-value" id="g-avg-cpw">—</div></div>
+    <div class="kpi-card"><div class="kpi-label">Avg τιμή αγοράς</div><div class="kpi-value" id="g-avg-price">—</div></div>
+    <div class="kpi-card"><div class="kpi-label">Avg Conscious Score</div><div class="kpi-value" id="g-conscious">—</div><div class="kpi-sub">/10</div></div>
+  </div>
+
+  <div class="section-title">Τρόπος αποχώρησης</div>
+  <div class="chart-card" style="margin-bottom:12px;"><div id="g-method-chart"></div></div>
+
+  <div class="section-title">Λόγος αποχώρησης</div>
+  <div class="chart-card" style="margin-bottom:12px;"><div id="g-reason-chart"></div></div>
+
+  <div class="section-title">Κατηγορίες που φεύγουν</div>
+  <div class="chart-card" style="margin-bottom:12px;"><div id="g-cat-chart"></div></div>
+
+  <div class="section-title">Χρώματα που φεύγουν</div>
+  <div class="chart-card" style="margin-bottom:12px;"><div id="g-color-chart"></div></div>
+
+  <div class="section-title">Αποχωρήσεις ανά μήνα</div>
+  <div class="chart-card" style="margin-bottom:12px;">
+    <div class="bar-chart" id="g-timeline" style="height:90px;padding-bottom:20px;"></div>
+  </div>
+</div>
+```
+
+  </div>
 
 <div class="toast" id="toast"></div>
 
@@ -812,7 +913,7 @@ sb.auth.onAuthStateChange((event,session)=>{
 });
 
 // INIT
-async function initApp(){await Promise.all([loadItems(),loadAllLogs()]);renderWardrobe();renderCalendar();loadMonthDash();initTotalDash();}
+async function initApp(){await Promise.all([loadItems(),loadAllLogs(),loadArchivedItems()]);renderWardrobe();renderCalendar();loadMonthDash();initTotalDash();}
 async function loadItems(){const{data}=await sb.from('wardrobe').select('*').order('created_at',{ascending:false});allItems=data||[];}
 async function loadAllLogs(){const{data}=await sb.from('wear_log').select('*').order('worn_date',{ascending:false});wearLogs=data||[];}
 async function loadLogsForDate(d){const{data}=await sb.from('wear_log').select('*').eq('worn_date',d);selectedDateLogs=data||[];}
@@ -1028,9 +1129,180 @@ async function saveItem(){
   await loadItems();renderWardrobe();
 }
 async function deleteItem(){
-  if(!confirm('Διαγραφή;'))return;
+  // redirect to archive flow
+  openArchiveModal();
+}
+
+// ── ARCHIVE / GONE ──
+let archivedItems=[];
+
+async function loadArchivedItems(){
+  const{data}=await sb.from('wardrobe_archive').select('*').order('archived_at',{ascending:false});
+  archivedItems=data||[];
+}
+
+function openArchiveModal(){
+  if(!editingItemId)return;
+  const item=allItems.find(i=>i.id===editingItemId);
+  document.getElementById('archive-item-name').textContent=item?.title||'';
+  document.getElementById('arch-method').value='';
+  document.getElementById('arch-reason').value='';
+  document.getElementById('arch-notes').value='';
+  document.getElementById('arch-sold-price').value='';
+  document.getElementById('arch-sold-wrap').style.display='none';
+  document.getElementById('arch-msg').style.display='none';
+  document.getElementById('archive-modal').style.display='flex';
+}
+
+function closeArchiveModal(){
+  document.getElementById('archive-modal').style.display='none';
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  document.getElementById('arch-method').addEventListener('change',function(){
+    document.getElementById('arch-sold-wrap').style.display=this.value==='Sold'?'flex':'none';
+  });
+});
+
+async function confirmArchive(){
+  const method=document.getElementById('arch-method').value;
+  const reason=document.getElementById('arch-reason').value;
+  if(!method){showArchiveMsg('Επίλεξε τρόπο αποχώρησης','error');return;}
+  if(!reason){showArchiveMsg('Επίλεξε λόγο αποχώρησης','error');return;}
+  const btn=document.getElementById('arch-confirm-btn');btn.disabled=true;btn.textContent='…';
+  const item=allItems.find(i=>i.id===editingItemId);
+  if(!item){btn.disabled=false;btn.textContent='📦 Αποχώρηση';return;}
+  const soldPrice=parseFloat(document.getElementById('arch-sold-price').value)||null;
+  const archivePayload={
+    original_id:item.id, user_id:currentUser.id,
+    archived_at:new Date().toISOString().split('T')[0],
+    removal_method:method, removal_reason:reason,
+    removal_notes:document.getElementById('arch-notes').value.trim()||null,
+    sold_price:soldPrice,
+    title:item.title, brand:item.brand, category:item.category,
+    cat1:item.cat1, cat2:item.cat2, color:item.color, pattern:item.pattern,
+    material:item.material, size_field:item.size_field, price:item.price,
+    purchased_at:item.purchased_at, purchase_year:item.purchase_year,
+    purchase_month:item.purchase_month, prev_worn:item.prev_worn,
+    season:item.season, sleeve_length:item.sleeve_length, item_length:item.item_length,
+    notes:item.notes, photo_url:item.photo_url, is_favorite:item.is_favorite,
+    conscious_score:item.conscious_score,
+  };
+  const{error:archErr}=await sb.from('wardrobe_archive').insert(archivePayload);
+  if(archErr){showArchiveMsg('Σφάλμα: '+archErr.message,'error');btn.disabled=false;btn.textContent='📦 Αποχώρηση';return;}
   await sb.from('wardrobe').delete().eq('id',editingItemId);
-  closeItemModal();showToast('✓ Διαγράφηκε');allItems=allItems.filter(i=>i.id!==editingItemId);wearLogs=wearLogs.filter(l=>l.wardrobe_item_id!==editingItemId);renderWardrobe();
+  closeArchiveModal();closeItemModal();
+  allItems=allItems.filter(i=>i.id!==editingItemId);
+  wearLogs=wearLogs.filter(l=>l.wardrobe_item_id!==editingItemId);
+  await loadArchivedItems();
+  renderWardrobe();showToast('📦 Αποχωρήθηκε!');
+  btn.disabled=false;btn.textContent='📦 Αποχώρηση';
+}
+
+function showArchiveMsg(txt,type){
+  const el=document.getElementById('arch-msg');
+  el.textContent=txt;el.style.display='block';
+  el.style.background=type==='error'?'var(--red-soft)':'var(--green-soft)';
+  el.style.color=type==='error'?'var(--red-text)':'var(--green-text)';
+}
+
+// ── GONE TAB ──
+function showGoneSub(id,btn){
+  document.getElementById('gone-sub-list').style.display=id==='list'?'block':'none';
+  document.getElementById('gone-sub-stats').style.display=id==='stats'?'block':'none';
+  document.querySelectorAll('#tab-gone .dash-subtab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  if(id==='stats')renderGoneStats();
+}
+
+function renderGoneList(){
+  const el=document.getElementById('gone-list-content');
+  if(!archivedItems.length){el.innerHTML='<div class="empty-state"><div class="empty-title">Κανένα αποχωρημένο κομμάτι</div><div class="empty-sub">Τα κομμάτια που θα αποχωρήσεις θα εμφανιστούν εδώ.</div></div>';return;}
+  const methodEmoji={'Sold':'💰','Donated':'🤝','Gifted':'🎁','Threw away':'🗑','Swapped':'🔄','Other':'✏️'};
+  el.innerHTML=archivedItems.map(item=>`
+    <div class="list-row" style="opacity:0.85;border-left:3px solid var(--border);">
+      <div class="list-thumb">${item.photo_url?`<img src="${escHtml(item.photo_url)}" onerror="this.outerHTML='👗'">`:'👗'}</div>
+      <div class="list-body">
+        <div class="list-name">${escHtml(item.title)}</div>
+        <div class="list-meta-s">${[item.brand,item.cat2||item.cat1,item.color].filter(Boolean).join(' · ')}</div>
+        <div style="font-size:9px;color:var(--text-dim);margin-top:2px;">${methodEmoji[item.removal_method]||'📦'} ${item.removal_method||'—'} · ${item.removal_reason||'—'}</div>
+        ${item.removal_notes?`<div style="font-size:9px;color:var(--text-dim);font-style:italic;">"${escHtml(item.removal_notes)}"</div>`:''}
+      </div>
+      <div class="list-right">
+        <div style="font-family:var(--font-serif);font-size:14px;color:var(--text-muted);">${item.price?`€${item.price}`:'—'}</div>
+        ${item.sold_price?`<div style="font-size:9px;color:var(--green-text);">→ €${item.sold_price}</div>`:''}
+        <div style="font-size:9px;color:var(--text-dim);">${item.archived_at||'—'}</div>
+      </div>
+    </div>`).join('');
+}
+
+function renderGoneStats(){
+  if(!archivedItems.length){
+    ['g-total','g-value','g-sold','g-avg-cpw','g-avg-price','g-conscious'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent='—';});
+    ['g-method-chart','g-reason-chart','g-cat-chart','g-color-chart','g-timeline'].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML='<div style="color:var(--text-dim);font-size:11px;padding:10px">Δεν υπάρχουν δεδομένα ακόμα</div>';});
+    return;
+  }
+  const total=archivedItems.length;
+  const totalVal=archivedItems.reduce((s,i)=>s+(i.price||0),0);
+  const soldItems=archivedItems.filter(i=>i.removal_method==='Sold'&&i.sold_price);
+  const totalSold=soldItems.reduce((s,i)=>s+(i.sold_price||0),0);
+  const withCpw=archivedItems.filter(i=>i.price&&i.prev_worn>0).map(i=>i.price/i.prev_worn);
+  const avgCpw=withCpw.length?withCpw.reduce((a,b)=>a+b,0)/withCpw.length:null;
+  const withPrice=archivedItems.filter(i=>i.price);
+  const avgPrice=withPrice.length?withPrice.reduce((s,i)=>s+i.price,0)/withPrice.length:null;
+  const withCs=archivedItems.filter(i=>i.conscious_score);
+  const avgCs=withCs.length?withCs.reduce((s,i)=>s+i.conscious_score,0)/withCs.length:null;
+
+  document.getElementById('g-total').textContent=total;
+  document.getElementById('g-value').textContent=`€${totalVal.toLocaleString('el-GR')}`;
+  document.getElementById('g-sold').textContent=soldItems.length?`€${totalSold.toFixed(0)}`:'—';
+  document.getElementById('g-sold-sub').textContent=soldItems.length?`${soldItems.length} πωλήσεις`:'';
+  document.getElementById('g-avg-cpw').textContent=avgCpw?`€${avgCpw.toFixed(2)}`:'—';
+  document.getElementById('g-avg-price').textContent=avgPrice?`€${avgPrice.toFixed(0)}`:'—';
+  document.getElementById('g-conscious').textContent=avgCs?avgCs.toFixed(1):'—';
+
+  // Helper: horizontal bar
+  function hBar(label,val,maxVal,suffix,color){
+    const pct=maxVal>0?Math.round(val/maxVal*100):0;
+    return`<div style="display:flex;align-items:center;gap:8px;margin-bottom:7px;">
+      <div style="font-size:10px;color:var(--text-muted);width:130px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escHtml(label)}</div>
+      <div style="flex:1;height:10px;background:var(--surface3);border-radius:5px;overflow:hidden;">
+        <div style="height:100%;width:${pct}%;background:${color||'var(--accent-light)'};border-radius:5px;"></div>
+      </div>
+      <div style="font-size:10px;color:var(--text);width:50px;text-align:right;flex-shrink:0;">${suffix}</div>
+    </div>`;
+  }
+
+  // Method chart
+  const methods=['Sold','Donated','Gifted','Threw away','Swapped','Other'];
+  const methodColors={'Sold':'#4a7c5a','Donated':'#9a7a4a','Gifted':'#c9a96e','Threw away':'#8c4a3a','Swapped':'#4a5a7c','Other':'#aaa'};
+  const mc={};archivedItems.forEach(i=>{mc[i.removal_method||'Other']=(mc[i.removal_method||'Other']||0)+1;});
+  const maxM=Math.max(...Object.values(mc),1);
+  document.getElementById('g-method-chart').innerHTML=methods.filter(m=>mc[m]).map(m=>hBar(m,mc[m],maxM,`${mc[m]}`,methodColors[m])).join('');
+
+  // Reason chart
+  const rc={};archivedItems.forEach(i=>{rc[i.removal_reason||'Other']=(rc[i.removal_reason||'Other']||0)+1;});
+  const maxR=Math.max(...Object.values(rc),1);
+  document.getElementById('g-reason-chart').innerHTML=Object.entries(rc).sort((a,b)=>b[1]-a[1]).map(([r,v])=>hBar(r,v,maxR,`${v}`,'var(--accent-light)')).join('');
+
+  // Category chart
+  const cc={};archivedItems.forEach(i=>{if(i.cat1)cc[i.cat1]=(cc[i.cat1]||0)+1;});
+  const maxC=Math.max(...Object.values(cc),1);
+  document.getElementById('g-cat-chart').innerHTML=Object.entries(cc).sort((a,b)=>b[1]-a[1]).map(([c,v],i)=>hBar(c,v,maxC,`${v}`,CAT_COLORS[i]||'#aaa')).join('');
+
+  // Color chart
+  const clc={};archivedItems.forEach(i=>{if(i.color)clc[i.color]=(clc[i.color]||0)+1;});
+  const maxCl=Math.max(...Object.values(clc),1);
+  document.getElementById('g-color-chart').innerHTML=Object.entries(clc).sort((a,b)=>b[1]-a[1]).slice(0,10).map(([c,v])=>hBar(c,v,maxCl,`${v}`,COLOR_HEX[c]||'#aaa')).join('');
+
+  // Timeline — by month
+  const tm={};archivedItems.forEach(i=>{if(i.archived_at){const d=new Date(i.archived_at);const k=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;tm[k]=(tm[k]||0)+1;}});
+  const tKeys=Object.keys(tm).sort(),maxT=Math.max(...Object.values(tm),1);
+  document.getElementById('g-timeline').innerHTML=tKeys.map(k=>{
+    const v=tm[k],h=Math.max(4,Math.round(v/maxT*60));
+    const[y,m]=k.split('-');
+    return`<div class="bar-col"><div class="bar-val">${v}</div><div class="bar hi" style="height:${h}px"></div><div class="bar-lbl">${MN_SHORT[parseInt(m)-1]} ${String(y).slice(2)}</div></div>`;
+  }).join('')||'<div style="color:var(--text-dim);font-size:11px;">—</div>';
 }
 
 // CALENDAR
@@ -1574,6 +1846,7 @@ function showTab(id,btn){
   document.getElementById('tab-'+id).classList.add('active');document.getElementById('nav-'+id)?.classList.add('active');btn.classList.add('active');
   if(id==='calendar')applyCalLayout();
   if(id==='dashboard'){loadMonthDash();loadTotalDash();}
+  if(id==='gone'){renderGoneList();}
 }
 function applyCalLayout(){const wrap=document.getElementById('cal-layout-wrap');wrap.style.cssText=window.innerWidth>=768?'display:grid;grid-template-columns:1fr 300px;min-height:calc(100vh - 52px)':'display:block';}
 window.addEventListener('resize',()=>{if(document.getElementById('tab-calendar').classList.contains('active'))applyCalLayout();});

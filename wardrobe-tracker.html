@@ -610,17 +610,17 @@ body{padding-bottom:0;}
     </div>
     <div class="kpi-grid">
       <div class="kpi-card good-k"><div class="kpi-label">Utilization Rate</div><div class="kpi-value" id="kpi-util">—</div><div class="kpi-sub" id="kpi-util-sub">—</div></div>
-      <div class="kpi-card"><div class="kpi-label">Avg CPW</div><div class="kpi-value" id="kpi-cpw">—</div><div class="kpi-sub">ανά χρήση</div></div>
-      <div class="kpi-card alert"><div class="kpi-label">Dormant Capital</div><div class="kpi-value" id="kpi-dormant">—</div><div class="kpi-sub" id="kpi-dormant-sub">—</div></div>
+      <div class="kpi-card"><div class="kpi-label">Avg CPW φορεμένων</div><div class="kpi-value" id="kpi-cpw">—</div><div class="kpi-sub">ρούχα που φορέθηκαν</div></div>
+      <div class="kpi-card alert"><div class="kpi-label">Dormant Capital μήνα</div><div class="kpi-value" id="kpi-dormant">—</div><div class="kpi-sub" id="kpi-dormant-sub">δεν φορέθηκαν</div></div>
       <div class="kpi-card"><div class="kpi-label">Cost / Μήνα</div><div class="kpi-value" id="kpi-cost">—</div></div>
       <div class="kpi-card"><div class="kpi-label">Αξία ντουλάπας</div><div class="kpi-value" id="kpi-value">—</div><div class="kpi-sub" id="kpi-value-sub">—</div></div>
-      <div class="kpi-card"><div class="kpi-label">Μέση ηλικία</div><div class="kpi-value" id="kpi-avg-age">—</div></div>
+      <div class="kpi-card"><div class="kpi-label">Μέση ηλικία φορεμένων</div><div class="kpi-value" id="kpi-avg-age">—</div></div>
     </div>
     <div class="kpi-grid" style="margin-bottom:12px;">
-      <div class="kpi-card score-k"><div class="kpi-label">Avg Usage Rate</div><div class="kpi-value" id="kpi-usage-rate">—</div><div class="kpi-sub">χρήσεις/έτος</div></div>
-      <div class="kpi-card score-k"><div class="kpi-label">Avg Versatility</div><div class="kpi-value" id="kpi-versatility">—</div><div class="kpi-sub">/10</div></div>
-      <div class="kpi-card score-k"><div class="kpi-label">Avg Conscious</div><div class="kpi-value" id="kpi-conscious">—</div><div class="kpi-sub">/10</div></div>
-      <div class="kpi-card score-k"><div class="kpi-label">Avg Wardrobe Score</div><div class="kpi-value" id="kpi-avg-score">—</div><div class="kpi-sub">/30</div></div>
+      <div class="kpi-card score-k"><div class="kpi-label">Avg Usage Rate μήνα</div><div class="kpi-value" id="kpi-usage-rate">—</div><div class="kpi-sub">χρήσεις/ρούχο</div></div>
+      <div class="kpi-card score-k"><div class="kpi-label">Avg Versatility μήνα</div><div class="kpi-value" id="kpi-versatility">—</div><div class="kpi-sub">/10</div></div>
+      <div class="kpi-card score-k"><div class="kpi-label">Avg Conscious (γενικό)</div><div class="kpi-value" id="kpi-conscious">—</div><div class="kpi-sub">/10</div></div>
+      <div class="kpi-card score-k"><div class="kpi-label">Avg Score φορεμένων</div><div class="kpi-value" id="kpi-avg-score">—</div><div class="kpi-sub">/30</div></div>
     </div>
     <div class="charts-row three">
       <div class="chart-card"><div class="chart-title">Χρήσεις ανά εβδομάδα</div><div class="bar-chart" id="week-bars"></div></div>
@@ -631,9 +631,9 @@ body{padding-bottom:0;}
       <div class="kpi-card"><div class="kpi-label">Avg Cost Worn</div><div class="kpi-value" id="kpi-cost-worn">—</div></div>
       <div class="kpi-card alert"><div class="kpi-label">Avg Cost Unworn</div><div class="kpi-value" id="kpi-cost-unworn">—</div></div>
     </div>
-    <div class="section-title">CPW ανά κομμάτι</div>
-    <div class="cpw-table" id="cpw-table-month"><div class="loading"><div class="spinner"></div></div></div>
-    <div class="section-title">⚠ Dormant Capital</div>
+    <div class="section-title">🏆 Top 5 χρήσεις μήνα</div>
+    <div class="cpw-table" id="cpw-table-month"></div>
+    <div class="section-title">⚠ Δεν φορέθηκαν αυτόν τον μήνα (top αξία)</div>
     <div class="dormant-grid" id="dormant-grid"></div>
   </div>
 
@@ -1104,25 +1104,74 @@ function cpwTableHTML(items){
 function loadMonthDash(){
   buildMonthSelect();
   document.getElementById('dash-month-label').textContent=fmtMonthYear(dashYear,dashMonth);
+
+  // All wear logs for the selected month
   const ml=wearLogs.filter(l=>{const d=new Date(l.worn_date);return d.getFullYear()===dashYear&&d.getMonth()===dashMonth;});
-  const ti=allItems.length,wi=new Set(ml.map(l=>l.wardrobe_item_id)).size;
-  document.getElementById('kpi-util').textContent=`${ti?Math.round(wi/ti*100):0}%`;document.getElementById('kpi-util-sub').textContent=`${wi}/${ti} κομμάτια`;
-  const cpws=allItems.map(i=>getCPW(i)).filter(Boolean),avgCpw=cpws.length?cpws.reduce((a,b)=>a+b,0)/cpws.length:null;
+
+  // Items worn this month (unique)
+  const wornIds=new Set(ml.map(l=>l.wardrobe_item_id));
+  const wornItems=allItems.filter(i=>wornIds.has(i.id));
+  const unwornItems=allItems.filter(i=>!wornIds.has(i.id));
+  const ti=allItems.length, wi=wornItems.length;
+
+  // ── UTILIZATION RATE ──
+  document.getElementById('kpi-util').textContent=`${ti?Math.round(wi/ti*100):0}%`;
+  document.getElementById('kpi-util-sub').textContent=`${wi}/${ti} κομμάτια`;
+
+  // ── AVG CPW — only items worn this month ──
+  const monthCpws=wornItems.map(i=>getCPW(i)).filter(Boolean);
+  const avgCpw=monthCpws.length?monthCpws.reduce((a,b)=>a+b,0)/monthCpws.length:null;
   document.getElementById('kpi-cpw').textContent=avgCpw?`€${avgCpw.toFixed(2)}`:'—';
-  const di=allItems.filter(i=>isDormant(i));
-  document.getElementById('kpi-dormant').textContent=`€${di.reduce((s,i)=>s+(i.price||0),0).toLocaleString('el-GR')}`;document.getElementById('kpi-dormant-sub').textContent=`${di.length} κομμάτια`;
+
+  // ── DORMANT CAPITAL — items NOT worn this month ──
+  const dormantMonthCapital=unwornItems.reduce((s,i)=>s+(i.price||0),0);
+  document.getElementById('kpi-dormant').textContent=`€${dormantMonthCapital.toLocaleString('el-GR')}`;
+  document.getElementById('kpi-dormant-sub').textContent=`${unwornItems.length} κομμάτια`;
+
+  // ── COST / ΜΗΝΑ ──
   const mc=allItems.reduce((s,i)=>{const c=getCPW(i);return s+(c?c*ml.filter(l=>l.wardrobe_item_id===i.id).length:0);},0);
   document.getElementById('kpi-cost').textContent=`€${mc.toFixed(0)}`;
-  const tv=allItems.reduce((s,i)=>s+(i.price||0),0);document.getElementById('kpi-value').textContent=`€${tv.toLocaleString('el-GR')}`;document.getElementById('kpi-value-sub').textContent=`${ti} κομμάτια`;
-  document.getElementById('kpi-avg-age').textContent=formatAge(getAvgAgeMonths(allItems));
-  const{avgUR,avgVers,avgCons,avgScore}=computeAggKPIs();
-  document.getElementById('kpi-usage-rate').textContent=avgUR?avgUR.toFixed(1):'—';document.getElementById('kpi-versatility').textContent=avgVers?avgVers.toFixed(1):'—';document.getElementById('kpi-conscious').textContent=avgCons?avgCons.toFixed(1):'—';document.getElementById('kpi-avg-score').textContent=avgScore?avgScore.toFixed(1):'—';
-  // Week bars
+
+  // ── ΑΞΙΑ ΝΤΟΥΛΑΠΑΣ (γενικό) ──
+  const tv=allItems.reduce((s,i)=>s+(i.price||0),0);
+  document.getElementById('kpi-value').textContent=`€${tv.toLocaleString('el-GR')}`;
+  document.getElementById('kpi-value-sub').textContent=`${ti} κομμάτια`;
+
+  // ── ΜΕΣΗ ΗΛΙΚΙΑ — μόνο ρούχα που φορέθηκαν στον μήνα ──
+  document.getElementById('kpi-avg-age').textContent=formatAge(getAvgAgeMonths(wornItems));
+
+  // ── AVG USAGE RATE — χρήσεις μήνα / αριθμός ρούχων που φορέθηκαν ──
+  const monthUsageRate=wi>0?(ml.length/wi):null;
+  document.getElementById('kpi-usage-rate').textContent=monthUsageRate?monthUsageRate.toFixed(1):'—';
+
+  // ── AVG VERSATILITY — μοναδικοί συνδυασμοί εντός μήνα ──
+  const monthVersScores=wornItems.map(item=>{
+    const itemMonthLogs=ml.filter(l=>l.wardrobe_item_id===item.id);
+    if(!itemMonthLogs.length)return null;
+    const partners=new Set();
+    itemMonthLogs.forEach(log=>ml.filter(l=>l.worn_date===log.worn_date&&l.wardrobe_item_id!==item.id).forEach(l=>partners.add(l.wardrobe_item_id)));
+    const p=partners.size;
+    if(p===0)return 1;if(p===1)return 2;if(p===2)return 3;if(p<=4)return 4;if(p<=6)return 5;if(p<=9)return 6;if(p<=14)return 7;if(p<=19)return 8;if(p<=29)return 9;return 10;
+  }).filter(v=>v!==null);
+  const avgVersMonth=monthVersScores.length?monthVersScores.reduce((a,b)=>a+b,0)/monthVersScores.length:null;
+  document.getElementById('kpi-versatility').textContent=avgVersMonth?avgVersMonth.toFixed(1):'—';
+
+  // ── AVG CONSCIOUS — γενικό ──
+  const{avgCons}=computeAggKPIs();
+  document.getElementById('kpi-conscious').textContent=avgCons?avgCons.toFixed(1):'—';
+
+  // ── AVG WARDROBE SCORE — μόνο ρούχα που φορέθηκαν στον μήνα ──
+  const monthScores=wornItems.map(i=>getWardrobeScore(i)).filter(v=>v!==null);
+  const avgScoreMonth=monthScores.length?monthScores.reduce((a,b)=>a+b.total,0)/monthScores.length:null;
+  document.getElementById('kpi-avg-score').textContent=avgScoreMonth?avgScoreMonth.toFixed(1):'—';
+
+  // ── WEEK BARS ──
   const dim=new Date(dashYear,dashMonth+1,0).getDate(),weeks=[0,0,0,0,0];
   ml.forEach(l=>{const day=new Date(l.worn_date).getDate();weeks[Math.min(4,Math.floor((day-1)/7))]++;});
   const maxW=Math.max(...weeks,1);
   document.getElementById('week-bars').innerHTML=weeks.filter((_,i)=>i<Math.ceil(dim/7)).map((w,i)=>{const h=w>0?Math.max(4,Math.round(w/maxW*56)):0;return`<div class="bar-col"><div class="bar-val">${w>0?w:''}</div><div class="bar${w===Math.max(...weeks)&&w>0?' hi':''}" style="height:${h}px"></div><div class="bar-lbl">W${i+1}</div></div>`;}).join('');
-  // Pies
+
+  // ── PIES (βάσει χρήσεων του μήνα) ──
   const cc={},clc={};
   ml.forEach(l=>{const item=allItems.find(i=>i.id===l.wardrobe_item_id);if(item?.cat1)cc[item.cat1]=(cc[item.cat1]||0)+1;if(item?.color)clc[item.color]=(clc[item.color]||0)+1;});
   const catS=Object.entries(cc).sort((a,b)=>b[1]-a[1]).slice(0,8),catT=catS.reduce((s,[,v])=>s+v,0);
@@ -1131,13 +1180,47 @@ function loadMonthDash(){
   const colorS=Object.entries(clc).sort((a,b)=>b[1]-a[1]).slice(0,6),colorT=colorS.reduce((s,[,v])=>s+v,0);
   document.getElementById('color-legend').innerHTML=colorS.map(([col,cnt])=>`<div class="legend-item"><div class="legend-dot" style="background:${COLOR_HEX[col]||'#aaa'}"></div>${escHtml(col)} ${colorT?Math.round(cnt/colorT*100):0}%</div>`).join('')||'<div style="color:var(--text-dim);font-size:10px">—</div>';
   buildPie('color-pie',colorS,colorT,true);
-  const{avgWorn,avgUnworn}=calcAvgCostWornUnworn(ml);
-  document.getElementById('kpi-cost-worn').textContent=avgWorn?`€${avgWorn.toFixed(0)}`:'—';document.getElementById('kpi-cost-unworn').textContent=avgUnworn?`€${avgUnworn.toFixed(0)}`:'—';
-  document.getElementById('cpw-table-month').innerHTML=cpwTableHTML(allItems.map(i=>({item:i,cpw:getCPW(i),total:getTotalWear(i)})).filter(x=>x.cpw).sort((a,b)=>a.cpw-b.cpw).slice(0,8));
-  document.getElementById('dormant-grid').innerHTML=di.length?di.slice(0,8).map(item=>{const days=getDaysSinceWorn(item);return`<div class="dormant-card" onclick="openItemModal('${item.id}')">
-    ${item.photo_url?`<img src="${escHtml(item.photo_url)}" class="dormant-photo" onerror="this.outerHTML='<span style=\\'font-size:20px\\'>👗</span>'">`:'<span class="dormant-photo" style="font-size:20px">👗</span>'}
-    <div class="dormant-name">${escHtml(item.title)}</div><div class="dormant-days">${days===Infinity?'Ποτέ':`${days} μέρες`}</div><div class="dormant-val">${item.price?`€${item.price}`:'—'}</div>
-  </div>`;}).join(''):'<div style="color:var(--green-text);font-size:11px;padding:8px 0">🎉 Κανένα dormant κομμάτι!</div>';
+
+  // ── AVG COST WORN / UNWORN (βάσει μήνα) ──
+  const avgWorn=wornItems.filter(i=>i.price).length?wornItems.filter(i=>i.price).reduce((s,i)=>s+i.price,0)/wornItems.filter(i=>i.price).length:null;
+  const avgUnworn=unwornItems.filter(i=>i.price).length?unwornItems.filter(i=>i.price).reduce((s,i)=>s+i.price,0)/unwornItems.filter(i=>i.price).length:null;
+  document.getElementById('kpi-cost-worn').textContent=avgWorn?`€${avgWorn.toFixed(0)}`:'—';
+  document.getElementById('kpi-cost-unworn').textContent=avgUnworn?`€${avgUnworn.toFixed(0)}`:'—';
+
+  // ── TOP 5 ΧΡΗΣΕΙΣ ΜΗΝΑ (αντί CPW table) ──
+  const itemUsageMonth=[];
+  wornIds.forEach(id=>{
+    const item=allItems.find(i=>i.id===id); if(!item) return;
+    const uses=ml.filter(l=>l.wardrobe_item_id===id).length;
+    itemUsageMonth.push({item,uses});
+  });
+  itemUsageMonth.sort((a,b)=>b.uses-a.uses);
+  const top5=itemUsageMonth.slice(0,5);
+  const maxUses=top5[0]?.uses||1;
+  document.getElementById('cpw-table-month').innerHTML=top5.length?top5.map(({item,uses})=>`
+    <div class="cpw-row" onclick="openItemModal('${item.id}')">
+      <div class="cpw-row-thumb">${item.photo_url?`<img src="${escHtml(item.photo_url)}" onerror="this.outerHTML='👗'">`:'👗'}</div>
+      <div class="cpw-row-body">
+        <div class="cpw-row-name">${escHtml(item.title)}</div>
+        <div class="cpw-row-sub">${[item.brand,item.cat2||item.cat1].filter(Boolean).join(' · ')}</div>
+      </div>
+      <div class="cpw-row-right">
+        <div class="cpw-v good">${uses}×</div>
+        <div class="prog-wrap"><div class="prog good" style="width:${Math.round(uses/maxUses*100)}%"></div></div>
+      </div>
+    </div>`).join('')
+  :'<div style="padding:16px;color:var(--text-dim);font-size:11px;text-align:center">Καμία καταγραφή αυτόν τον μήνα</div>';
+
+  // ── DORMANT GRID — ρούχα που δεν φορέθηκαν στον μήνα ──
+  const dormantMonthItems=unwornItems.filter(i=>i.price).sort((a,b)=>(b.price||0)-(a.price||0)).slice(0,8);
+  document.getElementById('dormant-grid').innerHTML=dormantMonthItems.length?dormantMonthItems.map(item=>`
+    <div class="dormant-card" onclick="openItemModal('${item.id}')">
+      ${item.photo_url?`<img src="${escHtml(item.photo_url)}" class="dormant-photo" onerror="this.outerHTML='<span style=\\'font-size:20px\\'>👗</span>'">`:'<span class="dormant-photo" style="font-size:20px">👗</span>'}
+      <div class="dormant-name">${escHtml(item.title)}</div>
+      <div class="dormant-days">${item.cat2||item.cat1||'—'}</div>
+      <div class="dormant-val">${item.price?`€${item.price}`:'—'}</div>
+    </div>`).join('')
+  :'<div style="color:var(--green-text);font-size:11px;padding:8px 0">🎉 Φόρεσες τα πάντα αυτόν τον μήνα!</div>';
 }
 function changeDashMonth(dir){dashMonth+=dir;if(dashMonth>11){dashMonth=0;dashYear++;}if(dashMonth<0){dashMonth=11;dashYear--;}loadMonthDash();}
 function selectDashMonth(val){const[y,m]=val.split('-').map(Number);dashYear=y;dashMonth=m;loadMonthDash();}

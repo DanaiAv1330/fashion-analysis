@@ -260,7 +260,7 @@ body{font-family:var(--font-sans);font-weight:300;background:var(--bg);color:var
 .pm-bar-lbl{position:absolute;bottom:0;font-size:7px;color:var(–text-dim);text-align:center;width:100%;}
 
 /* SCORE DIST */
-.dist-chart{display:flex;align-items:flex-end;gap:4px;height:90px;padding-bottom:20px;margin-top:4px;}
+.dist-chart{display:flex;align-items:flex-end;gap:3px;height:110px;padding-bottom:20px;margin-top:4px;}
 .dist-col-wrap{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;flex:1;gap:2px;position:relative;padding-bottom:14px;}
 .dist-bar{width:100%;border-radius:2px 2px 0 0;background:var(–accent-light);min-height:0;flex-shrink:0;}
 .dist-bar.peak{background:var(–accent);}
@@ -671,19 +671,33 @@ body{padding-bottom:0;}
   </div>
   <!-- SCORES -->
   <div class="dash-subpanel" id="dash-scores">
+    <!-- Full KPI Overview - all calendar + prev_worn data -->
+    <div style="font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);margin-bottom:10px;">Συνολική Εικόνα — Ημερολόγιο + Παρελθοντικά Φοράματα</div>
+    <div class="kpi-grid">
+      <div class="kpi-card good-k"><div class="kpi-label">Utilization Rate</div><div class="kpi-value" id="sc-util">—</div><div class="kpi-sub" id="sc-util-sub">—</div></div>
+      <div class="kpi-card good-k"><div class="kpi-label">Active Capital</div><div class="kpi-value" id="sc-active">—</div><div class="kpi-sub" id="sc-active-sub">αξία φορεμένων</div></div>
+      <div class="kpi-card alert"><div class="kpi-label">Dormant Capital</div><div class="kpi-value" id="sc-dormant">—</div><div class="kpi-sub" id="sc-dormant-sub">ποτέ φορεμένα</div></div>
+      <div class="kpi-card"><div class="kpi-label">Avg Cost Worn</div><div class="kpi-value" id="sc-cost-worn">—</div><div class="kpi-sub">μέσο κόστος φορεμένων</div></div>
+      <div class="kpi-card alert"><div class="kpi-label">Avg Cost Unworn</div><div class="kpi-value" id="sc-cost-unworn">—</div><div class="kpi-sub">μέσο κόστος αφόρετων</div></div>
+      <div class="kpi-card"><div class="kpi-label">Avg CPW (συνολικό)</div><div class="kpi-value" id="sc-cpw">—</div><div class="kpi-sub">prev_worn + calendar</div></div>
+      <div class="kpi-card"><div class="kpi-label">Αξία ντουλάπας</div><div class="kpi-value" id="sc-value">—</div><div class="kpi-sub" id="sc-value-sub">—</div></div>
+      <div class="kpi-card"><div class="kpi-label">Μέση ηλικία ντουλάπας</div><div class="kpi-value" id="sc-avg-age">—</div></div>
+    </div>
     <div class="kpi-grid" style="margin-bottom:16px;">
       <div class="kpi-card score-k"><div class="kpi-label">Avg Wardrobe Score</div><div class="kpi-value" id="sc-avg-score">—</div><div class="kpi-sub">/30</div></div>
       <div class="kpi-card score-k"><div class="kpi-label">Avg Usage Rate</div><div class="kpi-value" id="sc-usage-rate">—</div><div class="kpi-sub">χρήσεις/έτος</div></div>
       <div class="kpi-card score-k"><div class="kpi-label">Avg Versatility</div><div class="kpi-value" id="sc-versatility">—</div><div class="kpi-sub">/10</div></div>
       <div class="kpi-card score-k"><div class="kpi-label">Avg Conscious</div><div class="kpi-value" id="sc-conscious">—</div><div class="kpi-sub">/10</div></div>
     </div>
+    <!-- Distribution charts -->
+    <div style="font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);margin-bottom:8px;">Score Distributions</div>
     <div class="charts-row" style="grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
-      <div class="chart-card"><div class="chart-title">Wardrobe Score — Distribution</div><div id="dist-score" class="dist-chart"></div></div>
-      <div class="chart-card"><div class="chart-title">CPW Score — Distribution</div><div id="dist-cpw" class="dist-chart"></div></div>
+      <div class="chart-card"><div class="chart-title">Wardrobe Score — Distribution</div><div id="dist-score" class="dist-chart" style="height:110px;padding-bottom:20px;align-items:flex-end;"></div></div>
+      <div class="chart-card"><div class="chart-title">CPW Score — Distribution</div><div id="dist-cpw" class="dist-chart" style="height:110px;padding-bottom:20px;align-items:flex-end;"></div></div>
     </div>
     <div class="charts-row" style="grid-template-columns:1fr 1fr;gap:10px;">
-      <div class="chart-card"><div class="chart-title">Versatility Score — Distribution</div><div id="dist-vers" class="dist-chart"></div></div>
-      <div class="chart-card"><div class="chart-title">Usage Rate — Distribution</div><div id="dist-ur" class="dist-chart"></div></div>
+      <div class="chart-card"><div class="chart-title">Versatility Score — Distribution</div><div id="dist-vers" class="dist-chart" style="height:110px;padding-bottom:20px;align-items:flex-end;"></div></div>
+      <div class="chart-card"><div class="chart-title">Usage Rate — Distribution</div><div id="dist-ur" class="dist-chart" style="height:110px;padding-bottom:20px;align-items:flex-end;"></div></div>
     </div>
   </div>
 
@@ -1375,20 +1389,54 @@ function loadTotalDash(){
 // SCORES
 function loadScoresDash(){
   const{avgUR,avgVers,avgCons,avgScore}=computeAggKPIs();
-  document.getElementById('sc-avg-score').textContent=avgScore?avgScore.toFixed(1):'—';document.getElementById('sc-usage-rate').textContent=avgUR?avgUR.toFixed(1):'—';document.getElementById('sc-versatility').textContent=avgVers?avgVers.toFixed(1):'—';document.getElementById('sc-conscious').textContent=avgCons?avgCons.toFixed(1):'—';
+  document.getElementById('sc-avg-score').textContent=avgScore?avgScore.toFixed(1):'—';
+  document.getElementById('sc-usage-rate').textContent=avgUR?avgUR.toFixed(1):'—';
+  document.getElementById('sc-versatility').textContent=avgVers?avgVers.toFixed(1):'—';
+  document.getElementById('sc-conscious').textContent=avgCons?avgCons.toFixed(1):'—';
+
+  // Full overview KPIs — all data (calendar + prev_worn)
+  // Item "worn" = has any calendar log OR prev_worn > 0
+  const allWornItems=allItems.filter(i=>getTotalWear(i)>0);
+  const allUnwornItems=allItems.filter(i=>getTotalWear(i)===0);
+  const ti=allItems.length, wi=allWornItems.length;
+  const tv=allItems.reduce((s,i)=>s+(i.price||0),0);
+
+  document.getElementById('sc-util').textContent=`${ti?Math.round(wi/ti*100):0}%`;
+  document.getElementById('sc-util-sub').textContent=`${wi}/${ti} κομμάτια`;
+  document.getElementById('sc-value').textContent=`€${tv.toLocaleString('el-GR')}`;
+  document.getElementById('sc-value-sub').textContent=`${ti} κομμάτια`;
+  document.getElementById('sc-avg-age').textContent=formatAge(getAvgAgeMonths(allItems));
+
+  const activeCapital=allWornItems.reduce((s,i)=>s+(i.price||0),0);
+  const activePct=tv>0?Math.round(activeCapital/tv*100):0;
+  document.getElementById('sc-active').textContent=`${activePct}%`;
+  document.getElementById('sc-active-sub').textContent=`€${activeCapital.toLocaleString('el-GR')} ενεργό`;
+
+  const dormantCapital=allUnwornItems.reduce((s,i)=>s+(i.price||0),0);
+  document.getElementById('sc-dormant').textContent=`€${dormantCapital.toLocaleString('el-GR')}`;
+  document.getElementById('sc-dormant-sub').textContent=`${allUnwornItems.length} κομμάτια`;
+
+  const allCpws=allItems.map(i=>getCPW(i)).filter(Boolean);
+  const avgCpwAll=allCpws.length?allCpws.reduce((a,b)=>a+b,0)/allCpws.length:null;
+  document.getElementById('sc-cpw').textContent=avgCpwAll?`€${avgCpwAll.toFixed(2)}`:'—';
+
+  const avgCostWorn=allWornItems.filter(i=>i.price).length?allWornItems.filter(i=>i.price).reduce((s,i)=>s+i.price,0)/allWornItems.filter(i=>i.price).length:null;
+  const avgCostUnworn=allUnwornItems.filter(i=>i.price).length?allUnwornItems.filter(i=>i.price).reduce((s,i)=>s+i.price,0)/allUnwornItems.filter(i=>i.price).length:null;
+  document.getElementById('sc-cost-worn').textContent=avgCostWorn?`€${avgCostWorn.toFixed(0)}`:'—';
+  document.getElementById('sc-cost-unworn').textContent=avgCostUnworn?`€${avgCostUnworn.toFixed(0)}`:'—';
   function distExact(elId,values,min,max){
     const el=document.getElementById(elId);if(!el)return;if(!values.length){el.innerHTML='<div class="dist-empty">—</div>';return;}
     const counts=[],labels=[];for(let v=min;v<=max;v++){counts.push(values.filter(x=>x===v).length);labels.push(String(v));}
-    const mc=Math.max(...counts,1);el.innerHTML=counts.map((c,i)=>{const h=c>0?Math.max(3,Math.round(c/mc*64)):0,pk=c===Math.max(...counts)&&c>0;return`<div class="dist-col-wrap"><div style="font-size:8px;color:var(--text-muted);margin-bottom:2px;">${c>0?c:''}</div><div class="dist-bar${pk?' peak':''}" style="height:${h}px;width:100%;"></div><div style="position:absolute;bottom:0;font-size:7px;color:var(--text-dim);text-align:center;width:100%;">${labels[i]}</div></div>`;}).join('');
+    const BAR_H=70,mc=Math.max(...counts,1);el.innerHTML=counts.map((c,i)=>{const h=c>0?Math.max(4,Math.round(c/mc*BAR_H)):0,pk=c===Math.max(...counts)&&c>0;return`<div class="dist-col-wrap"><div style="font-size:8px;color:var(--text-muted);margin-bottom:2px;">${c>0?c:''}</div><div class="dist-bar${pk?' peak':''}" style="height:${h}px;min-height:${h}px;width:100%;flex-shrink:0;"></div><div style="position:absolute;bottom:0;font-size:7px;color:var(--text-dim);text-align:center;width:100%;">${labels[i]}</div></div>`;}).join('');
   }
   function distCustom(elId,labels,counts){
     const el=document.getElementById(elId);if(!el)return;if(!counts.some(c=>c>0)){el.innerHTML='<div class="dist-empty">—</div>';return;}
-    const mc=Math.max(...counts,1);el.innerHTML=counts.map((c,i)=>{const h=c>0?Math.max(3,Math.round(c/mc*64)):0,pk=c===Math.max(...counts)&&c>0;return`<div class="dist-col-wrap"><div style="font-size:8px;color:var(--text-muted);margin-bottom:2px;">${c>0?c:''}</div><div class="dist-bar${pk?' peak':''}" style="height:${h}px;width:100%;"></div><div style="position:absolute;bottom:0;font-size:6px;color:var(--text-dim);text-align:center;width:100%;">${labels[i]}</div></div>`;}).join('');
+    const BAR_H=70,mc=Math.max(...counts,1);el.innerHTML=counts.map((c,i)=>{const h=c>0?Math.max(4,Math.round(c/mc*BAR_H)):0,pk=c===Math.max(...counts)&&c>0;return`<div class="dist-col-wrap"><div style="font-size:8px;color:var(--text-muted);margin-bottom:2px;">${c>0?c:''}</div><div class="dist-bar${pk?' peak':''}" style="height:${h}px;min-height:${h}px;width:100%;flex-shrink:0;"></div><div style="position:absolute;bottom:0;font-size:6px;color:var(--text-dim);text-align:center;width:100%;">${labels[i]}</div></div>`;}).join('');
   }
   // Score % buckets
   const spcts=allItems.map(i=>{const ws=getWardrobeScore(i);return ws?Math.round(ws.total/(ws.count*10)*100):null;}).filter(v=>v!==null);
   const sbuckets=Array(10).fill(0);spcts.forEach(v=>sbuckets[Math.min(9,Math.floor(v/10))]++);
-  const mc2=Math.max(...sbuckets,1);document.getElementById('dist-score').innerHTML=sbuckets.map((c,i)=>{const h=c>0?Math.max(3,Math.round(c/mc2*64)):0,pk=c===Math.max(...sbuckets)&&c>0;return`<div class="dist-col-wrap"><div style="font-size:8px;color:var(--text-muted);margin-bottom:2px;">${c>0?c:''}</div><div class="dist-bar${pk?' peak':''}" style="height:${h}px;width:100%;"></div><div style="position:absolute;bottom:0;font-size:6px;color:var(--text-dim);text-align:center;width:100%;">${i*10}–${i*10+9}%</div></div>`;}).join('');
+  const BAR_H2=70,mc2=Math.max(...sbuckets,1);document.getElementById('dist-score').innerHTML=sbuckets.map((c,i)=>{const h=c>0?Math.max(4,Math.round(c/mc2*BAR_H2)):0,pk=c===Math.max(...sbuckets)&&c>0;return`<div class="dist-col-wrap"><div style="font-size:8px;color:var(--text-muted);margin-bottom:2px;">${c>0?c:''}</div><div class="dist-bar${pk?' peak':''}" style="height:${h}px;min-height:${h}px;width:100%;flex-shrink:0;"></div><div style="position:absolute;bottom:0;font-size:6px;color:var(--text-dim);text-align:center;width:100%;">${i*10}–${i*10+9}%</div></div>`;}).join('');
   distExact('dist-cpw',allItems.map(i=>getCPWScore(i)).filter(v=>v!==null),1,10);
   distExact('dist-vers',allItems.map(i=>getVersatilityScore(i)).filter(v=>v!==null),1,10);
   const urBuckets=[{l:'0–2',min:0,max:2},{l:'2–4',min:2,max:4},{l:'4–6',min:4,max:6},{l:'6–8',min:6,max:8},{l:'8–10',min:8,max:10},{l:'10–15',min:10,max:15},{l:'15–20',min:15,max:20},{l:'20+',min:20,max:Infinity}];

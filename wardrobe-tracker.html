@@ -711,7 +711,27 @@ body{padding-bottom:0;}
       <div id="purchase-by-year-chart" class="bar-chart" style="height:100px;padding-bottom:20px;"></div>
     </div>
     <div class="section-title">Μήνας με τις περισσότερες αγορές ανά κατηγορία</div>
-    <div class="chart-card"><div id="purchase-by-cat-month"></div></div>
+    <div class="chart-card" style="margin-bottom:12px;"><div id="purchase-by-cat-month"></div></div>
+
+    <!-- NEW: Category & Color breakdown charts -->
+    <div style="font-family:var(--font-serif);font-size:15px;font-weight:300;margin:16px 0 10px;">Σύνθεση <em style="color:var(--accent);font-style:italic">Ντουλάπας</em></div>
+
+    <div class="chart-card" style="margin-bottom:12px;">
+      <div class="chart-title">Τεμάχια ανά Κατηγορία</div>
+      <div id="cat-items-chart"></div>
+    </div>
+    <div class="chart-card" style="margin-bottom:12px;">
+      <div class="chart-title">Επένδυση (€) ανά Κατηγορία</div>
+      <div id="cat-value-chart"></div>
+    </div>
+    <div class="chart-card" style="margin-bottom:12px;">
+      <div class="chart-title">Τεμάχια ανά Χρώμα (Top 15)</div>
+      <div id="color-items-chart"></div>
+    </div>
+    <div class="chart-card" style="margin-bottom:12px;">
+      <div class="chart-title">Επένδυση (€) ανά Χρώμα (Top 15)</div>
+      <div id="color-value-chart"></div>
+    </div>
   </div>
 
   <!-- IMPORT -->
@@ -1473,6 +1493,56 @@ function loadPurchasesDash(){
     const ci=allItems.filter(i=>(i.cat1||i.category)===cat&&i.purchase_month);if(!ci.length)return'';
     const mct=new Array(12).fill(0);ci.forEach(i=>mct[i.purchase_month-1]++);const pm=mct.indexOf(Math.max(...mct));
     return`<div style="display:flex;align-items:center;gap:10px;padding:5px 0;border-bottom:1px solid var(--border-soft);"><span style="font-size:10px;color:var(--text-muted);width:80px;flex-shrink:0;">${cat}</span><span style="font-family:var(--font-serif);font-size:12px;">${MN_SHORT[pm]}</span><span style="font-size:9px;color:var(--text-dim)">(${Math.max(...mct)} items) · ${ci.length} σύνολο</span></div>`;
+  }).join('');
+
+  // ── HELPER: horizontal bar row ──
+  function hBar(label, value, maxVal, suffix, color){
+    const pct=maxVal>0?Math.round(value/maxVal*100):0;
+    const colorStyle=color?`background:${color};`:'background:var(--accent-light);';
+    return `<div style="display:flex;align-items:center;gap:8px;margin-bottom:7px;">
+      <div style="font-size:11px;color:var(--text-muted);width:110px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escHtml(label)}</div>
+      <div style="flex:1;height:10px;background:var(--surface3);border-radius:5px;overflow:hidden;">
+        <div style="height:100%;width:${pct}%;${colorStyle}border-radius:5px;"></div>
+      </div>
+      <div style="font-size:11px;color:var(--charcoal);font-weight:500;width:55px;text-align:right;flex-shrink:0;">${suffix}</div>
+    </div>`;
+  }
+
+  // ── ΤΕΜΑΧΙΑ ΑΝΑ ΚΑΤΗΓΟΡΙΑ ──
+  const catItems={}, catValue={};
+  cats.forEach(cat=>{
+    const items=allItems.filter(i=>(i.cat1||i.category)===cat);
+    catItems[cat]=items.length;
+    catValue[cat]=items.reduce((s,i)=>s+(i.price||0),0);
+  });
+  const maxCatItems=Math.max(...Object.values(catItems),1);
+  const maxCatVal=Math.max(...Object.values(catValue),1);
+  const catsSorted=cats.slice().sort((a,b)=>catItems[b]-catItems[a]);
+  document.getElementById('cat-items-chart').innerHTML=catsSorted.map((cat,idx)=>
+    hBar(cat, catItems[cat], maxCatItems, `${catItems[cat]} τεμ.`, CAT_COLORS[idx]||'#aaa')
+  ).join('');
+  document.getElementById('cat-value-chart').innerHTML=cats.slice().sort((a,b)=>catValue[b]-catValue[a]).map((cat,idx)=>
+    hBar(cat, catValue[cat], maxCatVal, `€${Math.round(catValue[cat]).toLocaleString('el-GR')}`, CAT_COLORS[idx]||'#aaa')
+  ).join('');
+
+  // ── ΤΕΜΑΧΙΑ & ΑΞΙΑ ΑΝΑ ΧΡΩΜΑ (Top 15) ──
+  const colorItems={}, colorValue={};
+  allItems.forEach(i=>{
+    if(!i.color)return;
+    colorItems[i.color]=(colorItems[i.color]||0)+1;
+    colorValue[i.color]=(colorValue[i.color]||0)+(i.price||0);
+  });
+  const colorsSortedItems=Object.entries(colorItems).sort((a,b)=>b[1]-a[1]).slice(0,15);
+  const colorsSortedVal=Object.entries(colorValue).sort((a,b)=>b[1]-a[1]).slice(0,15);
+  const maxColorItems=colorsSortedItems[0]?.[1]||1;
+  const maxColorVal=colorsSortedVal[0]?.[1]||1;
+  document.getElementById('color-items-chart').innerHTML=colorsSortedItems.map(([color,cnt])=>{
+    const hex=COLOR_HEX[color]||'#C9A96E';
+    return hBar(color, cnt, maxColorItems, `${cnt} τεμ.`, hex);
+  }).join('');
+  document.getElementById('color-value-chart').innerHTML=colorsSortedVal.map(([color,val])=>{
+    const hex=COLOR_HEX[color]||'#C9A96E';
+    return hBar(color, val, maxColorVal, `€${Math.round(val).toLocaleString('el-GR')}`, hex);
   }).join('');
 }
 

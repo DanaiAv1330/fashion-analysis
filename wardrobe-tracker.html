@@ -1113,6 +1113,11 @@ function loadMonthDash(){
   const unwornItems=allItems.filter(i=>!wornIds.has(i.id));
   const ti=allItems.length, wi=wornItems.length;
 
+  // ── ΑΞΙΑ ΝΤΟΥΛΑΠΑΣ — πρέπει να οριστεί πρώτα ──
+  const tv=allItems.reduce((s,i)=>s+(i.price||0),0);
+  document.getElementById('kpi-value').textContent=`€${tv.toLocaleString('el-GR')}`;
+  document.getElementById('kpi-value-sub').textContent=`${ti} κομμάτια`;
+
   // ── UTILIZATION RATE ──
   document.getElementById('kpi-util').textContent=`${ti?Math.round(wi/ti*100):0}%`;
   document.getElementById('kpi-util-sub').textContent=`${wi}/${ti} κομμάτια`;
@@ -1122,11 +1127,13 @@ function loadMonthDash(){
   const avgCpw=monthCpws.length?monthCpws.reduce((a,b)=>a+b,0)/monthCpws.length:null;
   document.getElementById('kpi-cpw').textContent=avgCpw?`€${avgCpw.toFixed(2)}`:'—';
 
-  // ── ACTIVE CAPITAL — ποσοστό αξίας φορεμένων vs σύνολο ──
+  // ── ACTIVE CAPITAL ──
   const activeCapital=wornItems.reduce((s,i)=>s+(i.price||0),0);
   const activePct=tv>0?Math.round(activeCapital/tv*100):0;
   document.getElementById('kpi-active').textContent=`${activePct}%`;
   document.getElementById('kpi-active-sub').textContent=`€${activeCapital.toLocaleString('el-GR')} ενεργό`;
+
+  // ── DORMANT CAPITAL — items NOT worn this month ──
   const dormantMonthCapital=unwornItems.reduce((s,i)=>s+(i.price||0),0);
   document.getElementById('kpi-dormant').textContent=`€${dormantMonthCapital.toLocaleString('el-GR')}`;
   document.getElementById('kpi-dormant-sub').textContent=`${unwornItems.length} κομμάτια`;
@@ -1135,13 +1142,8 @@ function loadMonthDash(){
   const mc=allItems.reduce((s,i)=>{const c=getCPW(i);return s+(c?c*ml.filter(l=>l.wardrobe_item_id===i.id).length:0);},0);
   document.getElementById('kpi-cost').textContent=`€${mc.toFixed(0)}`;
 
-  // ── ΑΞΙΑ ΝΤΟΥΛΑΠΑΣ (γενικό) ──
-  const tv=allItems.reduce((s,i)=>s+(i.price||0),0);
-  document.getElementById('kpi-value').textContent=`€${tv.toLocaleString('el-GR')}`;
-  document.getElementById('kpi-value-sub').textContent=`${ti} κομμάτια`;
-
-  // ── ΜΕΣΗ ΗΛΙΚΙΑ — μόνο ρούχα που φορέθηκαν στον μήνα ──
-  document.getElementById('kpi-avg-age').textContent=formatAge(getAvgAgeMonths(wornItems));
+  // ── ΜΕΣΗ ΗΛΙΚΙΑ — μόνο ρούχα που φορέθηκαν (αν υπάρχουν) ──
+  document.getElementById('kpi-avg-age').textContent=wornItems.length?formatAge(getAvgAgeMonths(wornItems)):'—';
 
   // ── AVG USAGE RATE — χρήσεις μήνα / αριθμός ρούχων που φορέθηκαν ──
   const monthUsageRate=wi>0?(ml.length/wi):null;

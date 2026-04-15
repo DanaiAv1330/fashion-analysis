@@ -404,6 +404,43 @@ body{padding-bottom:0;}
         <button class="chip" onclick="setFilter('fav',this)">♥ Αγαπημένα</button>
       </div>
       <div class="toolbar-row" id="cat2-chips-row" style="display:none;"></div>
+      <!-- Feeling & Face Effect filters -->
+      <div class="toolbar-row" style="gap:6px;flex-wrap:wrap;">
+        <span class="sort-label">Feeling ·</span>
+        <select class="sort-select" id="filter-feeling" onchange="setFeelingFilter(this.value)">
+          <option value="">Όλα</option>
+          <option>Ήρεμη</option>
+          <option>Ξεκούραστη</option>
+          <option>Δυναμική</option>
+          <option>Κουρασμένη</option>
+          <option>Άνετη</option>
+          <option>Άβολα</option>
+          <option>Professional</option>
+          <option>Μουντή</option>
+          <option>Πεσμένη</option>
+          <option>Θηλυκή</option>
+          <option>Όμορφη</option>
+          <option>Άσχημη</option>
+          <option>Αδύνατη</option>
+          <option>Με παχαίνει</option>
+          <option>Δεν μου κάθεται καλά</option>
+          <option>Κάτι δεν κολλάει</option>
+          <option>Δεν είμαι σίγουρη</option>
+          <option>Άλλο</option>
+        </select>
+        <span class="sort-label" style="margin-left:6px;">Face ·</span>
+        <select class="sort-select" id="filter-face" onchange="setFaceFilter(this.value)">
+          <option value="">Όλα</option>
+          <option>Τονίζει τα μάτια μου</option>
+          <option>Τονίζει τους μαύρους κύκλους</option>
+          <option>Με χλωμιάζει</option>
+          <option>Όμορφη χωρίς βάψιμο</option>
+          <option>Κάτι δεν κολλάει</option>
+          <option>Λαμπερή</option>
+          <option>Με κάνει κουρασμένη</option>
+          <option>Δεν είμαι σίγουρη</option>
+        </select>
+      </div>
       <div class="toolbar-row-bottom">
         <div class="sort-wrap">
           <span class="sort-label">Ταξινόμηση ·</span>
@@ -417,8 +454,6 @@ body{padding-bottom:0;}
             <option value="most_worn">Περισσότερο φορεμένο</option>
             <option value="price_high">Τιμή ↑</option>
             <option value="price_low">Τιμή ↓</option>
-            <option value="feeling">Feeling</option>
-            <option value="face_effect">Face Effect</option>
           </select>
         </div>
         <div class="view-wrap">
@@ -518,18 +553,24 @@ body{padding-bottom:0;}
           <label>Πώς αισθάνομαι όταν το φοράω</label>
           <select id="f-feeling">
             <option value="">— Επιλογή —</option>
+            <option>Ήρεμη</option>
+            <option>Ξεκούραστη</option>
             <option>Δυναμική</option>
+            <option>Κουρασμένη</option>
             <option>Άνετη</option>
-            <option>Εαυτός μου</option>
-            <option>Θηλυκή</option>
-            <option>Παιχνιδιάρα</option>
-            <option>Επαγγελματική</option>
-            <option>Χαρούμενη</option>
-            <option>Λυπημένη</option>
-            <option>Edgy</option>
+            <option>Άβολα</option>
+            <option>Professional</option>
             <option>Μουντή</option>
-            <option>Με ρίχνει</option>
+            <option>Πεσμένη</option>
+            <option>Θηλυκή</option>
+            <option>Όμορφη</option>
+            <option>Άσχημη</option>
+            <option>Αδύνατη</option>
+            <option>Με παχαίνει</option>
+            <option>Δεν μου κάθεται καλά</option>
+            <option>Κάτι δεν κολλάει</option>
             <option>Δεν είμαι σίγουρη</option>
+            <option>Άλλο</option>
           </select>
         </div>
         <div class="form-group">
@@ -935,6 +976,7 @@ const CAT_COLORS=['#9a7a4a','#c9a96e','#d4b88a','#7a9a6a','#6a7a9a','#9a6a7a','#
 const COLOR_HEX={'White':'#F5F5F0','Beige':'#D4B88A','Black':'#1A1A1A','Navy':'#1B2A4A','Camel':'#C9A96E','Chocolate Brown':'#4A2C17','Olive':'#7A7A45','Grey (Light)':'#C4C4C0','Grey (Mid)':'#8B8B88','Grey (Charcoal)':'#6B6B6B','Burgundy':'#6D1A2A','Red':'#C0392B','Mint':'#9DC4B0','Mushroom':'#B5A898','Sand':'#D4C4A8','Cobalt':'#1E3A8A','Powder Blue':'#7EB8D4','Emerald':'#2D5A27','Hunter Green':'#2D5A27','Hot Pink':'#D5006D','Rose Gold':'#E8B4B8','Coral':'#C4673A','Aubergine':'#6D1A5A','Off-White/Ivory':'#EDE8DC'};
 
 let currentUser=null, allItems=[], wearLogs=[], currentFilter='all', currentCat2Filter='all', sortMode='newest', editingItemId=null, uploadedPhotoFile=null;
+let feelingFilter='', faceFilter='';
 let calYear=new Date().getFullYear(), calMonth=new Date().getMonth(), selectedDate=todayStr(), selectedDateLogs=[];
 let dashYear=new Date().getFullYear(), dashMonth=new Date().getMonth();
 
@@ -1016,12 +1058,17 @@ function updateCat2Chips(cat1){
   currentCat2Filter='all';
 }
 function setCat2Filter(val,btn){currentCat2Filter=val;document.querySelectorAll('#cat2-chips-row .chip').forEach(c=>c.classList.remove('active'));btn.classList.add('active');renderWardrobe();}
+function setFeelingFilter(val){feelingFilter=val;renderWardrobe();}
+function setFaceFilter(val){faceFilter=val;renderWardrobe();}
+
 function filterItems(){
   let items=[...allItems];
   if(currentFilter==='dormant')items=items.filter(i=>isDormant(i));
   else if(currentFilter==='fav')items=items.filter(i=>i.is_favorite);
   else if(currentFilter!=='all')items=items.filter(i=>i.cat1===currentFilter||i.category===currentFilter);
   if(currentCat2Filter!=='all')items=items.filter(i=>i.cat2===currentCat2Filter);
+  if(feelingFilter)items=items.filter(i=>i.feeling===feelingFilter);
+  if(faceFilter)items=items.filter(i=>i.face_effect===faceFilter);
   if(sortMode==='cpw_best')items.sort((a,b)=>(getCPW(a)||9999)-(getCPW(b)||9999));
   else if(sortMode==='cpw_worst')items.sort((a,b)=>(getCPW(b)||0)-(getCPW(a)||0));
   else if(sortMode==='score_best')items.sort((a,b)=>(getWardrobeScore(b)?.total||0)-(getWardrobeScore(a)?.total||0));
@@ -1030,8 +1077,6 @@ function filterItems(){
   else if(sortMode==='most_worn')items.sort((a,b)=>getTotalWear(b)-getTotalWear(a));
   else if(sortMode==='price_high')items.sort((a,b)=>(b.price||0)-(a.price||0));
   else if(sortMode==='price_low')items.sort((a,b)=>(a.price||0)-(b.price||0));
-  else if(sortMode==='feeling')items.sort((a,b)=>(a.feeling||'ω').localeCompare(b.feeling||'ω','el'));
-  else if(sortMode==='face_effect')items.sort((a,b)=>(a.face_effect||'ω').localeCompare(b.face_effect||'ω','el'));
   else items.sort((a,b)=>{
     const ay=(a.purchase_year||0)*100+(a.purchase_month||0);
     const by=(b.purchase_year||0)*100+(b.purchase_month||0);
@@ -1077,7 +1122,13 @@ function renderWardrobe(){
     </div>`;
   }).join('');
 }
-function setFilter(f,btn){currentFilter=f;document.querySelectorAll('#cat-chips-row .chip').forEach(c=>c.classList.remove('active'));btn.classList.add('active');updateCat2Chips(f);renderWardrobe();}
+function setFilter(f,btn){
+  currentFilter=f;
+  document.querySelectorAll('#cat-chips-row .chip').forEach(c=>c.classList.remove('active'));
+  btn.classList.add('active');
+  updateCat2Chips(f);
+  renderWardrobe();
+}
 function setSortMode(val){sortMode=val;renderWardrobe();}
 function setView(mode){
   const g=document.getElementById('wgrid'),l=document.getElementById('wlist');
@@ -1914,7 +1965,7 @@ function loadPurchasesDash(){
   allItems.forEach(i=>{if(i.feeling)feelingCounts[i.feeling]=(feelingCounts[i.feeling]||0)+1;});
   const feelingSorted=Object.entries(feelingCounts).sort((a,b)=>b[1]-a[1]);
   const maxFeeling=feelingSorted[0]?.[1]||1;
-  const feelingColors={'Δυναμική':'#4a7c5a','Άνετη':'#9a7a4a','Εαυτός μου':'#c9a96e','Θηλυκή':'#d4a0b0','Παιχνιδιάρα':'#7a9a6a','Επαγγελματική':'#4a5a7c','Χαρούμενη':'#e8b84b','Λυπημένη':'#6a7a9a','Edgy':'#2a1a1a','Μουντή':'#8a8a8a','Με ρίχνει':'#8c4a3a','Δεν είμαι σίγουρη':'#b5a898'};
+  const feelingColors={'Ήρεμη':'#9dc4b0','Ξεκούραστη':'#7a9a6a','Δυναμική':'#4a7c5a','Κουρασμένη':'#8a8a8a','Άνετη':'#c9a96e','Άβολα':'#8c4a3a','Professional':'#4a5a7c','Μουντή':'#6a6a6a','Πεσμένη':'#6a7a9a','Θηλυκή':'#d4a0b0','Όμορφη':'#e8b84b','Άσχημη':'#4a3a2a','Αδύνατη':'#9a7a4a','Με παχαίνει':'#7a4a3a','Δεν μου κάθεται καλά':'#b5a898','Κάτι δεν κολλάει':'#9a6a4a','Δεν είμαι σίγουρη':'#c4c4c0','Άλλο':'#aaaaaa'};
   document.getElementById('feeling-chart').innerHTML=feelingSorted.length
     ? feelingSorted.map(([f,v])=>hBar(f,v,maxFeeling,`${v} τεμ.`,feelingColors[f]||'var(--accent-light)')).join('')
     : '<div style="color:var(--text-dim);font-size:11px;padding:8px 0">Δεν υπάρχουν δεδομένα ακόμα</div>';

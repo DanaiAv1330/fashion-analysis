@@ -1966,8 +1966,9 @@ function loadPurchasesDash(){
   }).join('');
 
   // ── FEELING chart ──
+  const VALID_FEELINGS=['😍 Excellent','😊 Good','💪 Powerful','🌸 Pretty','😴 Comfortable','😒 Mehh','😢 Uncomfortable','😡 Itching','😨 Suffocating'];
   const feelingCounts={};
-  allItems.forEach(i=>{if(i.feeling)feelingCounts[i.feeling]=(feelingCounts[i.feeling]||0)+1;});
+  allItems.forEach(i=>{if(i.feeling&&VALID_FEELINGS.includes(i.feeling))feelingCounts[i.feeling]=(feelingCounts[i.feeling]||0)+1;});
   const feelingSorted=Object.entries(feelingCounts).sort((a,b)=>b[1]-a[1]);
   const maxFeeling=feelingSorted[0]?.[1]||1;
   const feelingColors={'😍 Excellent':'#e8b84b','😊 Good':'#4a7c5a','💪 Powerful':'#1B2A4A','🌸 Pretty':'#d4a0b0','😴 Comfortable':'#9dc4b0','😒 Mehh':'#b5a898','😢 Uncomfortable':'#6a7a9a','😡 Itching':'#8c4a3a','😨 Suffocating':'#4a3a2a'};
@@ -1976,14 +1977,15 @@ function loadPurchasesDash(){
     : '<div style="color:var(--text-dim);font-size:11px;padding:8px 0">Δεν υπάρχουν δεδομένα ακόμα</div>';
 
   // ── FACE EFFECT chart ──
-  const faceCounts={};
-  allItems.forEach(i=>{if(i.face_effect)faceCounts[i.face_effect]=(faceCounts[i.face_effect]||0)+1;});
-  const faceSorted=Object.entries(faceCounts).sort((a,b)=>b[1]-a[1]);
-  const maxFace=faceSorted[0]?.[1]||1;
-  const faceColors={}; // color by category
-  const getFaceChartColor=v=>FACE_GOOD.includes(v)?'#4a7c5a':FACE_BAD.includes(v)?'#8c4a3a':'#b5a898';
-  document.getElementById('face-effect-chart').innerHTML=faceSorted.length
-    ? faceSorted.map(([f,v])=>hBar(f,v,maxFace,`${v} τεμ.`,getFaceChartColor(f))).join('')
+  // ── FACE EFFECT chart — grouped by category ──
+  const faceCatCounts={'Good':0,'Bad':0,'Not Sure':0};
+  allItems.forEach(i=>{if(i.face_effect){const cat=getFaceCategory(i.face_effect);if(cat)faceCatCounts[cat]++;}});
+  const faceCatSorted=Object.entries(faceCatCounts).filter(([,v])=>v>0).sort((a,b)=>b[1]-a[1]);
+  const maxFace=faceCatSorted[0]?.[1]||1;
+  const faceCatColors={'Good':'#4a7c5a','Bad':'#8c4a3a','Not Sure':'#b5a898'};
+  const faceCatLabels={'Good':'✨ Good','Bad':'🌧️ Bad','Not Sure':'🤔 Not Sure'};
+  document.getElementById('face-effect-chart').innerHTML=faceCatSorted.length
+    ? faceCatSorted.map(([cat,v])=>hBar(faceCatLabels[cat],v,maxFace,`${v} τεμ.`,faceCatColors[cat])).join('')
     : '<div style="color:var(--text-dim);font-size:11px;padding:8px 0">Δεν υπάρχουν δεδομένα ακόμα</div>';
 }
 

@@ -417,6 +417,8 @@ body{padding-bottom:0;}
             <option value="most_worn">Περισσότερο φορεμένο</option>
             <option value="price_high">Τιμή ↑</option>
             <option value="price_low">Τιμή ↓</option>
+            <option value="feeling">Feeling</option>
+            <option value="face_effect">Face Effect</option>
           </select>
         </div>
         <div class="view-wrap">
@@ -508,7 +510,44 @@ body{padding-bottom:0;}
       </div>
       <div class="checkbox-row" style="margin-top:8px;"><input type="checkbox" id="f-fav"><label for="f-fav">♥ Αγαπημένο</label></div>
     </div>
-    <!-- Conscious -->
+    <!-- Feeling & Face Effect -->
+    <div style="margin-bottom:14px;">
+      <div class="form-section-title">🧠 Πώς νιώθω / Πώς φαίνομαι</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Πώς αισθάνομαι όταν το φοράω</label>
+          <select id="f-feeling">
+            <option value="">— Επιλογή —</option>
+            <option>Δυναμική</option>
+            <option>Άνετη</option>
+            <option>Εαυτός μου</option>
+            <option>Θηλυκή</option>
+            <option>Παιχνιδιάρα</option>
+            <option>Επαγγελματική</option>
+            <option>Χαρούμενη</option>
+            <option>Λυπημένη</option>
+            <option>Edgy</option>
+            <option>Μουντή</option>
+            <option>Με ρίχνει</option>
+            <option>Δεν είμαι σίγουρη</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Πώς φαίνεται το πρόσωπό μου</label>
+          <select id="f-face-effect">
+            <option value="">— Επιλογή —</option>
+            <option>Τονίζει τα μάτια μου</option>
+            <option>Τονίζει τους μαύρους κύκλους</option>
+            <option>Με χλωμιάζει</option>
+            <option>Όμορφη χωρίς βάψιμο</option>
+            <option>Κάτι δεν κολλάει</option>
+            <option>Λαμπερή</option>
+            <option>Με κάνει κουρασμένη</option>
+            <option>Δεν είμαι σίγουρη</option>
+          </select>
+        </div>
+      </div>
+    </div>
     <div style="margin-bottom:14px;">
       <div class="form-section-title">🧠 Conscious Purchase Score</div>
       <div style="font-size:9px;color:var(--text-dim);margin-bottom:8px;">Πόσο καιρό το σκέφτηκες πριν το αγοράσεις;</div>
@@ -729,6 +768,16 @@ body{padding-bottom:0;}
     <div class="chart-card" style="margin-bottom:12px;">
       <div class="chart-title">Επένδυση (€) ανά Χρώμα (Top 15)</div>
       <div id="color-value-chart"></div>
+    </div>
+
+    <div style="font-family:var(--font-serif);font-size:15px;font-weight:300;margin:16px 0 10px;">Feeling <em style="color:var(--accent);font-style:italic">& Face Effect</em></div>
+    <div class="chart-card" style="margin-bottom:12px;">
+      <div class="chart-title">Πώς αισθάνομαι (τεμάχια ανά κατηγορία)</div>
+      <div id="feeling-chart"></div>
+    </div>
+    <div class="chart-card" style="margin-bottom:12px;">
+      <div class="chart-title">Πώς φαίνεται το πρόσωπό μου (τεμάχια ανά κατηγορία)</div>
+      <div id="face-effect-chart"></div>
     </div>
   </div>
 
@@ -981,6 +1030,8 @@ function filterItems(){
   else if(sortMode==='most_worn')items.sort((a,b)=>getTotalWear(b)-getTotalWear(a));
   else if(sortMode==='price_high')items.sort((a,b)=>(b.price||0)-(a.price||0));
   else if(sortMode==='price_low')items.sort((a,b)=>(a.price||0)-(b.price||0));
+  else if(sortMode==='feeling')items.sort((a,b)=>(a.feeling||'ω').localeCompare(b.feeling||'ω','el'));
+  else if(sortMode==='face_effect')items.sort((a,b)=>(a.face_effect||'ω').localeCompare(b.face_effect||'ω','el'));
   else items.sort((a,b)=>{
     const ay=(a.purchase_year||0)*100+(a.purchase_month||0);
     const by=(b.purchase_year||0)*100+(b.purchase_month||0);
@@ -1050,7 +1101,7 @@ function openItemModal(itemId=null){
   document.getElementById('inline-item-title').innerHTML=item?'Επεξεργασία <em style="font-style:italic;color:var(--accent)">Κομματιού</em>':'Νέο <em style="font-style:italic;color:var(--accent)">Κομμάτι</em>';
   document.getElementById('item-delete-btn').style.display=item?'block':'none';
   ['f-title','f-brand','f-color','f-pattern','f-material','f-size','f-notes'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
-  ['f-cat1','f-cat2','f-season','f-sleeve','f-length'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  ['f-cat1','f-cat2','f-season','f-sleeve','f-length','f-feeling','f-face-effect'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
   document.getElementById('f-price').value='';document.getElementById('f-purchase-year').value='';document.getElementById('f-purchase-month').value='';document.getElementById('f-prev-worn').value='0';document.getElementById('f-fav').checked=false;
   document.getElementById('photo-preview').style.display='none';document.getElementById('photo-placeholder').style.display='block';
   document.querySelectorAll('.conscious-opt').forEach(o=>{o.classList.remove('selected-opt');const inp=o.querySelector('input');if(inp)inp.checked=false;});
@@ -1073,6 +1124,8 @@ function openItemModal(itemId=null){
     document.getElementById('f-length').value=item.item_length||'';
     document.getElementById('f-notes').value=item.notes||'';
     document.getElementById('f-fav').checked=item.is_favorite||false;
+    document.getElementById('f-feeling').value=item.feeling||'';
+    document.getElementById('f-face-effect').value=item.face_effect||'';
     if(item.photo_url){document.getElementById('photo-preview').src=item.photo_url;document.getElementById('photo-preview').style.display='block';document.getElementById('photo-placeholder').style.display='none';}
     if(item.conscious_score!=null)setConsciousValue(item.conscious_score);
   }
@@ -1115,6 +1168,8 @@ async function saveItem(){
     size_field:document.getElementById('f-size').value.trim()||null,
     is_favorite:document.getElementById('f-fav').checked,
     conscious_score:getSelectedConscious(),photo_url:photoUrl,
+    feeling:document.getElementById('f-feeling').value||null,
+    face_effect:document.getElementById('f-face-effect').value||null,
   };
   let error;
   if(editingItemId)({error}=await sb.from('wardrobe').update(payload).eq('id',editingItemId));
@@ -1853,6 +1908,26 @@ function loadPurchasesDash(){
     const hex=COLOR_HEX[color]||'#C9A96E';
     return hBar(color, val, maxColorVal, `€${Math.round(val).toLocaleString('el-GR')}`, hex);
   }).join('');
+
+  // ── FEELING chart ──
+  const feelingCounts={};
+  allItems.forEach(i=>{if(i.feeling)feelingCounts[i.feeling]=(feelingCounts[i.feeling]||0)+1;});
+  const feelingSorted=Object.entries(feelingCounts).sort((a,b)=>b[1]-a[1]);
+  const maxFeeling=feelingSorted[0]?.[1]||1;
+  const feelingColors={'Δυναμική':'#4a7c5a','Άνετη':'#9a7a4a','Εαυτός μου':'#c9a96e','Θηλυκή':'#d4a0b0','Παιχνιδιάρα':'#7a9a6a','Επαγγελματική':'#4a5a7c','Χαρούμενη':'#e8b84b','Λυπημένη':'#6a7a9a','Edgy':'#2a1a1a','Μουντή':'#8a8a8a','Με ρίχνει':'#8c4a3a','Δεν είμαι σίγουρη':'#b5a898'};
+  document.getElementById('feeling-chart').innerHTML=feelingSorted.length
+    ? feelingSorted.map(([f,v])=>hBar(f,v,maxFeeling,`${v} τεμ.`,feelingColors[f]||'var(--accent-light)')).join('')
+    : '<div style="color:var(--text-dim);font-size:11px;padding:8px 0">Δεν υπάρχουν δεδομένα ακόμα</div>';
+
+  // ── FACE EFFECT chart ──
+  const faceCounts={};
+  allItems.forEach(i=>{if(i.face_effect)faceCounts[i.face_effect]=(faceCounts[i.face_effect]||0)+1;});
+  const faceSorted=Object.entries(faceCounts).sort((a,b)=>b[1]-a[1]);
+  const maxFace=faceSorted[0]?.[1]||1;
+  const faceColors={'Τονίζει τα μάτια μου':'#4a5a7c','Τονίζει τους μαύρους κύκλους':'#2a1a2a','Με χλωμιάζει':'#c4c4c0','Όμορφη χωρίς βάψιμο':'#4a7c5a','Κάτι δεν κολλάει':'#8c4a3a','Λαμπερή':'#e8b84b','Με κάνει κουρασμένη':'#8a8a8a','Δεν είμαι σίγουρη':'#b5a898'};
+  document.getElementById('face-effect-chart').innerHTML=faceSorted.length
+    ? faceSorted.map(([f,v])=>hBar(f,v,maxFace,`${v} τεμ.`,faceColors[f]||'var(--accent-light)')).join('')
+    : '<div style="color:var(--text-dim);font-size:11px;padding:8px 0">Δεν υπάρχουν δεδομένα ακόμα</div>';
 }
 
 // BULK IMPORT

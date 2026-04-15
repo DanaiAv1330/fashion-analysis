@@ -671,7 +671,7 @@ body{padding-bottom:0;}
         <button class="dash-subtab" onclick="showDashSub('total',this)">📈 Ανάλυση Περιόδου</button>
         <button class="dash-subtab" onclick="showDashSub('scores',this)">⭐ Score</button>
         <button class="dash-subtab" onclick="showDashSub('purchases',this)">🛍 Αγορές</button>
-        <button class="dash-subtab" onclick="showDashSub('import',this)">📥 Import</button>
+        <button class="dash-subtab" onclick="showDashSub('import',this)" id="import-tab-btn" style="display:none;">📥 Import</button>
         <button class="dash-subtab" onclick="showDashSub('gone',this)">📦 Gone</button>
       </div>
 
@@ -2027,6 +2027,20 @@ function showDashSub(id,btn){
   if(id==='total')loadTotalDash();if(id==='scores')loadScoresDash();if(id==='purchases')loadPurchasesDash();
 }
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
+
+// Secret shortcut: press I three times quickly to show/hide Import tab
+let _secretKeys=[];
+document.addEventListener('keydown',e=>{
+  if(e.key.toLowerCase()==='i'){
+    _secretKeys.push(Date.now());
+    _secretKeys=_secretKeys.filter(t=>Date.now()-t<1500);
+    if(_secretKeys.length>=3){
+      _secretKeys=[];
+      const btn=document.getElementById('import-tab-btn');
+      if(btn){btn.style.display=btn.style.display==='none'?'':'none';showToast(btn.style.display===''?'🔓 Import ορατό':'🔒 Import κρυφό');}
+    }
+  }
+});
 </script>
 
 <!-- Google Analytics -->

@@ -404,41 +404,30 @@ body{padding-bottom:0;}
         <button class="chip" onclick="setFilter('fav',this)">♥ Αγαπημένα</button>
       </div>
       <div class="toolbar-row" id="cat2-chips-row" style="display:none;"></div>
-      <!-- Feeling & Face Effect filters -->
-      <div class="toolbar-row" style="gap:6px;flex-wrap:wrap;">
-        <span class="sort-label">Feeling ·</span>
+      <!-- Feeling filter row -->
+      <div class="toolbar-row" style="gap:6px;">
+        <span class="sort-label" style="flex-shrink:0;">Feeling ·</span>
         <select class="sort-select" id="filter-feeling" onchange="setFeelingFilter(this.value)">
           <option value="">Όλα</option>
-          <option>Ήρεμη</option>
-          <option>Ξεκούραστη</option>
-          <option>Δυναμική</option>
-          <option>Κουρασμένη</option>
-          <option>Άνετη</option>
-          <option>Άβολα</option>
-          <option>Professional</option>
-          <option>Μουντή</option>
-          <option>Πεσμένη</option>
-          <option>Θηλυκή</option>
-          <option>Όμορφη</option>
-          <option>Άσχημη</option>
-          <option>Αδύνατη</option>
-          <option>Με παχαίνει</option>
-          <option>Δεν μου κάθεται καλά</option>
-          <option>Κάτι δεν κολλάει</option>
-          <option>Δεν είμαι σίγουρη</option>
-          <option>Άλλο</option>
+          <option value="😍 Excellent">😍 Excellent</option>
+          <option value="😊 Good">😊 Good</option>
+          <option value="💪 Powerful">💪 Powerful</option>
+          <option value="🌸 Pretty">🌸 Pretty</option>
+          <option value="😴 Comfortable">😴 Comfortable</option>
+          <option value="😒 Mehh">😒 Mehh</option>
+          <option value="😢 Uncomfortable">😢 Uncomfortable</option>
+          <option value="😡 Itching">😡 Itching</option>
+          <option value="😨 Suffocating">😨 Suffocating</option>
         </select>
-        <span class="sort-label" style="margin-left:6px;">Face ·</span>
+      </div>
+      <!-- Face filter row -->
+      <div class="toolbar-row" style="gap:6px;">
+        <span class="sort-label" style="flex-shrink:0;">Face ·</span>
         <select class="sort-select" id="filter-face" onchange="setFaceFilter(this.value)">
           <option value="">Όλα</option>
-          <option>Τονίζει τα μάτια μου</option>
-          <option>Τονίζει τους μαύρους κύκλους</option>
-          <option>Με χλωμιάζει</option>
-          <option>Όμορφη χωρίς βάψιμο</option>
-          <option>Κάτι δεν κολλάει</option>
-          <option>Λαμπερή</option>
-          <option>Με κάνει κουρασμένη</option>
-          <option>Δεν είμαι σίγουρη</option>
+          <option value="Good">✨ Good</option>
+          <option value="Bad">🌧️ Bad</option>
+          <option value="Not Sure">🤔 Not Sure</option>
         </select>
       </div>
       <div class="toolbar-row-bottom">
@@ -553,38 +542,49 @@ body{padding-bottom:0;}
           <label>Πώς αισθάνομαι όταν το φοράω</label>
           <select id="f-feeling">
             <option value="">— Επιλογή —</option>
-            <option>Ήρεμη</option>
-            <option>Ξεκούραστη</option>
-            <option>Δυναμική</option>
-            <option>Κουρασμένη</option>
-            <option>Άνετη</option>
-            <option>Άβολα</option>
-            <option>Professional</option>
-            <option>Μουντή</option>
-            <option>Πεσμένη</option>
-            <option>Θηλυκή</option>
-            <option>Όμορφη</option>
-            <option>Άσχημη</option>
-            <option>Αδύνατη</option>
-            <option>Με παχαίνει</option>
-            <option>Δεν μου κάθεται καλά</option>
-            <option>Κάτι δεν κολλάει</option>
-            <option>Δεν είμαι σίγουρη</option>
-            <option>Άλλο</option>
+            <option value="😍 Excellent">😍 Excellent</option>
+            <option value="😊 Good">😊 Good</option>
+            <option value="💪 Powerful">💪 Powerful</option>
+            <option value="🌸 Pretty">🌸 Pretty</option>
+            <option value="😴 Comfortable">😴 Comfortable</option>
+            <option value="😒 Mehh">😒 Mehh</option>
+            <option value="😢 Uncomfortable">😢 Uncomfortable</option>
+            <option value="😡 Itching">😡 Itching</option>
+            <option value="😨 Suffocating">😨 Suffocating</option>
           </select>
         </div>
         <div class="form-group">
           <label>Πώς φαίνεται το πρόσωπό μου</label>
           <select id="f-face-effect">
             <option value="">— Επιλογή —</option>
-            <option>Τονίζει τα μάτια μου</option>
-            <option>Τονίζει τους μαύρους κύκλους</option>
-            <option>Με χλωμιάζει</option>
-            <option>Όμορφη χωρίς βάψιμο</option>
-            <option>Κάτι δεν κολλάει</option>
-            <option>Λαμπερή</option>
-            <option>Με κάνει κουρασμένη</option>
-            <option>Δεν είμαι σίγουρη</option>
+            <optgroup label="✨ Good">
+              <option>Σου φωτίζει το πρόσωπο ✨</option>
+              <option>Κάνει τα μάτια σου να λάμπουν 👀✨</option>
+              <option>Δείχνεις πιο ξεκούραστη 😌</option>
+              <option>Φαίνεσαι πιο λαμπερή ✨</option>
+              <option>Σε κάνει να δείχνεις πιο φρέσκια 🌿</option>
+              <option>Αναδεικνύει το δέρμα σου 💫</option>
+              <option>Κάνει contrast με τα χαρακτηριστικά σου 🎯</option>
+              <option>Σου καθαρίζει τα χαρακτηριστικά 🧼</option>
+              <option>Τονίζει τα μάτια σου 👁️</option>
+              <option>Σε κάνει να δείχνεις πιο νέα 👶✨</option>
+              <option>Δείχνεις πιο περιποιημένη 💅</option>
+            </optgroup>
+            <optgroup label="🌧️ Bad">
+              <option>Σε κάνει να δείχνεις κουρασμένη 😴</option>
+              <option>Σου "σβήνει" τα χαρακτηριστικά 🌫️</option>
+              <option>Δείχνεις πιο χλωμή 😶</option>
+              <option>Σε κάνει να φαίνεσαι άτονη 🪫</option>
+              <option>Δείχνεις πιο κουρασμένη απ' ό,τι είσαι 😵‍💫</option>
+              <option>Σου τονίζει τους κύκλους 👁️‍🗨️</option>
+              <option>Σε κάνει να δείχνεις πιο μεγάλη 🧓</option>
+              <option>Δεν σου δίνει καθόλου φως 🌑</option>
+              <option>Χάνεται το πρόσωπό σου μέσα στο ρούχο 🫥</option>
+              <option>Δείχνεις λίγο μουντή 🌧️</option>
+            </optgroup>
+            <optgroup label="🤔 Not Sure">
+              <option>Δεν είμαι σίγουρη 🤔</option>
+            </optgroup>
           </select>
         </div>
       </div>
@@ -1061,6 +1061,11 @@ function setCat2Filter(val,btn){currentCat2Filter=val;document.querySelectorAll(
 function setFeelingFilter(val){feelingFilter=val;renderWardrobe();}
 function setFaceFilter(val){faceFilter=val;renderWardrobe();}
 
+const FACE_GOOD=['Σου φωτίζει το πρόσωπο ✨','Κάνει τα μάτια σου να λάμπουν 👀✨','Δείχνεις πιο ξεκούραστη 😌','Φαίνεσαι πιο λαμπερή ✨','Σε κάνει να δείχνεις πιο φρέσκια 🌿','Αναδεικνύει το δέρμα σου 💫','Κάνει contrast με τα χαρακτηριστικά σου 🎯','Σου καθαρίζει τα χαρακτηριστικά 🧼','Τονίζει τα μάτια σου 👁️','Σε κάνει να δείχνεις πιο νέα 👶✨','Δείχνεις πιο περιποιημένη 💅'];
+const FACE_BAD=['Σε κάνει να δείχνεις κουρασμένη 😴','Σου "σβήνει" τα χαρακτηριστικά 🌫️','Δείχνεις πιο χλωμή 😶','Σε κάνει να φαίνεσαι άτονη 🪫','Δείχνεις πιο κουρασμένη απ\' ό,τι είσαι 😵‍💫','Σου τονίζει τους κύκλους 👁️‍🗨️','Σε κάνει να δείχνεις πιο μεγάλη 🧓','Δεν σου δίνει καθόλου φως 🌑','Χάνεται το πρόσωπό σου μέσα στο ρούχο 🫥','Δείχνεις λίγο μουντή 🌧️'];
+const FACE_NOT_SURE=['Δεν είμαι σίγουρη 🤔'];
+function getFaceCategory(v){if(!v)return null;if(FACE_GOOD.includes(v))return'Good';if(FACE_BAD.includes(v))return'Bad';return'Not Sure';}
+
 function filterItems(){
   let items=[...allItems];
   if(currentFilter==='dormant')items=items.filter(i=>isDormant(i));
@@ -1068,7 +1073,7 @@ function filterItems(){
   else if(currentFilter!=='all')items=items.filter(i=>i.cat1===currentFilter||i.category===currentFilter);
   if(currentCat2Filter!=='all')items=items.filter(i=>i.cat2===currentCat2Filter);
   if(feelingFilter)items=items.filter(i=>i.feeling===feelingFilter);
-  if(faceFilter)items=items.filter(i=>i.face_effect===faceFilter);
+  if(faceFilter)items=items.filter(i=>getFaceCategory(i.face_effect)===faceFilter);
   if(sortMode==='cpw_best')items.sort((a,b)=>(getCPW(a)||9999)-(getCPW(b)||9999));
   else if(sortMode==='cpw_worst')items.sort((a,b)=>(getCPW(b)||0)-(getCPW(a)||0));
   else if(sortMode==='score_best')items.sort((a,b)=>(getWardrobeScore(b)?.total||0)-(getWardrobeScore(a)?.total||0));
@@ -1965,7 +1970,7 @@ function loadPurchasesDash(){
   allItems.forEach(i=>{if(i.feeling)feelingCounts[i.feeling]=(feelingCounts[i.feeling]||0)+1;});
   const feelingSorted=Object.entries(feelingCounts).sort((a,b)=>b[1]-a[1]);
   const maxFeeling=feelingSorted[0]?.[1]||1;
-  const feelingColors={'Ήρεμη':'#9dc4b0','Ξεκούραστη':'#7a9a6a','Δυναμική':'#4a7c5a','Κουρασμένη':'#8a8a8a','Άνετη':'#c9a96e','Άβολα':'#8c4a3a','Professional':'#4a5a7c','Μουντή':'#6a6a6a','Πεσμένη':'#6a7a9a','Θηλυκή':'#d4a0b0','Όμορφη':'#e8b84b','Άσχημη':'#4a3a2a','Αδύνατη':'#9a7a4a','Με παχαίνει':'#7a4a3a','Δεν μου κάθεται καλά':'#b5a898','Κάτι δεν κολλάει':'#9a6a4a','Δεν είμαι σίγουρη':'#c4c4c0','Άλλο':'#aaaaaa'};
+  const feelingColors={'😍 Excellent':'#e8b84b','😊 Good':'#4a7c5a','💪 Powerful':'#1B2A4A','🌸 Pretty':'#d4a0b0','😴 Comfortable':'#9dc4b0','😒 Mehh':'#b5a898','😢 Uncomfortable':'#6a7a9a','😡 Itching':'#8c4a3a','😨 Suffocating':'#4a3a2a'};
   document.getElementById('feeling-chart').innerHTML=feelingSorted.length
     ? feelingSorted.map(([f,v])=>hBar(f,v,maxFeeling,`${v} τεμ.`,feelingColors[f]||'var(--accent-light)')).join('')
     : '<div style="color:var(--text-dim);font-size:11px;padding:8px 0">Δεν υπάρχουν δεδομένα ακόμα</div>';
@@ -1975,9 +1980,10 @@ function loadPurchasesDash(){
   allItems.forEach(i=>{if(i.face_effect)faceCounts[i.face_effect]=(faceCounts[i.face_effect]||0)+1;});
   const faceSorted=Object.entries(faceCounts).sort((a,b)=>b[1]-a[1]);
   const maxFace=faceSorted[0]?.[1]||1;
-  const faceColors={'Τονίζει τα μάτια μου':'#4a5a7c','Τονίζει τους μαύρους κύκλους':'#2a1a2a','Με χλωμιάζει':'#c4c4c0','Όμορφη χωρίς βάψιμο':'#4a7c5a','Κάτι δεν κολλάει':'#8c4a3a','Λαμπερή':'#e8b84b','Με κάνει κουρασμένη':'#8a8a8a','Δεν είμαι σίγουρη':'#b5a898'};
+  const faceColors={}; // color by category
+  const getFaceChartColor=v=>FACE_GOOD.includes(v)?'#4a7c5a':FACE_BAD.includes(v)?'#8c4a3a':'#b5a898';
   document.getElementById('face-effect-chart').innerHTML=faceSorted.length
-    ? faceSorted.map(([f,v])=>hBar(f,v,maxFace,`${v} τεμ.`,faceColors[f]||'var(--accent-light)')).join('')
+    ? faceSorted.map(([f,v])=>hBar(f,v,maxFace,`${v} τεμ.`,getFaceChartColor(f))).join('')
     : '<div style="color:var(--text-dim);font-size:11px;padding:8px 0">Δεν υπάρχουν δεδομένα ακόμα</div>';
 }
 

@@ -840,14 +840,23 @@ body{padding-bottom:0;}
       <div class="kpi-card"><div class="kpi-label">Avg items/ημέρα</div><div class="kpi-value" id="cb-avg">—</div></div>
     </div>
 
-    <div class="section-title">👗 Top 5 Ζεύγη Items</div>
+    <div class="section-title">👗👗 Top 5 Ζεύγη Items</div>
     <div class="chart-card" style="margin-bottom:12px;"><div id="cb-pair-items"></div></div>
 
     <div class="section-title">👗👗👗 Top 5 Τριάδες Items</div>
     <div class="chart-card" style="margin-bottom:12px;"><div id="cb-triple-items"></div></div>
 
+    <div class="section-title">👗👗👗👗 Top 5 Τετράδες Items</div>
+    <div class="chart-card" style="margin-bottom:12px;"><div id="cb-quad-items"></div></div>
+
+    <div class="section-title">👗👗👗👗👗 Top 5 Πεντάδες Items</div>
+    <div class="chart-card" style="margin-bottom:12px;"><div id="cb-quint-items"></div></div>
+
     <div class="section-title">🎨 Top 5 Ζεύγη Χρωμάτων</div>
     <div class="chart-card" style="margin-bottom:12px;"><div id="cb-pair-colors"></div></div>
+
+    <div class="section-title">🎨🎨 Top 5 Τριάδες Χρωμάτων</div>
+    <div class="chart-card" style="margin-bottom:12px;"><div id="cb-triple-colors"></div></div>
 
     <div class="section-title">📦 Top 5 Ζεύγη Κατηγοριών</div>
     <div class="chart-card" style="margin-bottom:12px;"><div id="cb-pair-cats"></div></div>
@@ -2101,65 +2110,78 @@ function loadCombosDash(){
     for(let i=0;i<arr.length;i++)for(let j=i+1;j<arr.length;j++)for(let k=j+1;k<arr.length;k++)triples.push([arr[i],arr[j],arr[k]].sort().join('|||'));
     return triples;
   }
+  function getQuads(arr){
+    const r=[];
+    for(let i=0;i<arr.length;i++)for(let j=i+1;j<arr.length;j++)for(let k=j+1;k<arr.length;k++)for(let l=k+1;l<arr.length;l++)r.push([arr[i],arr[j],arr[k],arr[l]].sort().join('|||'));
+    return r;
+  }
+  function getQuints(arr){
+    const r=[];
+    for(let i=0;i<arr.length;i++)for(let j=i+1;j<arr.length;j++)for(let k=j+1;k<arr.length;k++)for(let l=k+1;l<arr.length;l++)for(let m=l+1;m<arr.length;m++)r.push([arr[i],arr[j],arr[k],arr[l],arr[m]].sort().join('|||'));
+    return r;
+  }
   function countCombos(combos){
     const counts={};combos.forEach(c=>counts[c]=(counts[c]||0)+1);
     return Object.entries(counts).sort((a,b)=>b[1]-a[1]);
   }
+  function itemThumb(it,sz){
+    const h=Math.round(sz*1.25);
+    const img=it.photo_url?'<img src="'+escHtml(it.photo_url)+'" style="width:'+sz+'px;height:'+h+'px;object-fit:cover;">':'👗';
+    return'<div style="width:'+sz+'px;height:'+h+'px;background:var(--surface3);border-radius:1px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:10px;overflow:hidden;">'+img+'</div>';
+  }
+  function renderItemCombos(elId,comboCounts,minSize,maxBars){
+    maxBars=maxBars||5;
+    const el=document.getElementById(elId);if(!el)return;
+    const top=comboCounts.slice(0,maxBars);
+    const maxC=top[0]?.[1]||1;
+    if(!top.length){el.innerHTML='<div style="color:var(--text-dim);font-size:11px;padding:8px">Δεν υπάρχουν αρκετά δεδομένα</div>';return;}
+    const sz=minSize>=4?20:24;
+    el.innerHTML=top.map(function(entry){
+      const key=entry[0],cnt=entry[1];
+      const ids=key.split('|||');
+      const items=ids.map(function(id){return allItems.find(function(i){return i.id===id;});}).filter(Boolean);
+      if(items.length<minSize)return'';
+      const thumbs=items.map(function(it){return itemThumb(it,sz);}).join('');
+      const names=items.map(function(it){return escHtml(it.title);}).join(' + ');
+      const colors=items.map(function(it){return it.color||'—';}).join(' · ');
+      const pct=Math.round(cnt/maxC*100);
+      return'<div style="margin-bottom:10px;">'
+        +'<div style="display:flex;align-items:center;gap:8px;margin-bottom:3px;">'
+        +'<div style="display:flex;gap:2px;flex-shrink:0;">'+thumbs+'</div>'
+        +'<div style="flex:1;min-width:0;">'
+        +'<div style="font-size:10px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+names+'</div>'
+        +'<div style="font-size:9px;color:var(--text-dim);">'+colors+'</div>'
+        +'</div>'
+        +'<div style="font-size:11px;font-weight:500;color:var(--accent);flex-shrink:0;">'+cnt+'×</div>'
+        +'</div>'
+        +'<div style="height:6px;background:var(--surface3);border-radius:3px;overflow:hidden;">'
+        +'<div style="height:100%;width:'+pct+'%;background:var(--accent-light);border-radius:3px;"></div>'
+        +'</div></div>';
+    }).join('');
+  }
+
 
   // ── ITEM PAIRS ──
   const allPairs=days.flatMap(d=>getPairs(d));
   const pairCounts=countCombos(allPairs);
   document.getElementById('cb-pairs').textContent=pairCounts.length;
-  const maxP=pairCounts[0]?.[1]||1;
-  document.getElementById('cb-pair-items').innerHTML=pairCounts.slice(0,5).map(([key,cnt])=>{
-    const [id1,id2]=key.split('|||');
-    const i1=allItems.find(i=>i.id===id1),i2=allItems.find(i=>i.id===id2);
-    if(!i1||!i2)return'';
-    const label=`${i1.title} + ${i2.title}`;
-    const sub=`${i1.color||'—'} · ${i1.cat1||'—'} &nbsp;+&nbsp; ${i2.color||'—'} · ${i2.cat1||'—'}`;
-    return`<div style="margin-bottom:10px;">
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:3px;">
-        <div style="display:flex;gap:4px;flex-shrink:0;">
-          <div style="width:28px;height:34px;background:var(--surface3);border-radius:1px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:12px;overflow:hidden;">${i1.photo_url?`<img src="${escHtml(i1.photo_url)}" style="width:28px;height:34px;object-fit:cover;">`:'👗'}</div>
-          <div style="width:28px;height:34px;background:var(--surface3);border-radius:1px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:12px;overflow:hidden;">${i2.photo_url?`<img src="${escHtml(i2.photo_url)}" style="width:28px;height:34px;object-fit:cover;">`:'👗'}</div>
-        </div>
-        <div style="flex:1;min-width:0;">
-          <div style="font-size:11px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${escHtml(i1.title)} + ${escHtml(i2.title)}</div>
-          <div style="font-size:9px;color:var(--text-dim);">${i1.color||'—'} · ${i1.cat1||'—'} + ${i2.color||'—'} · ${i2.cat1||'—'}</div>
-        </div>
-        <div style="font-size:11px;font-weight:500;color:var(--accent);flex-shrink:0;">${cnt}×</div>
-      </div>
-      <div style="height:6px;background:var(--surface3);border-radius:3px;overflow:hidden;">
-        <div style="height:100%;width:${Math.round(cnt/maxP*100)}%;background:var(--accent-light);border-radius:3px;"></div>
-      </div>
-    </div>`;
-  }).join('')||'<div style="color:var(--text-dim);font-size:11px;padding:8px">Δεν υπάρχουν δεδομένα</div>';
+  renderItemCombos('cb-pair-items',pairCounts,2);
 
   // ── ITEM TRIPLES ──
   const allTriples=days.filter(d=>d.length>=3).flatMap(d=>getTriples(d));
   const tripleCounts=countCombos(allTriples);
   document.getElementById('cb-triples').textContent=tripleCounts.length;
-  const maxT=tripleCounts[0]?.[1]||1;
-  document.getElementById('cb-triple-items').innerHTML=tripleCounts.slice(0,5).map(([key,cnt])=>{
-    const ids=key.split('|||');
-    const items=ids.map(id=>allItems.find(i=>i.id===id)).filter(Boolean);
-    if(items.length<3)return'';
-    return`<div style="margin-bottom:10px;">
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:3px;">
-        <div style="display:flex;gap:3px;flex-shrink:0;">
-          ${items.map(it=>`<div style="width:24px;height:30px;background:var(--surface3);border-radius:1px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:10px;overflow:hidden;">${it.photo_url?`<img src="${escHtml(it.photo_url)}" style="width:24px;height:30px;object-fit:cover;">`:'👗'}</div>`).join('')}
-        </div>
-        <div style="flex:1;min-width:0;">
-          <div style="font-size:10px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${items.map(it=>escHtml(it.title)).join(' + ')}</div>
-          <div style="font-size:9px;color:var(--text-dim);">${items.map(it=>it.color||'—').join(' · ')}</div>
-        </div>
-        <div style="font-size:11px;font-weight:500;color:var(--accent);flex-shrink:0;">${cnt}×</div>
-      </div>
-      <div style="height:6px;background:var(--surface3);border-radius:3px;overflow:hidden;">
-        <div style="height:100%;width:${Math.round(cnt/maxT*100)}%;background:var(--accent-light);border-radius:3px;"></div>
-      </div>
-    </div>`;
-  }).join('')||'<div style="color:var(--text-dim);font-size:11px;padding:8px">Δεν υπάρχουν αρκετά δεδομένα (χρειάζονται ≥3 items/ημέρα)</div>';
+  renderItemCombos('cb-triple-items',tripleCounts,3);
+
+  // ── ITEM QUADS ──
+  const allQuads=days.filter(d=>d.length>=4).flatMap(d=>getQuads(d));
+  const quadCounts=countCombos(allQuads);
+  renderItemCombos('cb-quad-items',quadCounts,4);
+
+  // ── ITEM QUINTS ──
+  const allQuints=days.filter(d=>d.length>=5).flatMap(d=>getQuints(d));
+  const quintCounts=countCombos(allQuints);
+  renderItemCombos('cb-quint-items',quintCounts,5);
 
   // ── COLOR PAIRS ──
   const colorPairCounts={};
@@ -2183,6 +2205,28 @@ function loadCombosDash(){
       <div style="font-size:11px;font-weight:500;color:var(--text);width:28px;text-align:right;flex-shrink:0;">${cnt}×</div>
     </div>`;
   }).join('')||'<div style="color:var(--text-dim);font-size:11px;padding:8px">Δεν υπάρχουν δεδομένα</div>';
+
+  // ── COLOR TRIPLES ──
+  const colorTripleCounts={};
+  days.forEach(d=>{
+    const colors=[...new Set(d.map(id=>allItems.find(i=>i.id===id)?.color).filter(Boolean))];
+    if(colors.length>=3)getTriples(colors).forEach(p=>colorTripleCounts[p]=(colorTripleCounts[p]||0)+1);
+  });
+  const colorTripleSorted=Object.entries(colorTripleCounts).sort((a,b)=>b[1]-a[1]);
+  const maxCT=colorTripleSorted[0]?.[1]||1;
+  document.getElementById('cb-triple-colors').innerHTML=colorTripleSorted.slice(0,5).map(([key,cnt])=>{
+    const colors=key.split('|||');
+    return`<div style="display:flex;align-items:center;gap:8px;margin-bottom:7px;">
+      <div style="display:flex;gap:3px;flex-shrink:0;">
+        ${colors.map(c=>`<div style="width:14px;height:14px;border-radius:50%;background:${COLOR_HEX[c]||'#aaa'};border:1px solid var(--border);"></div>`).join('')}
+      </div>
+      <div style="font-size:11px;color:var(--text-muted);width:120px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${colors.map(c=>escHtml(c)).join(' + ')}</div>
+      <div style="flex:1;height:10px;background:var(--surface3);border-radius:5px;overflow:hidden;">
+        <div style="height:100%;width:${Math.round(cnt/maxCT*100)}%;background:var(--accent-light);border-radius:5px;"></div>
+      </div>
+      <div style="font-size:11px;font-weight:500;color:var(--text);width:28px;text-align:right;flex-shrink:0;">${cnt}×</div>
+    </div>`;
+  }).join('')||'<div style="color:var(--text-dim);font-size:11px;padding:8px">Δεν υπάρχουν αρκετά δεδομένα</div>';
 
   // ── CATEGORY PAIRS ──
   const catPairCounts={};

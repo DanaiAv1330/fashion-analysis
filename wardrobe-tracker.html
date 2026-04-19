@@ -438,8 +438,7 @@ body{padding-bottom:0;}
             <option value="newest">Πιο πρόσφατη αγορά</option>
             <option value="cpw_best">Καλύτερο CPW</option>
             <option value="cpw_worst">Χειρότερο CPW</option>
-            <option value="score_best">Καλύτερο Score</option>
-            <option value="recently_worn">Πρόσφατα φορεμένο</option>
+            <option value="recently_worn" selected>Πρόσφατα φορεμένο</option>
             <option value="least_worn">Λιγότερο φορεμένο</option>
             <option value="most_worn">Περισσότερο φορεμένο</option>
             <option value="price_high">Τιμή ↑</option>
@@ -1081,7 +1080,7 @@ const MN_FULL=['Ιανουάριος','Φεβρουάριος','Μάρτιος',
 const CAT_COLORS=['#9a7a4a','#c9a96e','#d4b88a','#7a9a6a','#6a7a9a','#9a6a7a','#7a6a9a','#aaa'];
 const COLOR_HEX={'White':'#F5F5F0','Beige':'#D4B88A','Black':'#1A1A1A','Navy':'#1B2A4A','Camel':'#C9A96E','Chocolate Brown':'#4A2C17','Olive':'#7A7A45','Grey (Light)':'#C4C4C0','Grey (Mid)':'#8B8B88','Grey (Charcoal)':'#6B6B6B','Burgundy':'#6D1A2A','Red':'#C0392B','Mint':'#9DC4B0','Mushroom':'#B5A898','Sand':'#D4C4A8','Cobalt':'#1E3A8A','Powder Blue':'#7EB8D4','Emerald':'#2D5A27','Hunter Green':'#2D5A27','Hot Pink':'#D5006D','Rose Gold':'#E8B4B8','Coral':'#C4673A','Aubergine':'#6D1A5A','Off-White/Ivory':'#EDE8DC'};
 
-let currentUser=null, allItems=[], wearLogs=[], currentFilter='all', currentCat2Filter='all', sortMode='newest', editingItemId=null, uploadedPhotoFile=null;
+let currentUser=null, allItems=[], wearLogs=[], currentFilter='all', currentCat2Filter='all', sortMode='recently_worn', editingItemId=null, uploadedPhotoFile=null;
 let feelingFilter='', faceFilter='';
 let calYear=new Date().getFullYear(), calMonth=new Date().getMonth(), selectedDate=todayStr(), selectedDateLogs=[];
 let dashYear=new Date().getFullYear(), dashMonth=new Date().getMonth();
@@ -1182,7 +1181,6 @@ function filterItems(){
   if(faceFilter)items=items.filter(i=>getFaceCategory(i.face_effect)===faceFilter);
   if(sortMode==='cpw_best')items.sort((a,b)=>(getCPW(a)||9999)-(getCPW(b)||9999));
   else if(sortMode==='cpw_worst')items.sort((a,b)=>(getCPW(b)||0)-(getCPW(a)||0));
-  else if(sortMode==='score_best')items.sort((a,b)=>(getWardrobeScore(b)?.total||0)-(getWardrobeScore(a)?.total||0));
   else if(sortMode==='recently_worn')items.sort((a,b)=>(getLastWorn(b.id)||'').localeCompare(getLastWorn(a.id)||''));
   else if(sortMode==='least_worn')items.sort((a,b)=>getTotalWear(a)-getTotalWear(b));
   else if(sortMode==='most_worn')items.sort((a,b)=>getTotalWear(b)-getTotalWear(a));

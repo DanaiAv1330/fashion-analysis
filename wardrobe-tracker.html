@@ -828,15 +828,7 @@ body{padding-bottom:0;}
         <span class="sort-label">Τύπος ·</span>
         <select class="sort-select" id="wps-drill-type" onchange="loadWPSDrill()">
           <option value="category">Ανά Κατηγορία</option>
-          <option value="item">Ανά Ρούχο</option>
-        </select>
-      </div>
-      <div class="sort-wrap" id="wps-drill-cat-wrap" style="display:none;">
-        <span class="sort-label">Κατηγορία ·</span>
-        <select class="sort-select" id="wps-drill-cat" onchange="loadWPSDrill()">
-          <option value="">Όλες</option>
-          <option>Tops</option><option>Dresses</option><option>Pants</option>
-          <option>Outwear</option><option>Shoes</option><option>Bags</option><option>Accessories</option>
+          <option value="color">Ανά Χρώμα</option>
         </select>
       </div>
     </div>
@@ -1255,7 +1247,13 @@ function renderWardrobe(){
   list.innerHTML=items.map(item=>{
     const cpw=getCPW(item),cc=cpwClass(cpw),total=getTotalWear(item),ur=getUsageRate(item);
     const wpsScore=getWPS(item);
-    const ss=`WPS™ <strong style="color:${wpsColor(wpsScore)}">${wpsScore}</strong>/100${ur?' · '+ur.toFixed(1)+'×/yr':''}`;
+    const u=getUsageRateScore(item),v=getVersatilityScore(item)||0,a=getAlignmentScore(item),c=getCPWScore(item)||0;
+    const ss='WPS™ <strong style="color:'+wpsColor(wpsScore)+'">'+wpsScore+'</strong>/100'
+      +' &nbsp;<span style="font-size:8px;color:#4a7c5a">U'+u+'</span>'
+      +' <span style="font-size:8px;color:#4a5a7c">V'+v+'</span>'
+      +' <span style="font-size:8px;color:#9a7a4a">A'+a+'</span>'
+      +' <span style="font-size:8px;color:#8c4a3a">C'+c+'</span>'
+      +(ur?' · <span style="font-size:8px;">'+ur.toFixed(1)+'×/yr</span>':'');
     return`<div class="list-row" onclick="openItemModal('${item.id}')">
       <div class="list-thumb">${item.photo_url?`<img src="${escHtml(item.photo_url)}" onerror="this.outerHTML='👗'">`:'👗'}</div>
       <div class="list-body">
@@ -2536,47 +2534,56 @@ function loadCombosDash(){
 
 function loadWPSDrill(){
   const type=document.getElementById('wps-drill-type')?.value||'category';
-  const catWrap=document.getElementById('wps-drill-cat-wrap');
-  if(catWrap)catWrap.style.display=type==='item'?'flex':'none';
   const el=document.getElementById('wps-drill-content');if(!el)return;
 
-  function scoreRow(label,usage,vers,align,cpw,wps,color){
+  function scoreRow(label,colorDot,usage,vers,align,cpw,wps){
+    const col=wpsColor(wps);
     return'<div style="display:flex;align-items:center;gap:6px;margin-bottom:9px;flex-wrap:wrap;">'
-      +'<div style="font-size:11px;color:var(--text-muted);width:110px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+escHtml(String(label))+'</div>'
+      +(colorDot?'<div style="width:10px;height:10px;border-radius:50%;background:'+colorDot+';border:1px solid var(--border);flex-shrink:0;"></div>':'')
+      +'<div style="font-size:11px;color:var(--text-muted);width:100px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+escHtml(String(label))+'</div>'
       +'<div style="display:flex;gap:4px;flex:1;flex-wrap:wrap;">'
       +scoreChip('U',usage,'#4a7c5a')
       +scoreChip('V',vers,'#4a5a7c')
       +scoreChip('A',align,'#9a7a4a')
       +scoreChip('C',cpw,'#8c4a3a')
-      +'<div style="font-size:11px;font-weight:500;padding:3px 8px;border-radius:2px;background:rgba(42,35,26,0.08);color:'+color+';">WPS '+wps+'</div>'
+      +'<div style="font-size:11px;font-weight:500;padding:3px 8px;border-radius:2px;background:rgba(42,35,26,0.08);color:'+col+';">WPS '+wps+'</div>'
       +'</div></div>';
   }
   function scoreChip(lbl,val,color){
     return'<div style="font-size:10px;padding:2px 7px;border-radius:2px;border:1px solid '+color+'22;color:'+color+';background:'+color+'11;">'+lbl+' '+val+'</div>';
   }
+  const avg=arr=>arr.length?Math.round(arr.reduce((a,b)=>a+b,0)/arr.length):0;
 
   if(type==='category'){
     const cats=Object.keys(CATEGORIES);
     el.innerHTML=cats.map(cat=>{
       const items=allItems.filter(i=>(i.cat1||i.category)===cat);
       if(!items.length)return'';
-      const avg=arr=>arr.length?Math.round(arr.reduce((a,b)=>a+b,0)/arr.length):0;
       const u=avg(items.map(i=>getUsageRateScore(i)));
       const v=avg(items.map(i=>getVersatilityScore(i)||0));
       const a=avg(items.map(i=>getAlignmentScore(i)));
       const c=avg(items.map(i=>getCPWScore(i)||0));
       const w=Math.round((u+v+a+c)*2.5);
-      return scoreRow(cat,u,v,a,c,w,wpsColor(w));
+      return scoreRow(cat,null,u,v,a,c,w);
     }).join('')||'<div style="color:var(--text-dim);font-size:11px;">Δεν υπάρχουν δεδομένα</div>';
   } else {
-    const filterCat=document.getElementById('wps-drill-cat')?.value||'';
-    let items=filterCat?allItems.filter(i=>(i.cat1||i.category)===filterCat):[...allItems];
-    items=items.map(i=>({item:i,wps:getWPS(i)})).sort((a,b)=>b.wps-a.wps);
-    el.innerHTML=items.length?'<div style="max-height:400px;overflow-y:auto;">'+items.map(({item:i,wps:w})=>{
-      const u=getUsageRateScore(i),v=getVersatilityScore(i)||0,a=getAlignmentScore(i),c=getCPWScore(i)||0;
-      return scoreRow(i.title,u,v,a,c,w,wpsColor(w));
-    }).join('')+'</div>'
-    :'<div style="color:var(--text-dim);font-size:11px;">Δεν υπάρχουν δεδομένα</div>';
+    // By color
+    const colors=[...new Set(allItems.map(i=>i.color).filter(Boolean))].sort();
+    el.innerHTML=colors.map(color=>{
+      const items=allItems.filter(i=>i.color===color);
+      if(!items.length)return'';
+      const u=avg(items.map(i=>getUsageRateScore(i)));
+      const v=avg(items.map(i=>getVersatilityScore(i)||0));
+      const a=avg(items.map(i=>getAlignmentScore(i)));
+      const c=avg(items.map(i=>getCPWScore(i)||0));
+      const w=Math.round((u+v+a+c)*2.5);
+      const hex=COLOR_HEX[color]||'#aaa';
+      return scoreRow(color,hex,u,v,a,c,w);
+    }).sort((a,b)=>{
+      // sort by WPS descending - extract number from string
+      const getW=s=>{const m=s.match(/WPS (\d+)/);return m?parseInt(m[1]):0;};
+      return getW(b)-getW(a);
+    }).join('')||'<div style="color:var(--text-dim);font-size:11px;">Δεν υπάρχουν δεδομένα</div>';
   }
 }
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}

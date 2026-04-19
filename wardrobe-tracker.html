@@ -385,6 +385,7 @@ body{padding-bottom:0;}
     <button class="desktop-tab-btn" onclick="showTab('calendar',this)">📅 Ημερολόγιο</button>
     <button class="desktop-tab-btn" onclick="showTab('dashboard',this)">📊 Dashboard</button>
     <button class="desktop-tab-btn" onclick="showTab('gone',this)">📦 Gone</button>
+    <button class="desktop-tab-btn" onclick="showTab('uniforms',this)">👗 Uniforms</button>
   </div>
 
   <!-- WARDROBE -->
@@ -443,6 +444,7 @@ body{padding-bottom:0;}
             <option value="most_worn">Περισσότερο φορεμένο</option>
             <option value="price_high">Τιμή ↑</option>
             <option value="price_low">Τιμή ↓</option>
+            <option value="wps_best">Καλύτερο WPS™</option>
           </select>
         </div>
         <div class="view-wrap">
@@ -589,6 +591,17 @@ body{padding-bottom:0;}
         </div>
       </div>
     </div>
+    <!-- Outfit Uniforms -->
+    <div style="margin-bottom:14px;">
+      <div class="form-section-title">👗 Outfit Uniforms</div>
+      <div style="font-size:9px;color:var(--text-dim);margin-bottom:8px;">Με ποια από τα uniforms σου ταιριάζει αυτό το ρούχο;</div>
+      <div id="uniform-selector" style="display:flex;flex-wrap:wrap;gap:6px;">
+        <div style="color:var(--text-dim);font-size:10px;">Φόρτωση uniforms…</div>
+      </div>
+      <div id="uniform-warning" style="display:none;margin-top:8px;padding:7px 10px;background:var(--red-soft);border:1px solid rgba(140,74,58,0.2);border-radius:2px;font-size:10px;color:var(--red-text);">
+        ⚠ Αυτό το ρούχο δεν ταιριάζει με κανένα uniform!
+      </div>
+    </div>
     <div style="margin-bottom:14px;">
       <div class="form-section-title">🧠 Conscious Purchase Score</div>
       <div style="font-size:9px;color:var(--text-dim);margin-bottom:8px;">Πόσο καιρό το σκέφτηκες πριν το αγοράσεις;</div>
@@ -669,7 +682,7 @@ body{padding-bottom:0;}
       <div class="dash-subtabs">
         <button class="dash-subtab active" onclick="showDashSub('month',this)">📅 Ανά Μήνα</button>
         <button class="dash-subtab" onclick="showDashSub('total',this)">📈 Ανάλυση Περιόδου</button>
-        <button class="dash-subtab" onclick="showDashSub('scores',this)">⭐ Score</button>
+        <button class="dash-subtab" onclick="showDashSub('scores',this)">⭐ WPS</button>
         <button class="dash-subtab" onclick="showDashSub('purchases',this)">🛍 Αγορές</button>
         <button class="dash-subtab" onclick="showDashSub('import',this)" id="import-tab-btn" style="display:none;">📥 Import</button>
         <button class="dash-subtab" onclick="showDashSub('gone',this)">📦 Gone</button>
@@ -750,9 +763,30 @@ body{padding-bottom:0;}
   </div>
   <!-- SCORES -->
   <div class="dash-subpanel" id="dash-scores">
-    <!-- Full KPI Overview - all calendar + prev_worn data -->
-    <div style="font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);margin-bottom:10px;">Συνολική Εικόνα — Ημερολόγιο + Παρελθοντικά Φοράματα</div>
-    <div class="kpi-grid">
+    <!-- WPS Header -->
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:12px 14px;margin-bottom:14px;">
+      <div style="font-family:var(--font-serif);font-size:15px;font-weight:400;margin-bottom:4px;">Wardrobe Portfolio Score <em style="color:var(--accent)">WPS™</em></div>
+      <div style="font-size:9px;color:var(--text-dim);line-height:1.7;">
+        WPS = Usage Rate + Versatility + Alignment + CPW Score<br>
+        Κάθε δείκτης 0–10 → σύνολο /40 → ×2.5 = <strong style="color:var(--accent)">/100</strong><br>
+        <span style="color:var(--text-dim);font-style:italic;">Δείκτες χωρίς δεδομένα μετράνε ως 0.</span>
+      </div>
+    </div>
+    <!-- WPS Score KPIs -->
+    <div class="kpi-grid" style="margin-bottom:14px;">
+      <div class="kpi-card score-k" style="border-left:3px solid var(--accent);grid-column:span 2;">
+        <div class="kpi-label">Avg WPS™</div>
+        <div class="kpi-value" id="sc-wps" style="font-size:28px;">—</div>
+        <div class="kpi-sub">/100</div>
+      </div>
+      <div class="kpi-card score-k"><div class="kpi-label">Avg Usage Rate</div><div class="kpi-value" id="sc-usage-rate">—</div><div class="kpi-sub">/10</div></div>
+      <div class="kpi-card score-k"><div class="kpi-label">Avg Versatility</div><div class="kpi-value" id="sc-versatility">—</div><div class="kpi-sub">/10</div></div>
+      <div class="kpi-card score-k"><div class="kpi-label">Avg Alignment</div><div class="kpi-value" id="sc-alignment">—</div><div class="kpi-sub">/10</div></div>
+      <div class="kpi-card score-k"><div class="kpi-label">Avg CPW Score</div><div class="kpi-value" id="sc-avg-score">—</div><div class="kpi-sub">/10</div></div>
+    </div>
+    <!-- Full KPI Overview -->
+    <div style="font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);margin-bottom:8px;">Συνολική Εικόνα — Ημερολόγιο + Παρελθοντικά Φοράματα</div>
+    <div class="kpi-grid" style="margin-bottom:14px;">
       <div class="kpi-card good-k"><div class="kpi-label">Utilization Rate</div><div class="kpi-value" id="sc-util">—</div><div class="kpi-sub" id="sc-util-sub">—</div></div>
       <div class="kpi-card good-k"><div class="kpi-label">Active Capital</div><div class="kpi-value" id="sc-active">—</div><div class="kpi-sub" id="sc-active-sub">αξία φορεμένων</div></div>
       <div class="kpi-card alert"><div class="kpi-label">Dormant Capital</div><div class="kpi-value" id="sc-dormant">—</div><div class="kpi-sub" id="sc-dormant-sub">ποτέ φορεμένα</div></div>
@@ -761,20 +795,16 @@ body{padding-bottom:0;}
       <div class="kpi-card"><div class="kpi-label">Avg CPW (συνολικό)</div><div class="kpi-value" id="sc-cpw">—</div><div class="kpi-sub">prev_worn + calendar</div></div>
       <div class="kpi-card"><div class="kpi-label">Αξία ντουλάπας</div><div class="kpi-value" id="sc-value">—</div><div class="kpi-sub" id="sc-value-sub">—</div></div>
       <div class="kpi-card"><div class="kpi-label">Μέση ηλικία ντουλάπας</div><div class="kpi-value" id="sc-avg-age">—</div></div>
-    </div>
-    <div class="kpi-grid" style="margin-bottom:16px;">
-      <div class="kpi-card score-k"><div class="kpi-label">Avg Wardrobe Score</div><div class="kpi-value" id="sc-avg-score">—</div><div class="kpi-sub">/30</div></div>
-      <div class="kpi-card score-k"><div class="kpi-label">Avg Usage Rate</div><div class="kpi-value" id="sc-usage-rate">—</div><div class="kpi-sub">χρήσεις/έτος</div></div>
-      <div class="kpi-card score-k"><div class="kpi-label">Avg Versatility</div><div class="kpi-value" id="sc-versatility">—</div><div class="kpi-sub">/10</div></div>
       <div class="kpi-card score-k"><div class="kpi-label">Avg Conscious</div><div class="kpi-value" id="sc-conscious">—</div><div class="kpi-sub">/10</div></div>
     </div>
     <!-- Distribution charts -->
-    <div style="font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);margin-bottom:8px;">Score Distributions</div>
+    <div style="font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);margin-bottom:8px;">WPS Component Distributions</div>
     <div style="display:flex;flex-direction:column;gap:10px;">
-      <div class="chart-card"><div class="chart-title">Wardrobe Score — Distribution</div><div id="dist-score" class="dist-chart"></div></div>
+      <div class="chart-card"><div class="chart-title">WPS™ — Distribution (/100)</div><div id="dist-score" class="dist-chart"></div></div>
       <div class="chart-card"><div class="chart-title">CPW Score — Distribution (/10)</div><div id="dist-cpw" class="dist-chart"></div></div>
       <div class="chart-card"><div class="chart-title">Versatility Score — Distribution (/10)</div><div id="dist-vers" class="dist-chart"></div></div>
-      <div class="chart-card"><div class="chart-title">Usage Rate — Distribution (χρήσεις/έτος)</div><div id="dist-ur" class="dist-chart"></div></div>
+      <div class="chart-card"><div class="chart-title">Usage Rate Score — Distribution (/10)</div><div id="dist-ur" class="dist-chart"></div></div>
+      <div class="chart-card"><div class="chart-title">Alignment Score — Distribution (/10)</div><div id="dist-align" class="dist-chart"></div></div>
     </div>
   </div>
 
@@ -895,6 +925,7 @@ body{padding-bottom:0;}
     <button class="nav-btn" id="nav-calendar" onclick="showTab('calendar',this)"><span class="nav-icon">📅</span><span class="nav-label">Ημερολόγιο</span></button>
     <button class="nav-btn" id="nav-dashboard" onclick="showTab('dashboard',this)"><span class="nav-icon">📊</span><span class="nav-label">Dashboard</span></button>
     <button class="nav-btn" id="nav-gone" onclick="showTab('gone',this)"><span class="nav-icon">📦</span><span class="nav-label">Gone</span></button>
+    <button class="nav-btn" id="nav-uniforms" onclick="showTab('uniforms',this)"><span class="nav-icon">👗</span><span class="nav-label">Uniforms</span></button>
   </nav>
 </div>
 
@@ -996,6 +1027,38 @@ body{padding-bottom:0;}
 
   </div>
 
+  <!-- UNIFORMS TAB -->
+
+  <div class="panel" id="tab-uniforms">
+    <div style="padding:14px 12px 20px;max-width:600px;margin:0 auto;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+        <div>
+          <div style="font-family:var(--font-serif);font-size:17px;font-weight:300;">Outfit <em style="font-style:italic;color:var(--accent)">Uniforms</em></div>
+          <div style="font-size:10px;color:var(--text-dim);margin-top:3px;">Τα βασικά looks που επαναλαμβάνεις. Βάλε τα uniforms σου και μετά επίλεξε σε ποια ταιριάζει κάθε ρούχο.</div>
+        </div>
+        <button class="btn-new-item" id="btn-add-uniform" onclick="openUniformForm()">+ Νέο</button>
+      </div>
+      <div id="uniforms-list"><div class="loading"><div class="spinner"></div></div></div>
+      <!-- Inline uniform form -->
+      <div id="uniform-form-wrap" style="display:none;margin-top:14px;background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:16px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+          <div style="font-family:var(--font-serif);font-size:16px;font-weight:300;" id="uniform-form-title">Νέο <em style="font-style:italic;color:var(--accent)">Uniform</em></div>
+          <button onclick="closeUniformForm()" style="background:none;border:1px solid var(--border);color:var(--text-muted);width:26px;height:26px;border-radius:50%;cursor:pointer;font-size:11px;">✕</button>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div class="form-group"><label style="font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);display:block;margin-bottom:4px;">Όνομα *</label><input type="text" id="uf-name" placeholder="π.χ. Work, Casual, Evening, Sport…" style="font-family:var(--font-sans);font-size:12px;border:1px solid var(--border);background:var(--surface2);padding:7px 9px;border-radius:1px;color:var(--text);outline:none;width:100%;"></div>
+          <div class="form-group"><label style="font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);display:block;margin-bottom:4px;">Περιγραφή</label><textarea id="uf-desc" placeholder="Πότε το φοράς, ποια η αισθητική…" style="font-family:var(--font-sans);font-size:12px;border:1px solid var(--border);background:var(--surface2);padding:7px 9px;border-radius:1px;outline:none;resize:vertical;width:100%;min-height:52px;color:var(--text);"></textarea></div>
+          <div class="form-group"><label style="font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);display:block;margin-bottom:4px;">Βασικά χρώματα</label><input type="text" id="uf-colors" placeholder="π.χ. Beige, Λευκό, Navy…" style="font-family:var(--font-sans);font-size:12px;border:1px solid var(--border);background:var(--surface2);padding:7px 9px;border-radius:1px;color:var(--text);outline:none;width:100%;"></div>
+          <div class="form-group"><label style="font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);display:block;margin-bottom:4px;">Style notes</label><input type="text" id="uf-notes-field" placeholder="π.χ. Minimalist, Smart casual…" style="font-family:var(--font-sans);font-size:12px;border:1px solid var(--border);background:var(--surface2);padding:7px 9px;border-radius:1px;color:var(--text);outline:none;width:100%;"></div>
+        </div>
+        <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px;padding-top:10px;border-top:1px solid var(--border);">
+          <button class="btn-sm" onclick="closeUniformForm()">Ακύρωση</button>
+          <button class="btn-sm primary" onclick="saveUniform()">Αποθήκευση</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 <div class="toast" id="toast"></div>
 
 <script>
@@ -1043,7 +1106,7 @@ sb.auth.onAuthStateChange((event,session)=>{
 });
 
 // INIT
-async function initApp(){await Promise.all([loadItems(),loadAllLogs(),loadArchivedItems()]);renderWardrobe();renderCalendar();loadMonthDash();initTotalDash();}
+async function initApp(){await Promise.all([loadItems(),loadAllLogs(),loadArchivedItems(),loadOutfitUniforms()]);renderWardrobe();renderCalendar();loadMonthDash();initTotalDash();}
 async function loadItems(){const{data}=await sb.from('wardrobe').select('*').order('created_at',{ascending:false});allItems=data||[];}
 async function loadAllLogs(){const{data}=await sb.from('wear_log').select('*').order('worn_date',{ascending:false});wearLogs=data||[];}
 async function loadLogsForDate(d){const{data}=await sb.from('wear_log').select('*').eq('worn_date',d);selectedDateLogs=data||[];}
@@ -1125,6 +1188,7 @@ function filterItems(){
   else if(sortMode==='most_worn')items.sort((a,b)=>getTotalWear(b)-getTotalWear(a));
   else if(sortMode==='price_high')items.sort((a,b)=>(b.price||0)-(a.price||0));
   else if(sortMode==='price_low')items.sort((a,b)=>(a.price||0)-(b.price||0));
+  else if(sortMode==='wps_best')items.sort((a,b)=>getWPS(b)-getWPS(a));
   else items.sort((a,b)=>{
     const ay=(a.purchase_year||0)*100+(a.purchase_month||0);
     const by=(b.purchase_year||0)*100+(b.purchase_month||0);
@@ -1144,7 +1208,7 @@ function renderWardrobe(){
         ${cpw?`<span class="cpw-badge ${cc}">€${cpw.toFixed(2)}</span>`:''}
         ${isDormant(item)&&getWearCount(item.id)>0?`<span class="dormant-badge">${getDaysSinceWorn(item)}μ.</span>`:''}
         ${item.is_favorite?`<span class="fav-badge">♥</span>`:''}
-        ${ws?`<span class="score-badge">${ws.total}/${ws.count*10}</span>`:''}
+        <span class="score-badge" style="background:rgba(42,35,26,0.85);">${getWPS(item)}</span>
       </div>
       <div class="item-info">
         <div class="item-title">${escHtml(item.title)}</div>
@@ -1154,8 +1218,9 @@ function renderWardrobe(){
     </div>`;
   }).join('');
   list.innerHTML=items.map(item=>{
-    const cpw=getCPW(item),cc=cpwClass(cpw),total=getTotalWear(item),ws=getWardrobeScore(item),ur=getUsageRate(item);
-    const ss=ws?`Score: <strong>${ws.total}/${ws.count*10}</strong> · CPW:${ws.cpwS??'—'} V:${ws.versS??'—'} C:${ws.consS??'—'}${ur?` · ${ur.toFixed(1)}×/yr`:''}`:ur?`${ur.toFixed(1)}×/yr`:'';
+    const cpw=getCPW(item),cc=cpwClass(cpw),total=getTotalWear(item),ur=getUsageRate(item);
+    const wpsScore=getWPS(item);
+    const ss=`WPS™ <strong style="color:${wpsColor(wpsScore)}">${wpsScore}</strong>/100${ur?' · '+ur.toFixed(1)+'×/yr':''}`;
     return`<div class="list-row" onclick="openItemModal('${item.id}')">
       <div class="list-thumb">${item.photo_url?`<img src="${escHtml(item.photo_url)}" onerror="this.outerHTML='👗'">`:'👗'}</div>
       <div class="list-body">
@@ -1201,6 +1266,7 @@ function openItemModal(itemId=null){
   document.getElementById('item-delete-btn').style.display=item?'block':'none';
   ['f-title','f-brand','f-color','f-pattern','f-material','f-size','f-notes'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
   ['f-cat1','f-cat2','f-season','f-sleeve','f-length','f-feeling','f-face-effect'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  renderUniformSelector([]);
   document.getElementById('f-price').value='';document.getElementById('f-purchase-year').value='';document.getElementById('f-purchase-month').value='';document.getElementById('f-prev-worn').value='0';document.getElementById('f-fav').checked=false;
   document.getElementById('photo-preview').style.display='none';document.getElementById('photo-placeholder').style.display='block';
   document.querySelectorAll('.conscious-opt').forEach(o=>{o.classList.remove('selected-opt');const inp=o.querySelector('input');if(inp)inp.checked=false;});
@@ -1225,6 +1291,7 @@ function openItemModal(itemId=null){
     document.getElementById('f-fav').checked=item.is_favorite||false;
     document.getElementById('f-feeling').value=item.feeling||'';
     document.getElementById('f-face-effect').value=item.face_effect||'';
+    renderUniformSelector(item.uniforms||[]);
     if(item.photo_url){document.getElementById('photo-preview').src=item.photo_url;document.getElementById('photo-preview').style.display='block';document.getElementById('photo-placeholder').style.display='none';}
     if(item.conscious_score!=null)setConsciousValue(item.conscious_score);
   }
@@ -1269,6 +1336,7 @@ async function saveItem(){
     conscious_score:getSelectedConscious(),photo_url:photoUrl,
     feeling:document.getElementById('f-feeling').value||null,
     face_effect:document.getElementById('f-face-effect').value||null,
+    uniforms:getSelectedUniformIds(),
   };
   let error;
   if(editingItemId)({error}=await sb.from('wardrobe').update(payload).eq('id',editingItemId));
@@ -1283,8 +1351,146 @@ async function deleteItem(){
   openArchiveModal();
 }
 
-// ── ARCHIVE / GONE ──
+// ── OUTFIT UNIFORMS ──
+async function loadOutfitUniforms(){
+  if(!currentUser)return;
+  const{data}=await sb.from('outfit_uniforms').select('*').eq('user_id',currentUser.id).order('created_at');
+  outfitUniforms=data||[];
+  renderUniformsList();
+  renderUniformSelector([]); // refresh selector in form
+}
+
+function renderUniformsList(){
+  const el=document.getElementById('uniforms-list');if(!el)return;
+  if(!outfitUniforms.length){
+    el.innerHTML='<div style="color:var(--text-dim);font-size:11px;padding:12px 0;">Δεν έχεις δημιουργήσει uniforms ακόμα.<br><span style="font-size:10px;">Πρόσθεσε τα βασικά looks που επαναλαμβάνεις — π.χ. Work, Casual, Evening, Sport.</span></div>';
+    return;
+  }
+  el.innerHTML=outfitUniforms.map(u=>'<div style="background:var(--surface);border:1px solid var(--border);border-radius:2px;padding:14px;margin-bottom:8px;">'
+    +'<div style="display:flex;justify-content:space-between;align-items:flex-start;">'
+    +'<div><div style="font-family:var(--font-serif);font-size:15px;font-weight:400;margin-bottom:4px;">👗 '+escHtml(u.name)+'</div>'
+    +(u.description?'<div style="font-size:11px;color:var(--text-muted);margin-top:3px;line-height:1.5;">'+escHtml(u.description)+'</div>':'')
+    +(u.colors&&u.colors.length?'<div style="font-size:10px;color:var(--text-dim);margin-top:5px;">🎨 '+u.colors.join(', ')+'</div>':'')
+    +(u.style_notes?'<div style="font-size:10px;color:var(--text-dim);margin-top:2px;">✏️ '+escHtml(u.style_notes)+'</div>':'')
+    +'</div>'
+    +'<div style="display:flex;gap:6px;flex-shrink:0;margin-left:8px;">'
+    +'<button class="btn-sm" onclick="editUniform(\''+u.id+'\')">Επεξεργασία</button>'
+    +'<button class="btn-sm danger" onclick="deleteUniform(\''+u.id+'\')">Διαγραφή</button>'
+    +'</div></div></div>'
+  ).join('');
+}
+
+function renderUniformSelector(selectedIds){
+  const wrap=document.getElementById('uniform-selector');if(!wrap)return;
+  selectedIds=selectedIds||[];
+  if(!outfitUniforms.length){
+    wrap.innerHTML='<div style="color:var(--text-dim);font-size:10px;">Δεν έχεις uniforms — πήγαινε στο tab 👗 Uniforms για να δημιουργήσεις.</div>';
+    const warn=document.getElementById('uniform-warning');if(warn)warn.style.display='none';
+    return;
+  }
+  wrap.innerHTML=outfitUniforms.map(u=>{
+    const checked=selectedIds.includes(u.id)||selectedIds.includes(String(u.id));
+    return'<label style="display:flex;align-items:center;gap:6px;padding:5px 11px;border:1px solid var(--border);border-radius:10px;cursor:pointer;font-size:10px;color:var(--text-muted);background:var(--surface2);transition:all 0.15s;" onchange="checkUniformWarning()">'
+      +'<input type="checkbox" value="'+u.id+'" '+(checked?'checked':'')+'style="width:13px;height:13px;accent-color:var(--accent);">'
+      +escHtml(u.name)+'</label>';
+  }).join('');
+  checkUniformWarning();
+}
+
+function checkUniformWarning(){
+  const anyChecked=[...document.querySelectorAll('#uniform-selector input:checked')].length>0;
+  const warn=document.getElementById('uniform-warning');
+  if(warn)warn.style.display=(outfitUniforms.length>0&&!anyChecked)?'block':'none';
+}
+
+function getSelectedUniformIds(){
+  return[...document.querySelectorAll('#uniform-selector input:checked')].map(cb=>cb.value);
+}
+
+let editingUniformId=null;
+
+function openUniformForm(id){
+  editingUniformId=id||null;
+  const u=id?outfitUniforms.find(x=>x.id===id):null;
+  document.getElementById('uniform-form-title').innerHTML=u?'Επεξεργασία <em style="font-style:italic;color:var(--accent)">Uniform</em>':'Νέο <em style="font-style:italic;color:var(--accent)">Uniform</em>';
+  document.getElementById('uf-name').value=u?.name||'';
+  document.getElementById('uf-desc').value=u?.description||'';
+  document.getElementById('uf-colors').value=u?.colors?.join(', ')||'';
+  document.getElementById('uf-notes-field').value=u?.style_notes||'';
+  document.getElementById('uniform-form-wrap').style.display='block';
+  setTimeout(()=>document.getElementById('uniform-form-wrap').scrollIntoView({behavior:'smooth',block:'start'}),80);
+}
+
+function editUniform(id){openUniformForm(id);}
+
+function closeUniformForm(){
+  document.getElementById('uniform-form-wrap').style.display='none';
+  editingUniformId=null;
+}
+
+async function saveUniform(){
+  const name=document.getElementById('uf-name').value.trim();
+  if(!name){showToast('Βάλε όνομα για το uniform');return;}
+  const colors=document.getElementById('uf-colors').value.split(',').map(s=>s.trim()).filter(Boolean);
+  const payload={
+    user_id:currentUser.id,name,
+    description:document.getElementById('uf-desc').value.trim()||null,
+    colors:colors.length?colors:null,
+    style_notes:document.getElementById('uf-notes-field').value.trim()||null,
+  };
+  const{error}=editingUniformId
+    ?await sb.from('outfit_uniforms').update(payload).eq('id',editingUniformId)
+    :await sb.from('outfit_uniforms').insert(payload);
+  if(error){showToast('Σφάλμα: '+error.message);return;}
+  showToast(editingUniformId?'✅ Uniform ενημερώθηκε!':'✅ Uniform δημιουργήθηκε!');
+  closeUniformForm();
+  await loadOutfitUniforms();
+}
+
+async function deleteUniform(id){
+  if(!confirm('Διαγραφή αυτού του uniform;'))return;
+  await sb.from('outfit_uniforms').delete().eq('id',id);
+  showToast('Διαγράφηκε');
+  await loadOutfitUniforms();
+}
+
+// ── WPS™ SCORING ──
+// WPS = Usage(0-10) + Versatility(0-10) + Alignment(0-10) + CPW(0-10) → /40 × 2.5 = /100
+// Missing data = 0 (not skipped)
+
+function getUsageRateScore(item){
+  const ur=getUsageRate(item);
+  if(!ur)return 0;
+  // Score based on uses per year: 0→0, 5→3, 10→5, 20→7, 30→8, 50→9, 80+→10
+  if(ur>=80)return 10;if(ur>=50)return 9;if(ur>=30)return 8;
+  if(ur>=20)return 7;if(ur>=12)return 6;if(ur>=8)return 5;
+  if(ur>=5)return 4;if(ur>=3)return 3;if(ur>=1)return 2;return 1;
+}
+
+function getAlignmentScore(item){
+  if(!outfitUniforms.length)return 0;
+  const itemUniforms=item.uniforms||[];
+  if(!itemUniforms.length)return 0;
+  const matched=outfitUniforms.filter(u=>itemUniforms.includes(u.id)||itemUniforms.includes(String(u.id))).length;
+  return Math.round(matched/outfitUniforms.length*10);
+}
+
+function getWPS(item){
+  const usage=getUsageRateScore(item);       // 0-10
+  const vers=getVersatilityScore(item)||0;   // 0-10, 0 if no data
+  const align=getAlignmentScore(item);       // 0-10
+  const cpw=getCPWScore(item)||0;            // 0-10, 0 if no data
+  return Math.round((usage+vers+align+cpw)*2.5); // /40 × 2.5 = /100
+}
+
+function wpsColor(score){
+  if(score>=80)return'var(--green-text)';
+  if(score>=60)return'var(--accent)';
+  if(score>=40)return'var(--amber)';
+  return'var(--red-text)';
+}
 let archivedItems=[];
+let outfitUniforms=[];
 
 async function loadArchivedItems(){
   const{data}=await sb.from('wardrobe_archive').select('*').order('archived_at',{ascending:false});
@@ -1851,9 +2057,27 @@ function loadTotalDash(){
 // SCORES
 function loadScoresDash(){
   const{avgUR,avgVers,avgCons,avgScore}=computeAggKPIs();
-  document.getElementById('sc-avg-score').textContent=avgScore?avgScore.toFixed(1):'—';
-  document.getElementById('sc-usage-rate').textContent=avgUR?avgUR.toFixed(1):'—';
-  document.getElementById('sc-versatility').textContent=avgVers?avgVers.toFixed(1):'—';
+  // WPS components
+  const wpsScores=allItems.map(i=>getWPS(i));
+  const avgWPS=wpsScores.reduce((a,b)=>a+b,0)/Math.max(wpsScores.length,1);
+  document.getElementById('sc-wps').textContent=avgWPS.toFixed(1);
+  document.getElementById('sc-wps').style.color=wpsColor(Math.round(avgWPS));
+
+  const usageScores=allItems.map(i=>getUsageRateScore(i));
+  const avgUSage=usageScores.reduce((a,b)=>a+b,0)/Math.max(usageScores.length,1);
+  document.getElementById('sc-usage-rate').textContent=avgUSage.toFixed(1);
+
+  const versScores=allItems.map(i=>getVersatilityScore(i)||0);
+  const avgVers2=versScores.reduce((a,b)=>a+b,0)/Math.max(versScores.length,1);
+  document.getElementById('sc-versatility').textContent=avgVers2.toFixed(1);
+
+  const alignScores=allItems.map(i=>getAlignmentScore(i));
+  const avgAlign=alignScores.reduce((a,b)=>a+b,0)/Math.max(alignScores.length,1);
+  document.getElementById('sc-alignment').textContent=avgAlign.toFixed(1);
+
+  const cpwScores=allItems.map(i=>getCPWScore(i)||0);
+  const avgCPW2=cpwScores.reduce((a,b)=>a+b,0)/Math.max(cpwScores.length,1);
+  document.getElementById('sc-avg-score').textContent=avgCPW2.toFixed(1);
   document.getElementById('sc-conscious').textContent=avgCons?avgCons.toFixed(1):'—';
 
   // Full overview KPIs — all data (calendar + prev_worn)
@@ -1910,7 +2134,7 @@ function loadScoresDash(){
   function distCustom(elId,labels,counts){
     renderDistChart(elId,counts,labels);
   }
-    const spcts=allItems.map(i=>{const ws=getWardrobeScore(i);return ws?Math.round(ws.total/(ws.count*10)*100):null;}).filter(v=>v!==null);
+    const spcts=allItems.map(i=>getWPS(i));
   const sbuckets=Array(10).fill(0);spcts.forEach(v=>sbuckets[Math.min(9,Math.floor(v/10))]++);
   renderDistChart('dist-score',sbuckets,Array(10).fill(0).map((_,i)=>`${i*10}-${i*10+9}%`));
   distExact('dist-cpw',allItems.map(i=>getCPWScore(i)).filter(v=>v!==null),1,10);
@@ -1918,6 +2142,7 @@ function loadScoresDash(){
   const urBuckets=[{l:'0–2',min:0,max:2},{l:'2–4',min:2,max:4},{l:'4–6',min:4,max:6},{l:'6–8',min:6,max:8},{l:'8–10',min:8,max:10},{l:'10–15',min:10,max:15},{l:'15–20',min:15,max:20},{l:'20+',min:20,max:Infinity}];
   const urVals=allItems.map(i=>getUsageRate(i)).filter(v=>v!==null);
   distCustom('dist-ur',urBuckets.map(b=>b.l),urBuckets.map(b=>urVals.filter(v=>v>=b.min&&v<b.max).length));
+  distExact('dist-align',allItems.map(i=>getAlignmentScore(i)),0,10);
 }
 
 // PURCHASES
@@ -2061,6 +2286,7 @@ function showTab(id,btn){
   if(id==='calendar')applyCalLayout();
   if(id==='dashboard'){loadMonthDash();loadTotalDash();}
   if(id==='gone'){renderGoneList();}
+  if(id==='uniforms'){loadOutfitUniforms();}
 }
 function applyCalLayout(){const wrap=document.getElementById('cal-layout-wrap');wrap.style.cssText=window.innerWidth>=768?'display:grid;grid-template-columns:1fr 300px;min-height:calc(100vh - 52px)':'display:block';}
 window.addEventListener('resize',()=>{if(document.getElementById('tab-calendar').classList.contains('active'))applyCalLayout();});

@@ -722,7 +722,14 @@ body{padding-bottom:0;}
       <div class="chart-card"><div class="chart-title">Κατηγορίες (τεμάχια που φορέθηκαν)</div><div id="cat-legend"></div></div>
       <div class="chart-card"><div class="chart-title">Χρώματα (τεμάχια που φορέθηκαν)</div><div id="color-legend"></div></div>
     </div>
-    <div class="section-title">🏆 Top 5 χρήσεις μήνα</div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+      <div class="section-title" style="margin:0;">🏆 Top 5 χρήσεις μήνα</div>
+      <select class="sort-select" id="month-top5-cat" onchange="loadMonthDash()" style="font-size:9px;">
+        <option value="">Όλα</option>
+        <option>Tops</option><option>Dresses</option><option>Pants</option>
+        <option>Outwear</option><option>Shoes</option><option>Bags</option><option>Accessories</option>
+      </select>
+    </div>
     <div class="cpw-table" id="cpw-table-month"></div>
     <div class="section-title">⚠ Top 5 αφόρετα (βάσει αξίας)</div>
     <div class="dormant-grid" id="dormant-grid" style="grid-template-columns:repeat(2,1fr);"></div>
@@ -756,7 +763,14 @@ body{padding-bottom:0;}
       <div class="chart-card"><div class="chart-title">Κατηγορίες (τεμάχια που φορέθηκαν)</div><div id="t-cat-legend"></div></div>
       <div class="chart-card"><div class="chart-title">Χρώματα (τεμάχια που φορέθηκαν)</div><div id="t-color-legend"></div></div>
     </div>
-    <div class="section-title">🏆 Top 5 χρήσεις περιόδου</div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+      <div class="section-title" style="margin:0;">🏆 Top 5 χρήσεις περιόδου</div>
+      <select class="sort-select" id="period-top5-cat" onchange="loadTotalDash()" style="font-size:9px;">
+        <option value="">Όλα</option>
+        <option>Tops</option><option>Dresses</option><option>Pants</option>
+        <option>Outwear</option><option>Shoes</option><option>Bags</option><option>Accessories</option>
+      </select>
+    </div>
     <div class="cpw-table" id="cpw-table-total"></div>
     <div class="section-title">⚠ Top 5 αφόρετα περιόδου (βάσει αξίας)</div>
     <div class="dormant-grid" id="t-dormant-grid" style="grid-template-columns:repeat(2,1fr);"></div>
@@ -806,6 +820,27 @@ body{padding-bottom:0;}
       <div class="chart-card"><div class="chart-title">Usage Rate Score — Distribution (/10)</div><div id="dist-ur" class="dist-chart"></div></div>
       <div class="chart-card"><div class="chart-title">Alignment Score — Distribution (/10)</div><div id="dist-align" class="dist-chart"></div></div>
     </div>
+
+    <!-- WPS Drill-down -->
+    <div style="font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);margin:18px 0 8px;">🔍 Ανάλυση WPS ανά κατηγορία / ρούχο</div>
+    <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;">
+      <div class="sort-wrap">
+        <span class="sort-label">Τύπος ·</span>
+        <select class="sort-select" id="wps-drill-type" onchange="loadWPSDrill()">
+          <option value="category">Ανά Κατηγορία</option>
+          <option value="item">Ανά Ρούχο</option>
+        </select>
+      </div>
+      <div class="sort-wrap" id="wps-drill-cat-wrap" style="display:none;">
+        <span class="sort-label">Κατηγορία ·</span>
+        <select class="sort-select" id="wps-drill-cat" onchange="loadWPSDrill()">
+          <option value="">Όλες</option>
+          <option>Tops</option><option>Dresses</option><option>Pants</option>
+          <option>Outwear</option><option>Shoes</option><option>Bags</option><option>Accessories</option>
+        </select>
+      </div>
+    </div>
+    <div id="wps-drill-content"></div>
   </div>
 
   <!-- PURCHASES -->
@@ -1878,9 +1913,11 @@ function loadMonthDash(){
   document.getElementById('kpi-cost-unworn').textContent=avgUnworn?`€${avgUnworn.toFixed(0)}`:'—';
 
   // ── TOP 5 ΧΡΗΣΕΙΣ ΜΗΝΑ (αντί CPW table) ──
+  const monthTop5Cat=(document.getElementById('month-top5-cat')?.value)||'';
   const itemUsageMonth=[];
   wornIds.forEach(id=>{
     const item=allItems.find(i=>i.id===id); if(!item) return;
+    if(monthTop5Cat&&(item.cat1||item.category)!==monthTop5Cat)return;
     const uses=ml.filter(l=>l.wardrobe_item_id===id).length;
     itemUsageMonth.push({item,uses});
   });
@@ -2019,9 +2056,11 @@ function loadTotalDash(){
     : '<div style="color:var(--text-dim);font-size:10px">—</div>';
 
   // Top 5 uses in period
+  const periodTop5Cat=(document.getElementById('period-top5-cat')?.value)||'';
   const itemUsagePeriod=[];
   wornIds.forEach(id=>{
     const item=allItems.find(i=>i.id===id);if(!item)return;
+    if(periodTop5Cat&&(item.cat1||item.category)!==periodTop5Cat)return;
     const uses=rl.filter(l=>l.wardrobe_item_id===id).length;
     itemUsagePeriod.push({item,uses});
   });
@@ -2493,6 +2532,52 @@ function loadCombosDash(){
       <div style="font-size:11px;font-weight:500;color:var(--accent);flex-shrink:0;">${count} partners</div>
     </div>`;
   }).join(''):'<div style="color:var(--text-dim);font-size:11px;padding:8px">Δεν υπάρχουν δεδομένα</div>';
+}
+
+function loadWPSDrill(){
+  const type=document.getElementById('wps-drill-type')?.value||'category';
+  const catWrap=document.getElementById('wps-drill-cat-wrap');
+  if(catWrap)catWrap.style.display=type==='item'?'flex':'none';
+  const el=document.getElementById('wps-drill-content');if(!el)return;
+
+  function scoreRow(label,usage,vers,align,cpw,wps,color){
+    return'<div style="display:flex;align-items:center;gap:6px;margin-bottom:9px;flex-wrap:wrap;">'
+      +'<div style="font-size:11px;color:var(--text-muted);width:110px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+escHtml(String(label))+'</div>'
+      +'<div style="display:flex;gap:4px;flex:1;flex-wrap:wrap;">'
+      +scoreChip('U',usage,'#4a7c5a')
+      +scoreChip('V',vers,'#4a5a7c')
+      +scoreChip('A',align,'#9a7a4a')
+      +scoreChip('C',cpw,'#8c4a3a')
+      +'<div style="font-size:11px;font-weight:500;padding:3px 8px;border-radius:2px;background:rgba(42,35,26,0.08);color:'+color+';">WPS '+wps+'</div>'
+      +'</div></div>';
+  }
+  function scoreChip(lbl,val,color){
+    return'<div style="font-size:10px;padding:2px 7px;border-radius:2px;border:1px solid '+color+'22;color:'+color+';background:'+color+'11;">'+lbl+' '+val+'</div>';
+  }
+
+  if(type==='category'){
+    const cats=Object.keys(CATEGORIES);
+    el.innerHTML=cats.map(cat=>{
+      const items=allItems.filter(i=>(i.cat1||i.category)===cat);
+      if(!items.length)return'';
+      const avg=arr=>arr.length?Math.round(arr.reduce((a,b)=>a+b,0)/arr.length):0;
+      const u=avg(items.map(i=>getUsageRateScore(i)));
+      const v=avg(items.map(i=>getVersatilityScore(i)||0));
+      const a=avg(items.map(i=>getAlignmentScore(i)));
+      const c=avg(items.map(i=>getCPWScore(i)||0));
+      const w=Math.round((u+v+a+c)*2.5);
+      return scoreRow(cat,u,v,a,c,w,wpsColor(w));
+    }).join('')||'<div style="color:var(--text-dim);font-size:11px;">Δεν υπάρχουν δεδομένα</div>';
+  } else {
+    const filterCat=document.getElementById('wps-drill-cat')?.value||'';
+    let items=filterCat?allItems.filter(i=>(i.cat1||i.category)===filterCat):[...allItems];
+    items=items.map(i=>({item:i,wps:getWPS(i)})).sort((a,b)=>b.wps-a.wps);
+    el.innerHTML=items.length?'<div style="max-height:400px;overflow-y:auto;">'+items.map(({item:i,wps:w})=>{
+      const u=getUsageRateScore(i),v=getVersatilityScore(i)||0,a=getAlignmentScore(i),c=getCPWScore(i)||0;
+      return scoreRow(i.title,u,v,a,c,w,wpsColor(w));
+    }).join('')+'</div>'
+    :'<div style="color:var(--text-dim);font-size:11px;">Δεν υπάρχουν δεδομένα</div>';
+  }
 }
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
 

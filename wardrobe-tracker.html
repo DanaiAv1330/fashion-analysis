@@ -400,6 +400,7 @@ body{padding-bottom:0;}
         <button class="chip" onclick="setFilter('Outwear',this)">Outwear</button>
         <button class="chip" onclick="setFilter('Shoes',this)">Παπούτσια</button>
         <button class="chip" onclick="setFilter('Bags',this)">Τσάντες</button>
+        <button class="chip" onclick="setFilter('Accessories',this)">Αξεσουάρ</button>
         <div class="filter-sep"></div>
         <button class="chip dormant-chip" onclick="setFilter('dormant',this)">⚠ Dormant</button>
         <button class="chip" onclick="setFilter('fav',this)">♥ Αγαπημένα</button>
@@ -482,7 +483,7 @@ body{padding-bottom:0;}
           <select id="f-cat1" onchange="updateFormCat2()">
             <option value="">— Επιλογή —</option>
             <option>Tops</option><option>Dresses</option><option>Pants</option>
-            <option>Outwear</option><option>Shoes</option><option>Bags</option>
+            <option>Outwear</option><option>Shoes</option><option>Bags</option><option>Accessories</option>
           </select>
         </div>
         <div class="form-group"><label>Υποκατηγορία (Cat2)</label>
@@ -1073,7 +1074,8 @@ const CATEGORIES = {
   'Pants':['Jeans','Trousers','Dress Pants','Track Pants'],
   'Outwear':['Coats','Trench Coats','Blazer','Fleece Jackets','Zip Up Hoodies','Parkas','Puffer Jackets'],
   'Shoes':['Sneakers','Flats','Sandals','Slides','Boots','Combat Boots','Boat Shoes & Moccasine'],
-  'Bags':['Tote Bag','Crossbody','Backpack','Clutch']
+  'Bags':['Tote Bag','Crossbody','Backpack','Clutch'],
+  'Accessories':['Κοσμήματα','Γυαλιά ηλίου','Ζώνες','Πορτοφόλια']
 };
 const MN_SHORT=['Ιαν','Φεβ','Μαρ','Απρ','Μαΐ','Ιουν','Ιουλ','Αυγ','Σεπ','Οκτ','Νοε','Δεκ'];
 const MN_FULL=['Ιανουάριος','Φεβρουάριος','Μάρτιος','Απρίλιος','Μάιος','Ιούνιος','Ιούλιος','Αύγουστος','Σεπτέμβριος','Οκτώβριος','Νοέμβριος','Δεκέμβριος'];
@@ -1709,7 +1711,7 @@ function renderMonthStats(){
 let pickActiveCat='all',pickSelected=new Set();
 function openPickModal(){
   pickActiveCat='all';pickSelected=new Set(wearLogs.filter(l=>l.worn_date===selectedDate).map(l=>l.wardrobe_item_id));
-  document.getElementById('pick-cats').innerHTML=[{key:'all',label:'Όλα'},{key:'Tops',label:'Tops'},{key:'Pants',label:'Παντελόνια'},{key:'Dresses',label:'Φορέματα'},{key:'Outwear',label:'Outwear'},{key:'Shoes',label:'Παπούτσια'},{key:'Bags',label:'Τσάντες'}]
+  document.getElementById('pick-cats').innerHTML=[{key:'all',label:'Όλα'},{key:'Tops',label:'Tops'},{key:'Pants',label:'Παντελόνια'},{key:'Dresses',label:'Φορέματα'},{key:'Outwear',label:'Outwear'},{key:'Shoes',label:'Παπούτσια'},{key:'Bags',label:'Τσάντες'},{key:'Accessories',label:'Αξεσουάρ'}]
     .map(c=>`<button class="pick-cat-btn${c.key==='all'?' active':''}" onclick="setPickCat('${c.key}',this)">${c.label}</button>`).join('');
   renderPickGrid();const panel=document.getElementById('pick-panel');panel.classList.add('open');setTimeout(()=>panel.scrollIntoView({behavior:'smooth',block:'start'}),80);
 }

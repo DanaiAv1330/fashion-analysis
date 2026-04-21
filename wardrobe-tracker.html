@@ -715,7 +715,7 @@ body{padding-bottom:0;}
       <div class="kpi-card score-k"><div class="kpi-label">Avg Usage Rate μήνα</div><div class="kpi-value" id="kpi-usage-rate">—</div><div class="kpi-sub">χρήσεις/ρούχο</div></div>
       <div class="kpi-card score-k"><div class="kpi-label">Avg Versatility μήνα</div><div class="kpi-value" id="kpi-versatility">—</div><div class="kpi-sub">/10</div></div>
       <div class="kpi-card score-k"><div class="kpi-label">Avg Conscious (γενικό)</div><div class="kpi-value" id="kpi-conscious">—</div><div class="kpi-sub">/10</div></div>
-      <div class="kpi-card score-k"><div class="kpi-label">Avg Score φορεμένων</div><div class="kpi-value" id="kpi-avg-score">—</div><div class="kpi-sub">/30</div></div>
+      <div class="kpi-card score-k"><div class="kpi-label">Avg WPS™ φορεμένων</div><div class="kpi-value" id="kpi-avg-score">—</div><div class="kpi-sub">/100</div></div>
     </div>
     <div style="display:flex;flex-direction:column;gap:9px;margin-bottom:12px;">
       <div class="chart-card"><div class="chart-title">Χρήσεις ανά εβδομάδα</div><div id="week-bars"></div></div>
@@ -756,7 +756,7 @@ body{padding-bottom:0;}
       <div class="kpi-card score-k"><div class="kpi-label">Avg Usage Rate περιόδου</div><div class="kpi-value" id="t-usage-rate">—</div><div class="kpi-sub">χρήσεις/ρούχο</div></div>
       <div class="kpi-card score-k"><div class="kpi-label">Avg Versatility περιόδου</div><div class="kpi-value" id="t-versatility">—</div><div class="kpi-sub">/10</div></div>
       <div class="kpi-card score-k"><div class="kpi-label">Avg Conscious (γενικό)</div><div class="kpi-value" id="t-conscious">—</div><div class="kpi-sub">/10</div></div>
-      <div class="kpi-card score-k"><div class="kpi-label">Avg Score φορεμένων</div><div class="kpi-value" id="t-avg-score">—</div><div class="kpi-sub">/30</div></div>
+      <div class="kpi-card score-k"><div class="kpi-label">Avg WPS™ φορεμένων</div><div class="kpi-value" id="t-avg-score">—</div><div class="kpi-sub">/100</div></div>
     </div>
     <div style="display:flex;flex-direction:column;gap:9px;margin-bottom:12px;">
       <div class="chart-card"><div class="chart-title">Χρήσεις ανά μήνα</div><div id="monthly-bars"></div></div>
@@ -1880,10 +1880,11 @@ function loadMonthDash(){
   const{avgCons}=computeAggKPIs();
   document.getElementById('kpi-conscious').textContent=avgCons?avgCons.toFixed(1):'—';
 
-  // ── AVG WARDROBE SCORE — μόνο ρούχα που φορέθηκαν στον μήνα ──
-  const monthScores=wornItems.map(i=>getWardrobeScore(i)).filter(v=>v!==null);
-  const avgScoreMonth=monthScores.length?monthScores.reduce((a,b)=>a+b.total,0)/monthScores.length:null;
-  document.getElementById('kpi-avg-score').textContent=avgScoreMonth?avgScoreMonth.toFixed(1):'—';
+  // ── AVG WPS™ — μόνο ρούχα που φορέθηκαν στον μήνα ──
+  const monthWPS=wornItems.map(i=>getWPS(i));
+  const avgWPSMonth=monthWPS.length?Math.round(monthWPS.reduce((a,b)=>a+b,0)/monthWPS.length):null;
+  document.getElementById('kpi-avg-score').textContent=avgWPSMonth??'—';
+  if(document.getElementById('kpi-avg-score'))document.getElementById('kpi-avg-score').style.color=avgWPSMonth?wpsColor(avgWPSMonth):'';
 
   // ── WEEK BARS — horizontal ──
   const dim=new Date(dashYear,dashMonth+1,0).getDate(),weeks=[0,0,0,0,0];
@@ -2024,10 +2025,11 @@ function loadTotalDash(){
   const{avgCons}=computeAggKPIs();
   document.getElementById('t-conscious').textContent=avgCons?avgCons.toFixed(1):'—';
 
-  // Avg Wardrobe Score (worn only)
-  const periodScores=wornItems.map(i=>getWardrobeScore(i)).filter(v=>v!==null);
-  const avgScore=periodScores.length?periodScores.reduce((a,b)=>a+b.total,0)/periodScores.length:null;
-  document.getElementById('t-avg-score').textContent=avgScore?avgScore.toFixed(1):'—';
+  // Avg WPS™ (worn only)
+  const periodWPS=wornItems.map(i=>getWPS(i));
+  const avgWPSPeriod=periodWPS.length?Math.round(periodWPS.reduce((a,b)=>a+b,0)/periodWPS.length):null;
+  document.getElementById('t-avg-score').textContent=avgWPSPeriod??'—';
+  if(document.getElementById('t-avg-score'))document.getElementById('t-avg-score').style.color=avgWPSPeriod?wpsColor(avgWPSPeriod):'';
 
   // Monthly bars — ALL months in range
   const mm={};

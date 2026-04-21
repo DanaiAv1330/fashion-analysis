@@ -883,6 +883,8 @@ body{padding-bottom:0;}
   <!-- OUTFIT COMBOS -->
   <div class="dash-subpanel" id="dash-combos">
     <div style="font-family:var(--font-serif);font-size:16px;font-weight:300;margin-bottom:12px;">Outfit <em style="color:var(--accent);font-style:italic">Combos</em></div>
+
+    <!-- Date range -->
     <div class="range-row" style="margin-bottom:14px;">
       <span class="range-label">Από</span>
       <input type="month" class="range-input" id="combos-from" onchange="loadCombosDash()">
@@ -890,36 +892,48 @@ body{padding-bottom:0;}
       <input type="month" class="range-input" id="combos-to" onchange="loadCombosDash()">
     </div>
 
+    <!-- Category selectors -->
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:12px 14px;margin-bottom:14px;">
+      <div style="font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-dim);margin-bottom:10px;">Επίλεξε κατηγορίες για ανάλυση</div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div class="sort-wrap">
+          <span class="sort-label" style="width:70px;flex-shrink:0;">Κατηγορία 1 ·</span>
+          <select class="sort-select" id="cb-cat1" onchange="loadCombosDash()">
+            <option value="">— Επιλογή —</option>
+            <option>Tops</option><option>Dresses</option><option>Pants</option>
+            <option>Outwear</option><option>Shoes</option><option>Bags</option><option>Accessories</option>
+          </select>
+        </div>
+        <div class="sort-wrap">
+          <span class="sort-label" style="width:70px;flex-shrink:0;">Κατηγορία 2 ·</span>
+          <select class="sort-select" id="cb-cat2" onchange="loadCombosDash()">
+            <option value="">— Επιλογή —</option>
+            <option>Tops</option><option>Dresses</option><option>Pants</option>
+            <option>Outwear</option><option>Shoes</option><option>Bags</option><option>Accessories</option>
+          </select>
+        </div>
+        <div class="sort-wrap">
+          <span class="sort-label" style="width:70px;flex-shrink:0;">Κατηγορία 3 ·</span>
+          <select class="sort-select" id="cb-cat3" onchange="loadCombosDash()">
+            <option value="">(προαιρετικό)</option>
+            <option>Tops</option><option>Dresses</option><option>Pants</option>
+            <option>Outwear</option><option>Shoes</option><option>Bags</option><option>Accessories</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- KPIs -->
     <div class="kpi-grid" style="margin-bottom:14px;">
       <div class="kpi-card"><div class="kpi-label">Ημέρες με outfit</div><div class="kpi-value" id="cb-days">—</div></div>
-      <div class="kpi-card"><div class="kpi-label">Μοναδικά ζεύγη</div><div class="kpi-value" id="cb-pairs">—</div></div>
-      <div class="kpi-card"><div class="kpi-label">Μοναδικές τριάδες</div><div class="kpi-value" id="cb-triples">—</div></div>
+      <div class="kpi-card"><div class="kpi-label">Συνδυασμοί ζευγών</div><div class="kpi-value" id="cb-pairs">—</div></div>
+      <div class="kpi-card"><div class="kpi-label">Συνδυασμοί τριάδων</div><div class="kpi-value" id="cb-triples">—</div></div>
       <div class="kpi-card"><div class="kpi-label">Avg items/ημέρα</div><div class="kpi-value" id="cb-avg">—</div></div>
     </div>
 
-    <div class="section-title">👗👗 Top 5 Ζεύγη Items</div>
-    <div class="chart-card" style="margin-bottom:12px;"><div id="cb-pair-items"></div></div>
-
-    <div class="section-title">👗👗👗 Top 5 Τριάδες Items</div>
-    <div class="chart-card" style="margin-bottom:12px;"><div id="cb-triple-items"></div></div>
-
-    <div class="section-title">👗👗👗👗 Top 5 Τετράδες Items</div>
-    <div class="chart-card" style="margin-bottom:12px;"><div id="cb-quad-items"></div></div>
-
-    <div class="section-title">👗👗👗👗👗 Top 5 Πεντάδες Items</div>
-    <div class="chart-card" style="margin-bottom:12px;"><div id="cb-quint-items"></div></div>
-
-    <div class="section-title">🎨 Top 5 Ζεύγη Χρωμάτων</div>
-    <div class="chart-card" style="margin-bottom:12px;"><div id="cb-pair-colors"></div></div>
-
-    <div class="section-title">🎨🎨 Top 5 Τριάδες Χρωμάτων</div>
-    <div class="chart-card" style="margin-bottom:12px;"><div id="cb-triple-colors"></div></div>
-
-    <div class="section-title">📦 Top 5 Ζεύγη Κατηγοριών</div>
-    <div class="chart-card" style="margin-bottom:12px;"><div id="cb-pair-cats"></div></div>
-
-    <div class="section-title">⭐ Top 5 Items με τους περισσότερους partners</div>
-    <div class="chart-card" style="margin-bottom:12px;"><div id="cb-versatile"></div></div>
+    <div id="cb-combos-wrap">
+      <div style="color:var(--text-dim);font-size:11px;text-align:center;padding:20px;">Επίλεξε τουλάχιστον 2 κατηγορίες για να δεις τους συνδυασμούς</div>
+    </div>
   </div>
 
   <!-- IMPORT -->
@@ -2351,10 +2365,14 @@ function loadCombosDash(){
   if(!fv||!tv)return;
   const fd=new Date(fv+'-01'),td=new Date(tv+'-01');td.setMonth(td.getMonth()+1);
 
-  // Filter logs to range
+  const cat1=document.getElementById('cb-cat1')?.value||'';
+  const cat2=document.getElementById('cb-cat2')?.value||'';
+  const cat3=document.getElementById('cb-cat3')?.value||'';
+
+  // Filter logs in range
   const rl=wearLogs.filter(l=>{const d=new Date(l.worn_date);return d>=fd&&d<td;});
 
-  // Group by date → array of item ids per day
+  // Group by date
   const byDay={};
   rl.forEach(l=>{if(!byDay[l.worn_date])byDay[l.worn_date]=[];byDay[l.worn_date].push(l.wardrobe_item_id);});
   const days=Object.values(byDay);
@@ -2362,177 +2380,114 @@ function loadCombosDash(){
   const totalItems=days.reduce((s,d)=>s+d.length,0);
 
   document.getElementById('cb-days').textContent=numDays;
-  document.getElementById('cb-avg').textContent=numDays?( totalItems/numDays).toFixed(1):'—';
+  document.getElementById('cb-avg').textContent=numDays?(totalItems/numDays).toFixed(1):'—';
 
-  // ── HELPER: generate pairs and triples from array ──
-  function getPairs(arr){
-    const pairs=[];
-    for(let i=0;i<arr.length;i++)for(let j=i+1;j<arr.length;j++)pairs.push([arr[i],arr[j]].sort().join('|||'));
-    return pairs;
-  }
-  function getTriples(arr){
-    const triples=[];
-    for(let i=0;i<arr.length;i++)for(let j=i+1;j<arr.length;j++)for(let k=j+1;k<arr.length;k++)triples.push([arr[i],arr[j],arr[k]].sort().join('|||'));
-    return triples;
-  }
-  function getQuads(arr){
-    const r=[];
-    for(let i=0;i<arr.length;i++)for(let j=i+1;j<arr.length;j++)for(let k=j+1;k<arr.length;k++)for(let l=k+1;l<arr.length;l++)r.push([arr[i],arr[j],arr[k],arr[l]].sort().join('|||'));
-    return r;
-  }
-  function getQuints(arr){
-    const r=[];
-    for(let i=0;i<arr.length;i++)for(let j=i+1;j<arr.length;j++)for(let k=j+1;k<arr.length;k++)for(let l=k+1;l<arr.length;l++)for(let m=l+1;m<arr.length;m++)r.push([arr[i],arr[j],arr[k],arr[l],arr[m]].sort().join('|||'));
-    return r;
-  }
-  function countCombos(combos){
-    const counts={};combos.forEach(c=>counts[c]=(counts[c]||0)+1);
-    return Object.entries(counts).sort((a,b)=>b[1]-a[1]);
-  }
-  function itemThumb(it,sz){
-    const h=Math.round(sz*1.25);
-    const img=it.photo_url?'<img src="'+escHtml(it.photo_url)+'" style="width:'+sz+'px;height:'+h+'px;object-fit:cover;">':'👗';
-    return'<div style="width:'+sz+'px;height:'+h+'px;background:var(--surface3);border-radius:1px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:10px;overflow:hidden;">'+img+'</div>';
-  }
-  function renderItemCombos(elId,comboCounts,minSize,maxBars){
-    maxBars=maxBars||5;
-    const el=document.getElementById(elId);if(!el)return;
-    const top=comboCounts.slice(0,maxBars);
-    const maxC=top[0]?.[1]||1;
-    if(!top.length){el.innerHTML='<div style="color:var(--text-dim);font-size:11px;padding:8px">Δεν υπάρχουν αρκετά δεδομένα</div>';return;}
-    const sz=minSize>=4?20:24;
-    el.innerHTML=top.map(function(entry){
-      const key=entry[0],cnt=entry[1];
-      const ids=key.split('|||');
-      const items=ids.map(function(id){return allItems.find(function(i){return i.id===id;});}).filter(Boolean);
-      if(items.length<minSize)return'';
-      const thumbs=items.map(function(it){return itemThumb(it,sz);}).join('');
-      const names=items.map(function(it){return escHtml(it.title);}).join(' + ');
-      const colors=items.map(function(it){return it.color||'—';}).join(' · ');
-      const pct=Math.round(cnt/maxC*100);
-      return'<div style="margin-bottom:10px;">'
-        +'<div style="display:flex;align-items:center;gap:8px;margin-bottom:3px;">'
-        +'<div style="display:flex;gap:2px;flex-shrink:0;">'+thumbs+'</div>'
-        +'<div style="flex:1;min-width:0;">'
-        +'<div style="font-size:10px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+names+'</div>'
-        +'<div style="font-size:9px;color:var(--text-dim);">'+colors+'</div>'
-        +'</div>'
-        +'<div style="font-size:11px;font-weight:500;color:var(--accent);flex-shrink:0;">'+cnt+'×</div>'
-        +'</div>'
-        +'<div style="height:6px;background:var(--surface3);border-radius:3px;overflow:hidden;">'
-        +'<div style="height:100%;width:'+pct+'%;background:var(--accent-light);border-radius:3px;"></div>'
-        +'</div></div>';
-    }).join('');
+  const wrap=document.getElementById('cb-combos-wrap');
+
+  // Need at least 2 categories
+  if(!cat1||!cat2){
+    wrap.innerHTML='<div style="color:var(--text-dim);font-size:11px;text-align:center;padding:20px;">Επίλεξε τουλάχιστον 2 κατηγορίες για να δεις τους συνδυασμούς</div>';
+    document.getElementById('cb-pairs').textContent='—';
+    document.getElementById('cb-triples').textContent='—';
+    return;
   }
 
+  // Helper: get items from a category worn on a day
+  function itemsOfCat(dayIds,cat){
+    return dayIds.map(id=>allItems.find(i=>i.id===id)).filter(i=>i&&(i.cat1||i.category)===cat);
+  }
 
-  // ── ITEM PAIRS ──
-  const allPairs=days.flatMap(d=>getPairs(d));
-  const pairCounts=countCombos(allPairs);
-  document.getElementById('cb-pairs').textContent=pairCounts.length;
-  renderItemCombos('cb-pair-items',pairCounts,2);
-
-  // ── ITEM TRIPLES ──
-  const allTriples=days.filter(d=>d.length>=3).flatMap(d=>getTriples(d));
-  const tripleCounts=countCombos(allTriples);
-  document.getElementById('cb-triples').textContent=tripleCounts.length;
-  renderItemCombos('cb-triple-items',tripleCounts,3);
-
-  // ── ITEM QUADS ──
-  const allQuads=days.filter(d=>d.length>=4).flatMap(d=>getQuads(d));
-  const quadCounts=countCombos(allQuads);
-  renderItemCombos('cb-quad-items',quadCounts,4);
-
-  // ── ITEM QUINTS ──
-  const allQuints=days.filter(d=>d.length>=5).flatMap(d=>getQuints(d));
-  const quintCounts=countCombos(allQuints);
-  renderItemCombos('cb-quint-items',quintCounts,5);
-
-  // ── COLOR PAIRS ──
-  const colorPairCounts={};
+  // Generate pairs: one item from cat1 × one item from cat2
+  const pairCounts={};
   days.forEach(d=>{
-    const colors=[...new Set(d.map(id=>allItems.find(i=>i.id===id)?.color).filter(Boolean))];
-    getPairs(colors).forEach(p=>colorPairCounts[p]=(colorPairCounts[p]||0)+1);
+    const c1items=itemsOfCat(d,cat1);
+    const c2items=itemsOfCat(d,cat2);
+    c1items.forEach(i1=>c2items.forEach(i2=>{
+      if(i1.id===i2.id)return;
+      const key=[i1.id,i2.id].sort().join('|||');
+      pairCounts[key]=(pairCounts[key]||0)+1;
+    }));
   });
-  const colorPairSorted=Object.entries(colorPairCounts).sort((a,b)=>b[1]-a[1]);
-  const maxCP=colorPairSorted[0]?.[1]||1;
-  document.getElementById('cb-pair-colors').innerHTML=colorPairSorted.slice(0,5).map(([key,cnt])=>{
-    const [c1,c2]=key.split('|||');
-    return`<div style="display:flex;align-items:center;gap:8px;margin-bottom:7px;">
-      <div style="display:flex;gap:3px;flex-shrink:0;">
-        <div style="width:14px;height:14px;border-radius:50%;background:${COLOR_HEX[c1]||'#aaa'};border:1px solid var(--border);"></div>
-        <div style="width:14px;height:14px;border-radius:50%;background:${COLOR_HEX[c2]||'#aaa'};border:1px solid var(--border);"></div>
-      </div>
-      <div style="font-size:11px;color:var(--text-muted);width:100px;flex-shrink:0;">${escHtml(c1)} + ${escHtml(c2)}</div>
-      <div style="flex:1;height:10px;background:var(--surface3);border-radius:5px;overflow:hidden;">
-        <div style="height:100%;width:${Math.round(cnt/maxCP*100)}%;background:var(--accent-light);border-radius:5px;"></div>
-      </div>
-      <div style="font-size:11px;font-weight:500;color:var(--text);width:28px;text-align:right;flex-shrink:0;">${cnt}×</div>
-    </div>`;
-  }).join('')||'<div style="color:var(--text-dim);font-size:11px;padding:8px">Δεν υπάρχουν δεδομένα</div>';
+  const pairSorted=Object.entries(pairCounts).sort((a,b)=>b[1]-a[1]);
+  document.getElementById('cb-pairs').textContent=pairSorted.length;
 
-  // ── COLOR TRIPLES ──
-  const colorTripleCounts={};
-  days.forEach(d=>{
-    const colors=[...new Set(d.map(id=>allItems.find(i=>i.id===id)?.color).filter(Boolean))];
-    if(colors.length>=3)getTriples(colors).forEach(p=>colorTripleCounts[p]=(colorTripleCounts[p]||0)+1);
-  });
-  const colorTripleSorted=Object.entries(colorTripleCounts).sort((a,b)=>b[1]-a[1]);
-  const maxCT=colorTripleSorted[0]?.[1]||1;
-  document.getElementById('cb-triple-colors').innerHTML=colorTripleSorted.slice(0,5).map(([key,cnt])=>{
-    const colors=key.split('|||');
-    return`<div style="display:flex;align-items:center;gap:8px;margin-bottom:7px;">
-      <div style="display:flex;gap:3px;flex-shrink:0;">
-        ${colors.map(c=>`<div style="width:14px;height:14px;border-radius:50%;background:${COLOR_HEX[c]||'#aaa'};border:1px solid var(--border);"></div>`).join('')}
-      </div>
-      <div style="font-size:11px;color:var(--text-muted);width:120px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${colors.map(c=>escHtml(c)).join(' + ')}</div>
-      <div style="flex:1;height:10px;background:var(--surface3);border-radius:5px;overflow:hidden;">
-        <div style="height:100%;width:${Math.round(cnt/maxCT*100)}%;background:var(--accent-light);border-radius:5px;"></div>
-      </div>
-      <div style="font-size:11px;font-weight:500;color:var(--text);width:28px;text-align:right;flex-shrink:0;">${cnt}×</div>
-    </div>`;
-  }).join('')||'<div style="color:var(--text-dim);font-size:11px;padding:8px">Δεν υπάρχουν αρκετά δεδομένα</div>';
-
-  // ── CATEGORY PAIRS ──
-  const catPairCounts={};
-  days.forEach(d=>{
-    const cats=[...new Set(d.map(id=>allItems.find(i=>i.id===id)?.cat1).filter(Boolean))];
-    getPairs(cats).forEach(p=>catPairCounts[p]=(catPairCounts[p]||0)+1);
-  });
-  const catPairSorted=Object.entries(catPairCounts).sort((a,b)=>b[1]-a[1]);
-  const maxCat=catPairSorted[0]?.[1]||1;
-  document.getElementById('cb-pair-cats').innerHTML=catPairSorted.slice(0,5).map(([key,cnt],i)=>{
-    const [c1,c2]=key.split('|||');
-    return renderHBar(`${c1} + ${c2}`,cnt,maxCat,`${cnt}×`,CAT_COLORS[i]||'#aaa');
-  }).join('')||'<div style="color:var(--text-dim);font-size:11px;padding:8px">Δεν υπάρχουν δεδομένα</div>';
-
-  // ── VERSATILITY: items with most unique partners ──
-  const partnerCounts={};
-  days.forEach(d=>{
-    d.forEach(id=>{
-      if(!partnerCounts[id])partnerCounts[id]=new Set();
-      d.forEach(other=>{if(other!==id)partnerCounts[id].add(other);});
+  // Generate triples if cat3 selected
+  let tripleSorted=[];
+  if(cat3){
+    const tripleCounts={};
+    days.forEach(d=>{
+      const c1items=itemsOfCat(d,cat1);
+      const c2items=itemsOfCat(d,cat2);
+      const c3items=itemsOfCat(d,cat3);
+      c1items.forEach(i1=>c2items.forEach(i2=>c3items.forEach(i3=>{
+        if(i1.id===i2.id||i1.id===i3.id||i2.id===i3.id)return;
+        const key=[i1.id,i2.id,i3.id].sort().join('|||');
+        tripleCounts[key]=(tripleCounts[key]||0)+1;
+      })));
     });
-  });
-  const versatileSorted=Object.entries(partnerCounts)
-    .map(([id,partners])=>({id,count:partners.size}))
-    .sort((a,b)=>b.count-a.count)
-    .slice(0,5);
-  const maxV=versatileSorted[0]?.count||1;
-  document.getElementById('cb-versatile').innerHTML=versatileSorted.length?versatileSorted.map(({id,count})=>{
-    const item=allItems.find(i=>i.id===id);if(!item)return'';
-    return`<div style="display:flex;align-items:center;gap:8px;margin-bottom:7px;">
-      <div style="width:28px;height:34px;background:var(--surface3);border-radius:1px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:12px;overflow:hidden;flex-shrink:0;">${item.photo_url?`<img src="${escHtml(item.photo_url)}" style="width:28px;height:34px;object-fit:cover;">`:'👗'}</div>
-      <div style="flex:1;min-width:0;">
-        <div style="font-size:11px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${escHtml(item.title)}</div>
-        <div style="height:6px;background:var(--surface3);border-radius:3px;overflow:hidden;margin-top:3px;">
-          <div style="height:100%;width:${Math.round(count/maxV*100)}%;background:var(--accent);border-radius:3px;"></div>
-        </div>
-      </div>
-      <div style="font-size:11px;font-weight:500;color:var(--accent);flex-shrink:0;">${count} partners</div>
-    </div>`;
-  }).join(''):'<div style="color:var(--text-dim);font-size:11px;padding:8px">Δεν υπάρχουν δεδομένα</div>';
+    tripleSorted=Object.entries(tripleCounts).sort((a,b)=>b[1]-a[1]);
+  }
+  document.getElementById('cb-triples').textContent=cat3?tripleSorted.length:'—';
+
+  // Render combo row with photos
+  function comboRow(key,cnt,maxCnt){
+    const ids=key.split('|||');
+    const items=ids.map(id=>allItems.find(i=>i.id===id)).filter(Boolean);
+    if(!items.length)return'';
+    const pct=Math.round(cnt/maxCnt*100);
+    const thumbs=items.map(it=>{
+            const img=it.photo_url?'<img src="'+escHtml(it.photo_url)+'" style="width:28px;height:34px;object-fit:cover;border-radius:1px;">':'<span style="font-size:16px;">👗</span>';
+      return'<div style="width:28px;height:34px;background:var(--surface3);border-radius:1px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;">'+img+'</div>';
+    }).join('');
+    const names=items.map(it=>escHtml(it.title)).join(' + ');
+    const cats=items.map(it=>it.cat1||it.category||'').join(' · ');
+    const colors=items.map(it=>it.color||'—').join(' · ');
+    return'<div style="margin-bottom:10px;">'
+      +'<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">'
+      +'<div style="display:flex;gap:3px;flex-shrink:0;">'+thumbs+'</div>'
+      +'<div style="flex:1;min-width:0;">'
+      +'<div style="font-size:11px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+names+'</div>'
+      +'<div style="font-size:9px;color:var(--text-dim);">'+cats+' · '+colors+'</div>'
+      +'</div>'
+      +'<div style="font-size:12px;font-weight:500;color:var(--accent);flex-shrink:0;">'+cnt+'×</div>'
+      +'</div>'
+      +'<div style="height:5px;background:var(--surface3);border-radius:3px;overflow:hidden;">'
+      +'<div style="height:100%;width:'+pct+'%;background:var(--accent-light);border-radius:3px;"></div>'
+      +'</div></div>';
+  }
+
+  // Build output HTML
+  let html='';
+
+  // Pairs section
+  const top5pairs=pairSorted.slice(0,5);
+  const maxP=top5pairs[0]?.[1]||1;
+  html+='<div class="section-title">👗👗 Top 5 '+cat1+' + '+cat2+'</div>';
+  html+='<div class="chart-card" style="margin-bottom:14px;">';
+  if(top5pairs.length){
+    html+=top5pairs.map(([k,c])=>comboRow(k,c,maxP)).join('');
+  } else {
+    html+='<div style="color:var(--text-dim);font-size:11px;padding:8px;">Δεν βρέθηκαν συνδυασμοί '+cat1+' + '+cat2+' στην περίοδο</div>';
+  }
+  html+='</div>';
+
+  // Triples section if cat3 selected
+  if(cat3){
+    const top5triples=tripleSorted.slice(0,5);
+    const maxT=top5triples[0]?.[1]||1;
+    html+='<div class="section-title">👗👗👗 Top 5 '+cat1+' + '+cat2+' + '+cat3+'</div>';
+    html+='<div class="chart-card" style="margin-bottom:14px;">';
+    if(top5triples.length){
+      html+=top5triples.map(([k,c])=>comboRow(k,c,maxT)).join('');
+    } else {
+      html+='<div style="color:var(--text-dim);font-size:11px;padding:8px;">Δεν βρέθηκαν τριάδες για αυτές τις κατηγορίες</div>';
+    }
+    html+='</div>';
+  }
+
+  wrap.innerHTML=html;
 }
+
 
 function loadWPSDrill(){
   const type=document.getElementById('wps-drill-type')?.value||'category';

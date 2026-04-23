@@ -5,96 +5,32 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Wardrobe KPIs Calculator | by Danai</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --cream: #f5f0e8; --warm-white: #faf8f4; --camel: #c8965a; --camel-light: #e8c99a;
-    --navy: #1a2744; --navy-mid: #2e4070; --black: #1a1a1a; --gray: #6b6b6b;
-    --gray-light: #d8d3cb; --success: #4a7c59; --warning: #c8622a; --white: #ffffff;
+    --cream: #f5f0e8;
+    --warm-white: #faf8f4;
+    --gold: #c4956a;
+    --gold-light: #d8b48a;
+    --gold-dark: #a77a4e;
+    --black: #0a0a0a;
+    --black-soft: #1a1a1a;
+    --gray: #6b6b6b;
+    --gray-light: #d8d3cb;
+    --success: #6b9478;
+    --warning: #c4956a;
+    --danger: #b55a4a;
+    --white: #ffffff;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--black); min-height: 100vh; }
+  body { font-family: 'Jost', sans-serif; background: var(--cream); color: var(--black-soft); min-height: 100vh; }
 
-header { background: var(–navy); padding: 48px 40px 36px; position: relative; overflow: hidden; }
-header::before { content:’’; position:absolute; right:-60px; top:-60px; width:300px; height:300px; border:1px solid rgba(200,150,90,0.2); border-radius:50%; }
-header::after  { content:’’; position:absolute; right:20px; top:20px; width:180px; height:180px; border:1px solid rgba(200,150,90,0.15); border-radius:50%; }
-.header-label { font-size:10px; font-weight:500; letter-spacing:3px; text-transform:uppercase; color:var(–camel); margin-bottom:12px; }
-header h1 { font-family:‘Playfair Display’,serif; font-size:clamp(26px,5vw,46px); color:var(–white); line-height:1.15; max-width:600px; }
-header h1 em { color:var(–camel-light); font-style:italic; }
-header p { color:rgba(255,255,255,0.6); font-size:14px; font-weight:300; margin-top:12px; max-width:520px; line-height:1.6; }
-
-main { max-width:900px; margin:0 auto; padding:48px 24px 100px; display:flex; flex-direction:column; gap:56px; }
-
-.section-header { display:flex; align-items:center; gap:14px; margin-bottom:22px; }
-.section-number { width:34px; height:34px; border-radius:50%; background:var(–navy); color:var(–camel-light); font-family:‘Playfair Display’,serif; font-size:15px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
-.section-title  { font-family:‘Playfair Display’,serif; font-size:21px; color:var(–navy); }
-.section-line   { flex:1; height:1px; background:var(–gray-light); }
-
-.explainer { background:var(–white); border-left:3px solid var(–camel); padding:16px 20px; margin-bottom:24px; border-radius:0 8px 8px 0; }
-.explainer p { font-size:13px; color:var(–gray); line-height:1.7; }
-.explainer p+p { margin-top:5px; }
-.explainer strong { color:var(–navy); }
-
-.two-col { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-bottom:18px; }
-@media(max-width:600px){ .two-col { grid-template-columns:1fr; } }
-
-.input-card { background:var(–white); border-radius:12px; padding:24px; box-shadow:0 1px 4px rgba(0,0,0,0.06); }
-.card-label  { display:block; font-size:11px; font-weight:500; letter-spacing:1.5px; text-transform:uppercase; color:var(–camel); margin-bottom:14px; }
-.field-row   { display:flex; gap:12px; margin-bottom:12px; flex-wrap:wrap; }
-.field-group { flex:1; min-width:110px; }
-.field-group label { display:block; font-size:11px; color:var(–gray); margin-bottom:4px; }
-
-input[type=“number”], input[type=“text”], select {
-width:100%; padding:9px 13px; border:1.5px solid var(–gray-light); border-radius:8px;
-font-family:‘DM Sans’,sans-serif; font-size:14px; color:var(–black); background:var(–warm-white);
-transition:border 0.2s; -moz-appearance:textfield;
-}
-input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance:none; }
-input:focus, select:focus { outline:none; border-color:var(–camel); background:var(–white); }
-select option:disabled { color:var(–gray-light); font-style:italic; }
-
-.result-box { background:var(–navy); border-radius:12px; padding:22px 26px; display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:14px; margin-bottom:16px; }
-.result-item { text-align:center; }
-.result-label { font-size:10px; font-weight:500; letter-spacing:1.5px; text-transform:uppercase; color:rgba(255,255,255,0.4); margin-bottom:6px; }
-.result-value { font-family:‘Playfair Display’,serif; font-size:28px; color:var(–white); line-height:1; }
-.result-value.good   { color:#7ecfa0; }
-.result-value.accent { color:var(–camel-light); }
-.result-value.warn   { color:#f0a070; }
-.result-unit { font-size:11px; color:rgba(255,255,255,0.35); margin-top:3px; }
-
-.verdict-box { font-size:14px; color:var(–navy); font-weight:500; padding:13px 17px; background:var(–warm-white); border-radius:10px; border:1px solid var(–gray-light); line-height:1.6; }
-
-/* Dynamic benchmark card */
-.benchmark-card { background:var(–white); border-radius:12px; padding:22px 24px; box-shadow:0 1px 4px rgba(0,0,0,0.06); }
-.bm-combo { font-family:‘Playfair Display’,serif; font-size:15px; color:var(–navy); margin-bottom:3px; font-style:italic; }
-.bm-target-row { display:flex; align-items:baseline; gap:10px; padding:14px 0; border-bottom:1px solid var(–gray-light); margin-bottom:14px; }
-.bm-target-label { font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(–gray); }
-.bm-target-value { font-family:‘Playfair Display’,serif; font-size:32px; color:var(–camel); line-height:1; }
-.bm-target-unit  { font-size:12px; color:var(–gray); }
-.bm-title { font-size:11px; font-weight:500; letter-spacing:1.5px; text-transform:uppercase; color:var(–camel); margin-bottom:10px; }
-.rating-rows  { display:flex; flex-direction:column; gap:7px; }
-.rating-row   { display:flex; align-items:center; gap:9px; font-size:12px; }
-.rating-dot   { width:9px; height:9px; border-radius:50%; flex-shrink:0; }
-.rating-label { width:90px; font-size:12px; color:var(–black); }
-.bar-wrap     { flex:1; background:var(–cream); border-radius:4px; height:6px; overflow:hidden; }
-.bar-fill     { height:100%; border-radius:4px; }
-.rating-text  { width:120px; font-size:12px; color:var(–gray); }
-
-.rev-result { background:var(–navy); border-radius:10px; padding:20px 24px; display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-top:16px; }
-.rev-main   { font-family:‘Playfair Display’,serif; font-size:34px; color:var(–white); }
-.rev-desc   { font-size:13px; color:rgba(255,255,255,0.6); line-height:1.6; max-width:340px; }
-.rev-accent { color:var(–camel-light); font-weight:500; }
-
-.invalid-notice { background:#fde8e8; color:#c0392b; padding:10px 14px; border-radius:8px; font-size:12px; margin-top:10px; display:none; }
-.invalid-notice.show { display:block; }
-
-/* Navigation styles */
+/* ── NAVIGATION ── */
 .top-nav { position:fixed; top:0; left:0; right:0; z-index:100; background:rgba(10,10,10,0.92); backdrop-filter:blur(12px); border-bottom:1px solid rgba(255,255,255,0.08); padding:0 2rem; height:58px; display:flex; align-items:center; justify-content:space-between; }
-.nav-brand { font-family:serif; font-size:1rem; color:white; text-decoration:none; font-style:italic; white-space:nowrap; }
+.nav-brand { font-family:‘Cormorant Garamond’, serif; font-size:1rem; color:white; text-decoration:none; font-style:italic; white-space:nowrap; }
 .nav-links { display:flex; gap:1.5rem; }
 .nav-link { font-size:0.72rem; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.55); text-decoration:none; transition:color 0.2s; white-space:nowrap; }
 .nav-link:hover { color:white; }
-
 @media(max-width:640px){
 .top-nav { padding:0 1rem; height:52px; }
 .nav-brand { font-size:0.85rem; }
@@ -106,6 +42,81 @@ select option:disabled { color:var(–gray-light); font-style:italic; }
 .nav-links { gap:0.7rem; }
 .nav-link { font-size:0.6rem; }
 }
+
+/* ── HEADER ── */
+header { background: var(–black); padding: 48px 40px 36px; position: relative; overflow: hidden; color: var(–white); }
+header::before { content:’’; position:absolute; right:-60px; top:-60px; width:300px; height:300px; border:1px solid rgba(196,149,106,0.2); border-radius:50%; }
+header::after  { content:’’; position:absolute; right:20px; top:20px; width:180px; height:180px; border:1px solid rgba(196,149,106,0.15); border-radius:50%; }
+.header-label { font-size:10px; font-weight:400; letter-spacing:3px; text-transform:uppercase; color:var(–gold); margin-bottom:12px; }
+header h1 { font-family:‘Cormorant Garamond’, serif; font-weight:400; font-size:clamp(28px,5vw,48px); color:var(–white); line-height:1.15; max-width:600px; }
+header h1 em { color:var(–gold-light); font-style:italic; }
+header p { color:rgba(255,255,255,0.7); font-size:14px; font-weight:300; margin-top:12px; max-width:520px; line-height:1.6; }
+
+/* ── MAIN ── */
+main { max-width:900px; margin:0 auto; padding:48px 24px 100px; display:flex; flex-direction:column; gap:56px; }
+
+.section-header { display:flex; align-items:center; gap:14px; margin-bottom:22px; }
+.section-number { width:34px; height:34px; border-radius:50%; background:var(–black); color:var(–gold-light); font-family:‘Cormorant Garamond’, serif; font-size:16px; font-style:italic; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.section-title  { font-family:‘Cormorant Garamond’, serif; font-weight:500; font-size:24px; color:var(–black-soft); }
+.section-line   { flex:1; height:1px; background:var(–gray-light); }
+
+.explainer { background:var(–white); border-left:3px solid var(–gold); padding:16px 20px; margin-bottom:24px; border-radius:0 8px 8px 0; }
+.explainer p { font-size:13px; color:var(–gray); line-height:1.7; }
+.explainer p+p { margin-top:5px; }
+.explainer strong { color:var(–black-soft); }
+
+.two-col { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-bottom:18px; }
+@media(max-width:600px){ .two-col { grid-template-columns:1fr; } }
+
+.input-card { background:var(–white); border-radius:12px; padding:24px; box-shadow:0 1px 4px rgba(0,0,0,0.06); }
+.card-label  { display:block; font-size:11px; font-weight:500; letter-spacing:1.5px; text-transform:uppercase; color:var(–gold); margin-bottom:14px; }
+.field-row   { display:flex; gap:12px; margin-bottom:12px; flex-wrap:wrap; }
+.field-group { flex:1; min-width:110px; }
+.field-group label { display:block; font-size:11px; color:var(–gray); margin-bottom:4px; }
+
+input[type=“number”], input[type=“text”], select {
+width:100%; padding:9px 13px; border:1.5px solid var(–gray-light); border-radius:8px;
+font-family:‘Jost’, sans-serif; font-size:14px; color:var(–black-soft); background:var(–warm-white);
+transition:border 0.2s; -moz-appearance:textfield;
+}
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance:none; }
+input:focus, select:focus { outline:none; border-color:var(–gold); background:var(–white); }
+select option:disabled { color:var(–gray-light); font-style:italic; }
+
+.result-box { background:var(–black); border-radius:12px; padding:22px 26px; display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:14px; margin-bottom:16px; }
+.result-item { text-align:center; }
+.result-label { font-size:10px; font-weight:500; letter-spacing:1.5px; text-transform:uppercase; color:rgba(255,255,255,0.4); margin-bottom:6px; }
+.result-value { font-family:‘Cormorant Garamond’, serif; font-weight:500; font-size:32px; color:var(–white); line-height:1; }
+.result-value.good   { color:#9bc4a8; }
+.result-value.accent { color:var(–gold-light); }
+.result-value.warn   { color:#e8a070; }
+.result-unit { font-size:11px; color:rgba(255,255,255,0.4); margin-top:4px; }
+
+.verdict-box { font-size:14px; color:var(–black-soft); font-weight:400; padding:13px 17px; background:var(–warm-white); border-radius:10px; border:1px solid var(–gray-light); line-height:1.6; }
+
+/* Dynamic benchmark card */
+.benchmark-card { background:var(–white); border-radius:12px; padding:22px 24px; box-shadow:0 1px 4px rgba(0,0,0,0.06); }
+.bm-combo { font-family:‘Cormorant Garamond’, serif; font-size:17px; color:var(–black-soft); margin-bottom:3px; font-style:italic; }
+.bm-target-row { display:flex; align-items:baseline; gap:10px; padding:14px 0; border-bottom:1px solid var(–gray-light); margin-bottom:14px; }
+.bm-target-label { font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(–gray); }
+.bm-target-value { font-family:‘Cormorant Garamond’, serif; font-weight:500; font-size:36px; color:var(–gold); line-height:1; }
+.bm-target-unit  { font-size:12px; color:var(–gray); }
+.bm-title { font-size:11px; font-weight:500; letter-spacing:1.5px; text-transform:uppercase; color:var(–gold); margin-bottom:10px; }
+.rating-rows  { display:flex; flex-direction:column; gap:7px; }
+.rating-row   { display:flex; align-items:center; gap:9px; font-size:12px; }
+.rating-dot   { width:9px; height:9px; border-radius:50%; flex-shrink:0; }
+.rating-label { width:90px; font-size:12px; color:var(–black-soft); }
+.bar-wrap     { flex:1; background:var(–cream); border-radius:4px; height:6px; overflow:hidden; }
+.bar-fill     { height:100%; border-radius:4px; }
+.rating-text  { width:120px; font-size:12px; color:var(–gray); }
+
+.rev-result { background:var(–black); border-radius:10px; padding:20px 24px; display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-top:16px; }
+.rev-main   { font-family:‘Cormorant Garamond’, serif; font-weight:500; font-size:38px; color:var(–white); }
+.rev-desc   { font-size:13px; color:rgba(255,255,255,0.65); line-height:1.6; max-width:340px; }
+.rev-accent { color:var(–gold-light); font-weight:500; }
+
+.invalid-notice { background:#f5e0dc; color:#b55a4a; padding:10px 14px; border-radius:8px; font-size:12px; margin-top:10px; display:none; }
+.invalid-notice.show { display:block; }
 
 @media(max-width:480px){
 header { padding:30px 18px 26px; }
@@ -204,27 +215,27 @@ main { padding:28px 14px 70px; gap:42px; }
     <div class="bm-title">📊 Scale αξιολόγησης</div>
     <div class="rating-rows">
       <div class="rating-row">
-        <div class="rating-dot" style="background:#2d7a4f"></div>
+        <div class="rating-dot" style="background:#6b9478"></div>
         <span class="rating-label" id="cpw-scale-1">—</span>
-        <div class="bar-wrap"><div class="bar-fill" style="width:100%;background:#2d7a4f"></div></div>
+        <div class="bar-wrap"><div class="bar-fill" style="width:100%;background:#6b9478"></div></div>
         <span class="rating-text">🏆 Εξαιρετικό</span>
       </div>
       <div class="rating-row">
-        <div class="rating-dot" style="background:#7ecfa0"></div>
+        <div class="rating-dot" style="background:#9bc4a8"></div>
         <span class="rating-label" id="cpw-scale-2">—</span>
-        <div class="bar-wrap"><div class="bar-fill" style="width:75%;background:#7ecfa0"></div></div>
+        <div class="bar-wrap"><div class="bar-fill" style="width:75%;background:#9bc4a8"></div></div>
         <span class="rating-text">✅ Καλό</span>
       </div>
       <div class="rating-row">
-        <div class="rating-dot" style="background:#f0a070"></div>
+        <div class="rating-dot" style="background:#e8a070"></div>
         <span class="rating-label" id="cpw-scale-3">—</span>
-        <div class="bar-wrap"><div class="bar-fill" style="width:50%;background:#f0a070"></div></div>
+        <div class="bar-wrap"><div class="bar-fill" style="width:50%;background:#e8a070"></div></div>
         <span class="rating-text">⚠️ Μέτριο</span>
       </div>
       <div class="rating-row">
-        <div class="rating-dot" style="background:#c0392b"></div>
+        <div class="rating-dot" style="background:#b55a4a"></div>
         <span class="rating-label" id="cpw-scale-4">—</span>
-        <div class="bar-wrap"><div class="bar-fill" style="width:25%;background:#c0392b"></div></div>
+        <div class="bar-wrap"><div class="bar-fill" style="width:25%;background:#b55a4a"></div></div>
         <span class="rating-text">🚨 Υψηλό</span>
       </div>
     </div>
@@ -321,9 +332,6 @@ main { padding:28px 14px 70px; gap:42px; }
 
 <script>
 // ─── CPW MATRIX ─────────────────────────────────────────
-// Γραμμές = είδη ρούχων · Στήλες = περιστάσεις
-// Τιμή = target €/χρήση · null = άτυπος συνδυασμός
-
 const GARMENTS = [
   { key:'blouse',    label:'Μπλούζα / T-shirt' },
   { key:'pants',     label:'Παντελόνι / Jeans' },
@@ -345,7 +353,6 @@ const OCCASIONS = [
   { key:'accessory',  label:'Αξεσουάρ' },
 ];
 
-// MATRIX: matrix[garment][occasion] = target CPW (€/wear) ή null
 const MATRIX = {
   blouse:    { daily:2,   outerwear:null, occasional:4,    special:12,   accessory:null },
   pants:     { daily:2.5, outerwear:null, occasional:5,    special:15,   accessory:null },
@@ -359,7 +366,6 @@ const MATRIX = {
   underwear: { daily:0.5, outerwear:null, occasional:null, special:null, accessory:null },
 };
 
-// Context-specific reasoning
 const REASONING = {
   daily:      'Καθημερινά ρούχα φοριούνται πολύ συχνά — το CPW πέφτει γρήγορα, οπότε το target είναι αυστηρό.',
   outerwear:  'Outerwear είναι ο σύμμαχός σου όλη τη σεζόν — συχνή χρήση αλλά και υψηλότερη τιμή κατοχής.',
@@ -368,16 +374,13 @@ const REASONING = {
   accessory:  'Αξεσουάρ όπως κοσμήματα ή τσάντες φοριούνται καθημερινά για μήνες — το target είναι χαμηλό.',
 };
 
-// ─── DROPDOWN POPULATION ────────────────────────────────
 function populateDropdowns(prefix, defaultGarment, defaultOccasion) {
   const gSel = document.getElementById(prefix + '-garment');
   gSel.innerHTML = GARMENTS.map(g =>
     `<option value="${g.key}"${g.key===defaultGarment?' selected':''}>${g.label}</option>`
   ).join('');
-  // occasion dropdown θα γεμίσει από onGarmentChange με σωστό disabled state
 }
 
-// Καλείται όταν αλλάζει το είδος — γκριζάρει invalid occasions
 function onGarmentChange(prefix) {
   const gSel = document.getElementById(prefix + '-garment');
   const oSel = document.getElementById(prefix + '-occasion');
@@ -385,7 +388,6 @@ function onGarmentChange(prefix) {
   const previousOcc = oSel.value;
   const row = MATRIX[garment];
 
-  // Build options με disabled state για invalid combos
   oSel.innerHTML = OCCASIONS.map(o => {
     const isValid = row[o.key] !== null;
     const disabled = isValid ? '' : ' disabled';
@@ -393,7 +395,6 @@ function onGarmentChange(prefix) {
     return `<option value="${o.key}"${disabled}>${o.label}${suffix}</option>`;
   }).join('');
 
-  // Διατήρηση previous occasion αν ακόμη έγκυρο, αλλιώς πρώτο valid
   if (previousOcc && row[previousOcc] !== null) {
     oSel.value = previousOcc;
   } else {
@@ -422,7 +423,6 @@ function cpwColorClass(cpw, target) {
   return 'warn';
 }
 
-// ─── CPW CALCULATOR ─────────────────────────────────────
 function calcCPW() {
   const garment  = document.getElementById('cpw-garment').value;
   const occasion = document.getElementById('cpw-occasion').value;
@@ -434,11 +434,9 @@ function calcCPW() {
   const target = getTarget(garment, occasion);
   const labels = getLabels(garment, occasion);
 
-  // Benchmark card update
   document.getElementById('cpw-combo-label').textContent = `${labels.garment} · ${labels.occasion}`;
   document.getElementById('cpw-target-val').textContent = target !== null ? fmtShort(target) : '—';
 
-  // Scale labels dynamic update
   if (target !== null) {
     document.getElementById('cpw-scale-1').textContent = `0 – ${fmtShort(target)}`;
     document.getElementById('cpw-scale-2').textContent = `${fmtShort(target)} – ${fmtShort(target*2)}`;
@@ -483,7 +481,6 @@ function setResult(id, text, numericValue, target) {
   el.className = 'result-value ' + cpwColorClass(numericValue, target);
 }
 
-// ─── REVERSE CALCULATOR ─────────────────────────────────
 function calcReverse() {
   const garment  = document.getElementById('rev-garment').value;
   const occasion = document.getElementById('rev-occasion').value;
@@ -516,7 +513,6 @@ function calcReverse() {
   }
 }
 
-// ─── INIT ───────────────────────────────────────────────
 populateDropdowns('cpw', 'blouse', 'daily');
 populateDropdowns('rev', 'dress', 'special');
 onGarmentChange('cpw');
@@ -524,7 +520,7 @@ onGarmentChange('rev');
 </script>
 
 <footer style="background:#0a0a0a;color:rgba(255,255,255,0.35);padding:3rem 2rem;text-align:center;border-top:1px solid rgba(255,255,255,0.06);">
-  <div style="font-family:serif;font-size:1.3rem;font-weight:300;color:white;margin-bottom:0.5rem;">Fashion Analysis <em style="color:#c4956a;">by Danai</em></div>
+  <div style="font-family:'Cormorant Garamond', serif;font-size:1.3rem;font-weight:300;color:white;margin-bottom:0.5rem;">Fashion Analysis <em style="color:#c4956a;">by Danai</em></div>
   <p style="font-size:0.82rem;margin-bottom:0.4rem;">Wardrobe KPIs Calculator · Fashion Education</p>
   <p style="font-size:0.82rem;margin-bottom:1.5rem;">
     <a href="mailto:fashion.analysis.by.danai@gmail.com" style="color:#c4956a;text-decoration:none;">fashion.analysis.by.danai@gmail.com</a>

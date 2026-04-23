@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="el">
 <head>
   <meta charset="UTF-8" />
@@ -45,7 +46,6 @@
     .nav-dropdown:hover .nav-dropdown-menu,
     .nav-dropdown.open .nav-dropdown-menu { display: block; }
 
-    /* Mobile: dropdown shows inline */
     @media (max-width: 768px) {
       .nav-dropdown-menu {
         position: static;
@@ -63,156 +63,271 @@
       .nav-dropdown-menu { display: none; }
     }
 
-    /* ── TOOLS SECTION ── */
-    .tools-section {
-      padding: 80px 0;
-      background: #0d0d0d;
+    /* ── ABOUT TEASER MINI ── */
+    .about-teaser-mini {
+      padding: 48px 0 32px;
+      text-align: center;
     }
-    .tools-section .section-label { color: #9a7a4a; }
-    .tools-section .section-title { color: #e8e2d9; }
-    .tools-section .section-title em { color: #c9a96e; }
-    .tools-section .section-desc { color: #7a7570; }
-
-    .tools-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin-top: 40px;
+    .about-teaser-mini .container { max-width: 620px; }
+    .about-teaser-mini .mini-label {
+      font-family: 'Jost', sans-serif;
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: #9a7a4a;
+      margin-bottom: 14px;
+    }
+    .about-teaser-mini .mini-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      font-weight: 300;
+      font-style: italic;
+      line-height: 1.55;
+      color: #4a4038;
+    }
+    .about-teaser-mini .mini-text em {
+      font-style: normal;
+      color: #9a7a4a;
     }
     @media (max-width: 640px) {
-      .tools-grid { grid-template-columns: 1fr; }
+      .about-teaser-mini .mini-text { font-size: 17px; }
     }
 
-    .tool-card {
-      background: #161616;
-      border: 1px solid #2a2a2a;
-      border-radius: 3px;
-      padding: 28px 28px 24px;
-      text-decoration: none;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      transition: border-color 0.2s, box-shadow 0.2s;
+    /* ── JOURNEY SECTIONS ── */
+    .journey-section {
+      padding: 72px 0;
       position: relative;
-      overflow: hidden;
     }
-    .tool-card:hover {
-      border-color: #9a7a4a;
-      box-shadow: 0 4px 24px rgba(154,122,74,0.10);
+    .journey-section.alt-bg { background: #faf6f0; }
+    .journey-section.dark-bg {
+      background: #0d0d0d;
     }
-    .tool-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, #9a7a4a, #c9a96e);
-      opacity: 0;
-      transition: opacity 0.2s;
-    }
-    .tool-card:hover::before { opacity: 1; }
+    .journey-section.dark-bg .narration,
+    .journey-section.dark-bg .narration em { color: #c9a96e; }
+    .journey-section.dark-bg .step-label { color: #9a7a4a; }
+    .journey-section.dark-bg .step-title { color: #e8e2d9; }
+    .journey-section.dark-bg .step-title em { color: #c9a96e; }
 
-    .tool-tag {
+    .journey-inner { max-width: 920px; margin: 0 auto; padding: 0 24px; }
+
+    /* Narration block — το "spoken" κείμενο */
+    .narration {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 300;
+      font-style: italic;
+      line-height: 1.65;
+      color: #4a4038;
+      text-align: center;
+      max-width: 720px;
+      margin: 0 auto 48px;
+    }
+    .narration em {
+      font-style: normal;
+      font-weight: 500;
+      color: #9a7a4a;
+    }
+    .narration.small {
+      font-size: 18px;
+      margin-bottom: 32px;
+    }
+    @media (max-width: 640px) {
+      .narration { font-size: 18px; }
+      .narration.small { font-size: 16px; }
+    }
+
+    /* Step opener — headline που κάνει "break" στο narration */
+    .journey-opener {
+      text-align: center;
+      padding: 88px 0 56px;
+      background: #fff;
+    }
+    .journey-opener .opener-label {
       font-family: 'Jost', sans-serif;
-      font-size: 9px;
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: #9a7a4a;
+      margin-bottom: 20px;
+    }
+    .journey-opener .opener-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 44px;
+      font-weight: 300;
+      line-height: 1.15;
+      color: #2a231a;
+      max-width: 820px;
+      margin: 0 auto 20px;
+      letter-spacing: -0.01em;
+    }
+    .journey-opener .opener-title em {
+      font-style: italic;
+      color: #9a7a4a;
+    }
+    .journey-opener .opener-sub {
+      font-family: 'Jost', sans-serif;
+      font-size: 13px;
+      font-weight: 300;
+      color: #8a7d6e;
+      max-width: 560px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+    @media (max-width: 640px) {
+      .journey-opener { padding: 64px 0 40px; }
+      .journey-opener .opener-title { font-size: 32px; }
+    }
+
+    /* Step card — το εργαλείο/οδηγός */
+    .step-block {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 32px;
+      align-items: start;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+    @media (max-width: 640px) {
+      .step-block {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        text-align: center;
+      }
+    }
+
+    .step-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 84px;
+      font-weight: 300;
+      font-style: italic;
+      line-height: 0.9;
+      color: #9a7a4a;
+      opacity: 0.35;
+      letter-spacing: -0.02em;
+    }
+    .dark-bg .step-number { color: #c9a96e; opacity: 0.4; }
+    @media (max-width: 640px) {
+      .step-number { font-size: 64px; }
+    }
+
+    .step-content { padding-top: 8px; }
+    .step-label {
+      font-family: 'Jost', sans-serif;
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #9a7a4a;
+      margin-bottom: 10px;
+    }
+    .step-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 32px;
+      font-weight: 400;
+      line-height: 1.2;
+      color: #2a231a;
+      margin-bottom: 14px;
+    }
+    .step-title em { font-style: italic; color: #9a7a4a; }
+
+    .step-desc {
+      font-family: 'Jost', sans-serif;
+      font-size: 14px;
+      font-weight: 300;
+      line-height: 1.75;
+      color: #5a5048;
+      margin-bottom: 22px;
+    }
+    .dark-bg .step-desc { color: #a8a29a; }
+
+    .step-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Jost', sans-serif;
+      font-size: 11px;
       font-weight: 400;
       letter-spacing: 0.16em;
       text-transform: uppercase;
       color: #9a7a4a;
-      border: 1px solid rgba(154,122,74,0.3);
-      padding: 3px 9px;
-      border-radius: 1px;
-      display: inline-block;
-      width: fit-content;
+      text-decoration: none;
+      padding: 12px 22px;
+      border: 1px solid #9a7a4a;
+      border-radius: 2px;
+      transition: all 0.2s;
+    }
+    .step-cta:hover {
+      background: #9a7a4a;
+      color: #fff;
+    }
+    .dark-bg .step-cta { color: #c9a96e; border-color: #c9a96e; }
+    .dark-bg .step-cta:hover { background: #c9a96e; color: #0d0d0d; }
+    .step-cta::after {
+      content: '→';
+      transition: transform 0.2s;
+    }
+    .step-cta:hover::after { transform: translateX(4px); }
+
+    @media (max-width: 640px) {
+      .step-title { font-size: 26px; }
     }
 
-    .tool-emoji {
-      font-size: 28px;
-      line-height: 1;
-    }
-
-    .tool-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 22px;
-      font-weight: 400;
-      color: #e8e2d9;
-      letter-spacing: 0.02em;
-      line-height: 1.2;
-    }
-    .tool-title em {
-      font-style: italic;
-      color: #c9a96e;
-    }
-
-    .tool-desc {
-      font-family: 'Jost', sans-serif;
-      font-size: 13px;
-      font-weight: 300;
-      color: #7a7570;
-      line-height: 1.65;
-    }
-
-    .tool-features {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-    }
-    .tool-features li {
-      font-family: 'Jost', sans-serif;
-      font-size: 11px;
-      font-weight: 300;
-      color: #5a5550;
-      letter-spacing: 0.04em;
-      display: flex;
-      align-items: baseline;
-      gap: 7px;
-    }
-    .tool-features li::before {
-      content: '◆';
-      font-size: 6px;
-      color: #9a7a4a;
-      flex-shrink: 0;
-    }
-
-    .tool-link {
-      font-family: 'Jost', sans-serif;
-      font-size: 10px;
-      font-weight: 400;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: #c9a96e;
-      margin-top: auto;
-      padding-top: 8px;
+    /* Divider ornament between chapters */
+    .chapter-divider {
       display: flex;
       align-items: center;
-      gap: 6px;
+      justify-content: center;
+      gap: 14px;
+      padding: 16px 0;
+      background: #fff;
     }
-    .tool-link::after {
-      content: '→';
-      transition: transform 0.15s;
+    .chapter-divider .line {
+      width: 60px;
+      height: 1px;
+      background: #d4c4a8;
     }
-    .tool-card:hover .tool-link::after { transform: translateX(4px); }
+    .chapter-divider .dot {
+      color: #9a7a4a;
+      font-size: 10px;
+    }
+    .alt-bg-divider { background: #faf6f0; }
+    .dark-bg-divider { background: #0d0d0d; }
+    .dark-bg-divider .line { background: #3a3530; }
+    .dark-bg-divider .dot { color: #c9a96e; }
 
-    /* ABOUT TEASER — χωρίς φωτογραφία, compact */
-    .about-teaser-compact {
-      padding: 64px 0;
-    }
-    .about-teaser-compact .container {
-      max-width: 680px;
+    /* ── NEWSLETTER CTA ── */
+    .newsletter-cta {
+      padding: 88px 0;
+      background: linear-gradient(135deg, #f5ede0 0%, #ede1cf 100%);
       text-align: center;
     }
-    .about-teaser-compact .section-label { margin-bottom: 10px; }
-    .about-teaser-compact .section-title { margin-bottom: 16px; }
-    .about-teaser-compact .body-text {
-      margin-bottom: 10px;
-      color: var(--text-muted, #666);
+    .newsletter-cta .container { max-width: 620px; }
+    .newsletter-cta .section-label { color: #9a7a4a; }
+    .newsletter-cta .nl-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 36px;
+      font-weight: 300;
+      line-height: 1.2;
+      color: #2a231a;
+      margin-bottom: 18px;
     }
-    .about-teaser-compact .btn-outline { margin-top: 10px; }
-  
+    .newsletter-cta .nl-title em { font-style: italic; color: #9a7a4a; }
+    .newsletter-cta .nl-desc {
+      font-family: 'Jost', sans-serif;
+      font-size: 14px;
+      font-weight: 300;
+      color: #5a5048;
+      line-height: 1.75;
+      margin-bottom: 28px;
+    }
+    @media (max-width: 640px) {
+      .newsletter-cta .nl-title { font-size: 28px; }
+    }
+
     /* ── YOUTUBE SECTION ── */
-    .yt-section { padding: 5rem 0; background: var(--warm-white); }
+    .yt-section { padding: 80px 0; background: var(--warm-white, #fff); }
     .yt-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -225,7 +340,7 @@
       padding-bottom: 56.25%;
       height: 0;
       overflow: hidden;
-      border: 1px solid var(--light-grey);
+      border: 1px solid var(--light-grey, #e8e2d8);
     }
     .yt-embed-wrap iframe {
       position: absolute;
@@ -236,11 +351,24 @@
       .yt-grid { grid-template-columns: 1fr; }
     }
 
-</style>
+    .yt-intro {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 19px;
+      font-style: italic;
+      color: #5a5048;
+      text-align: center;
+      max-width: 640px;
+      margin: -10px auto 40px;
+      line-height: 1.6;
+    }
+
+  </style>
+
 </head>
 <body>
 
   <!-- NAV -->
+
   <nav id="navbar">
     <a href="index.html" class="nav-brand">
       <span class="brand-main">Fashion Analysis</span>
@@ -268,6 +396,7 @@
   </nav>
 
   <!-- HERO -->
+
   <section class="hero">
     <div class="hero-bg-text">STYLE</div>
     <div class="hero-inner">
@@ -278,15 +407,15 @@
       </div>
       <h1 class="hero-title">
         Πόσα λεφτά <br>
-        έχεις <em>“κλειδωμένα” </em>.<br>
+        έχεις <em>"κλειδωμένα"</em>.<br>
         <span class="hero-title-en">στη ντουλάπα σου;</span>
       </h1>
       <p class="hero-desc">
         Υπολόγισε την αξία, δες τι πραγματικά φοράς και μάθε πώς να αγοράζεις πιο έξυπνα<br class="hide-mob">
-        — με δεδομένα , όχι παρορμητικά.
+        — με δεδομένα, όχι παρορμητικά.
       </p>
       <div class="hero-cta-row">
-        <a href="guides.html" class="btn-primary">Πώς να καταλάβεις το μοναδικό σου στυλ;</a>
+        <a href="#journey-start" class="btn-primary">Πώς να καταλάβεις το μοναδικό σου στυλ;</a>
         <a href="about.html" class="btn-ghost">Ποια είμαι →</a>
       </div>
     </div>
@@ -297,6 +426,7 @@
   </section>
 
   <!-- INTRO STRIP -->
+
   <div class="intro-strip">
     <span>Color Analysis</span>
     <span class="strip-dot">◆</span>
@@ -309,130 +439,252 @@
     <span>Style Education</span>
   </div>
 
-  <!-- ABOUT TEASER — compact, χωρίς φωτογραφία -->
-  <section class="about-teaser about-teaser-compact">
+  <!-- ABOUT MINI — μόνο intro γραμμή -->
+
+  <section class="about-teaser-mini">
     <div class="container">
-      <p class="section-label">Γεια, είμαι η Δανάη</p>
-      <h2 class="section-title">Certified Image Consultant.<br><em>Πάθος για τη μόδα.</em></h2>
-      <p class="body-text">Εργάζομαι στο beauty industry και μοιράζομαι δωρεάν ό,τι έχω μάθει για color analysis, capsule wardrobe και style — με επενδυτική λογική, όχι trends.</p>
-      <a href="about.html" class="btn-outline">Μάθε περισσότερα</a>
+      <p class="mini-label">Γεια, είμαι η Δανάη</p>
+      <p class="mini-text">
+        Certified Image Consultant με <em>πάθος για τη μόδα</em> — μοιράζομαι δωρεάν ό,τι έχω μάθει για color analysis, capsule wardrobe και style.
+      </p>
     </div>
   </section>
 
-  <!-- FEATURED GUIDES -->
-  <section class="featured-section">
+  <!-- JOURNEY OPENER -->
+
+  <section class="journey-opener" id="journey-start">
     <div class="container">
-      <div class="section-header">
-        <p class="section-label">Δωρεάν Οδηγοί</p>
-        <h2 class="section-title">Guides &amp; <em>Workbooks</em></h2>
-        <p class="section-desc">Πρακτικά εργαλεία για να καταλάβεις τη χρωματική σου παλέτα και να χτίσεις τη ντουλάπα που πάντα ήθελες.</p>
-      </div>
-      <div class="guides-grid">
-        <a href="color-analysis-guide.html" class="guide-card guide-card--featured">
-          <div class="guide-card-tag">Free Guide</div>
-          <div class="guide-card-emoji">🎨</div>
-          <h3 class="guide-card-title">Color Analysis Guide</h3>
-          <p class="guide-card-desc">Βρες τη χρωματική σου παλέτα με το 12-season σύστημα. Undertone, ένταση, βάθος — όλα εξηγημένα απλά.</p>
-          <span class="guide-card-link">Άνοιξε τον οδηγό →</span>
-        </a>
-        <a href="wardrobe-calculator.html" class="guide-card">
-          <div class="guide-card-tag">Free Calculator</div>
-          <div class="guide-card-emoji">📊</div>
-          <h3 class="guide-card-title">Wardrobe KPIs Calculator</h3>
-          <p class="guide-card-desc">Ανάλυσε τη ντουλάπα σου με επενδυτική λογική — CPW, Utilization Rate και Dormant Capital.</p>
-          <span class="guide-card-link">Άνοιξε τον calculator →</span>
-        </a>
-        <a href="capsule-workbook.html" class="guide-card">
-          <div class="guide-card-tag">Free Workbook</div>
-          <div class="guide-card-emoji">👗</div>
-          <h3 class="guide-card-title">Capsule Wardrobe Workbook</h3>
-          <p class="guide-card-desc">Χτίσε τη ντουλάπα της εποχής σου βήμα-βήμα. Checklist, outfit formulas, shopping plan και seasonal pieces.</p>
-          <span class="guide-card-link">Άνοιξε το workbook →</span>
-        </a>
-      </div>
-        <a href="body-type-quiz.html" class="guide-card">
-          <div class="guide-card-tag">Free Quiz</div>
-          <div class="guide-card-emoji">👤</div>
-          <h3 class="guide-card-title">Body Type Quiz</h3>
-          <p class="guide-card-desc">Βρες τον σωματότυπό σου και μάθε ποιες γραμμές, χρώματα και κομμάτια σε κολακεύουν πραγματικά.</p>
-          <span class="guide-card-link">Κάνε το quiz →</span>
-        </a>
-      <div class="section-footer-link">
-        <a href="guides.html">Δες όλους τους οδηγούς →</a>
-      </div>
+      <p class="opener-label">Your Style Journey</p>
+      <h2 class="opener-title">
+        Πώς να καταλάβεις το <em>μοναδικό σου στυλ;</em>
+      </h2>
+      <p class="opener-sub">
+        Ένα βήμα-βήμα μονοπάτι με οδηγούς και εργαλεία — από την αυτογνωσία μέχρι τη ντουλάπα που πραγματικά σε εκφράζει.
+      </p>
     </div>
   </section>
 
-  <!-- ── WARDROBE TOOLS ── -->
-  <section class="tools-section">
-    <div class="container">
-      <div class="section-header">
-        <p class="section-label">Wardrobe Tools</p>
-        <h2 class="section-title">Τα <em>εργαλεία</em> της ντουλάπας σου</h2>
-        <p class="section-desc">Δύο εφαρμογές για να παρακολουθείς τη ντουλάπα σου με δεδομένα — wishlist με λογική αγορών και tracker με ιστορικό χρήσεων.</p>
-      </div>
-      <div class="tools-grid">
+  <!-- CHAPTER 1: DISCOVERY -->
 
-        <!-- WISHLIST -->
-        <a href="wishlist.html" class="tool-card reveal">
-          <div class="tool-tag">Free Tool</div>
-          <div class="tool-emoji">🛍</div>
-          <div class="tool-title">Wardrobe <em>Wishlist</em></div>
-          <p class="tool-desc">Κατέγραψε ό,τι θέλεις να αγοράσεις — και δες αν αξίζει πραγματικά πριν το αγοράσεις.</p>
-          <ul class="tool-features">
-            <li>CPW calculator βάσει χρήσεων / εβδομάδα</li>
-            <li>Κανόνας 2 μηνών & αντικατάσταση</li>
-            <li>3 συνδυασμοί με υπάρχοντα</li>
-            <li>Πράσινο / κόκκινο status αυτόματα</li>
-            <li>Ξεχωριστά profiles ανά χρήστη</li>
-          </ul>
-          <span class="tool-link">Άνοιξε το Wishlist</span>
-        </a>
+  <section class="journey-section reveal">
+    <div class="journey-inner">
+      <p class="narration">
+        Ξεκινάμε από τα <em>θεμέλια</em>. Πριν αγοράσεις ή πετάξεις οτιδήποτε, χρειάζεται να ξέρεις <em>ποια είσαι</em> — ποια χρώματα σε φωτίζουν, ποιο στυλ σε αντιπροσωπεύει και ποιες γραμμές σε κολακεύουν. Ακολούθησε τους τρεις οδηγούς με αυτή τη σειρά:
+      </p>
 
-        <!-- WARDROBE TRACKER -->
-        <a href="wardrobe-tracker.html" class="tool-card reveal">
-          <div class="tool-tag">Free Tool</div>
-          <div class="tool-emoji">👗</div>
-          <div class="tool-title">Wardrobe <em>Tracker</em></div>
-          <p class="tool-desc">Η ντουλάπα σου σε αριθμούς. Κατέγραψε τι φοράς κάθε μέρα και δες πού πάνε τα χρήματά σου.</p>
-          <ul class="tool-features">
-            <li>Ημερολόγιο χρήσεων ανά κομμάτι</li>
-            <li>CPW αυτόματα από πραγματικές χρήσεις</li>
-            <li>Dormant Capital — κεφάλαιο που κοιμάται</li>
-            <li>Utilization Rate & Cost per Month</li>
-            <li>Dashboard με στατιστικά ανά μήνα</li>
-          </ul>
-          <span class="tool-link">Άνοιξε τον Tracker</span>
-        </a>
+```
+  <div class="step-block">
+    <div class="step-number">01</div>
+    <div class="step-content">
+      <p class="step-label">Guide · Color Analysis</p>
+      <h3 class="step-title">Ανακάλυψε τη <em>χρωματική σου παλέτα</em></h3>
+      <p class="step-desc">
+        Βρες ποια χρώματα σε κολακεύουν πραγματικά με το 12-season σύστημα. Undertone, ένταση, βάθος — όλα εξηγημένα απλά, ώστε να σταματήσεις να αγοράζεις χρώματα που δεν σε ανεβάζουν.
+      </p>
+      <a href="color-analysis-guide.html" class="step-cta">Άνοιξε τον οδηγό</a>
+    </div>
+  </div>
+</div>
+```
 
+  </section>
+
+  <div class="chapter-divider"><span class="line"></span><span class="dot">◆</span><span class="line"></span></div>
+
+  <section class="journey-section alt-bg reveal">
+    <div class="journey-inner">
+      <div class="step-block">
+        <div class="step-number">02</div>
+        <div class="step-content">
+          <p class="step-label">Guide · Style Identity</p>
+          <h3 class="step-title">Τρεις λέξεις που <em>περιγράφουν το στυλ σου</em></h3>
+          <p class="step-desc">
+            Ανακάλυψε τις 3 λέξεις που αντιπροσωπεύουν το προσωπικό σου στυλ. Ένα ισχυρό φίλτρο για κάθε μελλοντική αγορά — για να μη χάνεσαι ανάμεσα σε trends και αυθόρμητες επιλογές.
+          </p>
+          <a href="style-identity-guide.html" class="step-cta">Άνοιξε τον οδηγό</a>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- FEATURED ARTICLES -->
-  <section class="articles-section">
-    <div class="container">
-      <div class="section-header">
-        <p class="section-label">Fashion Intelligence</p>
-        <h2 class="section-title">Τελευταία <em>Άρθρα</em></h2>
-        <p class="section-desc">Ανάλυση, εκπαίδευση και σκέψεις για τη σχέση μας με τα ρούχα — πέρα από τα magazines.</p>
-      </div>
-      <div class="articles-grid" id="homeArticlesGrid"></div>
-      <div class="section-footer-link">
-        <a href="https://dbvabydanai.wordpress.com" target="_blank">Δες όλα τα άρθρα →</a>
+  <div class="chapter-divider alt-bg-divider"><span class="line"></span><span class="dot">◆</span><span class="line"></span></div>
+
+  <section class="journey-section reveal">
+    <div class="journey-inner">
+      <div class="step-block">
+        <div class="step-number">03</div>
+        <div class="step-content">
+          <p class="step-label">Quiz · Body Type</p>
+          <h3 class="step-title">Βρες τον <em>σωματότυπό σου</em></h3>
+          <p class="step-desc">
+            Μάθε ποιες γραμμές, κοψίματα και αναλογίες λειτουργούν καλύτερα για το σώμα σου — ώστε κάθε κομμάτι που επιλέγεις να σε κολακεύει ουσιαστικά, όχι τυχαία.
+          </p>
+          <a href="body-type-quiz.html" class="step-cta">Κάνε το quiz</a>
+        </div>
       </div>
     </div>
   </section>
 
+  <!-- CHAPTER 2: WARDROBE CLEAN-UP -->
+
+  <section class="journey-opener">
+    <div class="container">
+      <p class="opener-label">Chapter Two · Clean Up</p>
+      <h2 class="opener-title">
+        Ώρα για ένα <em>καλό ξεκαθάρισμα</em>
+      </h2>
+      <p class="opener-sub">
+        Τώρα που έχεις εντοπίσει το στυλ, τα χρώματα και το πώς πρέπει να ντύνεσαι για το σώμα σου, ήρθε η στιγμή να ρίξεις βλέμμα κριτικό στη ντουλάπα σου.
+      </p>
+    </div>
+  </section>
+
+  <section class="journey-section alt-bg reveal">
+    <div class="journey-inner">
+      <p class="narration small">
+        Ακολούθησε τα βήματα στο <em>Wardrobe Audit Workbook</em> για να αξιολογήσεις κάθε κομμάτι και να κάνεις το πρώτο μεγάλο ξεκαθάρισμα — εύκολα και οργανωμένα.
+      </p>
+
+```
+  <div class="step-block">
+    <div class="step-number">04</div>
+    <div class="step-content">
+      <p class="step-label">Workbook · Wardrobe Audit</p>
+      <h3 class="step-title">Κάνε <em>audit</em> στη ντουλάπα σου</h3>
+      <p class="step-desc">
+        Ένα δομημένο workbook για να αξιολογήσεις κάθε κομμάτι με κριτήρια: ταιριάζει στο στυλ σου, στα χρώματά σου, στον σωματότυπό σου; Τέλος στα "το κρατάω για καλού καλού".
+      </p>
+      <a href="wardrobe-audit-workbook.html" class="step-cta">Άνοιξε το workbook</a>
+    </div>
+  </div>
+</div>
+```
+
+  </section>
+
+  <!-- CHAPTER 3: SMART SHOPPING -->
+
+  <section class="journey-opener">
+    <div class="container">
+      <p class="opener-label">Chapter Three · Smart Shopping</p>
+      <h2 class="opener-title">
+        Τώρα ξέρεις <em>τι σου λείπει</em>
+      </h2>
+      <p class="opener-sub">
+        Αφού ξέρεις τι έχεις και τι κρατάς, ξέρεις και τι χρειάζεσαι πραγματικά. Ώρα να βάλεις τάξη στις επόμενες αγορές σου.
+      </p>
+    </div>
+  </section>
+
+  <section class="journey-section alt-bg reveal">
+    <div class="journey-inner">
+      <p class="narration small">
+        Η <em>Wishlist</em> δεν είναι απλή λίστα — είναι φίλτρο. Καταγράφεις τι θέλεις, σκέφτεσαι συνδυασμούς με τα υπάρχοντα και αφήνεις χρόνο για να <em>αιτιολογηθεί</em> κάθε νέα αγορά.
+      </p>
+
+```
+  <div class="step-block">
+    <div class="step-number">05</div>
+    <div class="step-content">
+      <p class="step-label">Tool · Wardrobe Wishlist</p>
+      <h3 class="step-title">Η <em>wishlist</em> που σε προστατεύει από παρορμητικές αγορές</h3>
+      <p class="step-desc">
+        CPW calculator βάσει χρήσεων, κανόνας 2 μηνών, 3 υποχρεωτικοί συνδυασμοί με υπάρχοντα, αυτόματο πράσινο/κόκκινο status. Αγοράζεις μόνο όταν πραγματικά αξίζει.
+      </p>
+      <a href="wishlist.html" class="step-cta">Άνοιξε τη Wishlist</a>
+    </div>
+  </div>
+</div>
+```
+
+  </section>
+
+  <!-- CHAPTER 4: GO DIGITAL (dark) -->
+
+  <section class="journey-opener" style="background:#0d0d0d;">
+    <div class="container">
+      <p class="opener-label" style="color:#9a7a4a;">Chapter Four · Go Digital</p>
+      <h2 class="opener-title" style="color:#e8e2d9;">
+        Πάρ' το <em>ένα βήμα παραπέρα</em>
+      </h2>
+      <p class="opener-sub" style="color:#8a8278;">
+        Κάνε τη ντουλάπα σου digital και ξεκλείδωσε insights που δεν θα έβλεπες ποτέ στο ντουλάπι.
+      </p>
+    </div>
+  </section>
+
+  <section class="journey-section dark-bg reveal">
+    <div class="journey-inner">
+      <p class="narration small" style="color:#a8a29a;">
+        Ανέβασε τα ρούχα σου, σημείωσε πότε και με τι συνδυασμούς τα φοράς, και ξεκλείδωσε <em>μοναδικά insights</em> για το στυλ και τις προτιμήσεις σου.
+      </p>
+
+```
+  <div class="step-block">
+    <div class="step-number">06</div>
+    <div class="step-content">
+      <p class="step-label">Tool · Wardrobe Tracker</p>
+      <h3 class="step-title">Η ντουλάπα σου σε <em>αριθμούς</em></h3>
+      <p class="step-desc">
+        Ημερολόγιο χρήσεων ανά κομμάτι, CPW από πραγματικές χρήσεις, Dormant Capital (το κεφάλαιο που κοιμάται), Utilization Rate και dashboard με στατιστικά ανά μήνα.
+      </p>
+      <a href="wardrobe-tracker.html" class="step-cta">Άνοιξε τον Tracker</a>
+    </div>
+  </div>
+</div>
+```
+
+  </section>
+
+  <div class="chapter-divider dark-bg-divider"><span class="line"></span><span class="dot">◆</span><span class="line"></span></div>
+
+  <section class="journey-section dark-bg reveal">
+    <div class="journey-inner">
+      <p class="narration small" style="color:#a8a29a;">
+        Και αν θες <em>ανά πάσα στιγμή</em> να υπολογίσεις γρήγορα το CPW ενός κομματιού ή πόσες φορές πρέπει να το φορέσεις για να αξίζει η αγορά — εδώ.
+      </p>
+
+```
+  <div class="step-block">
+    <div class="step-number">07</div>
+    <div class="step-content">
+      <p class="step-label">Tool · KPIs Calculator</p>
+      <h3 class="step-title">Γρήγοροι <em>υπολογισμοί</em>, στη στιγμή</h3>
+      <p class="step-desc">
+        Υπολόγισε CPW, break-even χρήσεις, Utilization Rate και περισσότερους δείκτες — εύκολα και γρήγορα, χωρίς λογαριασμό.
+      </p>
+      <a href="wardrobe-calculator.html" class="step-cta">Άνοιξε τον Calculator</a>
+    </div>
+  </div>
+</div>
+```
+
+  </section>
+
+  <!-- NEWSLETTER CTA -->
+
+  <section class="newsletter-cta">
+    <div class="container">
+      <p class="section-label">Stay in the loop</p>
+      <h2 class="nl-title">Γράψου στο <em>newsletter</em></h2>
+      <p class="nl-desc">
+        Αν σου αρέσει να αναλύεις τη ντουλάπα σου στρατηγικά και να ανακαλύπτεις τον εαυτό σου και το στυλ σου, γράψου για να μαθαίνεις νέα tips και να σε ειδοποιώ πρώτη για νέους οδηγούς και εργαλεία.
+      </p>
+      <a href="newsletter.html" class="btn-primary">Εγγραφή στο newsletter →</a>
+    </div>
+  </section>
 
   <!-- YOUTUBE VIDEOS -->
+
   <section class="yt-section">
     <div class="container">
       <div class="section-header">
         <p class="section-label">YouTube</p>
         <h2 class="section-title">Τελευταία <em>Videos</em></h2>
-        <p class="section-desc">Fashion education, color analysis και style tips — κάθε εβδομάδα στο κανάλι μου.</p>
       </div>
+      <p class="yt-intro">
+        Κάνε subscribe στο κανάλι μου για βίντεο πάνω σε μόδα, ανάλυση ντουλάπας, χρωματικούς συνδυασμούς και πολλά ακόμα. Δες εδώ τα τρία πιο πρόσφατα:
+      </p>
       <div class="yt-grid">
         <div class="yt-embed-wrap">
           <iframe src="https://www.youtube.com/embed/MP70kWaRK2A" title="YouTube video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
@@ -451,13 +703,14 @@
   </section>
 
   <!-- PHILOSOPHY -->
+
   <section class="philosophy-section">
     <div class="container">
       <div class="philosophy-inner">
         <p class="section-label">Philosophy</p>
         <blockquote class="philosophy-quote">
           Το στυλ δεν είναι ένστικτο. Είναι στρατηγική, ανάλυση και δεδομένα.
-          Δες τη ντουλάπα σου σαν χαρτοφυλάκιο <em> και επένδυσε έξυπνα.</em>."
+          Δες τη ντουλάπα σου σαν χαρτοφυλάκιο <em>και επένδυσε έξυπνα.</em>
         </blockquote>
         <p class="philosophy-sub">— Fashion Analysis by Danai</p>
         <a href="about.html" class="btn-outline-light">Η φιλοσοφία μου</a>
@@ -466,6 +719,7 @@
   </section>
 
   <!-- FOOTER -->
+
   <footer>
     <div class="container">
       <div class="footer-grid">
@@ -516,49 +770,27 @@
     </div>
   </footer>
 
-<!-- Google tag (gtag.js) -->
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script async src="https://www.googletagmanager.com/gtag/js?id=G-DBRDY0FNX7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-DBRDY0FNX7');
-</script>
+  <!-- Google tag (gtag.js) -->
 
-  <script src="main.js"></script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-DBRDY0FNX7"></script>
+
   <script>
-    const latestArticles = [
-      {
-        cat: "Style Education",
-        title: "Episode 1: Casual Style — Τι είναι και πότε το φοράμε",
-        excerpt: "Casual δεν σημαίνει πρόχειρο. Είναι ένα από τα πιο δύσκολα στυλ να γίνει σωστά — γιατί η γραμμή ανάμεσα στο «άνετο» και στο «ατημέλητο» είναι πολύ λεπτή.",
-        url: "https://dbvabydanai.wordpress.com/2026/03/15/episode-1-casual-style-%cf%84%ce%b9-%ce%b5%ce%af%ce%bd%ce%b1%ce%b9-%ce%ba%ce%b1%ce%b9-%cf%80%cf%8c%cf%84%ce%b5-%cf%84%ce%bf-%cf%86%ce%bf%cf%81%ce%ac%ce%bc%ce%b5/"
-      },
-      {
-        cat: "My Closet",
-        title: "My Closet | February Recap | Νέα Κομμάτια & Color CPW Ανάλυση",
-        excerpt: "Αναλύω τις νέες προσθήκες στη ντουλάπα μου για τον Φεβρουάριο και πώς τις επέλεξα συνειδητά για να μεγιστοποιήσω τη χρήση τους.",
-        url: "https://dbvabydanai.wordpress.com/2026/03/09/my-closet-february-recap-%ce%bd%ce%ad%ce%b1-%ce%ba%ce%bf%ce%bc%ce%bc%ce%ac%cf%84%ce%b9%ce%b1-color-cpw-%ce%b1%ce%bd%ce%ac%ce%bb%cf%85%cf%83%ce%b7/"
-      },
-      {
-        cat: "Color Analysis",
-        title: "Πώς να Βρεις τη Χρωματική σου Παλέτα | Τα 3 Τεστ που Αποκαλύπτουν το Season σου",
-        excerpt: "Αναρωτιέσαι γιατί κάποια χρώματα σε κάνουν να δείχνεις πιο φωτεινή; Η απάντηση βρίσκεται στο color analysis.",
-        url: "https://dbvabydanai.wordpress.com/2026/03/07/%cf%80%cf%8e%cf%82-%ce%bd%ce%b1-%ce%b2%cf%81%ce%b5%ce%b9%cf%82-%cf%84%ce%b7-%cf%87%cf%81%cf%89%ce%bc%ce%b1%cf%84%ce%b9%ce%ba%ce%ae-%cf%83%ce%bf%cf%85-%cf%80%ce%b1%ce%bb%ce%ad%cf%84%ce%b1-color-analys/"
-      }
-    ];
-
-    document.getElementById('homeArticlesGrid').innerHTML = latestArticles.map((a, i) => `
-      <article class="article-card ${i === 0 ? 'article-card--large' : ''} reveal">
-        <div class="article-cat">${a.cat}</div>
-        <h3 class="article-title">${a.title}</h3>
-        <p class="article-excerpt">${a.excerpt}</p>
-        <a href="${a.url}" target="_blank" class="article-link">Διάβασε →</a>
-      </article>
-    `).join('');
-
-    document.querySelectorAll('.reveal:not(.visible)').forEach(el => revealObserver.observe(el));
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-DBRDY0FNX7');
   </script>
 
+  <script src="main.js"></script>
+
   <script>
-    /
+    // Reveal on scroll για τα journey sections
+    if (typeof revealObserver !== 'undefined') {
+      document.querySelectorAll('.reveal:not(.visible)').forEach(el => revealObserver.observe(el));
+    }
+  </script>
+
+</body>
+</html>

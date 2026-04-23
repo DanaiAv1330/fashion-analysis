@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="el">
 <head>
 <meta charset="UTF-8">
@@ -14,169 +15,92 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--black); min-height: 100vh; }
 
-  header { background: var(--navy); padding: 48px 40px 36px; position: relative; overflow: hidden; }
-  header::before { content:''; position:absolute; right:-60px; top:-60px; width:300px; height:300px; border:1px solid rgba(200,150,90,0.2); border-radius:50%; }
-  header::after  { content:''; position:absolute; right:20px; top:20px; width:180px; height:180px; border:1px solid rgba(200,150,90,0.15); border-radius:50%; }
-  .header-label { font-size:10px; font-weight:500; letter-spacing:3px; text-transform:uppercase; color:var(--camel); margin-bottom:12px; }
-  header h1 { font-family:'Playfair Display',serif; font-size:clamp(26px,5vw,46px); color:var(--white); line-height:1.15; max-width:600px; }
-  header h1 em { color:var(--camel-light); font-style:italic; }
-  header p { color:rgba(255,255,255,0.6); font-size:14px; font-weight:300; margin-top:12px; max-width:520px; line-height:1.6; }
+header { background: var(–navy); padding: 48px 40px 36px; position: relative; overflow: hidden; }
+header::before { content:’’; position:absolute; right:-60px; top:-60px; width:300px; height:300px; border:1px solid rgba(200,150,90,0.2); border-radius:50%; }
+header::after  { content:’’; position:absolute; right:20px; top:20px; width:180px; height:180px; border:1px solid rgba(200,150,90,0.15); border-radius:50%; }
+.header-label { font-size:10px; font-weight:500; letter-spacing:3px; text-transform:uppercase; color:var(–camel); margin-bottom:12px; }
+header h1 { font-family:‘Playfair Display’,serif; font-size:clamp(26px,5vw,46px); color:var(–white); line-height:1.15; max-width:600px; }
+header h1 em { color:var(–camel-light); font-style:italic; }
+header p { color:rgba(255,255,255,0.6); font-size:14px; font-weight:300; margin-top:12px; max-width:520px; line-height:1.6; }
 
-  main { max-width:900px; margin:0 auto; padding:48px 24px 100px; display:flex; flex-direction:column; gap:56px; }
+main { max-width:900px; margin:0 auto; padding:48px 24px 100px; display:flex; flex-direction:column; gap:56px; }
 
-  .section-header { display:flex; align-items:center; gap:14px; margin-bottom:22px; }
-  .section-number { width:34px; height:34px; border-radius:50%; background:var(--navy); color:var(--camel-light); font-family:'Playfair Display',serif; font-size:15px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
-  .section-title  { font-family:'Playfair Display',serif; font-size:21px; color:var(--navy); }
-  .section-line   { flex:1; height:1px; background:var(--gray-light); }
+.section-header { display:flex; align-items:center; gap:14px; margin-bottom:22px; }
+.section-number { width:34px; height:34px; border-radius:50%; background:var(–navy); color:var(–camel-light); font-family:‘Playfair Display’,serif; font-size:15px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.section-title  { font-family:‘Playfair Display’,serif; font-size:21px; color:var(–navy); }
+.section-line   { flex:1; height:1px; background:var(–gray-light); }
 
-  .explainer { background:var(--white); border-left:3px solid var(--camel); padding:16px 20px; margin-bottom:24px; border-radius:0 8px 8px 0; }
-  .explainer p { font-size:13px; color:var(--gray); line-height:1.7; }
-  .explainer p+p { margin-top:5px; }
-  .explainer strong { color:var(--navy); }
+.explainer { background:var(–white); border-left:3px solid var(–camel); padding:16px 20px; margin-bottom:24px; border-radius:0 8px 8px 0; }
+.explainer p { font-size:13px; color:var(–gray); line-height:1.7; }
+.explainer p+p { margin-top:5px; }
+.explainer strong { color:var(–navy); }
 
-  .two-col { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-bottom:18px; }
-  @media(max-width:600px){ .two-col { grid-template-columns:1fr; } }
+.two-col { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-bottom:18px; }
+@media(max-width:600px){ .two-col { grid-template-columns:1fr; } }
 
-  .input-card { background:var(--white); border-radius:12px; padding:24px; box-shadow:0 1px 4px rgba(0,0,0,0.06); }
-  .card-label  { display:block; font-size:11px; font-weight:500; letter-spacing:1.5px; text-transform:uppercase; color:var(--camel); margin-bottom:14px; }
-  .field-row   { display:flex; gap:12px; margin-bottom:12px; flex-wrap:wrap; }
-  .field-group { flex:1; min-width:110px; }
-  .field-group label { display:block; font-size:11px; color:var(--gray); margin-bottom:4px; }
+.input-card { background:var(–white); border-radius:12px; padding:24px; box-shadow:0 1px 4px rgba(0,0,0,0.06); }
+.card-label  { display:block; font-size:11px; font-weight:500; letter-spacing:1.5px; text-transform:uppercase; color:var(–camel); margin-bottom:14px; }
+.field-row   { display:flex; gap:12px; margin-bottom:12px; flex-wrap:wrap; }
+.field-group { flex:1; min-width:110px; }
+.field-group label { display:block; font-size:11px; color:var(–gray); margin-bottom:4px; }
 
-  input[type="number"], input[type="text"], select {
-    width:100%; padding:9px 13px; border:1.5px solid var(--gray-light); border-radius:8px;
-    font-family:'DM Sans',sans-serif; font-size:14px; color:var(--black); background:var(--warm-white);
-    transition:border 0.2s; -moz-appearance:textfield;
-  }
-  input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance:none; }
-  input:focus, select:focus { outline:none; border-color:var(--camel); background:var(--white); }
+input[type=“number”], input[type=“text”], select {
+width:100%; padding:9px 13px; border:1.5px solid var(–gray-light); border-radius:8px;
+font-family:‘DM Sans’,sans-serif; font-size:14px; color:var(–black); background:var(–warm-white);
+transition:border 0.2s; -moz-appearance:textfield;
+}
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance:none; }
+input:focus, select:focus { outline:none; border-color:var(–camel); background:var(–white); }
+select option:disabled { color:var(–gray-light); font-style:italic; }
 
-  .result-box { background:var(--navy); border-radius:12px; padding:22px 26px; display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:14px; margin-bottom:16px; }
-  .result-item { text-align:center; }
-  .result-label { font-size:10px; font-weight:500; letter-spacing:1.5px; text-transform:uppercase; color:rgba(255,255,255,0.4); margin-bottom:6px; }
-  .result-value { font-family:'Playfair Display',serif; font-size:28px; color:var(--white); line-height:1; }
-  .result-value.good   { color:#7ecfa0; }
-  .result-value.accent { color:var(--camel-light); }
-  .result-value.warn   { color:#f0a070; }
-  .result-unit { font-size:11px; color:rgba(255,255,255,0.35); margin-top:3px; }
+.result-box { background:var(–navy); border-radius:12px; padding:22px 26px; display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:14px; margin-bottom:16px; }
+.result-item { text-align:center; }
+.result-label { font-size:10px; font-weight:500; letter-spacing:1.5px; text-transform:uppercase; color:rgba(255,255,255,0.4); margin-bottom:6px; }
+.result-value { font-family:‘Playfair Display’,serif; font-size:28px; color:var(–white); line-height:1; }
+.result-value.good   { color:#7ecfa0; }
+.result-value.accent { color:var(–camel-light); }
+.result-value.warn   { color:#f0a070; }
+.result-unit { font-size:11px; color:rgba(255,255,255,0.35); margin-top:3px; }
 
-  .verdict-box { font-size:14px; color:var(--navy); font-weight:500; padding:13px 17px; background:var(--warm-white); border-radius:10px; border:1px solid var(--gray-light); line-height:1.6; }
+.verdict-box { font-size:14px; color:var(–navy); font-weight:500; padding:13px 17px; background:var(–warm-white); border-radius:10px; border:1px solid var(–gray-light); line-height:1.6; }
 
-  /* Rating box */
-  .rating-box { background:var(--white); border-radius:12px; padding:22px 24px; box-shadow:0 1px 4px rgba(0,0,0,0.06); }
-  .rating-title { font-size:13px; font-weight:500; color:var(--navy); margin-bottom:14px; }
-  .rating-rows  { display:flex; flex-direction:column; gap:8px; }
-  .rating-row   { display:flex; align-items:center; gap:10px; font-size:12px; }
-  .rating-dot   { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
-  .bar-wrap     { flex:1; background:var(--cream); border-radius:4px; height:6px; overflow:hidden; }
-  .bar-fill     { height:100%; border-radius:4px; }
-  .rating-text  { width:160px; font-size:12px; color:var(--gray); }
+/* Dynamic benchmark card */
+.benchmark-card { background:var(–white); border-radius:12px; padding:22px 24px; box-shadow:0 1px 4px rgba(0,0,0,0.06); }
+.bm-combo { font-family:‘Playfair Display’,serif; font-size:15px; color:var(–navy); margin-bottom:3px; font-style:italic; }
+.bm-target-row { display:flex; align-items:baseline; gap:10px; padding:14px 0; border-bottom:1px solid var(–gray-light); margin-bottom:14px; }
+.bm-target-label { font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(–gray); }
+.bm-target-value { font-family:‘Playfair Display’,serif; font-size:32px; color:var(–camel); line-height:1; }
+.bm-target-unit  { font-size:12px; color:var(–gray); }
+.bm-title { font-size:11px; font-weight:500; letter-spacing:1.5px; text-transform:uppercase; color:var(–camel); margin-bottom:10px; }
+.rating-rows  { display:flex; flex-direction:column; gap:7px; }
+.rating-row   { display:flex; align-items:center; gap:9px; font-size:12px; }
+.rating-dot   { width:9px; height:9px; border-radius:50%; flex-shrink:0; }
+.rating-label { width:90px; font-size:12px; color:var(–black); }
+.bar-wrap     { flex:1; background:var(–cream); border-radius:4px; height:6px; overflow:hidden; }
+.bar-fill     { height:100%; border-radius:4px; }
+.rating-text  { width:120px; font-size:12px; color:var(–gray); }
 
-  /* Reverse calc */
-  .benchmark-box  { background:var(--white); border-radius:12px; padding:24px; box-shadow:0 1px 4px rgba(0,0,0,0.06); }
-  .benchmark-title{ font-family:'Playfair Display',serif; font-size:17px; color:var(--navy); margin-bottom:6px; }
-  .benchmark-sub  { font-size:13px; color:var(--gray); margin-bottom:14px; line-height:1.5; }
-  .tiers { display:flex; flex-direction:column; gap:7px; }
-  .tier-row { display:flex; align-items:center; gap:9px; font-size:12px; padding:8px 12px; border-radius:8px; background:var(--cream); }
-  .tier-row.active { background:var(--navy); color:var(--white); }
-  .tier-dot  { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
-  .tier-name { font-weight:500; min-width:100px; }
-  .tier-range{ color:var(--gray); flex:1; font-size:11px; }
-  .tier-row.active .tier-range { color:rgba(255,255,255,0.55); }
-  .tier-target { font-weight:600; color:var(--camel); font-size:12px; }
-  .tier-row.active .tier-target { color:var(--camel-light); }
+.rev-result { background:var(–navy); border-radius:10px; padding:20px 24px; display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-top:16px; }
+.rev-main   { font-family:‘Playfair Display’,serif; font-size:34px; color:var(–white); }
+.rev-desc   { font-size:13px; color:rgba(255,255,255,0.6); line-height:1.6; max-width:340px; }
+.rev-accent { color:var(–camel-light); font-weight:500; }
 
-  .rev-result { background:var(--navy); border-radius:10px; padding:20px 24px; display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-top:16px; }
-  .rev-main   { font-family:'Playfair Display',serif; font-size:34px; color:var(--white); }
-  .rev-desc   { font-size:13px; color:rgba(255,255,255,0.6); line-height:1.6; max-width:300px; }
-  .rev-accent { color:var(--camel-light); font-weight:500; }
+.invalid-notice { background:#fde8e8; color:#c0392b; padding:10px 14px; border-radius:8px; font-size:12px; margin-top:10px; display:none; }
+.invalid-notice.show { display:block; }
 
-  /* Color cards */
-  .color-cards { display:flex; flex-direction:column; gap:16px; }
-  .color-card  { background:var(--white); border-radius:14px; overflow:hidden; box-shadow:0 1px 4px rgba(0,0,0,0.06); }
-  .color-card-header { display:flex; align-items:center; gap:14px; padding:16px 20px; cursor:pointer; user-select:none; transition:background 0.15s; }
-  .color-card-header:hover { background:var(--warm-white); }
-  .color-strip { width:5px; border-radius:3px; align-self:stretch; flex-shrink:0; min-height:22px; }
-  .color-card-name { font-weight:500; font-size:15px; color:var(--navy); flex:1; }
-  .color-card-summary { font-size:12px; color:var(--gray); }
-  .chevron { font-size:13px; color:var(--gray); transition:transform 0.25s; }
-  .chevron.open { transform:rotate(180deg); }
-  .color-card-body { padding:0 20px 20px; display:none; }
-  .color-card-body.open { display:block; }
-
-  .util-row { display:flex; align-items:center; gap:10px; font-size:13px; color:var(--gray); margin-bottom:16px; }
-  .util-bar-wrap { flex:1; background:var(--gray-light); border-radius:5px; height:8px; overflow:hidden; }
-  .util-bar-fill { height:100%; border-radius:5px; transition:width 0.4s; }
-
-  .kpi-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(155px,1fr)); gap:10px; margin-bottom:14px; }
-  .kpi-item { background:var(--cream); border-radius:9px; padding:12px 14px; }
-  .kpi-label { font-size:10px; letter-spacing:1px; text-transform:uppercase; color:var(--gray); margin-bottom:3px; }
-  .kpi-value { font-family:'Playfair Display',serif; font-size:19px; color:var(--navy); }
-  .kpi-value.good { color:var(--success); }
-  .kpi-value.warn { color:var(--warning); }
-
-  .color-inputs { display:grid; grid-template-columns:repeat(auto-fill,minmax(155px,1fr)); gap:10px; margin-bottom:12px; }
-  .color-input-group { display:flex; flex-direction:column; gap:4px; }
-  .color-input-group label { font-size:11px; color:var(--gray); }
-
-  .btn-danger-sm { background:transparent; color:#c0392b; border:1px solid #f5c6c6; font-size:12px; cursor:pointer; padding:6px 12px; border-radius:6px; font-family:'DM Sans',sans-serif; transition:background 0.15s; }
-  .btn-danger-sm:hover { background:#fde8e8; }
-
-  .add-color-row { display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-top:10px; }
-  .add-color-row input[type="color"] { width:40px; height:40px; border:1.5px solid var(--gray-light); border-radius:8px; cursor:pointer; padding:3px; background:var(--white); }
-  .add-color-row input[type="text"] { max-width:140px; }
-
-  .insights { display:grid; grid-template-columns:repeat(auto-fit,minmax(195px,1fr)); gap:12px; margin-top:18px; }
-  .insight-card { background:var(--white); border-radius:10px; padding:18px 20px; border-top:3px solid var(--camel); box-shadow:0 1px 4px rgba(0,0,0,0.05); }
-  .insight-card.navy-top    { border-top-color:var(--navy); }
-  .insight-card.success-top { border-top-color:var(--success); }
-  .insight-card.warn-top    { border-top-color:var(--warning); }
-  .insight-icon  { font-size:20px; margin-bottom:6px; }
-  .insight-label { font-size:10px; font-weight:500; letter-spacing:1.2px; text-transform:uppercase; color:var(--gray); margin-bottom:3px; }
-  .insight-value { font-family:'Playfair Display',serif; font-size:20px; color:var(--navy); margin-bottom:3px; }
-  .insight-sub   { font-size:12px; color:var(--gray); line-height:1.5; }
-
-  /* Items */
-  .items-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(245px,1fr)); gap:14px; }
-  .item-card  { background:var(--white); border-radius:12px; padding:20px; box-shadow:0 1px 4px rgba(0,0,0,0.06); }
-  .item-card-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px; }
-  .item-cat   { font-size:10px; letter-spacing:1px; text-transform:uppercase; color:var(--camel); font-weight:500; }
-  .item-name  { font-weight:500; font-size:15px; color:var(--navy); }
-  .item-cpw-display { background:var(--cream); border-radius:8px; padding:11px 13px; display:flex; justify-content:space-between; align-items:center; margin-top:11px; }
-  .item-cpw-label { font-size:11px; color:var(--gray); }
-  .item-cpw-value { font-family:'Playfair Display',serif; font-size:20px; color:var(--navy); }
-  .cpw-badge { display:inline-block; padding:3px 9px; border-radius:20px; font-size:11px; font-weight:500; margin-top:3px; }
-  .badge-great { background:#e8f5ee; color:#2d7a4f; }
-  .badge-ok    { background:#fff8e8; color:#a0720a; }
-  .badge-high  { background:#fdeaea; color:#c0392b; }
-
-  /* Glossary */
-  .glossary-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(255px,1fr)); gap:12px; }
-  .glossary-card { background:var(--white); border-radius:12px; padding:20px; box-shadow:0 1px 4px rgba(0,0,0,0.05); }
-  .glossary-term    { font-family:'Playfair Display',serif; font-size:16px; color:var(--navy); margin-bottom:4px; }
-  .glossary-formula { font-size:12px; color:var(--camel); font-weight:500; font-family:monospace; background:var(--cream); padding:3px 7px; border-radius:4px; margin-bottom:9px; display:inline-block; }
-  .glossary-def  { font-size:13px; color:var(--gray); line-height:1.65; }
-  .glossary-tip  { margin-top:7px; font-size:12px; color:var(--navy-mid); font-style:italic; padding-left:10px; border-left:2px solid var(--camel-light); }
-
-  .btn { padding:9px 18px; border:none; border-radius:8px; font-family:'DM Sans',sans-serif; font-size:13px; font-weight:500; cursor:pointer; transition:all 0.2s; }
-  .btn-primary { background:var(--camel); color:var(--white); }
-  .btn-primary:hover { background:#b07840; }
-  .btn-navy { background:var(--navy); color:var(--white); }
-  .btn-navy:hover { background:var(--navy-mid); }
-  .btn-sm { padding:7px 13px; font-size:12px; }
-  .btn-danger { background:transparent; color:#c0392b; border:none; font-size:18px; cursor:pointer; line-height:1; padding:4px 8px; border-radius:4px; transition:background 0.15s; }
-  .btn-danger:hover { background:#fde8e8; }
-  .flex-end { display:flex; justify-content:flex-end; }
-  .mb-16 { margin-bottom:16px; }
-  .mt-12 { margin-top:12px; }
-
-  @media(max-width:480px){ header { padding:30px 18px 26px; } main { padding:28px 14px 70px; gap:42px; } }
+@media(max-width:480px){
+header { padding:30px 18px 26px; }
+main { padding:28px 14px 70px; gap:42px; }
+.rating-label { width:75px; }
+.rating-text { width:95px; }
+}
 </style>
+
   <link rel="icon" type="image/x-icon" href="favicon.ico" />
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-DBRDY0FNX7"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){{dataLayer.push(arguments);}}
+    function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', 'G-DBRDY0FNX7');
   </script>
@@ -195,12 +119,13 @@
 <header style="padding-top:calc(58px + 4rem);">
   <div class="header-label">Fashion Analysis by Danai</div>
   <h1>Wardrobe <em>KPIs</em><br>Calculator</h1>
-  <p>Ανάλυσε τη ντουλάπα σου με επενδυτική λογική — CPW, Utilization Rate, Dormant Capital και πόσες φορές πρέπει να φορέσεις κάτι για να αξίζει.</p>
+  <p>Ανάλυσε τη ντουλάπα σου με επενδυτική λογική — CPW benchmarks προσαρμοσμένα ανά είδος ρούχου και περίσταση.</p>
 </header>
 
 <main>
 
   <!-- ══ 1. CPW CALCULATOR ══ -->
+
   <section>
     <div class="section-header">
       <div class="section-number">1</div>
@@ -209,99 +134,109 @@
     </div>
     <div class="explainer">
       <p>Βάλε την τιμή και πόσες φορές το φόρεσες — δες αμέσως πόσο «κοστίζει» κάθε χρήση.</p>
-      <p><strong>Στόχος:</strong> &lt;5€ καθημερινά · &lt;8€ outerwear · &lt;10€ περιστασιακά · &lt;20€ ειδικές περιστάσεις</p>
+      <p><strong>Το target CPW αλλάζει</strong> ανάλογα με το είδος ρούχου και την περίσταση. Ένα φόρεμα ειδικής περίστασης δικαιούται υψηλότερο CPW από ένα καθημερινό t-shirt.</p>
     </div>
 
-    <div class="two-col">
-      <div class="input-card">
-        <span class="card-label">Στοιχεία Κομματιού</span>
-        <div class="field-row">
-          <div class="field-group">
-            <label>Τιμή Αγοράς (€)</label>
-            <input type="number" id="cpw-price" value="80" min="0" step="0.01" oninput="calcCPW()">
-          </div>
-          <div class="field-group">
-            <label>Κατηγορία</label>
-            <select id="cpw-category" onchange="calcCPW()">
-              <option value="daily">Καθημερινό</option>
-              <option value="accessory">Αξεσουάρ</option>
-              <option value="outerwear">Outerwear</option>
-              <option value="occasional">Περιστασιακό</option>
-              <option value="special">Ειδικής Περίστασης</option>
-            </select>
-          </div>
-        </div>
-        <div class="field-row">
-          <div class="field-group">
-            <label>Φορέθηκε ως τώρα</label>
-            <input type="number" id="cpw-worn" value="10" min="0" oninput="calcCPW()">
-          </div>
-          <div class="field-group">
-            <label>Εκτίμηση συνολικών χρήσεων</label>
-            <input type="number" id="cpw-projected" value="50" min="1" oninput="calcCPW()">
-          </div>
-        </div>
-        <div class="field-row">
-          <div class="field-group">
-            <label>Χρήσεις αυτόν τον μήνα</label>
-            <input type="number" id="cpw-month-worn" value="4" min="0" oninput="calcCPW()">
-          </div>
-        </div>
+```
+<div class="two-col">
+  <div class="input-card">
+    <span class="card-label">Στοιχεία Κομματιού</span>
+    <div class="field-row">
+      <div class="field-group">
+        <label>Είδος Ρούχου</label>
+        <select id="cpw-garment" onchange="onGarmentChange('cpw')"></select>
       </div>
-
-      <div class="rating-box">
-        <div class="rating-title">📊 CPW Benchmark</div>
-        <div class="rating-rows">
-          <div class="rating-row">
-            <div class="rating-dot" style="background:#2d7a4f"></div>
-            <span style="width:55px;font-size:12px;">0 – 5€</span>
-            <div class="bar-wrap"><div class="bar-fill" style="width:100%;background:#2d7a4f"></div></div>
-            <span class="rating-text">🏆 Εξαιρετικό</span>
-          </div>
-          <div class="rating-row">
-            <div class="rating-dot" style="background:#7ecfa0"></div>
-            <span style="width:55px;font-size:12px;">5 – 10€</span>
-            <div class="bar-wrap"><div class="bar-fill" style="width:75%;background:#7ecfa0"></div></div>
-            <span class="rating-text">✅ Καλό</span>
-          </div>
-          <div class="rating-row">
-            <div class="rating-dot" style="background:#f0a070"></div>
-            <span style="width:55px;font-size:12px;">10 – 20€</span>
-            <div class="bar-wrap"><div class="bar-fill" style="width:50%;background:#f0a070"></div></div>
-            <span class="rating-text">⚠️ Μέτριο</span>
-          </div>
-          <div class="rating-row">
-            <div class="rating-dot" style="background:#c0392b"></div>
-            <span style="width:55px;font-size:12px;">20€+</span>
-            <div class="bar-wrap"><div class="bar-fill" style="width:25%;background:#c0392b"></div></div>
-            <span class="rating-text">🚨 Υψηλό</span>
-          </div>
-        </div>
+      <div class="field-group">
+        <label>Περίσταση</label>
+        <select id="cpw-occasion" onchange="calcCPW()"></select>
       </div>
     </div>
-
-    <div class="result-box">
-      <div class="result-item">
-        <div class="result-label">CPW Τώρα</div>
-        <div class="result-value accent" id="res-cpw-now">8.00€</div>
-        <div class="result-unit">ανά χρήση</div>
+    <div class="field-row">
+      <div class="field-group">
+        <label>Τιμή Αγοράς (€)</label>
+        <input type="number" id="cpw-price" value="80" min="0" step="0.01" oninput="calcCPW()">
       </div>
-      <div class="result-item">
-        <div class="result-label">Projected CPW</div>
-        <div class="result-value good" id="res-cpw-proj">1.60€</div>
-        <div class="result-unit">εκτίμηση τελικό</div>
-      </div>
-      <div class="result-item">
-        <div class="result-label">CPW Μήνα</div>
-        <div class="result-value" id="res-cpw-month">20.00€</div>
-        <div class="result-unit">αυτόν τον μήνα</div>
+      <div class="field-group">
+        <label>Φορέθηκε ως τώρα</label>
+        <input type="number" id="cpw-worn" value="10" min="0" oninput="calcCPW()">
       </div>
     </div>
+    <div class="field-row">
+      <div class="field-group">
+        <label>Εκτίμηση συνολικών χρήσεων</label>
+        <input type="number" id="cpw-projected" value="50" min="1" oninput="calcCPW()">
+      </div>
+      <div class="field-group">
+        <label>Χρήσεις αυτόν τον μήνα</label>
+        <input type="number" id="cpw-month-worn" value="4" min="0" oninput="calcCPW()">
+      </div>
+    </div>
+  </div>
 
-    <div class="verdict-box" id="cpw-verdict"></div>
+  <div class="benchmark-card">
+    <div class="bm-combo" id="cpw-combo-label">Μπλούζα · Καθημερινό</div>
+    <div class="bm-target-row">
+      <div>
+        <div class="bm-target-label">Target CPW</div>
+      </div>
+      <div class="bm-target-value" id="cpw-target-val">2€</div>
+      <div class="bm-target-unit">ανά χρήση</div>
+    </div>
+    <div class="bm-title">📊 Scale αξιολόγησης</div>
+    <div class="rating-rows">
+      <div class="rating-row">
+        <div class="rating-dot" style="background:#2d7a4f"></div>
+        <span class="rating-label" id="cpw-scale-1">—</span>
+        <div class="bar-wrap"><div class="bar-fill" style="width:100%;background:#2d7a4f"></div></div>
+        <span class="rating-text">🏆 Εξαιρετικό</span>
+      </div>
+      <div class="rating-row">
+        <div class="rating-dot" style="background:#7ecfa0"></div>
+        <span class="rating-label" id="cpw-scale-2">—</span>
+        <div class="bar-wrap"><div class="bar-fill" style="width:75%;background:#7ecfa0"></div></div>
+        <span class="rating-text">✅ Καλό</span>
+      </div>
+      <div class="rating-row">
+        <div class="rating-dot" style="background:#f0a070"></div>
+        <span class="rating-label" id="cpw-scale-3">—</span>
+        <div class="bar-wrap"><div class="bar-fill" style="width:50%;background:#f0a070"></div></div>
+        <span class="rating-text">⚠️ Μέτριο</span>
+      </div>
+      <div class="rating-row">
+        <div class="rating-dot" style="background:#c0392b"></div>
+        <span class="rating-label" id="cpw-scale-4">—</span>
+        <div class="bar-wrap"><div class="bar-fill" style="width:25%;background:#c0392b"></div></div>
+        <span class="rating-text">🚨 Υψηλό</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="result-box">
+  <div class="result-item">
+    <div class="result-label">CPW Τώρα</div>
+    <div class="result-value accent" id="res-cpw-now">8.00€</div>
+    <div class="result-unit">ανά χρήση</div>
+  </div>
+  <div class="result-item">
+    <div class="result-label">Projected CPW</div>
+    <div class="result-value good" id="res-cpw-proj">1.60€</div>
+    <div class="result-unit">εκτίμηση τελικό</div>
+  </div>
+  <div class="result-item">
+    <div class="result-label">CPW Μήνα</div>
+    <div class="result-value" id="res-cpw-month">20.00€</div>
+    <div class="result-unit">αυτόν τον μήνα</div>
+  </div>
+</div>
+
+<div class="verdict-box" id="cpw-verdict"></div>
+```
+
   </section>
 
   <!-- ══ 2. REVERSE CALCULATOR ══ -->
+
   <section>
     <div class="section-header">
       <div class="section-number">2</div>
@@ -309,428 +244,274 @@
       <div class="section-line"></div>
     </div>
     <div class="explainer">
-      <p>Ανάποδη λογική: βάζεις την τιμή και η κατηγορία υπολογίζει αυτόματα <strong>πόσες χρήσεις χρειάζεσαι</strong> για να δικαιολογείται η αγορά.</p>
-      <p>Το target CPW αλλάζει ανάλογα με την κατηγορία και το price range — ένα φθηνό τοπ έχει διαφορετικές προσδοκίες από ένα παλτό premium.</p>
+      <p>Ανάποδη λογική: βάζεις την τιμή, το είδος και την περίσταση — και υπολογίζεις <strong>πόσες χρήσεις χρειάζεσαι</strong> για να δικαιολογείται η αγορά.</p>
+      <p>Κάθε συνδυασμός έχει διαφορετικό target. Ένα παλτό καθημερινής χρήσης θέλει πολλές χρήσεις — ένα φόρεμα γάμου πολύ λιγότερες.</p>
     </div>
 
-    <div class="two-col">
-      <div class="input-card">
-        <span class="card-label">Στοιχεία Αγοράς</span>
-        <div class="field-row">
-          <div class="field-group">
-            <label>Τιμή Αγοράς (€)</label>
-            <input type="number" id="rev-price" value="120" min="0" step="0.01" oninput="calcReverse()">
-          </div>
-          <div class="field-group">
-            <label>Κατηγορία</label>
-            <select id="rev-category" onchange="calcReverse()">
-              <option value="daily">Καθημερινό</option>
-              <option value="accessory">Αξεσουάρ</option>
-              <option value="outerwear">Outerwear</option>
-              <option value="occasional">Περιστασιακό</option>
-              <option value="special">Ειδικής Περίστασης</option>
-            </select>
-          </div>
-        </div>
+```
+<div class="two-col">
+  <div class="input-card">
+    <span class="card-label">Στοιχεία Αγοράς</span>
+    <div class="field-row">
+      <div class="field-group">
+        <label>Είδος Ρούχου</label>
+        <select id="rev-garment" onchange="onGarmentChange('rev')"></select>
       </div>
-
-      <div class="benchmark-box">
-        <div class="benchmark-title">Benchmarks ανά κατηγορία</div>
-        <div class="benchmark-sub">Το target CPW αλλάζει ανάλογα με τιμή κατοχής.</div>
-        <div class="tiers" id="rev-tiers"></div>
+      <div class="field-group">
+        <label>Περίσταση</label>
+        <select id="rev-occasion" onchange="calcReverse()"></select>
       </div>
     </div>
+    <div class="field-row">
+      <div class="field-group">
+        <label>Τιμή Αγοράς (€)</label>
+        <input type="number" id="rev-price" value="120" min="0" step="0.01" oninput="calcReverse()">
+      </div>
+    </div>
+    <div class="invalid-notice" id="rev-invalid">Αυτός ο συνδυασμός είναι άτυπος. Δοκίμασε άλλη περίσταση.</div>
+  </div>
 
-    <div class="rev-result" id="rev-result">
+  <div class="benchmark-card">
+    <div class="bm-combo" id="rev-combo-label">Φόρεμα · Ειδικής Περίστασης</div>
+    <div class="bm-target-row">
       <div>
-        <div style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:6px;">Χρήσεις για να αξίζει</div>
-        <div class="rev-main" id="rev-wears">—</div>
+        <div class="bm-target-label">Target CPW</div>
       </div>
-      <div class="rev-desc" id="rev-desc">—</div>
+      <div class="bm-target-value" id="rev-target-val">20€</div>
+      <div class="bm-target-unit">ανά χρήση</div>
     </div>
-  </section>
+    <div class="bm-title">Γιατί αυτό το target;</div>
+    <p style="font-size:12px;color:var(--gray);line-height:1.6;" id="rev-reasoning">
+      Τα ρούχα ειδικής περίστασης φοριούνται σπάνια (5–10 φορές/χρόνο), οπότε το CPW τους επιτρέπεται να είναι υψηλότερο από καθημερινά κομμάτια.
+    </p>
+  </div>
+</div>
 
-  <!-- ══ 3. COLOR ANALYSIS ══ -->
-  <section>
-    <div class="section-header">
-      <div class="section-number">3</div>
-      <div class="section-title">Color CPW Ανάλυση</div>
-      <div class="section-line"></div>
-    </div>
-    <div class="explainer">
-      <p>Ανάλυσε κάθε χρώμα σαν ξεχωριστό asset class. Κλικ σε κάθε χρώμα για να δεις και να επεξεργαστείς τους δείκτες του.</p>
-    </div>
+<div class="rev-result" id="rev-result">
+  <div>
+    <div style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:6px;">Χρήσεις για να αξίζει</div>
+    <div class="rev-main" id="rev-wears">—</div>
+  </div>
+  <div class="rev-desc" id="rev-desc">—</div>
+</div>
+```
 
-    <div class="color-cards" id="color-cards"></div>
-
-    <div class="add-color-row mt-12">
-      <input type="color" id="new-color-swatch" value="#1a2744">
-      <input type="text" id="new-color-name" placeholder="π.χ. Olive">
-      <button class="btn btn-primary btn-sm" onclick="addColor()">+ Νέο Χρώμα</button>
-    </div>
-
-    <div class="insights" id="color-insights"></div>
-  </section>
-
-  <!-- ══ 4. ΚΟΜΜΑΤΙΑ ══ -->
-  <section>
-    <div class="section-header">
-      <div class="section-number">4</div>
-      <div class="section-title">Κατάλογος Κομματιών</div>
-      <div class="section-line"></div>
-    </div>
-    <div class="explainer">
-      <p>Πρόσθεσε κάθε κομμάτι ξεχωριστά. Βλέπεις αμέσως το CPW και αν αξίζει να το κρατήσεις.</p>
-    </div>
-    <div class="flex-end mb-16">
-      <button class="btn btn-navy" onclick="addItem()">+ Νέο Κομμάτι</button>
-    </div>
-    <div class="items-grid" id="items-grid"></div>
-  </section>
-
-  <!-- ══ 5. ΓΛΩΣΣΑΡΙΟ ══ -->
-  <section>
-    <div class="section-header">
-      <div class="section-number">5</div>
-      <div class="section-title">Οδηγός Δεικτών</div>
-      <div class="section-line"></div>
-    </div>
-    <div class="glossary-grid">
-      <div class="glossary-card">
-        <div class="glossary-term">Cost Per Wear (CPW)</div>
-        <div class="glossary-formula">Τιμή ÷ Αριθμός χρήσεων</div>
-        <div class="glossary-def">Το πιο βασικό metric. Όσο περισσότερο φοράς κάτι, τόσο μειώνεται.</div>
-        <div class="glossary-tip">Στόχος: &lt;5€ καθημερινά, &lt;10€ περιστασιακά</div>
-      </div>
-      <div class="glossary-card">
-        <div class="glossary-term">Utilization Rate</div>
-        <div class="glossary-formula">Items Worn ÷ Total Items × 100%</div>
-        <div class="glossary-def">Τι ποσοστό από τα κομμάτια ενός χρώματος φόρεσες. Χαμηλό % = κομμάτια που «κάθονται».</div>
-        <div class="glossary-tip">Healthy wardrobe: &gt;30% utilization ανά χρώμα</div>
-      </div>
-      <div class="glossary-card">
-        <div class="glossary-term">Dormant Capital</div>
-        <div class="glossary-formula">Total Investment − Active Investment</div>
-        <div class="glossary-def">Χρήματα επενδεδυμένα σε κομμάτια που δεν φοράς. Το «κεφάλαιο που κοιμάται».</div>
-        <div class="glossary-tip">Αν &gt;50%: ώρα για donation/sell</div>
-      </div>
-      <div class="glossary-card">
-        <div class="glossary-term">% Investment Utilized</div>
-        <div class="glossary-formula">Active Investment ÷ Total Investment × 100%</div>
-        <div class="glossary-def">Τι % της επένδυσής σου αξιοποίησες αυτόν τον μήνα.</div>
-        <div class="glossary-tip">Ζήτα από κάθε χρώμα να «δουλεύει» για σένα</div>
-      </div>
-      <div class="glossary-card">
-        <div class="glossary-term">Avg Cost Worn / Unworn</div>
-        <div class="glossary-formula">Investment ÷ Items (worn / unworn)</div>
-        <div class="glossary-def">Σύγκριση μέσου κόστους αυτών που φόρεσες vs αυτών που δεν φόρεσες.</div>
-        <div class="glossary-tip">Ιδανικά: Avg Cost Worn &gt; Avg Cost Unworn</div>
-      </div>
-      <div class="glossary-card">
-        <div class="glossary-term">Projected CPW</div>
-        <div class="glossary-formula">Τιμή ÷ Εκτιμώμενες χρήσεις</div>
-        <div class="glossary-def">Πού θα φτάσει το CPW αν φορέσεις το κομμάτι τόσες φορές όσο εκτιμάς.</div>
-        <div class="glossary-tip">Βάλε ρεαλιστικό αριθμό — μην αυταπατάσαι!</div>
-      </div>
-    </div>
   </section>
 
 </main>
 
 <script>
-// ─── DATA ──────────────────────────────────────────────
-const defaultColors = [
-  { name:'Μαύρο',  hex:'#1a1a1a', total:50, worn:10, totalInvest:1200, activeInvest:200, timesWorn:80  },
-  { name:'Λευκό',  hex:'#c8c8c0', total:33, worn:5,  totalInvest:450,  activeInvest:25,  timesWorn:60  },
-  { name:'Navy',   hex:'#1a2744', total:14, worn:3,  totalInvest:380,  activeInvest:80,  timesWorn:35  },
-  { name:'Μπεζ',   hex:'#c8ae8a', total:8,  worn:1,  totalInvest:220,  activeInvest:30,  timesWorn:18  },
-  { name:'Κάμηλο', hex:'#c8965a', total:12, worn:5,  totalInvest:480,  activeInvest:210, timesWorn:42  },
-];
-let colors = JSON.parse(JSON.stringify(defaultColors));
+// ─── CPW MATRIX ─────────────────────────────────────────
+// Γραμμές = είδη ρούχων · Στήλες = περιστάσεις
+// Τιμή = target €/χρήση · null = άτυπος συνδυασμός
 
-const defaultItems = [
-  { name:'Καμπαρντίνα Navy',         cat:'outerwear',  price:120, worn:28 },
-  { name:'Λευκό Fleece Jacket',      cat:'outerwear',  price:45,  worn:22 },
-  { name:'Βραχιόλια Beautiful Earth',cat:'accessory',  price:35,  worn:60 },
-  { name:'Polo RL Κοντό Μανίκι',     cat:'daily',      price:85,  worn:12 },
-  { name:'Cigarette Παντελόνι Navy', cat:'daily',      price:40,  worn:8  },
+const GARMENTS = [
+  { key:'blouse',    label:'Μπλούζα / T-shirt' },
+  { key:'pants',     label:'Παντελόνι / Jeans' },
+  { key:'skirt',     label:'Φούστα' },
+  { key:'dress',     label:'Φόρεμα' },
+  { key:'blazer',    label:'Σακάκι / Blazer' },
+  { key:'coat',      label:'Παλτό / Καμπαρντίνα' },
+  { key:'shoes',     label:'Παπούτσια' },
+  { key:'bag',       label:'Τσάντα' },
+  { key:'jewelry',   label:'Κοσμήματα' },
+  { key:'underwear', label:'Εσώρουχα / Lingerie' },
 ];
-let items = JSON.parse(JSON.stringify(defaultItems));
 
-// ─── BENCHMARKS ────────────────────────────────────────
-// [label, maxPrice, targetCPW, color]
-const CAT_INFO = {
-  daily:      { label:'Καθημερινό',        tiers:[['Budget (<30€)',   30, 2,'#2d7a4f'],['Mid (30–80€)',   80, 3,'#5aaa80'],['Premium (80€+)', 9999, 5,'#f0a070']] },
-  accessory:  { label:'Αξεσουάρ',          tiers:[['Budget (<50€)',   50, 2,'#2d7a4f'],['Mid (50–150€)', 150, 3,'#5aaa80'],['Premium (150€+)',9999, 5,'#f0a070']] },
-  outerwear:  { label:'Outerwear',          tiers:[['Budget (<80€)',   80, 4,'#2d7a4f'],['Mid (80–200€)', 200, 6,'#5aaa80'],['Premium (200€+)',9999, 8,'#f0a070']] },
-  occasional: { label:'Περιστασιακό',       tiers:[['Budget (<50€)',   50, 5,'#2d7a4f'],['Mid (50–150€)', 150, 8,'#5aaa80'],['Premium (150€+)',9999,12,'#f0a070']] },
-  special:    { label:'Ειδικής Περίστασης', tiers:[['Budget (<80€)',   80,10,'#2d7a4f'],['Mid (80–250€)', 250,15,'#5aaa80'],['Premium (250€+)',9999,20,'#f0a070']] },
+const OCCASIONS = [
+  { key:'daily',      label:'Καθημερινό' },
+  { key:'outerwear',  label:'Outerwear' },
+  { key:'occasional', label:'Περιστασιακό' },
+  { key:'special',    label:'Ειδικής Περίστασης' },
+  { key:'accessory',  label:'Αξεσουάρ' },
+];
+
+// MATRIX: matrix[garment][occasion] = target CPW (€/wear) ή null
+const MATRIX = {
+  blouse:    { daily:2,   outerwear:null, occasional:4,    special:12,   accessory:null },
+  pants:     { daily:2.5, outerwear:null, occasional:5,    special:15,   accessory:null },
+  skirt:     { daily:3,   outerwear:null, occasional:5,    special:15,   accessory:null },
+  dress:     { daily:4,   outerwear:null, occasional:7,    special:20,   accessory:null },
+  blazer:    { daily:4,   outerwear:5,    occasional:7,    special:18,   accessory:null },
+  coat:      { daily:5,   outerwear:6,    occasional:null, special:null, accessory:null },
+  shoes:     { daily:1.5, outerwear:4,    occasional:5,    special:15,   accessory:null },
+  bag:       { daily:2,   outerwear:null, occasional:4,    special:12,   accessory:3    },
+  jewelry:   { daily:null,outerwear:null, occasional:null, special:null, accessory:3    },
+  underwear: { daily:0.5, outerwear:null, occasional:null, special:null, accessory:null },
 };
 
-function getActiveTier(cat, price) {
-  const tiers = CAT_INFO[cat]?.tiers || CAT_INFO.daily.tiers;
-  for (const tier of tiers) { if (price <= tier[1]) return tier; }
-  return tiers[tiers.length - 1];
+// Context-specific reasoning
+const REASONING = {
+  daily:      'Καθημερινά ρούχα φοριούνται πολύ συχνά — το CPW πέφτει γρήγορα, οπότε το target είναι αυστηρό.',
+  outerwear:  'Outerwear είναι ο σύμμαχός σου όλη τη σεζόν — συχνή χρήση αλλά και υψηλότερη τιμή κατοχής.',
+  occasional: 'Περιστασιακά κομμάτια φοριούνται 10–25 φορές/χρόνο — το target δίνει χώρο αλλά απαιτεί δέσμευση.',
+  special:    'Ρούχα ειδικής περίστασης φοριούνται σπάνια (5–10 φορές/χρόνο), οπότε το CPW τους επιτρέπεται να είναι υψηλότερο.',
+  accessory:  'Αξεσουάρ όπως κοσμήματα ή τσάντες φοριούνται καθημερινά για μήνες — το target είναι χαμηλό.',
+};
+
+// ─── DROPDOWN POPULATION ────────────────────────────────
+function populateDropdowns(prefix, defaultGarment, defaultOccasion) {
+  const gSel = document.getElementById(prefix + '-garment');
+  gSel.innerHTML = GARMENTS.map(g =>
+    `<option value="${g.key}"${g.key===defaultGarment?' selected':''}>${g.label}</option>`
+  ).join('');
+  // occasion dropdown θα γεμίσει από onGarmentChange με σωστό disabled state
 }
 
-// ─── CPW CALCULATOR ────────────────────────────────────
+// Καλείται όταν αλλάζει το είδος — γκριζάρει invalid occasions
+function onGarmentChange(prefix) {
+  const gSel = document.getElementById(prefix + '-garment');
+  const oSel = document.getElementById(prefix + '-occasion');
+  const garment = gSel.value;
+  const previousOcc = oSel.value;
+  const row = MATRIX[garment];
+
+  // Build options με disabled state για invalid combos
+  oSel.innerHTML = OCCASIONS.map(o => {
+    const isValid = row[o.key] !== null;
+    const disabled = isValid ? '' : ' disabled';
+    const suffix = isValid ? '' : ' — άτυπο';
+    return `<option value="${o.key}"${disabled}>${o.label}${suffix}</option>`;
+  }).join('');
+
+  // Διατήρηση previous occasion αν ακόμη έγκυρο, αλλιώς πρώτο valid
+  if (previousOcc && row[previousOcc] !== null) {
+    oSel.value = previousOcc;
+  } else {
+    const firstValid = OCCASIONS.find(o => row[o.key] !== null);
+    if (firstValid) oSel.value = firstValid.key;
+  }
+
+  if (prefix === 'cpw') calcCPW();
+  else calcReverse();
+}
+
+function getTarget(garment, occasion) {
+  return MATRIX[garment]?.[occasion] ?? null;
+}
+function getLabels(garment, occasion) {
+  return {
+    garment: GARMENTS.find(g => g.key === garment)?.label || garment,
+    occasion: OCCASIONS.find(o => o.key === occasion)?.label || occasion,
+  };
+}
+function fmt(n) { return n.toFixed(2) + '€'; }
+function fmtShort(n) { return (Number.isInteger(n) ? n : n.toFixed(1)) + '€'; }
+function cpwColorClass(cpw, target) {
+  if (cpw <= target) return 'good';
+  if (cpw <= target * 2) return 'accent';
+  return 'warn';
+}
+
+// ─── CPW CALCULATOR ─────────────────────────────────────
 function calcCPW() {
-  const price = parseFloat(document.getElementById('cpw-price').value)     || 0;
-  const worn  = parseFloat(document.getElementById('cpw-worn').value)      || 1;
-  const proj  = parseFloat(document.getElementById('cpw-projected').value) || worn;
-  const mWorn = parseFloat(document.getElementById('cpw-month-worn').value)|| 0;
-  const cat   = document.getElementById('cpw-category').value;
+  const garment  = document.getElementById('cpw-garment').value;
+  const occasion = document.getElementById('cpw-occasion').value;
+  const price    = parseFloat(document.getElementById('cpw-price').value)     || 0;
+  const worn     = parseFloat(document.getElementById('cpw-worn').value)      || 1;
+  const proj     = parseFloat(document.getElementById('cpw-projected').value) || worn;
+  const mWorn    = parseFloat(document.getElementById('cpw-month-worn').value)|| 0;
+
+  const target = getTarget(garment, occasion);
+  const labels = getLabels(garment, occasion);
+
+  // Benchmark card update
+  document.getElementById('cpw-combo-label').textContent = `${labels.garment} · ${labels.occasion}`;
+  document.getElementById('cpw-target-val').textContent = target !== null ? fmtShort(target) : '—';
+
+  // Scale labels dynamic update
+  if (target !== null) {
+    document.getElementById('cpw-scale-1').textContent = `0 – ${fmtShort(target)}`;
+    document.getElementById('cpw-scale-2').textContent = `${fmtShort(target)} – ${fmtShort(target*2)}`;
+    document.getElementById('cpw-scale-3').textContent = `${fmtShort(target*2)} – ${fmtShort(target*4)}`;
+    document.getElementById('cpw-scale-4').textContent = `${fmtShort(target*4)}+`;
+  } else {
+    ['cpw-scale-1','cpw-scale-2','cpw-scale-3','cpw-scale-4'].forEach(id =>
+      document.getElementById(id).textContent = '—');
+  }
 
   const cpwNow   = price / Math.max(worn, 1);
   const cpwProj  = price / Math.max(proj, 1);
   const cpwMonth = mWorn > 0 ? price / mWorn : null;
 
-  const [,, target] = getActiveTier(cat, price);
+  setResult('res-cpw-now',   fmt(cpwNow),     cpwNow,   target);
+  setResult('res-cpw-proj',  fmt(cpwProj),    cpwProj,  target);
+  setResult('res-cpw-month', cpwMonth !== null ? fmt(cpwMonth) : '—', cpwMonth, target);
+
+  const verdictEl = document.getElementById('cpw-verdict');
+  if (target === null) {
+    verdictEl.textContent = 'Άτυπος συνδυασμός — επίλεξε άλλη περίσταση για να δεις benchmark.';
+    return;
+  }
   const needed = Math.ceil(price / target);
 
-  set('res-cpw-now',   fmt(cpwNow),  cpwColorClass(cpwNow));
-  set('res-cpw-proj',  fmt(cpwProj), cpwColorClass(cpwProj));
-  set('res-cpw-month', cpwMonth !== null ? fmt(cpwMonth) : '—', cpwColorClass(cpwMonth || 999));
-
-  let v = '';
-  if (cpwNow <= target)
-    v = `✅ Εξαιρετικό! Το CPW (${fmt(cpwNow)}) είναι εντός του στόχου (${fmt(target)}/χρήση) για αυτή την κατηγορία.`;
-  else if (cpwNow <= target * 2)
-    v = `⚠️ Αποδεκτό. Χρειάζεσαι ακόμη ${needed - worn} χρήσεις για στόχο ${fmt(target)}/χρήση (σύνολο ${needed}).`;
-  else
-    v = `🚨 Υψηλό CPW (${fmt(cpwNow)}). Χρειάζεσαι ${needed} συνολικές χρήσεις για ${fmt(target)}/χρήση. Φόρεσέ το συχνότερα!`;
-  document.getElementById('cpw-verdict').textContent = v;
+  if (cpwNow <= target) {
+    verdictEl.textContent = `✅ Εξαιρετικό! Το CPW (${fmt(cpwNow)}) είναι εντός του target (${fmtShort(target)}/χρήση) για ${labels.garment.toLowerCase()} · ${labels.occasion.toLowerCase()}.`;
+  } else if (cpwNow <= target * 2) {
+    verdictEl.textContent = `⚠️ Αποδεκτό. Χρειάζεσαι ${Math.max(needed - worn, 0)} ακόμη χρήσεις για να πιάσεις το target ${fmtShort(target)}/χρήση (σύνολο ${needed}).`;
+  } else {
+    verdictEl.textContent = `🚨 Υψηλό CPW (${fmt(cpwNow)}). Χρειάζεσαι ${needed} συνολικές χρήσεις για ${fmtShort(target)}/χρήση. Φόρεσέ το συχνότερα!`;
+  }
 }
 
-function set(id, text, cls) {
+function setResult(id, text, numericValue, target) {
   const el = document.getElementById(id);
   el.textContent = text;
-  el.className = 'result-value ' + cls;
+  if (target === null || numericValue === null || !isFinite(numericValue)) {
+    el.className = 'result-value';
+    return;
+  }
+  el.className = 'result-value ' + cpwColorClass(numericValue, target);
 }
-function cpwColorClass(v) { return v <= 5 ? 'good' : v <= 15 ? 'accent' : 'warn'; }
-function fmt(n) { return n.toFixed(2) + '€'; }
 
-// ─── REVERSE CALCULATOR ────────────────────────────────
+// ─── REVERSE CALCULATOR ─────────────────────────────────
 function calcReverse() {
-  const price = parseFloat(document.getElementById('rev-price').value) || 0;
-  const cat   = document.getElementById('rev-category').value;
-  const tiers = CAT_INFO[cat]?.tiers || CAT_INFO.daily.tiers;
-  const activeTier = getActiveTier(cat, price);
-  const [tierLabel,, targetCPW, tierColor] = activeTier;
-  const wears = price > 0 ? Math.ceil(price / targetCPW) : 0;
+  const garment  = document.getElementById('rev-garment').value;
+  const occasion = document.getElementById('rev-occasion').value;
+  const price    = parseFloat(document.getElementById('rev-price').value) || 0;
 
-  document.getElementById('rev-tiers').innerHTML = tiers.map(tier => {
-    const isActive = tier[0] === tierLabel;
-    const [lbl,,tgt,col] = tier;
-    return `<div class="tier-row ${isActive?'active':''}">
-      <div class="tier-dot" style="background:${col}"></div>
-      <span class="tier-name">${lbl}</span>
-      <span class="tier-range">${CAT_INFO[cat].label}</span>
-      <span class="tier-target">Target: ${tgt}€/χρήση</span>
-    </div>`;
-  }).join('');
+  const target = getTarget(garment, occasion);
+  const labels = getLabels(garment, occasion);
+  const notice = document.getElementById('rev-invalid');
 
+  document.getElementById('rev-combo-label').textContent = `${labels.garment} · ${labels.occasion}`;
+  document.getElementById('rev-target-val').textContent = target !== null ? fmtShort(target) : '—';
+  document.getElementById('rev-reasoning').textContent = REASONING[occasion] || '';
+
+  if (target === null) {
+    notice.classList.add('show');
+    document.getElementById('rev-wears').textContent = '—';
+    document.getElementById('rev-desc').innerHTML = 'Επίλεξε έγκυρο συνδυασμό για υπολογισμό.';
+    return;
+  }
+  notice.classList.remove('show');
+
+  const wears = price > 0 ? Math.ceil(price / target) : 0;
   document.getElementById('rev-wears').textContent = price > 0 ? wears + ' φορές' : '—';
-  document.getElementById('rev-desc').innerHTML = price > 0
-    ? `Για <span class="rev-accent">${CAT_INFO[cat].label.toLowerCase()}</span> στο tier <span class="rev-accent">${tierLabel}</span>, target CPW = <span class="rev-accent">${fmt(targetCPW)}</span>.<br>Φόρεσέ το <span class="rev-accent">${wears} φορές</span> και η επένδυση δικαιολογείται.`
-    : 'Βάλε τιμή για να δεις το αποτέλεσμα.';
+
+  if (price > 0) {
+    document.getElementById('rev-desc').innerHTML =
+      `Για <span class="rev-accent">${labels.garment.toLowerCase()}</span> σε χρήση <span class="rev-accent">${labels.occasion.toLowerCase()}</span>, target CPW = <span class="rev-accent">${fmtShort(target)}</span>.<br>Φόρεσέ το <span class="rev-accent">${wears} φορές</span> και η επένδυση δικαιολογείται.`;
+  } else {
+    document.getElementById('rev-desc').textContent = 'Βάλε τιμή για να δεις το αποτέλεσμα.';
+  }
 }
 
-// ─── COLOR CARDS ───────────────────────────────────────
-let openCards = new Set();
-
-function renderColorCards() {
-  const container = document.getElementById('color-cards');
-  container.innerHTML = '';
-  colors.forEach((c, i) => {
-    const unworn   = Math.max(c.total - c.worn, 0);
-    const util     = c.total > 0 ? c.worn / c.total * 100 : 0;
-    const dormant  = Math.max(c.totalInvest - c.activeInvest, 0);
-    const pctUtil  = c.totalInvest > 0 ? c.activeInvest / c.totalInvest * 100 : 0;
-    const cpw      = c.timesWorn > 0 ? c.totalInvest / c.timesWorn : 0;
-    const avgWorn  = c.worn > 0 ? c.activeInvest / c.worn : 0;
-    const avgUnworn= unworn > 0 ? dormant / unworn : 0;
-
-    const isOpen = openCards.has(i);
-    const utilColor = util >= 30 ? 'var(--success)' : util < 15 ? 'var(--warning)' : 'var(--camel)';
-
-    const div = document.createElement('div');
-    div.className = 'color-card';
-    div.innerHTML = `
-      <div class="color-card-header" onclick="toggleColor(${i})">
-        <div class="color-strip" style="background:${c.hex}; min-height:22px;"></div>
-        <div class="color-card-name">${c.name}</div>
-        <div class="color-card-summary">Util. ${util.toFixed(0)}% · CPW ${cpw>0?cpw.toFixed(1)+'€':'—'}</div>
-        <div class="chevron ${isOpen?'open':''}">▾</div>
-      </div>
-      <div class="color-card-body ${isOpen?'open':''}">
-        <div class="util-row">
-          <span>Utilization Rate</span>
-          <div class="util-bar-wrap">
-            <div class="util-bar-fill" style="width:${Math.min(util,100)}%;background:${utilColor}"></div>
-          </div>
-          <strong style="min-width:36px;text-align:right;font-size:14px;color:var(--navy)">${util.toFixed(0)}%</strong>
-        </div>
-        <div class="kpi-grid">
-          <div class="kpi-item">
-            <div class="kpi-label">Dormant Capital</div>
-            <div class="kpi-value ${dormant > c.totalInvest*0.5 ? 'warn' : ''}">${dormant.toFixed(0)}€</div>
-          </div>
-          <div class="kpi-item">
-            <div class="kpi-label">% Inv. Utilized</div>
-            <div class="kpi-value ${pctUtil>=30?'good':''}">${pctUtil.toFixed(0)}%</div>
-          </div>
-          <div class="kpi-item">
-            <div class="kpi-label">CPW</div>
-            <div class="kpi-value ${cpw>0&&cpw<=5?'good':cpw>15?'warn':''}">${cpw>0?cpw.toFixed(2)+'€':'—'}</div>
-          </div>
-          <div class="kpi-item">
-            <div class="kpi-label">Avg Cost Worn</div>
-            <div class="kpi-value">${avgWorn>0?avgWorn.toFixed(0)+'€':'—'}</div>
-          </div>
-          <div class="kpi-item">
-            <div class="kpi-label">Avg Cost Unworn</div>
-            <div class="kpi-value ${avgUnworn>avgWorn&&avgUnworn>0?'warn':''}">${avgUnworn>0?avgUnworn.toFixed(0)+'€':'—'}</div>
-          </div>
-          <div class="kpi-item">
-            <div class="kpi-label">Items Unworn</div>
-            <div class="kpi-value">${unworn}</div>
-          </div>
-        </div>
-        <div class="color-inputs">
-          <div class="color-input-group"><label>Total Items</label>
-            <input type="number" value="${c.total}" min="0" oninput="updateColor(${i},'total',this.value)"></div>
-          <div class="color-input-group"><label>Items Worn (μήνας)</label>
-            <input type="number" value="${c.worn}" min="0" oninput="updateColor(${i},'worn',this.value)"></div>
-          <div class="color-input-group"><label>Total Investment (€)</label>
-            <input type="number" value="${c.totalInvest}" min="0" oninput="updateColor(${i},'totalInvest',this.value)"></div>
-          <div class="color-input-group"><label>Active Investment (€)</label>
-            <input type="number" value="${c.activeInvest}" min="0" oninput="updateColor(${i},'activeInvest',this.value)"></div>
-          <div class="color-input-group"><label>Times Worn (συνολικά)</label>
-            <input type="number" value="${c.timesWorn}" min="0" oninput="updateColor(${i},'timesWorn',this.value)"></div>
-        </div>
-        <div style="display:flex;justify-content:flex-end;">
-          <button class="btn-danger-sm" onclick="removeColor(${i})">Διαγραφή χρώματος</button>
-        </div>
-      </div>
-    `;
-    container.appendChild(div);
-  });
-  renderInsights();
-}
-
-function toggleColor(i) {
-  if (openCards.has(i)) openCards.delete(i); else openCards.add(i);
-  renderColorCards();
-}
-
-function updateColor(i, field, val) {
-  colors[i][field] = parseFloat(val) || 0;
-  openCards.add(i);
-  renderColorCards();
-}
-
-function removeColor(i) {
-  openCards.delete(i);
-  // shift open indices
-  const next = new Set();
-  openCards.forEach(idx => { if (idx < i) next.add(idx); else if (idx > i) next.add(idx - 1); });
-  openCards = next;
-  colors.splice(i, 1);
-  renderColorCards();
-}
-
-function addColor() {
-  const name = document.getElementById('new-color-name').value.trim();
-  const hex  = document.getElementById('new-color-swatch').value;
-  if (!name) { alert('Δώσε ένα όνομα χρώματος!'); return; }
-  colors.push({ name, hex, total:0, worn:0, totalInvest:0, activeInvest:0, timesWorn:0 });
-  openCards.add(colors.length - 1);
-  document.getElementById('new-color-name').value = '';
-  renderColorCards();
-}
-
-function renderInsights() {
-  const box = document.getElementById('color-insights');
-  if (!colors.length) { box.innerHTML = ''; return; }
-  const best = colors.reduce((a,b) => (b.total>0?b.worn/b.total:0)>(a.total>0?a.worn/a.total:0)?b:a, colors[0]);
-  const mostD= colors.reduce((a,b) => (b.totalInvest-b.activeInvest)>(a.totalInvest-a.activeInvest)?b:a, colors[0]);
-  const ww   = colors.filter(c=>c.timesWorn>0);
-  const bCpw = ww.length ? ww.reduce((a,b)=>(b.totalInvest/b.timesWorn)<(a.totalInvest/a.timesWorn)?b:a,ww[0]) : null;
-  const totD = colors.reduce((s,c)=>s+Math.max(c.totalInvest-c.activeInvest,0),0);
-  const totI = colors.reduce((s,c)=>s+c.totalInvest,0);
-  box.innerHTML = `
-    <div class="insight-card success-top"><div class="insight-icon">🏆</div>
-      <div class="insight-label">Καλύτερη Αξιοποίηση</div>
-      <div class="insight-value">${best.name}</div>
-      <div class="insight-sub">Utilization: ${best.total>0?(best.worn/best.total*100).toFixed(0):0}%</div></div>
-    <div class="insight-card warn-top"><div class="insight-icon">💤</div>
-      <div class="insight-label">Μεγαλύτερο Dormant</div>
-      <div class="insight-value">${mostD.name}</div>
-      <div class="insight-sub">${Math.max(mostD.totalInvest-mostD.activeInvest,0).toFixed(0)}€ δεν αξιοποιούνται</div></div>
-    ${bCpw?`<div class="insight-card"><div class="insight-icon">💎</div>
-      <div class="insight-label">Καλύτερο CPW</div>
-      <div class="insight-value">${bCpw.name}</div>
-      <div class="insight-sub">${(bCpw.totalInvest/bCpw.timesWorn).toFixed(2)}€/χρήση</div></div>`:''}
-    <div class="insight-card navy-top"><div class="insight-icon">📊</div>
-      <div class="insight-label">Συνολικό Dormant</div>
-      <div class="insight-value">${totD.toFixed(0)}€</div>
-      <div class="insight-sub">${totI>0?(totD/totI*100).toFixed(0):0}% της επένδυσής σου</div></div>`;
-}
-
-// ─── ITEMS ─────────────────────────────────────────────
-const catNames = {daily:'Καθημερινό',occasional:'Περιστασιακό',special:'Ειδικό',accessory:'Αξεσουάρ',outerwear:'Outerwear'};
-
-function renderItems() {
-  const grid = document.getElementById('items-grid');
-  grid.innerHTML = '';
-  items.forEach((item, i) => {
-    const cpw = item.worn > 0 ? item.price / item.worn : item.price;
-    const badge = cpw<=5?'badge-great':cpw<=15?'badge-ok':'badge-high';
-    const badgeTxt = cpw<=5?'🏆 Εξαιρετικό':cpw<=15?'✅ Καλό':'⚠️ Υψηλό CPW';
-    const div = document.createElement('div');
-    div.className = 'item-card';
-    div.innerHTML = `
-      <div class="item-card-header">
-        <div><div class="item-cat">${catNames[item.cat]||item.cat}</div>
-        <div class="item-name">${item.name}</div></div>
-        <button class="btn-danger" onclick="removeItem(${i})">×</button>
-      </div>
-      <div style="display:flex;flex-direction:column;gap:9px;">
-        <div class="field-group"><label>Όνομα</label>
-          <input type="text" value="${item.name}" oninput="updateItem(${i},'name',this.value)"></div>
-        <div style="display:flex;gap:10px;">
-          <div class="field-group"><label>Τιμή (€)</label>
-            <input type="number" value="${item.price}" min="0" step="0.01" oninput="updateItem(${i},'price',this.value)"></div>
-          <div class="field-group"><label>Φορέθηκε</label>
-            <input type="number" value="${item.worn}" min="0" oninput="updateItem(${i},'worn',this.value)"></div>
-        </div>
-        <div class="field-group"><label>Κατηγορία</label>
-          <select onchange="updateItem(${i},'cat',this.value)">
-            ${['daily','occasional','special','accessory','outerwear'].map(c=>`<option value="${c}"${item.cat===c?' selected':''}>${catNames[c]}</option>`).join('')}
-          </select></div>
-      </div>
-      <div class="item-cpw-display">
-        <div><div class="item-cpw-label">Cost Per Wear</div>
-          <div class="cpw-badge ${badge}" style="margin-top:3px">${badgeTxt}</div></div>
-        <div class="item-cpw-value">${cpw.toFixed(2)}€</div>
-      </div>`;
-    grid.appendChild(div);
-  });
-}
-function updateItem(i,f,v){ items[i][f]=(f==='name'||f==='cat')?v:(parseFloat(v)||0); renderItems(); }
-function removeItem(i){ items.splice(i,1); renderItems(); }
-function addItem(){ items.unshift({name:'Νέο Κομμάτι',cat:'daily',price:0,worn:0}); renderItems(); }
-
-// ─── INIT ──────────────────────────────────────────────
-calcCPW();
-calcReverse();
-renderColorCards();
-renderItems();
+// ─── INIT ───────────────────────────────────────────────
+populateDropdowns('cpw', 'blouse', 'daily');
+populateDropdowns('rev', 'dress', 'special');
+onGarmentChange('cpw');
+onGarmentChange('rev');
 </script>
 
 <footer style="background:#0a0a0a;color:rgba(255,255,255,0.35);padding:3rem 2rem;text-align:center;border-top:1px solid rgba(255,255,255,0.06);">
   <div style="font-family:serif;font-size:1.3rem;font-weight:300;color:white;margin-bottom:0.5rem;">Fashion Analysis <em style="color:#c4956a;">by Danai</em></div>
   <p style="font-size:0.82rem;margin-bottom:0.4rem;">Wardrobe KPIs Calculator · Fashion Education</p>
-  <p style="font-size:0.82rem;margin-bottom:1.5rem;"><a href="/cdn-cgi/l/email-protection#c6a2a4b0a7a4bfa2a7a8a7af86a1aba7afaae8a5a9ab" style="color:#c4956a;text-decoration:none;"><span class="__cf_email__" data-cfemail="3551574354574c51545b545c755258545c591b565a58">[email&#160;protected]</span></a></p>
-  <a href="guides.html" style="font-size:0.72rem;letter-spacing:0.1em;text-t
+  <p style="font-size:0.82rem;margin-bottom:1.5rem;">
+    <a href="mailto:fashion.analysis.by.danai@gmail.com" style="color:#c4956a;text-decoration:none;">fashion.analysis.by.danai@gmail.com</a>
+  </p>
+  <a href="guides.html" style="font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.45);text-decoration:none;">Όλοι οι Οδηγοί →</a>
+</footer>
+
+</body>
+</html>

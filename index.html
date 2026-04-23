@@ -43,6 +43,22 @@
       white-space: nowrap;
     }
     .nav-dropdown-menu li a:hover { background: #f5f0e8; color: #9a7a4a; }
+    .nav-dropdown-heading {
+      font-family: 'Jost', sans-serif;
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #9a7a4a;
+      padding: 10px 18px 4px;
+      pointer-events: none;
+    }
+    .nav-dropdown-divider {
+      height: 1px;
+      background: #e8e2d8;
+      margin: 6px 14px;
+      pointer-events: none;
+    }
     .nav-dropdown:hover .nav-dropdown-menu,
     .nav-dropdown.open .nav-dropdown-menu { display: block; }
 
@@ -59,6 +75,8 @@
         background: transparent;
       }
       .nav-dropdown-menu li a { padding: 7px 8px; font-size: 12px; color: #8a7d6e; }
+      .nav-dropdown-heading { padding: 8px 8px 2px; font-size: 9px; }
+      .nav-dropdown-divider { margin: 4px 8px; background: #d4c4a8; }
       .nav-dropdown.open .nav-dropdown-menu { display: block; }
       .nav-dropdown-menu { display: none; }
     }
@@ -380,14 +398,20 @@
     <ul class="nav-links" id="navLinks">
       <li><a href="index.html" class="active">Home</a></li>
       <li><a href="https://dbvabydanai.wordpress.com" target="_blank">Articles</a></li>
-      <li><a href="guides.html">Guides</a></li>
       <li class="nav-dropdown">
-        <a href="#" onclick="return false" class="nav-dropdown-toggle">Tools ▾</a>
+        <a href="#" onclick="return false" class="nav-dropdown-toggle">Guides & Tools ▾</a>
         <ul class="nav-dropdown-menu">
-          <li><a href="wishlist.html">🛍 Wardrobe Wishlist</a></li>
-          <li><a href="wardrobe-tracker.html">👗 Wardrobe Tracker</a></li>
-          <li><a href="wardrobe-calculator.html">📊 KPIs Calculator</a></li>
+          <li class="nav-dropdown-heading">Οδηγοί</li>
+          <li><a href="color-analysis-guide.html">🎨 Color Analysis Guide</a></li>
+          <li><a href="style-identity-guide.html">✨ Style Identity Guide</a></li>
           <li><a href="body-type-quiz.html">👤 Body Type Quiz</a></li>
+          <li><a href="wardrobe-audit-workbook.html">📝 Wardrobe Audit Workbook</a></li>
+          <li><a href="capsule-workbook.html">👗 Capsule Wardrobe Workbook</a></li>
+          <li class="nav-dropdown-divider"></li>
+          <li class="nav-dropdown-heading">Εργαλεία</li>
+          <li><a href="wishlist.html">🛍 Wardrobe Wishlist</a></li>
+          <li><a href="wardrobe-tracker.html">📱 Wardrobe Tracker</a></li>
+          <li><a href="wardrobe-calculator.html">📊 KPIs Calculator</a></li>
         </ul>
       </li>
       <li><a href="about.html">About</a></li>
@@ -726,7 +750,7 @@
         <div class="footer-brand-col">
           <div class="footer-brand-name">Fashion Analysis<br><span>by Danai</span></div>
           <p class="footer-tagline">Fashion Education & Finance</p>
-          <a href="/cdn-cgi/l/email-protection#cfabadb9aeadb6abaea1aea68fa8a2aea6a3e1aca0a2" class="footer-email"><span class="__cf_email__" data-cfemail="abcfc9ddcac9d2cfcac5cac2ebccc6cac2c785c8c4c6">[email&#160;protected]</span></a>
+          <a href="mailto:dbvabydanai@gmail.com" class="footer-email">dbvabydanai@gmail.com</a>
         </div>
         <div class="footer-nav-col">
           <p class="footer-col-title">Σελίδες</p>
@@ -760,19 +784,17 @@
             <li><a href="https://www.instagram.com/fashion.analysis.by.danai" target="_blank">Instagram</a></li>
             <li><a href="https://www.youtube.com/@danaiav12" target="_blank">YouTube</a></li>
             <li><a href="https://gr.pinterest.com/Danai12Av/" target="_blank">Pinterest</a></li>
-            <li><a href="dbvabydanai@gmail.com">Email</a></li>
+            <li><a href="mailto:dbvabydanai@gmail.com">Email</a></li>
           </ul>
         </div>
       </div>
       <div class="footer-bottom">
-        <p>© 2026 Fashion Analysis by Danai. All rights reserved.</p>
+        <p>© 2025 Fashion Analysis by Danai. All rights reserved.</p>
       </div>
     </div>
   </footer>
 
   <!-- Google tag (gtag.js) -->
-
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
 
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-DBRDY0FNX7"></script>
 

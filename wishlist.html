@@ -18,6 +18,12 @@
   --yellow:#8a6e00;--yellow-soft:rgba(180,150,0,0.08);--yellow-text:#6b5200;--yellow-border:rgba(180,150,0,0.28);
   --red:#8c4a3a;--red-soft:rgba(140,74,58,0.08);--red-text:#7a3020;
   --amber:#9a6a1a;
+  /* Priority tier colors */
+  --tier-a:#8c4a3a;--tier-a-soft:rgba(140,74,58,0.09);
+  --tier-b:#b8760a;--tier-b-soft:rgba(184,118,10,0.10);
+  --tier-c:#8a7d6e;--tier-c-soft:rgba(138,125,110,0.09);
+  --tier-d:#7a8ba8;--tier-d-soft:rgba(122,139,168,0.09);
+  --tier-e:#b5a898;--tier-e-soft:rgba(181,168,152,0.10);
   --font-serif:'Noto Serif',Georgia,serif;
   --font-sans:'Noto Sans',system-ui,sans-serif;
 }
@@ -47,6 +53,34 @@ body{font-family:var(--font-sans);font-weight:300;background:var(--bg);color:var
 .iform-hint{font-size:9px;color:var(–text-dim);margin-top:3px;letter-spacing:0;}
 .iform-actions{display:flex;gap:8px;justify-content:flex-end;padding-top:14px;border-top:1px solid var(–border);}
 
+/* ── PRIORITY TIER SELECTOR ── */
+.tier-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:4px;}
+@media(max-width:480px){.tier-grid{grid-template-columns:repeat(5,1fr);gap:4px;}}
+.tier-option{cursor:pointer;border:1.5px solid var(–border);background:var(–surface2);padding:8px 4px;border-radius:2px;text-align:center;transition:all 0.15s;position:relative;}
+.tier-option input{display:none;}
+.tier-option .tier-letter{font-family:var(–font-serif);font-size:18px;font-weight:400;line-height:1;}
+.tier-option .tier-label{font-size:7.5px;letter-spacing:0.06em;text-transform:uppercase;color:var(–text-muted);margin-top:3px;line-height:1.2;}
+.tier-option:has(input:checked){border-width:2px;}
+.tier-option[data-tier=“A”]:has(input:checked){border-color:var(–tier-a);background:var(–tier-a-soft);}
+.tier-option[data-tier=“A”]:has(input:checked) .tier-letter{color:var(–tier-a);}
+.tier-option[data-tier=“B”]:has(input:checked){border-color:var(–tier-b);background:var(–tier-b-soft);}
+.tier-option[data-tier=“B”]:has(input:checked) .tier-letter{color:var(–tier-b);}
+.tier-option[data-tier=“C”]:has(input:checked){border-color:var(–tier-c);background:var(–tier-c-soft);}
+.tier-option[data-tier=“C”]:has(input:checked) .tier-letter{color:var(–tier-c);}
+.tier-option[data-tier=“D”]:has(input:checked){border-color:var(–tier-d);background:var(–tier-d-soft);}
+.tier-option[data-tier=“D”]:has(input:checked) .tier-letter{color:var(–tier-d);}
+.tier-option[data-tier=“E”]:has(input:checked){border-color:var(–tier-e);background:var(–tier-e-soft);}
+.tier-option[data-tier=“E”]:has(input:checked) .tier-letter{color:#8a7d6e;}
+
+/* Tier badges in cards */
+.tier-badge{display:inline-flex;align-items:center;justify-content:center;font-family:var(–font-serif);font-size:11px;font-weight:500;width:20px;height:20px;border-radius:50%;border:1.5px solid;flex-shrink:0;}
+.tier-badge.A{color:var(–tier-a);border-color:var(–tier-a);background:var(–tier-a-soft);}
+.tier-badge.B{color:var(–tier-b);border-color:var(–tier-b);background:var(–tier-b-soft);}
+.tier-badge.C{color:var(–tier-c);border-color:var(–tier-c);background:var(–tier-c-soft);}
+.tier-badge.D{color:var(–tier-d);border-color:var(–tier-d);background:var(–tier-d-soft);}
+.tier-badge.E{color:#8a7d6e;border-color:var(–tier-e);background:var(–tier-e-soft);}
+.tier-badge.none{color:var(–text-dim);border-color:var(–border);background:var(–surface2);font-size:10px;}
+
 /* ── AUTH SCREEN ── */
 #auth-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;}
 .auth-box{background:var(–surface);border:1px solid var(–border);border-radius:3px;padding:36px 32px;width:100%;max-width:380px;box-shadow:0 4px 24px rgba(90,70,40,0.08);}
@@ -70,10 +104,38 @@ body{font-family:var(--font-sans);font-weight:300;background:var(--bg);color:var
 
 /* ── APP TABS ── */
 #app-screen{display:none;}
-.app-tab{font-family:var(–font-sans);font-size:10px;letter-spacing:0.11em;text-transform:uppercase;background:none;border:none;border-bottom:2px solid transparent;color:var(–text-muted);padding:12px 20px;cursor:pointer;transition:all 0.15s;}
+.app-tab{font-family:var(–font-sans);font-size:10px;letter-spacing:0.11em;text-transform:uppercase;background:none;border:none;border-bottom:2px solid transparent;color:var(–text-muted);padding:12px 20px;cursor:pointer;transition:all 0.15s;white-space:nowrap;}
 .app-tab.active{color:var(–accent);border-bottom-color:var(–accent);font-weight:500;}
 .app-tab:hover{color:var(–text);}
 .app-panel{display:none;}.app-panel.active{display:block;}
+
+/* ── BUDGET BAR ── */
+.budget-bar{margin:14px 14px 0;background:var(–surface);border:1px solid var(–border);border-radius:3px;padding:14px 16px;}
+@media(min-width:768px){.budget-bar{margin:16px 32px 0;}}
+.budget-bar-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:8px;}
+.budget-bar-title{font-family:var(–font-serif);font-size:14px;font-weight:400;}
+.budget-bar-title em{font-style:italic;color:var(–accent);}
+.budget-edit-btn{background:none;border:1px solid var(–border);color:var(–text-muted);font-size:9px;letter-spacing:0.09em;text-transform:uppercase;padding:4px 10px;border-radius:10px;cursor:pointer;font-family:var(–font-sans);transition:all 0.15s;}
+.budget-edit-btn:hover{border-color:var(–accent);color:var(–accent);}
+.budget-track-outer{position:relative;height:22px;background:var(–surface3);border-radius:2px;overflow:hidden;margin-bottom:8px;border:1px solid var(–border-soft);}
+.budget-track-spent{position:absolute;top:0;left:0;height:100%;background:var(–accent);transition:width 0.4s ease;}
+.budget-track-pending{position:absolute;top:0;height:100%;background:repeating-linear-gradient(45deg,var(–accent-light),var(–accent-light) 5px,rgba(201,169,110,0.6) 5px,rgba(201,169,110,0.6) 10px);transition:all 0.4s ease;}
+.budget-track-over{background:var(–red) !important;}
+.budget-track-label{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:10px;letter-spacing:0.07em;color:var(–text);font-weight:500;text-shadow:0 1px 2px rgba(255,255,255,0.8);pointer-events:none;white-space:nowrap;}
+.budget-legend{display:flex;gap:14px;flex-wrap:wrap;font-size:10px;color:var(–text-muted);}
+.budget-legend-item{display:flex;align-items:center;gap:5px;}
+.budget-legend-sw{width:10px;height:10px;border-radius:1px;}
+.budget-legend-sw.spent{background:var(–accent);}
+.budget-legend-sw.pending{background:repeating-linear-gradient(45deg,var(–accent-light),var(–accent-light) 3px,rgba(201,169,110,0.6) 3px,rgba(201,169,110,0.6) 6px);}
+.budget-legend-sw.remaining{background:var(–surface3);border:1px solid var(–border-soft);}
+.budget-legend-num{font-family:var(–font-serif);font-size:12px;color:var(–text);margin-left:3px;}
+.budget-alert{margin-top:10px;padding:9px 12px;border-radius:2px;font-size:11px;line-height:1.5;display:flex;align-items:flex-start;gap:8px;}
+.budget-alert.warn{background:rgba(184,118,10,0.09);color:#6b5200;border:1px solid rgba(184,118,10,0.25);}
+.budget-alert.over{background:var(–red-soft);color:var(–red-text);border:1px solid rgba(140,74,58,0.25);}
+.budget-alert.good{background:var(–green-soft);color:var(–green-text);border:1px solid var(–green-border);}
+.budget-alert-icon{font-size:14px;flex-shrink:0;line-height:1.1;}
+.budget-empty{text-align:center;padding:8px 0;font-size:11px;color:var(–text-muted);}
+.budget-empty-link{color:var(–accent);cursor:pointer;text-decoration:underline;text-underline-offset:2px;}
 
 /* ── PURCHASES ── */
 .purchases-header{padding:16px 14px 0;display:flex;align-items:center;justify-content:space-between;}
@@ -130,7 +192,7 @@ body{font-family:var(--font-sans);font-weight:300;background:var(--bg);color:var
 .cat-bar-val{font-family:var(–font-serif);font-size:12px;color:var(–text-muted);flex-shrink:0;width:50px;text-align:right;}
 .purch-row{display:flex;gap:10px;padding:9px 10px;border:1px solid var(–border);border-radius:2px;background:var(–surface);margin-bottom:5px;align-items:center;}
 .purch-row-body{flex:1;min-width:0;}
-.purch-row-name{font-family:var(–font-serif);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.purch-row-name{font-family:var(–font-serif);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;gap:6px;}
 .purch-row-meta{font-size:9px;color:var(–text-muted);margin-top:2px;}
 .purch-row-right{display:flex;flex-direction:column;align-items:flex-end;gap:3px;flex-shrink:0;}
 .purch-row-price{font-family:var(–font-serif);font-size:14px;}
@@ -166,6 +228,15 @@ header{background:var(–surface);border-bottom:1px solid var(–border);padding
 .filter-btn{font-family:var(–font-sans);font-size:9px;letter-spacing:0.08em;text-transform:uppercase;background:none;border:1px solid var(–border);color:var(–text-muted);padding:4px 11px;cursor:pointer;border-radius:10px;transition:all 0.15s;}
 .filter-btn.active,.filter-btn:hover{border-color:var(–accent);color:var(–accent);background:var(–accent-dim);}
 
+/* Filters row 2 for tiers */
+.filters-tier{padding:8px 14px;display:flex;gap:6px;align-items:center;border-bottom:1px solid var(–border);background:var(–surface2);flex-wrap:wrap;}
+.tier-filter-btn{font-family:var(–font-serif);font-size:12px;font-weight:400;background:none;border:1.5px solid var(–border);color:var(–text-muted);width:28px;height:28px;cursor:pointer;border-radius:50%;transition:all 0.15s;display:flex;align-items:center;justify-content:center;}
+.tier-filter-btn[data-t=“A”].active,.tier-filter-btn[data-t=“A”]:hover{border-color:var(–tier-a);color:var(–tier-a);background:var(–tier-a-soft);}
+.tier-filter-btn[data-t=“B”].active,.tier-filter-btn[data-t=“B”]:hover{border-color:var(–tier-b);color:var(–tier-b);background:var(–tier-b-soft);}
+.tier-filter-btn[data-t=“C”].active,.tier-filter-btn[data-t=“C”]:hover{border-color:var(–tier-c);color:var(–tier-c);background:var(–tier-c-soft);}
+.tier-filter-btn[data-t=“D”].active,.tier-filter-btn[data-t=“D”]:hover{border-color:var(–tier-d);color:var(–tier-d);background:var(–tier-d-soft);}
+.tier-filter-btn[data-t=“E”].active,.tier-filter-btn[data-t=“E”]:hover{border-color:var(–tier-e);color:#8a7d6e;background:var(–tier-e-soft);}
+
 /* ── LIST ── */
 .list-container{padding:14px 14px 60px;max-width:900px;margin:0 auto;}
 @media(min-width:768px){.list-container{padding:18px 32px 60px;}}
@@ -179,6 +250,7 @@ header{background:var(–surface);border-bottom:1px solid var(–border);padding
 .card.red{border-left:3px solid var(–red);}
 .card-row{display:grid;grid-template-columns:2fr 90px 70px 130px 80px;gap:8px;padding:12px 12px;align-items:center;}
 @media(max-width:600px){.card-row{grid-template-columns:1fr auto;}.col-date,.col-price,.col-cpw{display:none;}}
+.item-name-row{display:flex;align-items:center;gap:8px;}
 .item-name{font-family:var(–font-serif);font-size:14px;font-weight:400;line-height:1.2;}
 .item-sub{font-size:9px;color:var(–text-muted);margin-top:2px;}
 .badge-repl{display:inline-block;font-size:7px;letter-spacing:0.08em;text-transform:uppercase;padding:1px 6px;border-radius:1px;margin-top:3px;background:rgba(80,110,160,0.1);color:#5a7ab0;border:1px solid rgba(80,110,160,0.2);}
@@ -336,31 +408,44 @@ header{background:var(–surface);border-bottom:1px solid var(–border);padding
   <!-- ═══ TAB: WISHLIST ═══ -->
 
   <div class="app-panel active" id="panel-wishlist">
-    <div class="stats-bar" id="stats-bar">
-      <div class="stat"><div class="stat-num" id="stat-total">—</div><div class="stat-label">Σύνολο</div></div>
-      <div class="stat"><div class="stat-num" style="color:var(--green-text)" id="stat-ready">—</div><div class="stat-label">Conscious ✅</div></div>
-      <div class="stat"><div class="stat-num" style="color:#8a6e00" id="stat-yellow">—</div><div class="stat-label">48h Rule 🤔</div></div>
-      <div class="stat"><div class="stat-num" style="color:var(--red-text)" id="stat-waiting">—</div><div class="stat-label">Impulse ⚡</div></div>
-      <div class="stat"><div class="stat-num" style="color:var(--accent)" id="stat-value">—</div><div class="stat-label">Αξία</div></div>
-    </div>
-    <div class="filters">
-      <span class="filter-label">Φίλτρο ·</span>
-      <button class="filter-btn active" onclick="setFilter('all',this)">Όλα</button>
-      <button class="filter-btn" onclick="setFilter('green',this)">✅ Conscious</button>
-      <button class="filter-btn" onclick="setFilter('yellow',this)">🤔 48h Rule</button>
-      <button class="filter-btn" onclick="setFilter('red',this)">⚡ Impulse</button>
-      <button class="filter-btn" onclick="setFilter('replacement',this)">🔄 Αντικατάσταση</button>
-    </div>
-    <div class="list-container">
-      <div class="list-header">
-        <div>Αντικείμενο</div><div>Ημερομηνία</div><div>Τιμή</div>
-        <div>CPW / εβδ.</div><div>Status</div>
-      </div>
-      <div id="items-list">
-        <div class="loading"><div class="spinner"></div><br>Φόρτωση...</div>
-      </div>
 
 ```
+<!-- BUDGET BAR (wishlist view) -->
+<div class="budget-bar" id="budget-bar-wishlist"></div>
+
+<div class="stats-bar" id="stats-bar">
+  <div class="stat"><div class="stat-num" id="stat-total">—</div><div class="stat-label">Σύνολο</div></div>
+  <div class="stat"><div class="stat-num" style="color:var(--green-text)" id="stat-ready">—</div><div class="stat-label">Conscious ✅</div></div>
+  <div class="stat"><div class="stat-num" style="color:#8a6e00" id="stat-yellow">—</div><div class="stat-label">48h Rule 🤔</div></div>
+  <div class="stat"><div class="stat-num" style="color:var(--red-text)" id="stat-waiting">—</div><div class="stat-label">Impulse ⚡</div></div>
+  <div class="stat"><div class="stat-num" style="color:var(--accent)" id="stat-value">—</div><div class="stat-label">Αξία</div></div>
+</div>
+<div class="filters">
+  <span class="filter-label">Status ·</span>
+  <button class="filter-btn active" onclick="setFilter('all',this)">Όλα</button>
+  <button class="filter-btn" onclick="setFilter('green',this)">✅ Conscious</button>
+  <button class="filter-btn" onclick="setFilter('yellow',this)">🤔 48h Rule</button>
+  <button class="filter-btn" onclick="setFilter('red',this)">⚡ Impulse</button>
+  <button class="filter-btn" onclick="setFilter('replacement',this)">🔄 Αντικατάσταση</button>
+</div>
+<div class="filters-tier">
+  <span class="filter-label">Προτεραιότητα ·</span>
+  <button class="filter-btn active" onclick="setTierFilter('all',this)" style="font-size:9px;">Όλες</button>
+  <button class="tier-filter-btn" data-t="A" onclick="setTierFilter('A',this)" title="Επείγει">A</button>
+  <button class="tier-filter-btn" data-t="B" onclick="setTierFilter('B',this)" title="Προτεραιότητα">B</button>
+  <button class="tier-filter-btn" data-t="C" onclick="setTierFilter('C',this)" title="Ζω χωρίς">Γ</button>
+  <button class="tier-filter-btn" data-t="D" onclick="setTierFilter('D',this)" title="Αν βγει το budget">Δ</button>
+  <button class="tier-filter-btn" data-t="E" onclick="setTierFilter('E',this)" title="Μακροπρόθεσμο">E</button>
+</div>
+<div class="list-container">
+  <div class="list-header">
+    <div>Αντικείμενο</div><div>Ημερομηνία</div><div>Τιμή</div>
+    <div>CPW / εβδ.</div><div>Status</div>
+  </div>
+  <div id="items-list">
+    <div class="loading"><div class="spinner"></div><br>Φόρτωση...</div>
+  </div>
+
   <!-- INLINE FORM -->
   <div id="inline-form-wrap" style="display:none;margin-top:10px;">
     <div class="inline-form-header">
@@ -382,7 +467,6 @@ header{background:var(–surface);border-bottom:1px solid var(–border);padding
           <div class="iform-hint">Κενό = σήμερα · παλιά ημ. αν το είχες νωρίτερα</div>
         </div>
 
-        <!-- BRAND DROPDOWN -->
         <div class="iform-group">
           <label>Μάρκα</label>
           <select id="f-brand" onchange="handleBrandChange(this)">
@@ -399,7 +483,6 @@ header{background:var(–surface);border-bottom:1px solid var(–border);padding
             <option>Chloe</option>
             <option>Herschel</option>
             <option>Valentino</option>
-            <!-- custom brands inserted here by JS -->
             <option value="__other__">+ Other…</option>
           </select>
           <input type="text" id="f-brand-other" placeholder="Γράψε τη μάρκα…"
@@ -408,7 +491,6 @@ header{background:var(–surface);border-bottom:1px solid var(–border);padding
             onblur="commitCustomBrand()">
         </div>
 
-        <!-- CATEGORY -->
         <div class="iform-group">
           <label>Κατηγορία</label>
           <select id="f-category">
@@ -444,7 +526,6 @@ header{background:var(–surface);border-bottom:1px solid var(–border);padding
           </select>
         </div>
 
-        <!-- COLOR -->
         <div class="iform-group">
           <label>Χρώμα</label>
           <select id="f-color">
@@ -506,6 +587,39 @@ header{background:var(–surface);border-bottom:1px solid var(–border);padding
           </div>
           <input type="hidden" id="f-material">
         </div>
+      </div>
+    </div>
+
+    <!-- ΠΡΟΤΕΡΑΙΟΤΗΤΑ -->
+    <div class="iform-section">
+      <div class="iform-section-title">Προτεραιότητα Αγοράς</div>
+      <div class="iform-hint" style="margin-bottom:6px;">Πόσο πολύ χρειάζεται τώρα;</div>
+      <div class="tier-grid">
+        <label class="tier-option" data-tier="A">
+          <input type="radio" name="priority" value="A">
+          <div class="tier-letter">A</div>
+          <div class="tier-label">Επείγει</div>
+        </label>
+        <label class="tier-option" data-tier="B">
+          <input type="radio" name="priority" value="B">
+          <div class="tier-letter">B</div>
+          <div class="tier-label">Σύντομα</div>
+        </label>
+        <label class="tier-option" data-tier="C">
+          <input type="radio" name="priority" value="C">
+          <div class="tier-letter">Γ</div>
+          <div class="tier-label">Ζω χωρίς</div>
+        </label>
+        <label class="tier-option" data-tier="D">
+          <input type="radio" name="priority" value="D">
+          <div class="tier-letter">Δ</div>
+          <div class="tier-label">Αν βγει</div>
+        </label>
+        <label class="tier-option" data-tier="E">
+          <input type="radio" name="priority" value="E">
+          <div class="tier-letter">E</div>
+          <div class="tier-label">Wishlist</div>
+        </label>
       </div>
     </div>
 
@@ -618,29 +732,36 @@ header{background:var(–surface);border-bottom:1px solid var(–border);padding
     <div class="purchases-header">
       <div class="purchases-year-label">Αγορές <em id="purchases-year-label">2026</em></div>
     </div>
-    <div class="list-container" style="padding-bottom:0;padding-top:14px;">
-      <div class="metric-tabs">
-        <button class="metric-tab active" onclick="setMetric('cost',this)">€ Κόστος</button>
-        <button class="metric-tab" onclick="setMetric('items',this)"># Τεμάχια</button>
-        <button class="metric-tab" onclick="setMetric('avg',this)">⌀ Μέσο κόστος</button>
-      </div>
-      <div class="purch-section-title" id="metric-row-title">Κόστος</div>
-      <div class="purch-compare-row" id="metric-row"></div>
-      <div id="purch-overall-comment" style="margin-top:10px;"></div>
-    </div>
-    <div class="list-container" style="padding-top:0">
-      <div class="purch-section-title">Ανά κατηγορία</div>
-      <div id="purch-by-category"></div>
-      <div class="purch-section-title" style="margin-top:20px">Αναλυτική λίστα αγορών</div>
-      <div class="filters" style="padding:8px 0;border:none;background:none;margin-bottom:8px;">
-        <button class="filter-btn active" onclick="setPurchFilter('all',this)">Όλες</button>
-        <button class="filter-btn" onclick="setPurchFilter('conscious',this)">✅ Conscious</button>
-        <button class="filter-btn" onclick="setPurchFilter('small-thought',this)">🤔 48h Rule</button>
-        <button class="filter-btn" onclick="setPurchFilter('impulse',this)">⚡ Impulse</button>
-        <button class="filter-btn" onclick="setPurchFilter('replacement',this)">🔄 Αντικατάσταση</button>
-      </div>
-      <div id="purch-list"></div>
-    </div>
+
+```
+<!-- BUDGET BAR (purchases view — spent only) -->
+<div class="budget-bar" id="budget-bar-purchases"></div>
+
+<div class="list-container" style="padding-bottom:0;padding-top:14px;">
+  <div class="metric-tabs">
+    <button class="metric-tab active" onclick="setMetric('cost',this)">€ Κόστος</button>
+    <button class="metric-tab" onclick="setMetric('items',this)"># Τεμάχια</button>
+    <button class="metric-tab" onclick="setMetric('avg',this)">⌀ Μέσο κόστος</button>
+  </div>
+  <div class="purch-section-title" id="metric-row-title">Κόστος</div>
+  <div class="purch-compare-row" id="metric-row"></div>
+  <div id="purch-overall-comment" style="margin-top:10px;"></div>
+</div>
+<div class="list-container" style="padding-top:0">
+  <div class="purch-section-title">Ανά κατηγορία</div>
+  <div id="purch-by-category"></div>
+  <div class="purch-section-title" style="margin-top:20px">Αναλυτική λίστα αγορών</div>
+  <div class="filters" style="padding:8px 0;border:none;background:none;margin-bottom:8px;">
+    <button class="filter-btn active" onclick="setPurchFilter('all',this)">Όλες</button>
+    <button class="filter-btn" onclick="setPurchFilter('conscious',this)">✅ Conscious</button>
+    <button class="filter-btn" onclick="setPurchFilter('small-thought',this)">🤔 48h Rule</button>
+    <button class="filter-btn" onclick="setPurchFilter('impulse',this)">⚡ Impulse</button>
+    <button class="filter-btn" onclick="setPurchFilter('replacement',this)">🔄 Αντικατάσταση</button>
+  </div>
+  <div id="purch-list"></div>
+</div>
+```
+
   </div>
 
   <!-- ═══ TAB: ARCHIVE ═══ -->
@@ -689,6 +810,36 @@ header{background:var(–surface);border-bottom:1px solid var(–border);padding
   </div>
 </div>
 
+<!-- ══ BUDGET MODAL ══ -->
+
+<div class="modal-overlay" id="budget-modal" onclick="if(event.target===this){this.classList.remove('open');document.body.style.overflow='';}">
+  <div class="modal-scroll-wrap">
+    <div class="modal" style="max-width:440px">
+      <div class="modal-title">Ετήσιο <em>Budget</em></div>
+      <div style="font-size:11px;color:var(--text-muted);line-height:1.6;margin-bottom:16px;">
+        Όρισε πόσα θες να ξοδέψεις φέτος για ρούχα & αξεσουάρ. Θα ενημερώνεσαι ξεχωριστά για το πραγματικό spending και για το wishlist.
+      </div>
+      <div class="form-section">
+        <div class="form-grid">
+          <div class="form-group full">
+            <label>Έτος</label>
+            <select id="budget-year"></select>
+          </div>
+          <div class="form-group full">
+            <label>Ετήσιο budget (€)</label>
+            <input type="number" id="budget-amount" placeholder="π.χ. 1500" step="50" min="0" style="font-size:16px;padding:10px 11px;">
+            <div style="font-size:10px;color:var(--text-dim);margin-top:5px;">Άφησε κενό ή 0 για να αφαιρεθεί το budget του έτους</div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-sm" onclick="document.getElementById('budget-modal').classList.remove('open');document.body.style.overflow='';">Ακύρωση</button>
+        <button class="btn-sm primary" id="budget-save-btn" onclick="saveBudget()">Αποθήκευση</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- ══ PURCHASE DATE MODAL ══ -->
 
 <div class="modal-overlay" id="purchase-modal" onclick="if(event.target===this){this.classList.remove('open');document.body.style.overflow='';}">
@@ -728,7 +879,11 @@ const sb = createClient(
 let currentUser = null;
 let allItems = [];
 let currentFilter = 'all';
+let currentTierFilter = 'all';
 let editingId = null;
+
+// Budget state
+let budgetMap = {}; // { 2026: 1500, 2025: 1200, ... }
 
 // ── AUTH ──
 let authMode = 'login';
@@ -745,23 +900,14 @@ async function handleAuth() {
   const email = document.getElementById('auth-email').value.trim();
   const password = document.getElementById('auth-password').value;
   const btn = document.getElementById('auth-btn');
-  const msg = document.getElementById('auth-msg');
-
   if (!email || !password) { showAuthMsg('Συμπλήρωσε email και κωδικό', 'error'); return; }
-
   btn.disabled = true;
   btn.textContent = '…';
-
   let result;
-  if (authMode === 'login') {
-    result = await sb.auth.signInWithPassword({ email, password });
-  } else {
-    result = await sb.auth.signUp({ email, password });
-  }
-
+  if (authMode === 'login') result = await sb.auth.signInWithPassword({ email, password });
+  else result = await sb.auth.signUp({ email, password });
   btn.disabled = false;
   btn.textContent = authMode === 'login' ? 'Σύνδεση' : 'Εγγραφή';
-
   if (result.error) {
     const msgs = {
       'Invalid login credentials': 'Λάθος email ή κωδικός.',
@@ -786,19 +932,227 @@ async function handleLogout() {
   document.getElementById('app-screen').style.display = 'none';
   document.getElementById('auth-screen').style.display = 'flex';
   allItems = [];
+  budgetMap = {};
 }
 
-// ── SESSION LISTENER ──
 sb.auth.onAuthStateChange((event, session) => {
   if (session?.user) {
     currentUser = session.user;
     document.getElementById('auth-screen').style.display = 'none';
     document.getElementById('app-screen').style.display = 'block';
     document.getElementById('user-email-display').textContent = session.user.email.split('@')[0];
+    loadBudgets();
     loadItems();
     loadUniforms();
   }
 });
+
+// ── BUDGET LOAD/SAVE ──
+async function loadBudgets() {
+  if (!currentUser) return;
+  const { data, error } = await sb.from('annual_budgets').select('*').eq('user_id', currentUser.id);
+  if (error) {
+    // Gracefully handle missing table on first run
+    console.warn('Budget table not yet available:', error.message);
+    budgetMap = {};
+  } else {
+    budgetMap = {};
+    (data || []).forEach(b => { budgetMap[b.year] = parseFloat(b.amount); });
+  }
+  renderBudgetBars();
+}
+
+function openBudgetModal(year) {
+  const yearSel = document.getElementById('budget-year');
+  yearSel.innerHTML = '';
+  const curYear = new Date().getFullYear();
+  for (let y = curYear + 1; y >= curYear - 3; y--) {
+    const opt = new Option(y, y);
+    yearSel.add(opt);
+  }
+  yearSel.value = year || curYear;
+  document.getElementById('budget-amount').value = budgetMap[yearSel.value] || '';
+  yearSel.addEventListener('change', () => {
+    document.getElementById('budget-amount').value = budgetMap[yearSel.value] || '';
+  });
+  document.getElementById('budget-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  setTimeout(() => document.getElementById('budget-amount').focus(), 200);
+}
+
+async function saveBudget() {
+  const year = parseInt(document.getElementById('budget-year').value, 10);
+  const amountRaw = document.getElementById('budget-amount').value.trim();
+  const amount = parseFloat(amountRaw);
+  const btn = document.getElementById('budget-save-btn');
+  btn.disabled = true; btn.textContent = '…';
+
+  if (!amountRaw || amount === 0 || isNaN(amount)) {
+    // Delete budget for this year
+    const { error } = await sb.from('annual_budgets').delete().eq('user_id', currentUser.id).eq('year', year);
+    btn.disabled = false; btn.textContent = 'Αποθήκευση';
+    if (error) { showToast('Σφάλμα: ' + error.message); return; }
+    delete budgetMap[year];
+    showToast('✓ Budget αφαιρέθηκε');
+  } else {
+    const { error } = await sb.from('annual_budgets').upsert({
+      user_id: currentUser.id,
+      year,
+      amount,
+    }, { onConflict: 'user_id,year' });
+    btn.disabled = false; btn.textContent = 'Αποθήκευση';
+    if (error) { showToast('Σφάλμα: ' + error.message); return; }
+    budgetMap[year] = amount;
+    showToast('✓ Budget αποθηκεύτηκε');
+  }
+  document.getElementById('budget-modal').classList.remove('open');
+  document.body.style.overflow = '';
+  renderBudgetBars();
+}
+
+// ── BUDGET BAR RENDERING ──
+function renderBudgetBars() {
+  const curYear = new Date().getFullYear();
+  const budget = budgetMap[curYear] || 0;
+
+  // Spent = only purchased items in current year
+  const spent = purchasedItems
+    .filter(i => i.purchase_year === curYear)
+    .reduce((s, i) => s + (i.price || 0), 0);
+
+  // Wishlist value (active wishlist items with price)
+  const wishlistValue = allItems.reduce((s, i) => s + (i.price || 0), 0);
+
+  renderWishlistBudgetBar(budget, spent, wishlistValue, curYear);
+  renderPurchasesBudgetBar(budget, spent, curYear);
+}
+
+function fmtMoney(n) {
+  if (n >= 1000) return '€' + (n / 1000).toFixed(1) + 'k';
+  return '€' + Math.round(n);
+}
+
+function renderWishlistBudgetBar(budget, spent, wishlistValue, year) {
+  const el = document.getElementById('budget-bar-wishlist');
+  if (!el) return;
+  if (!budget) {
+    el.innerHTML = `
+      <div class="budget-bar-head">
+        <div class="budget-bar-title">Budget <em>${year}</em></div>
+        <button class="budget-edit-btn" onclick="openBudgetModal(${year})">+ Όρισε budget</button>
+      </div>
+      <div class="budget-empty">
+        Δεν έχεις ορίσει budget για φέτος.
+        <span class="budget-empty-link" onclick="openBudgetModal(${year})">Πρόσθεσέ το τώρα →</span>
+      </div>`;
+    return;
+  }
+
+  const total = spent + wishlistValue;
+  const spentPct = Math.min(100, (spent / budget) * 100);
+  const pendingPct = Math.min(100 - spentPct, (wishlistValue / budget) * 100);
+  const remaining = Math.max(0, budget - total);
+  const over = Math.max(0, total - budget);
+  const spentOver = spent > budget;
+
+  // Alert logic
+  let alertHtml = '';
+  if (spentOver) {
+    alertHtml = `<div class="budget-alert over">
+      <span class="budget-alert-icon">⚠️</span>
+      <span><strong>Ξεπέρασες το budget!</strong> Έχεις ήδη ξοδέψει ${fmtMoney(spent)} από ${fmtMoney(budget)} — δηλαδή ${fmtMoney(spent - budget)} πάνω απ' το όριο.</span>
+    </div>`;
+  } else if (total > budget) {
+    alertHtml = `<div class="budget-alert warn">
+      <span class="budget-alert-icon">⚠️</span>
+      <span>Αν αγοράσεις όλη τη wishlist σου (${fmtMoney(wishlistValue)}), θα ξεπεράσεις το budget κατά <strong>${fmtMoney(over)}</strong>. Σκέψου ποια είναι προτεραιότητα Α/Β.</span>
+    </div>`;
+  } else if (spent / budget >= 0.8) {
+    alertHtml = `<div class="budget-alert warn">
+      <span class="budget-alert-icon">⏳</span>
+      <span>Έχεις ήδη ξοδέψει το ${Math.round(spent / budget * 100)}% του budget. Απομένουν ${fmtMoney(remaining)}.</span>
+    </div>`;
+  } else if (total <= budget && wishlistValue > 0) {
+    alertHtml = `<div class="budget-alert good">
+      <span class="budget-alert-icon">✨</span>
+      <span>Είσαι εντός budget! Απομένουν <strong>${fmtMoney(remaining)}</strong> αφού αγοράσεις και όλη τη wishlist.</span>
+    </div>`;
+  }
+
+  const spentColorClass = spentOver ? 'budget-track-over' : '';
+  el.innerHTML = `
+    <div class="budget-bar-head">
+      <div class="budget-bar-title">Budget <em>${year}</em> · ${fmtMoney(budget)}</div>
+      <button class="budget-edit-btn" onclick="openBudgetModal(${year})">Επεξεργασία</button>
+    </div>
+    <div class="budget-track-outer">
+      <div class="budget-track-spent ${spentColorClass}" style="width:${spentPct}%"></div>
+      <div class="budget-track-pending" style="left:${spentPct}%;width:${pendingPct}%"></div>
+      <div class="budget-track-label">${fmtMoney(spent)} ξοδευμένα · ${fmtMoney(wishlistValue)} wishlist</div>
+    </div>
+    <div class="budget-legend">
+      <div class="budget-legend-item"><div class="budget-legend-sw spent"></div>Ξοδευμένα <span class="budget-legend-num">${fmtMoney(spent)}</span></div>
+      <div class="budget-legend-item"><div class="budget-legend-sw pending"></div>Wishlist <span class="budget-legend-num">${fmtMoney(wishlistValue)}</span></div>
+      <div class="budget-legend-item"><div class="budget-legend-sw remaining"></div>Διαθέσιμα <span class="budget-legend-num">${fmtMoney(Math.max(0, budget - spent))}</span></div>
+    </div>
+    ${alertHtml}`;
+}
+
+function renderPurchasesBudgetBar(budget, spent, year) {
+  const el = document.getElementById('budget-bar-purchases');
+  if (!el) return;
+  if (!budget) {
+    el.innerHTML = `
+      <div class="budget-bar-head">
+        <div class="budget-bar-title">Budget <em>${year}</em></div>
+        <button class="budget-edit-btn" onclick="openBudgetModal(${year})">+ Όρισε budget</button>
+      </div>
+      <div class="budget-empty">
+        Δεν έχεις ορίσει budget για φέτος.
+        <span class="budget-empty-link" onclick="openBudgetModal(${year})">Πρόσθεσέ το τώρα →</span>
+      </div>`;
+    return;
+  }
+  const spentPct = Math.min(100, (spent / budget) * 100);
+  const over = Math.max(0, spent - budget);
+  const remaining = Math.max(0, budget - spent);
+  const spentOver = spent > budget;
+
+  let alertHtml = '';
+  if (spentOver) {
+    alertHtml = `<div class="budget-alert over">
+      <span class="budget-alert-icon">⚠️</span>
+      <span><strong>Ξεπέρασες το budget του ${year} κατά ${fmtMoney(over)}.</strong> Σύνολο αγορών: ${fmtMoney(spent)} από ${fmtMoney(budget)}.</span>
+    </div>`;
+  } else if (spent / budget >= 0.9) {
+    alertHtml = `<div class="budget-alert warn">
+      <span class="budget-alert-icon">⏳</span>
+      <span>Είσαι στο ${Math.round(spent / budget * 100)}% του budget. Απομένουν μόλις <strong>${fmtMoney(remaining)}</strong>.</span>
+    </div>`;
+  } else if (spent / budget >= 0.5) {
+    alertHtml = `<div class="budget-alert good">
+      <span class="budget-alert-icon">✨</span>
+      <span>${Math.round(spent / budget * 100)}% του budget χρησιμοποιημένο. Απομένουν ${fmtMoney(remaining)}.</span>
+    </div>`;
+  } else {
+    alertHtml = `<div class="budget-alert good">
+      <span class="budget-alert-icon">✨</span>
+      <span>Μόλις ${Math.round(spent / budget * 100)}% του budget — έχεις ακόμα ${fmtMoney(remaining)} διαθέσιμα.</span>
+    </div>`;
+  }
+
+  const spentColorClass = spentOver ? 'budget-track-over' : '';
+  el.innerHTML = `
+    <div class="budget-bar-head">
+      <div class="budget-bar-title">Budget <em>${year}</em> · ${fmtMoney(budget)} · Ξοδευμένα</div>
+      <button class="budget-edit-btn" onclick="openBudgetModal(${year})">Επεξεργασία</button>
+    </div>
+    <div class="budget-track-outer">
+      <div class="budget-track-spent ${spentColorClass}" style="width:${spentPct}%"></div>
+      <div class="budget-track-label">${fmtMoney(spent)} / ${fmtMoney(budget)}${spentOver ? ' · +' + fmtMoney(over) : ''}</div>
+    </div>
+    ${alertHtml}`;
+}
 
 // ── LOAD ITEMS ──
 async function loadItems() {
@@ -808,6 +1162,30 @@ async function loadItems() {
   allItems = data || [];
   renderItems();
   updateStats();
+  // Also load purchases so budget bar has spent data
+  await loadPurchasesSilent();
+  renderBudgetBars();
+}
+
+async function loadPurchasesSilent() {
+  const currentYear = new Date().getFullYear();
+  const { data } = await sb.from('wishlist').select('*').eq('purchased', true).eq('purchase_year', currentYear).order('purchased_at', { ascending: false });
+  purchasedItems = data || [];
+}
+
+// ── TIER HELPERS ──
+const TIER_INFO = {
+  A: { label: 'Επείγει', full: 'A — Επείγει', color: 'var(--tier-a)' },
+  B: { label: 'Σύντομα', full: 'B — Προτεραιότητα', color: 'var(--tier-b)' },
+  C: { label: 'Ζω χωρίς', full: 'Γ — Ζω χωρίς', color: 'var(--tier-c)' },
+  D: { label: 'Αν βγει', full: 'Δ — Αν βγει το budget', color: 'var(--tier-d)' },
+  E: { label: 'Wishlist', full: 'E — Μακροπρόθεσμο', color: '#8a7d6e' },
+};
+const TIER_DISPLAY = { A: 'A', B: 'B', C: 'Γ', D: 'Δ', E: 'E' };
+
+function tierBadgeHtml(tier) {
+  if (!tier) return `<span class="tier-badge none" title="Δεν έχει οριστεί">–</span>`;
+  return `<span class="tier-badge ${tier}" title="${TIER_INFO[tier].full}">${TIER_DISPLAY[tier]}</span>`;
 }
 
 // ── RENDER ──
@@ -819,10 +1197,23 @@ function renderItems() {
   else if (currentFilter === 'red') items = items.filter(i => getStatus(i) === 'red');
   else if (currentFilter === 'replacement') items = items.filter(i => i.is_replacement);
 
+  if (currentTierFilter !== 'all') {
+    items = items.filter(i => i.priority === currentTierFilter);
+  }
+
+  // Sort: by priority (A before E), then by status/recency
+  const tierOrder = { A: 1, B: 2, C: 3, D: 4, E: 5 };
+  items.sort((a, b) => {
+    const ta = tierOrder[a.priority] || 99;
+    const tb = tierOrder[b.priority] || 99;
+    if (ta !== tb) return ta - tb;
+    return new Date(b.created_at) - new Date(a.created_at);
+  });
+
   if (!items.length) {
     list.innerHTML = `<div class="empty-state">
-      <div class="empty-title">Καμία εγγραφή ακόμα</div>
-      <div class="empty-sub">${currentFilter === 'all' ? 'Πρόσθεσε το πρώτο σου wishlist item!' : 'Δεν υπάρχουν αντικείμενα με αυτό το φίλτρο.'}</div>
+      <div class="empty-title">Καμία εγγραφή</div>
+      <div class="empty-sub">${currentFilter === 'all' && currentTierFilter === 'all' ? 'Πρόσθεσε το πρώτο σου wishlist item!' : 'Δεν υπάρχουν αντικείμενα με αυτά τα φίλτρα.'}</div>
     </div>`;
     return;
   }
@@ -902,7 +1293,6 @@ function renderCard(item) {
 
   const statusLabel = status === 'green' ? 'Conscious ✅' : status === 'yellow' ? '48h Rule 🤔' : 'Impulse ⚡';
 
-  // Show matched uniform names
   let uniformHtml = '';
   if (item.uniform_ids && item.uniform_ids.length && allUniforms.length) {
     const matched = allUniforms.filter(u => item.uniform_ids.includes(u.id));
@@ -918,7 +1308,10 @@ function renderCard(item) {
   <div class="card ${status}" id="card-${item.id}" onclick="toggleCard('${item.id}')">
     <div class="card-row">
       <div>
-        <div class="item-name">${escHtml(item.title)}</div>
+        <div class="item-name-row">
+          ${tierBadgeHtml(item.priority)}
+          <div class="item-name">${escHtml(item.title)}</div>
+        </div>
         <div class="item-sub">${[item.brand, item.category, item.color, item.material].filter(Boolean).join(' · ') || '—'}</div>
         ${item.is_replacement ? '<span class="badge-repl">Αντικατάσταση</span>' : ''}
       </div>
@@ -929,6 +1322,7 @@ function renderCard(item) {
     </div>
     <div class="card-detail">
       <div class="detail-grid">
+        ${item.priority ? `<div class="detail-item"><label>Προτεραιότητα</label><value>${TIER_INFO[item.priority].full}</value></div>` : ''}
         ${item.brand ? `<div class="detail-item"><label>Μάρκα</label><value>${escHtml(item.brand)}</value></div>` : ''}
         ${item.category ? `<div class="detail-item"><label>Κατηγορία</label><value>${escHtml(item.category)}</value></div>` : ''}
         ${item.color ? `<div class="detail-item"><label>Χρώμα</label><value>${escHtml(item.color)}</value></div>` : ''}
@@ -975,7 +1369,14 @@ function updateStats() {
 
 function setFilter(f, btn) {
   currentFilter = f;
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('#panel-wishlist .filters .filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderItems();
+}
+
+function setTierFilter(t, btn) {
+  currentTierFilter = t;
+  document.querySelectorAll('.filters-tier .filter-btn, .filters-tier .tier-filter-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   renderItems();
 }
@@ -1016,7 +1417,6 @@ function openInlineForm(item = null) {
   editingId = item ? item.id : null;
   document.getElementById('inline-form-title').innerHTML = item ? 'Επεξεργασία <em>Εγγραφής</em>' : 'Νέα <em>Εγγραφή</em>';
 
-  // Reset fields
   ['f-title','f-category','f-color','f-sleeve','f-neckline','f-length','f-season',
    'f-price','f-cpw-cat','f-times','f-link','f-outfit1','f-outfit2','f-outfit3','f-notes','f-entry-date'].forEach(id => {
     const el = document.getElementById(id); if (el) el.value = '';
@@ -1025,6 +1425,8 @@ function openInlineForm(item = null) {
   document.getElementById('f-brand').value = '';
   document.getElementById('f-brand-other').style.display = 'none';
   document.getElementById('f-brand-other').value = '';
+  // Reset priority radios
+  document.querySelectorAll('input[name="priority"]').forEach(r => r.checked = false);
   resetMaterialChips();
   renderUniformSelector(item?.uniform_ids || []);
   ['cpw-val','cpw-target','cpw-needed'].forEach(id => {
@@ -1034,7 +1436,6 @@ function openInlineForm(item = null) {
 
   if (item) {
     document.getElementById('f-title').value = item.title || '';
-    // Brand
     if (item.brand) {
       const bSel = document.getElementById('f-brand');
       const match = [...bSel.options].find(o => o.value === item.brand);
@@ -1057,11 +1458,14 @@ function openInlineForm(item = null) {
     document.getElementById('f-outfit3').value = item.outfit_3 || '';
     document.getElementById('f-notes').value = item.notes || '';
     document.getElementById('f-replacement').checked = item.is_replacement || false;
+    if (item.priority) {
+      const r = document.querySelector(`input[name="priority"][value="${item.priority}"]`);
+      if (r) r.checked = true;
+    }
     if (item.created_at) document.getElementById('f-entry-date').value = item.created_at.split('T')[0];
     calcCPW();
   }
 
-  // Switch to wishlist tab
   document.querySelectorAll('.app-tab').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('.app-panel').forEach(p => p.classList.remove('active'));
   document.querySelector('.app-tab').classList.add('active');
@@ -1081,17 +1485,12 @@ function openModal(item = null) { openInlineForm(item); }
 function closeModal() { closeInlineForm(); }
 
 // ── BRAND DROPDOWN ──
-// Single source of truth — stored in localStorage key 'wb_brands'
 let customBrands = JSON.parse(localStorage.getItem('wb_brands') || '[]');
 
 function handleBrandChange(sel) {
   const other = document.getElementById('f-brand-other');
-  if (sel.value === '__other__') {
-    other.style.display = 'block';
-    other.focus();
-  } else {
-    other.style.display = 'none';
-  }
+  if (sel.value === '__other__') { other.style.display = 'block'; other.focus(); }
+  else { other.style.display = 'none'; }
 }
 
 function commitCustomBrand() {
@@ -1107,19 +1506,9 @@ function addCustomBrand(val) {
   }
   val = val.trim();
   const sel = document.getElementById('f-brand');
-  // Check if already in select
   const existing = [...sel.options].find(o => o.value === val && o.value !== '__other__');
-  if (existing) {
-    sel.value = val;
-    document.getElementById('f-brand-other').style.display = 'none';
-    return;
-  }
-  // Add to localStorage
-  if (!customBrands.includes(val)) {
-    customBrands.push(val);
-    localStorage.setItem('wb_brands', JSON.stringify(customBrands));
-  }
-  // Add to select before __other__
+  if (existing) { sel.value = val; document.getElementById('f-brand-other').style.display = 'none'; return; }
+  if (!customBrands.includes(val)) { customBrands.push(val); localStorage.setItem('wb_brands', JSON.stringify(customBrands)); }
   const otherOpt = sel.querySelector('option[value="__other__"]');
   const newOpt = new Option(val, val);
   newOpt.dataset.custom = '1';
@@ -1151,7 +1540,6 @@ function initCustomBrands() {
 let customMaterials = JSON.parse(localStorage.getItem('wb_materials') || '[]');
 
 function initMaterialChips() {
-  // Render saved custom materials
   const wrap = document.getElementById('material-custom-chips');
   if (!wrap) return;
   customMaterials.forEach(val => {
@@ -1162,23 +1550,16 @@ function initMaterialChips() {
       wrap.appendChild(lbl);
     }
   });
-  // Sync on any chip change
   document.getElementById('material-chips').addEventListener('change', syncMaterialHidden);
 }
 
 function addCustomMaterial(val) {
   val = val.trim();
   if (!val) return;
-  // Check not duplicate
   const allCbs = [...document.querySelectorAll('#material-chips input[type=checkbox]')];
   const existing = allCbs.find(cb => cb.value === val);
   if (existing) { existing.checked = true; syncMaterialHidden(); return; }
-  // Add to localStorage
-  if (!customMaterials.includes(val)) {
-    customMaterials.push(val);
-    localStorage.setItem('wb_materials', JSON.stringify(customMaterials));
-  }
-  // Add chip
+  if (!customMaterials.includes(val)) { customMaterials.push(val); localStorage.setItem('wb_materials', JSON.stringify(customMaterials)); }
   const wrap = document.getElementById('material-custom-chips');
   const lbl = document.createElement('label');
   lbl.className = 'mat-chip';
@@ -1219,6 +1600,7 @@ async function saveItem() {
 
   syncMaterialHidden();
   const entryDateVal = document.getElementById('f-entry-date').value;
+  const priorityRadio = document.querySelector('input[name="priority"]:checked');
 
   const payload = {
     user_id: currentUser.id,
@@ -1241,15 +1623,13 @@ async function saveItem() {
     outfit_3: document.getElementById('f-outfit3').value.trim() || null,
     notes: document.getElementById('f-notes').value.trim() || null,
     is_replacement: document.getElementById('f-replacement').checked,
+    priority: priorityRadio ? priorityRadio.value : null,
     ...(entryDateVal ? { created_at: new Date(entryDateVal).toISOString() } : {}),
   };
 
   let error;
-  if (editingId) {
-    ({ error } = await sb.from('wishlist').update(payload).eq('id', editingId));
-  } else {
-    ({ error } = await sb.from('wishlist').insert(payload));
-  }
+  if (editingId) ({ error } = await sb.from('wishlist').update(payload).eq('id', editingId));
+  else ({ error } = await sb.from('wishlist').insert(payload));
 
   btn.disabled = false; btn.textContent = 'Αποθήκευση';
   if (error) { showToast('Σφάλμα αποθήκευσης: ' + error.message); return; }
@@ -1342,6 +1722,7 @@ async function confirmPurchase() {
   const v = VERDICT_MESSAGES[purchCat];
   showToast(`${v.icon} ${v.title} recorded!`);
   await loadPurchases();
+  renderBudgetBars();
 }
 
 // ── APP TABS ──
@@ -1375,6 +1756,7 @@ async function loadPurchases() {
   const { data } = await sb.from('wishlist').select('*').eq('purchased', true).eq('purchase_year', currentYear).order('purchased_at', { ascending: false });
   purchasedItems = data || [];
   renderPurchases();
+  renderBudgetBars();
 }
 
 function getPurchCat(item) {
@@ -1418,7 +1800,6 @@ function renderPurchases() {
     <div class="purch-compare-sep">${mc.sep}</div>
     <div class="purch-compare-card repl"><div class="purch-compare-num">${mc.rVal}</div><div class="purch-compare-lbl">Repl.</div></div>`;
 
-  // Overall comment
   let overallComment='';
   if(total>0){
     if(currentMetric==='cost'){
@@ -1438,7 +1819,6 @@ function renderPurchases() {
   const overallEl=document.getElementById('purch-overall-comment');
   if(overallEl)overallEl.innerHTML=overallComment?`<div class="insight-card"><span class="insight-msg">${overallComment}</span></div>`:'';
 
-  // Category breakdown
   const CAT_GROUP={'Sneakers':'Παπούτσια','Boots / Booties':'Παπούτσια','Flats':'Παπούτσια','Sandals':'Παπούτσια','Heels':'Παπούτσια','Τσάντες':'Αξεσουάρ','Γυαλιά ηλίου':'Αξεσουάρ','Πορτοφόλι':'Αξεσουάρ','Κοσμήματα':'Αξεσουάρ','Αξεσουάρ — Other':'Αξεσουάρ','Blazers':'Outerwear','Jackets':'Outerwear','Παλτά':'Outerwear','Καμπαρντίνες / Trench':'Outerwear'};
   const catMap={};
   items.forEach(i=>{
@@ -1478,7 +1858,6 @@ function renderPurchases() {
     }).join('')
     :'<div style="color:var(--text-dim);font-size:11px;padding:8px 0">Καμία αγορά ακόμα φέτος</div>';
 
-  // Detailed list
   let filtered=[...items].sort((a,b)=>(b.purchased_at||'').localeCompare(a.purchased_at||''));
   if(purchFilter==='conscious')filtered=conscious.slice().sort((a,b)=>(b.purchased_at||'').localeCompare(a.purchased_at||''));
   else if(purchFilter==='small-thought')filtered=smallThought.slice().sort((a,b)=>(b.purchased_at||'').localeCompare(a.purchased_at||''));
@@ -1489,7 +1868,8 @@ function renderPurchases() {
   document.getElementById('purch-list').innerHTML=filtered.length
     ?filtered.map(item=>{
       const{cls,label}=BADGE[getPurchCat(item)]||BADGE.impulse;
-      return`<div class="purch-row"><div class="purch-row-body"><div class="purch-row-name">${escHtml(item.title)}</div><div class="purch-row-meta">${[item.brand,item.category,item.purchased_at?fmtDateShort(item.purchased_at):''].filter(Boolean).join(' · ')}</div></div><div class="purch-row-right"><div class="purch-row-price">${item.price?`€${item.price}`:'—'}</div><span class="purch-badge ${cls}">${label}</span></div></div>`;
+      const tierBdg = item.priority ? tierBadgeHtml(item.priority) : '';
+      return`<div class="purch-row"><div class="purch-row-body"><div class="purch-row-name">${tierBdg}${escHtml(item.title)}</div><div class="purch-row-meta">${[item.brand,item.category,item.purchased_at?fmtDateShort(item.purchased_at):''].filter(Boolean).join(' · ')}</div></div><div class="purch-row-right"><div class="purch-row-price">${item.price?`€${item.price}`:'—'}</div><span class="purch-badge ${cls}">${label}</span></div></div>`;
     }).join('')
     :'<div style="color:var(--text-dim);font-size:11px;padding:8px 0">Καμία αγορά σε αυτή την κατηγορία</div>';
 }
@@ -1527,7 +1907,25 @@ async function loadArchive() {
     const cI=items.filter(i=>getPurchCat(i)==='impulse').reduce((s,i)=>s+(i.price||0),0);
     const cR=items.filter(i=>getPurchCat(i)==='replacement').reduce((s,i)=>s+(i.price||0),0);
     const comment=nI===0?'🌟 Zero impulse purchases this year!':((nC+nR)/total>=0.6?`✨ ${Math.round((nC+nR)/total*100)}% conscious decisions in ${year}.`:`⚡ ${Math.round(nI/total*100)}% of ${year} purchases were impulse.`);
+
+    // Budget comparison for archived years
+    let budgetBlock = '';
+    const yearBudget = budgetMap[parseInt(year, 10)];
+    if (yearBudget) {
+      const diff = yearBudget - totalCost;
+      if (totalCost > yearBudget) {
+        budgetBlock = `<div style="margin:8px 0;padding:8px 11px;background:var(--red-soft);border:1px solid rgba(140,74,58,0.22);border-radius:2px;font-size:10px;color:var(--red-text);">
+          ⚠️ Ξεπέρασες το budget του ${year} (${fmt(yearBudget)}) κατά <strong>${fmt(Math.abs(diff))}</strong>.
+        </div>`;
+      } else {
+        budgetBlock = `<div style="margin:8px 0;padding:8px 11px;background:var(--green-soft);border:1px solid var(--green-border);border-radius:2px;font-size:10px;color:var(--green-text);">
+          ✨ Έμεινες εντός budget ${year} — ${fmt(totalCost)}/${fmt(yearBudget)} (${fmt(diff)} κάτω από το όριο).
+        </div>`;
+      }
+    }
+
     return`<div class="archive-year-block"><div class="archive-year-title"><em>${year}</em></div>
+      ${budgetBlock}
       <div style="font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);margin:6px 0 4px;">Τεμάχια</div>
       <div class="purch-compare-row" style="margin-bottom:8px;">
         <div class="purch-compare-card total" style="min-width:46px;"><div class="purch-compare-num">${total}</div><div class="purch-compare-lbl">Σύνολο</div></div>

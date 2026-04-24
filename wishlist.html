@@ -56,30 +56,50 @@ body{font-family:var(--font-sans);font-weight:300;background:var(--bg);color:var
 /* ── PRIORITY TIER SELECTOR ── */
 .tier-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:4px;}
 @media(max-width:480px){.tier-grid{grid-template-columns:repeat(5,1fr);gap:4px;}}
-.tier-option{cursor:pointer;border:1.5px solid var(–border);background:var(–surface2);padding:8px 4px;border-radius:2px;text-align:center;transition:all 0.15s;position:relative;}
+.tier-option{cursor:pointer;border:1.5px solid var(–border);background:var(–surface2);padding:10px 4px 9px;border-radius:3px;text-align:center;transition:all 0.18s;position:relative;display:block;}
 .tier-option input{display:none;}
-.tier-option .tier-letter{font-family:var(–font-serif);font-size:18px;font-weight:400;line-height:1;}
-.tier-option .tier-label{font-size:7.5px;letter-spacing:0.06em;text-transform:uppercase;color:var(–text-muted);margin-top:3px;line-height:1.2;}
-.tier-option:has(input:checked){border-width:2px;}
-.tier-option[data-tier=“A”]:has(input:checked){border-color:var(–tier-a);background:var(–tier-a-soft);}
-.tier-option[data-tier=“A”]:has(input:checked) .tier-letter{color:var(–tier-a);}
-.tier-option[data-tier=“B”]:has(input:checked){border-color:var(–tier-b);background:var(–tier-b-soft);}
-.tier-option[data-tier=“B”]:has(input:checked) .tier-letter{color:var(–tier-b);}
-.tier-option[data-tier=“C”]:has(input:checked){border-color:var(–tier-c);background:var(–tier-c-soft);}
-.tier-option[data-tier=“C”]:has(input:checked) .tier-letter{color:var(–tier-c);}
-.tier-option[data-tier=“D”]:has(input:checked){border-color:var(–tier-d);background:var(–tier-d-soft);}
-.tier-option[data-tier=“D”]:has(input:checked) .tier-letter{color:var(–tier-d);}
-.tier-option[data-tier=“E”]:has(input:checked){border-color:var(–tier-e);background:var(–tier-e-soft);}
-.tier-option[data-tier=“E”]:has(input:checked) .tier-letter{color:#8a7d6e;}
+.tier-option .tier-letter{font-family:var(–font-serif);font-size:20px;font-weight:400;line-height:1;transition:color 0.18s;}
+.tier-option .tier-label{font-size:7.5px;letter-spacing:0.06em;text-transform:uppercase;color:var(–text-muted);margin-top:4px;line-height:1.2;transition:color 0.18s;}
+.tier-option:hover{border-color:var(–text-muted);transform:translateY(-1px);}
+/* Selected states — class-based for maximum browser compatibility */
+.tier-option.selected{border-width:2.5px;padding:9px 3px 8px;transform:translateY(-2px);box-shadow:0 3px 10px rgba(90,70,40,0.15);}
+.tier-option.selected .tier-letter{font-weight:500;}
+.tier-option.selected .tier-label{font-weight:500;}
+.tier-option.selected::after{content:“✓”;position:absolute;top:-7px;right:-7px;width:18px;height:18px;border-radius:50%;background:#fff;color:var(–text);font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 4px rgba(0,0,0,0.18);border:1.5px solid;}
+
+.tier-option[data-tier=“A”].selected{border-color:#8c4a3a;background:#e8c4b8;}
+.tier-option[data-tier=“A”].selected .tier-letter{color:#6b3020;}
+.tier-option[data-tier=“A”].selected .tier-label{color:#8c4a3a;}
+.tier-option[data-tier=“A”].selected::after{color:#8c4a3a;border-color:#8c4a3a;}
+
+.tier-option[data-tier=“B”].selected{border-color:#b8760a;background:#f0d9a8;}
+.tier-option[data-tier=“B”].selected .tier-letter{color:#8a5700;}
+.tier-option[data-tier=“B”].selected .tier-label{color:#b8760a;}
+.tier-option[data-tier=“B”].selected::after{color:#b8760a;border-color:#b8760a;}
+
+.tier-option[data-tier=“C”].selected{border-color:#6b5f52;background:#d8d0c4;}
+.tier-option[data-tier=“C”].selected .tier-letter{color:#4a4038;}
+.tier-option[data-tier=“C”].selected .tier-label{color:#6b5f52;}
+.tier-option[data-tier=“C”].selected::after{color:#6b5f52;border-color:#6b5f52;}
+
+.tier-option[data-tier=“D”].selected{border-color:#5a7090;background:#c8d4e4;}
+.tier-option[data-tier=“D”].selected .tier-letter{color:#3a4a60;}
+.tier-option[data-tier=“D”].selected .tier-label{color:#5a7090;}
+.tier-option[data-tier=“D”].selected::after{color:#5a7090;border-color:#5a7090;}
+
+.tier-option[data-tier=“E”].selected{border-color:#8a7d6e;background:#e0d8cc;}
+.tier-option[data-tier=“E”].selected .tier-letter{color:#4a4038;}
+.tier-option[data-tier=“E”].selected .tier-label{color:#6b5f52;}
+.tier-option[data-tier=“E”].selected::after{color:#8a7d6e;border-color:#8a7d6e;}
 
 /* Tier badges in cards */
-.tier-badge{display:inline-flex;align-items:center;justify-content:center;font-family:var(–font-serif);font-size:11px;font-weight:500;width:20px;height:20px;border-radius:50%;border:1.5px solid;flex-shrink:0;}
-.tier-badge.A{color:var(–tier-a);border-color:var(–tier-a);background:var(–tier-a-soft);}
-.tier-badge.B{color:var(–tier-b);border-color:var(–tier-b);background:var(–tier-b-soft);}
-.tier-badge.C{color:var(–tier-c);border-color:var(–tier-c);background:var(–tier-c-soft);}
-.tier-badge.D{color:var(–tier-d);border-color:var(–tier-d);background:var(–tier-d-soft);}
-.tier-badge.E{color:#8a7d6e;border-color:var(–tier-e);background:var(–tier-e-soft);}
-.tier-badge.none{color:var(–text-dim);border-color:var(–border);background:var(–surface2);font-size:10px;}
+.tier-badge{display:inline-flex;align-items:center;justify-content:center;font-family:var(–font-serif);font-size:11px;font-weight:600;width:22px;height:22px;border-radius:50%;border:2px solid;flex-shrink:0;}
+.tier-badge.A{color:#fff;border-color:#8c4a3a;background:#8c4a3a;}
+.tier-badge.B{color:#fff;border-color:#b8760a;background:#b8760a;}
+.tier-badge.C{color:#fff;border-color:#6b5f52;background:#6b5f52;}
+.tier-badge.D{color:#fff;border-color:#5a7090;background:#5a7090;}
+.tier-badge.E{color:#4a4038;border-color:#8a7d6e;background:#d8d0c4;}
+.tier-badge.none{color:var(–text-dim);border-color:var(–border);background:var(–surface2);font-size:10px;font-weight:400;border-width:1.5px;}
 
 /* ── AUTH SCREEN ── */
 #auth-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;}
@@ -230,12 +250,13 @@ header{background:var(–surface);border-bottom:1px solid var(–border);padding
 
 /* Filters row 2 for tiers */
 .filters-tier{padding:8px 14px;display:flex;gap:6px;align-items:center;border-bottom:1px solid var(–border);background:var(–surface2);flex-wrap:wrap;}
-.tier-filter-btn{font-family:var(–font-serif);font-size:12px;font-weight:400;background:none;border:1.5px solid var(–border);color:var(–text-muted);width:28px;height:28px;cursor:pointer;border-radius:50%;transition:all 0.15s;display:flex;align-items:center;justify-content:center;}
-.tier-filter-btn[data-t=“A”].active,.tier-filter-btn[data-t=“A”]:hover{border-color:var(–tier-a);color:var(–tier-a);background:var(–tier-a-soft);}
-.tier-filter-btn[data-t=“B”].active,.tier-filter-btn[data-t=“B”]:hover{border-color:var(–tier-b);color:var(–tier-b);background:var(–tier-b-soft);}
-.tier-filter-btn[data-t=“C”].active,.tier-filter-btn[data-t=“C”]:hover{border-color:var(–tier-c);color:var(–tier-c);background:var(–tier-c-soft);}
-.tier-filter-btn[data-t=“D”].active,.tier-filter-btn[data-t=“D”]:hover{border-color:var(–tier-d);color:var(–tier-d);background:var(–tier-d-soft);}
-.tier-filter-btn[data-t=“E”].active,.tier-filter-btn[data-t=“E”]:hover{border-color:var(–tier-e);color:#8a7d6e;background:var(–tier-e-soft);}
+.tier-filter-btn{font-family:var(–font-serif);font-size:12px;font-weight:500;background:var(–surface);border:1.5px solid var(–border);color:var(–text-muted);width:30px;height:30px;cursor:pointer;border-radius:50%;transition:all 0.15s;display:flex;align-items:center;justify-content:center;}
+.tier-filter-btn:hover{transform:translateY(-1px);}
+.tier-filter-btn[data-t=“A”].active,.tier-filter-btn[data-t=“A”]:hover{border-color:#8c4a3a;color:#fff;background:#8c4a3a;}
+.tier-filter-btn[data-t=“B”].active,.tier-filter-btn[data-t=“B”]:hover{border-color:#b8760a;color:#fff;background:#b8760a;}
+.tier-filter-btn[data-t=“C”].active,.tier-filter-btn[data-t=“C”]:hover{border-color:#6b5f52;color:#fff;background:#6b5f52;}
+.tier-filter-btn[data-t=“D”].active,.tier-filter-btn[data-t=“D”]:hover{border-color:#5a7090;color:#fff;background:#5a7090;}
+.tier-filter-btn[data-t=“E”].active,.tier-filter-btn[data-t=“E”]:hover{border-color:#8a7d6e;color:#4a4038;background:#d8d0c4;}
 
 /* ── LIST ── */
 .list-container{padding:14px 14px 60px;max-width:900px;margin:0 auto;}
@@ -431,11 +452,11 @@ header{background:var(–surface);border-bottom:1px solid var(–border);padding
 <div class="filters-tier">
   <span class="filter-label">Προτεραιότητα ·</span>
   <button class="filter-btn active" onclick="setTierFilter('all',this)" style="font-size:9px;">Όλες</button>
-  <button class="tier-filter-btn" data-t="A" onclick="setTierFilter('A',this)" title="Επείγει">A</button>
-  <button class="tier-filter-btn" data-t="B" onclick="setTierFilter('B',this)" title="Προτεραιότητα">B</button>
-  <button class="tier-filter-btn" data-t="C" onclick="setTierFilter('C',this)" title="Ζω χωρίς">Γ</button>
-  <button class="tier-filter-btn" data-t="D" onclick="setTierFilter('D',this)" title="Αν βγει το budget">Δ</button>
-  <button class="tier-filter-btn" data-t="E" onclick="setTierFilter('E',this)" title="Μακροπρόθεσμο">E</button>
+  <button class="tier-filter-btn" data-t="A" onclick="setTierFilter('A',this)" title="Προτεραιότητα — το χρειάζομαι">A</button>
+  <button class="tier-filter-btn" data-t="B" onclick="setTierFilter('B',this)" title="Σημαντικό">B</button>
+  <button class="tier-filter-btn" data-t="C" onclick="setTierFilter('C',this)" title="Μου αρέσει, το σκέφτομαι">Γ</button>
+  <button class="tier-filter-btn" data-t="D" onclick="setTierFilter('D',this)" title="Το είδα και τρελάθηκα">Δ</button>
+  <button class="tier-filter-btn" data-t="E" onclick="setTierFilter('E',this)" title="Αν περισσέψει budget">E</button>
 </div>
 <div class="list-container">
   <div class="list-header">
@@ -593,34 +614,35 @@ header{background:var(–surface);border-bottom:1px solid var(–border);padding
     <!-- ΠΡΟΤΕΡΑΙΟΤΗΤΑ -->
     <div class="iform-section">
       <div class="iform-section-title">Προτεραιότητα Αγοράς</div>
-      <div class="iform-hint" style="margin-bottom:6px;">Πόσο πολύ χρειάζεται τώρα;</div>
+      <div class="iform-hint" style="margin-bottom:8px;">Πόσο πολύ το θέλεις;</div>
       <div class="tier-grid">
-        <label class="tier-option" data-tier="A">
+        <label class="tier-option" data-tier="A" onclick="selectTier('A')">
           <input type="radio" name="priority" value="A">
           <div class="tier-letter">A</div>
-          <div class="tier-label">Επείγει</div>
+          <div class="tier-label">Προτεραιότητα</div>
         </label>
-        <label class="tier-option" data-tier="B">
+        <label class="tier-option" data-tier="B" onclick="selectTier('B')">
           <input type="radio" name="priority" value="B">
           <div class="tier-letter">B</div>
-          <div class="tier-label">Σύντομα</div>
+          <div class="tier-label">Σημαντικό</div>
         </label>
-        <label class="tier-option" data-tier="C">
+        <label class="tier-option" data-tier="C" onclick="selectTier('C')">
           <input type="radio" name="priority" value="C">
           <div class="tier-letter">Γ</div>
-          <div class="tier-label">Ζω χωρίς</div>
+          <div class="tier-label">Το σκέφτομαι</div>
         </label>
-        <label class="tier-option" data-tier="D">
+        <label class="tier-option" data-tier="D" onclick="selectTier('D')">
           <input type="radio" name="priority" value="D">
           <div class="tier-letter">Δ</div>
-          <div class="tier-label">Αν βγει</div>
+          <div class="tier-label">Τρελάθηκα</div>
         </label>
-        <label class="tier-option" data-tier="E">
+        <label class="tier-option" data-tier="E" onclick="selectTier('E')">
           <input type="radio" name="priority" value="E">
           <div class="tier-letter">E</div>
-          <div class="tier-label">Wishlist</div>
+          <div class="tier-label">Αν περισσέψει</div>
         </label>
       </div>
+      <div class="iform-hint" id="tier-hint-text" style="margin-top:8px;min-height:15px;"></div>
     </div>
 
     <!-- ΧΑΡΑΚΤΗΡΙΣΤΙΚΑ -->
@@ -1175,17 +1197,29 @@ async function loadPurchasesSilent() {
 
 // ── TIER HELPERS ──
 const TIER_INFO = {
-  A: { label: 'Επείγει', full: 'A — Επείγει', color: 'var(--tier-a)' },
-  B: { label: 'Σύντομα', full: 'B — Προτεραιότητα', color: 'var(--tier-b)' },
-  C: { label: 'Ζω χωρίς', full: 'Γ — Ζω χωρίς', color: 'var(--tier-c)' },
-  D: { label: 'Αν βγει', full: 'Δ — Αν βγει το budget', color: 'var(--tier-d)' },
-  E: { label: 'Wishlist', full: 'E — Μακροπρόθεσμο', color: '#8a7d6e' },
+  A: { label: 'Προτεραιότητα', full: 'A — Προτεραιότητα', hint: 'Το χρειάζομαι — πρέπει να το πάρω.' },
+  B: { label: 'Σημαντικό', full: 'B — Σημαντικό', hint: 'Σημαντικό αλλά όχι επείγον.' },
+  C: { label: 'Το σκέφτομαι', full: 'Γ — Το σκέφτομαι', hint: 'Μου αρέσει, το σκέφτομαι.' },
+  D: { label: 'Τρελάθηκα', full: 'Δ — Τρελάθηκα', hint: 'Το είδα μόλις και τρελάθηκα — αλλά δεν ξέρω αν θα το θέλω αύριο.' },
+  E: { label: 'Αν περισσέψει', full: 'E — Αν περισσέψει budget', hint: 'Αν περισσέψει budget θα το ήθελα.' },
 };
 const TIER_DISPLAY = { A: 'A', B: 'B', C: 'Γ', D: 'Δ', E: 'E' };
 
 function tierBadgeHtml(tier) {
   if (!tier) return `<span class="tier-badge none" title="Δεν έχει οριστεί">–</span>`;
   return `<span class="tier-badge ${tier}" title="${TIER_INFO[tier].full}">${TIER_DISPLAY[tier]}</span>`;
+}
+
+function selectTier(tier) {
+  document.querySelectorAll('.tier-option').forEach(opt => opt.classList.remove('selected'));
+  const picked = document.querySelector(`.tier-option[data-tier="${tier}"]`);
+  if (picked) {
+    picked.classList.add('selected');
+    const radio = picked.querySelector('input[type="radio"]');
+    if (radio) radio.checked = true;
+  }
+  const hintEl = document.getElementById('tier-hint-text');
+  if (hintEl && TIER_INFO[tier]) hintEl.textContent = '→ ' + TIER_INFO[tier].hint;
 }
 
 // ── RENDER ──
@@ -1425,8 +1459,11 @@ function openInlineForm(item = null) {
   document.getElementById('f-brand').value = '';
   document.getElementById('f-brand-other').style.display = 'none';
   document.getElementById('f-brand-other').value = '';
-  // Reset priority radios
+  // Reset priority radios AND selected classes
   document.querySelectorAll('input[name="priority"]').forEach(r => r.checked = false);
+  document.querySelectorAll('.tier-option').forEach(opt => opt.classList.remove('selected'));
+  const tierHint = document.getElementById('tier-hint-text');
+  if (tierHint) tierHint.textContent = '';
   resetMaterialChips();
   renderUniformSelector(item?.uniform_ids || []);
   ['cpw-val','cpw-target','cpw-needed'].forEach(id => {
@@ -1459,8 +1496,7 @@ function openInlineForm(item = null) {
     document.getElementById('f-notes').value = item.notes || '';
     document.getElementById('f-replacement').checked = item.is_replacement || false;
     if (item.priority) {
-      const r = document.querySelector(`input[name="priority"][value="${item.priority}"]`);
-      if (r) r.checked = true;
+      selectTier(item.priority);
     }
     if (item.created_at) document.getElementById('f-entry-date').value = item.created_at.split('T')[0];
     calcCPW();

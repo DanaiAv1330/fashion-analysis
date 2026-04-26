@@ -68,7 +68,7 @@ body{font-family:var(--font-sans);font-weight:300;background:var(--bg);color:var
 .nav-btn.active .nav-label{color:#c4956a;font-weight:500;}
 
 /* DESKTOP TABS */
-.desktop-tabs{display:none;background:#111111;border-bottom:1px solid rgba(255,255,255,0.08);}
+.desktop-tabs{display:none;background:#0a0a0a !important;border-bottom:1px solid rgba(255,255,255,0.10);}
 .desktop-tab-btn{font-family:var(–font-sans);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;background:none;border:none;border-bottom:2px solid transparent;color:rgba(255,255,255,0.4);padding:13px 22px;cursor:pointer;transition:all 0.2s;}
 .desktop-tab-btn.active{color:#d8b48a;border-bottom-color:#c4956a;font-weight:500;}
 
@@ -420,7 +420,7 @@ body{padding-bottom:0;}
       <button class="btn-new-item" onclick="openItemModal()">+ Νέο</button>
     </div>
   </div>
-  <div class="desktop-tabs">
+  <div class="desktop-tabs" style="background:#0a0a0a;">
     <button class="desktop-tab-btn active" onclick="showTab('wardrobe',this)">👗 Ντουλάπα</button>
     <button class="desktop-tab-btn" onclick="showTab('calendar',this)">📅 Ημερολόγιο</button>
     <button class="desktop-tab-btn" onclick="showTab('dashboard',this)">📊 Dashboard</button>
@@ -489,6 +489,15 @@ body{padding-bottom:0;}
         </select>
       </div>
       <div id="feeling-color-insight" style="display:none;padding:10px 12px;background:var(--surface);border:1px solid var(--border);border-radius:2px;margin:0 0 4px;"></div>
+      <!-- Color filter -->
+      <div class="toolbar-row" style="gap:6px;align-items:center;">
+        <span class="sort-label" style="flex-shrink:0;">🎨 Χρώμα ·</span>
+        <select class="sort-select" id="filter-color" onchange="setColorFilter(this.value)" style="flex:1;max-width:180px;">
+          <option value="">Όλα</option>
+        </select>
+        <button class="chip" id="btn-color-insight" onclick="toggleColorInsight()" style="font-size:9px;">📊 Ανάλυση</button>
+      </div>
+      <div id="color-filter-insight" style="display:none;padding:10px 12px;background:var(--surface);border:1px solid var(--border);border-radius:2px;margin:0 0 4px;"></div>
       <div class="toolbar-row-bottom">
         <div class="sort-wrap">
           <span class="sort-label">Ταξινόμηση ·</span>
@@ -722,14 +731,13 @@ body{padding-bottom:0;}
   <div class="pick-panel" id="pick-panel">
     <div class="pick-header">
       <div class="pick-header-title">Επίλεξε <em>ρούχα</em></div>
-      <button onclick="closePickModal()" style="background:none;border:1px solid var(--border);color:var(--text-muted);width:24px;height:24px;border-radius:50%;cursor:pointer;font-size:10px;">✕</button>
+      <div style="display:flex;gap:6px;align-items:center;">
+        <button class="btn-sm primary" onclick="confirmPickItems()" style="font-size:10px;padding:6px 14px;">✓ Αποθήκευση</button>
+        <button onclick="closePickModal()" style="background:none;border:1px solid var(--border);color:var(--text-muted);width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:11px;">✕</button>
+      </div>
     </div>
     <div class="pick-cats" id="pick-cats"></div>
     <div class="pick-grid" id="pick-grid"></div>
-    <div class="pick-actions">
-      <button class="btn-sm" onclick="closePickModal()">Ακύρωση</button>
-      <button class="btn-sm primary" onclick="confirmPickItems()">Προσθήκη</button>
-    </div>
   </div>
 
   <!-- DASHBOARD -->
@@ -789,7 +797,17 @@ body{padding-bottom:0;}
     </div>
     <div class="cpw-table" id="cpw-table-month"></div>
     <div style="display:flex;flex-direction:column;gap:9px;margin-bottom:12px;">
-      <div class="chart-card"><div class="chart-title">Χρωματική Παλέτα (Αριθμός Χρήσεων)</div><div id="color-wears-legend"></div></div>
+      <div class="chart-card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+          <div class="chart-title" style="margin:0;">Χρωματική Παλέτα (Αριθμός Χρήσεων)</div>
+          <select class="sort-select" id="color-wears-filter" onchange="loadMonthDash()" style="font-size:9px;">
+            <option value="">Όλα</option>
+            <option value="accessories">Αξεσουάρ</option>
+            <option value="clothing">Ρούχα</option>
+          </select>
+        </div>
+        <div id="color-wears-legend"></div>
+      </div>
     </div>
   </div>
 
@@ -831,7 +849,17 @@ body{padding-bottom:0;}
     </div>
     <div class="cpw-table" id="cpw-table-total"></div>
     <div style="display:flex;flex-direction:column;gap:9px;margin-bottom:12px;">
-      <div class="chart-card"><div class="chart-title">Χρωματική Παλέτα (Αριθμός Χρήσεων)</div><div id="t-color-wears-legend"></div></div>
+      <div class="chart-card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+          <div class="chart-title" style="margin:0;">Χρωματική Παλέτα (Αριθμός Χρήσεων)</div>
+          <select class="sort-select" id="t-color-wears-filter" onchange="loadTotalDash()" style="font-size:9px;">
+            <option value="">Όλα</option>
+            <option value="accessories">Αξεσουάρ</option>
+            <option value="clothing">Ρούχα</option>
+          </select>
+        </div>
+        <div id="t-color-wears-legend"></div>
+      </div>
     </div>
   </div>
   <!-- SCORES -->
@@ -1215,8 +1243,8 @@ sb.auth.onAuthStateChange((event,session)=>{
 });
 
 // INIT
-async function initApp(){await Promise.all([loadItems(),loadAllLogs(),loadArchivedItems(),loadOutfitUniforms()]);renderWardrobe();renderCalendar();loadMonthDash();initTotalDash();}
-async function loadItems(){const{data}=await sb.from('wardrobe').select('*').order('created_at',{ascending:false});allItems=(data||[]).map(i=>({...i,uniforms:i.uniforms||[]}));}
+async function initApp(){await Promise.all([loadItems(),loadAllLogs(),loadArchivedItems(),loadOutfitUniforms()]);initColorFilterDropdown();renderWardrobe();renderCalendar();loadMonthDash();initTotalDash();}
+async function loadItems(){const{data}=await sb.from('wardrobe').select('*').order('created_at',{ascending:false});allItems=(data||[]).map(i=>({...i,uniforms:i.uniforms||[]}));initColorFilterDropdown();}
 async function loadAllLogs(){const{data}=await sb.from('wear_log').select('*').order('worn_date',{ascending:false});wearLogs=data||[];}
 async function loadLogsForDate(d){const{data}=await sb.from('wear_log').select('*').eq('worn_date',d);selectedDateLogs=data||[];}
 
@@ -1292,6 +1320,61 @@ function renderFeelingColorInsight(feeling){
     +sorted.map(([col,cnt])=>renderHBar(col,cnt,maxC,cnt+' τεμ.',COLOR_HEX[col]||'#aaa')).join('');
 }
 
+let colorFilter='';
+
+function initColorFilterDropdown(){
+  const sel=document.getElementById('filter-color');if(!sel)return;
+  const colors=[...new Set(allItems.map(i=>i.color).filter(Boolean))].sort();
+  sel.innerHTML='<option value="">Όλα</option>'+colors.map(c=>'<option value="'+escHtml(c)+'">'+escHtml(c)+'</option>').join('');
+  if(colorFilter)sel.value=colorFilter;
+}
+
+function setColorFilter(val){
+  colorFilter=val;
+  renderWardrobe();
+  if(val)renderColorInsight(val);
+  else{const el=document.getElementById('color-filter-insight');if(el)el.style.display='none';}
+}
+
+let colorInsightOpen=false;
+function toggleColorInsight(){
+  colorInsightOpen=!colorInsightOpen;
+  const el=document.getElementById('color-filter-insight');if(!el)return;
+  if(!colorInsightOpen){el.style.display='none';return;}
+  renderColorInsight(colorFilter);
+}
+
+function renderColorInsight(color){
+  const el=document.getElementById('color-filter-insight');if(!el)return;
+  // Show stats for selected color OR overall color breakdown
+  if(color){
+    const items=allItems.filter(i=>i.color===color);
+    const wears=wearLogs.filter(l=>items.some(i=>i.id===l.wardrobe_item_id)).length;
+    const feelings={};
+    items.forEach(i=>{if(i.feeling)feelings[i.feeling]=(feelings[i.feeling]||0)+1;});
+    const feelSorted=Object.entries(feelings).sort((a,b)=>b[1]-a[1]);
+    const maxF=feelSorted[0]?.[1]||1;
+    el.style.display='block';
+    el.innerHTML='<div style="font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);margin-bottom:8px;">Ανάλυση χρώματος: <strong style="color:var(--accent);">'+escHtml(color)+'</strong></div>'
+      +'<div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:10px;">'
+      +'<div><div style="font-size:18px;font-family:var(--font-serif);color:var(--text);">'+items.length+'</div><div style="font-size:9px;color:var(--text-dim);">τεμάχια</div></div>'
+      +'<div><div style="font-size:18px;font-family:var(--font-serif);color:var(--accent);">'+wears+'</div><div style="font-size:9px;color:var(--text-dim);">χρήσεις</div></div>'
+      +'<div><div style="font-size:18px;font-family:var(--font-serif);color:var(--text);">'+(items.length?Math.round(wears/items.length*10)/10:'—')+'</div><div style="font-size:9px;color:var(--text-dim);">χρήσεις/τεμ.</div></div>'
+      +'</div>'
+      +(feelSorted.length?'<div style="font-size:9px;color:var(--text-dim);margin-bottom:6px;">Feeling ανά χρώμα:</div>'
+        +feelSorted.map(([f,v])=>renderHBar(f,v,maxF,String(v),'var(--accent-light)')).join(''):'');
+  } else {
+    // Overall: color breakdown by wears
+    const colorW={};
+    wearLogs.forEach(l=>{const item=allItems.find(i=>i.id===l.wardrobe_item_id);if(item?.color)colorW[item.color]=(colorW[item.color]||0)+1;});
+    const sorted=Object.entries(colorW).sort((a,b)=>b[1]-a[1]);
+    const maxW=sorted[0]?.[1]||1;
+    el.style.display='block';
+    el.innerHTML='<div style="font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);margin-bottom:8px;">Χρωματική Παλέτα — Συνολικές Χρήσεις</div>'
+      +sorted.map(([col,cnt])=>renderHBar(col,cnt,maxW,String(cnt),COLOR_HEX[col]||'#aaa')).join('');
+  }
+}
+
 function setFeelingFilter(val){feelingFilter=val;renderWardrobe();}
 function setFaceFilter(val){faceFilter=val;renderWardrobe();}
 
@@ -1308,6 +1391,7 @@ function filterItems(){
   if(currentCat2Filter!=='all')items=items.filter(i=>i.cat2===currentCat2Filter);
   if(feelingFilter)items=items.filter(i=>i.feeling===feelingFilter);
   if(faceFilter)items=items.filter(i=>getFaceCategory(i.face_effect)===faceFilter);
+  if(colorFilter)items=items.filter(i=>i.color===colorFilter);
   if(sortMode==='cpw_best')items.sort((a,b)=>(getCPW(a)||9999)-(getCPW(b)||9999));
   else if(sortMode==='cpw_worst')items.sort((a,b)=>(getCPW(b)||0)-(getCPW(a)||0));
   else if(sortMode==='recently_worn')items.sort((a,b)=>(getLastWorn(b.id)||'').localeCompare(getLastWorn(a.id)||''));
@@ -2039,9 +2123,19 @@ function loadMonthDash(){
   :'<div style="padding:16px;color:var(--text-dim);font-size:11px;text-align:center">Καμία καταγραφή αυτόν τον μήνα</div>';
 
   // ── DORMANT GRID — ρούχα που δεν φορέθηκαν στον μήνα ──
-  // Color by wears (month) — based on wear logs
+  // Color by wears (month) — with category filter
+  const cwmFilter=document.getElementById('color-wears-filter')?.value||'';
+  const ACC_CATS=['Bags','Shoes','Accessories'];
+  const CLO_CATS=['Tops','Dresses','Pants','Outwear'];
   const colorWearsM={};
-  ml.forEach(l=>{const item=allItems.find(i=>i.id===l.wardrobe_item_id);if(item?.color)colorWearsM[item.color]=(colorWearsM[item.color]||0)+1;});
+  ml.forEach(l=>{
+    const item=allItems.find(i=>i.id===l.wardrobe_item_id);
+    if(!item?.color)return;
+    const cat=item.cat1||item.category||'';
+    if(cwmFilter==='accessories'&&!ACC_CATS.includes(cat))return;
+    if(cwmFilter==='clothing'&&!CLO_CATS.includes(cat))return;
+    colorWearsM[item.color]=(colorWearsM[item.color]||0)+1;
+  });
   const colorWearsSortedM=Object.entries(colorWearsM).sort((a,b)=>b[1]-a[1]);
   const maxCWM=colorWearsSortedM[0]?.[1]||1;
   document.getElementById('color-wears-legend').innerHTML=colorWearsSortedM.length
@@ -2180,9 +2274,19 @@ function loadTotalDash(){
     </div>`).join('')
   :'<div style="padding:16px;color:var(--text-dim);font-size:11px;text-align:center">Καμία καταγραφή στην περίοδο</div>';
 
-  // Color by wears (period)
+  // Color by wears (period) — with category filter
+  const cwpFilter=document.getElementById('t-color-wears-filter')?.value||'';
+  const ACC_CATS=['Bags','Shoes','Accessories'];
+  const CLO_CATS=['Tops','Dresses','Pants','Outwear'];
   const colorWearsP={};
-  rl.forEach(l=>{const item=allItems.find(i=>i.id===l.wardrobe_item_id);if(item?.color)colorWearsP[item.color]=(colorWearsP[item.color]||0)+1;});
+  rl.forEach(l=>{
+    const item=allItems.find(i=>i.id===l.wardrobe_item_id);
+    if(!item?.color)return;
+    const cat=item.cat1||item.category||'';
+    if(cwpFilter==='accessories'&&!ACC_CATS.includes(cat))return;
+    if(cwpFilter==='clothing'&&!CLO_CATS.includes(cat))return;
+    colorWearsP[item.color]=(colorWearsP[item.color]||0)+1;
+  });
   const colorWearsSortedP=Object.entries(colorWearsP).sort((a,b)=>b[1]-a[1]);
   const maxCWP=colorWearsSortedP[0]?.[1]||1;
   document.getElementById('t-color-wears-legend').innerHTML=colorWearsSortedP.length

@@ -6,26 +6,29 @@
 <link rel="icon" type="image/x-icon" href="favicon.ico" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Wardrobe Wishlist</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&family=Noto+Serif:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root {
   --bg:#f2ede6;--surface:#faf7f2;--surface2:#f5f0e8;--surface3:#eee8de;
   --border:#ddd7cc;--border-soft:#e8e2d8;
   --text:#2a231a;--text-muted:#8a7d6e;--text-dim:#b5a898;
-  --accent:#9a7a4a;--accent-light:#c9a96e;--accent-dim:rgba(154,122,74,0.10);
+  --accent:#c4956a;--accent-light:#d8b48a;--accent-dim:rgba(196,149,106,0.12);
+  --accent-dark:#9a7a4a;
   --green:#4a7c5a;--green-soft:rgba(74,124,90,0.09);--green-text:#2d5e3f;--green-border:rgba(74,124,90,0.25);
   --yellow:#8a6e00;--yellow-soft:rgba(180,150,0,0.08);--yellow-text:#6b5200;--yellow-border:rgba(180,150,0,0.28);
   --red:#8c4a3a;--red-soft:rgba(140,74,58,0.08);--red-text:#7a3020;
   --amber:#9a6a1a;
+  --dark:#0a0a0a;
   /* Priority tier colors */
   --tier-a:#8c4a3a;--tier-a-soft:rgba(140,74,58,0.09);
   --tier-b:#b8760a;--tier-b-soft:rgba(184,118,10,0.10);
   --tier-c:#8a7d6e;--tier-c-soft:rgba(138,125,110,0.09);
   --tier-d:#7a8ba8;--tier-d-soft:rgba(122,139,168,0.09);
   --tier-e:#b5a898;--tier-e-soft:rgba(181,168,152,0.10);
-  --font-serif:'Noto Serif',Georgia,serif;
-  --font-sans:'Noto Sans',system-ui,sans-serif;
+  --font-display:'Cormorant Garamond','Noto Serif',Georgia,serif;
+  --font-serif:'Cormorant Garamond','Noto Serif',Georgia,serif;
+  --font-sans:'Jost','Noto Sans',system-ui,sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:var(--font-sans);font-weight:300;background:var(--bg);color:var(--text);min-height:100vh;font-size:13px;}
@@ -101,26 +104,10 @@ body{font-family:var(--font-sans);font-weight:300;background:var(--bg);color:var
 .tier-badge.E{color:#4a4038;border-color:#8a7d6e;background:#d8d0c4;}
 .tier-badge.none{color:var(–text-dim);border-color:var(–border);background:var(–surface2);font-size:10px;font-weight:400;border-width:1.5px;}
 
-/* ── AUTH SCREEN ── */
-#auth-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;}
-.auth-box{background:var(–surface);border:1px solid var(–border);border-radius:3px;padding:36px 32px;width:100%;max-width:380px;box-shadow:0 4px 24px rgba(90,70,40,0.08);}
-.auth-logo{font-family:var(–font-serif);font-size:20px;font-weight:300;letter-spacing:0.12em;text-transform:uppercase;text-align:center;margin-bottom:6px;}
-.auth-logo em{font-style:italic;color:var(–accent);}
-.auth-subtitle{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(–text-dim);text-align:center;margin-bottom:28px;}
-.auth-tabs{display:flex;border-bottom:1px solid var(–border);margin-bottom:22px;}
-.auth-tab{flex:1;font-family:var(–font-sans);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;background:none;border:none;border-bottom:2px solid transparent;color:var(–text-muted);padding:8px;cursor:pointer;transition:all 0.15s;margin-bottom:-1px;}
-.auth-tab.active{color:var(–accent);border-bottom-color:var(–accent);}
-.auth-form{display:flex;flex-direction:column;gap:12px;}
-.auth-form label{font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(–text-muted);}
-.auth-form input{font-family:var(–font-sans);font-size:13px;font-weight:300;border:1px solid var(–border);background:var(–surface2);padding:9px 11px;border-radius:1px;color:var(–text);outline:none;transition:border-color 0.15s;width:100%;}
-.auth-form input:focus{border-color:var(–accent);}
-.auth-form input::placeholder{color:var(–text-dim);}
-.btn-auth{font-family:var(–font-sans);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;background:var(–accent);color:var(–surface);border:none;padding:11px;cursor:pointer;border-radius:1px;transition:opacity 0.2s;width:100%;margin-top:4px;}
-.btn-auth:hover{opacity:0.85;}
-.btn-auth:disabled{opacity:0.5;cursor:not-allowed;}
-.auth-msg{font-size:11px;text-align:center;padding:8px;border-radius:2px;margin-top:4px;}
-.auth-msg.error{background:var(–red-soft);color:var(–red-text);border:1px solid rgba(140,74,58,0.2);}
-.auth-msg.success{background:var(–green-soft);color:var(–green-text);border:1px solid rgba(74,124,90,0.2);}
+/* ── AUTH SCREEN (inline styles handle layout — see HTML) ── */
+.auth-msg{font-size:11px;text-align:center;padding:8px;border-radius:8px;margin-top:4px;font-family:var(–font-sans);}
+.auth-msg.error{background:rgba(140,74,58,0.18);color:#ffb8a8;border:1px solid rgba(140,74,58,0.35);}
+.auth-msg.success{background:rgba(74,124,90,0.18);color:#a8d8b8;border:1px solid rgba(74,124,90,0.35);}
 
 /* ── APP TABS ── */
 #app-screen{display:none;}
@@ -130,32 +117,36 @@ body{font-family:var(--font-sans);font-weight:300;background:var(--bg);color:var
 .app-panel{display:none;}.app-panel.active{display:block;}
 
 /* ── BUDGET BAR ── */
-.budget-bar{margin:14px 14px 0;background:var(–surface);border:1px solid var(–border);border-radius:3px;padding:14px 16px;}
-@media(min-width:768px){.budget-bar{margin:16px 32px 0;}}
-.budget-bar-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:8px;}
-.budget-bar-title{font-family:var(–font-serif);font-size:14px;font-weight:400;}
-.budget-bar-title em{font-style:italic;color:var(–accent);}
-.budget-edit-btn{background:none;border:1px solid var(–border);color:var(–text-muted);font-size:9px;letter-spacing:0.09em;text-transform:uppercase;padding:4px 10px;border-radius:10px;cursor:pointer;font-family:var(–font-sans);transition:all 0.15s;}
-.budget-edit-btn:hover{border-color:var(–accent);color:var(–accent);}
-.budget-track-outer{position:relative;height:22px;background:var(–surface3);border-radius:2px;overflow:hidden;margin-bottom:8px;border:1px solid var(–border-soft);}
-.budget-track-spent{position:absolute;top:0;left:0;height:100%;background:var(–accent);transition:width 0.4s ease;}
-.budget-track-pending{position:absolute;top:0;height:100%;background:repeating-linear-gradient(45deg,var(–accent-light),var(–accent-light) 5px,rgba(201,169,110,0.6) 5px,rgba(201,169,110,0.6) 10px);transition:all 0.4s ease;}
-.budget-track-over{background:var(–red) !important;}
-.budget-track-label{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:10px;letter-spacing:0.07em;color:var(–text);font-weight:500;text-shadow:0 1px 2px rgba(255,255,255,0.8);pointer-events:none;white-space:nowrap;}
-.budget-legend{display:flex;gap:14px;flex-wrap:wrap;font-size:10px;color:var(–text-muted);}
+/* ── BUDGET BAR — caramel theme matching tracker accent ── */
+.budget-bar{margin:14px 14px 0;background:linear-gradient(135deg,#c4956a 0%,#b58557 100%);border:none;border-radius:10px;padding:16px 18px;color:white;box-shadow:0 4px 14px rgba(196,149,106,0.25);position:relative;overflow:hidden;}
+.budget-bar::before{content:””;position:absolute;right:-40px;top:-40px;width:140px;height:140px;border:1px solid rgba(255,255,255,0.10);border-radius:50%;pointer-events:none;}
+.budget-bar::after{content:””;position:absolute;right:10px;top:10px;width:80px;height:80px;border:1px solid rgba(255,255,255,0.06);border-radius:50%;pointer-events:none;}
+@media(min-width:768px){.budget-bar{margin:18px 32px 0;}}
+.budget-bar-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;position:relative;z-index:1;}
+.budget-bar-title{font-family:var(–font-display);font-size:16px;font-weight:400;color:white;}
+.budget-bar-title em{font-style:italic;color:#fde8c8;}
+.budget-edit-btn{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);color:white;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;padding:5px 11px;border-radius:14px;cursor:pointer;font-family:var(–font-sans);transition:all 0.15s;}
+.budget-edit-btn:hover{background:rgba(255,255,255,0.25);}
+.budget-track-outer{position:relative;height:24px;background:rgba(0,0,0,0.18);border-radius:6px;overflow:hidden;margin-bottom:10px;border:none;z-index:1;}
+.budget-track-spent{position:absolute;top:0;left:0;height:100%;background:rgba(255,255,255,0.92);transition:width 0.4s ease;}
+.budget-track-pending{position:absolute;top:0;height:100%;background:repeating-linear-gradient(45deg,rgba(255,255,255,0.55),rgba(255,255,255,0.55) 5px,rgba(255,255,255,0.30) 5px,rgba(255,255,255,0.30) 10px);transition:all 0.4s ease;}
+.budget-track-over{background:#e8a895 !important;}
+.budget-track-label{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:10px;letter-spacing:0.06em;color:#5a3d20;font-weight:500;pointer-events:none;white-space:nowrap;text-shadow:0 1px 2px rgba(255,255,255,0.4);}
+.budget-legend{display:flex;gap:14px;flex-wrap:wrap;font-size:10px;color:rgba(255,255,255,0.85);position:relative;z-index:1;}
 .budget-legend-item{display:flex;align-items:center;gap:5px;}
-.budget-legend-sw{width:10px;height:10px;border-radius:1px;}
-.budget-legend-sw.spent{background:var(–accent);}
-.budget-legend-sw.pending{background:repeating-linear-gradient(45deg,var(–accent-light),var(–accent-light) 3px,rgba(201,169,110,0.6) 3px,rgba(201,169,110,0.6) 6px);}
-.budget-legend-sw.remaining{background:var(–surface3);border:1px solid var(–border-soft);}
-.budget-legend-num{font-family:var(–font-serif);font-size:12px;color:var(–text);margin-left:3px;}
-.budget-alert{margin-top:10px;padding:9px 12px;border-radius:2px;font-size:11px;line-height:1.5;display:flex;align-items:flex-start;gap:8px;}
-.budget-alert.warn{background:rgba(184,118,10,0.09);color:#6b5200;border:1px solid rgba(184,118,10,0.25);}
-.budget-alert.over{background:var(–red-soft);color:var(–red-text);border:1px solid rgba(140,74,58,0.25);}
-.budget-alert.good{background:var(–green-soft);color:var(–green-text);border:1px solid var(–green-border);}
+.budget-legend-sw{width:10px;height:10px;border-radius:2px;}
+.budget-legend-sw.spent{background:rgba(255,255,255,0.92);}
+.budget-legend-sw.pending{background:repeating-linear-gradient(45deg,rgba(255,255,255,0.55),rgba(255,255,255,0.55) 3px,rgba(255,255,255,0.30) 3px,rgba(255,255,255,0.30) 6px);}
+.budget-legend-sw.remaining{background:rgba(0,0,0,0.18);border:1px solid rgba(255,255,255,0.15);}
+.budget-legend-num{font-family:var(–font-display);font-size:13px;color:white;margin-left:3px;font-style:italic;}
+.budget-alert{margin-top:12px;padding:10px 13px;border-radius:8px;font-size:11px;line-height:1.5;display:flex;align-items:flex-start;gap:8px;position:relative;z-index:1;backdrop-filter:blur(4px);}
+.budget-alert.warn{background:rgba(255,255,255,0.18);color:white;border:1px solid rgba(255,255,255,0.22);}
+.budget-alert.over{background:rgba(140,40,30,0.40);color:#ffe0d8;border:1px solid rgba(255,180,160,0.35);}
+.budget-alert.good{background:rgba(255,255,255,0.18);color:white;border:1px solid rgba(255,255,255,0.22);}
+.budget-alert strong{color:#fde8c8;}
 .budget-alert-icon{font-size:14px;flex-shrink:0;line-height:1.1;}
-.budget-empty{text-align:center;padding:8px 0;font-size:11px;color:var(–text-muted);}
-.budget-empty-link{color:var(–accent);cursor:pointer;text-decoration:underline;text-underline-offset:2px;}
+.budget-empty{text-align:center;padding:6px 0;font-size:11px;color:rgba(255,255,255,0.85);position:relative;z-index:1;}
+.budget-empty-link{color:white;cursor:pointer;text-decoration:underline;text-underline-offset:2px;font-weight:500;}
 
 /* ── PURCHASES ── */
 .purchases-header{padding:16px 14px 0;display:flex;align-items:center;justify-content:space-between;}
@@ -225,14 +216,15 @@ body{font-family:var(--font-sans);font-weight:300;background:var(--bg);color:var
 .archive-year-title{font-family:var(–font-serif);font-size:18px;font-weight:300;margin-bottom:10px;color:var(–text);}
 .archive-year-title em{font-style:italic;color:var(–accent);}
 
-header{background:var(–surface);border-bottom:1px solid var(–border);padding:0 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 1px 6px rgba(90,70,40,0.06);min-height:52px;}
-.logo{font-family:var(–font-serif);font-size:16px;font-weight:300;letter-spacing:0.14em;text-transform:uppercase;}
-.logo em{font-style:italic;color:var(–accent);}
-.header-right{display:flex;align-items:center;gap:10px;}
-.user-info{font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(–text-muted);}
-.btn-logout{font-family:var(–font-sans);font-size:9px;letter-spacing:0.1em;text-transform:uppercase;background:none;border:1px solid var(–border);color:var(–text-muted);padding:5px 10px;cursor:pointer;border-radius:1px;transition:all 0.15s;}
-.btn-logout:hover{border-color:var(–red);color:var(–red-text);}
-.btn-new{font-family:var(–font-sans);font-size:9px;letter-spacing:0.1em;text-transform:uppercase;background:var(–accent);color:var(–surface);border:none;padding:7px 14px;cursor:pointer;border-radius:1px;}
+header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding:0 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,0.4);min-height:56px;}
+.logo{font-family:var(–font-display);font-size:17px;font-weight:400;letter-spacing:0.14em;text-transform:uppercase;color:white;font-style:italic;}
+.logo em{font-style:italic;color:#d8b48a;}
+.header-right{display:flex;align-items:center;gap:8px;}
+.user-info{font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.5);}
+.btn-logout{font-family:var(–font-sans);font-size:9px;letter-spacing:0.09em;text-transform:uppercase;background:#c4956a;border:none;color:white;padding:5px 10px;cursor:pointer;border-radius:6px;transition:opacity 0.2s;}
+.btn-logout:hover{opacity:0.85;}
+.btn-new{font-family:var(–font-sans);font-size:9px;letter-spacing:0.09em;text-transform:uppercase;background:#c4956a;color:white;border:none;padding:7px 14px;cursor:pointer;border-radius:6px;transition:opacity 0.2s;}
+.btn-new:hover{opacity:0.85;}
 
 /* ── STATS ── */
 .stats-bar{display:flex;border-bottom:1px solid var(–border);background:var(–surface);overflow-x:auto;-webkit-overflow-scrolling:touch;}
@@ -382,26 +374,58 @@ header{background:var(–surface);border-bottom:1px solid var(–border);padding
 
 <!-- ══ AUTH ══ -->
 
-<div id="auth-screen">
-  <div class="auth-box">
-    <div class="auth-logo">Wardrobe <em>Wishlist</em></div>
-    <div class="auth-subtitle">Fashion Analysis by Danai</div>
-    <div class="auth-tabs">
-      <button class="auth-tab active" onclick="switchAuthTab('login',this)">Σύνδεση</button>
-      <button class="auth-tab" onclick="switchAuthTab('signup',this)">Εγγραφή</button>
+<div id="auth-screen" style="min-height:100vh;display:flex;flex-direction:column;background:#0a0a0a;position:relative;overflow:hidden;">
+  <!-- Decorative circles -->
+  <div style="position:absolute;right:-80px;top:-80px;width:400px;height:400px;border:1px solid rgba(196,149,106,0.15);border-radius:50%;pointer-events:none;"></div>
+  <div style="position:absolute;right:40px;top:40px;width:240px;height:240px;border:1px solid rgba(196,149,106,0.10);border-radius:50%;pointer-events:none;"></div>
+  <div style="position:absolute;left:-60px;bottom:-60px;width:300px;height:300px;border:1px solid rgba(196,149,106,0.08);border-radius:50%;pointer-events:none;"></div>
+
+  <!-- Brand header -->
+
+  <div style="padding:2.5rem 2.5rem 0;position:relative;z-index:1;">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:0.9rem;font-style:italic;color:rgba(255,255,255,0.5);margin-bottom:0.5rem;">Fashion Analysis by Danai</div>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,6vw,3.2rem);font-weight:400;color:white;line-height:1.1;">
+      Wardrobe <em style="color:#d8b48a;font-style:italic;">Wishlist</em>
     </div>
-    <div class="auth-form" id="auth-form">
-      <div class="form-group">
-        <label>Email</label>
-        <input type="email" id="auth-email" placeholder="email@example.com" autocomplete="email">
+    <div style="width:48px;height:1px;background:#c4956a;margin-top:1.2rem;"></div>
+  </div>
+
+  <!-- Auth card -->
+
+  <div style="flex:1;display:flex;align-items:center;justify-content:center;padding:2rem;position:relative;z-index:1;">
+    <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.10);border-radius:16px;padding:2.5rem 2rem;width:100%;max-width:380px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);">
+      <!-- Tabs -->
+      <div style="display:flex;border-bottom:1px solid rgba(255,255,255,0.10);margin-bottom:1.8rem;">
+        <button id="auth-tab-login" onclick="switchAuthTab('login',this)"
+          style="flex:1;font-family:'Jost',sans-serif;font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;background:none;border:none;border-bottom:2px solid #c4956a;color:white;padding:0.7rem 0;cursor:pointer;margin-bottom:-1px;transition:all 0.2s;">Σύνδεση</button>
+        <button id="auth-tab-signup" onclick="switchAuthTab('signup',this)"
+          style="flex:1;font-family:'Jost',sans-serif;font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;background:none;border:none;border-bottom:2px solid transparent;color:rgba(255,255,255,0.4);padding:0.7rem 0;cursor:pointer;margin-bottom:-1px;transition:all 0.2s;">Εγγραφή</button>
       </div>
-      <div class="form-group">
-        <label>Κωδικός</label>
-        <input type="password" id="auth-password" placeholder="••••••••" autocomplete="current-password">
-      </div>
-      <button class="btn-auth" id="auth-btn" onclick="handleAuth()">Σύνδεση</button>
-      <div id="auth-msg" style="display:none"></div>
+
+```
+  <!-- Form fields -->
+  <div style="display:flex;flex-direction:column;gap:1rem;">
+    <div>
+      <label style="display:block;font-size:0.68rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:#c4956a;margin-bottom:0.5rem;">Email</label>
+      <input type="email" id="auth-email" placeholder="email@example.com" autocomplete="email"
+        style="width:100%;padding:0.75rem 1rem;background:rgba(255,255,255,0.06);border:1.5px solid rgba(255,255,255,0.12);border-radius:8px;font-family:'Jost',sans-serif;font-size:0.9rem;color:white;outline:none;transition:border 0.2s;"
+        onfocus="this.style.borderColor='#c4956a'" onblur="this.style.borderColor='rgba(255,255,255,0.12)'">
     </div>
+    <div>
+      <label style="display:block;font-size:0.68rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:#c4956a;margin-bottom:0.5rem;">Κωδικός</label>
+      <input type="password" id="auth-password" placeholder="••••••••" autocomplete="current-password"
+        style="width:100%;padding:0.75rem 1rem;background:rgba(255,255,255,0.06);border:1.5px solid rgba(255,255,255,0.12);border-radius:8px;font-family:'Jost',sans-serif;font-size:0.9rem;color:white;outline:none;transition:border 0.2s;"
+        onfocus="this.style.borderColor='#c4956a'" onblur="this.style.borderColor='rgba(255,255,255,0.12)'"
+        onkeydown="if(event.key==='Enter')handleAuth()">
+    </div>
+    <button id="auth-btn" onclick="handleAuth()"
+      style="width:100%;padding:0.85rem;background:#c4956a;border:none;border-radius:8px;font-family:'Jost',sans-serif;font-size:0.72rem;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:white;cursor:pointer;margin-top:0.4rem;transition:opacity 0.2s;"
+      onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">Σύνδεση</button>
+    <div id="auth-msg" class="auth-msg" style="display:none;"></div>
+  </div>
+</div>
+```
+
   </div>
 </div>
 
@@ -912,8 +936,16 @@ let authMode = 'login';
 
 function switchAuthTab(mode, btn) {
   authMode = mode;
-  document.querySelectorAll('.auth-tab').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
+  const loginBtn = document.getElementById('auth-tab-login');
+  const signupBtn = document.getElementById('auth-tab-signup');
+  if (loginBtn) {
+    loginBtn.style.borderBottomColor = mode === 'login' ? '#c4956a' : 'transparent';
+    loginBtn.style.color = mode === 'login' ? 'white' : 'rgba(255,255,255,0.4)';
+  }
+  if (signupBtn) {
+    signupBtn.style.borderBottomColor = mode === 'signup' ? '#c4956a' : 'transparent';
+    signupBtn.style.color = mode === 'signup' ? 'white' : 'rgba(255,255,255,0.4)';
+  }
   document.getElementById('auth-btn').textContent = mode === 'login' ? 'Σύνδεση' : 'Εγγραφή';
   document.getElementById('auth-msg').style.display = 'none';
 }

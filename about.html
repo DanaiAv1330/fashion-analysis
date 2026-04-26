@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="el">
 <head>
   <meta charset="UTF-8" />
@@ -19,36 +20,6 @@
   </script>
 
   <style>
-    .credential-card {
-      display: flex;
-      align-items: flex-start;
-      gap: 1.25rem;
-      padding: 1.75rem;
-      border: 1px solid var(--light-grey);
-      border-radius: 2px;
-      background: var(--cream);
-      transition: transform 0.25s, box-shadow 0.25s;
-    }
-    .credential-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
-    .credential-icon { font-size: 2rem; flex-shrink: 0; margin-top: 0.2rem; }
-    .credential-label {
-      font-size: 0.65rem;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 0.4rem;
-      display: block;
-    }
-    .credential-title {
-      font-family: var(--font-display);
-      font-size: 1.2rem;
-      font-weight: 500;
-      margin-bottom: 0.3rem;
-    }
-    .credential-desc { font-size: 0.88rem; color: var(--warm-grey); line-height: 1.6; }
-    .credential-link { font-size: 0.78rem; color: var(--gold); margin-top: 0.5rem; display: inline-block; transition: letter-spacing 0.2s; }
-    .credential-link:hover { letter-spacing: 0.04em; }
-
     .stat-row {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -66,31 +37,7 @@
     }
     .stat-label { font-size: 0.82rem; color: var(--warm-grey); letter-spacing: 0.06em; }
 
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1.5rem;
-      margin-top: 3rem;
-    }
-    .service-card {
-      padding: 2rem;
-      border: 1px solid var(--light-grey);
-      border-radius: 2px;
-      background: var(--cream);
-    }
-    .service-num {
-      font-family: var(--font-display);
-      font-size: 2.5rem;
-      font-weight: 300;
-      color: var(--gold);
-      opacity: 0.35;
-      line-height: 1;
-      margin-bottom: 0.5rem;
-    }
-    .service-title { font-family: var(--font-display); font-size: 1.2rem; font-weight: 500; margin-bottom: 0.4rem; }
-    .service-desc { font-size: 0.88rem; color: var(--warm-grey); line-height: 1.7; }
-
-    /* NAV DROPDOWN */
+    /* ── NAV DROPDOWN (same as homepage) ── */
     .nav-dropdown { position: relative; }
     .nav-dropdown-toggle { cursor: pointer; }
     .nav-dropdown-menu {
@@ -119,12 +66,27 @@
       white-space: nowrap;
     }
     .nav-dropdown-menu li a:hover { background: #f5f0e8; color: #9a7a4a; }
+    .nav-dropdown-heading {
+      font-family: 'Jost', sans-serif;
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #9a7a4a;
+      padding: 10px 18px 4px;
+      pointer-events: none;
+    }
+    .nav-dropdown-divider {
+      height: 1px;
+      background: #e8e2d8;
+      margin: 6px 14px;
+      pointer-events: none;
+    }
     .nav-dropdown:hover .nav-dropdown-menu,
     .nav-dropdown.open .nav-dropdown-menu { display: block; }
 
     @media (max-width: 768px) {
       .stat-row { grid-template-columns: 1fr 1fr; }
-      .services-grid { grid-template-columns: 1fr; }
       .nav-dropdown-menu {
         position: static;
         transform: none;
@@ -137,12 +99,17 @@
         background: transparent;
       }
       .nav-dropdown-menu li a { padding: 7px 8px; font-size: 12px; color: #8a7d6e; }
+      .nav-dropdown-heading { padding: 8px 8px 2px; font-size: 9px; }
+      .nav-dropdown-divider { margin: 4px 8px; background: #d4c4a8; }
       .nav-dropdown-menu { display: none; }
       .nav-dropdown.open .nav-dropdown-menu { display: block; }
     }
   </style>
+
 </head>
 <body>
+
+  <!-- NAV (identical to homepage) -->
 
   <nav id="navbar">
     <a href="index.html" class="nav-brand">
@@ -155,21 +122,29 @@
     <ul class="nav-links" id="navLinks">
       <li><a href="index.html">Home</a></li>
       <li><a href="https://dbvabydanai.wordpress.com" target="_blank">Articles</a></li>
-      <li><a href="guides.html">Guides</a></li>
       <li class="nav-dropdown">
-        <a href="#" onclick="return false" class="nav-dropdown-toggle">Tools ▾</a>
+        <a href="#" onclick="return false" class="nav-dropdown-toggle">Guides & Tools ▾</a>
         <ul class="nav-dropdown-menu">
+          <li class="nav-dropdown-heading">Οδηγοί</li>
+          <li><a href="color-analysis-guide.html">🎨 Color Analysis Guide</a></li>
+          <li><a href="style-identity-guide.html">✨ Style Identity Guide</a></li>
+          <li><a href="body-type-quiz.html">👤 Body Type Quiz</a></li>
+          <li><a href="wardrobe-audit-workbook.html">📝 Wardrobe Audit Workbook</a></li>
+          <li><a href="capsule-workbook.html">👗 Capsule Wardrobe Workbook</a></li>
+          <li class="nav-dropdown-divider"></li>
+          <li class="nav-dropdown-heading">Εργαλεία</li>
           <li><a href="wishlist.html">🛍 Wardrobe Wishlist</a></li>
-          <li><a href="wardrobe-tracker.html">👗 Wardrobe Tracker</a></li>
+          <li><a href="wardrobe-tracker.html">📱 Wardrobe Tracker</a></li>
           <li><a href="wardrobe-calculator.html">📊 KPIs Calculator</a></li>
         </ul>
       </li>
       <li><a href="about.html" class="active">About</a></li>
-      <li><a href="mailto:dbvabydanai@gmail.com" class="nav-cta">Contact</a></li>
+      <li><a href="newsletter.html" class="nav-cta">Newsletter</a></li>
     </ul>
   </nav>
 
   <!-- PAGE HERO -->
+
   <div class="page-hero">
     <div class="container">
       <p class="section-label">About</p>
@@ -179,6 +154,7 @@
   </div>
 
   <!-- BIO SECTION -->
+
   <section>
     <div class="container">
       <div class="about-hero-grid reveal">
@@ -202,122 +178,45 @@
         </div>
       </div>
 
-      <!-- STATS -->
-      <div class="stat-row reveal">
-        <div class="stat-item">
-          <div class="stat-num">10+</div>
-          <div class="stat-label">Χρόνια στο Beauty Industry</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-num">2</div>
-          <div class="stat-label">Πιστοποιήσεις IELFS</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-num">12</div>
-          <div class="stat-label">Παλέτες Χρωματικής Ανάλυσης</div>
-        </div>
-      </div>
+```
+  <!-- STATS -->
+  <div class="stat-row reveal">
+    <div class="stat-item">
+      <div class="stat-num">10+</div>
+      <div class="stat-label">Χρόνια στο Beauty Industry</div>
     </div>
+    <div class="stat-item">
+      <div class="stat-num">2</div>
+      <div class="stat-label">Πιστοποιήσεις IELFS</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">10</div>
+      <div class="stat-label">Consumer Insights</div>
+    </div>
+  </div>
+</div>
+```
+
   </section>
 
-  <!-- CREDENTIALS -->
-  <section style="background: var(--warm-white); padding-top: 0;">
-    <div class="container">
-      <div class="reveal">
-        <p class="section-label">Εκπαίδευση & Πιστοποιήσεις</p>
-        <h2 class="section-title">Τι με <em>εκπαίδευσε</em></h2>
-      </div>
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2.5rem;" class="reveal">
-        <div class="credential-card">
-          <div class="credential-icon">🎓</div>
-          <div>
-            <span class="credential-label">IELFS — Italian E-Learning Fashion School</span>
-            <div class="credential-title">Certified Image Consultant</div>
-            <div class="credential-desc">Πιστοποίηση στη χρωματική ανάλυση, style consulting και δημιουργία capsule wardrobe. Η θεωρητική βάση πίσω από όσα μοιράζομαι εδώ.</div>
-            <a href="https://ielfs.com/stylists/danai-avratoglou/" target="_blank" class="credential-link">Δες την πιστοποίηση →</a>
-          </div>
-        </div>
-        <div class="credential-card">
-          <div class="credential-icon">📊</div>
-          <div>
-            <span class="credential-label">IELFS — Italian E-Learning Fashion School</span>
-            <div class="credential-title">Fashion Trend Report</div>
-            <div class="credential-desc">Εκπαίδευση στην ανάλυση fashion trends και πώς να τα εφαρμόζεις στρατηγικά — χωρίς να τρέχεις πίσω από κάθε νέα τάση.</div>
-            <a href="https://ielfs.com/stylists/danai-avratoglou/" target="_blank" class="credential-link">Δες την πιστοποίηση →</a>
-          </div>
-        </div>
-        <div class="credential-card">
-          <div class="credential-icon">💼</div>
-          <div>
-            <span class="credential-label">Professional Background</span>
-            <div class="credential-title">Beauty Industry — 10+ χρόνια</div>
-            <div class="credential-desc">Εργάζομαι ως Consumer Insights & Digital Manager. Αυτή η εμπειρία με έμαθε να βλέπω τη σχέση ανθρώπων και εικόνας με αναλυτικό μάτι.</div>
-          </div>
-        </div>
-        <div class="credential-card">
-          <div class="credential-icon">🎥</div>
-          <div>
-            <span class="credential-label">Content & Community</span>
-            <div class="credential-title">Δωρεάν Fashion Education</div>
-            <div class="credential-desc">Μοιράζομαι δωρεάν γνώση για color analysis, capsule wardrobe και style — επειδή πιστεύω ότι αυτές οι πληροφορίες πρέπει να είναι προσβάσιμες σε όλες.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+  <!-- PHILOSOPHY (identical to homepage) -->
 
-  <!-- WHAT I DO -->
-  <section>
+  <section class="philosophy-section">
     <div class="container">
-      <div class="reveal">
-        <p class="section-label">Τι κάνω εδώ</p>
-        <h2 class="section-title">Δωρεάν <em>Fashion Education</em></h2>
-        <p class="section-desc">Μοιράζομαι ό,τι έχω μάθει — από την εκπαίδευση, την εμπειρία και την παρατήρηση. Χωρίς κόστος, χωρίς agenda.</p>
-      </div>
-      <div class="services-grid reveal">
-        <div class="service-card">
-          <div class="service-num">01</div>
-          <div class="service-title">Color Analysis</div>
-          <p class="service-desc">Εξηγώ πώς να βρεις τη χρωματική σου παλέτα με βάση τα φυσικά σου χαρακτηριστικά — undertone, ένταση, βάθος. Δωρεάν guides για όλες.</p>
-        </div>
-        <div class="service-card">
-          <div class="service-num">02</div>
-          <div class="service-title">Capsule Wardrobe</div>
-          <p class="service-desc">Πώς να χτίσεις μια ντουλάπα που λειτουργεί με λιγότερα κομμάτια και περισσότερους συνδυασμούς — χωρίς να ξοδεύεις περισσότερα.</p>
-        </div>
-        <div class="service-card">
-          <div class="service-num">03</div>
-          <div class="service-title">Style Education</div>
-          <p class="service-desc">Άρθρα, guides και workbooks για υφάσματα, trends, αγορές και στυλ — γιατί η γνώση αυτή δεν πρέπει να κοστίζει.</p>
-        </div>
-        <div class="service-card">
-          <div class="service-num">04</div>
-          <div class="service-title">My Closet</div>
-          <p class="service-desc">Μοιράζομαι τη δική μου εμπειρία με low buy year, cost per wear και wardrobe recaps — γιατί η θεωρία μαθαίνεται καλύτερα με πραγματικά παραδείγματα.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- PHILOSOPHY -->
-  <section style="background: var(--ink);">
-    <div class="container">
-      <div class="philosophy-inner reveal">
+      <div class="philosophy-inner">
         <p class="section-label">Philosophy</p>
         <blockquote class="philosophy-quote">
-          "Δεν ντυνόμαστε για τους άλλους.<br>
-          Ντυνόμαστε για να <em>θυμόμαστε ποιες είμαστε</em>."
+          Το στυλ δεν είναι ένστικτο. Είναι στρατηγική, ανάλυση και δεδομένα.
+          Δες τη ντουλάπα σου σαν χαρτοφυλάκιο <em>και επένδυσε έξυπνα.</em>
         </blockquote>
         <p class="philosophy-sub">— Fashion Analysis by Danai</p>
-        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-          <a href="guides.html" class="btn-outline-light">Δες τους δωρεάν οδηγούς</a>
-          <a href="newsletter.html" class="btn-outline-light">Εγγραφή στο Newsletter</a>
-        </div>
+        <a href="about.html" class="btn-outline-light">Η φιλοσοφία μου</a>
       </div>
     </div>
   </section>
 
   <!-- CONTACT -->
+
   <section>
     <div class="container" style="max-width: 600px; text-align: center;">
       <div class="reveal">
@@ -338,6 +237,7 @@
   </section>
 
   <!-- FOOTER -->
+
   <footer>
     <div class="container">
       <div class="footer-grid">
@@ -388,14 +288,19 @@
   </footer>
 
   <script src="main.js"></script>
+
   <script>
     // Mobile dropdown toggle
-    document.querySelector('.nav-dropdown-toggle').addEventListener('click', function(e) {
-      if (window.innerWidth <= 768) {
-        e.preventDefault();
-        this.closest('.nav-dropdown').classList.toggle('open');
-      }
-    });
+    const dropdownToggle = document.querySelector('.nav-dropdown-toggle');
+    if (dropdownToggle) {
+      dropdownToggle.addEventListener('click', function(e) {
+        if (window.innerWidth <= 768) {
+          e.preventDefault();
+          this.closest('.nav-dropdown').classList.toggle('open');
+        }
+      });
+    }
   </script>
+
 </body>
 </html>

@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="el">
 <head>
   <meta charset="UTF-8" />
@@ -177,7 +176,8 @@
       color: white;
       margin-bottom: 0.75rem;
     }
-    .success-msg p, .error-msg p { color: rgba(255,255,255,0.6); font-size: 0.95rem; }
+    .success-msg p, .error-msg p { color: rgba(255,255,255,0.6); font-size: 0.95rem; line-height: 1.7; }
+    .error-msg a { color: var(--gold); text-decoration: underline; }
 
     /* ── WHAT YOU GET ── */
     .perks-section { background: var(--warm-white); }
@@ -275,12 +275,10 @@
       .newsletter-form-wrap { padding: 1.5rem; }
     }
   </style>
-
 </head>
 <body>
 
   <!-- NAV (identical to homepage) -->
-
   <nav id="navbar" style="--nav-bg: rgba(28,24,20,0.95);">
     <a href="index.html" class="nav-brand">
       <span class="brand-main">Fashion Analysis</span>
@@ -314,7 +312,6 @@
   </nav>
 
   <!-- HERO + FORM -->
-
   <section class="newsletter-hero">
     <div class="container">
       <div class="newsletter-inner">
@@ -328,69 +325,66 @@
           Εγγράψου και λάβε ειδοποίηση κάθε φορά που ανεβαίνει νέο workbook, guide ή fashion insight — χωρίς spam, μόνο ουσία.
         </p>
 
-```
-    <div class="newsletter-form-wrap">
-      <!-- FORM — αντικατέστησε το action με το URL της πλατφόρμας σου (Mailchimp/MailerLite/Brevo) -->
-      <form id="newsletterForm" action="REPLACE_WITH_YOUR_FORM_ENDPOINT" method="POST" target="_blank">
-        <div id="formContainer">
-          <div class="form-row">
-            <div class="form-group">
-              <label class="form-label" for="firstName">Όνομα</label>
-              <input class="form-input" type="text" id="firstName" name="FNAME" placeholder="Δανάη" required />
+        <div class="newsletter-form-wrap">
+          <!-- MailerLite Form — sends data to MailerLite, shows custom success message -->
+          <form id="newsletterForm"
+                action="https://assets.mailerlite.com/jsonp/2295067/forms/185835026362926505/subscribe"
+                method="POST">
+            <div id="formContainer">
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="firstName">Όνομα</label>
+                  <input class="form-input" type="text" id="firstName" name="fields[name]" placeholder="Δανάη" required />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="email">Email</label>
+                  <input class="form-input" type="email" id="email" name="fields[email]" placeholder="email@example.com" autocomplete="email" required />
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group full">
+                  <label class="form-label" for="interest">Με ενδιαφέρει κυρίως</label>
+                  <select class="form-select" id="interest" name="fields[interest]">
+                    <option value="">Επίλεξε...</option>
+                    <option value="Color Analysis">Color Analysis</option>
+                    <option value="Capsule Wardrobe">Capsule Wardrobe</option>
+                    <option value="Style Education">Style Education</option>
+                    <option value="Όλα τα παραπάνω">Όλα τα παραπάνω</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- MailerLite required hidden fields -->
+              <input type="hidden" name="ml-submit" value="1">
+              <input type="hidden" name="anticsrf" value="true">
+
+              <button type="submit" class="form-submit" id="submitBtn">
+                Εγγραφή στο Newsletter →
+              </button>
+              <p class="form-note">Κανένα spam. Μόνο νέοι οδηγοί & fashion insights.<br>Μπορείς να διαγραφείς οποτεδήποτε.</p>
             </div>
-            <div class="form-group">
-              <label class="form-label" for="email">Email</label>
-              <input class="form-input" type="email" id="email" name="EMAIL" placeholder="email@example.com" required />
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group full">
-              <label class="form-label" for="interest">Με ενδιαφέρει κυρίως</label>
-              <select class="form-select" id="interest" name="INTEREST">
-                <option value="">Επίλεξε...</option>
-                <option value="color">Color Analysis</option>
-                <option value="capsule">Capsule Wardrobe</option>
-                <option value="style">Style Education</option>
-                <option value="all">Όλα τα παραπάνω</option>
-              </select>
-            </div>
+          </form>
+
+          <!-- Success message -->
+          <div class="success-msg" id="successMsg">
+            <div class="success-icon">✨</div>
+            <h3>Καλωσήρθες!</h3>
+            <p>Σε έχω προσθέσει στη λίστα. Θα λάβεις ένα email επιβεβαίωσης σε λίγα λεπτά.<br>Μην ξεχάσεις να ελέγξεις και τον φάκελο spam!</p>
           </div>
 
-          <!-- Honeypot anti-spam (μην το αφαιρέσεις, μην το πειράξεις) -->
-          <div style="position:absolute; left:-5000px;" aria-hidden="true">
-            <input type="text" name="b_honeypot" tabindex="-1" value="" />
+          <!-- Error message -->
+          <div class="error-msg" id="errorMsg">
+            <div class="error-icon">⚠️</div>
+            <h3>Κάτι πήγε στραβά</h3>
+            <p>Δοκίμασε ξανά ή στείλε μου email στο <a href="mailto:dbvabydanai@gmail.com">dbvabydanai@gmail.com</a></p>
           </div>
-
-          <button type="submit" class="form-submit">
-            Εγγραφή στο Newsletter →
-          </button>
-          <p class="form-note">Κανένα spam. Μόνο νέοι οδηγοί & fashion insights.<br>Μπορείς να διαγραφείς οποτεδήποτε.</p>
         </div>
-      </form>
 
-      <!-- Success message -->
-      <div class="success-msg" id="successMsg">
-        <div class="success-icon">✨</div>
-        <h3>Καλωσήρθες!</h3>
-        <p>Σε έχω προσθέσει στη λίστα. Θα σου στείλω email μόλις ανέβει το επόμενο guide.</p>
-      </div>
-
-      <!-- Error message -->
-      <div class="error-msg" id="errorMsg">
-        <div class="error-icon">⚠️</div>
-        <h3>Κάτι πήγε στραβά</h3>
-        <p>Δοκίμασε ξανά ή στείλε μου email στο dbvabydanai@gmail.com</p>
       </div>
     </div>
-
-  </div>
-</div>
-```
-
   </section>
 
   <!-- WHAT YOU GET -->
-
   <section class="perks-section">
     <div class="container">
       <div class="reveal">
@@ -418,7 +412,6 @@
   </section>
 
   <!-- FOOTER -->
-
   <footer>
     <div class="container">
       <div class="footer-grid">
@@ -459,7 +452,6 @@
   </footer>
 
   <script src="main.js"></script>
-
   <script>
     // Mobile dropdown toggle
     const dropdownToggle = document.querySelector('.nav-dropdown-toggle');
@@ -472,22 +464,54 @@
       });
     }
 
-    // Newsletter form handler — δουλεύει με Mailchimp/MailerLite/Brevo
+    // Newsletter form submit — sends to MailerLite via fetch, shows custom success message
     const form = document.getElementById('newsletterForm');
+    const formContainer = document.getElementById('formContainer');
+    const successMsg = document.getElementById('successMsg');
+    const errorMsg = document.getElementById('errorMsg');
+    const submitBtn = document.getElementById('submitBtn');
+
     if (form) {
-      form.addEventListener('submit', function(e) {
-        // Αν ΔΕΝ έχεις ακόμα συνδέσει endpoint, εμφάνισε success για demo
-        if (form.action.includes('REPLACE_WITH_YOUR_FORM_ENDPOINT')) {
-          e.preventDefault();
-          document.getElementById('formContainer').style.display = 'none';
-          document.getElementById('successMsg').style.display = 'block';
-          return;
+      form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        // Disable button & show loading
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = 'Εγγραφή...';
+
+        try {
+          const formData = new FormData(form);
+
+          // MailerLite accepts POST submissions to the JSONP endpoint
+          // 'no-cors' mode: submission goes through but we can't read the response
+          await fetch(form.action, {
+            method: 'POST',
+            body: formData,
+            mode: 'no-cors'
+          });
+
+          // No network error → assume success
+          formContainer.style.display = 'none';
+          errorMsg.style.display = 'none';
+          successMsg.style.display = 'block';
+
+          // GA event tracking
+          if (typeof gtag === 'function') {
+            gtag('event', 'newsletter_signup', {
+              'event_category': 'engagement',
+              'event_label': 'Newsletter form submission'
+            });
+          }
+        } catch (err) {
+          // Network error
+          formContainer.style.display = 'none';
+          successMsg.style.display = 'none';
+          errorMsg.style.display = 'block';
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = 'Εγγραφή στο Newsletter →';
         }
-        // Όταν έχεις πραγματικό endpoint, η φόρμα στέλνει κανονικά
-        // και το success δείχνεται μετά την επιστροφή
       });
     }
   </script>
-
 </body>
 </html>

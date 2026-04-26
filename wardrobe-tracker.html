@@ -749,7 +749,7 @@ body{padding-bottom:0;}
     </div>
     <div class="cpw-table" id="cpw-table-month"></div>
     <div style="display:flex;flex-direction:column;gap:9px;margin-bottom:12px;">
-      <div class="chart-card"><div class="chart-title">Χρώματα (φορέματα μήνα)</div><div id="color-wears-legend"></div></div>
+      <div class="chart-card"><div class="chart-title">Χρωματική Παλέτα (Αριθμός Χρήσεων)</div><div id="color-wears-legend"></div></div>
     </div>
   </div>
 
@@ -791,7 +791,7 @@ body{padding-bottom:0;}
     </div>
     <div class="cpw-table" id="cpw-table-total"></div>
     <div style="display:flex;flex-direction:column;gap:9px;margin-bottom:12px;">
-      <div class="chart-card"><div class="chart-title">Χρώματα (φορέματα περιόδου)</div><div id="t-color-wears-legend"></div></div>
+      <div class="chart-card"><div class="chart-title">Χρωματική Παλέτα (Αριθμός Χρήσεων)</div><div id="t-color-wears-legend"></div></div>
     </div>
   </div>
   <!-- SCORES -->
@@ -1140,7 +1140,7 @@ const CATEGORIES = {
 const MN_SHORT=['Ιαν','Φεβ','Μαρ','Απρ','Μαΐ','Ιουν','Ιουλ','Αυγ','Σεπ','Οκτ','Νοε','Δεκ'];
 const MN_FULL=['Ιανουάριος','Φεβρουάριος','Μάρτιος','Απρίλιος','Μάιος','Ιούνιος','Ιούλιος','Αύγουστος','Σεπτέμβριος','Οκτώβριος','Νοέμβριος','Δεκέμβριος'];
 const CAT_COLORS=['#9a7a4a','#c9a96e','#d4b88a','#7a9a6a','#6a7a9a','#9a6a7a','#7a6a9a','#aaa'];
-const COLOR_HEX={'White':'#F5F5F0','Beige':'#D4B88A','Black':'#1A1A1A','Navy':'#1B2A4A','Camel':'#C9A96E','Chocolate Brown':'#4A2C17','Olive':'#7A7A45','Grey (Light)':'#C4C4C0','Grey (Mid)':'#8B8B88','Grey (Charcoal)':'#6B6B6B','Burgundy':'#6D1A2A','Red':'#C0392B','Mint':'#9DC4B0','Mushroom':'#B5A898','Sand':'#D4C4A8','Cobalt':'#1E3A8A','Powder Blue':'#7EB8D4','Emerald':'#2D5A27','Hunter Green':'#2D5A27','Hot Pink':'#D5006D','Rose Gold':'#E8B4B8','Coral':'#C4673A','Aubergine':'#6D1A5A','Off-White/Ivory':'#EDE8DC'};
+const COLOR_HEX={'White':'#F5F5F0','Beige':'#D4B88A','Black':'#1A1A1A','Navy':'#1B2A4A','Camel':'#C9A96E','Chocolate Brown':'#4A2C17','Olive':'#7A7A45','Grey (Light)':'#C4C4C0','Grey (Mid)':'#8B8B88','Grey (Charcoal)':'#6B6B6B','Burgundy':'#6D1A2A','Red':'#C0392B','Mint':'#9DC4B0','Mushroom':'#B5A898','Sand':'#D4C4A8','Cobalt':'#1E3A8A','Powder Blue':'#7EB8D4','Emerald':'#2D5A27','Hunter Green':'#2D5A27','Hot Pink':'#D5006D','Rose Gold':'#E8B4B8','Coral':'#C4673A','Aubergine':'#6B3FA0','Off-White/Ivory':'#EDE8DC','Gold':'#B8860B','Aubergine':'#6B3FA0'};
 
 let currentUser=null, allItems=[], wearLogs=[], currentFilter='all', currentCat2Filter='all', sortMode='recently_worn', editingItemId=null, uploadedPhotoFile=null;
 let feelingFilter='', faceFilter='';
@@ -1351,7 +1351,7 @@ function openItemModal(itemId=null){
   document.getElementById('item-delete-btn').style.display=item?'block':'none';
   ['f-title','f-brand','f-color','f-pattern','f-material','f-size','f-notes'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
   ['f-cat1','f-cat2','f-season','f-sleeve','f-length','f-feeling','f-face-effect'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
-  if(outfitUniforms.length)renderUniformSelector([]);
+  renderUniformSelector(item?((item.uniforms||[]).map(String)):[]);
   document.getElementById('f-price').value='';document.getElementById('f-purchase-year').value='';document.getElementById('f-purchase-month').value='';document.getElementById('f-prev-worn').value='0';document.getElementById('f-fav').checked=false;
   document.getElementById('photo-preview').style.display='none';document.getElementById('photo-placeholder').style.display='block';
   document.querySelectorAll('.conscious-opt').forEach(o=>{o.classList.remove('selected-opt');const inp=o.querySelector('input');if(inp)inp.checked=false;});
@@ -1376,7 +1376,7 @@ function openItemModal(itemId=null){
     document.getElementById('f-fav').checked=item.is_favorite||false;
     document.getElementById('f-feeling').value=item.feeling||'';
     document.getElementById('f-face-effect').value=item.face_effect||'';
-    renderUniformSelector((item.uniforms||[]).map(String));
+    // uniforms handled in reset above
     if(item.photo_url){document.getElementById('photo-preview').src=item.photo_url;document.getElementById('photo-preview').style.display='block';document.getElementById('photo-placeholder').style.display='none';}
     if(item.conscious_score!=null)setConsciousValue(item.conscious_score);
   }
@@ -1442,10 +1442,7 @@ async function loadOutfitUniforms(){
   const{data}=await sb.from('outfit_uniforms').select('*').eq('user_id',currentUser.id).order('created_at');
   outfitUniforms=data||[];
   renderUniformsList();
-  // Only reset selector if form is not currently open
-  if(document.getElementById('inline-item-wrap')?.style.display==='none'||!editingItemId){
-    renderUniformSelector([]);
-  }
+  // Don't touch the selector — it's managed by openItemModal
 }
 
 function renderUniformsList(){
@@ -1479,7 +1476,7 @@ function renderUniformSelector(selectedIds){
   wrap.innerHTML=outfitUniforms.map(u=>{
     const checked=selectedIds.map(String).includes(String(u.id));
     return'<label style="display:flex;align-items:center;gap:6px;padding:5px 11px;border:1px solid var(--border);border-radius:10px;cursor:pointer;font-size:10px;color:var(--text-muted);background:var(--surface2);transition:all 0.15s;" onchange="checkUniformWarning()">'
-      +'<input type="checkbox" value="'+u.id+'" '+(checked?'checked':'')+'style="width:13px;height:13px;accent-color:var(--accent);">'
+      +'<input type="checkbox" value="'+u.id+'" '+(checked?'checked ':'')+'style="width:13px;height:13px;accent-color:var(--accent);">'
       +escHtml(u.name)+'</label>';
   }).join('');
   checkUniformWarning();
@@ -1492,7 +1489,8 @@ function checkUniformWarning(){
 }
 
 function getSelectedUniformIds(){
-  return[...document.querySelectorAll('#uniform-selector input:checked')].map(cb=>cb.value);
+  const cbs=[...document.querySelectorAll('#uniform-selector input[type="checkbox"]:checked')];
+  return cbs.map(cb=>cb.value);
 }
 
 let editingUniformId=null;
@@ -1999,7 +1997,7 @@ function loadMonthDash(){
   const colorWearsSortedM=Object.entries(colorWearsM).sort((a,b)=>b[1]-a[1]);
   const maxCWM=colorWearsSortedM[0]?.[1]||1;
   document.getElementById('color-wears-legend').innerHTML=colorWearsSortedM.length
-    ?colorWearsSortedM.map(([col,cnt])=>renderHBar(col,cnt,maxCWM,cnt+' φορ.',COLOR_HEX[col]||'#aaa')).join('')
+    ?colorWearsSortedM.map(([col,cnt])=>renderHBar(col,cnt,maxCWM,String(cnt),COLOR_HEX[col]||'#aaa')).join('')
     :'<div style="color:var(--text-dim);font-size:11px;padding:8px">Καμία καταγραφή αυτόν τον μήνα</div>';
 }
 function changeDashMonth(dir){dashMonth+=dir;if(dashMonth>11){dashMonth=0;dashYear++;}if(dashMonth<0){dashMonth=11;dashYear--;}loadMonthDash();}
@@ -2140,7 +2138,7 @@ function loadTotalDash(){
   const colorWearsSortedP=Object.entries(colorWearsP).sort((a,b)=>b[1]-a[1]);
   const maxCWP=colorWearsSortedP[0]?.[1]||1;
   document.getElementById('t-color-wears-legend').innerHTML=colorWearsSortedP.length
-    ?colorWearsSortedP.map(([col,cnt])=>renderHBar(col,cnt,maxCWP,cnt+' φορ.',COLOR_HEX[col]||'#aaa')).join('')
+    ?colorWearsSortedP.map(([col,cnt])=>renderHBar(col,cnt,maxCWP,String(cnt),COLOR_HEX[col]||'#aaa')).join('')
     :'<div style="color:var(--text-dim);font-size:11px;padding:8px">Καμία καταγραφή στην περίοδο</div>';
 }
 

@@ -1,68 +1,151 @@
 <!DOCTYPE html>
+
 <html lang="el">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Color Analysis Guide — Βρες την Παλέτα Σου</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<title>Color Analysis Guide — Βρες την Παλέτα Σου | Fashion Analysis by Danai</title>
+<meta name="description" content="Δωρεάν οδηγός χρωματικής ανάλυσης. Βρες την παλέτα σου ανάμεσα στις 12 εποχές με quiz, οδηγίες και outfit combos.">
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=DM+Sans:wght@300;400;500&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+<link rel="icon" type="image/x-icon" href="favicon.ico" />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-DBRDY0FNX7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-DBRDY0FNX7');
+</script>
+
 <style>
   :root {
-    --cream: #FAF7F2;
-    --warm-white: #F5F0E8;
-    --ink: #1A1410;
-    --bark: #5C4A3A;
-    --dust: #9E8E7E;
-    --gold: #C8A96A;
-    --gold-light: #E8D5A8;
-    --line: rgba(90,70,50,0.12);
-    --serif: 'Cormorant Garamond', Georgia, serif;
-    --sans: 'DM Sans', sans-serif;
+    --cag-cream: #FAF7F2;
+    --cag-warm-white: #F5F0E8;
+    --cag-ink: #1A1410;
+    --cag-bark: #5C4A3A;
+    --cag-dust: #9E8E7E;
+    --cag-gold: #C8A96A;
+    --cag-gold-light: #E8D5A8;
+    --cag-line: rgba(90,70,50,0.12);
+    --cag-serif: 'Cormorant Garamond', Georgia, serif;
+    --cag-sans: 'DM Sans', sans-serif;
   }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  .cag-content *, .cag-content *::before, .cag-content *::after { box-sizing: border-box; }
 
   html { scroll-behavior: smooth; }
 
-  body {
-    background: var(--cream);
-    color: var(--ink);
-    font-family: var(--sans);
+  /* ── NAV DROPDOWN (same as homepage) ── */
+  .nav-dropdown { position: relative; }
+  .nav-dropdown-toggle { cursor: pointer; }
+  .nav-dropdown-menu {
+    display: none;
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: #fff;
+    border: 1px solid #e8e2d8;
+    border-radius: 3px;
+    min-width: 210px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.10);
+    z-index: 200;
+    padding: 6px 0;
+    list-style: none;
+  }
+  .nav-dropdown-menu li a {
+    display: block;
+    padding: 9px 18px;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    color: #2a231a;
+    text-decoration: none;
+    transition: background 0.15s;
+    white-space: nowrap;
+  }
+  .nav-dropdown-menu li a:hover { background: #f5f0e8; color: #9a7a4a; }
+  .nav-dropdown-heading {
+    font-family: 'Jost', sans-serif;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #9a7a4a;
+    padding: 10px 18px 4px;
+    pointer-events: none;
+  }
+  .nav-dropdown-divider {
+    height: 1px;
+    background: #e8e2d8;
+    margin: 6px 14px;
+    pointer-events: none;
+  }
+  .nav-dropdown:hover .nav-dropdown-menu,
+  .nav-dropdown.open .nav-dropdown-menu { display: block; }
+
+  @media (max-width: 768px) {
+    .nav-dropdown-menu {
+      position: static; transform: none; box-shadow: none;
+      border: none; border-left: 2px solid #e8e2d8;
+      border-radius: 0; padding: 0 0 0 12px;
+      margin: 4px 0 4px 8px; background: transparent;
+    }
+    .nav-dropdown-menu li a { padding: 7px 8px; font-size: 12px; color: #8a7d6e; }
+    .nav-dropdown-heading { padding: 8px 8px 2px; font-size: 9px; }
+    .nav-dropdown-divider { margin: 4px 8px; background: #d4c4a8; }
+    .nav-dropdown-menu { display: none; }
+    .nav-dropdown.open .nav-dropdown-menu { display: block; }
+  }
+
+  /* ── PAGE CONTENT ── */
+  .cag-content {
+    background: var(--cag-cream);
+    color: var(--cag-ink);
+    font-family: var(--cag-sans);
     font-size: 16px;
     line-height: 1.7;
-    overflow-x: hidden;
   }
 
-  /* ── NAV ── */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    background: rgba(250,247,242,0.92);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--line);
-    padding: 0 2rem;
-    height: 56px;
-    display: flex; align-items: center; justify-content: space-between;
-  }
-  .nav-logo {
-    font-family: var(--serif);
-    font-size: 1.1rem;
-    letter-spacing: 0.04em;
-    color: var(--bark);
-  }
-  .nav-links {
-    display: flex; gap: 2rem; list-style: none;
-  }
-  .nav-links a {
-    font-size: 0.78rem;
-    letter-spacing: 0.1em;
+  .cag-content section { padding: 6rem 2rem; }
+  .cag-container { max-width: 860px; margin: 0 auto; }
+  .cag-container-wide { max-width: 1100px; margin: 0 auto; }
+
+  .cag-section-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: var(--dust);
-    text-decoration: none;
-    transition: color 0.2s;
+    color: var(--cag-gold);
+    margin-bottom: 0.8rem;
   }
-  .nav-links a:hover { color: var(--bark); }
+  .cag-content h2 {
+    font-family: var(--cag-serif);
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 300;
+    line-height: 1.15;
+    margin: 0 0 1.5rem 0;
+  }
+  .cag-content h2 em { font-style: italic; color: var(--cag-bark); }
+  .cag-content h3 {
+    font-family: var(--cag-serif);
+    font-size: 1.5rem;
+    font-weight: 400;
+    margin: 0 0 0.8rem 0;
+    color: var(--cag-bark);
+  }
+  .cag-content p { color: #3A2E26; margin: 0 0 1rem 0; font-weight: 300; }
+  .cag-content p:last-child { margin-bottom: 0; }
+
+  .cag-divider {
+    width: 48px; height: 1px;
+    background: var(--cag-gold);
+    margin: 2rem 0;
+  }
+  .cag-divider-center { margin: 2rem auto; }
 
   /* ── HERO ── */
-  .hero {
+  .cag-hero {
     min-height: 100vh;
     display: flex; align-items: center; justify-content: center;
     text-align: center;
@@ -72,125 +155,85 @@
   }
   .hero-bg {
     position: absolute; inset: 0;
-    background: 
+    background:
       radial-gradient(ellipse 80% 60% at 20% 80%, rgba(200,169,106,0.12) 0%, transparent 60%),
       radial-gradient(ellipse 60% 50% at 80% 20%, rgba(180,150,130,0.1) 0%, transparent 60%),
       radial-gradient(ellipse 40% 40% at 60% 70%, rgba(160,130,110,0.08) 0%, transparent 50%);
   }
   .hero-palette-row {
     position: absolute; bottom: 0; left: 0; right: 0;
-    height: 6px;
-    display: flex;
+    height: 6px; display: flex;
   }
   .hero-palette-row span {
-    flex: 1;
-    opacity: 0;
-    animation: fadeIn 0.5s forwards;
+    flex: 1; opacity: 0;
+    animation: cagFadeIn 0.5s forwards;
   }
   .hero-content { position: relative; max-width: 720px; }
   .hero-eyebrow {
     font-size: 0.72rem;
     letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: var(--gold);
+    color: var(--cag-gold);
     margin-bottom: 1.5rem;
     opacity: 0;
-    animation: slideUp 0.8s 0.2s forwards;
+    animation: cagSlideUp 0.8s 0.2s forwards;
   }
-  h1 {
-    font-family: var(--serif);
+  .cag-content h1 {
+    font-family: var(--cag-serif);
     font-size: clamp(2.8rem, 7vw, 5.5rem);
     font-weight: 300;
     line-height: 1.08;
     letter-spacing: -0.01em;
-    color: var(--ink);
+    color: var(--cag-ink);
     opacity: 0;
-    animation: slideUp 0.9s 0.35s forwards;
+    animation: cagSlideUp 0.9s 0.35s forwards;
+    margin: 0;
   }
-  h1 em { font-style: italic; color: var(--bark); }
+  .cag-content h1 em { font-style: italic; color: var(--cag-bark); }
   .hero-sub {
-    margin-top: 1.8rem;
+    margin: 1.8rem auto 0;
     font-size: 1.05rem;
-    color: var(--dust);
+    color: var(--cag-dust);
     font-weight: 300;
     max-width: 520px;
-    margin-left: auto; margin-right: auto;
     opacity: 0;
-    animation: slideUp 0.9s 0.5s forwards;
+    animation: cagSlideUp 0.9s 0.5s forwards;
   }
   .hero-cta {
     margin-top: 2.8rem;
     display: inline-flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
     opacity: 0;
-    animation: slideUp 0.9s 0.65s forwards;
+    animation: cagSlideUp 0.9s 0.65s forwards;
   }
-  .btn-primary {
+  .cag-btn-primary {
     padding: 0.85rem 2.2rem;
-    background: var(--ink);
-    color: var(--cream);
-    border: none;
-    border-radius: 2px;
-    font-family: var(--sans);
+    background: var(--cag-ink);
+    color: var(--cag-cream);
+    border: none; border-radius: 2px;
+    font-family: var(--cag-sans);
     font-size: 0.82rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    cursor: pointer;
-    text-decoration: none;
+    cursor: pointer; text-decoration: none;
     transition: background 0.2s, transform 0.2s;
+    display: inline-block;
   }
-  .btn-primary:hover { background: var(--bark); transform: translateY(-1px); }
-  .btn-ghost {
+  .cag-btn-primary:hover { background: var(--cag-bark); transform: translateY(-1px); }
+  .cag-btn-ghost {
     padding: 0.85rem 2.2rem;
     background: transparent;
-    color: var(--bark);
-    border: 1px solid var(--gold-light);
+    color: var(--cag-bark);
+    border: 1px solid var(--cag-gold-light);
     border-radius: 2px;
-    font-family: var(--sans);
+    font-family: var(--cag-sans);
     font-size: 0.82rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    cursor: pointer;
-    text-decoration: none;
+    cursor: pointer; text-decoration: none;
     transition: border-color 0.2s, transform 0.2s;
+    display: inline-block;
   }
-  .btn-ghost:hover { border-color: var(--gold); transform: translateY(-1px); }
-
-  /* ── SECTIONS ── */
-  section { padding: 6rem 2rem; }
-  .container { max-width: 860px; margin: 0 auto; }
-  .container-wide { max-width: 1100px; margin: 0 auto; }
-
-  .section-label {
-    font-size: 0.7rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 0.8rem;
-  }
-  h2 {
-    font-family: var(--serif);
-    font-size: clamp(2rem, 4vw, 3.2rem);
-    font-weight: 300;
-    line-height: 1.15;
-    margin-bottom: 1.5rem;
-  }
-  h2 em { font-style: italic; color: var(--bark); }
-  h3 {
-    font-family: var(--serif);
-    font-size: 1.5rem;
-    font-weight: 400;
-    margin-bottom: 0.8rem;
-    color: var(--bark);
-  }
-  p { color: #3A2E26; margin-bottom: 1rem; font-weight: 300; }
-  p:last-child { margin-bottom: 0; }
-
-  .divider {
-    width: 48px; height: 1px;
-    background: var(--gold);
-    margin: 2rem 0;
-  }
-  .divider-center { margin: 2rem auto; }
+  .cag-btn-ghost:hover { border-color: var(--cag-gold); transform: translateY(-1px); }
 
   /* ── INTRO ── */
   .intro-grid {
@@ -202,222 +245,24 @@
   }
   @media(max-width:640px){ .intro-grid { grid-template-columns:1fr; gap:2rem; } }
   .pull-quote {
-    font-family: var(--serif);
+    font-family: var(--cag-serif);
     font-size: 1.6rem;
     font-style: italic;
     font-weight: 300;
     line-height: 1.4;
-    color: var(--bark);
-    border-left: 2px solid var(--gold);
+    color: var(--cag-bark);
+    border-left: 2px solid var(--cag-gold);
     padding-left: 1.5rem;
+    margin: 0;
   }
 
-  /* ── 3 PROPERTIES ── */
-  .props-section { background: var(--warm-white); }
-  .props-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2px;
-    margin-top: 3rem;
-  }
-  @media(max-width:640px){ .props-grid { grid-template-columns:1fr; gap:1rem; } }
-  .prop-card {
-    background: var(--cream);
-    padding: 2.5rem 2rem;
-    position: relative;
-    overflow: hidden;
-  }
-  .prop-card::before {
-    content: '';
-    position: absolute; top: 0; left: 0; right: 0;
-    height: 3px;
-  }
-  .prop-card:nth-child(1)::before { background: linear-gradient(90deg,#D4956A,#E8C090); }
-  .prop-card:nth-child(2)::before { background: linear-gradient(90deg,#8A9EC0,#C0A8D4); }
-  .prop-card:nth-child(3)::before { background: linear-gradient(90deg,#4A4A4A,#B0A090); }
-  .prop-num {
-    font-family: var(--serif);
-    font-size: 3.5rem;
-    font-weight: 300;
-    color: var(--gold-light);
-    line-height: 1;
-    margin-bottom: 0.5rem;
-  }
-  .prop-title {
-    font-family: var(--serif);
-    font-size: 1.3rem;
-    color: var(--bark);
-    margin-bottom: 0.5rem;
-  }
-  .prop-sub {
-    font-size: 0.78rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--dust);
-    margin-bottom: 1rem;
-  }
-  .prop-examples {
-    display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1.2rem;
-  }
-  .color-chip {
-    width: 28px; height: 28px;
-    border-radius: 50%;
-    border: 2px solid rgba(255,255,255,0.6);
-    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-    cursor: help;
-    transition: transform 0.2s;
-    position: relative;
-  }
-  .color-chip:hover { transform: scale(1.2); }
-  .color-chip[title]:hover::after {
-    content: attr(title);
-    position: absolute;
-    bottom: 34px; left: 50%;
-    transform: translateX(-50%);
-    background: var(--ink);
-    color: #fff;
-    font-size: 0.7rem;
-    padding: 3px 8px;
-    border-radius: 2px;
-    white-space: nowrap;
-    pointer-events: none;
-  }
-
-  /* ── STEPS ── */
-  .step-block {
-    border-top: 1px solid var(--line);
-    padding: 3.5rem 0;
-    display: grid;
-    grid-template-columns: 80px 1fr;
-    gap: 3rem;
-    align-items: start;
-  }
-  @media(max-width:640px){ .step-block { grid-template-columns:1fr; gap:1.5rem; } }
-  .step-num {
-    font-family: var(--serif);
-    font-size: 4rem;
-    font-weight: 300;
-    color: var(--gold-light);
-    line-height: 1;
-  }
-  .test-cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px,1fr));
-    gap: 1rem;
-    margin-top: 1.5rem;
-  }
-  .test-card {
-    border: 1px solid var(--line);
-    border-radius: 2px;
-    padding: 1.2rem;
-    background: var(--warm-white);
-  }
-  .test-card-title {
-    font-size: 0.7rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--dust);
-    margin-bottom: 0.6rem;
-  }
-  .test-result { display: flex; gap: 0.5rem; align-items: center; margin: 0.3rem 0; }
-  .test-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-  .test-result p { margin: 0; font-size: 0.88rem; }
-
-  /* undertone demo */
-  .undertone-strips {
-    display: flex; gap: 2px; margin-top: 1.5rem; border-radius: 2px; overflow: hidden;
-  }
-  .undertone-strip {
-    flex: 1; height: 60px;
-    display: flex; align-items: flex-end; padding: 0.4rem 0.5rem;
-  }
-  .undertone-strip span {
-    font-size: 0.65rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.85);
-  }
-
-  /* ── CONTRAST SECTION (new addition) ── */
-  .contrast-visual {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
-    margin-top: 2rem;
-  }
-  @media(max-width:480px){ .contrast-visual { grid-template-columns:1fr; } }
-  .contrast-card {
-    padding: 1.8rem;
-    border-radius: 2px;
-    position: relative;
-    overflow: hidden;
-  }
-  .contrast-card.high { background: #1A1410; }
-  .contrast-card.low { background: #EAE0D5; }
-  .contrast-face {
-    width: 56px; height: 56px; border-radius: 50%;
-    margin-bottom: 1rem;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.5rem;
-  }
-  .contrast-label {
-    font-size: 0.68rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    margin-bottom: 0.4rem;
-  }
-  .contrast-card.high .contrast-label { color: rgba(255,255,255,0.5); }
-  .contrast-card.low .contrast-label { color: var(--dust); }
-  .contrast-card.high h4 { color: #fff; font-family: var(--serif); font-size: 1.1rem; }
-  .contrast-card.low h4 { color: var(--bark); font-family: var(--serif); font-size: 1.1rem; }
-  .contrast-card p { font-size: 0.85rem; margin-top: 0.5rem; }
-  .contrast-card.high p { color: rgba(255,255,255,0.6); }
-  .contrast-card.low p { color: var(--dust); }
-  .contrast-chips { display: flex; gap: 0.4rem; margin-top: 1rem; flex-wrap: wrap; }
-  .c-chip {
-    padding: 0.2rem 0.7rem;
-    border-radius: 20px;
-    font-size: 0.72rem;
-    font-weight: 500;
-  }
-
-  /* ── MISTAKES (new addition) ── */
-  .mistakes-section { background: var(--ink); color: var(--cream); }
-  .mistakes-section h2 { color: var(--cream); }
-  .mistakes-section h2 em { color: var(--gold); }
-  .mistakes-section .section-label { color: var(--gold); }
-  .mistakes-section p { color: rgba(250,247,242,0.7); }
-  .mistake-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px,1fr));
-    gap: 1.5rem;
-    margin-top: 3rem;
-  }
-  .mistake-item {
-    border: 1px solid rgba(200,169,106,0.2);
-    padding: 1.8rem;
-    border-radius: 2px;
-    position: relative;
-  }
-  .mistake-x {
-    font-family: var(--serif);
-    font-size: 2rem;
-    color: var(--gold);
-    line-height: 1;
-    margin-bottom: 0.8rem;
-  }
-  .mistake-item h4 {
-    color: var(--cream);
-    font-family: var(--serif);
-    font-size: 1.1rem;
-    margin-bottom: 0.5rem;
-  }
-  .mistake-item p { color: rgba(250,247,242,0.6); font-size: 0.9rem; }
+  /* ── QUIZ ── */
+  .quiz-section { background: var(--cag-warm-white); }
 
   /* ── PALETTES ── */
   .season-tabs {
     display: flex; gap: 0; margin-bottom: 3rem;
-    border-bottom: 1px solid var(--line);
+    border-bottom: 1px solid var(--cag-line);
     overflow-x: auto;
   }
   .season-tab {
@@ -426,18 +271,16 @@
     letter-spacing: 0.12em;
     text-transform: uppercase;
     cursor: pointer;
-    border: none;
-    background: transparent;
-    color: var(--dust);
+    border: none; background: transparent;
+    color: var(--cag-dust);
     border-bottom: 2px solid transparent;
     margin-bottom: -1px;
     transition: all 0.2s;
     white-space: nowrap;
-    font-family: var(--sans);
+    font-family: var(--cag-sans);
   }
-  .season-tab.active { color: var(--bark); border-bottom-color: var(--gold); }
-  .season-tab:hover { color: var(--bark); }
-
+  .season-tab.active { color: var(--cag-bark); border-bottom-color: var(--cag-gold); }
+  .season-tab:hover { color: var(--cag-bark); }
   .season-content { display: none; }
   .season-content.active { display: block; }
 
@@ -447,39 +290,37 @@
     gap: 1.5rem;
   }
   .palette-card {
-    border: 1px solid var(--line);
+    border: 1px solid var(--cag-line);
     border-radius: 2px;
     overflow: hidden;
     transition: box-shadow 0.2s, transform 0.2s;
-    cursor: default;
+    background: var(--cag-cream);
   }
   .palette-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.08); transform: translateY(-2px); }
-  .palette-swatches {
-    display: flex; height: 80px;
-  }
+  .palette-swatches { display: flex; height: 80px; }
   .palette-swatches span { flex: 1; }
   .palette-body { padding: 1.5rem; }
   .palette-name {
-    font-family: var(--serif);
+    font-family: var(--cag-serif);
     font-size: 1.2rem;
-    color: var(--bark);
+    color: var(--cag-bark);
     margin-bottom: 0.3rem;
   }
   .palette-tags { display: flex; gap: 0.4rem; margin-bottom: 1rem; flex-wrap: wrap; }
-  .tag {
+  .cag-tag {
     font-size: 0.65rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     padding: 0.2rem 0.6rem;
-    background: var(--warm-white);
-    color: var(--dust);
+    background: var(--cag-warm-white);
+    color: var(--cag-dust);
     border-radius: 20px;
   }
-  .palette-desc { font-size: 0.88rem; color: var(--dust); margin-bottom: 1rem; }
-  .palette-celebs { font-size: 0.78rem; color: var(--dust); }
-  .palette-celebs strong { color: var(--bark); }
+  .palette-desc { font-size: 0.88rem; color: var(--cag-dust); margin-bottom: 1rem; }
+  .palette-celebs { font-size: 0.78rem; color: var(--cag-dust); }
+  .palette-celebs strong { color: var(--cag-bark); }
   .avoid-colors { display: flex; gap: 0.4rem; margin-top: 0.8rem; align-items: center; }
-  .avoid-label { font-size: 0.7rem; color: var(--dust); }
+  .avoid-label { font-size: 0.7rem; color: var(--cag-dust); }
   .avoid-swatch {
     width: 20px; height: 20px; border-radius: 50%;
     border: 1px solid rgba(0,0,0,0.1);
@@ -491,183 +332,31 @@
     background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cline x1='4' y1='4' x2='16' y2='16' stroke='rgba(0,0,0,0.3)' stroke-width='2'/%3E%3C/svg%3E");
   }
 
-  /* ── TABLE ── */
-  .table-section { background: var(--warm-white); }
-  .palette-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 2rem;
-    font-size: 0.88rem;
-  }
-  .palette-table th {
-    text-align: left;
-    padding: 0.8rem 1rem;
-    font-size: 0.68rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--dust);
-    border-bottom: 1px solid var(--line);
-    font-weight: 400;
-  }
-  .palette-table td {
-    padding: 0.9rem 1rem;
-    border-bottom: 1px solid var(--line);
-    vertical-align: middle;
-    color: var(--bark);
-  }
-  .palette-table tr:last-child td { border-bottom: none; }
-  .palette-table tr:hover td { background: var(--cream); }
-  .season-badge {
-    display: inline-block;
-    padding: 0.18rem 0.7rem;
-    border-radius: 20px;
-    font-size: 0.7rem;
-    letter-spacing: 0.08em;
-    font-weight: 500;
-  }
-  .badge-spring { background: #FDE8D0; color: #8B5C2A; }
-  .badge-summer { background: #D8E8F0; color: #2A5C7A; }
-  .badge-autumn { background: #F0E0C8; color: #7A4A1A; }
-  .badge-winter { background: #D8D8E8; color: #3A3A6A; }
-
-  .hue-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 4px; vertical-align: middle; }
-
-  /* ── CHECKLIST ── */
-  .checklist-section { }
-  .checklist {
-    max-width: 600px;
-    margin: 2.5rem auto 0;
-  }
-  .checklist-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 1rem;
-    padding: 1.2rem 0;
-    border-bottom: 1px solid var(--line);
-  }
-  .checklist-item:last-child { border-bottom: none; }
-  .check-box {
-    width: 22px; height: 22px;
-    border: 1px solid var(--gold);
-    border-radius: 2px;
-    flex-shrink: 0;
-    margin-top: 2px;
-    cursor: pointer;
-    position: relative;
-    transition: background 0.2s;
-  }
-  .check-box.checked {
-    background: var(--gold);
-  }
-  .check-box.checked::after {
-    content: '✓';
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 0.8rem;
-    line-height: 22px;
-    text-align: center;
-  }
-  .checklist-text h4 {
-    font-family: var(--serif);
-    font-size: 1rem;
-    color: var(--bark);
-    margin-bottom: 0.2rem;
-  }
-  .checklist-text p { font-size: 0.85rem; color: var(--dust); margin: 0; }
-
-  /* ── CLOSING ── */
-  .closing-section {
-    text-align: center;
-    background: var(--warm-white);
-  }
-  .closing-section h2 { max-width: 500px; margin: 0 auto 1.5rem; }
-  .closing-section p { max-width: 480px; margin: 0 auto 2rem; }
-  .closing-palette {
-    display: flex; justify-content: center; gap: 12px; margin: 3rem auto;
-    flex-wrap: wrap;
-  }
-  .closing-chip {
-    width: 48px; height: 48px;
-    border-radius: 50%;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.1);
-    transition: transform 0.3s;
-  }
-  .closing-chip:hover { transform: scale(1.15) translateY(-4px); }
-
-  /* ── FOOTER ── */
-  footer {
-    padding: 3rem 2rem;
-    text-align: center;
-    border-top: 1px solid var(--line);
-  }
-  footer p { font-size: 0.8rem; color: var(--dust); margin: 0; }
-  footer .footer-logo {
-    font-family: var(--serif);
-    font-size: 1.5rem;
-    color: var(--bark);
-    display: block;
-    margin-bottom: 1rem;
-  }
-
-  /* ── ANIMATIONS ── */
-  @keyframes slideUp {
-    from { opacity: 0; transform: translateY(24px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes fadeIn {
-    to { opacity: 1; }
-  }
-
-  .reveal {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
-  }
-  .reveal.visible { opacity: 1; transform: translateY(0); }
-
-  /* scrollbar */
-  ::-webkit-scrollbar { width: 6px; height: 6px; }
-  ::-webkit-scrollbar-track { background: var(--cream); }
-  ::-webkit-scrollbar-thumb { background: var(--gold-light); border-radius: 3px; }
-
-  /* ── OUTFIT COMBOS ── */
+  /* ── COMBOS ── */
   .combos-section {
     margin-top: 1.4rem;
-    border-top: 1px solid var(--line);
+    border-top: 1px solid var(--cag-line);
     padding-top: 1.2rem;
   }
   .combos-label {
     font-size: 0.65rem;
     letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: var(--dust);
+    color: var(--cag-dust);
     margin-bottom: 0.9rem;
   }
-  .combo {
-    margin-bottom: 1rem;
-  }
+  .combo { margin-bottom: 1rem; }
   .combo:last-child { margin-bottom: 0; }
   .combo-name {
     font-size: 0.72rem;
-    color: var(--dust);
+    color: var(--cag-dust);
     margin-bottom: 0.45rem;
     font-style: italic;
   }
-  .combo-row {
-    display: flex;
-    gap: 3px;
-    align-items: center;
-  }
+  .combo-row { display: flex; gap: 3px; align-items: center; }
   .combo-swatch {
-    position: relative;
-    border-radius: 3px;
-    cursor: help;
-    transition: transform 0.15s;
-    flex-shrink: 0;
+    position: relative; border-radius: 3px;
+    cursor: help; transition: transform 0.15s; flex-shrink: 0;
   }
   .combo-swatch:hover { transform: scale(1.1); z-index: 2; }
   .combo-swatch.basic  { width: 32px; height: 32px; }
@@ -678,7 +367,7 @@
     position: absolute;
     bottom: 38px; left: 50%;
     transform: translateX(-50%);
-    background: var(--ink);
+    background: var(--cag-ink);
     color: #fff;
     font-size: 0.68rem;
     padding: 3px 8px;
@@ -689,59 +378,170 @@
   }
   .combo-divider {
     width: 1px; height: 20px;
-    background: var(--line);
+    background: var(--cag-line);
     margin: 0 4px;
     flex-shrink: 0;
   }
-  .combo-type-labels {
-    display: flex;
-    gap: 3px;
-    margin-top: 0.3rem;
-    align-items: center;
+
+  /* ── TESTS SECTION ── */
+  .tests-section { background: var(--cag-warm-white); }
+  .test-cards-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+    margin-top: 3rem;
   }
-  .type-label {
-    font-size: 0.58rem;
-    color: var(--dust);
-    letter-spacing: 0.06em;
+  .test-card-large {
+    background: var(--cag-cream);
+    border: 1px solid var(--cag-line);
+    border-radius: 2px;
+    padding: 2rem 1.8rem;
+  }
+  .test-num {
+    font-family: var(--cag-serif);
+    font-size: 2.5rem;
+    font-weight: 300;
+    color: var(--cag-gold-light);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+  .test-card-large h3 { font-size: 1.3rem; margin-bottom: 0.5rem; }
+  .test-card-large .test-sub {
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
+    color: var(--cag-gold);
+    margin-bottom: 1rem;
   }
-  .type-label.basic  { width: 32px; text-align: center; }
-  .type-label.color  { width: 28px; text-align: center; }
-  .type-label.accent { width: 22px; text-align: center; }
-  .type-label.div    { width: 9px; }
+  .test-card-large p { font-size: 0.9rem; }
+  .test-result-row {
+    display: flex; gap: 0.6rem; align-items: center;
+    margin: 0.5rem 0; padding: 0.5rem 0.7rem;
+    background: var(--cag-warm-white);
+    border-radius: 2px;
+  }
+  .test-result-row .test-dot {
+    width: 14px; height: 14px;
+    border-radius: 50%; flex-shrink: 0;
+  }
+  .test-result-row p { font-size: 0.85rem; margin: 0; color: var(--cag-bark); }
+  .test-result-row strong { color: var(--cag-ink); }
+
+  /* ── MISTAKES ── */
+  .mistakes-section { background: var(--cag-ink); color: var(--cag-cream); }
+  .mistakes-section h2 { color: var(--cag-cream); }
+  .mistakes-section h2 em { color: var(--cag-gold); }
+  .mistakes-section .cag-section-label { color: var(--cag-gold); }
+  .mistakes-section p { color: rgba(250,247,242,0.7); }
+  .mistake-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px,1fr));
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+  .mistake-item {
+    border: 1px solid rgba(200,169,106,0.2);
+    padding: 1.8rem;
+    border-radius: 2px;
+  }
+  .mistake-x {
+    font-family: var(--cag-serif);
+    font-size: 2rem;
+    color: var(--cag-gold);
+    line-height: 1;
+    margin-bottom: 0.8rem;
+  }
+  .mistake-item h4 {
+    color: var(--cag-cream);
+    font-family: var(--cag-serif);
+    font-size: 1.1rem;
+    margin: 0 0 0.5rem 0;
+  }
+  .mistake-item p { color: rgba(250,247,242,0.6); font-size: 0.9rem; }
+
+  /* ── CLOSING ── */
+  .closing-section {
+    text-align: center;
+    background: var(--cag-warm-white);
+  }
+  .closing-section h2 { max-width: 500px; margin: 0 auto 1.5rem; }
+  .closing-section p { max-width: 480px; margin: 0 auto 2rem; }
+  .closing-palette {
+    display: flex; justify-content: center; gap: 12px;
+    margin: 3rem auto; flex-wrap: wrap;
+  }
+  .closing-chip {
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+  }
+  .closing-chip:hover { transform: scale(1.15) translateY(-4px); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes cagSlideUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes cagFadeIn { to { opacity: 1; } }
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
 </style>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-DBRDY0FNX7"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){{dataLayer.push(arguments);}}
-    gtag('js', new Date());
-    gtag('config', 'G-DBRDY0FNX7');
-  </script>
-  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+
 </head>
 <body>
 
-<!-- NAV -->
-<nav>
-  <span class="nav-logo">Fashion Analysis by Danai</span>
-  <ul class="nav-links">
-    <li><a href="#steps">Βήματα</a></li>
-    <li><a href="#quiz">Quiz</a></li>
-    <li><a href="#palettes">Παλέτες</a></li>
-    <li><a href="#checklist">Checklist</a></li>
+<!-- NAV (identical to homepage) -->
+
+<nav id="navbar">
+  <a href="index.html" class="nav-brand">
+    <span class="brand-main">Fashion Analysis</span>
+    <span class="brand-sub">by Danai</span>
+  </a>
+  <button class="nav-toggle" onclick="toggleMenu()" aria-label="menu">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="https://dbvabydanai.wordpress.com" target="_blank">Articles</a></li>
+    <li class="nav-dropdown">
+      <a href="#" onclick="return false" class="nav-dropdown-toggle">Guides & Tools ▾</a>
+      <ul class="nav-dropdown-menu">
+        <li class="nav-dropdown-heading">Οδηγοί</li>
+        <li><a href="color-analysis-guide.html">🎨 Color Analysis Guide</a></li>
+        <li><a href="style-identity-guide.html">✨ Style Identity Guide</a></li>
+        <li><a href="body-type-quiz.html">👤 Body Type Quiz</a></li>
+        <li><a href="wardrobe-audit-workbook.html">📝 Wardrobe Audit Workbook</a></li>
+        <li><a href="capsule-workbook.html">👗 Capsule Wardrobe Workbook</a></li>
+        <li class="nav-dropdown-divider"></li>
+        <li class="nav-dropdown-heading">Εργαλεία</li>
+        <li><a href="wishlist.html">🛍 Wardrobe Wishlist</a></li>
+        <li><a href="wardrobe-tracker.html">📱 Wardrobe Tracker</a></li>
+        <li><a href="wardrobe-calculator.html">📊 KPIs Calculator</a></li>
+      </ul>
+    </li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="newsletter.html" class="nav-cta">Newsletter</a></li>
   </ul>
 </nav>
 
+<div class="cag-content">
+
 <!-- HERO -->
-<section class="hero">
+
+<section class="cag-hero">
   <div class="hero-bg"></div>
   <div class="hero-content">
     <p class="hero-eyebrow">Free Color Analysis Guide</p>
     <h1>Βρες τα χρώματα<br>που <em>σε κολακεύουν</em></h1>
     <p class="hero-sub">Ένας πλήρης οδηγός για να ανακαλύψεις τη χρωματική σου παλέτα και να ντύνεσαι πιο αρμονικά — χωρίς προσπάθεια.</p>
     <div class="hero-cta">
-      <a href="#steps" class="btn-primary">Ξεκίνα εδώ</a>
-      <a href="#palettes" class="btn-ghost">Δες τις παλέτες</a>
+      <a href="#quiz" class="cag-btn-primary">Κάνε το quiz</a>
+      <a href="#palettes" class="cag-btn-ghost">Δες τις παλέτες</a>
     </div>
   </div>
   <div class="hero-palette-row">
@@ -761,11 +561,12 @@
 </section>
 
 <!-- INTRO -->
+
 <section>
-  <div class="container reveal">
-    <p class="section-label">Γιατί έχει σημασία</p>
+  <div class="cag-container reveal">
+    <p class="cag-section-label">Γιατί έχει σημασία</p>
     <h2>Το χρώμα δεν είναι <em>γούστο</em> — είναι επιστήμη</h2>
-    <div class="divider"></div>
+    <div class="cag-divider"></div>
     <div class="intro-grid">
       <div>
         <p>Αναρωτιέσαι ποτέ γιατί κάποια χρώματα σε κάνουν να δείχνεις πιο φωτεινή και άλλα κάνουν το πρόσωπό σου να δείχνει κουρασμένο; Η απάντηση βρίσκεται στο color analysis — στη χρωματική παλέτα που ταιριάζει στα φυσικά σου χαρακτηριστικά.</p>
@@ -779,167 +580,378 @@
   </div>
 </section>
 
-<!-- 3 PROPERTIES -->
-<section class="props-section">
-  <div class="container-wide reveal">
-    <p class="section-label">Η θεωρία</p>
-    <h2>Τα 3 χαρακτηριστικά <em>κάθε χρώματος</em></h2>
-    <div class="divider"></div>
-    <p style="max-width:560px">Κάθε χρώμα έχει τρεις βασικές ιδιότητες. Η προσωπική σου παλέτα είναι ο μοναδικός συνδυασμός τους.</p>
-    <div class="props-grid">
-      <div class="prop-card">
-        <div class="prop-num">01</div>
-        <div class="prop-title">Θερμοκρασία</div>
-        <div class="prop-sub">Warm · Cool · Neutral</div>
-        <p style="font-size:0.9rem">Αν το χρώμα έχει μέσα του κίτρινο/πορτοκαλί (ζεστό) ή μπλε (ψυχρό). Π.χ. κοραλλί (ζεστό) vs μπορντό (ψυχρό).</p>
-        <div class="prop-examples">
-          <div class="color-chip" style="background:#E8906A" title="Coral (warm)"></div>
-          <div class="color-chip" style="background:#D4A830" title="Golden Yellow (warm)"></div>
-          <div class="color-chip" style="background:#6A8AD4" title="Cobalt (cool)"></div>
-          <div class="color-chip" style="background:#8A5A78" title="Berry (cool)"></div>
-          <div class="color-chip" style="background:#B0A898" title="Greige (neutral)"></div>
-        </div>
-      </div>
-      <div class="prop-card">
-        <div class="prop-num">02</div>
-        <div class="prop-title">Ένταση</div>
-        <div class="prop-sub">Bright · Muted</div>
-        <p style="font-size:0.9rem">Πόσο καθαρό ή απαλό είναι ένα χρώμα. Π.χ. royal blue (bright) vs dusty blue (muted).</p>
-        <div class="prop-examples">
-          <div class="color-chip" style="background:#E82020" title="Bright Red"></div>
-          <div class="color-chip" style="background:#2060D8" title="Royal Blue (bright)"></div>
-          <div class="color-chip" style="background:#A07880" title="Dusty Rose (muted)"></div>
-          <div class="color-chip" style="background:#7A9070" title="Sage (muted)"></div>
-          <div class="color-chip" style="background:#C89060" title="Warm Tan (muted)"></div>
-        </div>
-      </div>
-      <div class="prop-card">
-        <div class="prop-num">03</div>
-        <div class="prop-title">Βάθος</div>
-        <div class="prop-sub">Light · Dark</div>
-        <p style="font-size:0.9rem">Πόσο ανοιχτό ή σκούρο είναι ένα χρώμα. Η ίδια απόχρωση, διαφορετική φωτεινότητα.</p>
-        <div class="prop-examples">
-          <div class="color-chip" style="background:#F0D8D0" title="Light Blush"></div>
-          <div class="color-chip" style="background:#D0E8E0" title="Powder Mint"></div>
-          <div class="color-chip" style="background:#484038" title="Deep Brown"></div>
-          <div class="color-chip" style="background:#1A3058" title="Dark Navy"></div>
-          <div class="color-chip" style="background:#783048" title="Deep Burgundy"></div>
-        </div>
-      </div>
+<!-- QUIZ -->
+
+<section id="quiz" class="quiz-section">
+  <div class="cag-container reveal">
+    <p class="cag-section-label">Ανακάλυψε την παλέτα σου</p>
+    <h2>Color Analysis <em>Quiz</em></h2>
+    <div class="cag-divider"></div>
+    <p style="max-width:520px;margin-bottom:2.5rem">Απάντησε σε 5 ερωτήσεις και θα βρούμε σε ποια από τις 12 παλέτες ανήκεις. Κάνε το χωρίς μακιγιάζ, σε φυσικό φως.</p>
+
+```
+<div id="quiz-container">
+  <div style="margin-bottom:2rem">
+    <div style="display:flex;justify-content:space-between;margin-bottom:0.5rem">
+      <span id="quiz-progress-label" style="font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--cag-dust)">Ερώτηση 1 από 5</span>
+      <span id="quiz-progress-pct" style="font-size:0.72rem;color:var(--cag-gold)">0%</span>
+    </div>
+    <div style="height:3px;background:var(--cag-line);border-radius:2px">
+      <div id="quiz-progress-bar" style="height:3px;background:var(--cag-gold);border-radius:2px;width:0%;transition:width 0.4s ease"></div>
     </div>
   </div>
-</section>
 
-<!-- STEPS -->
-<section id="steps">
-  <div class="container reveal">
-    <p class="section-label">Βήμα προς βήμα</p>
-    <h2>Πώς να βρεις <em>την παλέτα σου</em></h2>
-    <div class="divider"></div>
+  <div id="quiz-questions"></div>
 
-    <!-- STEP 1 -->
-    <div class="step-block">
-      <div class="step-num">01</div>
-      <div>
-        <h3>Υπότονος δέρματος — Θερμοκρασία</h3>
-        <p>Ο υπότονος είναι το χρώμα κάτω από την επιφάνεια του δέρματος. Δεν αλλάζει με το μαύρισμα — είναι σταθερός.</p>
-        <div class="undertone-strips">
-          <div class="undertone-strip" style="background:#C8956A;flex:1.2"><span>Warm</span></div>
-          <div class="undertone-strip" style="background:#B8B090"><span>Neutral</span></div>
-          <div class="undertone-strip" style="background:#9090B0;flex:1.2"><span>Cool</span></div>
-        </div>
-        <div class="test-cards">
-          <div class="test-card">
-            <div class="test-card-title">Vein test</div>
-            <div class="test-result"><div class="test-dot" style="background:#5070C0"></div><p>Μπλε φλέβες → Cool</p></div>
-            <div class="test-result"><div class="test-dot" style="background:#507830"></div><p>Πράσινες → Warm</p></div>
-            <div class="test-result"><div class="test-dot" style="background:#887060"></div><p>Μικτές → Neutral</p></div>
-          </div>
-          <div class="test-card">
-            <div class="test-card-title">Jewelry test</div>
-            <div class="test-result"><div class="test-dot" style="background:#C8A030"></div><p>Χρυσό → Warm</p></div>
-            <div class="test-result"><div class="test-dot" style="background:#A8A8B8"></div><p>Ασημί → Cool</p></div>
-          </div>
-          <div class="test-card">
-            <div class="test-card-title">White test</div>
-            <div class="test-result"><div class="test-dot" style="background:#F8F8F8"></div><p>Καθαρό λευκό → Cool</p></div>
-            <div class="test-result"><div class="test-dot" style="background:#F5EED8"></div><p>Cream / ivory → Warm</p></div>
-          </div>
-        </div>
-      </div>
-    </div>
+  <div id="quiz-nav" style="display:flex;gap:1rem;margin-top:2rem">
+    <button id="quiz-prev" onclick="quizNav(-1)" class="cag-btn-ghost" style="display:none">← Πίσω</button>
+    <button id="quiz-next" onclick="quizNav(1)" class="cag-btn-primary" style="display:none">Επόμενο →</button>
+    <button id="quiz-submit" onclick="quizSubmit()" class="cag-btn-primary" style="display:none">Δες το αποτέλεσμά σου ✨</button>
+  </div>
+</div>
 
-    <!-- STEP 2 -->
-    <div class="step-block">
-      <div class="step-num">02</div>
-      <div>
-        <h3>Ένταση χρωμάτων — Bright ή Muted;</h3>
-        <p>Ακόμα και δύο άτομα με ίδιο undertone μπορεί να χρειάζονται πολύ διαφορετικά χρώματα ανάλογα με την ένταση που τους ταιριάζει.</p>
-        <p><strong style="color:var(--bark);font-weight:500">Bright:</strong> Τα έντονα, καθαρά χρώματα φωτίζουν το πρόσωπο. Τα μάτια έχουν φυσική καθαρότητα. (Π.χ. Megan Fox)</p>
-        <p><strong style="color:var(--bark);font-weight:500">Muted:</strong> Τα dusty, γήινα χρώματα δένουν αρμονικά. Τα χαρακτηριστικά είναι πιο απαλά φυσικά. (Π.χ. Jennifer Aniston)</p>
-        <div class="test-cards" style="margin-top:1.5rem">
-          <div class="test-card">
-            <div class="test-card-title">Τεστ καθρέφτη</div>
-            <p style="font-size:0.85rem">Κράτησε κοντά στο πρόσωπό σου ένα έντονο κόκκινο και ένα muted μπορντό. Ποιο κάνει το δέρμα να φαίνεται πιο φωτεινό;</p>
-          </div>
-        </div>
-      </div>
-    </div>
+<div id="quiz-result" style="display:none"></div>
 
-    <!-- STEP 3 -->
-    <div class="step-block">
-      <div class="step-num">03</div>
-      <div>
-        <h3>Βάθος χαρακτηριστικών — Light ή Dark;</h3>
-        <p>Κοίτα τον συνδυασμό μαλλιών, ματιών και δέρματος συνολικά. Βρίσκονται στο ανοιχτό ή στο σκούρο άκρο της κλίμακας;</p>
-        <p><strong style="color:var(--bark);font-weight:500">Light:</strong> Ανοιχτό δέρμα, ξανθά/ανοιχτά μαλλιά, ανοιχτά μάτια. (Π.χ. Margot Robbie)</p>
-        <p><strong style="color:var(--bark);font-weight:500">Dark:</strong> Σκούρα μαλλιά, σκούρα μάτια, βαθύτερη απόχρωση δέρματος. (Π.χ. Salma Hayek)</p>
-      </div>
-    </div>
-
-    <!-- STEP 4 — NEW: CONTRAST -->
-    <div class="step-block">
-      <div class="step-num">04</div>
-      <div>
-        <h3>Αντίθεση χαρακτηριστικών <span style="font-family:var(--sans);font-size:0.75rem;color:var(--gold);letter-spacing:0.1em;text-transform:uppercase;margin-left:0.5rem">+bonus</span></h3>
-        <p>Αυτό το βήμα λείπει από πολλούς οδηγούς — αλλά είναι κρίσιμο. Η αντίθεση είναι η διαφορά φωτεινότητας μεταξύ μαλλιών, ματιών και δέρματος.</p>
-        <div class="contrast-visual">
-          <div class="contrast-card high">
-            <div class="contrast-face" style="background:#F5E8D8">🌑</div>
-            <div class="contrast-label">Υψηλή αντίθεση</div>
-            <h4>High Contrast</h4>
-            <p>Πολύ σκούρα μαλλιά, ανοιχτό δέρμα. Χρειάζεσαι χρώματα με ισχυρή παρουσία.</p>
-            <div class="contrast-chips">
-              <span class="c-chip" style="background:#1A1A2A;color:#fff">Navy</span>
-              <span class="c-chip" style="background:#C81030;color:#fff">True Red</span>
-              <span class="c-chip" style="background:#F8F8F8;color:#1A1A1A;border:1px solid #ddd">White</span>
-            </div>
-          </div>
-          <div class="contrast-card low">
-            <div class="contrast-face" style="background:#D8C8B8">🌤</div>
-            <div class="contrast-label">Χαμηλή αντίθεση</div>
-            <h4>Low Contrast</h4>
-            <p>Μαλλιά και δέρμα σε κοντινές αποχρώσεις. Χρειάζεσαι αρμονικά, απαλά χρώματα.</p>
-            <div class="contrast-chips">
-              <span class="c-chip" style="background:#C8A880;color:#5A3810">Camel</span>
-              <span class="c-chip" style="background:#B0C0C8;color:#2A4858">Powder Blue</span>
-              <span class="c-chip" style="background:#D8B0A0;color:#6A3020">Dusty Rose</span>
-            </div>
-          </div>
-        </div>
-        <p style="margin-top:1.5rem;font-size:0.88rem;color:var(--dust)">💡 Αν έχεις υψηλή αντίθεση αλλά φοράς πολύ muted χρώματα, το αποτέλεσμα μπορεί να φαίνεται θαμπό. Αν έχεις χαμηλή αντίθεση αλλά φοράς πολύ έντονα χρώματα, αυτά θα τραβούν όλη την προσοχή αντί για εσένα.</p>
-      </div>
-    </div>
+<div id="quiz-restart" style="display:none;margin-top:2rem">
+  <button onclick="quizRestart()" class="cag-btn-ghost">↺ Ξανακάνε το quiz</button>
+</div>
+```
 
   </div>
 </section>
 
-<!-- MISTAKES (NEW SECTION) -->
+<!-- PALETTES -->
+
+<section id="palettes">
+  <div class="cag-container-wide reveal">
+    <p class="cag-section-label">Οι 12 παλέτες</p>
+    <h2>Βρες την <em>εποχή σου</em></h2>
+    <div class="cag-divider"></div>
+    <p style="max-width:560px;margin-bottom:2rem">Κάθε εποχή χωρίζεται σε 3 υποκατηγορίες, δημιουργώντας τις 12 παλέτες. Επίλεξε εποχή για να δεις τις παλέτες της.</p>
+
+```
+<div class="season-tabs">
+  <button class="season-tab active" onclick="showSeason('spring',this)">🌸 Άνοιξη</button>
+  <button class="season-tab" onclick="showSeason('summer',this)">☀️ Καλοκαίρι</button>
+  <button class="season-tab" onclick="showSeason('autumn',this)">🍂 Φθινόπωρο</button>
+  <button class="season-tab" onclick="showSeason('winter',this)">❄️ Χειμώνας</button>
+</div>
+
+<!-- SPRING -->
+<div class="season-content active" id="season-spring">
+  <div class="palettes-grid">
+    <div class="palette-card">
+      <div class="palette-swatches">
+        <span style="background:#F5C8A0"></span><span style="background:#E8A070"></span><span style="background:#90D0C0"></span><span style="background:#F0D890"></span><span style="background:#C8E8A8"></span><span style="background:#F8E8D0"></span>
+      </div>
+      <div class="palette-body">
+        <div class="palette-name">Light Spring</div>
+        <div class="palette-tags"><span class="cag-tag">Warm</span><span class="cag-tag">Light</span><span class="cag-tag">Neutral chroma</span></div>
+        <p class="palette-desc">Φρέσκα, απαλά και ζεστά χρώματα. Ανοιχτά χαρακτηριστικά με χαμηλή αντίθεση.</p>
+        <p class="palette-celebs"><strong>Χρώματα:</strong> Peach, light coral, aqua, light turquoise, powder green</p>
+        <p class="palette-celebs" style="margin-top:0.4rem"><strong>Παράδειγμα:</strong> Margot Robbie</p>
+        <div class="avoid-colors">
+          <span class="avoid-label">Αποφύγε:</span>
+          <div class="avoid-swatch" style="background:#1A1A1A" title="Μαύρο"></div>
+          <div class="avoid-swatch" style="background:#4A1030" title="Βαθύ μπορντό"></div>
+          <div class="avoid-swatch" style="background:#303050" title="Σκούρο navy"></div>
+        </div>
+      </div>
+    </div>
+    <div class="palette-card">
+      <div class="palette-swatches">
+        <span style="background:#E88060"></span><span style="background:#D4A030"></span><span style="background:#60C890"></span><span style="background:#F0A870"></span><span style="background:#50B8D0"></span><span style="background:#E8D070"></span>
+      </div>
+      <div class="palette-body">
+        <div class="palette-name">True Spring</div>
+        <div class="palette-tags"><span class="cag-tag">Warm</span><span class="cag-tag">Light–Medium</span><span class="cag-tag">Bright</span></div>
+        <p class="palette-desc">Ζωντανά, καθαρά ζεστά χρώματα. Η πλήρης άνθηση της άνοιξης.</p>
+        <p class="palette-celebs"><strong>Χρώματα:</strong> Coral, warm green, golden yellow, peach, bright turquoise</p>
+        <p class="palette-celebs" style="margin-top:0.4rem"><strong>Παράδειγμα:</strong> Blake Lively</p>
+        <div class="avoid-colors">
+          <span class="avoid-label">Αποφύγε:</span>
+          <div class="avoid-swatch" style="background:#8080A0" title="Muted cool γκρι"></div>
+          <div class="avoid-swatch" style="background:#604850" title="Dusty mauve"></div>
+        </div>
+      </div>
+    </div>
+    <div class="palette-card">
+      <div class="palette-swatches">
+        <span style="background:#E02030"></span><span style="background:#20C0A0"></span><span style="background:#F01880"></span><span style="background:#18A820"></span><span style="background:#E86020"></span><span style="background:#2080E8"></span>
+      </div>
+      <div class="palette-body">
+        <div class="palette-name">Bright Spring</div>
+        <div class="palette-tags"><span class="cag-tag">Warm</span><span class="cag-tag">Medium</span><span class="cag-tag">Very Bright</span></div>
+        <p class="palette-desc">Η πιο έντονη ανοιξιάτικη παλέτα. Καθαρά, δυνατά χρώματα με υψηλή αντίθεση.</p>
+        <p class="palette-celebs"><strong>Χρώματα:</strong> Bright turquoise, clear red, hot pink, bright green, clear coral</p>
+        <p class="palette-celebs" style="margin-top:0.4rem"><strong>Παράδειγμα:</strong> Emma Stone</p>
+        <div class="avoid-colors">
+          <span class="avoid-label">Αποφύγε:</span>
+          <div class="avoid-swatch" style="background:#A09080" title="Dusty taupe"></div>
+          <div class="avoid-swatch" style="background:#787870" title="Γκριζαρισμένα χρώματα"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SUMMER -->
+<div class="season-content" id="season-summer">
+  <div class="palettes-grid">
+    <div class="palette-card">
+      <div class="palette-swatches">
+        <span style="background:#A8C8E0"></span><span style="background:#D8A8C0"></span><span style="background:#B8D8C8"></span><span style="background:#E0C8D8"></span><span style="background:#A8B8C8"></span><span style="background:#C8D8E8"></span>
+      </div>
+      <div class="palette-body">
+        <div class="palette-name">Light Summer</div>
+        <div class="palette-tags"><span class="cag-tag">Cool</span><span class="cag-tag">Light</span><span class="cag-tag">Muted</span></div>
+        <p class="palette-desc">Ψυχρά, απαλά και δροσερά χρώματα. Χαμηλή αντίθεση χαρακτηριστικών.</p>
+        <p class="palette-celebs"><strong>Χρώματα:</strong> Powder blue, light lavender, soft pink, cool mint</p>
+        <p class="palette-celebs" style="margin-top:0.4rem"><strong>Παράδειγμα:</strong> Elle Fanning</p>
+        <div class="avoid-colors">
+          <span class="avoid-label">Αποφύγε:</span>
+          <div class="avoid-swatch" style="background:#D48030" title="Πορτοκαλί"></div>
+          <div class="avoid-swatch" style="background:#201808" title="Σκούρο καφέ"></div>
+        </div>
+      </div>
+    </div>
+    <div class="palette-card">
+      <div class="palette-swatches">
+        <span style="background:#C090A8"></span><span style="background:#8098C0"></span><span style="background:#D0A8B8"></span><span style="background:#9888A8"></span><span style="background:#7090A8"></span><span style="background:#B8A8C0"></span>
+      </div>
+      <div class="palette-body">
+        <div class="palette-name">True Summer</div>
+        <div class="palette-tags"><span class="cag-tag">Cool</span><span class="cag-tag">Medium</span><span class="cag-tag">Muted</span></div>
+        <p class="palette-desc">Ψυχρά muted χρώματα με ελαφριά γκριζάδα. Η ψυχρότητα είναι το κυρίαρχο στοιχείο.</p>
+        <p class="palette-celebs"><strong>Χρώματα:</strong> Dusty rose, lavender, cool blue, soft berry</p>
+        <p class="palette-celebs" style="margin-top:0.4rem"><strong>Παράδειγμα:</strong> Kate Middleton</p>
+        <div class="avoid-colors">
+          <span class="avoid-label">Αποφύγε:</span>
+          <div class="avoid-swatch" style="background:#C88030" title="Warm orange"></div>
+          <div class="avoid-swatch" style="background:#E82020" title="Bright red"></div>
+        </div>
+      </div>
+    </div>
+    <div class="palette-card">
+      <div class="palette-swatches">
+        <span style="background:#A888A0"></span><span style="background:#9098A8"></span><span style="background:#B8A8B0"></span><span style="background:#8090A0"></span><span style="background:#C0A8A8"></span><span style="background:#A0A8B8"></span>
+      </div>
+      <div class="palette-body">
+        <div class="palette-name">Soft Summer</div>
+        <div class="palette-tags"><span class="cag-tag">Cool–Neutral</span><span class="cag-tag">Medium</span><span class="cag-tag">Very Muted</span></div>
+        <p class="palette-desc">Ανάμεσα στο καλοκαίρι και φθινόπωρο. Πολύ muted, με ελαφρά ψυχρότητα.</p>
+        <p class="palette-celebs"><strong>Χρώματα:</strong> Soft mauve, muted blue-grey, dusty pink, grey lavender</p>
+        <p class="palette-celebs" style="margin-top:0.4rem"><strong>Παράδειγμα:</strong> Jennifer Aniston</p>
+        <div class="avoid-colors">
+          <span class="avoid-label">Αποφύγε:</span>
+          <div class="avoid-swatch" style="background:#E02020" title="Bright red"></div>
+          <div class="avoid-swatch" style="background:#101020" title="Μαύρο"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- AUTUMN -->
+<div class="season-content" id="season-autumn">
+  <div class="palettes-grid">
+    <div class="palette-card">
+      <div class="palette-swatches">
+        <span style="background:#A8B870"></span><span style="background:#C0A878"></span><span style="background:#D0A880"></span><span style="background:#B09870"></span><span style="background:#C8B890"></span><span style="background:#98A870"></span>
+      </div>
+      <div class="palette-body">
+        <div class="palette-name">Soft Autumn</div>
+        <div class="palette-tags"><span class="cag-tag">Warm–Neutral</span><span class="cag-tag">Medium</span><span class="cag-tag">Very Muted</span></div>
+        <p class="palette-desc">Η πιο απαλή φθινοπωρινή παλέτα. Ζεστά muted χρώματα, χαμηλής έντασης.</p>
+        <p class="palette-celebs"><strong>Χρώματα:</strong> Sage green, warm taupe, dusty olive, soft terracotta</p>
+        <p class="palette-celebs" style="margin-top:0.4rem"><strong>Παράδειγμα:</strong> Gisele Bündchen</p>
+        <div class="avoid-colors">
+          <span class="avoid-label">Αποφύγε:</span>
+          <div class="avoid-swatch" style="background:#E01878" title="Fuchsia"></div>
+          <div class="avoid-swatch" style="background:#101828" title="Σκούρο navy"></div>
+        </div>
+      </div>
+    </div>
+    <div class="palette-card">
+      <div class="palette-swatches">
+        <span style="background:#C07830"></span><span style="background:#B89830"></span><span style="background:#788840"></span><span style="background:#A06830"></span><span style="background:#D0A050"></span><span style="background:#885830"></span>
+      </div>
+      <div class="palette-body">
+        <div class="palette-name">True Autumn</div>
+        <div class="palette-tags"><span class="cag-tag">Warm</span><span class="cag-tag">Medium–Dark</span><span class="cag-tag">Muted</span></div>
+        <p class="palette-desc">Η πιο χαρακτηριστική φθινοπωρινή παλέτα. Ζεστά, γήινα χρώματα.</p>
+        <p class="palette-celebs"><strong>Χρώματα:</strong> Rust, mustard, olive, warm brown, pumpkin</p>
+        <p class="palette-celebs" style="margin-top:0.4rem"><strong>Παράδειγμα:</strong> Julia Roberts</p>
+        <div class="avoid-colors">
+          <span class="avoid-label">Αποφύγε:</span>
+          <div class="avoid-swatch" style="background:#9898C8" title="Cool purple"></div>
+          <div class="avoid-swatch" style="background:#D0D8E0" title="Icy blue"></div>
+        </div>
+      </div>
+    </div>
+    <div class="palette-card">
+      <div class="palette-swatches">
+        <span style="background:#604020"></span><span style="background:#486030"></span><span style="background:#783020"></span><span style="background:#884820"></span><span style="background:#305040"></span><span style="background:#503818"></span>
+      </div>
+      <div class="palette-body">
+        <div class="palette-name">Dark Autumn</div>
+        <div class="palette-tags"><span class="cag-tag">Warm</span><span class="cag-tag">Dark</span><span class="cag-tag">Neutral chroma</span></div>
+        <p class="palette-desc">Φθινοπωρινή ζεστασιά με μεγάλο βάθος. Σκούρα και πλούσια χρώματα.</p>
+        <p class="palette-celebs"><strong>Χρώματα:</strong> Chocolate brown, deep olive, dark rust, burgundy</p>
+        <p class="palette-celebs" style="margin-top:0.4rem"><strong>Παράδειγμα:</strong> Salma Hayek</p>
+        <div class="avoid-colors">
+          <span class="avoid-label">Αποφύγε:</span>
+          <div class="avoid-swatch" style="background:#F0D0E0" title="Pastel pink"></div>
+          <div class="avoid-swatch" style="background:#C0D0E8" title="Icy blue"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- WINTER -->
+<div class="season-content" id="season-winter">
+  <div class="palettes-grid">
+    <div class="palette-card">
+      <div class="palette-swatches">
+        <span style="background:#481830"></span><span style="background:#182048"></span><span style="background:#183838"></span><span style="background:#381840"></span><span style="background:#204828"></span><span style="background:#281030"></span>
+      </div>
+      <div class="palette-body">
+        <div class="palette-name">Dark Winter</div>
+        <div class="palette-tags"><span class="cag-tag">Cool</span><span class="cag-tag">Dark</span><span class="cag-tag">Neutral chroma</span></div>
+        <p class="palette-desc">Ψυχρά, βαθιά χρώματα. Υψηλή αντίθεση μεταξύ δέρματος και μαλλιών.</p>
+        <p class="palette-celebs"><strong>Χρώματα:</strong> Burgundy, navy, deep emerald, dark purple</p>
+        <p class="palette-celebs" style="margin-top:0.4rem"><strong>Παράδειγμα:</strong> Anne Hathaway</p>
+        <div class="avoid-colors">
+          <span class="avoid-label">Αποφύγε:</span>
+          <div class="avoid-swatch" style="background:#D4A030" title="Golden yellow"></div>
+          <div class="avoid-swatch" style="background:#E8B880" title="Peach"></div>
+        </div>
+      </div>
+    </div>
+    <div class="palette-card">
+      <div class="palette-swatches">
+        <span style="background:#2040C0"></span><span style="background:#E01878"></span><span style="background:#D81818"></span><span style="background:#F0E8F0"></span><span style="background:#101020"></span><span style="background:#7020B0"></span>
+      </div>
+      <div class="palette-body">
+        <div class="palette-name">True Winter</div>
+        <div class="palette-tags"><span class="cag-tag">Cool</span><span class="cag-tag">Medium</span><span class="cag-tag">Bright</span></div>
+        <p class="palette-desc">Η πιο ψυχρή παλέτα. Καθαρά, έντονα χρώματα χωρίς ζεστές αποχρώσεις.</p>
+        <p class="palette-celebs"><strong>Χρώματα:</strong> Cobalt blue, fuchsia, true red, icy pink, pure white</p>
+        <p class="palette-celebs" style="margin-top:0.4rem"><strong>Παράδειγμα:</strong> Courteney Cox</p>
+        <div class="avoid-colors">
+          <span class="avoid-label">Αποφύγε:</span>
+          <div class="avoid-swatch" style="background:#C8A030" title="Mustard"></div>
+          <div class="avoid-swatch" style="background:#A87840" title="Camel"></div>
+        </div>
+      </div>
+    </div>
+    <div class="palette-card">
+      <div class="palette-swatches">
+        <span style="background:#0840E0"></span><span style="background:#E01898"></span><span style="background:#E01010"></span><span style="background:#10C070"></span><span style="background:#F8F8F8"></span><span style="background:#8010C8"></span>
+      </div>
+      <div class="palette-body">
+        <div class="palette-name">Bright Winter</div>
+        <div class="palette-tags"><span class="cag-tag">Cool</span><span class="cag-tag">Medium</span><span class="cag-tag">Very Bright</span></div>
+        <p class="palette-desc">Υψηλή αντίθεση και τα πιο έντονα χρώματα από όλες τις παλέτες.</p>
+        <p class="palette-celebs"><strong>Χρώματα:</strong> Electric blue, magenta, pure white, bright red, emerald</p>
+        <p class="palette-celebs" style="margin-top:0.4rem"><strong>Παράδειγμα:</strong> Megan Fox</p>
+        <div class="avoid-colors">
+          <span class="avoid-label">Αποφύγε:</span>
+          <div class="avoid-swatch" style="background:#B09878" title="Warm beige"></div>
+          <div class="avoid-swatch" style="background:#908880" title="Muted taupe"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+  </div>
+</section>
+
+<!-- TESTS -->
+
+<section class="tests-section">
+  <div class="cag-container reveal">
+    <p class="cag-section-label">Τα 3 βασικά τεστ</p>
+    <h2>Δοκίμασε <em>στον καθρέφτη</em></h2>
+    <div class="cag-divider"></div>
+    <p style="max-width:560px">Πριν εμπιστευτείς το αποτέλεσμα του quiz, επιβεβαίωσε με αυτά τα τρία απλά τεστ. Σε φυσικό φως, χωρίς μακιγιάζ.</p>
+
+```
+<div class="test-cards-row">
+  <div class="test-card-large">
+    <div class="test-num">01</div>
+    <h3>Vein test</h3>
+    <p class="test-sub">Υπότονος δέρματος</p>
+    <p>Κοίτα τις φλέβες στον καρπό σου σε φυσικό φως:</p>
+    <div class="test-result-row">
+      <div class="test-dot" style="background:#5070C0"></div>
+      <p><strong>Μπλε / μοβ</strong> → Cool</p>
+    </div>
+    <div class="test-result-row">
+      <div class="test-dot" style="background:#507830"></div>
+      <p><strong>Πράσινες</strong> → Warm</p>
+    </div>
+    <div class="test-result-row">
+      <div class="test-dot" style="background:#887060"></div>
+      <p><strong>Μικτές</strong> → Neutral</p>
+    </div>
+  </div>
+
+  <div class="test-card-large">
+    <div class="test-num">02</div>
+    <h3>Jewelry test</h3>
+    <p class="test-sub">Χρυσό vs Ασημί</p>
+    <p>Κράτα δύο κομμάτια κοσμήματος κοντά στο πρόσωπό σου. Ποιο κάνει το δέρμα να λάμπει;</p>
+    <div class="test-result-row">
+      <div class="test-dot" style="background:#C8A030"></div>
+      <p><strong>Χρυσό</strong> → Warm undertone</p>
+    </div>
+    <div class="test-result-row">
+      <div class="test-dot" style="background:#A8A8B8"></div>
+      <p><strong>Ασημί</strong> → Cool undertone</p>
+    </div>
+    <div class="test-result-row">
+      <div class="test-dot" style="background:linear-gradient(90deg,#C8A030,#A8A8B8)"></div>
+      <p><strong>Και τα δύο</strong> → Neutral</p>
+    </div>
+  </div>
+
+  <div class="test-card-large">
+    <div class="test-num">03</div>
+    <h3>Intensity test</h3>
+    <p class="test-sub">Bright vs Muted</p>
+    <p>Κράτα ένα έντονο κόκκινο και ένα dusty μπορντό κοντά στο πρόσωπο. Ποιο σε ζωντανεύει;</p>
+    <div class="test-result-row">
+      <div class="test-dot" style="background:#E02030"></div>
+      <p><strong>Έντονο</strong> → Bright</p>
+    </div>
+    <div class="test-result-row">
+      <div class="test-dot" style="background:#7A4858"></div>
+      <p><strong>Dusty</strong> → Muted</p>
+    </div>
+    <div class="test-result-row">
+      <div class="test-dot" style="background:#A06070"></div>
+      <p><strong>Στη μέση</strong> → Neutral chroma</p>
+    </div>
+  </div>
+</div>
+
+<p style="margin-top:2.5rem;font-size:0.88rem;color:var(--cag-dust);text-align:center;font-style:italic">💡 Συνδύασε και τα τρία για να επιβεβαιώσεις την παλέτα σου.</p>
+```
+
+  </div>
+</section>
+
+<!-- MISTAKES -->
+
 <section class="mistakes-section">
-  <div class="container-wide reveal">
-    <p class="section-label">Συχνά λάθη</p>
+  <div class="cag-container-wide reveal">
+    <p class="cag-section-label">Συχνά λάθη</p>
     <h2>Γιατί η χρωματική ανάλυση<br><em>μπερδεύει τόσους;</em></h2>
-    <div class="divider" style="background:rgba(200,169,106,0.5)"></div>
+    <div class="cag-divider" style="background:rgba(200,169,106,0.5)"></div>
     <div class="mistake-list">
       <div class="mistake-item">
         <div class="mistake-x">×</div>
@@ -959,7 +971,7 @@
       <div class="mistake-item">
         <div class="mistake-x">×</div>
         <h4>Δεν λαμβάνουν υπόψη τη βαφή μαλλιών</h4>
-        <p>Η χρωματική ανάλυση γίνεται με τα φυσικά σου χαρακτηριστικά — ή με χρώμα μαλλιών που ταιριάζει στην παλέτα σου. Η βαφή μπορεί να αλλάξει ποια παλέτα σου πηγαίνει.</p>
+        <p>Η χρωματική ανάλυση γίνεται με τα φυσικά σου χαρακτηριστικά — ή με χρώμα μαλλιών που ταιριάζει στην παλέτα σου.</p>
       </div>
       <div class="mistake-item">
         <div class="mistake-x">×</div>
@@ -968,1105 +980,20 @@
       </div>
       <div class="mistake-item">
         <div class="mistake-x">×</div>
-        <h4>Αγνοούν το βάρος/σκιά χρωμάτων</h4>
-        <p>Η χρωματική παλέτα αφορά κυρίως τα χρώματα κοντά στο πρόσωπο (κολλάρο, μαντήλι, γιακάς). Μαύρο παντελόνι φοράνε όλοι.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- PALETTES -->
-<section id="palettes">
-  <div class="container-wide reveal">
-    <p class="section-label">Οι 12 παλέτες</p>
-    <h2>Βρες την <em>εποχή σου</em></h2>
-    <div class="divider"></div>
-    <p style="max-width:560px;margin-bottom:2rem">Κάθε εποχή χωρίζεται σε 3 υποκατηγορίες, δημιουργώντας τις 12 παλέτες. Επίλεξε εποχή για να δεις τις παλέτες της.</p>
-
-    <div style="display:flex;gap:1.5rem;align-items:center;margin-bottom:2rem;padding:1rem 1.2rem;background:var(--warm-white);border-radius:2px;flex-wrap:wrap">
-      <span style="font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--dust)">Οδηγός συνδυασμών:</span>
-      <span style="display:flex;align-items:center;gap:0.5rem;font-size:0.78rem;color:var(--bark)"><span style="display:inline-block;width:22px;height:22px;background:#B0A090;border-radius:3px"></span> Τετράγωνο = Basic (3)</span>
-      <span style="display:flex;align-items:center;gap:0.5rem;font-size:0.78rem;color:var(--bark)"><span style="display:inline-block;width:20px;height:20px;background:#8898B8;border-radius:50%"></span> Κύκλος μεσαίος = Color (3)</span>
-      <span style="display:flex;align-items:center;gap:0.5rem;font-size:0.78rem;color:var(--bark)"><span style="display:inline-block;width:16px;height:16px;background:#C07850;border-radius:50%;border:2px solid rgba(255,255,255,0.7)"></span> Κύκλος μικρός = Accent (2)</span>
-      <span style="font-size:0.75rem;color:var(--dust);font-style:italic">Hover για όνομα χρώματος</span>
-    </div>
-
-    <div class="season-tabs">
-      <button class="season-tab active" onclick="showSeason('spring',this)">🌸 Άνοιξη</button>
-      <button class="season-tab" onclick="showSeason('summer',this)">☀️ Καλοκαίρι</button>
-      <button class="season-tab" onclick="showSeason('autumn',this)">🍂 Φθινόπωρο</button>
-      <button class="season-tab" onclick="showSeason('winter',this)">❄️ Χειμώνας</button>
-    </div>
-
-    <!-- SPRING -->
-    <div class="season-content active" id="season-spring">
-      <div class="palettes-grid">
-
-        <div class="palette-card">
-          <div class="palette-swatches">
-            <span style="background:#F5C8A0"></span>
-            <span style="background:#E8A070"></span>
-            <span style="background:#90D0C0"></span>
-            <span style="background:#F0D890"></span>
-            <span style="background:#C8E8A8"></span>
-            <span style="background:#F8E8D0"></span>
-          </div>
-          <div class="palette-body">
-            <div class="palette-name">Light Spring</div>
-            <div class="palette-tags">
-              <span class="tag">Warm</span><span class="tag">Light</span><span class="tag">Neutral chroma</span>
-            </div>
-            <p class="palette-desc">Φρέσκα, απαλά και ζεστά χρώματα. Ανοιχτά χαρακτηριστικά με χαμηλή αντίθεση.</p>
-            <p class="palette-celebs"><strong>Χρώματα:</strong> Peach, light coral, aqua, light turquoise, powder green</p>
-            <p class="palette-celebs" style="margin-top:0.4rem"><strong>Παράδειγμα:</strong> Margot Robbie</p>
-            <div class="avoid-colors">
-              <span class="avoid-label">Αποφύγε:</span>
-              <div class="avoid-swatch" style="background:#1A1A1A" title="Μαύρο"></div>
-              <div class="avoid-swatch" style="background:#4A1030" title="Βαθύ μπορντό"></div>
-              <div class="avoid-swatch" style="background:#303050" title="Σκούρο navy"></div>
-            </div>
-            <div class="combos-section">
-              <div class="combos-label">✦ Χρωματικοί Συνδυασμοί</div>
-              <div class="combo">
-                <div class="combo-name">Combo 1 — Ανοιξιάτικο Freshness</div>
-                <div class="combo-row">
-                  <div class="combo-swatch basic" style="background:#F5EBE0" title="Ivory (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#E8D8C8" title="Warm Beige (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#D0C0B0" title="Light Camel (basic)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch color" style="background:#F5C8A0" title="Peach (color)"></div>
-                  <div class="combo-swatch color" style="background:#90D0C0" title="Aqua (color)"></div>
-                  <div class="combo-swatch color" style="background:#C8E8A8" title="Powder Green (color)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch accent" style="background:#E8906A" title="Light Coral (accent)"></div>
-                  <div class="combo-swatch accent" style="background:#F0D890" title="Butter Yellow (accent)"></div>
-                </div>
-              </div>
-              <div class="combo">
-                <div class="combo-name">Combo 2 — Soft Romantic</div>
-                <div class="combo-row">
-                  <div class="combo-swatch basic" style="background:#F8F0E8" title="Off White (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#E0D0C0" title="Cream (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#C8B8A8" title="Sand (basic)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch color" style="background:#F0C0B0" title="Blush Peach (color)"></div>
-                  <div class="combo-swatch color" style="background:#B8E0D8" title="Light Turquoise (color)"></div>
-                  <div class="combo-swatch color" style="background:#E8D8A0" title="Warm Yellow (color)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch accent" style="background:#D8A080" title="Salmon (accent)"></div>
-                  <div class="combo-swatch accent" style="background:#A8D8C0" title="Mint (accent)"></div>
-                </div>
-              </div>
-              <div class="combo">
-                <div class="combo-name">Combo 3 — Light & Airy</div>
-                <div class="combo-row">
-                  <div class="combo-swatch basic" style="background:#EDE8E0" title="Warm White (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#D8CEC4" title="Greige (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#C0B8B0" title="Warm Grey (basic)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch color" style="background:#E8C0A0" title="Apricot (color)"></div>
-                  <div class="combo-swatch color" style="background:#A0D0B8" title="Sea Glass (color)"></div>
-                  <div class="combo-swatch color" style="background:#D8E8A8" title="Lime Wash (color)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch accent" style="background:#F08060" title="Coral (accent)"></div>
-                  <div class="combo-swatch accent" style="background:#70C0A8" title="Turquoise (accent)"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="palette-card">
-          <div class="palette-swatches">
-            <span style="background:#E88060"></span>
-            <span style="background:#D4A030"></span>
-            <span style="background:#60C890"></span>
-            <span style="background:#F0A870"></span>
-            <span style="background:#50B8D0"></span>
-            <span style="background:#E8D070"></span>
-          </div>
-          <div class="palette-body">
-            <div class="palette-name">True Spring</div>
-            <div class="palette-tags">
-              <span class="tag">Warm</span><span class="tag">Light–Medium</span><span class="tag">Bright</span>
-            </div>
-            <p class="palette-desc">Ζωντανά, καθαρά ζεστά χρώματα. Η πλήρης άνθηση της άνοιξης.</p>
-            <p class="palette-celebs"><strong>Χρώματα:</strong> Coral, warm green, golden yellow, peach, bright turquoise</p>
-            <p class="palette-celebs" style="margin-top:0.4rem"><strong>Παράδειγμα:</strong> Blake Lively</p>
-            <div class="avoid-colors">
-              <span class="avoid-label">Αποφύγε:</span>
-              <div class="avoid-swatch" style="background:#8080A0" title="Muted cool γκρι"></div>
-              <div class="avoid-swatch" style="background:#604850" title="Dusty mauve"></div>
-            </div>
-            <div class="combos-section">
-              <div class="combos-label">✦ Χρωματικοί Συνδυασμοί</div>
-              <div class="combo">
-                <div class="combo-name">Combo 1 — Golden Spring</div>
-                <div class="combo-row">
-                  <div class="combo-swatch basic" style="background:#F5EDDC" title="Warm Ivory (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#E0C898" title="Warm Beige (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#C8A870" title="Light Camel (basic)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch color" style="background:#E88060" title="Coral (color)"></div>
-                  <div class="combo-swatch color" style="background:#60C890" title="Warm Green (color)"></div>
-                  <div class="combo-swatch color" style="background:#D4A030" title="Golden Yellow (color)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch accent" style="background:#50B8D0" title="Bright Turquoise (accent)"></div>
-                  <div class="combo-swatch accent" style="background:#F0A870" title="Peach (accent)"></div>
-                </div>
-              </div>
-              <div class="combo">
-                <div class="combo-name">Combo 2 — Vibrant Garden</div>
-                <div class="combo-row">
-                  <div class="combo-swatch basic" style="background:#F8F0DC" title="Cream (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#D8C080" title="Warm Yellow-Beige (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#B89850" title="Golden Tan (basic)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch color" style="background:#E86840" title="Warm Orange (color)"></div>
-                  <div class="combo-swatch color" style="background:#48B870" title="Spring Green (color)"></div>
-                  <div class="combo-swatch color" style="background:#E8D060" title="Butter (color)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch accent" style="background:#E83060" title="Warm Pink (accent)"></div>
-                  <div class="combo-swatch accent" style="background:#30A8C0" title="Aqua (accent)"></div>
-                </div>
-              </div>
-              <div class="combo">
-                <div class="combo-name">Combo 3 — Fresh & Warm</div>
-                <div class="combo-row">
-                  <div class="combo-swatch basic" style="background:#F0E8D0" title="Vanilla (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#D8C8A0" title="Wheat (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#B8A878" title="Warm Sand (basic)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch color" style="background:#F07840" title="Tangerine (color)"></div>
-                  <div class="combo-swatch color" style="background:#78C878" title="Lime Green (color)"></div>
-                  <div class="combo-swatch color" style="background:#F0C040" title="Sunflower (color)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch accent" style="background:#D83870" title="Hot Coral (accent)"></div>
-                  <div class="combo-swatch accent" style="background:#20B0C8" title="Cerulean (accent)"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="palette-card">
-          <div class="palette-swatches">
-            <span style="background:#E02030"></span>
-            <span style="background:#20C0A0"></span>
-            <span style="background:#F01880"></span>
-            <span style="background:#18A820"></span>
-            <span style="background:#E86020"></span>
-            <span style="background:#2080E8"></span>
-          </div>
-          <div class="palette-body">
-            <div class="palette-name">Bright Spring</div>
-            <div class="palette-tags">
-              <span class="tag">Warm</span><span class="tag">Medium</span><span class="tag">Very Bright</span>
-            </div>
-            <p class="palette-desc">Η πιο έντονη ανοιξιάτικη παλέτα. Καθαρά, δυνατά χρώματα με υψηλή αντίθεση.</p>
-            <p class="palette-celebs"><strong>Χρώματα:</strong> Bright turquoise, clear red, hot pink, bright green, clear coral</p>
-            <p class="palette-celebs" style="margin-top:0.4rem"><strong>Παράδειγμα:</strong> Emma Stone</p>
-            <div class="avoid-colors">
-              <span class="avoid-label">Αποφύγε:</span>
-              <div class="avoid-swatch" style="background:#A09080" title="Dusty taupe"></div>
-              <div class="avoid-swatch" style="background:#787870" title="Γκριζαρισμένα χρώματα"></div>
-            </div>
-            <div class="combos-section">
-              <div class="combos-label">✦ Χρωματικοί Συνδυασμοί</div>
-              <div class="combo">
-                <div class="combo-name">Combo 1 — Bold Statement</div>
-                <div class="combo-row">
-                  <div class="combo-swatch basic" style="background:#F8F8F8" title="Pure White (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#F0F0E0" title="Warm White (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#202020" title="Near Black (basic)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch color" style="background:#E02030" title="Clear Red (color)"></div>
-                  <div class="combo-swatch color" style="background:#20C0A0" title="Bright Turquoise (color)"></div>
-                  <div class="combo-swatch color" style="background:#18A820" title="Bright Green (color)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch accent" style="background:#F01880" title="Hot Pink (accent)"></div>
-                  <div class="combo-swatch accent" style="background:#E86020" title="Clear Orange (accent)"></div>
-                </div>
-              </div>
-              <div class="combo">
-                <div class="combo-name">Combo 2 — Electric Pop</div>
-                <div class="combo-row">
-                  <div class="combo-swatch basic" style="background:#FFFFFF" title="White (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#E8E8D8" title="Ivory (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#C8C0A8" title="Light Warm Tan (basic)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch color" style="background:#2080E8" title="Bright Blue (color)"></div>
-                  <div class="combo-swatch color" style="background:#F01880" title="Hot Pink (color)"></div>
-                  <div class="combo-swatch color" style="background:#E86020" title="Bright Coral (color)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch accent" style="background:#E8D020" title="Bright Yellow (accent)"></div>
-                  <div class="combo-swatch accent" style="background:#20D098" title="Emerald Mint (accent)"></div>
-                </div>
-              </div>
-              <div class="combo">
-                <div class="combo-name">Combo 3 — High Contrast</div>
-                <div class="combo-row">
-                  <div class="combo-swatch basic" style="background:#F5F5F0" title="Crisp White (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#D8D0B8" title="Warm Cream (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#282820" title="Soft Black (basic)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch color" style="background:#E03040" title="True Red (color)"></div>
-                  <div class="combo-swatch color" style="background:#10C0B0" title="Teal (color)"></div>
-                  <div class="combo-swatch color" style="background:#E8A020" title="Bright Amber (color)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch accent" style="background:#C020E0" title="Bright Purple (accent)"></div>
-                  <div class="combo-swatch accent" style="background:#20D040" title="Lime (accent)"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- SUMMER -->
-    <div class="season-content" id="season-summer">
-      <div class="palettes-grid">
-
-        <div class="palette-card">
-          <div class="palette-swatches">
-            <span style="background:#A8C8E0"></span>
-            <span style="background:#D8A8C0"></span>
-            <span style="background:#B8D8C8"></span>
-            <span style="background:#E0C8D8"></span>
-            <span style="background:#A8B8C8"></span>
-            <span style="background:#C8D8E8"></span>
-          </div>
-          <div class="palette-body">
-            <div class="palette-name">Light Summer</div>
-            <div class="palette-tags">
-              <span class="tag">Cool</span><span class="tag">Light</span><span class="tag">Muted</span>
-            </div>
-            <p class="palette-desc">Ψυχρά, απαλά και δροσερά χρώματα. Χαμηλή αντίθεση χαρακτηριστικών.</p>
-            <p class="palette-celebs"><strong>Χρώματα:</strong> Powder blue, light lavender, soft pink, cool mint</p>
-            <p class="palette-celebs" style="margin-top:0.4rem"><strong>Παράδειγμα:</strong> Elle Fanning</p>
-            <div class="avoid-colors">
-              <span class="avoid-label">Αποφύγε:</span>
-              <div class="avoid-swatch" style="background:#D48030" title="Πορτοκαλί"></div>
-              <div class="avoid-swatch" style="background:#201808" title="Σκούρο καφέ"></div>
-            </div>
-            <div class="combos-section">
-              <div class="combos-label">✦ Χρωματικοί Συνδυασμοί</div>
-              <div class="combo">
-                <div class="combo-name">Combo 1 — Dreamy Pastels</div>
-                <div class="combo-row">
-                  <div class="combo-swatch basic" style="background:#F0EEF8" title="Icy White (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#D8D8E8" title="Cool Grey (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#B8C0D0" title="Silver Blue (basic)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch color" style="background:#A8C8E0" title="Powder Blue (color)"></div>
-                  <div class="combo-swatch color" style="background:#D8A8C0" title="Soft Pink (color)"></div>
-                  <div class="combo-swatch color" style="background:#B8D8C8" title="Cool Mint (color)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch accent" style="background:#C8C0E0" title="Lavender (accent)"></div>
-                  <div class="combo-swatch accent" style="background:#A8D0C8" title="Seafoam (accent)"></div>
-                </div>
-              </div>
-              <div class="combo">
-                <div class="combo-name">Combo 2 — Soft Morning</div>
-                <div class="combo-row">
-                  <div class="combo-swatch basic" style="background:#EEF0F4" title="Frost White (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#D0D4DC" title="Light Blue-Grey (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#B0B8C8" title="Cool Greige (basic)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch color" style="background:#C8D8E8" title="Sky Blue (color)"></div>
-                  <div class="combo-swatch color" style="background:#E0C8D8" title="Blush (color)"></div>
-                  <div class="combo-swatch color" style="background:#C0D8D0" title="Pale Aqua (color)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch accent" style="background:#9898C8" title="Periwinkle (accent)"></div>
-                  <div class="combo-swatch accent" style="background:#C8A8B8" title="Dusty Rose (accent)"></div>
-                </div>
-              </div>
-              <div class="combo">
-                <div class="combo-name">Combo 3 — Ethereal Cool</div>
-                <div class="combo-row">
-                  <div class="combo-swatch basic" style="background:#F4F4F8" title="White Lilac (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#DDE0E8" title="Pale Silver (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#C0C8D8" title="Soft Steel (basic)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch color" style="background:#B0C8E0" title="Baby Blue (color)"></div>
-                  <div class="combo-swatch color" style="background:#D8B8D0" title="Petal Pink (color)"></div>
-                  <div class="combo-swatch color" style="background:#B8D0C0" title="Mint Foam (color)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch accent" style="background:#8898C8" title="Soft Cobalt (accent)"></div>
-                  <div class="combo-swatch accent" style="background:#D0A8C0" title="Rose Quartz (accent)"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="palette-card">
-          <div class="palette-swatches">
-            <span style="background:#C090A8"></span>
-            <span style="background:#8098C0"></span>
-            <span style="background:#D0A8B8"></span>
-            <span style="background:#9888A8"></span>
-            <span style="background:#7090A8"></span>
-            <span style="background:#B8A8C0"></span>
-          </div>
-          <div class="palette-body">
-            <div class="palette-name">True Summer</div>
-            <div class="palette-tags">
-              <span class="tag">Cool</span><span class="tag">Medium</span><span class="tag">Muted</span>
-            </div>
-            <p class="palette-desc">Ψυχρά muted χρώματα με ελαφριά γκριζάδα. Η ψυχρότητα είναι το κυρίαρχο στοιχείο.</p>
-            <p class="palette-celebs"><strong>Χρώματα:</strong> Dusty rose, lavender, cool blue, soft berry</p>
-            <p class="palette-celebs" style="margin-top:0.4rem"><strong>Παράδειγμα:</strong> Kate Middleton</p>
-            <div class="avoid-colors">
-              <span class="avoid-label">Αποφύγε:</span>
-              <div class="avoid-swatch" style="background:#C88030" title="Warm orange"></div>
-              <div class="avoid-swatch" style="background:#E82020" title="Bright red"></div>
-            </div>
-            <div class="combos-section">
-              <div class="combos-label">✦ Χρωματικοί Συνδυασμοί</div>
-              <div class="combo">
-                <div class="combo-name">Combo 1 — Classic Cool</div>
-                <div class="combo-row">
-                  <div class="combo-swatch basic" style="background:#EEF0F0" title="Cool White (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#C8CCD4" title="Blue-Grey (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#9098A8" title="Medium Cool Grey (basic)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch color" style="background:#C090A8" title="Dusty Rose (color)"></div>
-                  <div class="combo-swatch color" style="background:#8098C0" title="Cool Blue (color)"></div>
-                  <div class="combo-swatch color" style="background:#B8A8C0" title="Lavender (color)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch accent" style="background:#7080A8" title="Slate Blue (accent)"></div>
-                  <div class="combo-swatch accent" style="background:#A87898" title="Soft Berry (accent)"></div>
-                </div>
-              </div>
-              <div class="combo">
-                <div class="combo-name">Combo 2 — Dusty Florals</div>
-                <div class="combo-row">
-                  <div class="combo-swatch basic" style="background:#F0EEF2" title="Soft White (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#D4D0DC" title="Pale Mauve (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#A8A0B0" title="Muted Purple-Grey (basic)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch color" style="background:#D0A8B8" title="Muted Pink (color)"></div>
-                  <div class="combo-swatch color" style="background:#7090A8" title="Steel Blue (color)"></div>
-                  <div class="combo-swatch color" style="background:#9888A8" title="Dusty Violet (color)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch accent" style="background:#B87890" title="Rose (accent)"></div>
-                  <div class="combo-swatch accent" style="background:#6880A8" title="Cornflower (accent)"></div>
-                </div>
-              </div>
-              <div class="combo">
-                <div class="combo-name">Combo 3 — Elegant Mist</div>
-                <div class="combo-row">
-                  <div class="combo-swatch basic" style="background:#F2F2F4" title="Icy White (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#D0D4DC" title="Silver Mist (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#9898A8" title="Cool Taupe (basic)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch color" style="background:#B890A8" title="Mauve Rose (color)"></div>
-                  <div class="combo-swatch color" style="background:#7898B8" title="Soft Blue (color)"></div>
-                  <div class="combo-swatch color" style="background:#A098B8" title="Soft Purple (color)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch accent" style="background:#906888" title="Deep Rose (accent)"></div>
-                  <div class="combo-swatch accent" style="background:#5870A0" title="Denim Blue (accent)"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="palette-card">
-          <div class="palette-swatches">
-            <span style="background:#A888A0"></span>
-            <span style="background:#9098A8"></span>
-            <span style="background:#B8A8B0"></span>
-            <span style="background:#8090A0"></span>
-            <span style="background:#C0A8A8"></span>
-            <span style="background:#A0A8B8"></span>
-          </div>
-          <div class="palette-body">
-            <div class="palette-name">Soft Summer</div>
-            <div class="palette-tags">
-              <span class="tag">Cool–Neutral</span><span class="tag">Medium</span><span class="tag">Very Muted</span>
-            </div>
-            <p class="palette-desc">Ανάμεσα στο καλοκαίρι και φθινόπωρο. Πολύ muted, με ελαφρά ψυχρότητα.</p>
-            <p class="palette-celebs"><strong>Χρώματα:</strong> Soft mauve, muted blue-grey, dusty pink, grey lavender</p>
-            <p class="palette-celebs" style="margin-top:0.4rem"><strong>Παράδειγμα:</strong> Jennifer Aniston</p>
-            <div class="avoid-colors">
-              <span class="avoid-label">Αποφύγε:</span>
-              <div class="avoid-swatch" style="background:#E02020" title="Bright red"></div>
-              <div class="avoid-swatch" style="background:#101020" title="Μαύρο"></div>
-            </div>
-            <div class="combos-section">
-              <div class="combos-label">✦ Χρωματικοί Συνδυασμοί</div>
-              <div class="combo">
-                <div class="combo-name">Combo 1 — Muted Harmony</div>
-                <div class="combo-row">
-                  <div class="combo-swatch basic" style="background:#ECEAE8" title="Warm White (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#C8C4C0" title="Greige (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#A0A0A8" title="Blue-Grey (basic)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch color" style="background:#A888A0" title="Soft Mauve (color)"></div>
-                  <div class="combo-swatch color" style="background:#9098A8" title="Muted Blue-Grey (color)"></div>
-                  <div class="combo-swatch color" style="background:#B8A8B0" title="Dusty Pink (color)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch accent" style="background:#8090A0" title="Slate (accent)"></div>
-                  <div class="combo-swatch accent" style="background:#988898" title="Grey Lavender (accent)"></div>
-                </div>
-              </div>
-              <div class="combo">
-                <div class="combo-name">Combo 2 — Soft Neutrals</div>
-                <div class="combo-row">
-                  <div class="combo-swatch basic" style="background:#F0EEE8" title="Ivory (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#D4D0C8" title="Warm Silver (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#A8A4A0" title="Warm Grey (basic)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch color" style="background:#B8A0A8" title="Muted Rose (color)"></div>
-                  <div class="combo-swatch color" style="background:#8898A8" title="Dusty Blue (color)"></div>
-                  <div class="combo-swatch color" style="background:#A8A0B0" title="Soft Lilac (color)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch accent" style="background:#786878" title="Plum Grey (accent)"></div>
-                  <div class="combo-swatch accent" style="background:#7888A0" title="Steel (accent)"></div>
-                </div>
-              </div>
-              <div class="combo">
-                <div class="combo-name">Combo 3 — Smoky Rose</div>
-                <div class="combo-row">
-                  <div class="combo-swatch basic" style="background:#F0ECEC" title="Rose White (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#D0C8C8" title="Blush Grey (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#A89898" title="Dusty Mauve-Grey (basic)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch color" style="background:#C0A8A8" title="Dusty Pink (color)"></div>
-                  <div class="combo-swatch color" style="background:#A0A8B8" title="Misty Blue (color)"></div>
-                  <div class="combo-swatch color" style="background:#C0A8B8" title="Dusty Mauve (color)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch accent" style="background:#807080" title="Muted Purple (accent)"></div>
-                  <div class="combo-swatch accent" style="background:#6878A0" title="Faded Blue (accent)"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- AUTUMN -->
-    <div class="season-content" id="season-autumn">
-      <div class="palettes-grid">
-
-        <div class="palette-card">
-          <div class="palette-swatches">
-            <span style="background:#A8B870"></span>
-            <span style="background:#C0A878"></span>
-            <span style="background:#D0A880"></span>
-            <span style="background:#B09870"></span>
-            <span style="background:#C8B890"></span>
-            <span style="background:#98A870"></span>
-          </div>
-          <div class="palette-body">
-            <div class="palette-name">Soft Autumn</div>
-            <div class="palette-tags">
-              <span class="tag">Warm–Neutral</span><span class="tag">Medium</span><span class="tag">Very Muted</span>
-            </div>
-            <p class="palette-desc">Η πιο απαλή φθινοπωρινή παλέτα. Ζεστά muted χρώματα, χαμηλής έντασης.</p>
-            <p class="palette-celebs"><strong>Χρώματα:</strong> Sage green, warm taupe, dusty olive, soft terracotta</p>
-            <p class="palette-celebs" style="margin-top:0.4rem"><strong>Παράδειγμα:</strong> Gisele Bündchen</p>
-            <div class="avoid-colors">
-              <span class="avoid-label">Αποφύγε:</span>
-              <div class="avoid-swatch" style="background:#E01878" title="Fuchsia"></div>
-              <div class="avoid-swatch" style="background:#101828" title="Σκούρο navy"></div>
-            </div>
-            <div class="combos-section">
-              <div class="combos-label">✦ Χρωματικοί Συνδυασμοί</div>
-              <div class="combo">
-                <div class="combo-name">Combo 1 — Earthy Softness</div>
-                <div class="combo-row">
-                  <div class="combo-swatch basic" style="background:#F0E8D8" title="Warm Cream (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#D8C8B0" title="Warm Beige (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#B8A888" title="Warm Taupe (basic)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch color" style="background:#A8B870" title="Sage Green (color)"></div>
-                  <div class="combo-swatch color" style="background:#C0A878" title="Warm Tan (color)"></div>
-                  <div class="combo-swatch color" style="background:#C8B890" title="Dusty Olive (color)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch accent" style="background:#D0A880" title="Soft Terracotta (accent)"></div>
-                  <div class="combo-swatch accent" style="background:#98A870" title="Muted Olive (accent)"></div>
-                </div>
-              </div>
-              <div class="combo">
-                <div class="combo-name">Combo 2 — Nature Walk</div>
-                <div class="combo-row">
-                  <div class="combo-swatch basic" style="background:#EEE4D4" title="Linen (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#D0C0A0" title="Sand (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#A89878" title="Khaki (basic)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch color" style="background:#B8C078" title="Yellow-Green (color)"></div>
-                  <div class="combo-swatch color" style="background:#C8A868" title="Warm Gold (color)"></div>
-                  <div class="combo-swatch color" style="background:#B8A880" title="Muted Camel (color)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch accent" style="background:#C89060" title="Soft Rust (accent)"></div>
-                  <div class="combo-swatch accent" style="background:#889060" title="Olive Drab (accent)"></div>
-                </div>
-              </div>
-              <div class="combo">
-                <div class="combo-name">Combo 3 — Warm Mist</div>
-                <div class="combo-row">
-                  <div class="combo-swatch basic" style="background:#F2EAE0" title="Warm White (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#D8CCBC" title="Greige (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#B0A090" title="Warm Stone (basic)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch color" style="background:#A0B068" title="Faded Sage (color)"></div>
-                  <div class="combo-swatch color" style="background:#D0B888" title="Dusty Gold (color)"></div>
-                  <div class="combo-swatch color" style="background:#C8B098" title="Warm Blush (color)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch accent" style="background:#B88060" title="Terracotta (accent)"></div>
-                  <div class="combo-swatch accent" style="background:#809060" title="Soft Olive (accent)"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="palette-card">
-          <div class="palette-swatches">
-            <span style="background:#C07830"></span>
-            <span style="background:#B89830"></span>
-            <span style="background:#788840"></span>
-            <span style="background:#A06830"></span>
-            <span style="background:#D0A050"></span>
-            <span style="background:#885830"></span>
-          </div>
-          <div class="palette-body">
-            <div class="palette-name">True Autumn</div>
-            <div class="palette-tags">
-              <span class="tag">Warm</span><span class="tag">Medium–Dark</span><span class="tag">Muted</span>
-            </div>
-            <p class="palette-desc">Η πιο χαρακτηριστική φθινοπωρινή παλέτα. Ζεστά, γήινα χρώματα.</p>
-            <p class="palette-celebs"><strong>Χρώματα:</strong> Rust, mustard, olive, warm brown, pumpkin</p>
-            <p class="palette-celebs" style="margin-top:0.4rem"><strong>Παράδειγμα:</strong> Julia Roberts</p>
-            <div class="avoid-colors">
-              <span class="avoid-label">Αποφύγε:</span>
-              <div class="avoid-swatch" style="background:#9898C8" title="Cool purple"></div>
-              <div class="avoid-swatch" style="background:#D0D8E0" title="Icy blue"></div>
-            </div>
-            <div class="combos-section">
-              <div class="combos-label">✦ Χρωματικοί Συνδυασμοί</div>
-              <div class="combo">
-                <div class="combo-name">Combo 1 — Autumn Harvest</div>
-                <div class="combo-row">
-                  <div class="combo-swatch basic" style="background:#EEE0C8" title="Warm Ivory (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#D0B888" title="Camel (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#886040" title="Warm Brown (basic)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch color" style="background:#C07830" title="Rust (color)"></div>
-                  <div class="combo-swatch color" style="background:#788840" title="Olive (color)"></div>
-                  <div class="combo-swatch color" style="background:#B89830" title="Mustard (color)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch accent" style="background:#D0A050" title="Pumpkin (accent)"></div>
-                  <div class="combo-swatch accent" style="background:#A06830" title="Burnt Sienna (accent)"></div>
-                </div>
-              </div>
-              <div class="combo">
-                <div class="combo-name">Combo 2 — Forest Floor</div>
-                <div class="combo-row">
-                  <div class="combo-swatch basic" style="background:#E8D8B8" title="Wheat (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#C8A870" title="Warm Tan (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#806040" title="Chocolate (basic)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch color" style="background:#B86030" title="Terracotta (color)"></div>
-                  <div class="combo-swatch color" style="background:#607840" title="Forest Green (color)"></div>
-                  <div class="combo-swatch color" style="background:#C89040" title="Golden Brown (color)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch accent" style="background:#E07820" title="Amber (accent)"></div>
-                  <div class="combo-swatch accent" style="background:#486030" title="Dark Olive (accent)"></div>
-                </div>
-              </div>
-              <div class="combo">
-                <div class="combo-name">Combo 3 — Spiced Earth</div>
-                <div class="combo-row">
-                  <div class="combo-swatch basic" style="background:#F0E4C8" title="Cream (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#D8C090" title="Sand (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#906840" title="Toffee (basic)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch color" style="background:#C86828" title="Burnt Orange (color)"></div>
-                  <div class="combo-swatch color" style="background:#688048" title="Moss (color)"></div>
-                  <div class="combo-swatch color" style="background:#A88828" title="Turmeric (color)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch accent" style="background:#B85020" title="Deep Rust (accent)"></div>
-                  <div class="combo-swatch accent" style="background:#506038" title="Pine (accent)"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="palette-card">
-          <div class="palette-swatches">
-            <span style="background:#604020"></span>
-            <span style="background:#486030"></span>
-            <span style="background:#783020"></span>
-            <span style="background:#884820"></span>
-            <span style="background:#305040"></span>
-            <span style="background:#503818"></span>
-          </div>
-          <div class="palette-body">
-            <div class="palette-name">Dark Autumn</div>
-            <div class="palette-tags">
-              <span class="tag">Warm</span><span class="tag">Dark</span><span class="tag">Neutral chroma</span>
-            </div>
-            <p class="palette-desc">Φθινοπωρινή ζεστασιά με μεγάλο βάθος. Σκούρα και πλούσια χρώματα.</p>
-            <p class="palette-celebs"><strong>Χρώματα:</strong> Chocolate brown, deep olive, dark rust, burgundy</p>
-            <p class="palette-celebs" style="margin-top:0.4rem"><strong>Παράδειγμα:</strong> Salma Hayek</p>
-            <div class="avoid-colors">
-              <span class="avoid-label">Αποφύγε:</span>
-              <div class="avoid-swatch" style="background:#F0D0E0" title="Pastel pink"></div>
-              <div class="avoid-swatch" style="background:#C0D0E8" title="Icy blue"></div>
-            </div>
-            <div class="combos-section">
-              <div class="combos-label">✦ Χρωματικοί Συνδυασμοί</div>
-              <div class="combo">
-                <div class="combo-name">Combo 1 — Rich & Deep</div>
-                <div class="combo-row">
-                  <div class="combo-swatch basic" style="background:#D8C8A8" title="Warm Sand (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#906840" title="Cognac (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#402818" title="Dark Brown (basic)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch color" style="background:#604020" title="Chocolate (color)"></div>
-                  <div class="combo-swatch color" style="background:#486030" title="Deep Olive (color)"></div>
-                  <div class="combo-swatch color" style="background:#783020" title="Dark Rust (color)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch accent" style="background:#884820" title="Burnt Sienna (accent)"></div>
-                  <div class="combo-swatch accent" style="background:#305040" title="Forest (accent)"></div>
-                </div>
-              </div>
-              <div class="combo">
-                <div class="combo-name">Combo 2 — Dark Forest</div>
-                <div class="combo-row">
-                  <div class="combo-swatch basic" style="background:#C8B890" title="Warm Beige (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#806848" title="Warm Tan (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#382010" title="Espresso (basic)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch color" style="background:#503818" title="Dark Caramel (color)"></div>
-                  <div class="combo-swatch color" style="background:#304828" title="Pine (color)"></div>
-                  <div class="combo-swatch color" style="background:#682818" title="Mahogany (color)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch accent" style="background:#A04020" title="Brick (accent)"></div>
-                  <div class="combo-swatch accent" style="background:#284020" title="Dark Moss (accent)"></div>
-                </div>
-              </div>
-              <div class="combo">
-                <div class="combo-name">Combo 3 — Autumn Dusk</div>
-                <div class="combo-row">
-                  <div class="combo-swatch basic" style="background:#D0B888" title="Golden Beige (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#885838" title="Warm Sienna (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#301808" title="Dark Espresso (basic)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch color" style="background:#703020" title="Burgundy-Brown (color)"></div>
-                  <div class="combo-swatch color" style="background:#405030" title="Deep Sage (color)"></div>
-                  <div class="combo-swatch color" style="background:#804010" title="Rust Brown (color)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch accent" style="background:#C06020" title="Pumpkin (accent)"></div>
-                  <div class="combo-swatch accent" style="background:#384828" title="Dark Olive (accent)"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- WINTER -->
-    <div class="season-content" id="season-winter">
-      <div class="palettes-grid">
-
-        <div class="palette-card">
-          <div class="palette-swatches">
-            <span style="background:#481830"></span>
-            <span style="background:#182048"></span>
-            <span style="background:#183838"></span>
-            <span style="background:#381840"></span>
-            <span style="background:#204828"></span>
-            <span style="background:#281030"></span>
-          </div>
-          <div class="palette-body">
-            <div class="palette-name">Dark Winter</div>
-            <div class="palette-tags">
-              <span class="tag">Cool</span><span class="tag">Dark</span><span class="tag">Neutral chroma</span>
-            </div>
-            <p class="palette-desc">Ψυχρά, βαθιά χρώματα. Υψηλή αντίθεση μεταξύ δέρματος και μαλλιών.</p>
-            <p class="palette-celebs"><strong>Χρώματα:</strong> Burgundy, navy, deep emerald, dark purple</p>
-            <p class="palette-celebs" style="margin-top:0.4rem"><strong>Παράδειγμα:</strong> Anne Hathaway</p>
-            <div class="avoid-colors">
-              <span class="avoid-label">Αποφύγε:</span>
-              <div class="avoid-swatch" style="background:#D4A030" title="Golden yellow"></div>
-              <div class="avoid-swatch" style="background:#E8B880" title="Peach"></div>
-            </div>
-            <div class="combos-section">
-              <div class="combos-label">✦ Χρωματικοί Συνδυασμοί</div>
-              <div class="combo">
-                <div class="combo-name">Combo 1 — Dark Elegance</div>
-                <div class="combo-row">
-                  <div class="combo-swatch basic" style="background:#E8E8F0" title="Icy White (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#808090" title="Cool Grey (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#202030" title="Near Black (basic)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch color" style="background:#481830" title="Burgundy (color)"></div>
-                  <div class="combo-swatch color" style="background:#182048" title="Deep Navy (color)"></div>
-                  <div class="combo-swatch color" style="background:#183838" title="Dark Teal (color)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch accent" style="background:#381840" title="Deep Purple (accent)"></div>
-                  <div class="combo-swatch accent" style="background:#204828" title="Dark Emerald (accent)"></div>
-                </div>
-              </div>
-              <div class="combo">
-                <div class="combo-name">Combo 2 — Midnight Jewels</div>
-                <div class="combo-row">
-                  <div class="combo-swatch basic" style="background:#F0F0F8" title="Pure White (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#7878A0" title="Slate Purple (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#181828" title="Black (basic)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch color" style="background:#600828" title="Deep Crimson (color)"></div>
-                  <div class="combo-swatch color" style="background:#102040" title="Midnight Blue (color)"></div>
-                  <div class="combo-swatch color" style="background:#283050" title="Dark Indigo (color)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch accent" style="background:#481060" title="Violet (accent)"></div>
-                  <div class="combo-swatch accent" style="background:#103828" title="Forest (accent)"></div>
-                </div>
-              </div>
-              <div class="combo">
-                <div class="combo-name">Combo 3 — Cool Depth</div>
-                <div class="combo-row">
-                  <div class="combo-swatch basic" style="background:#E8EAF0" title="Ice (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#6870A0" title="Periwinkle Grey (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#202838" title="Charcoal Navy (basic)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch color" style="background:#581028" title="Wine (color)"></div>
-                  <div class="combo-swatch color" style="background:#183050" title="Deep Blue (color)"></div>
-                  <div class="combo-swatch color" style="background:#184030" title="Deep Emerald (color)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch accent" style="background:#401858" title="Deep Plum (accent)"></div>
-                  <div class="combo-swatch accent" style="background:#601828" title="Dark Rose (accent)"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="palette-card">
-          <div class="palette-swatches">
-            <span style="background:#2040C0"></span>
-            <span style="background:#E01878"></span>
-            <span style="background:#D81818"></span>
-            <span style="background:#F0E8F0"></span>
-            <span style="background:#101020"></span>
-            <span style="background:#7020B0"></span>
-          </div>
-          <div class="palette-body">
-            <div class="palette-name">True Winter</div>
-            <div class="palette-tags">
-              <span class="tag">Cool</span><span class="tag">Medium</span><span class="tag">Bright</span>
-            </div>
-            <p class="palette-desc">Η πιο ψυχρή παλέτα. Καθαρά, έντονα χρώματα χωρίς ζεστές αποχρώσεις.</p>
-            <p class="palette-celebs"><strong>Χρώματα:</strong> Cobalt blue, fuchsia, true red, icy pink, pure white</p>
-            <p class="palette-celebs" style="margin-top:0.4rem"><strong>Παράδειγμα:</strong> Courteney Cox</p>
-            <div class="avoid-colors">
-              <span class="avoid-label">Αποφύγε:</span>
-              <div class="avoid-swatch" style="background:#C8A030" title="Mustard"></div>
-              <div class="avoid-swatch" style="background:#A87840" title="Camel"></div>
-            </div>
-            <div class="combos-section">
-              <div class="combos-label">✦ Χρωματικοί Συνδυασμοί</div>
-              <div class="combo">
-                <div class="combo-name">Combo 1 — Ice & Fire</div>
-                <div class="combo-row">
-                  <div class="combo-swatch basic" style="background:#F8F8FF" title="Pure White (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#A0A0C0" title="Cool Grey (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#101020" title="Black (basic)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch color" style="background:#2040C0" title="Cobalt Blue (color)"></div>
-                  <div class="combo-swatch color" style="background:#E01878" title="Fuchsia (color)"></div>
-                  <div class="combo-swatch color" style="background:#D81818" title="True Red (color)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch accent" style="background:#F0E8F0" title="Icy Pink (accent)"></div>
-                  <div class="combo-swatch accent" style="background:#7020B0" title="Royal Purple (accent)"></div>
-                </div>
-              </div>
-              <div class="combo">
-                <div class="combo-name">Combo 2 — Crisp Contrast</div>
-                <div class="combo-row">
-                  <div class="combo-swatch basic" style="background:#FFFFFF" title="White (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#9090A8" title="Blue-Grey (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#181828" title="Deep Black (basic)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch color" style="background:#1030D0" title="Royal Blue (color)"></div>
-                  <div class="combo-swatch color" style="background:#C01060" title="Hot Pink (color)"></div>
-                  <div class="combo-swatch color" style="background:#C01010" title="Crimson (color)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch accent" style="background:#E8E0F8" title="Icy Lilac (accent)"></div>
-                  <div class="combo-swatch accent" style="background:#0828A8" title="Electric Blue (accent)"></div>
-                </div>
-              </div>
-              <div class="combo">
-                <div class="combo-name">Combo 3 — Cool Drama</div>
-                <div class="combo-row">
-                  <div class="combo-swatch basic" style="background:#F4F4FF" title="Arctic White (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#8888A8" title="Cool Lavender-Grey (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#202030" title="Charcoal (basic)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch color" style="background:#1840E0" title="Blue (color)"></div>
-                  <div class="combo-swatch color" style="background:#D01870" title="Rose Red (color)"></div>
-                  <div class="combo-swatch color" style="background:#6010A8" title="Purple (color)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch accent" style="background:#F0ECFF" title="Icy White-Pink (accent)"></div>
-                  <div class="combo-swatch accent" style="background:#10C0D8" title="Cyan (accent)"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="palette-card">
-          <div class="palette-swatches">
-            <span style="background:#0840E0"></span>
-            <span style="background:#E01898"></span>
-            <span style="background:#E01010"></span>
-            <span style="background:#10C070"></span>
-            <span style="background:#F8F8F8"></span>
-            <span style="background:#8010C8"></span>
-          </div>
-          <div class="palette-body">
-            <div class="palette-name">Bright Winter</div>
-            <div class="palette-tags">
-              <span class="tag">Cool</span><span class="tag">Medium</span><span class="tag">Very Bright</span>
-            </div>
-            <p class="palette-desc">Υψηλή αντίθεση και τα πιο έντονα χρώματα από όλες τις παλέτες.</p>
-            <p class="palette-celebs"><strong>Χρώματα:</strong> Electric blue, magenta, pure white, bright red, emerald</p>
-            <p class="palette-celebs" style="margin-top:0.4rem"><strong>Παράδειγμα:</strong> Megan Fox</p>
-            <div class="avoid-colors">
-              <span class="avoid-label">Αποφύγε:</span>
-              <div class="avoid-swatch" style="background:#B09878" title="Warm beige"></div>
-              <div class="avoid-swatch" style="background:#908880" title="Muted taupe"></div>
-            </div>
-            <div class="combos-section">
-              <div class="combos-label">✦ Χρωματικοί Συνδυασμοί</div>
-              <div class="combo">
-                <div class="combo-name">Combo 1 — Electric Statement</div>
-                <div class="combo-row">
-                  <div class="combo-swatch basic" style="background:#F8F8F8" title="White (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#A0A0B8" title="Cool Silver (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#101018" title="Black (basic)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch color" style="background:#0840E0" title="Electric Blue (color)"></div>
-                  <div class="combo-swatch color" style="background:#E01898" title="Magenta (color)"></div>
-                  <div class="combo-swatch color" style="background:#E01010" title="Bright Red (color)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch accent" style="background:#10C070" title="Emerald (accent)"></div>
-                  <div class="combo-swatch accent" style="background:#8010C8" title="Violet (accent)"></div>
-                </div>
-              </div>
-              <div class="combo">
-                <div class="combo-name">Combo 2 — Jewel Tones</div>
-                <div class="combo-row">
-                  <div class="combo-swatch basic" style="background:#FAFAFF" title="Bright White (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#9898C0" title="Periwinkle (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#080818" title="Jet Black (basic)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch color" style="background:#0030D8" title="Sapphire (color)"></div>
-                  <div class="combo-swatch color" style="background:#D00888" title="Fuchsia (color)"></div>
-                  <div class="combo-swatch color" style="background:#08A858" title="Emerald (color)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch accent" style="background:#C80010" title="Ruby (accent)"></div>
-                  <div class="combo-swatch accent" style="background:#7008C0" title="Amethyst (accent)"></div>
-                </div>
-              </div>
-              <div class="combo">
-                <div class="combo-name">Combo 3 — Maximum Impact</div>
-                <div class="combo-row">
-                  <div class="combo-swatch basic" style="background:#F5F5FF" title="White (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#8890B8" title="Steel Blue (basic)"></div>
-                  <div class="combo-swatch basic" style="background:#101020" title="Black (basic)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch color" style="background:#0050F0" title="Bright Blue (color)"></div>
-                  <div class="combo-swatch color" style="background:#E00880" title="Hot Pink (color)"></div>
-                  <div class="combo-swatch color" style="background:#10B860" title="Bright Green (color)"></div>
-                  <div class="combo-divider"></div>
-                  <div class="combo-swatch accent" style="background:#D80000" title="Pure Red (accent)"></div>
-                  <div class="combo-swatch accent" style="background:#9000E0" title="Electric Purple (accent)"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<!-- TABLE -->
-<section class="table-section">
-  <div class="container-wide reveal">
-    <p class="section-label">Γρήγορη αναφορά</p>
-    <h2>Πίνακας <em>όλων των παλετών</em></h2>
-    <div class="divider"></div>
-    <div style="overflow-x:auto">
-    <table class="palette-table">
-      <thead>
-        <tr>
-          <th>Παλέτα</th>
-          <th>Εποχή</th>
-          <th>Θερμ. (Hue)</th>
-          <th>Βάθος (Value)</th>
-          <th>Ένταση (Chroma)</th>
-          <th>Κυρίαρχο χαρακτηριστικό</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr><td>Light Spring</td><td><span class="season-badge badge-spring">Άνοιξη</span></td><td><span class="hue-dot" style="background:#D4956A"></span>Warm</td><td>Light</td><td>Neutral</td><td>Φωτεινότητα</td></tr>
-        <tr><td>True Spring</td><td><span class="season-badge badge-spring">Άνοιξη</span></td><td><span class="hue-dot" style="background:#D4956A"></span>Warm</td><td>Light–Medium</td><td>Bright</td><td>Ζεστασιά + φωτεινότητα</td></tr>
-        <tr><td>Bright Spring</td><td><span class="season-badge badge-spring">Άνοιξη</span></td><td><span class="hue-dot" style="background:#D4956A"></span>Warm</td><td>Medium</td><td>Very Bright</td><td>Chroma (ένταση)</td></tr>
-        <tr><td>Light Summer</td><td><span class="season-badge badge-summer">Καλοκαίρι</span></td><td><span class="hue-dot" style="background:#7090B0"></span>Cool</td><td>Light</td><td>Muted</td><td>Φωτεινότητα</td></tr>
-        <tr><td>True Summer</td><td><span class="season-badge badge-summer">Καλοκαίρι</span></td><td><span class="hue-dot" style="background:#7090B0"></span>Cool</td><td>Medium</td><td>Muted</td><td>Ψυχρότητα</td></tr>
-        <tr><td>Soft Summer</td><td><span class="season-badge badge-summer">Καλοκαίρι</span></td><td><span class="hue-dot" style="background:#7090B0"></span>Cool–Neutral</td><td>Medium</td><td>Very Muted</td><td>Mutedness</td></tr>
-        <tr><td>Soft Autumn</td><td><span class="season-badge badge-autumn">Φθινόπωρο</span></td><td><span class="hue-dot" style="background:#A87040"></span>Warm–Neutral</td><td>Medium</td><td>Very Muted</td><td>Mutedness</td></tr>
-        <tr><td>True Autumn</td><td><span class="season-badge badge-autumn">Φθινόπωρο</span></td><td><span class="hue-dot" style="background:#A87040"></span>Warm</td><td>Medium–Dark</td><td>Muted</td><td>Ζεστασιά</td></tr>
-        <tr><td>Dark Autumn</td><td><span class="season-badge badge-autumn">Φθινόπωρο</span></td><td><span class="hue-dot" style="background:#A87040"></span>Warm</td><td>Dark</td><td>Neutral</td><td>Βάθος</td></tr>
-        <tr><td>Dark Winter</td><td><span class="season-badge badge-winter">Χειμώνας</span></td><td><span class="hue-dot" style="background:#5060A0"></span>Cool</td><td>Dark</td><td>Neutral</td><td>Βάθος</td></tr>
-        <tr><td>True Winter</td><td><span class="season-badge badge-winter">Χειμώνας</span></td><td><span class="hue-dot" style="background:#5060A0"></span>Cool</td><td>Medium</td><td>Bright</td><td>Ψυχρότητα</td></tr>
-        <tr><td>Bright Winter</td><td><span class="season-badge badge-winter">Χειμώνας</span></td><td><span class="hue-dot" style="background:#5060A0"></span>Cool</td><td>Medium</td><td>Very Bright</td><td>Chroma (ένταση)</td></tr>
-      </tbody>
-    </table>
-    </div>
-  </div>
-</section>
-
-<!-- QUIZ -->
-<section id="quiz" style="background:var(--warm-white)">
-  <div class="container reveal">
-    <p class="section-label">Ανακάλυψε την παλέτα σου</p>
-    <h2>Color Analysis <em>Quiz</em></h2>
-    <div class="divider"></div>
-    <p style="max-width:520px;margin-bottom:2.5rem">Απάντησε σε 5 ερωτήσεις και θα βρούμε σε ποια από τις 12 παλέτες ανήκεις. Κάνε το χωρίς μακιγιάζ, σε φυσικό φως.</p>
-
-    <div id="quiz-container">
-
-      <!-- PROGRESS BAR -->
-      <div style="margin-bottom:2rem">
-        <div style="display:flex;justify-content:space-between;margin-bottom:0.5rem">
-          <span id="quiz-progress-label" style="font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--dust)">Ερώτηση 1 από 5</span>
-          <span id="quiz-progress-pct" style="font-size:0.72rem;color:var(--gold)">0%</span>
-        </div>
-        <div style="height:3px;background:var(--line);border-radius:2px">
-          <div id="quiz-progress-bar" style="height:3px;background:var(--gold);border-radius:2px;width:0%;transition:width 0.4s ease"></div>
-        </div>
-      </div>
-
-      <!-- QUESTIONS -->
-      <div id="quiz-questions"></div>
-
-      <!-- NAVIGATION -->
-      <div id="quiz-nav" style="display:flex;gap:1rem;margin-top:2rem">
-        <button id="quiz-prev" onclick="quizNav(-1)" class="btn-ghost" style="display:none">← Πίσω</button>
-        <button id="quiz-next" onclick="quizNav(1)" class="btn-primary" style="display:none">Επόμενο →</button>
-        <button id="quiz-submit" onclick="quizSubmit()" class="btn-primary" style="display:none">Δες το αποτέλεσμά σου ✨</button>
-      </div>
-    </div>
-
-    <!-- RESULT -->
-    <div id="quiz-result" style="display:none"></div>
-
-    <div id="quiz-restart" style="display:none;margin-top:2rem">
-      <button onclick="quizRestart()" class="btn-ghost">↺ Ξανακάνε το quiz</button>
-    </div>
-  </div>
-</section>
-
-<!-- CHECKLIST -->
-<section id="checklist">
-  <div class="container reveal" style="text-align:center">
-    <p class="section-label">Βήμα προς βήμα</p>
-    <h2>Checklist για να βρεις <em>την παλέτα σου</em></h2>
-    <div class="divider divider-center"></div>
-    <p style="max-width:480px;margin:0 auto 0.5rem">Ακολούθησε αυτά τα βήματα με φυσικό φωτισμό και χωρίς μακιγιάζ για τα καλύτερα αποτελέσματα.</p>
-  </div>
-  <div class="container reveal">
-    <div class="checklist">
-      <div class="checklist-item">
-        <div class="check-box" onclick="toggleCheck(this)"></div>
-        <div class="checklist-text">
-          <h4>Βγάλε το μακιγιάζ</h4>
-          <p>Η χρωματική ανάλυση γίνεται πάντα με φυσικό δέρμα για να βλέπεις τον αληθινό σου τόνο.</p>
-        </div>
-      </div>
-      <div class="checklist-item">
-        <div class="check-box" onclick="toggleCheck(this)"></div>
-        <div class="checklist-text">
-          <h4>Βρες φυσικό φωτισμό</h4>
-          <p>Στάσου κοντά σε παράθυρο ή βγες έξω το μεσημέρι. Αποφύγε τεχνητό ή έντονο artificial light.</p>
-        </div>
-      </div>
-      <div class="checklist-item">
-        <div class="check-box" onclick="toggleCheck(this)"></div>
-        <div class="checklist-text">
-          <h4>Κάνε το vein test</h4>
-          <p>Κοίτα τις φλέβες στον καρπό. Μπλε = cool, πράσινες = warm, μικτές = neutral.</p>
-        </div>
-      </div>
-      <div class="checklist-item">
-        <div class="check-box" onclick="toggleCheck(this)"></div>
-        <div class="checklist-text">
-          <h4>Δοκίμασε χρυσό vs ασημί</h4>
-          <p>Κράτα δύο κομμάτια κοσμήματος κοντά στο πρόσωπο. Ποιο κάνει το δέρμα να λάμπει;</p>
-        </div>
-      </div>
-      <div class="checklist-item">
-        <div class="check-box" onclick="toggleCheck(this)"></div>
-        <div class="checklist-text">
-          <h4>Τεστ ένταση: Bright vs Muted</h4>
-          <p>Κράτα ένα έντονο κόκκινο και ένα dusty μπορντό. Ποιο κάνει το πρόσωπό σου να δείχνει πιο φωτεινό;</p>
-        </div>
-      </div>
-      <div class="checklist-item">
-        <div class="check-box" onclick="toggleCheck(this)"></div>
-        <div class="checklist-text">
-          <h4>Τεστ βάθος: Light vs Dark</h4>
-          <p>Δοκίμασε ένα ανοιχτό γαλάζιο και ένα σκούρο navy. Ποιο αναδεικνύει καλύτερα τα χαρακτηριστικά σου;</p>
-        </div>
-      </div>
-      <div class="checklist-item">
-        <div class="check-box" onclick="toggleCheck(this)"></div>
-        <div class="checklist-text">
-          <h4>Κοίτα την αντίθεση χαρακτηριστικών</h4>
-          <p>Η διαφορά μεταξύ μαλλιών και δέρματος είναι μεγάλη ή μικρή; Υψηλή αντίθεση = Winter/Bright Spring.</p>
-        </div>
-      </div>
-      <div class="checklist-item">
-        <div class="check-box" onclick="toggleCheck(this)"></div>
-        <div class="checklist-text">
-          <h4>Συνδύασε τα 3 στοιχεία</h4>
-          <p>Θερμοκρασία + Ένταση + Βάθος = η εποχή σου. Χρησιμοποίησε τον πίνακα παλετών για να βρεις την ακριβή κατηγορία σου.</p>
-        </div>
-      </div>
-      <div class="checklist-item">
-        <div class="check-box" onclick="toggleCheck(this)"></div>
-        <div class="checklist-text">
-          <h4>Φτιάξε τη μίνι παλέτα σου</h4>
-          <p>Από την παλέτα σου διάλεξε: 3 neutrals + 3 βασικά χρώματα + 2 accent colors. Αυτά είναι η βάση της ντουλάπας σου.</p>
-        </div>
+        <h4>Αγνοούν την έμφαση κοντά στο πρόσωπο</h4>
+        <p>Η χρωματική παλέτα αφορά κυρίως τα χρώματα κοντά στο πρόσωπο (γιακάς, μαντήλι). Μαύρο παντελόνι φοράνε όλοι.</p>
       </div>
     </div>
   </div>
 </section>
 
 <!-- CLOSING -->
+
 <section class="closing-section">
-  <div class="container reveal">
-    <p class="section-label">Θυμήσου</p>
+  <div class="cag-container reveal">
+    <p class="cag-section-label">Θυμήσου</p>
     <h2>Δεν είναι <em>περιορισμός</em> — είναι εργαλείο</h2>
-    <div class="divider divider-center"></div>
+    <div class="cag-divider cag-divider-center"></div>
     <p>Η χρωματική ανάλυση δεν σου λέει τι πρέπει να αγοράσεις. Σου λέει ποια χρώματα <em>κοντά στο πρόσωπό σου</em> σε αναδεικνύουν. Τα υπόλοιπα είναι δικά σου.</p>
     <div class="closing-palette">
       <div class="closing-chip" style="background:#E8906A" title="Coral"></div>
@@ -2078,18 +1005,79 @@
       <div class="closing-chip" style="background:#482840" title="Deep Berry"></div>
       <div class="closing-chip" style="background:#60A888" title="Sage"></div>
     </div>
-    <a href="#steps" class="btn-primary">Ξαναδές τα βήματα</a>
+    <a href="#quiz" class="cag-btn-primary">Κάνε ξανά το quiz</a>
   </div>
 </section>
 
-<!-- FOOTER -->
+</div>
+<!-- /cag-content -->
+
+<!-- FOOTER (identical to homepage) -->
+
 <footer>
-  <span class="footer-logo">Fashion Analysis by Danai</span>
-  <p style="margin-bottom:0.6rem">Δωρεάν οδηγός χρωματικής ανάλυσης &nbsp;·&nbsp; Seasonal Color Analysis System &nbsp;·&nbsp; 12 Παλέτες</p>
-  <p><a href="/cdn-cgi/l/email-protection#91f5f3e7f0f3e8f5f0fff0f8d1f6fcf0f8fdbff2fefc" style="color:var(--gold);text-decoration:none;font-size:0.85rem;letter-spacing:0.05em"><span class="__cf_email__" data-cfemail="5135332730332835303f303811363c30383d7f323e3c">[email&#160;protected]</span></a></p>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand-col">
+        <div class="footer-brand-name">Fashion Analysis<br><span>by Danai</span></div>
+        <p class="footer-tagline">Fashion Education & Finance</p>
+        <a href="mailto:dbvabydanai@gmail.com" class="footer-email">dbvabydanai@gmail.com</a>
+      </div>
+      <div class="footer-nav-col">
+        <p class="footer-col-title">Σελίδες</p>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="https://dbvabydanai.wordpress.com" target="_blank">Articles</a></li>
+          <li><a href="guides.html">Guides</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="newsletter.html">Newsletter</a></li>
+        </ul>
+      </div>
+      <div class="footer-nav-col">
+        <p class="footer-col-title">Οδηγοί</p>
+        <ul>
+          <li><a href="color-analysis-guide.html">Color Analysis Guide</a></li>
+          <li><a href="capsule-workbook.html">Capsule Wardrobe Workbook</a></li>
+          <li><a href="body-type-quiz.html">Body Type Quiz</a></li>
+        </ul>
+      </div>
+      <div class="footer-nav-col">
+        <p class="footer-col-title">Εργαλεία</p>
+        <ul>
+          <li><a href="wishlist.html">Wardrobe Wishlist</a></li>
+          <li><a href="wardrobe-tracker.html">Wardrobe Tracker</a></li>
+          <li><a href="wardrobe-calculator.html">KPIs Calculator</a></li>
+        </ul>
+      </div>
+      <div class="footer-nav-col">
+        <p class="footer-col-title">Follow</p>
+        <ul>
+          <li><a href="https://www.instagram.com/fashion.analysis.by.danai" target="_blank">Instagram</a></li>
+          <li><a href="https://www.youtube.com/@danaiav12" target="_blank">YouTube</a></li>
+          <li><a href="https://gr.pinterest.com/Danai12Av/" target="_blank">Pinterest</a></li>
+          <li><a href="mailto:dbvabydanai@gmail.com">Email</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Fashion Analysis by Danai. All rights reserved.</p>
+    </div>
+  </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script src="main.js"></script>
+
+<script>
+  // Mobile dropdown toggle
+  const dropdownToggle = document.querySelector('.nav-dropdown-toggle');
+  if (dropdownToggle) {
+    dropdownToggle.addEventListener('click', function(e) {
+      if (window.innerWidth <= 768) {
+        e.preventDefault();
+        this.closest('.nav-dropdown').classList.toggle('open');
+      }
+    });
+  }
+
   // Season tabs
   function showSeason(season, btn) {
     document.querySelectorAll('.season-content').forEach(el => el.classList.remove('active'));
@@ -2098,323 +1086,183 @@
     btn.classList.add('active');
   }
 
-  // Checklist toggle
-  function toggleCheck(el) {
-    el.classList.toggle('checked');
-  }
-
   // Scroll reveal
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-      }
+      if (entry.isIntersecting) entry.target.classList.add('visible');
     });
   }, { threshold: 0.1 });
-
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
   // ── COMBO DATA ──
-  // Each palette has 3 combos: Winter / Spring-Autumn / Summer
-  // Basics: 3 neutrals tailored to the season of the YEAR (not the color palette)
-  // Colors: 3 main colors from the palette, varied per occasion
-  // Accents: 2 accent pieces
-  // Key principle: same palette system, different weight/tone per season of year
-
-  // COMBO LOGIC:
-  // Combo 1 — Black/White family: the right shade of black & white for each palette
-  // Combo 2 — Brown/Beige family: from camel to chocolate, in the right temperature
-  // Combo 3 — Navy/Grey family: warm navy for autumn, cool navy for winter, soft for summer etc.
-  // Each palette gets its own temperature-correct version of these universal families.
-
   const COMBOS = {
-
     'light-spring': [
-      {
-        label: '⬛ Μαύρο–Άσπρο', name: 'Warm Off-White & Soft Black',
-        note: 'Αποφύγε pure black — προτίμησε warm charcoal ή dark brown-black',
-        basics:  [{c:'#FAF5EC',n:'Warm White'},{c:'#E8DED0',n:'Ivory'},{c:'#F5C8A0',n:'Peach accent'}],
-        colors:  [{c:'#C8B8A0',n:'Warm Light Greige'},{c:'#907868',n:'Warm Taupe'},{c:'#504030',n:'Warm Dark Brown'}],
-        accents: [{c:'#E8906A',n:'Coral pop'},{c:'#90D0C0',n:'Aqua pop'}]
-      },
-      {
-        label: '🤎 Καφέ–Μπεζ', name: 'Peach Beige & Warm Camel',
-        note: 'Τα καφέ σε warm, golden αποχρώσεις — όχι σκούρο chocolate',
-        basics:  [{c:'#F5EBE0',n:'Cream'},{c:'#E0C8A8',n:'Warm Beige'},{c:'#C8A878',n:'Light Camel'}],
-        colors:  [{c:'#D4A870',n:'Golden Tan'},{c:'#B88858',n:'Warm Sand Brown'},{c:'#906040',n:'Light Cognac'}],
-        accents: [{c:'#F5C8A0',n:'Peach'},{c:'#A0D0B8',n:'Mint'}]
-      },
-      {
-        label: '🔵 Navy–Γκρι', name: 'Warm Navy & Soft Greige',
-        note: 'Warm navy με κίτρινη/πράσινη βάση — όχι ψυχρό navy',
-        basics:  [{c:'#F0EAE0',n:'Warm Off-White'},{c:'#A0A888',n:'Warm Sage Grey'},{c:'#384830',n:'Warm Dark Olive-Navy'}],
-        colors:  [{c:'#B8C890',n:'Sage'},{c:'#90D0C0',n:'Aqua'},{c:'#F5C8A0',n:'Peach'}],
-        accents: [{c:'#E8906A',n:'Coral'},{c:'#C8E8A8',n:'Powder Green'}]
-      }
+      { label: '⬛ Μαύρο–Άσπρο', name: 'Warm Off-White & Soft Black', note: 'Αποφύγε pure black — προτίμησε warm charcoal ή dark brown-black',
+        basics:[{c:'#FAF5EC',n:'Warm White'},{c:'#E8DED0',n:'Ivory'},{c:'#F5C8A0',n:'Peach accent'}],
+        colors:[{c:'#C8B8A0',n:'Warm Light Greige'},{c:'#907868',n:'Warm Taupe'},{c:'#504030',n:'Warm Dark Brown'}],
+        accents:[{c:'#E8906A',n:'Coral pop'},{c:'#90D0C0',n:'Aqua pop'}] },
+      { label: '🤎 Καφέ–Μπεζ', name: 'Peach Beige & Warm Camel', note: 'Τα καφέ σε warm, golden αποχρώσεις — όχι σκούρο chocolate',
+        basics:[{c:'#F5EBE0',n:'Cream'},{c:'#E0C8A8',n:'Warm Beige'},{c:'#C8A878',n:'Light Camel'}],
+        colors:[{c:'#D4A870',n:'Golden Tan'},{c:'#B88858',n:'Warm Sand Brown'},{c:'#906040',n:'Light Cognac'}],
+        accents:[{c:'#F5C8A0',n:'Peach'},{c:'#A0D0B8',n:'Mint'}] },
+      { label: '🔵 Navy–Γκρι', name: 'Warm Navy & Soft Greige', note: 'Warm navy με κίτρινη/πράσινη βάση — όχι ψυχρό navy',
+        basics:[{c:'#F0EAE0',n:'Warm Off-White'},{c:'#A0A888',n:'Warm Sage Grey'},{c:'#384830',n:'Warm Dark Olive-Navy'}],
+        colors:[{c:'#B8C890',n:'Sage'},{c:'#90D0C0',n:'Aqua'},{c:'#F5C8A0',n:'Peach'}],
+        accents:[{c:'#E8906A',n:'Coral'},{c:'#C8E8A8',n:'Powder Green'}] }
     ],
-
     'true-spring': [
-      {
-        label: '⬛ Μαύρο–Άσπρο', name: 'Golden White & Warm Brown-Black',
-        note: 'Το "μαύρο" σου είναι βαθύ warm brown — pure black κόβει την αρμονία',
-        basics:  [{c:'#FFF8E8',n:'Golden White'},{c:'#F0E0A8',n:'Warm Cream Yellow'},{c:'#D4A030',n:'Golden Yellow accent'}],
-        colors:  [{c:'#C8A060',n:'Warm Tan'},{c:'#906830',n:'Warm Brown'},{c:'#503010',n:'Dark Warm Brown'}],
-        accents: [{c:'#E88060',n:'Coral'},{c:'#50B8D0',n:'Turquoise'}]
-      },
-      {
-        label: '🤎 Καφέ–Μπεζ', name: 'Golden Beige & Honey Brown',
-        note: 'Τα πιο ζεστά και χρυσαφένια καφέ από όλες τις παλέτες',
-        basics:  [{c:'#F8F0DC',n:'Warm Ivory'},{c:'#E8D098',n:'Golden Beige'},{c:'#C8A060',n:'Honey'}],
-        colors:  [{c:'#B88840',n:'Golden Brown'},{c:'#906030',n:'Warm Cognac'},{c:'#604020',n:'Dark Honey Brown'}],
-        accents: [{c:'#E88060',n:'Coral'},{c:'#60C890',n:'Green'}]
-      },
-      {
-        label: '🔵 Navy–Γκρι', name: 'Olive-Navy & Golden Grey',
-        note: 'Navy με έντονα warm/golden undertones — σχεδόν teal-navy',
-        basics:  [{c:'#F0E8C8',n:'Warm Light Yellow'},{c:'#A0A040',n:'Warm Olive Grey'},{c:'#304020',n:'Warm Dark Teal-Navy'}],
-        colors:  [{c:'#60C890',n:'Warm Green'},{c:'#D4A030',n:'Gold'},{c:'#E88060',n:'Coral'}],
-        accents: [{c:'#50B8D0',n:'Turquoise'},{c:'#F0A870',n:'Peach'}]
-      }
+      { label: '⬛ Μαύρο–Άσπρο', name: 'Golden White & Warm Brown-Black', note: 'Το "μαύρο" σου είναι βαθύ warm brown — pure black κόβει την αρμονία',
+        basics:[{c:'#FFF8E8',n:'Golden White'},{c:'#F0E0A8',n:'Warm Cream Yellow'},{c:'#D4A030',n:'Golden Yellow accent'}],
+        colors:[{c:'#C8A060',n:'Warm Tan'},{c:'#906830',n:'Warm Brown'},{c:'#503010',n:'Dark Warm Brown'}],
+        accents:[{c:'#E88060',n:'Coral'},{c:'#50B8D0',n:'Turquoise'}] },
+      { label: '🤎 Καφέ–Μπεζ', name: 'Golden Beige & Honey Brown', note: 'Τα πιο ζεστά και χρυσαφένια καφέ από όλες τις παλέτες',
+        basics:[{c:'#F8F0DC',n:'Warm Ivory'},{c:'#E8D098',n:'Golden Beige'},{c:'#C8A060',n:'Honey'}],
+        colors:[{c:'#B88840',n:'Golden Brown'},{c:'#906030',n:'Warm Cognac'},{c:'#604020',n:'Dark Honey Brown'}],
+        accents:[{c:'#E88060',n:'Coral'},{c:'#60C890',n:'Green'}] },
+      { label: '🔵 Navy–Γκρι', name: 'Olive-Navy & Golden Grey', note: 'Navy με έντονα warm/golden undertones — σχεδόν teal-navy',
+        basics:[{c:'#F0E8C8',n:'Warm Light Yellow'},{c:'#A0A040',n:'Warm Olive Grey'},{c:'#304020',n:'Warm Dark Teal-Navy'}],
+        colors:[{c:'#60C890',n:'Warm Green'},{c:'#D4A030',n:'Gold'},{c:'#E88060',n:'Coral'}],
+        accents:[{c:'#50B8D0',n:'Turquoise'},{c:'#F0A870',n:'Peach'}] }
     ],
-
     'bright-spring': [
-      {
-        label: '⬛ Μαύρο–Άσπρο', name: 'Pure White & True Black',
-        note: 'Η μόνη Spring παλέτα που "σηκώνει" pure black — η αντίθεση είναι δύναμη',
-        basics:  [{c:'#FFFFFF',n:'Pure White'},{c:'#F0F0E8',n:'Warm White'},{c:'#E02030',n:'Red accent'}],
-        colors:  [{c:'#C0C0B8',n:'Warm Light Grey'},{c:'#606060',n:'Medium Grey'},{c:'#202020',n:'Near Black'}],
-        accents: [{c:'#20C0A0',n:'Turquoise'},{c:'#F01880',n:'Hot Pink'}]
-      },
-      {
-        label: '🤎 Καφέ–Μπεζ', name: 'Warm Ivory & Clear Camel',
-        note: 'Τα καφέ πρέπει να είναι καθαρά και bright — όχι dusty ή muted',
-        basics:  [{c:'#FFF8F0',n:'Bright Ivory'},{c:'#F0D8A0',n:'Bright Warm Beige'},{c:'#D0A050',n:'Bright Camel'}],
-        colors:  [{c:'#C07830',n:'Clear Rust'},{c:'#906020',n:'Warm Brown'},{c:'#604010',n:'Dark Clear Brown'}],
-        accents: [{c:'#E02030',n:'Red'},{c:'#18A820',n:'Green'}]
-      },
-      {
-        label: '🔵 Navy–Γκρι', name: 'Crisp Grey & Warm Bright Navy',
-        note: 'Greys με warm undertone — navy καθαρό και bright, όχι dusty',
-        basics:  [{c:'#F8F8F0',n:'Off White'},{c:'#B8B8A8',n:'Warm Light Grey'},{c:'#384028',n:'Warm Bright Navy-Green'}],
-        colors:  [{c:'#E02030',n:'Red'},{c:'#20C0A0',n:'Turquoise'},{c:'#18A820',n:'Green'}],
-        accents: [{c:'#F01880',n:'Hot Pink'},{c:'#2080E8',n:'Blue'}]
-      }
+      { label: '⬛ Μαύρο–Άσπρο', name: 'Pure White & True Black', note: 'Η μόνη Spring παλέτα που "σηκώνει" pure black — η αντίθεση είναι δύναμη',
+        basics:[{c:'#FFFFFF',n:'Pure White'},{c:'#F0F0E8',n:'Warm White'},{c:'#E02030',n:'Red accent'}],
+        colors:[{c:'#C0C0B8',n:'Warm Light Grey'},{c:'#606060',n:'Medium Grey'},{c:'#202020',n:'Near Black'}],
+        accents:[{c:'#20C0A0',n:'Turquoise'},{c:'#F01880',n:'Hot Pink'}] },
+      { label: '🤎 Καφέ–Μπεζ', name: 'Warm Ivory & Clear Camel', note: 'Τα καφέ πρέπει να είναι καθαρά και bright — όχι dusty ή muted',
+        basics:[{c:'#FFF8F0',n:'Bright Ivory'},{c:'#F0D8A0',n:'Bright Warm Beige'},{c:'#D0A050',n:'Bright Camel'}],
+        colors:[{c:'#C07830',n:'Clear Rust'},{c:'#906020',n:'Warm Brown'},{c:'#604010',n:'Dark Clear Brown'}],
+        accents:[{c:'#E02030',n:'Red'},{c:'#18A820',n:'Green'}] },
+      { label: '🔵 Navy–Γκρι', name: 'Crisp Grey & Warm Bright Navy', note: 'Greys με warm undertone — navy καθαρό και bright',
+        basics:[{c:'#F8F8F0',n:'Off White'},{c:'#B8B8A8',n:'Warm Light Grey'},{c:'#384028',n:'Warm Bright Navy-Green'}],
+        colors:[{c:'#E02030',n:'Red'},{c:'#20C0A0',n:'Turquoise'},{c:'#18A820',n:'Green'}],
+        accents:[{c:'#F01880',n:'Hot Pink'},{c:'#2080E8',n:'Blue'}] }
     ],
-
     'light-summer': [
-      {
-        label: '⬛ Μαύρο–Άσπρο', name: 'Icy White & Soft Charcoal',
-        note: 'Αντί για black, προτίμησε cool dark grey — "κρυώνει" το black για σένα',
-        basics:  [{c:'#F4F4FC',n:'Icy White'},{c:'#E0E0EC',n:'Pale Cool White'},{c:'#A8C8E0',n:'Powder Blue accent'}],
-        colors:  [{c:'#C0C0D0',n:'Light Cool Grey'},{c:'#8888A0',n:'Medium Cool Grey'},{c:'#484860',n:'Soft Dark Charcoal'}],
-        accents: [{c:'#D8A8C0',n:'Soft Pink'},{c:'#B8D8C8',n:'Mint'}]
-      },
-      {
-        label: '🤎 Καφέ–Μπεζ', name: 'Cool Blush Beige & Greige',
-        note: 'Μπεζ με cool/pink undertone — warm camel σε δείχνει θαμπή',
-        basics:  [{c:'#F0EEF8',n:'Cool Ivory'},{c:'#DDD8E8',n:'Cool Beige'},{c:'#C0B8D0',n:'Cool Greige'}],
-        colors:  [{c:'#B0A8C0',n:'Lavender Taupe'},{c:'#9090A8',n:'Cool Taupe'},{c:'#686878',n:'Blue-Grey Brown'}],
-        accents: [{c:'#A8C8E0',n:'Powder Blue'},{c:'#D8A8C0',n:'Blush'}]
-      },
-      {
-        label: '🔵 Navy–Γκρι', name: 'Powder Blue-Grey & Soft Navy',
-        note: 'Πολύ απαλό, dusty navy — bright navy θα σε "τρώει"',
-        basics:  [{c:'#EEF2F8',n:'Pale Blue-White'},{c:'#B8C8D8',n:'Soft Steel Blue'},{c:'#506880',n:'Dusty Soft Navy'}],
-        colors:  [{c:'#A8C8E0',n:'Powder Blue'},{c:'#D8A8C0',n:'Soft Pink'},{c:'#B8D8C8',n:'Mint'}],
-        accents: [{c:'#C8C0E0',n:'Lavender'},{c:'#9898C0',n:'Periwinkle'}]
-      }
+      { label: '⬛ Μαύρο–Άσπρο', name: 'Icy White & Soft Charcoal', note: 'Αντί για black, προτίμησε cool dark grey',
+        basics:[{c:'#F4F4FC',n:'Icy White'},{c:'#E0E0EC',n:'Pale Cool White'},{c:'#A8C8E0',n:'Powder Blue accent'}],
+        colors:[{c:'#C0C0D0',n:'Light Cool Grey'},{c:'#8888A0',n:'Medium Cool Grey'},{c:'#484860',n:'Soft Dark Charcoal'}],
+        accents:[{c:'#D8A8C0',n:'Soft Pink'},{c:'#B8D8C8',n:'Mint'}] },
+      { label: '🤎 Καφέ–Μπεζ', name: 'Cool Blush Beige & Greige', note: 'Μπεζ με cool/pink undertone',
+        basics:[{c:'#F0EEF8',n:'Cool Ivory'},{c:'#DDD8E8',n:'Cool Beige'},{c:'#C0B8D0',n:'Cool Greige'}],
+        colors:[{c:'#B0A8C0',n:'Lavender Taupe'},{c:'#9090A8',n:'Cool Taupe'},{c:'#686878',n:'Blue-Grey Brown'}],
+        accents:[{c:'#A8C8E0',n:'Powder Blue'},{c:'#D8A8C0',n:'Blush'}] },
+      { label: '🔵 Navy–Γκρι', name: 'Powder Blue-Grey & Soft Navy', note: 'Πολύ απαλό, dusty navy',
+        basics:[{c:'#EEF2F8',n:'Pale Blue-White'},{c:'#B8C8D8',n:'Soft Steel Blue'},{c:'#506880',n:'Dusty Soft Navy'}],
+        colors:[{c:'#A8C8E0',n:'Powder Blue'},{c:'#D8A8C0',n:'Soft Pink'},{c:'#B8D8C8',n:'Mint'}],
+        accents:[{c:'#C8C0E0',n:'Lavender'},{c:'#9898C0',n:'Periwinkle'}] }
     ],
-
     'true-summer': [
-      {
-        label: '⬛ Μαύρο–Άσπρο', name: 'Cool White & Dusty Charcoal',
-        note: 'Soft charcoal με blue undertone αντί για pure black',
-        basics:  [{c:'#F2F2F8',n:'Cool White'},{c:'#E0E0EC',n:'Soft White-Blue'},{c:'#C090A8',n:'Dusty Rose accent'}],
-        colors:  [{c:'#B0B0C8',n:'Cool Light Grey'},{c:'#787890',n:'Dusty Blue-Grey'},{c:'#404058',n:'Dusty Dark Charcoal'}],
-        accents: [{c:'#8098C0',n:'Cool Blue'},{c:'#B8A8C0',n:'Lavender'}]
-      },
-      {
-        label: '🤎 Καφέ–Μπεζ', name: 'Rose Beige & Cool Taupe',
-        note: 'Taupe με ροζ/μοβ undertone — warm golden brown δεν ταιριάζει',
-        basics:  [{c:'#F0EEF2',n:'Rose White'},{c:'#DDD0D8',n:'Pink Beige'},{c:'#C0B0B8',n:'Cool Taupe'}],
-        colors:  [{c:'#A89098',n:'Dusty Rose Taupe'},{c:'#887080',n:'Mauve Brown'},{c:'#605068',n:'Dark Mauve'}],
-        accents: [{c:'#C090A8',n:'Dusty Rose'},{c:'#8098C0',n:'Blue'}]
-      },
-      {
-        label: '🔵 Navy–Γκρι', name: 'Cool Blue-Grey & Dusty Navy',
-        note: 'Dusty, muted navy με grey undertone — όχι bright navy',
-        basics:  [{c:'#EEF0F8',n:'Icy Blue-White'},{c:'#A8B0C8',n:'Cool Blue-Grey'},{c:'#384868',n:'Dusty Navy'}],
-        colors:  [{c:'#C090A8',n:'Dusty Rose'},{c:'#8098C0',n:'Cool Blue'},{c:'#B8A8C0',n:'Lavender'}],
-        accents: [{c:'#7080A8',n:'Slate Blue'},{c:'#A87898',n:'Berry'}]
-      }
+      { label: '⬛ Μαύρο–Άσπρο', name: 'Cool White & Dusty Charcoal', note: 'Soft charcoal με blue undertone αντί για pure black',
+        basics:[{c:'#F2F2F8',n:'Cool White'},{c:'#E0E0EC',n:'Soft White-Blue'},{c:'#C090A8',n:'Dusty Rose accent'}],
+        colors:[{c:'#B0B0C8',n:'Cool Light Grey'},{c:'#787890',n:'Dusty Blue-Grey'},{c:'#404058',n:'Dusty Dark Charcoal'}],
+        accents:[{c:'#8098C0',n:'Cool Blue'},{c:'#B8A8C0',n:'Lavender'}] },
+      { label: '🤎 Καφέ–Μπεζ', name: 'Rose Beige & Cool Taupe', note: 'Taupe με ροζ/μοβ undertone',
+        basics:[{c:'#F0EEF2',n:'Rose White'},{c:'#DDD0D8',n:'Pink Beige'},{c:'#C0B0B8',n:'Cool Taupe'}],
+        colors:[{c:'#A89098',n:'Dusty Rose Taupe'},{c:'#887080',n:'Mauve Brown'},{c:'#605068',n:'Dark Mauve'}],
+        accents:[{c:'#C090A8',n:'Dusty Rose'},{c:'#8098C0',n:'Blue'}] },
+      { label: '🔵 Navy–Γκρι', name: 'Cool Blue-Grey & Dusty Navy', note: 'Dusty, muted navy με grey undertone',
+        basics:[{c:'#EEF0F8',n:'Icy Blue-White'},{c:'#A8B0C8',n:'Cool Blue-Grey'},{c:'#384868',n:'Dusty Navy'}],
+        colors:[{c:'#C090A8',n:'Dusty Rose'},{c:'#8098C0',n:'Cool Blue'},{c:'#B8A8C0',n:'Lavender'}],
+        accents:[{c:'#7080A8',n:'Slate Blue'},{c:'#A87898',n:'Berry'}] }
     ],
-
     'soft-summer': [
-      {
-        label: '⬛ Μαύρο–Άσπρο', name: 'Warm-Cool White & Soft Dark Grey',
-        note: 'Ούτε pure white ούτε pure black — όλα σε soft, muted εκδοχή',
-        basics:  [{c:'#EEEAE8',n:'Soft Off-White'},{c:'#D8D4D0',n:'Pale Greige'},{c:'#A888A0',n:'Mauve accent'}],
-        colors:  [{c:'#B0ACAC',n:'Warm Cool Grey'},{c:'#787078',n:'Mauve Grey'},{c:'#484048',n:'Soft Dark Grey-Purple'}],
-        accents: [{c:'#9098A8',n:'Blue-Grey'},{c:'#B8A8B0',n:'Dusty Pink'}]
-      },
-      {
-        label: '🤎 Καφέ–Μπεζ', name: 'Greige & Dusty Mushroom',
-        note: 'Μπεζ που δεν είναι ούτε warm ούτε cool — dusty mushroom tones',
-        basics:  [{c:'#ECEAE8',n:'Neutral Cream'},{c:'#D0C8C0',n:'Greige'},{c:'#B0A8A0',n:'Mushroom'}],
-        colors:  [{c:'#9A8E88',n:'Warm Cool Taupe'},{c:'#786870',n:'Dusty Mauve Brown'},{c:'#585058',n:'Muted Dark Brown'}],
-        accents: [{c:'#A888A0',n:'Mauve'},{c:'#9098A8',n:'Slate'}]
-      },
-      {
-        label: '🔵 Navy–Γκρι', name: 'Blue-Grey & Muted Navy',
-        note: 'Navy με grey undertone, muted και soft — όχι bright',
-        basics:  [{c:'#EEEAEC',n:'Pale Mauve-White'},{c:'#A8A8B8',n:'Blue-Grey'},{c:'#384050',n:'Muted Navy'}],
-        colors:  [{c:'#A888A0',n:'Mauve'},{c:'#9098A8',n:'Blue-Grey'},{c:'#B8A8B0',n:'Dusty Pink'}],
-        accents: [{c:'#8090A0',n:'Slate'},{c:'#988898',n:'Lavender Grey'}]
-      }
+      { label: '⬛ Μαύρο–Άσπρο', name: 'Warm-Cool White & Soft Dark Grey', note: 'Όλα σε soft, muted εκδοχή',
+        basics:[{c:'#EEEAE8',n:'Soft Off-White'},{c:'#D8D4D0',n:'Pale Greige'},{c:'#A888A0',n:'Mauve accent'}],
+        colors:[{c:'#B0ACAC',n:'Warm Cool Grey'},{c:'#787078',n:'Mauve Grey'},{c:'#484048',n:'Soft Dark Grey-Purple'}],
+        accents:[{c:'#9098A8',n:'Blue-Grey'},{c:'#B8A8B0',n:'Dusty Pink'}] },
+      { label: '🤎 Καφέ–Μπεζ', name: 'Greige & Dusty Mushroom', note: 'Dusty mushroom tones',
+        basics:[{c:'#ECEAE8',n:'Neutral Cream'},{c:'#D0C8C0',n:'Greige'},{c:'#B0A8A0',n:'Mushroom'}],
+        colors:[{c:'#9A8E88',n:'Warm Cool Taupe'},{c:'#786870',n:'Dusty Mauve Brown'},{c:'#585058',n:'Muted Dark Brown'}],
+        accents:[{c:'#A888A0',n:'Mauve'},{c:'#9098A8',n:'Slate'}] },
+      { label: '🔵 Navy–Γκρι', name: 'Blue-Grey & Muted Navy', note: 'Navy με grey undertone, muted',
+        basics:[{c:'#EEEAEC',n:'Pale Mauve-White'},{c:'#A8A8B8',n:'Blue-Grey'},{c:'#384050',n:'Muted Navy'}],
+        colors:[{c:'#A888A0',n:'Mauve'},{c:'#9098A8',n:'Blue-Grey'},{c:'#B8A8B0',n:'Dusty Pink'}],
+        accents:[{c:'#8090A0',n:'Slate'},{c:'#988898',n:'Lavender Grey'}] }
     ],
-
     'soft-autumn': [
-      {
-        label: '⬛ Μαύρο–Άσπρο', name: 'Warm Cream & Soft Warm Dark',
-        note: 'Pure black είναι πολύ harsh — το "μαύρο" σου είναι dark warm brown',
-        basics:  [{c:'#F5EEE0',n:'Warm Cream'},{c:'#E8DCC8',n:'Linen'},{c:'#A8B870',n:'Sage accent'}],
-        colors:  [{c:'#C8B898',n:'Warm Light Greige'},{c:'#907858',n:'Warm Taupe'},{c:'#504030',n:'Soft Dark Warm Brown'}],
-        accents: [{c:'#D0A880',n:'Terracotta'},{c:'#98A870',n:'Olive'}]
-      },
-      {
-        label: '🤎 Καφέ–Μπεζ', name: 'Dusty Beige & Warm Muted Brown',
-        note: 'Muted, dusty εκδοχή των browns — όχι saturated ή bright',
-        basics:  [{c:'#F0E8D8',n:'Warm Cream'},{c:'#D8C8B0',n:'Warm Beige'},{c:'#B8A888',n:'Warm Taupe'}],
-        colors:  [{c:'#C0A878',n:'Dusty Camel'},{c:'#907060',n:'Muted Brown'},{c:'#604838',n:'Soft Dark Brown'}],
-        accents: [{c:'#A8B870',n:'Sage'},{c:'#D0A880',n:'Terracotta'}]
-      },
-      {
-        label: '🔵 Navy–Γκρι', name: 'Warm Sage Grey & Olive Navy',
-        note: 'Navy με warm/green undertone — σχεδόν teal-navy, dusty',
-        basics:  [{c:'#EAE4D4',n:'Warm White'},{c:'#A8A888',n:'Warm Sage Grey'},{c:'#384030',n:'Warm Dark Olive-Navy'}],
-        colors:  [{c:'#A8B870',n:'Sage'},{c:'#C0A878',n:'Tan'},{c:'#D0A880',n:'Terracotta'}],
-        accents: [{c:'#98A870',n:'Olive'},{c:'#C8B890',n:'Dusty Gold'}]
-      }
+      { label: '⬛ Μαύρο–Άσπρο', name: 'Warm Cream & Soft Warm Dark', note: 'Dark warm brown αντί για pure black',
+        basics:[{c:'#F5EEE0',n:'Warm Cream'},{c:'#E8DCC8',n:'Linen'},{c:'#A8B870',n:'Sage accent'}],
+        colors:[{c:'#C8B898',n:'Warm Light Greige'},{c:'#907858',n:'Warm Taupe'},{c:'#504030',n:'Soft Dark Warm Brown'}],
+        accents:[{c:'#D0A880',n:'Terracotta'},{c:'#98A870',n:'Olive'}] },
+      { label: '🤎 Καφέ–Μπεζ', name: 'Dusty Beige & Warm Muted Brown', note: 'Muted, dusty εκδοχή των browns',
+        basics:[{c:'#F0E8D8',n:'Warm Cream'},{c:'#D8C8B0',n:'Warm Beige'},{c:'#B8A888',n:'Warm Taupe'}],
+        colors:[{c:'#C0A878',n:'Dusty Camel'},{c:'#907060',n:'Muted Brown'},{c:'#604838',n:'Soft Dark Brown'}],
+        accents:[{c:'#A8B870',n:'Sage'},{c:'#D0A880',n:'Terracotta'}] },
+      { label: '🔵 Navy–Γκρι', name: 'Warm Sage Grey & Olive Navy', note: 'Navy με warm/green undertone',
+        basics:[{c:'#EAE4D4',n:'Warm White'},{c:'#A8A888',n:'Warm Sage Grey'},{c:'#384030',n:'Warm Dark Olive-Navy'}],
+        colors:[{c:'#A8B870',n:'Sage'},{c:'#C0A878',n:'Tan'},{c:'#D0A880',n:'Terracotta'}],
+        accents:[{c:'#98A870',n:'Olive'},{c:'#C8B890',n:'Dusty Gold'}] }
     ],
-
     'true-autumn': [
-      {
-        label: '⬛ Μαύρο–Άσπρο', name: 'Warm Ivory & Dark Espresso',
-        note: 'Pure black κόβει την ζεστασιά σου — espresso brown είναι το σωστό "μαύρο"',
-        basics:  [{c:'#F5E8C8',n:'Warm Ivory'},{c:'#E0CCA0',n:'Warm Cream'},{c:'#C07830',n:'Rust accent'}],
-        colors:  [{c:'#C8A870',n:'Warm Tan'},{c:'#906040',n:'Warm Brown'},{c:'#402010',n:'Dark Espresso'}],
-        accents: [{c:'#B89830',n:'Mustard'},{c:'#788840',n:'Olive'}]
-      },
-      {
-        label: '🤎 Καφέ–Μπεζ', name: 'Golden Camel & Rich Brown',
-        note: 'Τα πιο γήινα και warm browns — από camel μέχρι chocolate',
-        basics:  [{c:'#EEE0C8',n:'Warm Ivory'},{c:'#D0B888',n:'Camel'},{c:'#886040',n:'Warm Brown'}],
-        colors:  [{c:'#C08840',n:'Golden Brown'},{c:'#885030',n:'Burnt Brown'},{c:'#503018',n:'Chocolate'}],
-        accents: [{c:'#C07830',n:'Rust'},{c:'#B89830',n:'Mustard'}]
-      },
-      {
-        label: '🔵 Navy–Γκρι', name: 'Warm Olive Grey & Forest Navy',
-        note: 'Navy με πολύ warm/green undertone — σχεδόν forest green-navy',
-        basics:  [{c:'#EAE0C0',n:'Warm Off-White'},{c:'#909060',n:'Warm Olive Grey'},{c:'#303820',n:'Forest Dark Navy'}],
-        colors:  [{c:'#788840',n:'Olive'},{c:'#C07830',n:'Rust'},{c:'#B89830',n:'Mustard'}],
-        accents: [{c:'#D0A050',n:'Pumpkin'},{c:'#A06830',n:'Cognac'}]
-      }
+      { label: '⬛ Μαύρο–Άσπρο', name: 'Warm Ivory & Dark Espresso', note: 'Espresso brown είναι το σωστό "μαύρο"',
+        basics:[{c:'#F5E8C8',n:'Warm Ivory'},{c:'#E0CCA0',n:'Warm Cream'},{c:'#C07830',n:'Rust accent'}],
+        colors:[{c:'#C8A870',n:'Warm Tan'},{c:'#906040',n:'Warm Brown'},{c:'#402010',n:'Dark Espresso'}],
+        accents:[{c:'#B89830',n:'Mustard'},{c:'#788840',n:'Olive'}] },
+      { label: '🤎 Καφέ–Μπεζ', name: 'Golden Camel & Rich Brown', note: 'Από camel μέχρι chocolate',
+        basics:[{c:'#EEE0C8',n:'Warm Ivory'},{c:'#D0B888',n:'Camel'},{c:'#886040',n:'Warm Brown'}],
+        colors:[{c:'#C08840',n:'Golden Brown'},{c:'#885030',n:'Burnt Brown'},{c:'#503018',n:'Chocolate'}],
+        accents:[{c:'#C07830',n:'Rust'},{c:'#B89830',n:'Mustard'}] },
+      { label: '🔵 Navy–Γκρι', name: 'Warm Olive Grey & Forest Navy', note: 'Σχεδόν forest green-navy',
+        basics:[{c:'#EAE0C0',n:'Warm Off-White'},{c:'#909060',n:'Warm Olive Grey'},{c:'#303820',n:'Forest Dark Navy'}],
+        colors:[{c:'#788840',n:'Olive'},{c:'#C07830',n:'Rust'},{c:'#B89830',n:'Mustard'}],
+        accents:[{c:'#D0A050',n:'Pumpkin'},{c:'#A06830',n:'Cognac'}] }
     ],
-
     'dark-autumn': [
-      {
-        label: '⬛ Μαύρο–Άσπρο', name: 'Warm Gold & Deep Mahogany-Black',
-        note: 'Το "μαύρο" σου είναι βαθύ mahogany ή dark espresso — pure black είναι πολύ flat',
-        basics:  [{c:'#E0C888',n:'Warm Gold'},{c:'#C0A060',n:'Dark Camel'},{c:'#783020',n:'Deep Rust accent'}],
-        colors:  [{c:'#A07848',n:'Warm Dark Tan'},{c:'#704030',n:'Deep Brown'},{c:'#301808',n:'Near Black Espresso'}],
-        accents: [{c:'#884820',n:'Burnt Sienna'},{c:'#486030',n:'Deep Olive'}]
-      },
-      {
-        label: '🤎 Καφέ–Μπεζ', name: 'Cognac & Dark Chocolate',
-        note: 'Τα πιο σκούρα και πλούσια browns — από cognac μέχρι dark chocolate',
-        basics:  [{c:'#D8C8A8',n:'Warm Sand'},{c:'#A08060',n:'Cognac Light'},{c:'#604030',n:'Cognac Dark'}],
-        colors:  [{c:'#806040',n:'Chocolate Medium'},{c:'#583020',n:'Chocolate'},{c:'#301808',n:'Dark Chocolate'}],
-        accents: [{c:'#C07830',n:'Rust'},{c:'#486030',n:'Deep Olive'}]
-      },
-      {
-        label: '🔵 Navy–Γκρι', name: 'Dark Olive Grey & Deep Warm Navy',
-        note: 'Βαθύ navy με warm/brown undertone — σχεδόν dark teal-brown',
-        basics:  [{c:'#C8B880',n:'Dark Warm Beige'},{c:'#707050',n:'Dark Olive Grey'},{c:'#202818',n:'Very Dark Warm Navy'}],
-        colors:  [{c:'#604020',n:'Chocolate'},{c:'#486030',n:'Deep Olive'},{c:'#783020',n:'Dark Rust'}],
-        accents: [{c:'#884820',n:'Sienna'},{c:'#305040',n:'Forest'}]
-      }
+      { label: '⬛ Μαύρο–Άσπρο', name: 'Warm Gold & Deep Mahogany-Black', note: 'Βαθύ mahogany ή dark espresso',
+        basics:[{c:'#E0C888',n:'Warm Gold'},{c:'#C0A060',n:'Dark Camel'},{c:'#783020',n:'Deep Rust accent'}],
+        colors:[{c:'#A07848',n:'Warm Dark Tan'},{c:'#704030',n:'Deep Brown'},{c:'#301808',n:'Near Black Espresso'}],
+        accents:[{c:'#884820',n:'Burnt Sienna'},{c:'#486030',n:'Deep Olive'}] },
+      { label: '🤎 Καφέ–Μπεζ', name: 'Cognac & Dark Chocolate', note: 'Από cognac μέχρι dark chocolate',
+        basics:[{c:'#D8C8A8',n:'Warm Sand'},{c:'#A08060',n:'Cognac Light'},{c:'#604030',n:'Cognac Dark'}],
+        colors:[{c:'#806040',n:'Chocolate Medium'},{c:'#583020',n:'Chocolate'},{c:'#301808',n:'Dark Chocolate'}],
+        accents:[{c:'#C07830',n:'Rust'},{c:'#486030',n:'Deep Olive'}] },
+      { label: '🔵 Navy–Γκρι', name: 'Dark Olive Grey & Deep Warm Navy', note: 'Βαθύ navy με warm/brown undertone',
+        basics:[{c:'#C8B880',n:'Dark Warm Beige'},{c:'#707050',n:'Dark Olive Grey'},{c:'#202818',n:'Very Dark Warm Navy'}],
+        colors:[{c:'#604020',n:'Chocolate'},{c:'#486030',n:'Deep Olive'},{c:'#783020',n:'Dark Rust'}],
+        accents:[{c:'#884820',n:'Sienna'},{c:'#305040',n:'Forest'}] }
     ],
-
     'dark-winter': [
-      {
-        label: '⬛ Μαύρο–Άσπρο', name: 'Icy White & True Black',
-        note: 'Η παλέτα που σηκώνει καλύτερα το pure black — η αντίθεση είναι η δύναμή σου',
-        basics:  [{c:'#F0F0F8',n:'Icy White'},{c:'#E0E0EC',n:'Cool White'},{c:'#481830',n:'Burgundy accent'}],
-        colors:  [{c:'#A0A0B8',n:'Cool Light Grey'},{c:'#606070',n:'Cool Dark Grey'},{c:'#101018',n:'True Black'}],
-        accents: [{c:'#182048',n:'Deep Navy'},{c:'#204828',n:'Dark Emerald'}]
-      },
-      {
-        label: '🤎 Καφέ–Μπεζ', name: 'Cool Greige & Dark Cool Brown',
-        note: 'Browns με cool/grey undertone — warm camel δεν ταιριάζει σε αυτή την παλέτα',
-        basics:  [{c:'#E8E8F0',n:'Cool Ivory'},{c:'#C8C8D8',n:'Cool Beige'},{c:'#A0A0B0',n:'Cool Greige'}],
-        colors:  [{c:'#808090',n:'Cool Taupe'},{c:'#585868',n:'Dark Cool Brown-Grey'},{c:'#303040',n:'Very Dark Cool Brown'}],
-        accents: [{c:'#481830',n:'Burgundy'},{c:'#183838',n:'Dark Teal'}]
-      },
-      {
-        label: '🔵 Navy–Γκρι', name: 'Cool Charcoal & Deep Pure Navy',
-        note: 'Pure, deep cool navy — το κλασικό navy στην πιο σκούρα εκδοχή του',
-        basics:  [{c:'#E8E8F8',n:'Ice Blue-White'},{c:'#8080A0',n:'Cool Blue-Grey'},{c:'#101830',n:'Deep Navy'}],
-        colors:  [{c:'#481830',n:'Burgundy'},{c:'#183838',n:'Dark Teal'},{c:'#381840',n:'Deep Purple'}],
-        accents: [{c:'#204828',n:'Emerald'},{c:'#580828',n:'Deep Crimson'}]
-      }
+      { label: '⬛ Μαύρο–Άσπρο', name: 'Icy White & True Black', note: 'Η αντίθεση είναι η δύναμή σου',
+        basics:[{c:'#F0F0F8',n:'Icy White'},{c:'#E0E0EC',n:'Cool White'},{c:'#481830',n:'Burgundy accent'}],
+        colors:[{c:'#A0A0B8',n:'Cool Light Grey'},{c:'#606070',n:'Cool Dark Grey'},{c:'#101018',n:'True Black'}],
+        accents:[{c:'#182048',n:'Deep Navy'},{c:'#204828',n:'Dark Emerald'}] },
+      { label: '🤎 Καφέ–Μπεζ', name: 'Cool Greige & Dark Cool Brown', note: 'Browns με cool/grey undertone',
+        basics:[{c:'#E8E8F0',n:'Cool Ivory'},{c:'#C8C8D8',n:'Cool Beige'},{c:'#A0A0B0',n:'Cool Greige'}],
+        colors:[{c:'#808090',n:'Cool Taupe'},{c:'#585868',n:'Dark Cool Brown-Grey'},{c:'#303040',n:'Very Dark Cool Brown'}],
+        accents:[{c:'#481830',n:'Burgundy'},{c:'#183838',n:'Dark Teal'}] },
+      { label: '🔵 Navy–Γκρι', name: 'Cool Charcoal & Deep Pure Navy', note: 'Pure, deep cool navy',
+        basics:[{c:'#E8E8F8',n:'Ice Blue-White'},{c:'#8080A0',n:'Cool Blue-Grey'},{c:'#101830',n:'Deep Navy'}],
+        colors:[{c:'#481830',n:'Burgundy'},{c:'#183838',n:'Dark Teal'},{c:'#381840',n:'Deep Purple'}],
+        accents:[{c:'#204828',n:'Emerald'},{c:'#580828',n:'Deep Crimson'}] }
     ],
-
     'true-winter': [
-      {
-        label: '⬛ Μαύρο–Άσπρο', name: 'Pure White & True Black',
-        note: 'Η πιο "classic" παλέτα για black & white — pure και crisp',
-        basics:  [{c:'#FFFFFF',n:'Pure White'},{c:'#F0F0F8',n:'Icy White'},{c:'#2040C0',n:'Cobalt accent'}],
-        colors:  [{c:'#B0B0C0',n:'Cool Light Grey'},{c:'#606070',n:'Cool Medium Grey'},{c:'#101010',n:'True Black'}],
-        accents: [{c:'#E01878',n:'Fuchsia'},{c:'#D81818',n:'True Red'}]
-      },
-      {
-        label: '🤎 Καφέ–Μπεζ', name: 'Icy Beige & Cool Dark Taupe',
-        note: 'Beige με έντονα cool/blue undertones — warm honey beige σε κάνει θαμπή',
-        basics:  [{c:'#F4F4FC',n:'Icy Beige-White'},{c:'#D8D8EC',n:'Cool Pale Beige'},{c:'#B0B0C8',n:'Cool Greige'}],
-        colors:  [{c:'#888898',n:'Cool Taupe'},{c:'#585868',n:'Dark Cool Taupe'},{c:'#282838',n:'Very Dark Cool Brown'}],
-        accents: [{c:'#2040C0',n:'Cobalt'},{c:'#E01878',n:'Fuchsia'}]
-      },
-      {
-        label: '🔵 Navy–Γκρι', name: 'True Cool Grey & Pure Navy',
-        note: 'Το pure, ψυχρό navy — crisp και καθαρό, χωρίς καμία ζεστασιά',
-        basics:  [{c:'#F0F0FF',n:'Icy White'},{c:'#9898B8',n:'Cool Blue-Grey'},{c:'#0D1A40',n:'True Pure Navy'}],
-        colors:  [{c:'#2040C0',n:'Cobalt'},{c:'#E01878',n:'Fuchsia'},{c:'#D81818',n:'True Red'}],
-        accents: [{c:'#F0E8F0',n:'Icy Pink'},{c:'#7020B0',n:'Purple'}]
-      }
+      { label: '⬛ Μαύρο–Άσπρο', name: 'Pure White & True Black', note: 'Η πιο "classic" παλέτα — pure και crisp',
+        basics:[{c:'#FFFFFF',n:'Pure White'},{c:'#F0F0F8',n:'Icy White'},{c:'#2040C0',n:'Cobalt accent'}],
+        colors:[{c:'#B0B0C0',n:'Cool Light Grey'},{c:'#606070',n:'Cool Medium Grey'},{c:'#101010',n:'True Black'}],
+        accents:[{c:'#E01878',n:'Fuchsia'},{c:'#D81818',n:'True Red'}] },
+      { label: '🤎 Καφέ–Μπεζ', name: 'Icy Beige & Cool Dark Taupe', note: 'Beige με έντονα cool/blue undertones',
+        basics:[{c:'#F4F4FC',n:'Icy Beige-White'},{c:'#D8D8EC',n:'Cool Pale Beige'},{c:'#B0B0C8',n:'Cool Greige'}],
+        colors:[{c:'#888898',n:'Cool Taupe'},{c:'#585868',n:'Dark Cool Taupe'},{c:'#282838',n:'Very Dark Cool Brown'}],
+        accents:[{c:'#2040C0',n:'Cobalt'},{c:'#E01878',n:'Fuchsia'}] },
+      { label: '🔵 Navy–Γκρι', name: 'True Cool Grey & Pure Navy', note: 'Pure, ψυχρό navy χωρίς ζεστασιά',
+        basics:[{c:'#F0F0FF',n:'Icy White'},{c:'#9898B8',n:'Cool Blue-Grey'},{c:'#0D1A40',n:'True Pure Navy'}],
+        colors:[{c:'#2040C0',n:'Cobalt'},{c:'#E01878',n:'Fuchsia'},{c:'#D81818',n:'True Red'}],
+        accents:[{c:'#F0E8F0',n:'Icy Pink'},{c:'#7020B0',n:'Purple'}] }
     ],
-
     'bright-winter': [
-      {
-        label: '⬛ Μαύρο–Άσπρο', name: 'Brilliant White & Jet Black',
-        note: 'Η παλέτα με το πιο έντονο black & white contrast — όσο πιο crisp τόσο καλύτερα',
-        basics:  [{c:'#FFFFFF',n:'Brilliant White'},{c:'#F8F8FF',n:'Bright White'},{c:'#0840E0',n:'Electric Blue accent'}],
-        colors:  [{c:'#B0B0C0',n:'Bright Cool Grey'},{c:'#585868',n:'Bright Dark Grey'},{c:'#080810',n:'Jet Black'}],
-        accents: [{c:'#E01898',n:'Magenta'},{c:'#10C070',n:'Emerald'}]
-      },
-      {
-        label: '🤎 Καφέ–Μπεζ', name: 'Crisp Cool Beige & Bright Dark Taupe',
-        note: 'Beige πρέπει να είναι bright και cool — muted ή warm beige εξαφανίζουν τα χαρακτηριστικά',
-        basics:  [{c:'#F8F8FF',n:'Bright Icy White'},{c:'#D8D8F0',n:'Bright Cool Beige'},{c:'#A8A8C8',n:'Bright Cool Greige'}],
-        colors:  [{c:'#8888A8',n:'Bright Cool Taupe'},{c:'#505068',n:'Bright Dark Taupe'},{c:'#202030',n:'Dark Charcoal Brown'}],
-        accents: [{c:'#0840E0',n:'Electric Blue'},{c:'#E01898',n:'Magenta'}]
-      },
-      {
-        label: '🔵 Navy–Γκρι', name: 'Bright Cool Grey & Electric Navy',
-        note: 'Bright, saturated navy — όχι dusty ή muted, η ένταση είναι το ζητούμενο',
-        basics:  [{c:'#F5F5FF',n:'White'},{c:'#9898C0',n:'Bright Periwinkle'},{c:'#081840',n:'Electric Navy'}],
-        colors:  [{c:'#0840E0',n:'Electric Blue'},{c:'#E01898',n:'Magenta'},{c:'#E01010',n:'Bright Red'}],
-        accents: [{c:'#10C070',n:'Emerald'},{c:'#8010C8',n:'Violet'}]
-      }
+      { label: '⬛ Μαύρο–Άσπρο', name: 'Brilliant White & Jet Black', note: 'Όσο πιο crisp τόσο καλύτερα',
+        basics:[{c:'#FFFFFF',n:'Brilliant White'},{c:'#F8F8FF',n:'Bright White'},{c:'#0840E0',n:'Electric Blue accent'}],
+        colors:[{c:'#B0B0C0',n:'Bright Cool Grey'},{c:'#585868',n:'Bright Dark Grey'},{c:'#080810',n:'Jet Black'}],
+        accents:[{c:'#E01898',n:'Magenta'},{c:'#10C070',n:'Emerald'}] },
+      { label: '🤎 Καφέ–Μπεζ', name: 'Crisp Cool Beige & Bright Dark Taupe', note: 'Beige bright και cool',
+        basics:[{c:'#F8F8FF',n:'Bright Icy White'},{c:'#D8D8F0',n:'Bright Cool Beige'},{c:'#A8A8C8',n:'Bright Cool Greige'}],
+        colors:[{c:'#8888A8',n:'Bright Cool Taupe'},{c:'#505068',n:'Bright Dark Taupe'},{c:'#202030',n:'Dark Charcoal Brown'}],
+        accents:[{c:'#0840E0',n:'Electric Blue'},{c:'#E01898',n:'Magenta'}] },
+      { label: '🔵 Navy–Γκρι', name: 'Bright Cool Grey & Electric Navy', note: 'Bright, saturated navy',
+        basics:[{c:'#F5F5FF',n:'White'},{c:'#9898C0',n:'Bright Periwinkle'},{c:'#081840',n:'Electric Navy'}],
+        colors:[{c:'#0840E0',n:'Electric Blue'},{c:'#E01898',n:'Magenta'},{c:'#E01010',n:'Bright Red'}],
+        accents:[{c:'#10C070',n:'Emerald'},{c:'#8010C8',n:'Violet'}] }
     ]
   };
 
@@ -2440,20 +1288,11 @@
       </div>`;
   }
 
-  // Map palette card names to keys and inject combos
   const paletteMap = {
-    'Light Spring':   'light-spring',
-    'True Spring':    'true-spring',
-    'Bright Spring':  'bright-spring',
-    'Light Summer':   'light-summer',
-    'True Summer':    'true-summer',
-    'Soft Summer':    'soft-summer',
-    'Soft Autumn':    'soft-autumn',
-    'True Autumn':    'true-autumn',
-    'Dark Autumn':    'dark-autumn',
-    'Dark Winter':    'dark-winter',
-    'True Winter':    'true-winter',
-    'Bright Winter':  'bright-winter'
+    'Light Spring':'light-spring','True Spring':'true-spring','Bright Spring':'bright-spring',
+    'Light Summer':'light-summer','True Summer':'true-summer','Soft Summer':'soft-summer',
+    'Soft Autumn':'soft-autumn','True Autumn':'true-autumn','Dark Autumn':'dark-autumn',
+    'Dark Winter':'dark-winter','True Winter':'true-winter','Bright Winter':'bright-winter'
   };
 
   document.querySelectorAll('.palette-card').forEach(card => {
@@ -2461,7 +1300,6 @@
     if (!nameEl) return;
     const key = paletteMap[nameEl.textContent.trim()];
     if (!key) return;
-    // Remove old combos-section if any
     const old = card.querySelector('.combos-section');
     if (old) old.remove();
     card.querySelector('.palette-body').insertAdjacentHTML('beforeend', buildCombos(key));
@@ -2469,56 +1307,21 @@
 
   // ── QUIZ ──
   const QUESTIONS = [
-    {
-      id: 'undertone',
-      text: 'Κοίτα τις φλέβες στον καρπό σου σε φυσικό φως. Τι χρώμα έχουν;',
-      hint: 'Χωρίς βραχιόλια, σε λευκό φόντο αν είναι δυνατόν',
-      options: [
-        { label: 'Μπλε ή μοβ', value: 'cool' },
-        { label: 'Πράσινες ή κιτρινοπράσινες', value: 'warm' },
-        { label: 'Μικτές — βλέπω και τα δύο', value: 'neutral' }
-      ]
-    },
-    {
-      id: 'jewelry',
-      text: 'Ποιο κόσμημα σε κολακεύει περισσότερο κοντά στο πρόσωπο;',
-      hint: 'Κράτα τα κοντά στο πρόσωπό σου χωρίς μακιγιάζ',
-      options: [
-        { label: 'Ασημί — κάνει το δέρμα να λάμπει', value: 'cool' },
-        { label: 'Χρυσό — με κάνει πιο ζεστή και φωτεινή', value: 'warm' },
-        { label: 'Και τα δύο μου πάνε εξίσου', value: 'neutral' }
-      ]
-    },
-    {
-      id: 'intensity',
-      text: 'Κράτα ένα έντονο κόκκινο και ένα dusty μπορντό κοντά στο πρόσωπό σου. Τι παρατηρείς;',
-      hint: 'Κοίτα ποιο κάνει το δέρμα πιο φωτεινό και τα μάτια πιο έντονα',
-      options: [
-        { label: 'Το έντονο κόκκινο — το πρόσωπό μου ζωντανεύει', value: 'bright' },
-        { label: 'Το muted μπορντό — δείχνω πιο αρμονική', value: 'muted' },
-        { label: 'Κάπου στη μέση', value: 'neutral_c' }
-      ]
-    },
-    {
-      id: 'depth',
-      text: 'Κοίτα μαλλιά, μάτια και δέρμα συνολικά. Πού βρίσκονται στη χρωματική κλίμακα;',
-      hint: 'Σκέψου τη συνολική εικόνα — όχι μόνο ένα χαρακτηριστικό',
-      options: [
-        { label: 'Κυρίως ανοιχτά — ξανθά μαλλιά, ανοιχτά μάτια', value: 'light' },
-        { label: 'Κυρίως σκούρα — σκούρα μαλλιά, σκούρα μάτια', value: 'dark' },
-        { label: 'Μέτρια — ούτε πολύ ανοιχτά ούτε πολύ σκούρα', value: 'medium' }
-      ]
-    },
-    {
-      id: 'contrast',
-      text: 'Πόση αντίθεση υπάρχει μεταξύ μαλλιών και δέρματός σου;',
-      hint: 'Π.χ. πολύ σκούρα μαλλιά + ανοιχτό δέρμα = υψηλή αντίθεση',
-      options: [
-        { label: 'Υψηλή — μαλλιά και δέρμα πολύ διαφορετικά', value: 'high' },
-        { label: 'Χαμηλή — σε παρόμοιες αποχρώσεις', value: 'low' },
-        { label: 'Μέτρια αντίθεση', value: 'medium' }
-      ]
-    }
+    { id:'undertone', text:'Κοίτα τις φλέβες στον καρπό σου σε φυσικό φως. Τι χρώμα έχουν;',
+      hint:'Χωρίς βραχιόλια, σε λευκό φόντο αν είναι δυνατόν',
+      options:[{label:'Μπλε ή μοβ',value:'cool'},{label:'Πράσινες ή κιτρινοπράσινες',value:'warm'},{label:'Μικτές — βλέπω και τα δύο',value:'neutral'}] },
+    { id:'jewelry', text:'Ποιο κόσμημα σε κολακεύει περισσότερο κοντά στο πρόσωπο;',
+      hint:'Κράτα τα κοντά στο πρόσωπό σου χωρίς μακιγιάζ',
+      options:[{label:'Ασημί — κάνει το δέρμα να λάμπει',value:'cool'},{label:'Χρυσό — με κάνει πιο ζεστή και φωτεινή',value:'warm'},{label:'Και τα δύο μου πάνε εξίσου',value:'neutral'}] },
+    { id:'intensity', text:'Κράτα ένα έντονο κόκκινο και ένα dusty μπορντό κοντά στο πρόσωπό σου. Τι παρατηρείς;',
+      hint:'Κοίτα ποιο κάνει το δέρμα πιο φωτεινό και τα μάτια πιο έντονα',
+      options:[{label:'Το έντονο κόκκινο — το πρόσωπό μου ζωντανεύει',value:'bright'},{label:'Το muted μπορντό — δείχνω πιο αρμονική',value:'muted'},{label:'Κάπου στη μέση',value:'neutral_c'}] },
+    { id:'depth', text:'Κοίτα μαλλιά, μάτια και δέρμα συνολικά. Πού βρίσκονται στη χρωματική κλίμακα;',
+      hint:'Σκέψου τη συνολική εικόνα — όχι μόνο ένα χαρακτηριστικό',
+      options:[{label:'Κυρίως ανοιχτά — ξανθά μαλλιά, ανοιχτά μάτια',value:'light'},{label:'Κυρίως σκούρα — σκούρα μαλλιά, σκούρα μάτια',value:'dark'},{label:'Μέτρια — ούτε πολύ ανοιχτά ούτε πολύ σκούρα',value:'medium'}] },
+    { id:'contrast', text:'Πόση αντίθεση υπάρχει μεταξύ μαλλιών και δέρματός σου;',
+      hint:'Π.χ. πολύ σκούρα μαλλιά + ανοιχτό δέρμα = υψηλή αντίθεση',
+      options:[{label:'Υψηλή — μαλλιά και δέρμα πολύ διαφορετικά',value:'high'},{label:'Χαμηλή — σε παρόμοιες αποχρώσεις',value:'low'},{label:'Μέτρια αντίθεση',value:'medium'}] }
   ];
 
   function calcPalette(a) {
@@ -2537,13 +1340,12 @@
       return 'True Spring';
     }
     if (hue === 'cool') {
-      if (value === 'light') return chroma === 'muted' ? 'Light Summer' : 'Light Summer';
+      if (value === 'light') return 'Light Summer';
       if (value === 'dark') return 'Dark Winter';
       if (chroma === 'bright') return contrast === 'high' ? 'Bright Winter' : 'True Winter';
       if (chroma === 'muted') return contrast === 'low' ? 'Soft Summer' : 'True Summer';
       return 'True Winter';
     }
-    // neutral
     if (value === 'light') return chroma === 'bright' ? 'Light Spring' : 'Light Summer';
     if (value === 'dark') return contrast === 'high' ? 'Dark Winter' : 'Dark Autumn';
     if (chroma === 'muted') return contrast === 'low' ? 'Soft Summer' : 'Soft Autumn';
@@ -2568,9 +1370,7 @@
 
   let quizAnswers = {}, currentQ = 0;
 
-  function quizInit() {
-    quizAnswers = {}; currentQ = 0; renderQuestion();
-  }
+  function quizInit() { quizAnswers = {}; currentQ = 0; renderQuestion(); }
 
   function renderQuestion() {
     const q = QUESTIONS[currentQ];
@@ -2582,13 +1382,13 @@
     const selected = quizAnswers[q.id];
     document.getElementById('quiz-questions').innerHTML = `
       <div>
-        <h3 style="font-family:var(--serif);font-size:1.4rem;color:var(--bark);margin-bottom:0.5rem">${q.text}</h3>
-        ${q.hint ? `<p style="font-size:0.82rem;color:var(--dust);margin-bottom:1.5rem;font-style:italic">💡 ${q.hint}</p>` : ''}
+        <h3 style="font-family:var(--cag-serif);font-size:1.4rem;color:var(--cag-bark);margin-bottom:0.5rem">${q.text}</h3>
+        ${q.hint ? `<p style="font-size:0.82rem;color:var(--cag-dust);margin-bottom:1.5rem;font-style:italic">💡 ${q.hint}</p>` : ''}
         <div style="display:flex;flex-direction:column;gap:0.8rem;margin-top:1rem">
           ${q.options.map(opt => `
-            <label style="display:flex;align-items:center;gap:1rem;padding:1rem 1.2rem;border:1px solid ${selected===opt.value?'var(--gold)':'var(--line)'};border-radius:2px;cursor:pointer;background:${selected===opt.value?'rgba(200,169,106,0.1)':'var(--cream)'};transition:all 0.2s">
-              <input type="radio" name="q_${q.id}" value="${opt.value}" ${selected===opt.value?'checked':''} onchange="quizAnswer('${q.id}','${opt.value}')" style="accent-color:var(--gold);width:18px;height:18px;flex-shrink:0">
-              <span style="font-size:0.95rem;color:var(--bark)">${opt.label}</span>
+            <label style="display:flex;align-items:center;gap:1rem;padding:1rem 1.2rem;border:1px solid ${selected===opt.value?'var(--cag-gold)':'var(--cag-line)'};border-radius:2px;cursor:pointer;background:${selected===opt.value?'rgba(200,169,106,0.1)':'var(--cag-cream)'};transition:all 0.2s">
+              <input type="radio" name="q_${q.id}" value="${opt.value}" ${selected===opt.value?'checked':''} onchange="quizAnswer('${q.id}','${opt.value}')" style="accent-color:var(--cag-gold);width:18px;height:18px;flex-shrink:0">
+              <span style="font-size:0.95rem;color:var(--cag-bark)">${opt.label}</span>
             </label>`).join('')}
         </div>
       </div>`;
@@ -2614,37 +1414,34 @@
       <div>
         <div style="text-align:center;margin-bottom:2rem">
           <div style="font-size:2.5rem;margin-bottom:0.5rem">${d.season}</div>
-          <p style="font-size:0.72rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:0.5rem">Η παλέτα σου είναι</p>
-          <h2 style="font-family:var(--serif);font-size:2.8rem;font-weight:300;color:var(--bark);margin-bottom:0.8rem">${palette}</h2>
-          <p style="color:var(--dust);max-width:480px;margin:0 auto">${d.desc}</p>
-          <p style="font-size:0.8rem;color:var(--gold);margin-top:0.8rem">Celebrity example: ${d.celeb}</p>
+          <p style="font-size:0.72rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--cag-gold);margin-bottom:0.5rem">Η παλέτα σου είναι</p>
+          <h2 style="font-family:var(--cag-serif);font-size:2.8rem;font-weight:300;color:var(--cag-bark);margin-bottom:0.8rem">${palette}</h2>
+          <p style="color:var(--cag-dust);max-width:480px;margin:0 auto">${d.desc}</p>
+          <p style="font-size:0.8rem;color:var(--cag-gold);margin-top:0.8rem">Celebrity example: ${d.celeb}</p>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:2rem">
-          <div style="background:var(--cream);border:1px solid var(--line);border-radius:2px;padding:1.5rem">
-            <p style="font-size:0.68rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--dust);margin-bottom:1rem">✦ Χρώματα που σε κολακεύουν</p>
+          <div style="background:var(--cag-cream);border:1px solid var(--cag-line);border-radius:2px;padding:1.5rem">
+            <p style="font-size:0.68rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--cag-dust);margin-bottom:1rem">✦ Χρώματα που σε κολακεύουν</p>
             <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:1rem">
               ${d.colors.map((c,i)=>`<div style="width:36px;height:36px;border-radius:50%;background:${c};box-shadow:0 2px 8px rgba(0,0,0,0.12);cursor:help;transition:transform 0.2s" title="${d.names[i]}" onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform='scale(1)'"></div>`).join('')}
             </div>
             <div style="display:flex;flex-wrap:wrap;gap:4px">
-              ${d.names.map(n=>`<span style="font-size:0.7rem;color:var(--dust);background:var(--warm-white);padding:2px 8px;border-radius:20px">${n}</span>`).join('')}
+              ${d.names.map(n=>`<span style="font-size:0.7rem;color:var(--cag-dust);background:var(--cag-warm-white);padding:2px 8px;border-radius:20px">${n}</span>`).join('')}
             </div>
           </div>
-          <div style="background:var(--cream);border:1px solid var(--line);border-radius:2px;padding:1.5rem">
-            <p style="font-size:0.68rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--dust);margin-bottom:1rem">✕ Χρώματα να αποφύγεις</p>
+          <div style="background:var(--cag-cream);border:1px solid var(--cag-line);border-radius:2px;padding:1.5rem">
+            <p style="font-size:0.68rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--cag-dust);margin-bottom:1rem">✕ Χρώματα να αποφύγεις</p>
             <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:1rem">
               ${d.avoid.map((c,i)=>`<div style="width:36px;height:36px;border-radius:50%;background:${c};box-shadow:0 2px 8px rgba(0,0,0,0.12);position:relative;cursor:help" title="${d.avoidNames[i]}"><div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.85);font-size:1rem;font-weight:700">✕</div></div>`).join('')}
             </div>
             <div style="display:flex;flex-wrap:wrap;gap:4px">
-              ${d.avoidNames.map(n=>`<span style="font-size:0.7rem;color:var(--dust);background:var(--warm-white);padding:2px 8px;border-radius:20px">${n}</span>`).join('')}
+              ${d.avoidNames.map(n=>`<span style="font-size:0.7rem;color:var(--cag-dust);background:var(--cag-warm-white);padding:2px 8px;border-radius:20px">${n}</span>`).join('')}
             </div>
           </div>
         </div>
         <div style="margin-top:2rem;padding:1.5rem;background:rgba(200,169,106,0.08);border:1px solid rgba(200,169,106,0.3);border-radius:2px;text-align:center">
-          <p style="font-size:0.88rem;color:var(--bark);margin-bottom:0.8rem">Θες να δεις τα χρωματικά combos για το <strong>${palette}</strong>;</p>
-          <a href="#palettes" class="btn-primary" style="font-size:0.78rem;padding:0.6rem 1.6rem">Δες την παλέτα σου →</a>
-        </div>
-        <div style="margin-top:1.2rem;text-align:center">
-          <p style="font-size:0.78rem;color:var(--dust);font-style:italic">Το quiz είναι εργαλείο παρατήρησης. Αν νιώθεις ότι δεν ταιριάζει απόλυτα, διάβασε και τις γειτονικές παλέτες — τα όρια δεν είναι πάντα απόλυτα.</p>
+          <p style="font-size:0.88rem;color:var(--cag-bark);margin-bottom:0.8rem">Θες να δεις τα χρωματικά combos για το <strong>${palette}</strong>;</p>
+          <a href="#palettes" class="cag-btn-primary" style="font-size:0.78rem;padding:0.6rem 1.6rem">Δες την παλέτα σου →</a>
         </div>
       </div>`;
     document.getElementById('quiz-restart').style.display = 'block';
@@ -2661,5 +1458,6 @@
 
   quizInit();
 </script>
+
 </body>
 </html>

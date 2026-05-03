@@ -1208,6 +1208,16 @@ const CATEGORIES = {
 const MN_SHORT=['Ιαν','Φεβ','Μαρ','Απρ','Μαΐ','Ιουν','Ιουλ','Αυγ','Σεπ','Οκτ','Νοε','Δεκ'];
 const MN_FULL=['Ιανουάριος','Φεβρουάριος','Μάρτιος','Απρίλιος','Μάιος','Ιούνιος','Ιούλιος','Αύγουστος','Σεπτέμβριος','Οκτώβριος','Νοέμβριος','Δεκέμβριος'];
 const CAT_COLORS=['#9a7a4a','#c9a96e','#d4b88a','#7a9a6a','#6a7a9a','#9a6a7a','#7a6a9a','#aaa'];
+const CAT_COLOR_MAP={
+  'Tops':'#C0392B',
+  'Dresses':'#8E44AD',
+  'Pants':'#2980B9',
+  'Outwear':'#16A085',
+  'Shoes':'#7D5A3C',
+  'Bags':'#D4A017',
+  'Accessories':'#E67E22'
+};
+function catColor(cat){return CAT_COLOR_MAP[cat]||'#9a7a4a';}
 const COLOR_HEX={'White':'#F5F5F0','Beige':'#D4B88A','Black':'#1A1A1A','Navy':'#1B2A4A','Camel':'#C9A96E','Chocolate Brown':'#4A2C17','Olive':'#7A7A45','Grey (Light)':'#C4C4C0','Grey (Mid)':'#8B8B88','Grey (Charcoal)':'#6B6B6B','Burgundy':'#6D1A2A','Red':'#C0392B','Mint':'#9DC4B0','Mushroom':'#B5A898','Sand':'#D4C4A8','Cobalt':'#1E3A8A','Powder Blue':'#7EB8D4','Emerald':'#2D5A27','Hunter Green':'#2D5A27','Hot Pink':'#D5006D','Rose Gold':'#E8B4B8','Coral':'#C4673A','Aubergine':'#6B3FA0','Off-White/Ivory':'#EDE8DC','Gold':'#B8860B','Aubergine':'#6B3FA0'};
 
 let currentUser=null, allItems=[], wearLogs=[], currentFilter='all', currentCat2Filter='all', sortMode='recently_worn', editingItemId=null, uploadedPhotoFile=null;
@@ -1862,7 +1872,7 @@ function renderGoneStats(){
   // Category chart
   const cc={};archivedItems.forEach(i=>{if(i.cat1)cc[i.cat1]=(cc[i.cat1]||0)+1;});
   const maxC=Math.max(...Object.values(cc),1);
-  document.getElementById('g-cat-chart').innerHTML=Object.entries(cc).sort((a,b)=>b[1]-a[1]).map(([c,v],i)=>hBar(c,v,maxC,`${v}`,CAT_COLORS[i]||'#aaa')).join('');
+  document.getElementById('g-cat-chart').innerHTML=Object.entries(cc).sort((a,b)=>b[1]-a[1]).map(([c,v])=>hBar(c,v,maxC,`${v}`,catColor(c))).join('');
 
   // Color chart
   const clc={};archivedItems.forEach(i=>{if(i.color)clc[i.color]=(clc[i.color]||0)+1;});
@@ -2083,7 +2093,7 @@ function loadMonthDash(){
   new Set(ml.map(l=>l.wardrobe_item_id)).forEach(id=>{const item=allItems.find(i=>i.id===id);if(item?.cat1)cc[item.cat1]=(cc[item.cat1]||0)+1;if(item?.color)clc[item.color]=(clc[item.color]||0)+1;});
   const catS=Object.entries(cc).sort((a,b)=>b[1]-a[1]).slice(0,8),catT=catS.reduce((s,[,v])=>s+v,0);
   document.getElementById('cat-legend').innerHTML=catS.length
-    ? catS.map(([cat,cnt],i)=>renderHBar(cat,cnt,catT?catT:1,`${cnt}`,CAT_COLORS[i]||'#aaa')).join('')
+    ? catS.map(([cat,cnt])=>renderHBar(cat,cnt,catT?catT:1,`${cnt}`,catColor(cat))).join('')
     : '<div style="color:var(--text-dim);font-size:10px">—</div>';
   const colorS=Object.entries(clc).sort((a,b)=>b[1]-a[1]).slice(0,8),colorT=colorS.reduce((s,[,v])=>s+v,0);
   document.getElementById('color-legend').innerHTML=colorS.length
@@ -2242,7 +2252,7 @@ function loadTotalDash(){
   new Set(rl.map(l=>l.wardrobe_item_id)).forEach(id=>{const item=allItems.find(i=>i.id===id);if(item?.cat1)cc[item.cat1]=(cc[item.cat1]||0)+1;if(item?.color)clc[item.color]=(clc[item.color]||0)+1;});
   const catSA=Object.entries(cc).sort((a,b)=>b[1]-a[1]).slice(0,8),catTA=catSA.reduce((s,[,v])=>s+v,0);
   document.getElementById('t-cat-legend').innerHTML=catSA.length
-    ? catSA.map(([cat,cnt],i)=>renderHBar(cat,cnt,catTA||1,`${cnt}`,CAT_COLORS[i]||'#aaa')).join('')
+    ? catSA.map(([cat,cnt])=>renderHBar(cat,cnt,catTA||1,`${cnt}`,catColor(cat))).join('')
     : '<div style="color:var(--text-dim);font-size:10px">—</div>';
   const colorSA=Object.entries(clc).sort((a,b)=>b[1]-a[1]).slice(0,8),colorTA=colorSA.reduce((s,[,v])=>s+v,0);
   document.getElementById('t-color-legend').innerHTML=colorSA.length
@@ -2447,11 +2457,11 @@ function loadPurchasesDash(){
   const maxCatItems=Math.max(...Object.values(catItems),1);
   const maxCatVal=Math.max(...Object.values(catValue),1);
   const catsSorted=cats.slice().sort((a,b)=>catItems[b]-catItems[a]);
-  document.getElementById('cat-items-chart').innerHTML=catsSorted.map((cat,idx)=>
-    hBar(cat, catItems[cat], maxCatItems, `${catItems[cat]} τεμ.`, CAT_COLORS[idx]||'#aaa')
+  document.getElementById('cat-items-chart').innerHTML=catsSorted.map((cat)=>
+    hBar(cat, catItems[cat], maxCatItems, `${catItems[cat]} τεμ.`, catColor(cat))
   ).join('');
-  document.getElementById('cat-value-chart').innerHTML=cats.slice().sort((a,b)=>catValue[b]-catValue[a]).map((cat,idx)=>
-    hBar(cat, catValue[cat], maxCatVal, `€${Math.round(catValue[cat]).toLocaleString('el-GR')}`, CAT_COLORS[idx]||'#aaa')
+  document.getElementById('cat-value-chart').innerHTML=cats.slice().sort((a,b)=>catValue[b]-catValue[a]).map((cat)=>
+    hBar(cat, catValue[cat], maxCatVal, `€${Math.round(catValue[cat]).toLocaleString('el-GR')}`, catColor(cat))
   ).join('');
 
   // ── ΤΕΜΑΧΙΑ & ΑΞΙΑ ΑΝΑ ΧΡΩΜΑ (Top 15) ──
@@ -2709,7 +2719,7 @@ function loadWPSDrill(){
       const a=avg(items.map(i=>getAlignmentScore(i)));
       const c=avg(items.map(i=>getCPWScore(i)||0));
       const w=Math.round((u+v+a+c)*2.5);
-      return scoreRow(cat,null,u,v,a,c,w);
+      return scoreRow(cat,catColor(cat),u,v,a,c,w);
     }).join('')||'<div style="color:var(--text-dim);font-size:11px;">Δεν υπάρχουν δεδομένα</div>';
   } else {
     // By color

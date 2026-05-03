@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wardrobe Portfolio Guide | Fashion Analysis by Danai</title>
+  <meta name="description" content="Πώς να αξιολογείς κάθε κομμάτι γκαρνταρόμπας με 4 παραμέτρους επένδυσης: Χρήση, Πολυχρηστικότητα, Συνάφεια και CPW." />
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-DBRDY0FNX7"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-DBRDY0FNX7');
+  </script>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="apple-touch-icon" href="favicon.png" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── RESET & BASE ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream:       #F5F0E8;
+      --cream-dark:  #EDE6D6;
+      --cream-mid:   #F9F5EE;
+      --gold:        #B8965A;
+      --gold-light:  #D4AF7A;
+      --gold-pale:   #E8D8BC;
+      --gold-dark:   #8A6E3C;
+      --text-dark:   #2C2416;
+      --text-mid:    #5A4A30;
+      --text-light:  #8A7A60;
+      --sage:        #7A8C70;
+      --sage-light:  #D6E0CF;
+      --rose:        #C4826A;
+      --rose-light:  #F0D8CF;
+      --ink:         #3A2E1E;
+      --ex-bad-bg:   #F2E8E2;
+      --ex-good-bg:  #E8EDE5;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--cream);
+      color: var(--text-dark);
+      font-family: 'Jost', sans-serif;
+      font-weight: 400;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── NAV ── */
+    nav {
+      background: var(--cream);
+      border-bottom: 0.5px solid var(--gold-pale);
+      padding: 0 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+    }
+
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--text-dark);
+      text-decoration: none;
+      letter-spacing: 0.02em;
+    }
+    .nav-logo span { font-style: italic; color: var(--gold-dark); }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: 'Jost', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--gold-dark); }
+
+    /* ── HERO ── */
+    .hero {
+      text-align: center;
+      padding: 4rem 2rem 3rem;
+      border-bottom: 0.5px solid var(--gold-pale);
+      max-width: 720px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .eyebrow {
+      font-family: 'Jost', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(32px, 5vw, 48px);
+      font-weight: 400;
+      color: var(--text-dark);
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+    .hero h1 em { font-style: italic; color: var(--gold-dark); }
+
+    .hero-sub {
+      font-family: 'Jost', sans-serif;
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--text-light);
+      line-height: 1.7;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    /* ── MAIN ── */
+    main {
+      flex: 1;
+      max-width: 860px;
+      margin: 0 auto;
+      width: 100%;
+      padding: 3rem 2rem 4rem;
+    }
+
+    .section-label {
+      font-family: 'Jost', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px;
+      font-weight: 400;
+      color: var(--text-dark);
+      margin-bottom: 1.75rem;
+      line-height: 1.3;
+    }
+    .section-title em { font-style: italic; color: var(--gold-dark); }
+
+    .divider {
+      border: none;
+      border-top: 0.5px solid var(--gold-pale);
+      margin: 3rem 0;
+    }
+
+    /* ── PARAM CARDS ── */
+    .param-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    @media (max-width: 600px) {
+      .param-grid { grid-template-columns: 1fr; }
+    }
+
+    .param-card {
+      background: var(--cream-mid);
+      border: 0.5px solid var(--gold-pale);
+      border-radius: 2px;
+      padding: 1.25rem 1.1rem 1.1rem;
+      position: relative;
+    }
+    .param-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      border-radius: 0 0 2px 2px;
+    }
+    .p-gold::after { background: var(--gold); }
+    .p-sage::after { background: var(--sage); }
+    .p-rose::after { background: var(--rose); }
+    .p-ink::after  { background: var(--ink); }
+
+    .param-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 36px;
+      font-weight: 300;
+      line-height: 1;
+      margin-bottom: 6px;
+      opacity: 0.25;
+      color: var(--text-dark);
+    }
+
+    .param-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 2px;
+    }
+
+    .param-fin {
+      font-family: 'Jost', sans-serif;
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      margin-bottom: 12px;
+    }
+
+    .param-desc {
+      font-family: 'Jost', sans-serif;
+      font-size: 13px;
+      color: var(--text-mid);
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+
+    .ex-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 9px;
+      border-radius: 2px;
+      margin-bottom: 5px;
+    }
+    .ex-row:last-child { margin-bottom: 0; }
+    .ex-bad  { background: var(--ex-bad-bg); }
+    .ex-good { background: var(--ex-good-bg); }
+
+    .ex-label {
+      font-size: 12px;
+      color: var(--text-mid);
+      flex: 1;
+      font-family: 'Jost', sans-serif;
+    }
+    .ex-val {
+      font-size: 12px;
+      font-weight: 500;
+      font-family: 'Jost', sans-serif;
+      white-space: nowrap;
+    }
+    .val-bad  { color: var(--rose); }
+    .val-good { color: var(--sage); }
+
+    .ex-pill {
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 99px;
+      font-family: 'Jost', sans-serif;
+      white-space: nowrap;
+    }
+    .pill-bad  { background: #E8C4B4; color: #6A2010; }
+    .pill-good { background: #C4D4BA; color: #1E3A18; }
+
+    /* ── CPW TABLE ── */
+    .table-wrap {
+      background: var(--cream-mid);
+      border: 0.5px solid var(--gold-pale);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .cpw-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: 'Jost', sans-serif;
+      font-size: 13px;
+      table-layout: fixed;
+    }
+    .cpw-table thead tr { background: var(--cream-dark); }
+    .cpw-table th {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      padding: 10px 14px;
+      text-align: left;
+      border-bottom: 0.5px solid var(--gold-pale);
+    }
+    .cpw-table td {
+      padding: 10px 14px;
+      color: var(--text-mid);
+      border-bottom: 0.5px solid var(--gold-pale);
+      vertical-align: middle;
+    }
+    .cpw-table tr:last-child td { border-bottom: none; }
+    .cpw-table tr:nth-child(even) td { background: rgba(245,240,232,0.6); }
+
+    .cpw-range {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+
+    .badge {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 99px;
+      display: inline-block;
+      font-family: 'Jost', sans-serif;
+    }
+    .b-great { background: #C4D4BA; color: #1A3014; }
+    .b-ok    { background: #E8DCC4; color: #4A3810; }
+    .b-warn  { background: #EDD0B8; color: #5A2C0E; }
+    .b-bad   { background: #E8C4B4; color: #5A1E10; }
+
+    /* ── PORTFOLIO BARS ── */
+    .portfolio-wrap {
+      background: var(--cream-mid);
+      border: 0.5px solid var(--gold-pale);
+      border-radius: 2px;
+      padding: 1.5rem 1.25rem;
+    }
+
+    .port-sub {
+      font-family: 'Jost', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      margin-bottom: 14px;
+    }
+    .port-sub.warn { color: var(--rose); }
+
+    .bar-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 9px;
+    }
+    .bar-name {
+      font-family: 'Jost', sans-serif;
+      font-size: 12px;
+      color: var(--text-mid);
+      width: 130px;
+      flex-shrink: 0;
+    }
+    .bar-track {
+      flex: 1;
+      height: 22px;
+      background: var(--cream-dark);
+      border-radius: 1px;
+      overflow: hidden;
+    }
+    .bar-fill {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      padding: 0 9px;
+      font-family: 'Jost', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+    }
+    .bar-pct {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 16px;
+      font-weight: 600;
+      width: 40px;
+      text-align: right;
+    }
+
+    .sep-thin {
+      border: none;
+      border-top: 0.5px solid var(--gold-pale);
+      margin: 18px 0;
+    }
+
+    .port-note {
+      font-family: 'Jost', sans-serif;
+      font-size: 12px;
+      color: var(--rose);
+      font-style: italic;
+      margin-top: 10px;
+    }
+
+    /* ── CHECKLIST ── */
+    .checklist-wrap {
+      background: var(--cream-mid);
+      border: 0.5px solid var(--gold-pale);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .check-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 14px 1.25rem;
+      border-bottom: 0.5px solid var(--gold-pale);
+      font-family: 'Jost', sans-serif;
+      font-size: 13px;
+      color: var(--text-mid);
+      line-height: 1.6;
+    }
+    .check-item:last-child { border-bottom: none; }
+
+    .check-dot {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 14px;
+      font-weight: 600;
+      flex-shrink: 0;
+      color: var(--cream);
+      margin-top: 1px;
+    }
+    .cd-gold { background: var(--gold); }
+    .cd-sage { background: var(--sage); }
+    .cd-rose { background: var(--rose); }
+    .cd-ink  { background: var(--ink); }
+
+    .check-item strong {
+      color: var(--text-dark);
+      font-weight: 500;
+    }
+
+    /* ── CLOSING QUOTE ── */
+    .closing-box {
+      text-align: center;
+      padding: 2.5rem 2rem;
+      border: 0.5px solid var(--gold-pale);
+      border-radius: 2px;
+      background: var(--cream-mid);
+    }
+    .closing-mark {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 48px;
+      font-weight: 300;
+      color: var(--gold-pale);
+      line-height: 0.6;
+      display: block;
+      margin-bottom: 1rem;
+    }
+    .closing-q {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 400;
+      font-style: italic;
+      color: var(--text-dark);
+      line-height: 1.4;
+      margin-bottom: 1.25rem;
+    }
+    .closing-q em { color: var(--gold-dark); font-style: italic; }
+    .closing-sub {
+      font-family: 'Jost', sans-serif;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-light);
+    }
+
+    /* ── CTA STRIP ── */
+    .cta-strip {
+      background: var(--cream-dark);
+      border: 0.5px solid var(--gold-pale);
+      border-radius: 2px;
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .cta-text {
+      font-family: 'Jost', sans-serif;
+      font-size: 13px;
+      color: var(--text-mid);
+    }
+    .cta-text strong { color: var(--text-dark); font-weight: 500; }
+    .cta-btn {
+      font-family: 'Jost', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold-dark);
+      text-decoration: none;
+      border: 0.5px solid var(--gold);
+      padding: 8px 18px;
+      border-radius: 1px;
+      transition: background 0.2s, color 0.2s;
+      white-space: nowrap;
+    }
+    .cta-btn:hover {
+      background: var(--gold);
+      color: var(--cream);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 0.5px solid var(--gold-pale);
+      padding: 2rem;
+      text-align: center;
+    }
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 16px;
+      font-weight: 400;
+      color: var(--text-dark);
+      margin-bottom: 0.5rem;
+    }
+    .footer-logo em { font-style: italic; color: var(--gold-dark); }
+    .footer-sub {
+      font-family: 'Jost', sans-serif;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      color: var(--text-light);
+      margin-bottom: 1rem;
+    }
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      list-style: none;
+      flex-wrap: wrap;
+    }
+    .footer-links a {
+      font-family: 'Jost', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      color: var(--text-light);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--gold-dark); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 480px) {
+      nav { padding: 0 1rem; }
+      .nav-links { gap: 1.2rem; }
+      main { padding: 2rem 1.1rem 3rem; }
+      .hero { padding: 2.5rem 1.1rem 2rem; }
+      .cpw-table th:nth-child(2),
+      .cpw-table td:nth-child(2) { display: none; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="index.html" class="nav-logo">Fashion Analysis <span>by Danai</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">← Αρχική</a></li>
+      <li><a href="wardrobe-calculator.html">Calculator</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero">
+    <p class="eyebrow">Wardrobe Intelligence</p>
+    <h1>Η γκαρνταρόμπα σου<br>ως <em>χαρτοφυλάκιο</em></h1>
+    <p class="hero-sub">Κάθε κομμάτι είναι μια επένδυση. Μάθε να το αξιολογείς με 4 παραμέτρους — και να παίρνεις αποφάσεις με δεδομένα, όχι παρορμητικά.</p>
+  </header>
+
+  <main>
+
+    <!-- ── SECTION 1: 4 PARAMS ── -->
+    <p class="section-label">Οι 4 παράμετροι αξιολόγησης</p>
+    <h2 class="section-title">Κάθε κομμάτι έχει <em>4 δείκτες</em></h2>
+
+    <div class="param-grid">
+
+      <!-- 01 ΧΡΗΣΗ -->
+      <div class="param-card p-gold">
+        <p class="param-num">01</p>
+        <p class="param-title">Χρήση</p>
+        <p class="param-fin">Απόδοση επένδυσης</p>
+        <p class="param-desc">Πόσες φορές το φοράς; Αν κάθεται, είναι νεκρό κεφάλαιο — σαν χρήματα σε επένδυση που δεν αποδίδει τίποτα.</p>
+        <div class="ex-row ex-bad">
+          <span class="ex-label">Φόρεμα για εκδηλώσεις</span>
+          <span class="ex-val val-bad">2×/χρόνο</span>
+          <span class="ex-pill pill-bad">Χαμηλή</span>
+        </div>
+        <div class="ex-row ex-good">
+          <span class="ex-label">Λευκό πουκάμισο</span>
+          <span class="ex-val val-good">40×/χρόνο</span>
+          <span class="ex-pill pill-good">Υψηλή</span>
+        </div>
+      </div>
+
+      <!-- 02 ΠΟΛΥΧΡΗΣΤΙΚΟΤΗΤΑ -->
+      <div class="param-card p-sage">
+        <p class="param-num">02</p>
+        <p class="param-title">Πολυχρηστικότητα</p>
+        <p class="param-fin">Ρευστότητα επένδυσης</p>
+        <p class="param-desc">Πόσα σύνολα φτιάχνεις; 1 κομμάτι = 1 σύνολο σημαίνει χαμηλή ρευστότητα — δεν μπορείς να «ρευστοποιήσεις» την αξία του.</p>
+        <div class="ex-row ex-bad">
+          <span class="ex-label">Statement κόκκινο jacket</span>
+          <span class="ex-val val-bad">1 σύνολο</span>
+          <span class="ex-pill pill-bad">Χαμηλή</span>
+        </div>
+        <div class="ex-row ex-good">
+          <span class="ex-label">Μπεζ chino παντελόνι</span>
+          <span class="ex-val val-good">10+ σύνολα</span>
+          <span class="ex-pill pill-good">Υψηλή</span>
+        </div>
+      </div>
+
+      <!-- 03 ΣΥΝΑΦΕΙΑ -->
+      <div class="param-card p-rose">
+        <p class="param-num">03</p>
+        <p class="param-title">Συνάφεια με τη ζωή σου</p>
+        <p class="param-fin">Συνάφεια με αγορά</p>
+        <p class="param-desc">Αγοράζεις για τη ζωή που έχεις ή που φαντάζεσαι; Επενδύσεις χωρίς ζήτηση δεν έχουν καμία αξία.</p>
+        <div class="ex-row ex-bad">
+          <span class="ex-label">Κοκτέιλ φόρεμα</span>
+          <span class="ex-val val-bad">0 ζήτηση</span>
+          <span class="ex-pill pill-bad">Χαμηλή</span>
+        </div>
+        <div class="ex-row ex-good">
+          <span class="ex-label">Smart casual παντελόνι</span>
+          <span class="ex-val val-good">Κάθε μέρα</span>
+          <span class="ex-pill pill-good">Υψηλή</span>
+        </div>
+      </div>
+
+      <!-- 04 CPW -->
+      <div class="param-card p-ink">
+        <p class="param-num">04</p>
+        <p class="param-title">Cost Per Wear</p>
+        <p class="param-fin">Επιστροφή επένδυσης (ROI)</p>
+        <p class="param-desc">Τιμή ÷ Φορέματα = CPW. Η πραγματική αξία κάθε κομματιού — όχι η τιμή αγοράς.</p>
+        <div class="ex-row ex-bad">
+          <span class="ex-label">Μπλούζα 30€, φόρεσες 3×</span>
+          <span class="ex-val val-bad">10€/φορά</span>
+          <span class="ex-pill pill-bad">Αδύναμο</span>
+        </div>
+        <div class="ex-row ex-good">
+          <span class="ex-label">Παλτό 150€, φόρεσες 80×</span>
+          <span class="ex-val val-good">1.88€/φορά</span>
+          <span class="ex-pill pill-good">Εξαιρετικό</span>
+        </div>
+      </div>
+
+    </div>
+
+    <hr class="divider" />
+
+    <!-- ── SECTION 2: CPW TABLE ── -->
+    <p class="section-label">Κλίμακα CPW</p>
+    <h2 class="section-title">Τι σημαίνει κάθε <em>νούμερο</em></h2>
+
+    <div class="table-wrap">
+      <table class="cpw-table">
+        <thead>
+          <tr>
+            <th style="width:18%;">CPW</th>
+            <th style="width:30%;">Παράδειγμα ρούχου</th>
+            <th style="width:14%;">Τιμή</th>
+            <th style="width:14%;">Φορέματα</th>
+            <th style="width:24%;">Αξιολόγηση</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="cpw-range">κάτω από 1€</span></td>
+            <td>Βασικό λευκό t-shirt</td>
+            <td>25€</td>
+            <td>50×</td>
+            <td><span class="badge b-great">Εξαιρετικό</span></td>
+          </tr>
+          <tr>
+            <td><span class="cpw-range">1 – 3€</span></td>
+            <td>Καλό παντελόνι basics</td>
+            <td>80€</td>
+            <td>40×</td>
+            <td><span class="badge b-great">Πολύ καλό</span></td>
+          </tr>
+          <tr>
+            <td><span class="cpw-range">3 – 7€</span></td>
+            <td>Φόρεμα για εξόδους</td>
+            <td>60€</td>
+            <td>12×</td>
+            <td><span class="badge b-ok">Εντάξει</span></td>
+          </tr>
+          <tr>
+            <td><span class="cpw-range">7 – 15€</span></td>
+            <td>Trend κομμάτι σεζόν</td>
+            <td>50€</td>
+            <td>5×</td>
+            <td><span class="badge b-warn">Προβληματικό</span></td>
+          </tr>
+          <tr>
+            <td><span class="cpw-range">πάνω από 15€</span></td>
+            <td>Φόρεμα "για αργότερα"</td>
+            <td>90€</td>
+            <td>2×</td>
+            <td><span class="badge b-bad">Κακή επένδυση</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <hr class="divider" />
+
+    <!-- ── SECTION 3: PORTFOLIO BARS ── -->
+    <p class="section-label">Κατανομή χαρτοφυλακίου</p>
+    <h2 class="section-title">Ιδανική vs <em>τυπική</em> γκαρνταρόμπα</h2>
+
+    <div class="portfolio-wrap">
+      <p class="port-sub">Ιδανική κατανομή</p>
+
+      <div class="bar-row">
+        <span class="bar-name">Core basics</span>
+        <div class="bar-track">
+          <div class="bar-fill" style="width:70%; background:#C4B48A; color:#3A2E1E;">σταθερά, αποδοτικά</div>
+        </div>
+        <span class="bar-pct" style="color:var(--gold-dark);">70%</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-name">Trends</span>
+        <div class="bar-track">
+          <div class="bar-fill" style="width:20%; background:#A8B89E; color:#1E3018;">λίγα</div>
+        </div>
+        <span class="bar-pct" style="color:var(--sage);">20%</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-name">Functional</span>
+        <div class="bar-track">
+          <div class="bar-fill" style="width:10%; background:#C8BEB0; color:#2C2416;"></div>
+        </div>
+        <span class="bar-pct" style="color:var(--text-light);">10%</span>
+      </div>
+
+      <hr class="sep-thin" />
+
+      <p class="port-sub warn">Τυπική κατανομή — το πρόβλημα</p>
+
+      <div class="bar-row">
+        <span class="bar-name">Core basics</span>
+        <div class="bar-track">
+          <div class="bar-fill" style="width:10%; background:#D4A090; color:#3A1010;"></div>
+        </div>
+        <span class="bar-pct" style="color:var(--rose);">10%</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-name">Trends</span>
+        <div class="bar-track">
+          <div class="bar-fill" style="width:50%; background:#D4A090; color:#3A1010;">πολλά trends</div>
+        </div>
+        <span class="bar-pct" style="color:var(--rose);">50%</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-name">Functional</span>
+        <div class="bar-track">
+          <div class="bar-fill" style="width:40%; background:#D4A090; color:#3A1010;">ειδικές περιστάσεις</div>
+        </div>
+        <span class="bar-pct" style="color:var(--rose);">40%</span>
+      </div>
+
+      <p class="port-note">→ Αποτέλεσμα: "Δεν έχω τι να φορέσω" — ενώ η ντουλάπα είναι γεμάτη.</p>
+    </div>
+
+    <hr class="divider" />
+
+    <!-- ── SECTION 4: CHECKLIST ── -->
+    <p class="section-label">Action Step</p>
+    <h2 class="section-title">Αξιολόγησε <em>10 κομμάτια</em> τώρα</h2>
+
+    <div class="checklist-wrap">
+      <div class="check-item">
+        <div class="check-dot cd-gold">1</div>
+        <div><strong>Χρήση:</strong> Το φοράω; Πόσες φορές τον χρόνο; — αν λιγότερο από 5×, σκέψου σοβαρά αν αξίζει να το κρατήσεις.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-dot cd-sage">2</div>
+        <div><strong>Πολυχρηστικότητα:</strong> Με πόσα άλλα κομμάτια ταιριάζει; — αν μόνο 1–2, έχει χαμηλή ρευστότητα στο χαρτοφυλάκιό σου.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-dot cd-rose">3</div>
+        <div><strong>Συνάφεια:</strong> Ταιριάζει στη ζωή που έχω σήμερα; — όχι στη ζωή που φαντάζομαι ή στη ζωή "για αργότερα".</div>
+      </div>
+      <div class="check-item">
+        <div class="check-dot cd-ink">4</div>
+        <div><strong>CPW:</strong> Τιμή ÷ φορέματα = ? — αν το αποτέλεσμα είναι πάνω από 7€, κάτι δεν πάει καλά.</div>
+      </div>
+    </div>
+
+    <hr class="divider" />
+
+    <!-- ── CLOSING QUOTE ── -->
+    <div class="closing-box">
+      <span class="closing-mark">"</span>
+      <p class="closing-q">Από σήμερα, πριν αγοράσεις κάτι, ρώτα:<br><em>"Αυτό θα αποδώσει ή απλά μου αρέσει;"</em></p>
+      <p class="closing-sub">Fashion Analysis by Danai &nbsp;·&nbsp; Wardrobe Intelligence</p>
+    </div>
+
+    <hr class="divider" />
+
+    <!-- ── CTA STRIP ── -->
+    <div class="cta-strip">
+      <p class="cta-text">Υπολόγισε το <strong>CPW</strong> των κομματιών σου στη στιγμή με το δωρεάν εργαλείο.</p>
+      <a href="wardrobe-calculator.html" class="cta-btn">Άνοιξε τον Calculator →</a>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <p class="footer-logo">Fashion Analysis <em>by Danai</em></p>
+    <p class="footer-sub">Wardrobe Intelligence &nbsp;·&nbsp; Style Education &nbsp;·&nbsp; Fashion Analysis</p>
+    <ul class="footer-links">
+      <li><a href="index.html">Αρχική</a></li>
+      <li><a href="wardrobe-calculator.html">KPIs Calculator</a></li>
+      <li><a href="wishlist.html">Wardrobe Wishlist</a></li>
+      <li><a href="wardrobe-tracker.html">Wardrobe Tracker</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="mailto:dbvabydanai@gmail.com">Contact</a></li>
+    </ul>
+  </footer>
+
+</body>
+</html>

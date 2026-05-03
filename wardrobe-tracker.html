@@ -870,7 +870,15 @@ body{padding-bottom:0;}
       <div style="font-size:9px;color:var(--text-dim);line-height:1.7;">
         WPS = Usage Rate + Versatility + Alignment + CPW Score<br>
         Κάθε δείκτης 0–10 → σύνολο /40 → ×2.5 = <strong style="color:var(--accent)">/100</strong><br>
-        <span style="color:var(--text-dim);font-style:italic;">Δείκτες χωρίς δεδομένα μετράνε ως 0.</span>
+        <span style="color:var(--text-dim);font-style:italic;">
+          • <strong>Χρήση</strong> (Usage): χρήσεις/χρόνο<br>
+          • <strong>Ευελιξία</strong> (Versatility): max(calendar, floor από prev_worn)<br>
+          &nbsp;&nbsp;Floor: 100+→10, 50–99→8, 10–49→6, 5–9→4, 0–4→2<br>
+          • <strong>Συνέπεια</strong> (Alignment): (Χρήση × 0.7) + (Match × 0.3)<br>
+          &nbsp;&nbsp;Χωρίς uniform match: Χρήση × 0.4 (max 4)<br>
+          • <strong>Απόσβεση</strong> (CPW): τιμή / total wear
+        </span>
+
       </div>
     </div>
     <!-- WPS Score KPIs -->

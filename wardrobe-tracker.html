@@ -498,6 +498,22 @@ body{padding-bottom:0;}
         <button class="chip" id="btn-color-insight" onclick="toggleColorInsight()" style="font-size:9px;">📊 Ανάλυση</button>
       </div>
       <div id="color-filter-insight" style="display:none;padding:10px 12px;background:var(--surface);border:1px solid var(--border);border-radius:2px;margin:0 0 4px;"></div>
+      <!-- ΔΑΝ component filter -->
+      <div class="toolbar-row" style="gap:6px;align-items:center;">
+        <span class="sort-label" style="flex-shrink:0;">⭐ Δείκτης ·</span>
+        <select class="sort-select" id="filter-score-component" onchange="setScoreComponent(this.value)" style="max-width:120px;">
+          <option value="">— Επιλογή —</option>
+          <option value="dan">ΔΑΝ™ (/100)</option>
+          <option value="usage">Χρήση (/10)</option>
+          <option value="vers">Ευελιξία (/10)</option>
+          <option value="align">Συνέπεια (/10)</option>
+          <option value="cpw">Απόσβεση (/10)</option>
+        </select>
+        <select class="sort-select" id="filter-score-bucket" onchange="setScoreBucket(this.value)" style="flex:1;max-width:120px;display:none;">
+          <option value="">Όλες οι τιμές</option>
+        </select>
+      </div>
+      <div id="score-filter-result" style="display:none;padding:8px 10px;background:var(--surface2);border:1px solid var(--border-soft);border-radius:2px;margin:0 0 4px;font-size:10px;color:var(--text-muted);"></div>
       <div class="toolbar-row-bottom">
         <div class="sort-wrap">
           <span class="sort-label">Ταξινόμηση ·</span>
@@ -1230,6 +1246,7 @@ const COLOR_HEX={'White':'#F5F5F0','Beige':'#D4B88A','Black':'#1A1A1A','Navy':'#
 
 let currentUser=null, allItems=[], wearLogs=[], currentFilter='all', currentCat2Filter='all', sortMode='recently_worn', editingItemId=null, uploadedPhotoFile=null;
 let feelingFilter='', faceFilter='';
+let scoreComponentFilter='', scoreBucketFilter='';
 let calYear=new Date().getFullYear(), calMonth=new Date().getMonth(), selectedDate=todayStr(), selectedDateLogs=[];
 let dashYear=new Date().getFullYear(), dashMonth=new Date().getMonth();
 
@@ -1419,6 +1436,43 @@ function renderColorInsight(color){
 function setFeelingFilter(val){feelingFilter=val;renderWardrobe();}
 function setFaceFilter(val){faceFilter=val;renderWardrobe();}
 
+// ── ΔΑΝ™ COMPONENT FILTER ──
+function setScoreComponent(val){
+  scoreComponentFilter=val;
+  scoreBucketFilter='';
+  const bucketSel=document.getElementById('filter-score-bucket');
+  const resultEl=document.getElementById('score-filter-result');
+  if(!val){
+    bucketSel.style.display='none';
+    bucketSel.value='';
+    if(resultEl)resultEl.style.display='none';
+    renderWardrobe();
+    return;
+  }
+  // Build bucket options based on component
+  const buckets=val==='dan'
+    ?[{v:'0-19',l:'0–19 (Πολύ χαμηλό)'},{v:'20-39',l:'20–39 (Χαμηλό)'},{v:'40-59',l:'40–59 (Μέτριο)'},{v:'60-79',l:'60–79 (Καλό)'},{v:'80-100',l:'80–100 (Εξαιρετικό)'}]
+    :[{v:'0-2',l:'0–2 (Πολύ χαμηλό)'},{v:'2-4',l:'2–4 (Χαμηλό)'},{v:'4-6',l:'4–6 (Μέτριο)'},{v:'6-8',l:'6–8 (Καλό)'},{v:'8-10',l:'8–10 (Εξαιρετικό)'}];
+  bucketSel.innerHTML='<option value="">Όλες οι τιμές</option>'+buckets.map(b=>'<option value="'+b.v+'">'+b.l+'</option>').join('');
+  bucketSel.style.display='';
+  bucketSel.value='';
+  if(resultEl)resultEl.style.display='none';
+  renderWardrobe();
+}
+
+function setScoreBucket(val){
+  scoreBucketFilter=val;
+  renderWardrobe();
+  // Show count summary
+  const resultEl=document.getElementById('score-filter-result');
+  if(!resultEl)return;
+  if(!val){resultEl.style.display='none';return;}
+  const count=filterItems().length;
+  const componentLabels={'dan':'ΔΑΝ™','usage':'Χρήση','vers':'Ευελιξία','align':'Συνέπεια','cpw':'Απόσβεση'};
+  resultEl.style.display='block';
+  resultEl.innerHTML='🔍 <strong>'+count+'</strong> ρούχα με '+componentLabels[scoreComponentFilter]+' στο εύρος <strong>'+val+'</strong>';
+}
+
 const FACE_GOOD=['Σου φωτίζει το πρόσωπο ✨','Κάνει τα μάτια σου να λάμπουν 👀✨','Δείχνεις πιο ξεκούραστη 😌','Φαίνεσαι πιο λαμπερή ✨','Σε κάνει να δείχνεις πιο φρέσκια 🌿','Αναδεικνύει το δέρμα σου 💫','Κάνει contrast με τα χαρακτηριστικά σου 🎯','Σου καθαρίζει τα χαρακτηριστικά 🧼','Τονίζει τα μάτια σου 👁️','Σε κάνει να δείχνεις πιο νέα 👶✨','Δείχνεις πιο περιποιημένη 💅'];
 const FACE_BAD=['Σε κάνει να δείχνεις κουρασμένη 😴','Σου "σβήνει" τα χαρακτηριστικά 🌫️','Δείχνεις πιο χλωμή 😶','Σε κάνει να φαίνεσαι άτονη 🪫','Δείχνεις πιο κουρασμένη απ\' ό,τι είσαι 😵‍💫','Σου τονίζει τους κύκλους 👁️‍🗨️','Σε κάνει να δείχνεις πιο μεγάλη 🧓','Δεν σου δίνει καθόλου φως 🌑','Χάνεται το πρόσωπό σου μέσα στο ρούχο 🫥','Δείχνεις λίγο μουντή 🌧️'];
 const FACE_NOT_SURE=['Δεν είμαι σίγουρη 🤔'];
@@ -1433,6 +1487,19 @@ function filterItems(){
   if(feelingFilter)items=items.filter(i=>i.feeling===feelingFilter);
   if(faceFilter)items=items.filter(i=>getFaceCategory(i.face_effect)===faceFilter);
   if(colorFilter)items=items.filter(i=>i.color===colorFilter);
+  if(scoreComponentFilter&&scoreBucketFilter){
+    const[lo,hi]=scoreBucketFilter.split('-').map(Number);
+    items=items.filter(i=>{
+      let v;
+      if(scoreComponentFilter==='dan')v=getWPS(i);
+      else if(scoreComponentFilter==='usage')v=getUsageRateScore(i);
+      else if(scoreComponentFilter==='vers')v=getVersatilityScore(i)||0;
+      else if(scoreComponentFilter==='align')v=getAlignmentScore(i);
+      else if(scoreComponentFilter==='cpw')v=getCPWScore(i)||0;
+      else return true;
+      return v>=lo&&v<=hi;
+    });
+  }
   if(sortMode==='cpw_best')items.sort((a,b)=>(getCPW(a)||9999)-(getCPW(b)||9999));
   else if(sortMode==='cpw_worst')items.sort((a,b)=>(getCPW(b)||0)-(getCPW(a)||0));
   else if(sortMode==='recently_worn')items.sort((a,b)=>(getLastWorn(b.id)||'').localeCompare(getLastWorn(a.id)||''));
@@ -2774,7 +2841,7 @@ function loadWPSDrill(){
       const hex=COLOR_HEX[color]||'#aaa';
       return scoreRow(color,hex,u,v,a,c,w);
     }).sort((a,b)=>{
-      // sort by ΔΑΝ descending - extract number from string
+      // sort by WPS descending - extract number from string
       const getW=s=>{const m=s.match(/ΔΑΝ (\d+)/);return m?parseInt(m[1]):0;};
       return getW(b)-getW(a);
     }).join('')||'<div style="color:var(--text-dim);font-size:11px;">Δεν υπάρχουν δεδομένα</div>';

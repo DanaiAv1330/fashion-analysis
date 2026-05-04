@@ -510,7 +510,7 @@ body{padding-bottom:0;}
             <option value="most_worn">Περισσότερο φορεμένο</option>
             <option value="price_high">Τιμή ↑</option>
             <option value="price_low">Τιμή ↓</option>
-            <option value="wps_best">Καλύτερο WPS™</option>
+            <option value="wps_best">Καλύτερο ΔΑΝ™</option>
           </select>
         </div>
         <div class="view-wrap">
@@ -747,7 +747,7 @@ body{padding-bottom:0;}
       <div class="dash-subtabs">
         <button class="dash-subtab active" onclick="showDashSub('month',this)">📅 Ανά Μήνα</button>
         <button class="dash-subtab" onclick="showDashSub('total',this)">📈 Ανάλυση Περιόδου</button>
-        <button class="dash-subtab" onclick="showDashSub('scores',this)">⭐ WPS</button>
+        <button class="dash-subtab" onclick="showDashSub('scores',this)">⭐ ΔΑΝ</button>
         <button class="dash-subtab" onclick="showDashSub('purchases',this)">🛍 Αγορές</button>
         <button class="dash-subtab" onclick="showDashSub('import',this)" id="import-tab-btn" style="display:none;">📥 Import</button>
         <button class="dash-subtab" onclick="showDashSub('gone',this)">📦 Gone</button>
@@ -777,10 +777,10 @@ body{padding-bottom:0;}
       <div class="kpi-card"><div class="kpi-label">Μέση ηλικία φορεμένων</div><div class="kpi-value" id="kpi-avg-age">—</div></div>
     </div>
     <div class="kpi-grid" style="margin-bottom:12px;">
-      <div class="kpi-card score-k"><div class="kpi-label">Avg Usage Rate μήνα</div><div class="kpi-value" id="kpi-usage-rate">—</div><div class="kpi-sub">χρήσεις/ρούχο</div></div>
-      <div class="kpi-card score-k"><div class="kpi-label">Avg Versatility μήνα</div><div class="kpi-value" id="kpi-versatility">—</div><div class="kpi-sub">/10</div></div>
+      <div class="kpi-card score-k"><div class="kpi-label">Avg Χρήση μήνα</div><div class="kpi-value" id="kpi-usage-rate">—</div><div class="kpi-sub">χρήσεις/ρούχο</div></div>
+      <div class="kpi-card score-k"><div class="kpi-label">Avg Ευελιξία μήνα</div><div class="kpi-value" id="kpi-versatility">—</div><div class="kpi-sub">/10</div></div>
       <div class="kpi-card score-k"><div class="kpi-label">Avg Conscious (γενικό)</div><div class="kpi-value" id="kpi-conscious">—</div><div class="kpi-sub">/10</div></div>
-      <div class="kpi-card score-k"><div class="kpi-label">Avg WPS™ φορεμένων</div><div class="kpi-value" id="kpi-avg-score">—</div><div class="kpi-sub">/100</div></div>
+      <div class="kpi-card score-k"><div class="kpi-label">Avg ΔΑΝ™ φορεμένων</div><div class="kpi-value" id="kpi-avg-score">—</div><div class="kpi-sub">/100</div></div>
     </div>
     <div style="display:flex;flex-direction:column;gap:9px;margin-bottom:12px;">
       <div class="chart-card"><div class="chart-title">Χρήσεις ανά εβδομάδα</div><div id="week-bars"></div></div>
@@ -829,10 +829,10 @@ body{padding-bottom:0;}
       <div class="kpi-card"><div class="kpi-label">Μέση ηλικία φορεμένων</div><div class="kpi-value" id="t-avg-age">—</div></div>
     </div>
     <div class="kpi-grid" style="margin-bottom:12px;">
-      <div class="kpi-card score-k"><div class="kpi-label">Avg Usage Rate περιόδου</div><div class="kpi-value" id="t-usage-rate">—</div><div class="kpi-sub">χρήσεις/ρούχο</div></div>
-      <div class="kpi-card score-k"><div class="kpi-label">Avg Versatility περιόδου</div><div class="kpi-value" id="t-versatility">—</div><div class="kpi-sub">/10</div></div>
+      <div class="kpi-card score-k"><div class="kpi-label">Avg Χρήση περιόδου</div><div class="kpi-value" id="t-usage-rate">—</div><div class="kpi-sub">χρήσεις/ρούχο</div></div>
+      <div class="kpi-card score-k"><div class="kpi-label">Avg Ευελιξία περιόδου</div><div class="kpi-value" id="t-versatility">—</div><div class="kpi-sub">/10</div></div>
       <div class="kpi-card score-k"><div class="kpi-label">Avg Conscious (γενικό)</div><div class="kpi-value" id="t-conscious">—</div><div class="kpi-sub">/10</div></div>
-      <div class="kpi-card score-k"><div class="kpi-label">Avg WPS™ φορεμένων</div><div class="kpi-value" id="t-avg-score">—</div><div class="kpi-sub">/100</div></div>
+      <div class="kpi-card score-k"><div class="kpi-label">Avg ΔΑΝ™ φορεμένων</div><div class="kpi-value" id="t-avg-score">—</div><div class="kpi-sub">/100</div></div>
     </div>
     <div style="display:flex;flex-direction:column;gap:9px;margin-bottom:12px;">
       <div class="chart-card"><div class="chart-title">Χρήσεις ανά μήνα</div><div id="monthly-bars"></div></div>
@@ -866,9 +866,9 @@ body{padding-bottom:0;}
   <div class="dash-subpanel" id="dash-scores">
     <!-- WPS Header -->
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:12px 14px;margin-bottom:14px;">
-      <div style="font-family:var(--font-serif);font-size:15px;font-weight:400;margin-bottom:4px;">Wardrobe Portfolio Score <em style="color:var(--accent)">WPS™</em></div>
+      <div style="font-family:var(--font-serif);font-size:15px;font-weight:400;margin-bottom:4px;">Δείκτης Αξιολόγησης Ντουλάπας <em style="color:var(--accent)">ΔΑΝ™</em></div>
       <div style="font-size:9px;color:var(--text-dim);line-height:1.7;">
-        WPS = Usage Rate + Versatility + Alignment + CPW Score<br>
+        ΔΑΝ = Χρήση + Ευελιξία + Συνέπεια + Απόσβεση<br>
         Κάθε δείκτης 0–10 → σύνολο /40 → ×2.5 = <strong style="color:var(--accent)">/100</strong><br>
         <span style="color:var(--text-dim);font-style:italic;">
           • <strong>Χρήση</strong> (Usage): χρήσεις/χρόνο<br>
@@ -884,14 +884,14 @@ body{padding-bottom:0;}
     <!-- WPS Score KPIs -->
     <div class="kpi-grid" style="margin-bottom:14px;">
       <div class="kpi-card score-k" style="border-left:3px solid var(--accent);grid-column:span 2;">
-        <div class="kpi-label">Avg WPS™</div>
+        <div class="kpi-label">Avg ΔΑΝ™</div>
         <div class="kpi-value" id="sc-wps" style="font-size:28px;">—</div>
         <div class="kpi-sub">/100</div>
       </div>
-      <div class="kpi-card score-k"><div class="kpi-label">Avg Usage Rate</div><div class="kpi-value" id="sc-usage-rate">—</div><div class="kpi-sub">/10</div></div>
-      <div class="kpi-card score-k"><div class="kpi-label">Avg Versatility</div><div class="kpi-value" id="sc-versatility">—</div><div class="kpi-sub">/10</div></div>
-      <div class="kpi-card score-k"><div class="kpi-label">Avg Alignment</div><div class="kpi-value" id="sc-alignment">—</div><div class="kpi-sub">/10</div></div>
-      <div class="kpi-card score-k"><div class="kpi-label">Avg CPW Score</div><div class="kpi-value" id="sc-avg-score">—</div><div class="kpi-sub">/10</div></div>
+      <div class="kpi-card score-k"><div class="kpi-label">Avg Χρήση</div><div class="kpi-value" id="sc-usage-rate">—</div><div class="kpi-sub">/10</div></div>
+      <div class="kpi-card score-k"><div class="kpi-label">Avg Ευελιξία</div><div class="kpi-value" id="sc-versatility">—</div><div class="kpi-sub">/10</div></div>
+      <div class="kpi-card score-k"><div class="kpi-label">Avg Συνέπεια</div><div class="kpi-value" id="sc-alignment">—</div><div class="kpi-sub">/10</div></div>
+      <div class="kpi-card score-k"><div class="kpi-label">Avg Απόσβεση</div><div class="kpi-value" id="sc-avg-score">—</div><div class="kpi-sub">/10</div></div>
     </div>
     <!-- Full KPI Overview -->
     <div style="font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);margin-bottom:8px;">Συνολική Εικόνα — Ημερολόγιο + Παρελθοντικά Φοράματα</div>
@@ -907,17 +907,17 @@ body{padding-bottom:0;}
       <div class="kpi-card score-k"><div class="kpi-label">Avg Conscious</div><div class="kpi-value" id="sc-conscious">—</div><div class="kpi-sub">/10</div></div>
     </div>
     <!-- Distribution charts -->
-    <div style="font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);margin-bottom:8px;">WPS Component Distributions</div>
+    <div style="font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);margin-bottom:8px;">ΔΑΝ™ Component Distributions</div>
     <div style="display:flex;flex-direction:column;gap:10px;">
-      <div class="chart-card"><div class="chart-title">WPS™ — Distribution (/100)</div><div id="dist-score" class="dist-chart"></div></div>
-      <div class="chart-card"><div class="chart-title">CPW Score — Distribution (/10)</div><div id="dist-cpw" class="dist-chart"></div></div>
-      <div class="chart-card"><div class="chart-title">Versatility Score — Distribution (/10)</div><div id="dist-vers" class="dist-chart"></div></div>
-      <div class="chart-card"><div class="chart-title">Usage Rate Score — Distribution (/10)</div><div id="dist-ur" class="dist-chart"></div></div>
-      <div class="chart-card"><div class="chart-title">Alignment Score — Distribution (/10)</div><div id="dist-align" class="dist-chart"></div></div>
+      <div class="chart-card"><div class="chart-title">ΔΑΝ™ — Distribution (/100)</div><div id="dist-score" class="dist-chart"></div></div>
+      <div class="chart-card"><div class="chart-title">Απόσβεση — Distribution (/10)</div><div id="dist-cpw" class="dist-chart"></div></div>
+      <div class="chart-card"><div class="chart-title">Ευελιξία — Distribution (/10)</div><div id="dist-vers" class="dist-chart"></div></div>
+      <div class="chart-card"><div class="chart-title">Χρήση — Distribution (/10)</div><div id="dist-ur" class="dist-chart"></div></div>
+      <div class="chart-card"><div class="chart-title">Συνέπεια — Distribution (/10)</div><div id="dist-align" class="dist-chart"></div></div>
     </div>
 
     <!-- WPS Drill-down -->
-    <div style="font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);margin:18px 0 8px;">🔍 Ανάλυση WPS ανά κατηγορία / ρούχο</div>
+    <div style="font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);margin:18px 0 8px;">🔍 Ανάλυση ΔΑΝ™ ανά κατηγορία / ρούχο</div>
     <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;">
       <div class="sort-wrap">
         <span class="sort-label">Τύπος ·</span>
@@ -1473,11 +1473,11 @@ function renderWardrobe(){
     const cpw=getCPW(item),cc=cpwClass(cpw),total=getTotalWear(item),ur=getUsageRate(item);
     const wpsScore=getWPS(item);
     const u=getUsageRateScore(item),v=getVersatilityScore(item)||0,a=getAlignmentScore(item),c=getCPWScore(item)||0;
-    const ss='WPS™ <strong style="color:'+wpsColor(wpsScore)+'">'+wpsScore+'</strong>/100'
-      +' &nbsp;<span style="font-size:8px;color:#4a7c5a">U'+u+'</span>'
-      +' <span style="font-size:8px;color:#4a5a7c">V'+v+'</span>'
-      +' <span style="font-size:8px;color:#9a7a4a">A'+a+'</span>'
-      +' <span style="font-size:8px;color:#8c4a3a">C'+c+'</span>'
+    const ss='ΔΑΝ™ <strong style="color:'+wpsColor(wpsScore)+'">'+wpsScore+'</strong>/100'
+      +' &nbsp;<span style="font-size:8px;color:#4a7c5a">Χ'+u+'</span>'
+      +' <span style="font-size:8px;color:#4a5a7c">Ε'+v+'</span>'
+      +' <span style="font-size:8px;color:#9a7a4a">Σ'+a+'</span>'
+      +' <span style="font-size:8px;color:#8c4a3a">Α'+c+'</span>'
       +(ur?' · <span style="font-size:8px;">'+ur.toFixed(1)+'×/yr</span>':'');
     return`<div class="list-row" onclick="openItemModal('${item.id}')">
       <div class="list-thumb">${item.photo_url?`<img src="${escHtml(item.photo_url)}" onerror="this.outerHTML='👗'">`:'👗'}</div>
@@ -2736,11 +2736,11 @@ function loadWPSDrill(){
       +(colorDot?'<div style="width:10px;height:10px;border-radius:50%;background:'+colorDot+';border:1px solid var(--border);flex-shrink:0;"></div>':'')
       +'<div style="font-size:11px;color:var(--text-muted);width:100px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+escHtml(String(label))+'</div>'
       +'<div style="display:flex;gap:4px;flex:1;flex-wrap:wrap;">'
-      +scoreChip('U',usage,'#4a7c5a')
-      +scoreChip('V',vers,'#4a5a7c')
-      +scoreChip('A',align,'#9a7a4a')
-      +scoreChip('C',cpw,'#8c4a3a')
-      +'<div style="font-size:11px;font-weight:500;padding:3px 8px;border-radius:2px;background:rgba(42,35,26,0.08);color:'+col+';">WPS '+wps+'</div>'
+      +scoreChip('Χ',usage,'#4a7c5a')
+      +scoreChip('Ε',vers,'#4a5a7c')
+      +scoreChip('Σ',align,'#9a7a4a')
+      +scoreChip('Α',cpw,'#8c4a3a')
+      +'<div style="font-size:11px;font-weight:500;padding:3px 8px;border-radius:2px;background:rgba(42,35,26,0.08);color:'+col+';">ΔΑΝ '+wps+'</div>'
       +'</div></div>';
   }
   function scoreChip(lbl,val,color){
@@ -2774,8 +2774,8 @@ function loadWPSDrill(){
       const hex=COLOR_HEX[color]||'#aaa';
       return scoreRow(color,hex,u,v,a,c,w);
     }).sort((a,b)=>{
-      // sort by WPS descending - extract number from string
-      const getW=s=>{const m=s.match(/WPS (\d+)/);return m?parseInt(m[1]):0;};
+      // sort by ΔΑΝ descending - extract number from string
+      const getW=s=>{const m=s.match(/ΔΑΝ (\d+)/);return m?parseInt(m[1]):0;};
       return getW(b)-getW(a);
     }).join('')||'<div style="color:var(--text-dim);font-size:11px;">Δεν υπάρχουν δεδομένα</div>';
   }

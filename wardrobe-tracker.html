@@ -2528,9 +2528,7 @@ function loadScoresDash(){
   renderDistChart('dist-score',sbuckets,Array(10).fill(0).map((_,i)=>`${i*10}-${i*10+9}%`));
   distExact('dist-cpw',allItems.map(i=>getCPWScore(i)).filter(v=>v!==null),1,10);
   distExact('dist-vers',allItems.map(i=>getVersatilityScore(i)).filter(v=>v!==null),1,10);
-  const urBuckets=[{l:'0–2',min:0,max:2},{l:'2–4',min:2,max:4},{l:'4–6',min:4,max:6},{l:'6–8',min:6,max:8},{l:'8–10',min:8,max:10},{l:'10–15',min:10,max:15},{l:'15–20',min:15,max:20},{l:'20+',min:20,max:Infinity}];
-  const urVals=allItems.map(i=>getUsageRate(i)).filter(v=>v!==null);
-  distCustom('dist-ur',urBuckets.map(b=>b.l),urBuckets.map(b=>urVals.filter(v=>v>=b.min&&v<b.max).length));
+  distExact('dist-ur',allItems.map(i=>getUsageRateScore(i)),0,10);
   distExact('dist-align',allItems.map(i=>getAlignmentScore(i)),0,10);
 }
 

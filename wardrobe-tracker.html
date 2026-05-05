@@ -894,7 +894,8 @@ body{padding-bottom:0;}
         Κάθε δείκτης 0–10 → σύνολο /40 → ×2.5 = <strong style="color:var(--accent)">/100</strong><br>
         <span style="color:var(--text-dim);font-style:italic;">
           • <strong>Χρήση</strong> (Usage): χρήσεις/χρόνο<br>
-          &nbsp;&nbsp;Grace: <2 μηνών→5, 2–6 μηνών→ηπιότερα κριτήρια<br>
+          &nbsp;&nbsp;0→0, 0-1→2, 1-2→3, 2-3→4, 3-5→5, 5-7→6, 7-10→7, 10-15→8, 15-20→9, 20+→10<br>
+          &nbsp;&nbsp;Grace: <2 μηνών→5, 2-6 μηνών ηπιότερα<br>
           • <strong>Ευελιξία</strong> (Versatility): max(calendar, floor από prev_worn)<br>
           &nbsp;&nbsp;Floor: 100+→10, 50–99→8, 10–49→6, 5–9→4, 0–4→2<br>
           • <strong>Συνέπεια</strong> (Alignment): (Χρήση × 0.7) + (Match × 0.3)<br>
@@ -1801,21 +1802,27 @@ function getUsageRateScore(item){
   if(item.purchased_at){
     const monthsOld=(new Date()-new Date(item.purchased_at))/(30.44*24*3600*1000);
     if(monthsOld<2)return 5;
-    // 2-6 months: scaled-down thresholds (relaxed expectations)
+    // 2-6 months: scaled-down thresholds (~half of standard)
     if(monthsOld<6){
+      const t=getTotalWear(item);
+      if(!t)return 1;
       const ur=getUsageRate(item);
       if(!ur)return 1;
-      if(ur>=60)return 10;if(ur>=35)return 9;if(ur>=20)return 8;
-      if(ur>=12)return 7;if(ur>=8)return 6;if(ur>=5)return 5;
-      if(ur>=3)return 4;if(ur>=2)return 3;if(ur>=1)return 2;return 1;
+      if(ur>=10)return 10;if(ur>=7.5)return 9;if(ur>=5)return 8;
+      if(ur>=3.5)return 7;if(ur>=2.5)return 6;if(ur>=1.5)return 5;
+      if(ur>=1)return 4;if(ur>=0.5)return 3;return 2;
     }
   }
-  // 6+ months OR no purchase date: standard thresholds
+  // 6+ months OR no purchase date: granular thresholds
+  const t=getTotalWear(item);
+  if(!t)return 0;  // never worn
   const ur=getUsageRate(item);
-  if(!ur)return 0;
-  if(ur>=80)return 10;if(ur>=50)return 9;if(ur>=30)return 8;
-  if(ur>=20)return 7;if(ur>=12)return 6;if(ur>=8)return 5;
-  if(ur>=5)return 4;if(ur>=3)return 3;if(ur>=1)return 2;return 1;
+  if(!ur)return 1;
+  if(ur>20)return 10;if(ur>15)return 9;if(ur>10)return 8;
+  if(ur>7)return 7;if(ur>5)return 6;if(ur>3)return 5;
+  if(ur>2)return 4;if(ur>1)return 3;if(ur>0)return 2;
+  // ur is 0 (shouldn't reach here since t>0 means ur>0)
+  return 1;
 }
 
 function getAlignmentScore(item){

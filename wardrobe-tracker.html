@@ -2611,37 +2611,63 @@ function loadScoresDash(){
   const avgCostUnworn=allUnwornItems.filter(i=>i.price).length?allUnwornItems.filter(i=>i.price).reduce((s,i)=>s+i.price,0)/allUnwornItems.filter(i=>i.price).length:null;
   document.getElementById('sc-cost-worn').textContent=avgCostWorn?`€${avgCostWorn.toFixed(0)}`:'—';
   document.getElementById('sc-cost-unworn').textContent=avgCostUnworn?`€${avgCostUnworn.toFixed(0)}`:'—';
-  function renderDistChart(elId, values, labels){
+  function renderDistChart(elId, counts, labels, values){
     const el=document.getElementById(elId); if(!el) return;
-    if(!values.length||!values.some(v=>v>0)){el.innerHTML='<div class="dist-empty">Δεν υπάρχουν δεδομένα</div>';return;}
-    const maxV=Math.max(...values,1);
-    el.innerHTML=values.map((v,i)=>{
+    if(!counts.length||!counts.some(v=>v>0)){el.innerHTML='<div class="dist-empty">Δεν υπάρχουν δεδομένα</div>';return;}
+    const maxV=Math.max(...counts,1);
+    el.innerHTML=counts.map((v,i)=>{
       const pct=Math.round(v/maxV*100);
       const isPeak=v===maxV&&v>0;
+      const valStr=values&&v>0?` · €${Math.round(values[i]).toLocaleString('el-GR')}`:'';
       return`<div style="display:flex;align-items:center;gap:8px;margin-bottom:7px;">
         <div style="font-size:11px;color:var(--text-muted);width:44px;flex-shrink:0;text-align:right;">${labels[i]}</div>
-        <div style="flex:1;height:10px;background:var(--surface3);border-radius:5px;overflow:hidden;">
+        <div style="flex:1;height:10px;background:var(--surface3);border-radius:5px;overflow:hidden;min-width:60px;">
           <div style="height:100%;width:${pct}%;background:${isPeak?'var(--accent)':'var(--accent-light)'};border-radius:5px;"></div>
         </div>
-        <div style="font-size:11px;width:28px;text-align:right;flex-shrink:0;color:var(--text);font-weight:${isPeak?'500':'300'};">${v||''}</div>
+        <div style="font-size:10px;text-align:right;flex-shrink:0;color:var(--text);font-weight:${isPeak?'500':'300'};white-space:nowrap;">${v?`<strong>${v}</strong> τεμ.${valStr}`:''}</div>
       </div>`;
     }).join('');
   }
-  function distExact(elId,values,min,max){
-    const counts=[],labels=[];
-    for(let v=min;v<=max;v++){counts.push(values.filter(x=>x===v).length);labels.push(String(v));}
-    renderDistChart(elId,counts,labels);
+  // Build distribution by bucket using a score function — returns {counts, values}
+  function buildDistFromItems(scoreFn, buckets){
+    // buckets = array of [lo, hi] pairs; bucket i matches v if v>=lo AND v<hi (last is inclusive)
+    const counts=Array(buckets.length).fill(0);
+    const values=Array(buckets.length).fill(0);
+    allItems.forEach(item=>{
+      const v=scoreFn(item);
+      if(v===null||v===undefined)return;
+      for(let i=0;i<buckets.length;i++){
+        const[lo,hi]=buckets[i];
+        const isLast=i===buckets.length-1;
+        const inBucket=isLast?(v>=lo&&v<=hi):(v>=lo&&v<hi);
+        if(inBucket){counts[i]++;values[i]+=(item.price||0);break;}
+      }
+    });
+    return{counts,values};
   }
-  function distCustom(elId,labels,counts){
-    renderDistChart(elId,counts,labels);
+  function distExactFromItems(elId, scoreFn, min, max, allowNull){
+    const buckets=[],labels=[];
+    for(let v=min;v<=max;v++){
+      buckets.push([v,v+1]);  // each int gets its own bucket
+      labels.push(String(v));
+    }
+    // Special: replace last bucket to be inclusive of max
+    buckets[buckets.length-1]=[max,max+0.001];
+    const{counts,values}=buildDistFromItems(item=>{
+      const s=scoreFn(item);
+      return(allowNull===false&&s===null)?undefined:s;
+    },buckets);
+    renderDistChart(elId,counts,labels,values);
   }
-    const spcts=allItems.map(i=>getWPS(i));
-  const sbuckets=Array(10).fill(0);spcts.forEach(v=>sbuckets[Math.min(9,Math.floor(v/10))]++);
-  renderDistChart('dist-score',sbuckets,Array(10).fill(0).map((_,i)=>`${i*10}-${i*10+9}%`));
-  distExact('dist-cpw',allItems.map(i=>getCPWScore(i)).filter(v=>v!==null),1,10);
-  distExact('dist-vers',allItems.map(i=>getVersatilityScore(i)).filter(v=>v!==null),1,10);
-  distExact('dist-ur',allItems.map(i=>getUsageRateScore(i)),0,10);
-  distExact('dist-align',allItems.map(i=>getAlignmentScore(i)),0,10);
+  // ΔΑΝ™ distribution: 0-9, 10-19, ..., 90-99
+  const danBuckets=Array(10).fill(0).map((_,i)=>[i*10,i*10+10]);
+  danBuckets[9]=[90,101]; // last inclusive of 100
+  const danResult=buildDistFromItems(i=>getWPS(i),danBuckets);
+  renderDistChart('dist-score',danResult.counts,Array(10).fill(0).map((_,i)=>`${i*10}-${i*10+9}%`),danResult.values);
+  distExactFromItems('dist-cpw',i=>getCPWScore(i),1,10,false);
+  distExactFromItems('dist-vers',i=>getVersatilityScore(i),1,10,false);
+  distExactFromItems('dist-ur',i=>getUsageRateScore(i),0,10);
+  distExactFromItems('dist-align',i=>getAlignmentScore(i),0,10);
 }
 
 // PURCHASES

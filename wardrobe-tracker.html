@@ -221,6 +221,7 @@ body{font-family:var(--font-sans);font-weight:300;background:var(--bg);color:var
 @media(min-width:1000px){.charts-row.three{grid-template-columns:1fr 1fr 1fr;}}
 .chart-card{background:var(–surface);border:1px solid var(–border);border-radius:2px;padding:12px 14px;}
 .chart-title{font-size:9px;letter-spacing:0.11em;text-transform:uppercase;color:var(–text-dim);margin-bottom:10px;}
+.chart-formula{font-size:9px;color:var(–text-dim);font-style:italic;margin:-6px 0 10px;padding:5px 8px;background:var(–surface2);border-left:2px solid var(–accent-light);border-radius:1px;line-height:1.5;}
 .bar-chart{display:flex;align-items:flex-end;gap:3px;height:80px;padding-bottom:16px;}
 .bar-col{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;flex:1;gap:3px;}
 .bar{width:100%;border-radius:1px 1px 0 0;background:var(–accent-light);opacity:0.7;flex-shrink:0;}
@@ -809,9 +810,21 @@ body{padding-bottom:0;}
       <div class="kpi-card score-k"><div class="kpi-label">Avg ΔΑΝ™ φορεμένων</div><div class="kpi-value" id="kpi-avg-score">—</div><div class="kpi-sub">/100</div></div>
     </div>
     <div style="display:flex;flex-direction:column;gap:9px;margin-bottom:12px;">
-      <div class="chart-card"><div class="chart-title">Χρήσεις ανά εβδομάδα</div><div id="week-bars"></div></div>
-      <div class="chart-card"><div class="chart-title">Κατηγορίες (τεμάχια που φορέθηκαν)</div><div id="cat-legend"></div></div>
-      <div class="chart-card"><div class="chart-title">Χρώματα (τεμάχια που φορέθηκαν)</div><div id="color-legend"></div></div>
+      <div class="chart-card">
+        <div class="chart-title">Χρήσεις ανά εβδομάδα</div>
+        <div class="chart-formula">📐 Σύνολο wear logs ανά εβδομάδα του μήνα (1-7, 8-14, 15-21, 22-28, 29-31)</div>
+        <div id="week-bars"></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">Κατηγορίες (τεμάχια που φορέθηκαν)</div>
+        <div class="chart-formula">📐 Μοναδικά κομμάτια ανά κατηγορία που εμφανίζονται σε wear logs του μήνα</div>
+        <div id="cat-legend"></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">Χρώματα (τεμάχια που φορέθηκαν)</div>
+        <div class="chart-formula">📐 Μοναδικά κομμάτια ανά χρώμα που εμφανίζονται σε wear logs του μήνα</div>
+        <div id="color-legend"></div>
+      </div>
     </div>
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
       <div class="section-title" style="margin:0;">🏆 Top 5 χρήσεις μήνα</div>
@@ -832,6 +845,7 @@ body{padding-bottom:0;}
             <option value="clothing">Ρούχα</option>
           </select>
         </div>
+        <div class="chart-formula">📐 Σύνολο wear logs του μήνα ομαδοποιημένα ανά χρώμα (μετράει κάθε φορά που φορέθηκε)</div>
         <div id="color-wears-legend"></div>
       </div>
     </div>
@@ -862,9 +876,21 @@ body{padding-bottom:0;}
       <div class="kpi-card score-k"><div class="kpi-label">Avg ΔΑΝ™ φορεμένων</div><div class="kpi-value" id="t-avg-score">—</div><div class="kpi-sub">/100</div></div>
     </div>
     <div style="display:flex;flex-direction:column;gap:9px;margin-bottom:12px;">
-      <div class="chart-card"><div class="chart-title">Χρήσεις ανά μήνα</div><div id="monthly-bars"></div></div>
-      <div class="chart-card"><div class="chart-title">Κατηγορίες (τεμάχια που φορέθηκαν)</div><div id="t-cat-legend"></div></div>
-      <div class="chart-card"><div class="chart-title">Χρώματα (τεμάχια που φορέθηκαν)</div><div id="t-color-legend"></div></div>
+      <div class="chart-card">
+        <div class="chart-title">Χρήσεις ανά μήνα</div>
+        <div class="chart-formula">📐 Σύνολο wear logs ανά μήνα στην επιλεγμένη περίοδο</div>
+        <div id="monthly-bars"></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">Κατηγορίες (τεμάχια που φορέθηκαν)</div>
+        <div class="chart-formula">📐 Μοναδικά κομμάτια ανά κατηγορία που εμφανίζονται σε wear logs της περιόδου</div>
+        <div id="t-cat-legend"></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">Χρώματα (τεμάχια που φορέθηκαν)</div>
+        <div class="chart-formula">📐 Μοναδικά κομμάτια ανά χρώμα που εμφανίζονται σε wear logs της περιόδου</div>
+        <div id="t-color-legend"></div>
+      </div>
     </div>
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
       <div class="section-title" style="margin:0;">🏆 Top 5 χρήσεις περιόδου</div>
@@ -885,6 +911,7 @@ body{padding-bottom:0;}
             <option value="clothing">Ρούχα</option>
           </select>
         </div>
+        <div class="chart-formula">📐 Σύνολο wear logs της περιόδου ομαδοποιημένα ανά χρώμα</div>
         <div id="t-color-wears-legend"></div>
       </div>
     </div>
@@ -900,7 +927,7 @@ body{padding-bottom:0;}
         <span style="color:var(--text-dim);font-style:italic;">
           • <strong>Χρήση</strong> (Usage): χρήσεις/χρόνο<br>
           &nbsp;&nbsp;0→0, 0-1→2, 1-2→3, 2-3→4, 3-5→5, 5-7→6, 7-10→7, 10-15→8, 15-20→9, 20+→10<br>
-          &nbsp;&nbsp;Grace: <2 μηνών→5, 2-6 μηνών ηπιότερα<br>
+          &nbsp;&nbsp;Grace (floor): 0-3μ→6, 3-6μ→4, 6-9μ→2 (αν χρήσεις δίνουν περισσότερα, παίρνει το max)<br>
           • <strong>Ευελιξία</strong> (Versatility): max(calendar, floor από prev_worn)<br>
           &nbsp;&nbsp;Floor: 100+→10, 50–99→8, 10–49→6, 5–9→4, 0–4→2<br>
           • <strong>Συνέπεια</strong> (Alignment): (Χρήση × 0.7) + (Match × 0.3)<br>
@@ -938,11 +965,31 @@ body{padding-bottom:0;}
     <!-- Distribution charts -->
     <div style="font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);margin-bottom:8px;">ΔΑΝ™ Component Distributions</div>
     <div style="display:flex;flex-direction:column;gap:10px;">
-      <div class="chart-card"><div class="chart-title">ΔΑΝ™ — Distribution (/100)</div><div id="dist-score" class="dist-chart"></div></div>
-      <div class="chart-card"><div class="chart-title">Απόσβεση — Distribution (/10)</div><div id="dist-cpw" class="dist-chart"></div></div>
-      <div class="chart-card"><div class="chart-title">Ευελιξία — Distribution (/10)</div><div id="dist-vers" class="dist-chart"></div></div>
-      <div class="chart-card"><div class="chart-title">Χρήση — Distribution (/10)</div><div id="dist-ur" class="dist-chart"></div></div>
-      <div class="chart-card"><div class="chart-title">Συνέπεια — Distribution (/10)</div><div id="dist-align" class="dist-chart"></div></div>
+      <div class="chart-card">
+        <div class="chart-title">ΔΑΝ™ — Distribution (/100)</div>
+        <div class="chart-formula">📐 ΔΑΝ = (Χρήση + Ευελιξία + Συνέπεια + Απόσβεση) × 2.5 — άθροισμα 4 δεικτών /10 → /100</div>
+        <div id="dist-score" class="dist-chart"></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">Απόσβεση — Distribution (/10)</div>
+        <div class="chart-formula">📐 CPW = τιμή / total wear · Score: ≤€1→10, ≤€3→9, ≤€5→8, ≤€8→7, ≤€12→6, ≤€18→5, ≤€25→4, ≤€40→3, ≤€60→2, >€60→1</div>
+        <div id="dist-cpw" class="dist-chart"></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">Ευελιξία — Distribution (/10)</div>
+        <div class="chart-formula">📐 max(calendar_score, prev_worn_floor) · Floor: 100+→10, 50-99→8, 10-49→6, 5-9→4, 1-4→2 · Calendar: μοναδικοί συνδυασμοί 2026+</div>
+        <div id="dist-vers" class="dist-chart"></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">Χρήση — Distribution (/10)</div>
+        <div class="chart-formula">📐 χρήσεις/χρόνο · 0→0, 0-1→2, 1-2→3, 2-3→4, 3-5→5, 5-7→6, 7-10→7, 10-15→8, 15-20→9, 20+→10 · Grace floor: 0-3μ→6, 3-6μ→4, 6-9μ→2 (max με standard)</div>
+        <div id="dist-ur" class="dist-chart"></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">Συνέπεια — Distribution (/10)</div>
+        <div class="chart-formula">📐 Με uniform match: (Χρήση × 0.7) + (Match × 0.3) · Χωρίς match: Χρήση × 0.4 (max 4) · Match score = (matched / total uniforms) × 10</div>
+        <div id="dist-align" class="dist-chart"></div>
+      </div>
     </div>
 
     <!-- WPS Drill-down -->
@@ -964,42 +1011,53 @@ body{padding-bottom:0;}
     <div style="font-family:var(--font-serif);font-size:16px;font-weight:300;margin-bottom:14px;">Αγορές ανά <em style="color:var(--accent);font-style:italic">Μήνα</em></div>
     <div class="chart-card" style="margin-bottom:12px;">
       <div class="chart-title">Τεμάχια ανά μήνα (όλα τα χρόνια)</div>
+      <div class="chart-formula">📐 Πλήθος ρούχων με purchase_month=Χ (όλες οι χρονιές μαζί). Δείχνει σε ποιους μήνες αγοράζεις πιο συχνά.</div>
       <div id="purchase-by-month-chart"></div>
     </div>
     <div class="chart-card" style="margin-bottom:12px;">
       <div class="chart-title">Τεμάχια ανά Χρονιά</div>
+      <div class="chart-formula">📐 Πλήθος ρούχων με purchase_year=Χ (μόνο από τη ντουλάπα — δεν περιλαμβάνει αρχειοθετημένα)</div>
       <div id="purchase-by-year-chart"></div>
     </div>
     <div class="section-title">Μήνας με τις περισσότερες αγορές ανά κατηγορία</div>
-    <div class="chart-card" style="margin-bottom:12px;"><div id="purchase-by-cat-month"></div></div>
+    <div class="chart-card" style="margin-bottom:12px;">
+      <div class="chart-formula">📐 Για κάθε κατηγορία: ο μήνας με τις περισσότερες αγορές μέσα στον χρόνο (όλες οι χρονιές μαζί)</div>
+      <div id="purchase-by-cat-month"></div>
+    </div>
 
     <!-- NEW: Category & Color breakdown charts -->
     <div style="font-family:var(--font-serif);font-size:15px;font-weight:300;margin:16px 0 10px;">Σύνθεση <em style="color:var(--accent);font-style:italic">Ντουλάπας</em></div>
 
     <div class="chart-card" style="margin-bottom:12px;">
       <div class="chart-title">Τεμάχια ανά Κατηγορία</div>
+      <div class="chart-formula">📐 Πλήθος ρούχων ανά κατηγορία (cat1) · ταξινόμηση κατά πλήθος, με αξία δίπλα</div>
       <div id="cat-items-chart"></div>
     </div>
     <div class="chart-card" style="margin-bottom:12px;">
       <div class="chart-title">Επένδυση (€) ανά Κατηγορία</div>
+      <div class="chart-formula">📐 Άθροισμα τιμών αγοράς ανά κατηγορία · ταξινόμηση κατά αξία, με τεμάχια δίπλα</div>
       <div id="cat-value-chart"></div>
     </div>
     <div class="chart-card" style="margin-bottom:12px;">
       <div class="chart-title">Τεμάχια ανά Χρώμα (Top 15)</div>
+      <div class="chart-formula">📐 Πλήθος ρούχων ανά χρώμα · top 15, ταξινόμηση κατά πλήθος, με αξία δίπλα</div>
       <div id="color-items-chart"></div>
     </div>
     <div class="chart-card" style="margin-bottom:12px;">
       <div class="chart-title">Επένδυση (€) ανά Χρώμα (Top 15)</div>
+      <div class="chart-formula">📐 Άθροισμα τιμών αγοράς ανά χρώμα · top 15, ταξινόμηση κατά αξία, με τεμάχια δίπλα</div>
       <div id="color-value-chart"></div>
     </div>
 
     <div style="font-family:var(--font-serif);font-size:15px;font-weight:300;margin:16px 0 10px;">Feeling <em style="color:var(--accent);font-style:italic">& Face Effect</em></div>
     <div class="chart-card" style="margin-bottom:12px;">
       <div class="chart-title">Πώς αισθάνομαι (τεμάχια ανά κατηγορία)</div>
+      <div class="chart-formula">📐 Πλήθος ρούχων ομαδοποιημένα ανά feeling που έχει επιλεγεί στη φόρμα</div>
       <div id="feeling-chart"></div>
     </div>
     <div class="chart-card" style="margin-bottom:12px;">
       <div class="chart-title">Πώς φαίνεται το πρόσωπό μου (τεμάχια ανά κατηγορία)</div>
+      <div class="chart-formula">📐 Πλήθος ρούχων ομαδοποιημένα σε 3 κατηγορίες face_effect: ✨ Good, 🌧️ Bad, 🤔 Not Sure</div>
       <div id="face-effect-chart"></div>
     </div>
   </div>
@@ -1841,31 +1899,32 @@ async function deleteUniform(id){
 // Missing data = 0 (not skipped)
 
 function getUsageRateScore(item){
-  // Grace period: <2 months old → neutral score 5 (don't penalize new items)
+  // Standard score from usage rate (used both for grace and normal)
+  function standardScore(){
+    const t=getTotalWear(item);
+    if(!t)return 0;  // never worn
+    const ur=getUsageRate(item);
+    if(!ur)return 1;
+    if(ur>20)return 10;if(ur>15)return 9;if(ur>10)return 8;
+    if(ur>7)return 7;if(ur>5)return 6;if(ur>3)return 5;
+    if(ur>2)return 4;if(ur>1)return 3;if(ur>0)return 2;
+    return 1;
+  }
+  // Extended grace period with floor + ability to rise above
   if(item.purchased_at){
     const monthsOld=(new Date()-new Date(item.purchased_at))/(30.44*24*3600*1000);
-    if(monthsOld<2)return 5;
-    // 2-6 months: scaled-down thresholds (~half of standard)
-    if(monthsOld<6){
-      const t=getTotalWear(item);
-      if(!t)return 1;
-      const ur=getUsageRate(item);
-      if(!ur)return 1;
-      if(ur>=10)return 10;if(ur>=7.5)return 9;if(ur>=5)return 8;
-      if(ur>=3.5)return 7;if(ur>=2.5)return 6;if(ur>=1.5)return 5;
-      if(ur>=1)return 4;if(ur>=0.5)return 3;return 2;
+    let floor=null;
+    if(monthsOld<=3)floor=6;          // 0-3 months: floor 6
+    else if(monthsOld<=6)floor=4;     // 3-6 months: floor 4
+    else if(monthsOld<=9)floor=2;     // 6-9 months: floor 2
+    if(floor!==null){
+      // Hybrid: max of floor and standard score
+      // This rewards new items used heavily, while protecting unused new items
+      return Math.max(floor,standardScore());
     }
   }
-  // 6+ months OR no purchase date: granular thresholds
-  const t=getTotalWear(item);
-  if(!t)return 0;  // never worn
-  const ur=getUsageRate(item);
-  if(!ur)return 1;
-  if(ur>20)return 10;if(ur>15)return 9;if(ur>10)return 8;
-  if(ur>7)return 7;if(ur>5)return 6;if(ur>3)return 5;
-  if(ur>2)return 4;if(ur>1)return 3;if(ur>0)return 2;
-  // ur is 0 (shouldn't reach here since t>0 means ur>0)
-  return 1;
+  // 9+ months OR no purchase date: standard logic
+  return standardScore();
 }
 
 function getAlignmentScore(item){
@@ -2635,6 +2694,18 @@ function loadPurchasesDash(){
       <div style="font-size:11px;color:var(--charcoal);font-weight:500;width:55px;text-align:right;flex-shrink:0;">${suffix}</div>
     </div>`;
   }
+  // Wide variant for combined item+value labels
+  function hBarWide(label, value, maxVal, suffix, color){
+    const pct=maxVal>0?Math.round(value/maxVal*100):0;
+    const colorStyle=color?`background:${color};`:'background:var(--accent-light);';
+    return `<div style="display:flex;align-items:center;gap:8px;margin-bottom:7px;">
+      <div style="font-size:11px;color:var(--text-muted);width:90px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escHtml(label)}</div>
+      <div style="flex:1;height:10px;background:var(--surface3);border-radius:5px;overflow:hidden;min-width:60px;">
+        <div style="height:100%;width:${pct}%;${colorStyle}border-radius:5px;"></div>
+      </div>
+      <div style="font-size:10px;color:var(--text);font-weight:400;text-align:right;flex-shrink:0;white-space:nowrap;">${suffix}</div>
+    </div>`;
+  }
 
   // ── ΤΕΜΑΧΙΑ ΑΝΑ ΚΑΤΗΓΟΡΙΑ ──
   const catItems={}, catValue={};
@@ -2647,10 +2718,10 @@ function loadPurchasesDash(){
   const maxCatVal=Math.max(...Object.values(catValue),1);
   const catsSorted=cats.slice().sort((a,b)=>catItems[b]-catItems[a]);
   document.getElementById('cat-items-chart').innerHTML=catsSorted.map((cat)=>
-    hBar(cat, catItems[cat], maxCatItems, `${catItems[cat]} τεμ.`, catColor(cat))
+    hBarWide(cat, catItems[cat], maxCatItems, `${catItems[cat]} τεμ. · €${Math.round(catValue[cat]).toLocaleString('el-GR')}`, catColor(cat))
   ).join('');
   document.getElementById('cat-value-chart').innerHTML=cats.slice().sort((a,b)=>catValue[b]-catValue[a]).map((cat)=>
-    hBar(cat, catValue[cat], maxCatVal, `€${Math.round(catValue[cat]).toLocaleString('el-GR')}`, catColor(cat))
+    hBarWide(cat, catValue[cat], maxCatVal, `€${Math.round(catValue[cat]).toLocaleString('el-GR')} · ${catItems[cat]} τεμ.`, catColor(cat))
   ).join('');
 
   // ── ΤΕΜΑΧΙΑ & ΑΞΙΑ ΑΝΑ ΧΡΩΜΑ (Top 15) ──
@@ -2666,11 +2737,13 @@ function loadPurchasesDash(){
   const maxColorVal=colorsSortedVal[0]?.[1]||1;
   document.getElementById('color-items-chart').innerHTML=colorsSortedItems.map(([color,cnt])=>{
     const hex=COLOR_HEX[color]||'#C9A96E';
-    return hBar(color, cnt, maxColorItems, `${cnt} τεμ.`, hex);
+    const val=colorValue[color]||0;
+    return hBarWide(color, cnt, maxColorItems, `${cnt} τεμ. · €${Math.round(val).toLocaleString('el-GR')}`, hex);
   }).join('');
   document.getElementById('color-value-chart').innerHTML=colorsSortedVal.map(([color,val])=>{
     const hex=COLOR_HEX[color]||'#C9A96E';
-    return hBar(color, val, maxColorVal, `€${Math.round(val).toLocaleString('el-GR')}`, hex);
+    const cnt=colorItems[color]||0;
+    return hBarWide(color, val, maxColorVal, `€${Math.round(val).toLocaleString('el-GR')} · ${cnt} τεμ.`, hex);
   }).join('');
 
   // ── FEELING chart ──

@@ -434,13 +434,15 @@ body{padding-bottom:0;}
 
 <div id="app-screen">
   <div class="top-header">
-    <div class="logo">Wardrobe <em>Tracker</em></div>
-    <div class="header-right">
-      <div class="user-info" id="user-display"></div>
-      <button class="btn-logout" onclick="handleLogout()">Έξοδος</button>
-      <button class="btn-new-item" onclick="openItemModal()">+ Νέο</button>
-    </div>
+  <div class="logo">Wardrobe <em>Tracker</em></div>
+  <div class="header-right">
+    <div class="user-info" id="user-display"></div>
+    <a href="wardrobe-wishlist.html" class="btn-logout" style="text-decoration:none;background:#5a4030;display:inline-flex;align-items:center;gap:4px;" title="Πήγαινε στο Wardrobe Wishlist">🛍 Wishlist</a>
+    <button class="btn-logout" onclick="handleLogout()">Έξοδος</button>
+    <button class="btn-new-item" onclick="openItemModal()">+ Νέο</button>
   </div>
+</div>
+
   <div class="desktop-tabs">
     <button class="desktop-tab-btn active" onclick="showTab('wardrobe',this)">👗 Ντουλάπα</button>
     <button class="desktop-tab-btn" onclick="showTab('calendar',this)">📅 Ημερολόγιο</button>

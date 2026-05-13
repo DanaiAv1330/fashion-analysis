@@ -16,6 +16,7 @@
   --accent:#c4956a;--accent-light:#d8b48a;--accent-dim:rgba(196,149,106,0.12);
   --accent-dark:#9a7a4a;
   --green:#4a7c5a;--green-soft:rgba(74,124,90,0.09);--green-text:#2d5e3f;--green-border:rgba(74,124,90,0.25);
+  --lightgreen:#7ba673;--lightgreen-soft:rgba(123,166,115,0.10);--lightgreen-text:#4a7c5a;--lightgreen-border:rgba(123,166,115,0.28);
   --yellow:#8a6e00;--yellow-soft:rgba(180,150,0,0.08);--yellow-text:#6b5200;--yellow-border:rgba(180,150,0,0.28);
   --red:#8c4a3a;--red-soft:rgba(140,74,58,0.08);--red-text:#7a3020;
   --amber:#9a6a1a;
@@ -64,7 +65,6 @@ body{font-family:var(--font-sans);font-weight:300;background:var(--bg);color:var
 .tier-option .tier-letter{font-family:var(–font-serif);font-size:20px;font-weight:400;line-height:1;transition:color 0.18s;}
 .tier-option .tier-label{font-size:7.5px;letter-spacing:0.06em;text-transform:uppercase;color:var(–text-muted);margin-top:4px;line-height:1.2;transition:color 0.18s;}
 .tier-option:hover{border-color:var(–text-muted);transform:translateY(-1px);}
-/* Selected states — class-based for maximum browser compatibility */
 .tier-option.selected{border-width:2.5px;padding:9px 3px 8px;transform:translateY(-2px);box-shadow:0 3px 10px rgba(90,70,40,0.15);}
 .tier-option.selected .tier-letter{font-weight:500;}
 .tier-option.selected .tier-label{font-weight:500;}
@@ -104,7 +104,7 @@ body{font-family:var(--font-sans);font-weight:300;background:var(--bg);color:var
 .tier-badge.E{color:#4a4038;border-color:#8a7d6e;background:#d8d0c4;}
 .tier-badge.none{color:var(–text-dim);border-color:var(–border);background:var(–surface2);font-size:10px;font-weight:400;border-width:1.5px;}
 
-/* ── AUTH SCREEN (inline styles handle layout — see HTML) ── */
+/* ── AUTH SCREEN ── */
 .auth-msg{font-size:11px;text-align:center;padding:8px;border-radius:8px;margin-top:4px;font-family:var(–font-sans);}
 .auth-msg.error{background:rgba(140,74,58,0.18);color:#ffb8a8;border:1px solid rgba(140,74,58,0.35);}
 .auth-msg.success{background:rgba(74,124,90,0.18);color:#a8d8b8;border:1px solid rgba(74,124,90,0.35);}
@@ -117,7 +117,6 @@ body{font-family:var(--font-sans);font-weight:300;background:var(--bg);color:var
 .app-panel{display:none;}.app-panel.active{display:block;}
 
 /* ── BUDGET BAR ── */
-/* ── BUDGET BAR — caramel theme matching tracker accent ── */
 .budget-bar{margin:14px 14px 0;background:linear-gradient(135deg,#c4956a 0%,#b58557 100%);border:none;border-radius:10px;padding:16px 18px;color:white;box-shadow:0 4px 14px rgba(196,149,106,0.25);position:relative;overflow:hidden;}
 .budget-bar::before{content:””;position:absolute;right:-40px;top:-40px;width:140px;height:140px;border:1px solid rgba(255,255,255,0.10);border-radius:50%;pointer-events:none;}
 .budget-bar::after{content:””;position:absolute;right:10px;top:10px;width:80px;height:80px;border:1px solid rgba(255,255,255,0.06);border-radius:50%;pointer-events:none;}
@@ -175,11 +174,13 @@ body{font-family:var(--font-sans);font-weight:300;background:var(--bg);color:var
 .purch-compare-card{flex-shrink:0;background:var(–surface);border:1px solid var(–border);border-radius:2px;padding:8px 10px;text-align:center;min-width:54px;}
 .purch-compare-card.total{border-color:var(–border);min-width:62px;}
 .purch-compare-card.conscious{border-left:3px solid var(–green);background:var(–green-soft);}
+.purch-compare-card.well-thought{border-left:3px solid var(–lightgreen);background:var(–lightgreen-soft);}
 .purch-compare-card.rule48{border-left:3px solid #b8960a;background:rgba(184,150,10,0.06);}
 .purch-compare-card.impulse{border-left:3px solid var(–red);background:var(–red-soft);}
 .purch-compare-card.repl{border-left:3px solid #5a7ab0;background:rgba(80,110,160,0.06);}
 .purch-compare-num{font-family:var(–font-serif);font-size:16px;font-weight:400;line-height:1;white-space:nowrap;}
 .purch-compare-card.conscious .purch-compare-num{color:var(–green-text);}
+.purch-compare-card.well-thought .purch-compare-num{color:var(–lightgreen-text);}
 .purch-compare-card.rule48 .purch-compare-num{color:#6b5200;}
 .purch-compare-card.impulse .purch-compare-num{color:var(–red-text);}
 .purch-compare-card.repl .purch-compare-num{color:#5a7ab0;}
@@ -209,6 +210,7 @@ body{font-family:var(--font-sans);font-weight:300;background:var(--bg);color:var
 .purch-row-price{font-family:var(–font-serif);font-size:14px;}
 .purch-badge{font-size:8px;letter-spacing:0.08em;text-transform:uppercase;padding:2px 7px;border-radius:1px;}
 .purch-badge.conscious{background:var(–green-soft);color:var(–green-text);border:1px solid var(–green-border);}
+.purch-badge.well-thought{background:var(–lightgreen-soft);color:var(–lightgreen-text);border:1px solid var(–lightgreen-border);}
 .purch-badge.small-thought{background:rgba(154,106,26,0.09);color:var(–amber);border:1px solid rgba(154,106,26,0.25);}
 .purch-badge.impulse{background:var(–red-soft);color:var(–red-text);border:1px solid rgba(140,74,58,0.25);}
 .purch-badge.replacement{background:rgba(80,110,160,0.1);color:#5a7ab0;border:1px solid rgba(80,110,160,0.2);}
@@ -240,7 +242,6 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
 .filter-btn{font-family:var(–font-sans);font-size:9px;letter-spacing:0.08em;text-transform:uppercase;background:none;border:1px solid var(–border);color:var(–text-muted);padding:4px 11px;cursor:pointer;border-radius:10px;transition:all 0.15s;}
 .filter-btn.active,.filter-btn:hover{border-color:var(–accent);color:var(–accent);background:var(–accent-dim);}
 
-/* Filters row 2 for tiers */
 .filters-tier{padding:8px 14px;display:flex;gap:6px;align-items:center;border-bottom:1px solid var(–border);background:var(–surface2);flex-wrap:wrap;}
 .tier-filter-btn{font-family:var(–font-serif);font-size:12px;font-weight:500;background:var(–surface);border:1.5px solid var(–border);color:var(–text-muted);width:30px;height:30px;cursor:pointer;border-radius:50%;transition:all 0.15s;display:flex;align-items:center;justify-content:center;}
 .tier-filter-btn:hover{transform:translateY(-1px);}
@@ -259,6 +260,7 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
 .card{border:1px solid var(–border);border-radius:2px;margin-bottom:6px;background:var(–surface);overflow:hidden;transition:box-shadow 0.2s;cursor:pointer;}
 .card:hover{box-shadow:0 2px 10px rgba(90,70,40,0.08);}
 .card.green{border-left:3px solid var(–green);}
+.card.lightgreen{border-left:3px solid var(–lightgreen);}
 .card.yellow{border-left:3px solid #b8960a;}
 .card.red{border-left:3px solid var(–red);}
 .card-row{display:grid;grid-template-columns:2fr 90px 70px 130px 80px;gap:8px;padding:12px 12px;align-items:center;}
@@ -277,9 +279,11 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
 .col-status{font-size:9px;letter-spacing:0.08em;text-transform:uppercase;display:flex;align-items:center;gap:5px;}
 .status-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
 .card.green .status-dot{background:var(–green-text);}
+.card.lightgreen .status-dot{background:var(–lightgreen-text);}
 .card.yellow .status-dot{background:#8a6e00;}
 .card.red .status-dot{background:var(–red-text);}
 .card.green .col-status{color:var(–green-text);}
+.card.lightgreen .col-status{color:var(–lightgreen-text);}
 .card.yellow .col-status{color:#8a6e00;}
 .card.red .col-status{color:var(–red-text);}
 
@@ -295,6 +299,7 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
 .outfit-tag{display:inline-block;font-size:10px;background:var(–surface);border:1px solid var(–border);padding:3px 9px;border-radius:1px;margin:2px 3px 2px 0;color:var(–text-muted);}
 .reasons-section{margin-top:10px;padding:9px 12px;border-radius:2px;font-size:10px;line-height:1.9;}
 .card.green .reasons-section{background:var(–green-soft);border:1px solid rgba(74,124,90,0.22);color:var(–green-text);}
+.card.lightgreen .reasons-section{background:var(–lightgreen-soft);border:1px solid var(–lightgreen-border);color:var(–lightgreen-text);}
 .card.yellow .reasons-section{background:rgba(184,150,10,0.07);border:1px solid rgba(184,150,10,0.25);color:#6b5200;}
 .card.red .reasons-section{background:var(–red-soft);border:1px solid rgba(140,74,58,0.22);color:var(–red-text);}
 .detail-actions{display:flex;gap:7px;margin-top:12px;padding-top:11px;border-top:1px solid var(–border-soft);align-items:center;flex-wrap:wrap;}
@@ -351,6 +356,8 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
 /* Purchase verdict */
 .purchase-verdict{font-size:11px;letter-spacing:0.06em;padding:10px 14px;border-radius:2px;}
 .purchase-verdict.good{background:var(–green-soft);color:var(–green-text);border:1px solid var(–green-border);}
+.purchase-verdict.lightgood{background:var(–lightgreen-soft);color:var(–lightgreen-text);border:1px solid var(–lightgreen-border);}
+.purchase-verdict.warn{background:rgba(184,150,10,0.07);color:#6b5200;border:1px solid rgba(184,150,10,0.25);}
 .purchase-verdict.bad{background:var(–red-soft);color:var(–red-text);border:1px solid rgba(140,74,58,0.22);}
 
 /* ── TOAST / LOADING ── */
@@ -375,12 +382,9 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
 <!-- ══ AUTH ══ -->
 
 <div id="auth-screen" style="min-height:100vh;display:flex;flex-direction:column;background:#0a0a0a;position:relative;overflow:hidden;">
-  <!-- Decorative circles -->
   <div style="position:absolute;right:-80px;top:-80px;width:400px;height:400px;border:1px solid rgba(196,149,106,0.15);border-radius:50%;pointer-events:none;"></div>
   <div style="position:absolute;right:40px;top:40px;width:240px;height:240px;border:1px solid rgba(196,149,106,0.10);border-radius:50%;pointer-events:none;"></div>
   <div style="position:absolute;left:-60px;bottom:-60px;width:300px;height:300px;border:1px solid rgba(196,149,106,0.08);border-radius:50%;pointer-events:none;"></div>
-
-  <!-- Brand header -->
 
   <div style="padding:2.5rem 2.5rem 0;position:relative;z-index:1;">
     <div style="font-family:'Cormorant Garamond',serif;font-size:0.9rem;font-style:italic;color:rgba(255,255,255,0.5);margin-bottom:0.5rem;">Fashion Analysis by Danai</div>
@@ -390,11 +394,8 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
     <div style="width:48px;height:1px;background:#c4956a;margin-top:1.2rem;"></div>
   </div>
 
-  <!-- Auth card -->
-
   <div style="flex:1;display:flex;align-items:center;justify-content:center;padding:2rem;position:relative;z-index:1;">
     <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.10);border-radius:16px;padding:2.5rem 2rem;width:100%;max-width:380px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);">
-      <!-- Tabs -->
       <div style="display:flex;border-bottom:1px solid rgba(255,255,255,0.10);margin-bottom:1.8rem;">
         <button id="auth-tab-login" onclick="switchAuthTab('login',this)"
           style="flex:1;font-family:'Jost',sans-serif;font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;background:none;border:none;border-bottom:2px solid #c4956a;color:white;padding:0.7rem 0;cursor:pointer;margin-bottom:-1px;transition:all 0.2s;">Σύνδεση</button>
@@ -403,7 +404,6 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
       </div>
 
 ```
-  <!-- Form fields -->
   <div style="display:flex;flex-direction:column;gap:1rem;">
     <div>
       <label style="display:block;font-size:0.68rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:#c4956a;margin-bottom:0.5rem;">Email</label>
@@ -441,8 +441,6 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
     </div>
   </header>
 
-  <!-- APP TABS -->
-
   <div style="background:var(--surface);border-bottom:1px solid var(--border);display:flex;overflow-x:auto;">
     <button class="app-tab active" onclick="showAppTab('wishlist',this)">📋 Wishlist</button>
     <button class="app-tab" onclick="showAppTab('purchases',this)">🛍 Αγορές <span id="year-badge" style="font-size:9px;background:var(--accent-dim);color:var(--accent);border-radius:2px;padding:1px 5px;margin-left:4px;"></span></button>
@@ -455,24 +453,27 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
   <div class="app-panel active" id="panel-wishlist">
 
 ```
-<!-- BUDGET BAR (wishlist view) -->
 <div class="budget-bar" id="budget-bar-wishlist"></div>
 
 <div class="stats-bar" id="stats-bar">
   <div class="stat"><div class="stat-num" id="stat-total">—</div><div class="stat-label">Σύνολο</div></div>
   <div class="stat"><div class="stat-num" style="color:var(--green-text)" id="stat-ready">—</div><div class="stat-label">Conscious ✅</div></div>
+  <div class="stat"><div class="stat-num" style="color:var(--lightgreen-text)" id="stat-wellthought">—</div><div class="stat-label">Well Thought 🌱</div></div>
   <div class="stat"><div class="stat-num" style="color:#8a6e00" id="stat-yellow">—</div><div class="stat-label">48h Rule 🤔</div></div>
   <div class="stat"><div class="stat-num" style="color:var(--red-text)" id="stat-waiting">—</div><div class="stat-label">Impulse ⚡</div></div>
   <div class="stat"><div class="stat-num" style="color:var(--accent)" id="stat-value">—</div><div class="stat-label">Αξία</div></div>
 </div>
+
 <div class="filters">
   <span class="filter-label">Status ·</span>
   <button class="filter-btn active" onclick="setFilter('all',this)">Όλα</button>
   <button class="filter-btn" onclick="setFilter('green',this)">✅ Conscious</button>
+  <button class="filter-btn" onclick="setFilter('lightgreen',this)">🌱 Well Thought</button>
   <button class="filter-btn" onclick="setFilter('yellow',this)">🤔 48h Rule</button>
   <button class="filter-btn" onclick="setFilter('red',this)">⚡ Impulse</button>
   <button class="filter-btn" onclick="setFilter('replacement',this)">🔄 Αντικατάσταση</button>
 </div>
+
 <div class="filters-tier">
   <span class="filter-label">Προτεραιότητα ·</span>
   <button class="filter-btn active" onclick="setTierFilter('all',this)" style="font-size:9px;">Όλες</button>
@@ -482,6 +483,7 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
   <button class="tier-filter-btn" data-t="D" onclick="setTierFilter('D',this)" title="Το είδα και τρελάθηκα">Δ</button>
   <button class="tier-filter-btn" data-t="E" onclick="setTierFilter('E',this)" title="Αν περισσέψει budget">E</button>
 </div>
+
 <div class="list-container">
   <div class="list-header">
     <div>Αντικείμενο</div><div>Ημερομηνία</div><div>Τιμή</div>
@@ -498,7 +500,6 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
       <button class="inline-form-close" onclick="closeInlineForm()">✕</button>
     </div>
 
-    <!-- ΒΑΣΙΚΑ -->
     <div class="iform-section">
       <div class="iform-section-title">Βασικά στοιχεία</div>
       <div class="iform-grid">
@@ -604,7 +605,6 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
           </select>
         </div>
 
-        <!-- MATERIAL CHIPS -->
         <div class="iform-group full">
           <label>Υλικό <span style="font-weight:300;text-transform:none;letter-spacing:0;font-size:9px;color:var(--text-dim)">(επίλεξε όσα θέλεις)</span></label>
           <div id="material-chips" class="material-chips-wrap">
@@ -635,7 +635,6 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
       </div>
     </div>
 
-    <!-- ΠΡΟΤΕΡΑΙΟΤΗΤΑ -->
     <div class="iform-section">
       <div class="iform-section-title">Προτεραιότητα Αγοράς</div>
       <div class="iform-hint" style="margin-bottom:8px;">Πόσο πολύ το θέλεις;</div>
@@ -669,7 +668,6 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
       <div class="iform-hint" id="tier-hint-text" style="margin-top:8px;min-height:15px;"></div>
     </div>
 
-    <!-- ΧΑΡΑΚΤΗΡΙΣΤΙΚΑ -->
     <div class="iform-section">
       <div class="iform-section-title">Χαρακτηριστικά (προαιρετικά)</div>
       <div class="iform-grid">
@@ -706,7 +704,6 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
       </div>
     </div>
 
-    <!-- CPW -->
     <div class="iform-section">
       <div class="iform-section-title">CPW — Τιμή & Κατηγορία</div>
       <div class="iform-grid">
@@ -734,7 +731,6 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
       </div>
     </div>
 
-    <!-- OUTFIT UNIFORMS SELECTOR -->
     <div class="iform-section">
       <div class="iform-section-title">Outfit Uniforms</div>
       <div class="iform-hint" style="margin-bottom:8px;">Με ποιο από τα uniforms σου ταιριάζει αυτό το item;</div>
@@ -746,7 +742,6 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
       </div>
     </div>
 
-    <!-- OUTFITS & NOTES -->
     <div class="iform-section">
       <div class="iform-section-title">Συνδυασμοί & Σημειώσεις</div>
       <div class="iform-grid">
@@ -766,7 +761,6 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
       <button class="btn-sm primary" id="save-btn" onclick="saveItem()">Αποθήκευση</button>
     </div>
   </div>
-  <!-- END INLINE FORM -->
 </div>
 ```
 
@@ -780,7 +774,6 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
     </div>
 
 ```
-<!-- BUDGET BAR (purchases view — spent only) -->
 <div class="budget-bar" id="budget-bar-purchases"></div>
 
 <div class="list-container" style="padding-bottom:0;padding-top:14px;">
@@ -793,6 +786,7 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
   <div class="purch-compare-row" id="metric-row"></div>
   <div id="purch-overall-comment" style="margin-top:10px;"></div>
 </div>
+
 <div class="list-container" style="padding-top:0">
   <div class="purch-section-title">Ανά κατηγορία</div>
   <div id="purch-by-category"></div>
@@ -800,6 +794,7 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
   <div class="filters" style="padding:8px 0;border:none;background:none;margin-bottom:8px;">
     <button class="filter-btn active" onclick="setPurchFilter('all',this)">Όλες</button>
     <button class="filter-btn" onclick="setPurchFilter('conscious',this)">✅ Conscious</button>
+    <button class="filter-btn" onclick="setPurchFilter('well-thought',this)">🌱 Well Thought</button>
     <button class="filter-btn" onclick="setPurchFilter('small-thought',this)">🤔 48h Rule</button>
     <button class="filter-btn" onclick="setPurchFilter('impulse',this)">⚡ Impulse</button>
     <button class="filter-btn" onclick="setPurchFilter('replacement',this)">🔄 Αντικατάσταση</button>
@@ -833,7 +828,6 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
       <div id="uniforms-list"><div class="loading"><div class="spinner"></div></div></div>
 
 ```
-  <!-- Inline uniform form -->
   <div id="uniform-form-wrap" style="display:none;margin-top:14px;background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:16px;animation:slideDown 0.2s ease;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
       <div style="font-family:var(--font-serif);font-size:16px;font-weight:300;" id="uniform-form-title">Νέο <em style="font-style:italic;color:var(--accent)">Uniform</em></div>
@@ -928,8 +922,7 @@ let currentFilter = 'all';
 let currentTierFilter = 'all';
 let editingId = null;
 
-// Budget state
-let budgetMap = {}; // { 2026: 1500, 2025: 1200, ... }
+let budgetMap = {};
 
 // ── AUTH ──
 let authMode = 'login';
@@ -1006,7 +999,6 @@ async function loadBudgets() {
   if (!currentUser) return;
   const { data, error } = await sb.from('annual_budgets').select('*').eq('user_id', currentUser.id);
   if (error) {
-    // Gracefully handle missing table on first run
     console.warn('Budget table not yet available:', error.message);
     budgetMap = {};
   } else {
@@ -1042,7 +1034,6 @@ async function saveBudget() {
   btn.disabled = true; btn.textContent = '…';
 
   if (!amountRaw || amount === 0 || isNaN(amount)) {
-    // Delete budget for this year
     const { error } = await sb.from('annual_budgets').delete().eq('user_id', currentUser.id).eq('year', year);
     btn.disabled = false; btn.textContent = 'Αποθήκευση';
     if (error) { showToast('Σφάλμα: ' + error.message); return; }
@@ -1068,13 +1059,9 @@ async function saveBudget() {
 function renderBudgetBars() {
   const curYear = new Date().getFullYear();
   const budget = budgetMap[curYear] || 0;
-
-  // Spent = only purchased items in current year
   const spent = purchasedItems
     .filter(i => i.purchase_year === curYear)
     .reduce((s, i) => s + (i.price || 0), 0);
-
-  // Wishlist value (active wishlist items with price)
   const wishlistValue = allItems.reduce((s, i) => s + (i.price || 0), 0);
 
   renderWishlistBudgetBar(budget, spent, wishlistValue, curYear);
@@ -1109,7 +1096,6 @@ function renderWishlistBudgetBar(budget, spent, wishlistValue, year) {
   const over = Math.max(0, total - budget);
   const spentOver = spent > budget;
 
-  // Alert logic
   let alertHtml = '';
   if (spentOver) {
     alertHtml = `<div class="budget-alert over">
@@ -1216,7 +1202,6 @@ async function loadItems() {
   allItems = data || [];
   renderItems();
   updateStats();
-  // Also load purchases so budget bar has spent data
   await loadPurchasesSilent();
   renderBudgetBars();
 }
@@ -1259,6 +1244,7 @@ function renderItems() {
   const list = document.getElementById('items-list');
   let items = [...allItems];
   if (currentFilter === 'green') items = items.filter(i => getStatus(i) === 'green');
+  else if (currentFilter === 'lightgreen') items = items.filter(i => getStatus(i) === 'lightgreen');
   else if (currentFilter === 'yellow') items = items.filter(i => getStatus(i) === 'yellow');
   else if (currentFilter === 'red') items = items.filter(i => getStatus(i) === 'red');
   else if (currentFilter === 'replacement') items = items.filter(i => i.is_replacement);
@@ -1267,7 +1253,6 @@ function renderItems() {
     items = items.filter(i => i.priority === currentTierFilter);
   }
 
-  // Sort: by priority (A before E), then by status/recency
   const tierOrder = { A: 1, B: 2, C: 3, D: 4, E: 5 };
   items.sort((a, b) => {
     const ta = tierOrder[a.priority] || 99;
@@ -1286,12 +1271,14 @@ function renderItems() {
   list.innerHTML = items.map(item => renderCard(item)).join('');
 }
 
+// ── STATUS LOGIC (with new Well Thought tier) ──
 function getStatus(item) {
   const now = new Date();
   const created = new Date(item.created_at);
   const hoursDiff = (now - created) / (1000 * 60 * 60);
-  const monthsDiff = hoursDiff / (24 * 30);
-  const twoMonthsPassed = monthsDiff >= 2 || item.is_replacement;
+  const daysDiff = hoursDiff / 24;
+  const twoMonthsPassed = daysDiff >= 60 || item.is_replacement;
+  const oneMonthPassed = daysDiff >= 30 || item.is_replacement;
   const fortyEightHoursPassed = hoursDiff >= 48 || item.is_replacement;
   const cpwOk = item.price && item.times_per_week && item.cpw_category
     ? (item.price / (item.times_per_week * 52)) <= parseFloat(item.cpw_category)
@@ -1299,6 +1286,7 @@ function getStatus(item) {
   const outfits = [item.outfit_1, item.outfit_2, item.outfit_3].filter(Boolean);
   const outfitsOk = outfits.length >= 3;
   if (twoMonthsPassed && cpwOk && outfitsOk) return 'green';
+  if (oneMonthPassed && cpwOk && outfitsOk) return 'lightgreen';
   if (fortyEightHoursPassed && cpwOk && outfitsOk) return 'yellow';
   return 'red';
 }
@@ -1330,8 +1318,9 @@ function renderCard(item) {
   const now = new Date();
   const created = new Date(item.created_at);
   const hoursDiff = (now - created) / (1000 * 60 * 60);
-  const monthsDiff = hoursDiff / (24 * 30);
-  const twoMonthsPassed = monthsDiff >= 2 || item.is_replacement;
+  const daysDiff = hoursDiff / 24;
+  const twoMonthsPassed = daysDiff >= 60 || item.is_replacement;
+  const oneMonthPassed = daysDiff >= 30 || item.is_replacement;
   const fortyEightHoursPassed = hoursDiff >= 48 || item.is_replacement;
   const cpwOk = cpw && item.cpw_category ? cpw <= parseFloat(item.cpw_category) : false;
   const target = item.cpw_category ? parseFloat(item.cpw_category) : null;
@@ -1339,9 +1328,12 @@ function renderCard(item) {
   let timeReason;
   if (twoMonthsPassed) {
     timeReason = `✓ &nbsp;${item.is_replacement ? 'Αντικατάσταση — το δίμηνο αναιρείται' : 'Πέρασαν 2+ μήνες — Conscious ✅'}`;
+  } else if (oneMonthPassed) {
+    const daysLeft = Math.max(0, Math.round(60 - daysDiff));
+    timeReason = `◐ &nbsp;Well Thought 🌱 — απομένουν ${daysLeft} μέρες για το πλήρες Conscious`;
   } else if (fortyEightHoursPassed) {
-    const daysLeft = Math.max(0, Math.round(60 - monthsDiff * 30));
-    timeReason = `◐ &nbsp;48h Rule ✓ — απομένουν ${daysLeft} μέρες για το δίμηνο`;
+    const daysLeft = Math.max(0, Math.round(30 - daysDiff));
+    timeReason = `◐ &nbsp;48h Rule ✓ — απομένουν ${daysLeft} μέρες για Well Thought 🌱`;
   } else {
     const hoursLeft = Math.max(0, Math.round(48 - hoursDiff));
     timeReason = `✗ &nbsp;Impulse zone — απομένουν ${hoursLeft} ώρες για το 48h rule`;
@@ -1357,7 +1349,7 @@ function renderCard(item) {
       : `✗ &nbsp;${outfits.length}/3 συνδυασμοί — χρειάζονται ${3 - outfits.length} ακόμα`
   ].join('<br>');
 
-  const statusLabel = status === 'green' ? 'Conscious ✅' : status === 'yellow' ? '48h Rule 🤔' : 'Impulse ⚡';
+  const statusLabel = status === 'green' ? 'Conscious ✅' : status === 'lightgreen' ? 'Well Thought 🌱' : status === 'yellow' ? '48h Rule 🤔' : 'Impulse ⚡';
 
   let uniformHtml = '';
   if (item.uniform_ids && item.uniform_ids.length && allUniforms.length) {
@@ -1422,11 +1414,13 @@ function renderCard(item) {
 function updateStats() {
   const total = allItems.length;
   const green = allItems.filter(i => getStatus(i) === 'green').length;
+  const lightgreen = allItems.filter(i => getStatus(i) === 'lightgreen').length;
   const yellow = allItems.filter(i => getStatus(i) === 'yellow').length;
   const red = allItems.filter(i => getStatus(i) === 'red').length;
   const value = allItems.reduce((s, i) => s + (i.price || 0), 0);
   document.getElementById('stat-total').textContent = total;
   document.getElementById('stat-ready').textContent = green;
+  document.getElementById('stat-wellthought').textContent = lightgreen;
   document.getElementById('stat-yellow').textContent = yellow;
   document.getElementById('stat-waiting').textContent = red;
   const valueDisplay = value >= 1000 ? '€' + (value/1000).toFixed(1) + 'k' : value > 0 ? '€' + value.toFixed(0) : '—';
@@ -1491,7 +1485,6 @@ function openInlineForm(item = null) {
   document.getElementById('f-brand').value = '';
   document.getElementById('f-brand-other').style.display = 'none';
   document.getElementById('f-brand-other').value = '';
-  // Reset priority radios AND selected classes
   document.querySelectorAll('input[name="priority"]').forEach(r => r.checked = false);
   document.querySelectorAll('.tier-option').forEach(opt => opt.classList.remove('selected'));
   const tierHint = document.getElementById('tier-hint-text');
@@ -1527,9 +1520,7 @@ function openInlineForm(item = null) {
     document.getElementById('f-outfit3').value = item.outfit_3 || '';
     document.getElementById('f-notes').value = item.notes || '';
     document.getElementById('f-replacement').checked = item.is_replacement || false;
-    if (item.priority) {
-      selectTier(item.priority);
-    }
+    if (item.priority) selectTier(item.priority);
     if (item.created_at) document.getElementById('f-entry-date').value = item.created_at.split('T')[0];
     calcCPW();
   }
@@ -1734,15 +1725,19 @@ function markPurchased(id) {
   document.body.style.overflow = 'hidden';
 }
 
+// ── PURCHASE CATEGORY LOGIC (with new well-thought tier) ──
 function getPurchaseCategory(hoursWaited, isReplacement) {
   if (isReplacement) return 'replacement';
-  if (hoursWaited >= 24 * 60) return 'conscious';
+  const daysWaited = hoursWaited / 24;
+  if (daysWaited >= 60) return 'conscious';
+  if (daysWaited >= 30) return 'well-thought';
   if (hoursWaited >= 48) return 'small-thought';
   return 'impulse';
 }
 
 const VERDICT_MESSAGES = {
   conscious: { icon:'✅', title:'Conscious Purchase', msg:'Περίμενες τουλάχιστον 2 μήνες — αυτό δείχνει πραγματική ανάγκη. Καλά έκανες!', cls:'good' },
+  'well-thought': { icon:'🌱', title:'Well Thought', msg:'Περίμενες πάνω από έναν μήνα — έχεις σκεφτεί σοβαρά την αγορά. Πολύ καλό βήμα!', cls:'lightgood' },
   'small-thought': { icon:'🤔', title:'48h Rule ✓', msg:'Περίμενες πάνω από 48 ώρες — καλό βήμα! Αν μπορείς, την επόμενη φορά δοκίμασε να περιμένεις λίγο παραπάνω.', cls:'warn' },
   impulse: { icon:'⚡', title:'Impulse Buy', msg:'Αγόρασες μέσα σε 48 ώρες. Δεν πειράζει — όλοι το κάνουμε. Την επόμενη φορά δοκίμασε να το αφήσεις για 2 μέρες!', cls:'bad' },
   replacement: { icon:'🔄', title:'Replacement', msg:'Αντικαθιστάς κάτι που ήδη έχεις — αυτό είναι συνειδητή κατανάλωση!', cls:'good' },
@@ -1838,22 +1833,24 @@ function renderPurchases() {
   const total = items.length;
   const totalCost = items.reduce((s,i) => s+(i.price||0), 0);
   const conscious    = items.filter(i => getPurchCat(i) === 'conscious');
+  const wellThought  = items.filter(i => getPurchCat(i) === 'well-thought');
   const smallThought = items.filter(i => getPurchCat(i) === 'small-thought');
   const impulse      = items.filter(i => getPurchCat(i) === 'impulse');
   const replacements = items.filter(i => getPurchCat(i) === 'replacement');
-  const nC=conscious.length, n48=smallThought.length, nI=impulse.length, nR=replacements.length;
+  const nC=conscious.length, nWT=wellThought.length, n48=smallThought.length, nI=impulse.length, nR=replacements.length;
   const cC=conscious.reduce((s,i)=>s+(i.price||0),0);
+  const cWT=wellThought.reduce((s,i)=>s+(i.price||0),0);
   const c48=smallThought.reduce((s,i)=>s+(i.price||0),0);
   const cI=impulse.reduce((s,i)=>s+(i.price||0),0);
   const cR=replacements.reduce((s,i)=>s+(i.price||0),0);
-  const avgC=nC?cC/nC:0, avg48=n48?c48/n48:0, avgI=nI?cI/nI:0, avgTot=total?totalCost/total:0;
+  const avgC=nC?cC/nC:0, avgWT=nWT?cWT/nWT:0, avg48=n48?c48/n48:0, avgI=nI?cI/nI:0, avgTot=total?totalCost/total:0;
   const fmtE=n=>n>=1000?'€'+(n/1000).toFixed(1)+'k':n>0?'€'+Math.round(n):'—';
   const fmtA=n=>n>0?'€'+Math.round(n):'—';
   const fmtN=n=>n||'—';
   const metricConfigs={
-    cost:{title:'Κόστος',totalVal:fmtE(totalCost),cVal:fmtE(cC),r48Val:fmtE(c48),iVal:fmtE(cI),rVal:fmtE(cR),sep:'+'},
-    items:{title:'Τεμάχια',totalVal:total||'—',cVal:fmtN(nC),r48Val:fmtN(n48),iVal:fmtN(nI),rVal:fmtN(nR),sep:'+'},
-    avg:{title:'Μέσο κόστος / τεμάχιο',totalVal:fmtA(avgTot),cVal:fmtA(avgC),r48Val:fmtA(avg48),iVal:fmtA(avgI),rVal:'—',sep:'·'},
+    cost:{title:'Κόστος',totalVal:fmtE(totalCost),cVal:fmtE(cC),wtVal:fmtE(cWT),r48Val:fmtE(c48),iVal:fmtE(cI),rVal:fmtE(cR),sep:'+'},
+    items:{title:'Τεμάχια',totalVal:total||'—',cVal:fmtN(nC),wtVal:fmtN(nWT),r48Val:fmtN(n48),iVal:fmtN(nI),rVal:fmtN(nR),sep:'+'},
+    avg:{title:'Μέσο κόστος / τεμάχιο',totalVal:fmtA(avgTot),cVal:fmtA(avgC),wtVal:fmtA(avgWT),r48Val:fmtA(avg48),iVal:fmtA(avgI),rVal:'—',sep:'·'},
   };
   const mc=metricConfigs[currentMetric]||metricConfigs.cost;
   document.getElementById('metric-row-title').textContent=mc.title;
@@ -1862,21 +1859,26 @@ function renderPurchases() {
     <div class="purch-compare-sep">＝</div>
     <div class="purch-compare-card conscious"><div class="purch-compare-num">${mc.cVal}</div><div class="purch-compare-lbl">Conscious</div></div>
     <div class="purch-compare-sep">${mc.sep}</div>
+    <div class="purch-compare-card well-thought"><div class="purch-compare-num">${mc.wtVal}</div><div class="purch-compare-lbl">Well Thought</div></div>
+    <div class="purch-compare-sep">${mc.sep}</div>
     <div class="purch-compare-card rule48"><div class="purch-compare-num">${mc.r48Val}</div><div class="purch-compare-lbl">48h Rule</div></div>
     <div class="purch-compare-sep">${mc.sep}</div>
     <div class="purch-compare-card impulse"><div class="purch-compare-num">${mc.iVal}</div><div class="purch-compare-lbl">Impulse</div></div>
     <div class="purch-compare-sep">${mc.sep}</div>
     <div class="purch-compare-card repl"><div class="purch-compare-num">${mc.rVal}</div><div class="purch-compare-lbl">Repl.</div></div>`;
 
+  // Combined "patient" (conscious + well-thought) for insights
+  const nPatient = nC + nWT;
+  const cPatient = cC + cWT;
   let overallComment='';
   if(total>0){
     if(currentMetric==='cost'){
       if(cI===0)overallComment=`🌟 Zero impulse spending this year — every euro was intentional!`;
-      else if(cC>=cI)overallComment=`✨ Most of your spending (${fmtE(cC)}) went to conscious purchases. Your budget is working for your wardrobe!`;
+      else if(cPatient>=cI)overallComment=`✨ Most of your spending (${fmtE(cPatient)}) went to thoughtful purchases (Conscious + Well Thought). Your budget is working for your wardrobe!`;
       else overallComment=`⚡ ${fmtE(cI)} spent on impulse purchases. Try the 48h rule for the next one.`;
     }else if(currentMetric==='items'){
       if(nI===0)overallComment=`🌟 Zero impulse purchases this year! Every single item was a considered decision.`;
-      else if(nC>=nI)overallComment=`✨ ${nC} out of ${total} purchases were conscious decisions!`;
+      else if(nPatient>=nI)overallComment=`✨ ${nPatient} out of ${total} purchases were thoughtful decisions (Conscious + Well Thought)!`;
       else overallComment=`⚡ ${nI} out of ${total} purchases were impulse buys. Try pausing before the next one.`;
     }else{
       if(nI===0)overallComment=`🌟 No impulse purchases — a clean and intentional year!`;
@@ -1893,9 +1895,10 @@ function renderPurchases() {
     const raw=i.category||'Άλλο';
     const cat=CAT_GROUP[raw]||raw;
     const pc=getPurchCat(i);
-    if(!catMap[cat])catMap[cat]={count:0,cost:0,conscious:0,rule48:0,impulse:0,nConscious:0,nRule48:0,nImpulse:0};
+    if(!catMap[cat])catMap[cat]={count:0,cost:0,conscious:0,wellThought:0,rule48:0,impulse:0,nConscious:0,nWellThought:0,nRule48:0,nImpulse:0};
     catMap[cat].count++;catMap[cat].cost+=i.price||0;
     if(pc==='conscious'||pc==='replacement'){catMap[cat].conscious+=i.price||0;catMap[cat].nConscious++;}
+    else if(pc==='well-thought'){catMap[cat].wellThought+=i.price||0;catMap[cat].nWellThought++;}
     else if(pc==='small-thought'){catMap[cat].rule48+=i.price||0;catMap[cat].nRule48++;}
     else{catMap[cat].impulse+=i.price||0;catMap[cat].nImpulse++;}
   });
@@ -1905,17 +1908,18 @@ function renderPurchases() {
   const maxBar=currentMetric==='items'?Math.max(...sorted.map(([,d])=>d.count),1):currentMetric==='avg'?Math.max(...sorted.map(([,d])=>d.count?d.cost/d.count:0),1):Math.max(...sorted.map(([,d])=>d.cost),1);
 
   function getCatComment(d){
+    const patient = d.nConscious + d.nWellThought;
     if(d.nImpulse===0)return'✨ Zero impulse purchases in this category — great discipline!';
-    if(currentMetric==='items'){return d.nConscious>=d.nImpulse?'✨ Most items here were conscious decisions!':'⚡ Most items here were impulse buys. This category needs attention.';}
-    return d.conscious>=d.impulse?'✨ Most spending here is conscious.':'⚡ Most spending here is impulse — try the 48h rule for this category.';
+    if(currentMetric==='items'){return patient>=d.nImpulse?'✨ Most items here were thoughtful decisions!':'⚡ Most items here were impulse buys. This category needs attention.';}
+    return (d.conscious + d.wellThought)>=d.impulse?'✨ Most spending here is thoughtful.':'⚡ Most spending here is impulse — try the 48h rule for this category.';
   }
 
   function catRowHtml(d){
     const fC=n=>n>0?'€'+Math.round(n):'—';
-    if(currentMetric==='cost')return`<div class="purch-compare-row" style="overflow:visible;"><div class="purch-compare-card total" style="min-width:46px;"><div class="purch-compare-num">€${Math.round(d.cost)}</div><div class="purch-compare-lbl">Σύνολο</div></div><div class="purch-compare-sep">=</div><div class="purch-compare-card conscious" style="min-width:46px;"><div class="purch-compare-num">${fC(d.conscious)}</div><div class="purch-compare-lbl">Conscious</div></div><div class="purch-compare-sep">+</div><div class="purch-compare-card rule48" style="min-width:46px;"><div class="purch-compare-num">${fC(d.rule48)}</div><div class="purch-compare-lbl">48h Rule</div></div><div class="purch-compare-sep">+</div><div class="purch-compare-card impulse" style="min-width:46px;"><div class="purch-compare-num">${fC(d.impulse)}</div><div class="purch-compare-lbl">Impulse</div></div></div>`;
-    if(currentMetric==='items')return`<div class="purch-compare-row" style="overflow:visible;"><div class="purch-compare-card total" style="min-width:46px;"><div class="purch-compare-num">${d.count}</div><div class="purch-compare-lbl">Σύνολο</div></div><div class="purch-compare-sep">=</div><div class="purch-compare-card conscious" style="min-width:46px;"><div class="purch-compare-num">${d.nConscious||'—'}</div><div class="purch-compare-lbl">Conscious</div></div><div class="purch-compare-sep">+</div><div class="purch-compare-card rule48" style="min-width:46px;"><div class="purch-compare-num">${d.nRule48||'—'}</div><div class="purch-compare-lbl">48h Rule</div></div><div class="purch-compare-sep">+</div><div class="purch-compare-card impulse" style="min-width:46px;"><div class="purch-compare-num">${d.nImpulse||'—'}</div><div class="purch-compare-lbl">Impulse</div></div></div>`;
-    const avgCC=d.nConscious?d.conscious/d.nConscious:0,avg48c=d.nRule48?d.rule48/d.nRule48:0,avgII=d.nImpulse?d.impulse/d.nImpulse:0,avgTotC=d.count?d.cost/d.count:0;
-    return`<div class="purch-compare-row" style="overflow:visible;"><div class="purch-compare-card total" style="min-width:46px;"><div class="purch-compare-num">${fC(avgTotC)}</div><div class="purch-compare-lbl">Μέσο</div></div><div class="purch-compare-sep">·</div><div class="purch-compare-card conscious" style="min-width:46px;"><div class="purch-compare-num">${fC(avgCC)}</div><div class="purch-compare-lbl">Conscious</div></div><div class="purch-compare-sep">·</div><div class="purch-compare-card rule48" style="min-width:46px;"><div class="purch-compare-num">${fC(avg48c)}</div><div class="purch-compare-lbl">48h Rule</div></div><div class="purch-compare-sep">·</div><div class="purch-compare-card impulse" style="min-width:46px;"><div class="purch-compare-num">${fC(avgII)}</div><div class="purch-compare-lbl">Impulse</div></div></div>`;
+    if(currentMetric==='cost')return`<div class="purch-compare-row" style="overflow:visible;"><div class="purch-compare-card total" style="min-width:46px;"><div class="purch-compare-num">€${Math.round(d.cost)}</div><div class="purch-compare-lbl">Σύνολο</div></div><div class="purch-compare-sep">=</div><div class="purch-compare-card conscious" style="min-width:46px;"><div class="purch-compare-num">${fC(d.conscious)}</div><div class="purch-compare-lbl">Conscious</div></div><div class="purch-compare-sep">+</div><div class="purch-compare-card well-thought" style="min-width:46px;"><div class="purch-compare-num">${fC(d.wellThought)}</div><div class="purch-compare-lbl">Well Th.</div></div><div class="purch-compare-sep">+</div><div class="purch-compare-card rule48" style="min-width:46px;"><div class="purch-compare-num">${fC(d.rule48)}</div><div class="purch-compare-lbl">48h Rule</div></div><div class="purch-compare-sep">+</div><div class="purch-compare-card impulse" style="min-width:46px;"><div class="purch-compare-num">${fC(d.impulse)}</div><div class="purch-compare-lbl">Impulse</div></div></div>`;
+    if(currentMetric==='items')return`<div class="purch-compare-row" style="overflow:visible;"><div class="purch-compare-card total" style="min-width:46px;"><div class="purch-compare-num">${d.count}</div><div class="purch-compare-lbl">Σύνολο</div></div><div class="purch-compare-sep">=</div><div class="purch-compare-card conscious" style="min-width:46px;"><div class="purch-compare-num">${d.nConscious||'—'}</div><div class="purch-compare-lbl">Conscious</div></div><div class="purch-compare-sep">+</div><div class="purch-compare-card well-thought" style="min-width:46px;"><div class="purch-compare-num">${d.nWellThought||'—'}</div><div class="purch-compare-lbl">Well Th.</div></div><div class="purch-compare-sep">+</div><div class="purch-compare-card rule48" style="min-width:46px;"><div class="purch-compare-num">${d.nRule48||'—'}</div><div class="purch-compare-lbl">48h Rule</div></div><div class="purch-compare-sep">+</div><div class="purch-compare-card impulse" style="min-width:46px;"><div class="purch-compare-num">${d.nImpulse||'—'}</div><div class="purch-compare-lbl">Impulse</div></div></div>`;
+    const avgCC=d.nConscious?d.conscious/d.nConscious:0,avgWTc=d.nWellThought?d.wellThought/d.nWellThought:0,avg48c=d.nRule48?d.rule48/d.nRule48:0,avgII=d.nImpulse?d.impulse/d.nImpulse:0,avgTotC=d.count?d.cost/d.count:0;
+    return`<div class="purch-compare-row" style="overflow:visible;"><div class="purch-compare-card total" style="min-width:46px;"><div class="purch-compare-num">${fC(avgTotC)}</div><div class="purch-compare-lbl">Μέσο</div></div><div class="purch-compare-sep">·</div><div class="purch-compare-card conscious" style="min-width:46px;"><div class="purch-compare-num">${fC(avgCC)}</div><div class="purch-compare-lbl">Conscious</div></div><div class="purch-compare-sep">·</div><div class="purch-compare-card well-thought" style="min-width:46px;"><div class="purch-compare-num">${fC(avgWTc)}</div><div class="purch-compare-lbl">Well Th.</div></div><div class="purch-compare-sep">·</div><div class="purch-compare-card rule48" style="min-width:46px;"><div class="purch-compare-num">${fC(avg48c)}</div><div class="purch-compare-lbl">48h Rule</div></div><div class="purch-compare-sep">·</div><div class="purch-compare-card impulse" style="min-width:46px;"><div class="purch-compare-num">${fC(avgII)}</div><div class="purch-compare-lbl">Impulse</div></div></div>`;
   }
 
   document.getElementById('purch-by-category').innerHTML=sorted.length
@@ -1928,11 +1932,12 @@ function renderPurchases() {
 
   let filtered=[...items].sort((a,b)=>(b.purchased_at||'').localeCompare(a.purchased_at||''));
   if(purchFilter==='conscious')filtered=conscious.slice().sort((a,b)=>(b.purchased_at||'').localeCompare(a.purchased_at||''));
+  else if(purchFilter==='well-thought')filtered=wellThought.slice().sort((a,b)=>(b.purchased_at||'').localeCompare(a.purchased_at||''));
   else if(purchFilter==='small-thought')filtered=smallThought.slice().sort((a,b)=>(b.purchased_at||'').localeCompare(a.purchased_at||''));
   else if(purchFilter==='impulse')filtered=impulse.slice().sort((a,b)=>(b.purchased_at||'').localeCompare(a.purchased_at||''));
   else if(purchFilter==='replacement')filtered=replacements.slice().sort((a,b)=>(b.purchased_at||'').localeCompare(a.purchased_at||''));
 
-  const BADGE={'conscious':{cls:'conscious',label:'✅ Conscious'},'small-thought':{cls:'small-thought',label:'🤔 48h Rule'},'impulse':{cls:'impulse',label:'⚡ Impulse'},'replacement':{cls:'replacement',label:'🔄 Αντικατάσταση'}};
+  const BADGE={'conscious':{cls:'conscious',label:'✅ Conscious'},'well-thought':{cls:'well-thought',label:'🌱 Well Thought'},'small-thought':{cls:'small-thought',label:'🤔 48h Rule'},'impulse':{cls:'impulse',label:'⚡ Impulse'},'replacement':{cls:'replacement',label:'🔄 Αντικατάσταση'}};
   document.getElementById('purch-list').innerHTML=filtered.length
     ?filtered.map(item=>{
       const{cls,label}=BADGE[getPurchCat(item)]||BADGE.impulse;
@@ -1967,16 +1972,18 @@ async function loadArchive() {
   archiveEl.innerHTML = Object.entries(byYear).sort((a,b)=>b[0]-a[0]).map(([year,items])=>{
     const total=items.length,totalCost=items.reduce((s,i)=>s+(i.price||0),0);
     const nC=items.filter(i=>getPurchCat(i)==='conscious').length;
+    const nWT=items.filter(i=>getPurchCat(i)==='well-thought').length;
     const n48=items.filter(i=>getPurchCat(i)==='small-thought').length;
     const nI=items.filter(i=>getPurchCat(i)==='impulse').length;
     const nR=items.filter(i=>getPurchCat(i)==='replacement').length;
     const cC=items.filter(i=>['conscious','replacement'].includes(getPurchCat(i))).reduce((s,i)=>s+(i.price||0),0);
+    const cWT=items.filter(i=>getPurchCat(i)==='well-thought').reduce((s,i)=>s+(i.price||0),0);
     const c48=items.filter(i=>getPurchCat(i)==='small-thought').reduce((s,i)=>s+(i.price||0),0);
     const cI=items.filter(i=>getPurchCat(i)==='impulse').reduce((s,i)=>s+(i.price||0),0);
     const cR=items.filter(i=>getPurchCat(i)==='replacement').reduce((s,i)=>s+(i.price||0),0);
-    const comment=nI===0?'🌟 Zero impulse purchases this year!':((nC+nR)/total>=0.6?`✨ ${Math.round((nC+nR)/total*100)}% conscious decisions in ${year}.`:`⚡ ${Math.round(nI/total*100)}% of ${year} purchases were impulse.`);
+    const nPatient = nC + nWT + nR;
+    const comment=nI===0?'🌟 Zero impulse purchases this year!':(nPatient/total>=0.6?`✨ ${Math.round(nPatient/total*100)}% thoughtful decisions in ${year}.`:`⚡ ${Math.round(nI/total*100)}% of ${year} purchases were impulse.`);
 
-    // Budget comparison for archived years
     let budgetBlock = '';
     const yearBudget = budgetMap[parseInt(year, 10)];
     if (yearBudget) {
@@ -2000,6 +2007,8 @@ async function loadArchive() {
         <div class="purch-compare-sep">=</div>
         <div class="purch-compare-card conscious" style="min-width:46px;"><div class="purch-compare-num">${nC||'—'}</div><div class="purch-compare-lbl">Conscious</div></div>
         <div class="purch-compare-sep">+</div>
+        <div class="purch-compare-card well-thought" style="min-width:46px;"><div class="purch-compare-num">${nWT||'—'}</div><div class="purch-compare-lbl">Well Th.</div></div>
+        <div class="purch-compare-sep">+</div>
         <div class="purch-compare-card rule48" style="min-width:46px;"><div class="purch-compare-num">${n48||'—'}</div><div class="purch-compare-lbl">48h Rule</div></div>
         <div class="purch-compare-sep">+</div>
         <div class="purch-compare-card impulse" style="min-width:46px;"><div class="purch-compare-num">${nI||'—'}</div><div class="purch-compare-lbl">Impulse</div></div>
@@ -2011,6 +2020,8 @@ async function loadArchive() {
         <div class="purch-compare-card total" style="min-width:46px;"><div class="purch-compare-num">${fmt(totalCost)}</div><div class="purch-compare-lbl">Σύνολο</div></div>
         <div class="purch-compare-sep">=</div>
         <div class="purch-compare-card conscious" style="min-width:46px;"><div class="purch-compare-num">${fmt(cC)}</div><div class="purch-compare-lbl">Conscious</div></div>
+        <div class="purch-compare-sep">+</div>
+        <div class="purch-compare-card well-thought" style="min-width:46px;"><div class="purch-compare-num">${fmt(cWT)}</div><div class="purch-compare-lbl">Well Th.</div></div>
         <div class="purch-compare-sep">+</div>
         <div class="purch-compare-card rule48" style="min-width:46px;"><div class="purch-compare-num">${fmt(c48)}</div><div class="purch-compare-lbl">48h Rule</div></div>
         <div class="purch-compare-sep">+</div>

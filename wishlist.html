@@ -436,6 +436,7 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
     <div class="logo">Wardrobe <em>Wishlist</em></div>
     <div class="header-right">
       <div class="user-info" id="user-email-display"></div>
+      <a href="wardrobe-tracker.html" class="btn-logout" style="text-decoration:none;background:#5a4030;display:inline-flex;align-items:center;gap:4px;" title="Πήγαινε στο Wardrobe Tracker">👗 Tracker</a>
       <button class="btn-logout" onclick="handleLogout()">Έξοδος</button>
       <button class="btn-new" onclick="openInlineForm()" id="btn-new-main">+ Νέα Εγγραφή</button>
     </div>
@@ -1756,6 +1757,41 @@ function updatePurchaseVerdict(item) {
   verdictEl.className = 'purchase-verdict ' + v.cls;
 }
 
+// Map wishlist category → wardrobe cat1
+const WISHLIST_TO_WARDROBE_CAT = {
+  'Μπλούζες / Tops': 'Tops',
+  'Πουκάμισα': 'Tops',
+  'Πλεκτά / Πουλόβερ': 'Tops',
+  'Ζακέτες / Cardigans': 'Tops',
+  'Φούστες': 'Pants',
+  'Παντελόνια': 'Pants',
+  'Φορέματα': 'Dresses',
+  'Σετ / Coordinates': 'Dresses',
+  'Blazers': 'Outwear',
+  'Jackets': 'Outwear',
+  'Καμπαρντίνες / Trench': 'Outwear',
+  'Παλτά': 'Outwear',
+  'Sneakers': 'Shoes',
+  'Boots / Booties': 'Shoes',
+  'Flats': 'Shoes',
+  'Sandals': 'Shoes',
+  'Heels': 'Shoes',
+  'Τσάντες': 'Bags',
+  'Γυαλιά ηλίου': 'Accessories',
+  'Πορτοφόλι': 'Accessories',
+  'Κοσμήματα': 'Accessories',
+  'Αξεσουάρ — Other': 'Accessories',
+};
+
+// Map purchase category → conscious_score for wardrobe
+const PURCH_CAT_TO_CONSCIOUS = {
+  'conscious': 10,
+  'well-thought': 8,
+  'small-thought': 6,
+  'impulse': 1,
+  'replacement': 8,
+};
+
 async function confirmPurchase() {
   const id = pendingPurchaseId;
   const item = allItems.find(i => i.id === id);
@@ -1768,14 +1804,65 @@ async function confirmPurchase() {
   const purchCat = getPurchaseCategory(hoursWaited, item.is_replacement);
   const waitedTwoMonths = purchCat === 'conscious' || purchCat === 'replacement';
   const purchaseYear = purchaseDate.getFullYear();
+  const purchaseMonth = purchaseDate.getMonth() + 1;
   const btn = document.getElementById('confirm-purchase-btn');
   btn.disabled = true; btn.textContent = '…';
+
+  // 1. Update wishlist (existing behavior — keeps purchases dashboard data!)
   const { error } = await sb.from('wishlist').update({
     purchased: true, purchased_at: purchasedAt, purchase_year: purchaseYear,
     waited_two_months: waitedTwoMonths, purchase_category: purchCat,
   }).eq('id', id);
+
+  if (error) {
+    btn.disabled = false; btn.textContent = 'Καταγραφή';
+    showToast('Σφάλμα: ' + error.message);
+    return;
+  }
+
+  // 2. Auto-sync → create entry in wardrobe table
+  const cat1 = WISHLIST_TO_WARDROBE_CAT[item.category] || null;
+  const wardrobePayload = {
+    user_id: currentUser.id,
+    title: item.title,
+    brand: item.brand,
+    category: cat1,
+    cat1: cat1,
+    cat2: item.category && !WISHLIST_TO_WARDROBE_CAT[item.category] ? item.category : null,
+    color: item.color,
+    material: item.material,
+    price: item.price,
+    purchase_year: purchaseYear,
+    purchase_month: purchaseMonth,
+    purchased_at: purchasedAt,
+    season: item.season,
+    sleeve_length: item.sleeve_length,
+    item_length: item.item_length,
+    notes: item.notes,
+    conscious_score: PURCH_CAT_TO_CONSCIOUS[purchCat] || null,
+    uniforms: item.uniform_ids || [],
+    wishlist_id: item.id,  // back-reference (ignored if column doesn't exist)
+    prev_worn: 0,
+  };
+
+  let syncMsg = '';
+  const { error: wardrobeErr } = await sb.from('wardrobe').insert(wardrobePayload);
+  if (wardrobeErr) {
+    // If wishlist_id column doesn't exist, retry without it
+    if (wardrobeErr.message && wardrobeErr.message.includes('wishlist_id')) {
+      delete wardrobePayload.wishlist_id;
+      const { error: retryErr } = await sb.from('wardrobe').insert(wardrobePayload);
+      if (retryErr) syncMsg = ' (sync failed: ' + retryErr.message + ')';
+      else syncMsg = ' → 👗 Wardrobe';
+    } else {
+      syncMsg = ' (wardrobe sync failed)';
+      console.warn('Wardrobe sync error:', wardrobeErr);
+    }
+  } else {
+    syncMsg = ' → 👗 Wardrobe';
+  }
+
   btn.disabled = false; btn.textContent = 'Καταγραφή';
-  if (error) { showToast('Σφάλμα: ' + error.message); return; }
   document.getElementById('purchase-modal').classList.remove('open');
   document.body.style.overflow = '';
   pendingPurchaseId = null;
@@ -1783,7 +1870,7 @@ async function confirmPurchase() {
   renderItems();
   updateStats();
   const v = VERDICT_MESSAGES[purchCat];
-  showToast(`${v.icon} ${v.title} recorded!`);
+  showToast(`${v.icon} ${v.title}${syncMsg}`);
   await loadPurchases();
   renderBudgetBars();
 }

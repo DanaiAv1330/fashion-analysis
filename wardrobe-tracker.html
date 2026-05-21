@@ -483,81 +483,42 @@ body{padding-bottom:0;}
         <button class="chip archive-chip" onclick="setFilter('archive_candidate',this)">⚠ Review</button>
       </div>
       <div class="toolbar-row" id="cat2-chips-row" style="display:none;"></div>
-      <div class="toolbar-row" style="gap:6px;">
-        <span class="sort-label" style="flex-shrink:0;">Portfolio ·</span>
-        <select class="sort-select" id="filter-portfolio" onchange="setPortfolioFilter(this.value)">
-          <option value="">Όλα</option>
-          <option value="Core">🟢 Core</option>
-          <option value="Statement">🟣 Statement</option>
-          <option value="Functional">🔵 Functional</option>
-          <option value="Unclassified">⚪ Unclassified</option>
-        </select>
-      </div>
-      <div class="toolbar-row" style="gap:6px;">
-        <span class="sort-label" style="flex-shrink:0;">Feeling ·</span>
-        <select class="sort-select" id="filter-feeling" onchange="setFeelingFilter(this.value)">
-          <option value="">Όλα</option>
-          <option value="😍 Excellent">😍 Excellent</option>
-          <option value="😊 Good">😊 Good</option>
-          <option value="💪 Powerful">💪 Powerful</option>
-          <option value="🌸 Pretty">🌸 Pretty</option>
-          <option value="😴 Comfortable">😴 Comfortable</option>
-          <option value="😒 Mehh">😒 Mehh</option>
-          <option value="😢 Uncomfortable">😢 Uncomfortable</option>
-          <option value="😡 Itching">😡 Itching</option>
-          <option value="😨 Suffocating">😨 Suffocating</option>
-        </select>
-      </div>
-      <div class="toolbar-row" style="gap:6px;">
-        <span class="sort-label" style="flex-shrink:0;">Face ·</span>
-        <select class="sort-select" id="filter-face" onchange="setFaceFilter(this.value)">
-          <option value="">Όλα</option>
-          <option value="Good">✨ Good</option>
-          <option value="Bad">🌧️ Bad</option>
-          <option value="Not Sure">🤔 Not Sure</option>
-        </select>
-      </div>
+
+      <!-- COMPACT FILTER SYSTEM -->
       <div class="toolbar-row" style="gap:6px;align-items:center;">
-        <span class="sort-label" style="flex-shrink:0;">🎨 Χρώματα ανά Feeling ·</span>
-        <select class="sort-select" id="feeling-color-filter" onchange="renderFeelingColorInsight(this.value)">
+        <span class="sort-label" style="flex-shrink:0;">🔎 Φίλτρο ·</span>
+        <select class="sort-select" id="filter-criterion" onchange="onFilterCriterionChange(this.value)" style="flex:1;max-width:160px;">
           <option value="">— Επιλογή —</option>
-          <option value="😍 Excellent">😍 Excellent</option>
-          <option value="😊 Good">😊 Good</option>
-          <option value="💪 Powerful">💪 Powerful</option>
-          <option value="🌸 Pretty">🌸 Pretty</option>
-          <option value="😴 Comfortable">😴 Comfortable</option>
-          <option value="😒 Mehh">😒 Mehh</option>
-          <option value="😢 Uncomfortable">😢 Uncomfortable</option>
-          <option value="😡 Itching">😡 Itching</option>
-          <option value="😨 Suffocating">😨 Suffocating</option>
+          <option value="portfolio">Portfolio</option>
+          <option value="feeling">Feeling</option>
+          <option value="face">Face Effect</option>
+          <option value="color">Χρώμα</option>
+          <option value="occasion">Περίσταση</option>
+          <option value="score">Δείκτης (ΔΑΝ™ κλπ)</option>
         </select>
-      </div>
-      <div id="feeling-color-insight" style="display:none;padding:10px 12px;background:var(--surface);border:1px solid var(--border);border-radius:2px;margin:0 0 4px;"></div>
-      <div class="toolbar-row" style="gap:6px;align-items:center;">
-        <span class="sort-label" style="flex-shrink:0;">🎨 Χρώμα ·</span>
-        <select class="sort-select" id="filter-color" onchange="setColorFilter(this.value)" style="flex:1;max-width:180px;">
+        <select class="sort-select" id="filter-value" onchange="onFilterValueChange(this.value)" style="flex:1;max-width:160px;display:none;">
           <option value="">Όλα</option>
         </select>
-        <button class="chip" id="btn-color-insight" onclick="toggleColorInsight()" style="font-size:9px;">📊 Ανάλυση</button>
-      </div>
-      <div id="color-filter-insight" style="display:none;padding:10px 12px;background:var(--surface);border:1px solid var(--border);border-radius:2px;margin:0 0 4px;"></div>
-      <div class="toolbar-row" style="gap:6px;align-items:center;">
-        <span class="sort-label" style="flex-shrink:0;">⭐ Δείκτης ·</span>
-        <select class="sort-select" id="filter-score-component" onchange="setScoreComponent(this.value)" style="max-width:120px;">
-          <option value="">— Επιλογή —</option>
-          <option value="dan">ΔΑΝ™ (/100)</option>
-          <option value="usage">Χρήση (/10)</option>
-          <option value="vers">Ευελιξία (/10)</option>
-          <option value="align">Συνέπεια (/10)</option>
-          <option value="cpw">Απόσβεση (/10)</option>
-        </select>
-        <select class="sort-select" id="filter-score-bucket" onchange="setScoreBucket(this.value)" style="flex:1;max-width:120px;display:none;">
+        <select class="sort-select" id="filter-value2" onchange="onFilterValue2Change(this.value)" style="flex:1;max-width:130px;display:none;">
           <option value="">Όλες οι τιμές</option>
         </select>
       </div>
+      <!-- active filter chips -->
+      <div class="toolbar-row" id="active-filters-row" style="gap:5px;display:none;flex-wrap:wrap;"></div>
+      <!-- insight containers (color analysis, feeling-color, score result) -->
+      <div id="feeling-color-insight" style="display:none;padding:10px 12px;background:var(--surface);border:1px solid var(--border);border-radius:2px;margin:0 0 4px;"></div>
+      <div id="color-filter-insight" style="display:none;padding:10px 12px;background:var(--surface);border:1px solid var(--border);border-radius:2px;margin:0 0 4px;"></div>
       <div id="score-filter-result" style="display:none;padding:8px 10px;background:var(--surface2);border:1px solid var(--border-soft);border-radius:2px;margin:0 0 4px;font-size:10px;color:var(--text-muted);"></div>
-      <div class="toolbar-row" style="gap:6px;justify-content:flex-end;">
-        <button class="chip" onclick="clearAllWardrobeFilters()" style="font-size:9px;border-color:var(--text-dim);color:var(--text-dim);">✕ Καθαρισμός όλων</button>
+      <!-- hidden legacy controls kept for compatibility (not shown) -->
+      <div style="display:none;">
+        <select id="filter-portfolio"></select>
+        <select id="filter-feeling"></select>
+        <select id="filter-face"></select>
+        <select id="feeling-color-filter"></select>
+        <select id="filter-color"><option value="">Όλα</option></select>
+        <select id="filter-score-component"></select>
+        <select id="filter-score-bucket"></select>
+        <button id="btn-color-insight"></button>
       </div>
       <div class="toolbar-row-bottom">
         <div class="sort-wrap">
@@ -1359,7 +1320,7 @@ function catColor(cat){return CAT_COLOR_MAP[cat]||'#9a7a4a';}
 const COLOR_HEX={'White':'#F5F5F0','Beige':'#D4B88A','Black':'#1A1A1A','Navy':'#1B2A4A','Camel':'#C9A96E','Chocolate Brown':'#4A2C17','Brown':'#7A5230','Olive':'#7A7A45','Grey (Light)':'#C4C4C0','Grey (Mid)':'#8B8B88','Grey (Charcoal)':'#6B6B6B','Grey':'#9B9B98','Burgundy':'#6D1A2A','Red':'#C0392B','Mint':'#9DC4B0','Mushroom':'#B5A898','Sand':'#D4C4A8','Cobalt':'#1E3A8A','Powder Blue':'#7EB8D4','Emerald':'#2D7A4A','Hunter Green':'#2D5A27','Hot Pink':'#D5006D','Pink':'#E89AB0','Rose Gold':'#E8B4B8','Coral':'#C4673A','Aubergine':'#5C2E5C','Purple':'#7E4FA8','Lilac':'#B98FD9','Off-White/Ivory':'#EDE8DC','Gold':'#B8860B','Yellow':'#E8C547','Orange':'#E07A3C','Green':'#5A8C5A','Blue':'#3A6EA5','Turquoise':'#3FB8B0','Silver':'#C8C8CC'};
 
 let currentUser=null, allItems=[], wearLogs=[], currentFilter='all', currentCat2Filter='all', sortMode='recently_worn', editingItemId=null, uploadedPhotoFile=null;
-let feelingFilter='', faceFilter='', portfolioFilter='';
+let feelingFilter='', faceFilter='', portfolioFilter='', occasionFilter='';
 let scoreComponentFilter='', scoreBucketFilter='';
 let calYear=new Date().getFullYear(), calMonth=new Date().getMonth(), selectedDate=todayStr(), selectedDateLogs=[];
 let dashYear=new Date().getFullYear(), dashMonth=new Date().getMonth();
@@ -1397,7 +1358,7 @@ sb.auth.onAuthStateChange((event,session)=>{
 });
 
 // INIT
-async function initApp(){await Promise.all([loadItems(),loadAllLogs(),loadArchivedItems(),loadOutfitUniforms()]);initColorFilterDropdown();renderWardrobe();renderCalendar();loadMonthDash();initTotalDash();}
+async function initApp(){await Promise.all([loadItems(),loadAllLogs(),loadArchivedItems(),loadOutfitUniforms()]);initColorFilterDropdown();renderWardrobe();renderActiveFilters();renderCalendar();loadMonthDash();initTotalDash();}
 async function loadItems(){const{data}=await sb.from('wardrobe').select('*').order('created_at',{ascending:false});allItems=(data||[]).map(i=>({...i,uniforms:i.uniforms||[],occasions:i.occasions||[]}));initColorFilterDropdown();}
 async function loadAllLogs(){const{data}=await sb.from('wear_log').select('*').order('worn_date',{ascending:false});wearLogs=data||[];}
 async function loadLogsForDate(d){const{data}=await sb.from('wear_log').select('*').eq('worn_date',d);selectedDateLogs=data||[];}
@@ -1547,7 +1508,7 @@ function updateCat2Chips(cat1){
   row.innerHTML=`<button class="chip active" onclick="setCat2Filter('all',this)">Όλα</button>`+CATEGORIES[cat1].map(s=>`<button class="chip" onclick="setCat2Filter('${escHtml(s)}',this)">${escHtml(s)}</button>`).join('');
   currentCat2Filter='all';
 }
-function setCat2Filter(val,btn){currentCat2Filter=val;document.querySelectorAll('#cat2-chips-row .chip').forEach(c=>c.classList.remove('active'));btn.classList.add('active');renderWardrobe();updateScoreFilterCounter();}
+function setCat2Filter(val,btn){currentCat2Filter=val;document.querySelectorAll('#cat2-chips-row .chip').forEach(c=>c.classList.remove('active'));btn.classList.add('active');renderWardrobe();updateScoreFilterCounter();renderActiveFilters();}
 function renderFeelingColorInsight(feeling){
   const el=document.getElementById('feeling-color-insight');
   if(!el)return;
@@ -1569,20 +1530,16 @@ function initColorFilterDropdown(){
 function setColorFilter(val){colorFilter=val;renderWardrobe();updateScoreFilterCounter();if(val)renderColorInsight(val);else{const el=document.getElementById('color-filter-insight');if(el)el.style.display='none';}}
 function setPortfolioFilter(val){portfolioFilter=val;renderWardrobe();updateScoreFilterCounter();}
 function clearAllWardrobeFilters(){
-  currentFilter='all';currentCat2Filter='all';feelingFilter='';faceFilter='';colorFilter='';portfolioFilter='';scoreComponentFilter='';scoreBucketFilter='';
+  currentFilter='all';currentCat2Filter='all';feelingFilter='';faceFilter='';colorFilter='';portfolioFilter='';occasionFilter='';scoreComponentFilter='';scoreBucketFilter='';
   document.querySelectorAll('#cat-chips-row .chip').forEach((c,i)=>{c.classList.remove('active');if(i===0)c.classList.add('active');});
   document.getElementById('cat2-chips-row').style.display='none';
-  const fe=document.getElementById('filter-feeling');if(fe)fe.value='';
-  const fa=document.getElementById('filter-face');if(fa)fa.value='';
-  const fc=document.getElementById('filter-color');if(fc)fc.value='';
-  const fp=document.getElementById('filter-portfolio');if(fp)fp.value='';
-  const fcf=document.getElementById('feeling-color-filter');if(fcf)fcf.value='';
-  const fsc=document.getElementById('filter-score-component');if(fsc)fsc.value='';
-  const fsb=document.getElementById('filter-score-bucket');if(fsb){fsb.value='';fsb.style.display='none';}
+  const fcrit=document.getElementById('filter-criterion');if(fcrit)fcrit.value='';
+  const fval=document.getElementById('filter-value');if(fval){fval.value='';fval.style.display='none';}
+  const fval2=document.getElementById('filter-value2');if(fval2){fval2.value='';fval2.style.display='none';}
   const ci=document.getElementById('color-filter-insight');if(ci)ci.style.display='none';
   const fci=document.getElementById('feeling-color-insight');if(fci)fci.style.display='none';
   const sfr=document.getElementById('score-filter-result');if(sfr)sfr.style.display='none';
-  renderWardrobe();showToast('✓ Φίλτρα καθαρίστηκαν');
+  renderWardrobe();renderActiveFilters();showToast('✓ Φίλτρα καθαρίστηκαν');
 }
 function toggleColorInsight(){colorInsightOpen=!colorInsightOpen;const el=document.getElementById('color-filter-insight');if(!el)return;if(!colorInsightOpen){el.style.display='none';return;}renderColorInsight(colorFilter);}
 function renderColorInsight(color){
@@ -1645,6 +1602,86 @@ const FACE_GOOD=['Σου φωτίζει το πρόσωπο ✨','Κάνει τ�
 const FACE_BAD=['Σε κάνει να δείχνεις κουρασμένη 😴','Σου "σβήνει" τα χαρακτηριστικά 🌫️','Δείχνεις πιο χλωμή 😶','Σε κάνει να φαίνεσαι άτονη 🪫','Δείχνεις πιο κουρασμένη απ\' ό,τι είσαι 😵‍💫','Σου τονίζει τους κύκλους 👁️‍🗨️','Σε κάνει να δείχνεις πιο μεγάλη 🧓','Δεν σου δίνει καθόλου φως 🌑','Χάνεται το πρόσωπό σου μέσα στο ρούχο 🫥','Δείχνεις λίγο μουντή 🌧️'];
 const FACE_NOT_SURE=['Δεν είμαι σίγουρη 🤔'];
 function getFaceCategory(v){if(!v)return null;if(FACE_GOOD.includes(v))return'Good';if(FACE_BAD.includes(v))return'Bad';return'Not Sure';}
+// ===== COMPACT FILTER SYSTEM =====
+const FEELING_OPTS=['😍 Excellent','😊 Good','💪 Powerful','🌸 Pretty','😴 Comfortable','😒 Mehh','😢 Uncomfortable','😡 Itching','😨 Suffocating'];
+function onFilterCriterionChange(crit){
+  const valSel=document.getElementById('filter-value');
+  const val2Sel=document.getElementById('filter-value2');
+  // reset all active filters first (only one criterion active at a time via this UI)
+  feelingFilter='';faceFilter='';colorFilter='';portfolioFilter='';occasionFilter='';scoreComponentFilter='';scoreBucketFilter='';
+  document.getElementById('color-filter-insight').style.display='none';
+  document.getElementById('feeling-color-insight').style.display='none';
+  document.getElementById('score-filter-result').style.display='none';
+  val2Sel.style.display='none';val2Sel.value='';
+  if(!crit){valSel.style.display='none';valSel.value='';renderWardrobe();renderActiveFilters();return;}
+  let opts='<option value="">Όλα</option>';
+  if(crit==='portfolio')opts+='<option value="Core">🟢 Core</option><option value="Statement">🟣 Statement</option><option value="Functional">🔵 Functional</option><option value="Unclassified">⚪ Unclassified</option>';
+  else if(crit==='feeling')opts+=FEELING_OPTS.map(f=>`<option value="${escHtml(f)}">${escHtml(f)}</option>`).join('');
+  else if(crit==='face')opts+='<option value="Good">✨ Good</option><option value="Bad">🌧️ Bad</option><option value="Not Sure">🤔 Not Sure</option>';
+  else if(crit==='color'){const colors=[...new Set(allItems.map(i=>i.color).filter(Boolean))].sort();opts+=colors.map(c=>`<option value="${escHtml(c)}">${escHtml(c)}</option>`).join('');}
+  else if(crit==='occasion')opts+=OCCASION_LIST.map(o=>`<option value="${o.key}">${o.emoji} ${o.label}</option>`).join('');
+  else if(crit==='score'){opts='<option value="">— Επιλογή δείκτη —</option><option value="dan">ΔΑΝ™ (/100)</option><option value="usage">Χρήση (/10)</option><option value="vers">Ευελιξία (/10)</option><option value="align">Συνέπεια (/10)</option><option value="cpw">Απόσβεση (/10)</option>';}
+  valSel.innerHTML=opts;valSel.value='';valSel.style.display='';
+  renderWardrobe();renderActiveFilters();
+}
+function onFilterValueChange(val){
+  const crit=document.getElementById('filter-criterion').value;
+  const val2Sel=document.getElementById('filter-value2');
+  document.getElementById('color-filter-insight').style.display='none';
+  document.getElementById('feeling-color-insight').style.display='none';
+  document.getElementById('score-filter-result').style.display='none';
+  val2Sel.style.display='none';val2Sel.value='';
+  feelingFilter='';faceFilter='';colorFilter='';portfolioFilter='';occasionFilter='';scoreComponentFilter='';scoreBucketFilter='';
+  if(crit==='portfolio')portfolioFilter=val;
+  else if(crit==='feeling')feelingFilter=val;
+  else if(crit==='face')faceFilter=val;
+  else if(crit==='color'){colorFilter=val;if(val)renderColorInsight(val);}
+  else if(crit==='occasion')occasionFilter=val;
+  else if(crit==='score'){
+    scoreComponentFilter=val;
+    if(val){
+      const buckets=val==='dan'
+        ?[{v:'0-19',l:'0–19 (Πολύ χαμηλό)'},{v:'20-39',l:'20–39 (Χαμηλό)'},{v:'40-59',l:'40–59 (Μέτριο)'},{v:'60-79',l:'60–79 (Καλό)'},{v:'80-100',l:'80–100 (Εξαιρετικό)'}]
+        :[{v:'0-2',l:'0–2 (Πολύ χαμηλό)'},{v:'2-4',l:'2–4 (Χαμηλό)'},{v:'4-6',l:'4–6 (Μέτριο)'},{v:'6-8',l:'6–8 (Καλό)'},{v:'8-10',l:'8–10 (Εξαιρετικό)'}];
+      val2Sel.innerHTML='<option value="">Όλες οι τιμές</option>'+buckets.map(b=>`<option value="${b.v}">${b.l}</option>`).join('');
+      val2Sel.style.display='';val2Sel.value='';
+    }
+  }
+  renderWardrobe();renderActiveFilters();updateScoreFilterCounter();
+}
+function onFilterValue2Change(val){scoreBucketFilter=val;renderWardrobe();renderActiveFilters();updateScoreFilterCounter();}
+function renderActiveFilters(){
+  const row=document.getElementById('active-filters-row');if(!row)return;
+  const chips=[];
+  const labelFor=(t,v)=>`<button class="chip active" style="font-size:9px;" onclick="clearOneFilter('${t}')">${v} ✕</button>`;
+  if(currentFilter!=='all'){const map={dormant:'⚠ Dormant',fav:'♥ Αγαπημένα',archive_candidate:'⚠ Review',Tops:'Tops',Pants:'Παντελόνια',Dresses:'Φορέματα',Outwear:'Outwear',Shoes:'Παπούτσια',Bags:'Τσάντες',Accessories:'Αξεσουάρ'};chips.push(labelFor('cat',map[currentFilter]||currentFilter));}
+  if(currentCat2Filter!=='all')chips.push(labelFor('cat2',currentCat2Filter));
+  if(portfolioFilter)chips.push(labelFor('portfolio',portfolioFilter));
+  if(feelingFilter)chips.push(labelFor('feeling',feelingFilter));
+  if(faceFilter)chips.push(labelFor('face',faceFilter));
+  if(colorFilter)chips.push(labelFor('color','🎨 '+colorFilter));
+  if(occasionFilter){const o=OCCASION_LIST.find(x=>x.key===occasionFilter);chips.push(labelFor('occasion',o?o.emoji+' '+o.label:occasionFilter));}
+  if(scoreComponentFilter&&scoreBucketFilter){const cl={dan:'ΔΑΝ™',usage:'Χρήση',vers:'Ευελιξία',align:'Συνέπεια',cpw:'Απόσβεση'};chips.push(labelFor('score',cl[scoreComponentFilter]+' '+scoreBucketFilter));}
+  if(chips.length){row.style.display='flex';row.innerHTML=chips.join('')+`<button class="chip" onclick="clearAllWardrobeFilters()" style="font-size:9px;border-color:var(--text-dim);color:var(--text-dim);">Καθαρισμός όλων</button>`;}
+  else{row.style.display='none';row.innerHTML='';}
+}
+function clearOneFilter(type){
+  if(type==='cat'){currentFilter='all';document.querySelectorAll('#cat-chips-row .chip').forEach((c,i)=>{c.classList.remove('active');if(i===0)c.classList.add('active');});document.getElementById('cat2-chips-row').style.display='none';currentCat2Filter='all';}
+  else if(type==='cat2'){currentCat2Filter='all';document.querySelectorAll('#cat2-chips-row .chip').forEach((c,i)=>{c.classList.remove('active');if(i===0)c.classList.add('active');});}
+  else{
+    if(type==='portfolio')portfolioFilter='';
+    else if(type==='feeling')feelingFilter='';
+    else if(type==='face')faceFilter='';
+    else if(type==='color'){colorFilter='';document.getElementById('color-filter-insight').style.display='none';}
+    else if(type==='occasion')occasionFilter='';
+    else if(type==='score'){scoreComponentFilter='';scoreBucketFilter='';document.getElementById('score-filter-result').style.display='none';}
+    // reset the criterion dropdowns to neutral
+    document.getElementById('filter-criterion').value='';
+    document.getElementById('filter-value').style.display='none';
+    document.getElementById('filter-value2').style.display='none';
+  }
+  renderWardrobe();renderActiveFilters();updateScoreFilterCounter();
+}
 function filterItems(){
   let items=[...allItems];
   if(currentFilter==='dormant')items=items.filter(i=>isDormant(i));
@@ -1656,6 +1693,7 @@ function filterItems(){
   if(faceFilter)items=items.filter(i=>getFaceCategory(i.face_effect)===faceFilter);
   if(colorFilter)items=items.filter(i=>i.color===colorFilter);
   if(portfolioFilter)items=items.filter(i=>getPortfolioType(i)===portfolioFilter);
+  if(occasionFilter)items=items.filter(i=>(i.occasions||[]).includes(occasionFilter));
   if(scoreComponentFilter&&scoreBucketFilter){
     const[lo,hi]=scoreBucketFilter.split('-').map(Number);
     const topMax={'dan':100,'usage':10,'vers':10,'align':10,'cpw':10}[scoreComponentFilter];
@@ -1733,7 +1771,7 @@ function renderWardrobe(){
     </div>`;
   }).join('');
 }
-function setFilter(f,btn){currentFilter=f;document.querySelectorAll('#cat-chips-row .chip').forEach(c=>c.classList.remove('active'));btn.classList.add('active');updateCat2Chips(f);renderWardrobe();updateScoreFilterCounter();}
+function setFilter(f,btn){currentFilter=f;document.querySelectorAll('#cat-chips-row .chip').forEach(c=>c.classList.remove('active'));btn.classList.add('active');updateCat2Chips(f);renderWardrobe();updateScoreFilterCounter();renderActiveFilters();}
 function setSortMode(val){sortMode=val;renderWardrobe();}
 function setView(mode){
   const g=document.getElementById('wgrid'),l=document.getElementById('wlist');

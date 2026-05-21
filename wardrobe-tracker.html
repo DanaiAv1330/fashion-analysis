@@ -661,6 +661,12 @@ body{padding-bottom:0;}
             </label>
           </div>
         </div>
+        <!-- Occasions (multi-choice) -->
+        <div style="margin-bottom:14px;">
+          <div class="form-section-title">🗓️ Περιστάσεις — πού ταιριάζει αυτό το ρούχο</div>
+          <div style="font-size:9px;color:var(--text-dim);margin-bottom:8px;">Διάλεξε σε ποιες περιστάσεις το φοράς. Αυτό καθοδηγεί τις προτάσεις στα <strong>Sets</strong>. Αν δεν επιλέξεις καμία, θεωρείται κατάλληλο για όλες.</div>
+          <div id="occasion-options" style="display:flex;flex-wrap:wrap;gap:6px;"></div>
+        </div>
         <!-- Prev worn -->
         <div style="margin-bottom:14px;">
           <div class="form-section-title">Παρελθοντικά Φοράματα</div>
@@ -847,6 +853,20 @@ body{padding-bottom:0;}
             <select id="set-season" style="font-family:var(--font-sans);font-size:12px;border:1px solid var(--border);background:var(--surface2);padding:8px 9px;border-radius:1px;color:var(--text);outline:none;width:100%;">
               <option value="summer">☀️ Άνοιξη / Καλοκαίρι</option>
               <option value="winter">❄️ Φθινόπωρο / Χειμώνας</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label style="font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);display:block;margin-bottom:4px;">Περίσταση</label>
+            <select id="set-occasion-filter" style="font-family:var(--font-sans);font-size:12px;border:1px solid var(--border);background:var(--surface2);padding:8px 9px;border-radius:1px;color:var(--text);outline:none;width:100%;">
+              <option value="auto">🎯 Αυτόματα (βάσει του κομματιού)</option>
+              <option value="all">Όλες οι περιστάσεις</option>
+              <option value="casual">🚶‍♀️ Καθημερινό</option>
+              <option value="office">💼 Γραφείο</option>
+              <option value="evening">🌙 Βραδινό</option>
+              <option value="formal">🎩 Επίσημο</option>
+              <option value="sport">🏃‍♀️ Σπορ</option>
+              <option value="vacation">🏖️ Διακοπές</option>
+              <option value="travel">✈️ Ταξίδι</option>
             </select>
           </div>
           <button class="btn-sm primary" onclick="generateSets()" style="align-self:flex-start;padding:9px 20px;">✨ Φτιάξε σετ</button>
@@ -1378,7 +1398,7 @@ sb.auth.onAuthStateChange((event,session)=>{
 
 // INIT
 async function initApp(){await Promise.all([loadItems(),loadAllLogs(),loadArchivedItems(),loadOutfitUniforms()]);initColorFilterDropdown();renderWardrobe();renderCalendar();loadMonthDash();initTotalDash();}
-async function loadItems(){const{data}=await sb.from('wardrobe').select('*').order('created_at',{ascending:false});allItems=(data||[]).map(i=>({...i,uniforms:i.uniforms||[]}));initColorFilterDropdown();}
+async function loadItems(){const{data}=await sb.from('wardrobe').select('*').order('created_at',{ascending:false});allItems=(data||[]).map(i=>({...i,uniforms:i.uniforms||[],occasions:i.occasions||[]}));initColorFilterDropdown();}
 async function loadAllLogs(){const{data}=await sb.from('wear_log').select('*').order('worn_date',{ascending:false});wearLogs=data||[];}
 async function loadLogsForDate(d){const{data}=await sb.from('wear_log').select('*').eq('worn_date',d);selectedDateLogs=data||[];}
 
@@ -1747,6 +1767,28 @@ function setPortfolioValue(type){
   document.querySelectorAll('input[name="portfolio"]').forEach(r=>r.checked=false);
   if(type){const r=document.querySelector('input[name="portfolio"][value="'+type+'"]');if(r){r.checked=true;r.closest('.portfolio-opt').classList.add('selected-opt');}}
 }
+// OCCASIONS (multi-choice per item)
+const OCCASION_LIST=[
+  {key:'casual',label:'Καθημερινό',emoji:'🚶‍♀️'},
+  {key:'office',label:'Γραφείο',emoji:'💼'},
+  {key:'evening',label:'Βραδινό',emoji:'🌙'},
+  {key:'formal',label:'Επίσημο',emoji:'🎩'},
+  {key:'sport',label:'Σπορ',emoji:'🏃‍♀️'},
+  {key:'vacation',label:'Διακοπές',emoji:'🏖️'},
+  {key:'travel',label:'Ταξίδι',emoji:'✈️'}
+];
+function renderOccasionOptions(selected){
+  const wrap=document.getElementById('occasion-options');if(!wrap)return;
+  const sel=Array.isArray(selected)?selected:[];
+  wrap.innerHTML=OCCASION_LIST.map(o=>{
+    const isSel=sel.includes(o.key);
+    return`<label style="display:inline-flex;align-items:center;gap:5px;padding:6px 11px;border:1px solid ${isSel?'var(--accent)':'var(--border)'};background:${isSel?'var(--accent-dim)':'var(--surface2)'};border-radius:12px;cursor:pointer;font-size:10px;color:${isSel?'var(--accent)':'var(--text-muted)'};">
+      <input type="checkbox" class="occasion-cb" value="${o.key}" ${isSel?'checked':''} style="accent-color:var(--accent);width:13px;height:13px;cursor:pointer;" onchange="this.closest('label').style.borderColor=this.checked?'var(--accent)':'var(--border)';this.closest('label').style.background=this.checked?'var(--accent-dim)':'var(--surface2)';this.closest('label').style.color=this.checked?'var(--accent)':'var(--text-muted)';">
+      ${o.emoji} ${o.label}
+    </label>`;
+  }).join('');
+}
+function getSelectedOccasions(){return Array.from(document.querySelectorAll('.occasion-cb:checked')).map(cb=>cb.value);}
 function openItemModal(id){
   editingItemId=id||null;uploadedPhotoFile=null;
   document.getElementById('inline-item-title').innerHTML=id?'Επεξεργασία <em style="font-style:italic;color:var(--accent)">Κομματιού</em>':'Νέο <em style="font-style:italic;color:var(--accent)">Κομμάτι</em>';
@@ -1760,6 +1802,7 @@ function openItemModal(id){
   document.getElementById('photo-placeholder').style.display='block';
   setConsciousValue(0);setPortfolioValue(null);
   populateColorDropdown('');
+  renderOccasionOptions([]);
   if(id){
     const item=allItems.find(i=>i.id===id);if(item){
       document.getElementById('f-title').value=item.title||'';
@@ -1784,6 +1827,7 @@ function openItemModal(id){
       document.getElementById('f-archive-candidate').checked=!!item.archive_candidate;
       setConsciousValue(item.conscious_score||0);
       setPortfolioValue(item.portfolio_type||null);
+      renderOccasionOptions(item.occasions||[]);
       if(item.photo_url){const img=document.getElementById('photo-preview');img.src=item.photo_url;img.style.display='block';document.getElementById('photo-placeholder').style.display='none';}
     }
   }
@@ -1840,6 +1884,7 @@ async function saveItem(){
     archive_candidate:document.getElementById('f-archive-candidate').checked,
     conscious_score:getSelectedConscious()||null,
     portfolio_type:getSelectedPortfolio(),
+    occasions:getSelectedOccasions(),
     uniforms:getSelectedUniformIds()
   };
   let itemId=editingItemId;
@@ -2533,7 +2578,7 @@ const SET_OCCASIONS=[
     bagCat2:['Tote Bag','Crossbody','Backpack'],
     topCat2:['T-Shirts','Long Sleeve T-Shirts','Sleeveless','Hoodies','Sweaters','Polo Shirts'],
     preferPortfolio:'Core',
-    uniformHints:['casual','καθημ','sport','αθλητ','everyday','day']},
+    uniformHints:['casual','καθημ','everyday','day']},
   {key:'office',label:'Γραφείο',emoji:'💼',
     shoeCat2:['Flats','Heels','Boots','Boat Shoes & Moccasine','Sneakers'],
     outwearCat2:['Blazer','Coats','Trench Coats'],
@@ -2547,7 +2592,35 @@ const SET_OCCASIONS=[
     bagCat2:['Clutch','Crossbody'],
     topCat2:['Blouses','Shirts','Sweaters'],
     preferPortfolio:'Statement',
-    uniformHints:['evening','βραδ','night','έξοδ','party','date','γιορτ','out']}
+    uniformHints:['evening','βραδ','night','έξοδ','out']},
+  {key:'formal',label:'Επίσημο',emoji:'🎩',
+    shoeCat2:['Heels','Flats','Boots'],
+    outwearCat2:['Blazer','Coats','Trench Coats'],
+    bagCat2:['Clutch','Crossbody'],
+    topCat2:['Blouses','Shirts'],
+    preferPortfolio:'Statement',
+    uniformHints:['formal','επίσ','γιορτ','party','wedding','γάμ']},
+  {key:'sport',label:'Σπορ',emoji:'🏃‍♀️',
+    shoeCat2:['Sneakers','Slides'],
+    outwearCat2:['Zip Up Hoodies','Fleece Jackets','Puffer Jackets','Parkas'],
+    bagCat2:['Backpack','Crossbody'],
+    topCat2:['T-Shirts','Sleeveless','Long Sleeve T-Shirts','Hoodies'],
+    preferPortfolio:'Functional',
+    uniformHints:['sport','αθλητ','gym','γυμ','run','train']},
+  {key:'vacation',label:'Διακοπές',emoji:'🏖️',
+    shoeCat2:['Sandals','Slides','Sneakers','Flats'],
+    outwearCat2:['Trench Coats','Coats','Fleece Jackets'],
+    bagCat2:['Tote Bag','Crossbody','Backpack','Clutch'],
+    topCat2:['T-Shirts','Sleeveless','Blouses','Polo Shirts'],
+    preferPortfolio:'Statement',
+    uniformHints:['vacation','διακοπ','beach','παραλ','holiday']},
+  {key:'travel',label:'Ταξίδι',emoji:'✈️',
+    shoeCat2:['Sneakers','Flats','Boots','Boat Shoes & Moccasine'],
+    outwearCat2:['Trench Coats','Coats','Puffer Jackets','Parkas','Zip Up Hoodies'],
+    bagCat2:['Backpack','Tote Bag','Crossbody'],
+    topCat2:['T-Shirts','Long Sleeve T-Shirts','Sweaters','Polo Shirts'],
+    preferPortfolio:'Core',
+    uniformHints:['travel','ταξίδ','airport','αεροδρ','trip']}
 ];
 function neededCategories(baseCat){
   switch(baseCat){
@@ -2593,6 +2666,11 @@ function pieceScore(candidate,base,occasion,baseUniformIds){
   if(candidate.is_favorite)score+=1.5;
   return score;
 }
+function occasionAllows(item,occasionKey){
+  const occ=item.occasions||[];
+  if(!occ.length)return true; // δεν έχει οριστεί → κατάλληλο για όλα
+  return occ.includes(occasionKey);
+}
 function buildSetForOccasion(base,occasion,season,usedClothingIds){
   const baseCat=base.cat1||base.category;
   const baseUniformIds=base.uniforms||[];
@@ -2604,6 +2682,8 @@ function buildSetForOccasion(base,occasion,season,usedClothingIds){
       if(i.id===base.id)return false;
       if((i.cat1||i.category)!==cat)return false;
       if(!reusableCats.includes(cat)&&usedClothingIds.has(i.id))return false;
+      // occasion gate — αν το ρούχο έχει ορισμένες περιστάσεις, πρέπει να ταιριάζει
+      if(!occasionAllows(i,occasion.key))return false;
       // season filter for clothing/shoes (bags & accessories: any)
       if(!reusableCats.includes(cat)&&!matchesSeason(i,season))return false;
       return true;
@@ -2703,18 +2783,27 @@ function setSetBaseItem(id){
 function generateSets(){
   const baseId=document.getElementById('set-base-item').value;
   const season=document.getElementById('set-season').value;
+  const occFilter=(document.getElementById('set-occasion-filter')||{}).value||'auto';
   const result=document.getElementById('sets-result');
   if(!baseId){result.innerHTML='<div class="set-empty">Διάλεξε πρώτα ένα κομμάτι 👆</div>';return;}
   const base=allItems.find(i=>i.id===baseId);
   if(!base){result.innerHTML='<div class="set-empty">Δεν βρέθηκε το κομμάτι.</div>';return;}
+  // Decide which occasions to generate
+  let occasions=SET_OCCASIONS;
+  if(occFilter==='auto'){
+    const baseOcc=base.occasions||[];
+    if(baseOcc.length)occasions=SET_OCCASIONS.filter(o=>baseOcc.includes(o.key));
+    // αν δεν έχει οριστεί καμία περίσταση στο κομμάτι → όλες
+    if(!occasions.length)occasions=SET_OCCASIONS;
+  } else if(occFilter!=='all'){
+    occasions=SET_OCCASIONS.filter(o=>o.key===occFilter);
+  }
   let html='';
-  const baseCat=base.cat1||base.category;
-  const baseInfo=`<div style="font-size:10px;color:var(--text-dim);margin-bottom:12px;padding:8px 10px;background:var(--surface2);border-radius:2px;">Σετ γύρω από: <strong style="color:var(--text);">${escHtml(base.title)}</strong>${base.color?' ('+escHtml(base.color)+')':''} · ${season==='summer'?'☀️ Άνοιξη/Καλοκαίρι':'❄️ Φθιν./Χειμώνας'}</div>`;
-  let anyEmpty=false;
-  SET_OCCASIONS.forEach(occasion=>{
+  const baseInfo=`<div style="font-size:10px;color:var(--text-dim);margin-bottom:12px;padding:8px 10px;background:var(--surface2);border-radius:2px;">Σετ γύρω από: <strong style="color:var(--text);">${escHtml(base.title)}</strong>${base.color?' ('+escHtml(base.color)+')':''} · ${season==='summer'?'☀️ Άνοιξη/Καλοκαίρι':'❄️ Φθιν./Χειμώνας'}${(base.occasions||[]).length&&occFilter==='auto'?' · περιστάσεις κομματιού: '+base.occasions.map(k=>{const o=SET_OCCASIONS.find(x=>x.key===k);return o?o.label:k;}).join(', '):''}</div>`;
+  occasions.forEach(occasion=>{
     const usedClothingIds=new Set();
     const pieces=buildSetForOccasion(base,occasion,season,usedClothingIds);
-    if(pieces.length<=1){anyEmpty=true;html+=`<div class="set-card"><div class="set-card-head"><div class="set-card-title">${occasion.emoji} <em>${occasion.label}</em></div></div><div style="font-size:11px;color:var(--text-dim);padding:8px 0;">Δεν βρέθηκαν αρκετά κομμάτια αυτής της εποχής για να φτιαχτεί σετ. Δοκίμασε άλλη εποχή ή πρόσθεσε εποχή στα ρούχα σου.</div></div>`;}
+    if(pieces.length<=1){html+=`<div class="set-card"><div class="set-card-head"><div class="set-card-title">${occasion.emoji} <em>${occasion.label}</em></div></div><div style="font-size:11px;color:var(--text-dim);padding:8px 0;">Δεν βρέθηκαν αρκετά κομμάτια για αυτή την περίσταση/εποχή. Δοκίμασε άλλη εποχή, ή πρόσθεσε «Περιστάσεις» & «Εποχή» σε περισσότερα ρούχα.</div></div>`;}
     else html+=renderSetCard(base,occasion,pieces);
   });
   result.innerHTML=baseInfo+html;

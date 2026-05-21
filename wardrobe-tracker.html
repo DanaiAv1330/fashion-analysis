@@ -585,10 +585,11 @@ body{padding-bottom:0;}
 
     <!-- INLINE FORM -->
     <div id="inline-item-wrap" style="display:none;padding:10px 10px 16px;">
-      <div style="background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:16px;">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
-          <div style="font-family:var(--font-serif);font-size:17px;font-weight:300;" id="inline-item-title">Νέο <em style="font-style:italic;color:var(--accent)">Κομμάτι</em></div>
-          <button onclick="closeItemModal()" style="background:none;border:1px solid var(--border);color:var(--text-muted);width:26px;height:26px;border-radius:50%;cursor:pointer;font-size:11px;">✕</button>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:0 16px 16px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 -16px 14px;padding:12px 16px;position:sticky;top:0;z-index:50;background:var(--surface);border-bottom:1px solid var(--border);border-radius:3px 3px 0 0;box-shadow:0 2px 8px rgba(90,70,40,0.06);">
+          <div style="font-family:var(--font-serif);font-size:16px;font-weight:300;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" id="inline-item-title">Νέο <em style="font-style:italic;color:var(--accent)">Κομμάτι</em></div>
+          <button class="btn-sm primary" id="item-save-btn-top" onclick="saveItem()" style="flex-shrink:0;padding:7px 16px;">💾 Αποθήκευση</button>
+          <button onclick="closeItemModal()" style="flex-shrink:0;background:none;border:1px solid var(--border);color:var(--text-muted);width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:12px;">✕</button>
         </div>
         <!-- Photo -->
         <div style="margin-bottom:14px;">
@@ -828,12 +829,18 @@ body{padding-bottom:0;}
         <div style="font-size:10px;color:var(--text-dim);margin-top:3px;line-height:1.6;">Διάλεξε ένα κομμάτι και εποχή — θα φτιάξω 3 σετ (Καθημερινό · Γραφείο · Βραδινό) από τη ντουλάπα σου, με βάση χρώμα, εποχή & ευελιξία.</div>
       </div>
       <div style="background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:14px 16px;margin-bottom:16px;">
-        <div style="display:flex;flex-direction:column;gap:10px;">
+        <div style="display:flex;flex-direction:column;gap:12px;">
           <div class="form-group">
-            <label style="font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);display:block;margin-bottom:4px;">Κομμάτι για styling *</label>
-            <select id="set-base-item" style="font-family:var(--font-sans);font-size:12px;border:1px solid var(--border);background:var(--surface2);padding:8px 9px;border-radius:1px;color:var(--text);outline:none;width:100%;">
-              <option value="">— Επίλεξε κομμάτι —</option>
-            </select>
+            <label style="font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);display:block;margin-bottom:6px;">Κομμάτι για styling *</label>
+            <input type="hidden" id="set-base-item" value="">
+            <div id="set-base-display" onclick="openSetPicker()" style="display:flex;align-items:center;gap:10px;border:1px solid var(--border);background:var(--surface2);padding:8px 10px;border-radius:2px;cursor:pointer;min-height:54px;">
+              <div id="set-base-thumb" style="width:38px;height:46px;border-radius:2px;background:var(--surface3);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;overflow:hidden;">👗</div>
+              <div style="flex:1;min-width:0;">
+                <div id="set-base-name" style="font-family:var(--font-serif);font-size:13px;color:var(--text-dim);">Πάτησε για να διαλέξεις κομμάτι</div>
+                <div id="set-base-meta" style="font-size:9px;color:var(--text-dim);margin-top:2px;"></div>
+              </div>
+              <div style="font-size:14px;color:var(--accent);flex-shrink:0;">🔽</div>
+            </div>
           </div>
           <div class="form-group">
             <label style="font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);display:block;margin-bottom:4px;">Εποχή *</label>
@@ -842,9 +849,20 @@ body{padding-bottom:0;}
               <option value="winter">❄️ Φθινόπωρο / Χειμώνας</option>
             </select>
           </div>
-          <button class="btn-sm primary" onclick="generateSets()" style="align-self:flex-start;padding:8px 18px;">✨ Φτιάξε σετ</button>
+          <button class="btn-sm primary" onclick="generateSets()" style="align-self:flex-start;padding:9px 20px;">✨ Φτιάξε σετ</button>
         </div>
       </div>
+
+      <!-- SET ITEM PICKER PANEL -->
+      <div id="set-picker-panel" style="display:none;background:var(--surface);border:1px solid var(--border);border-radius:3px;margin-bottom:16px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:11px 13px 8px;">
+          <div style="font-family:var(--font-serif);font-size:14px;font-weight:300;">Διάλεξε <em style="font-style:italic;color:var(--accent)">κομμάτι</em></div>
+          <button onclick="closeSetPicker()" style="background:none;border:1px solid var(--border);color:var(--text-muted);width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:11px;">✕</button>
+        </div>
+        <div class="pick-cats" id="set-pick-cats"></div>
+        <div class="pick-grid" id="set-pick-grid" style="max-height:48vh;"></div>
+      </div>
+
       <div id="sets-result"></div>
     </div>
   </div>
@@ -858,7 +876,6 @@ body{padding-bottom:0;}
         <button class="dash-subtab" onclick="showDashSub('scores',this)">📊 Portfolio</button>
         <button class="dash-subtab" onclick="showDashSub('purchases',this)">🛍 Αγορές</button>
         <button class="dash-subtab" onclick="showDashSub('import',this)" id="import-tab-btn" style="display:none;">📥 Import</button>
-        <button class="dash-subtab" onclick="showDashSub('gone',this)">📦 Gone</button>
         <button class="dash-subtab" onclick="showDashSub('combos',this)">👗 Outfit Combos</button>
       </div>
 
@@ -1128,6 +1145,12 @@ body{padding-bottom:0;}
                 <option>Outwear</option><option>Shoes</option><option>Bags</option><option>Accessories</option>
               </select>
             </div>
+            <div class="sort-wrap">
+              <span class="sort-label" style="width:70px;flex-shrink:0;">🎨 Χρώμα ·</span>
+              <select class="sort-select" id="cb-color" onchange="loadCombosDash()" style="flex:1;">
+                <option value="">Όλα τα χρώματα</option>
+              </select>
+            </div>
           </div>
         </div>
         <div class="kpi-grid" style="margin-bottom:14px;">
@@ -1136,6 +1159,7 @@ body{padding-bottom:0;}
           <div class="kpi-card"><div class="kpi-label">Συνδυασμοί τριάδων</div><div class="kpi-value" id="cb-triples">—</div></div>
           <div class="kpi-card"><div class="kpi-label">Avg items/ημέρα</div><div class="kpi-value" id="cb-avg">—</div></div>
         </div>
+        <div id="cb-color-breakdown" style="margin-bottom:14px;"></div>
         <div id="cb-combos-wrap">
           <div style="color:var(--text-dim);font-size:11px;text-align:center;padding:20px;">Επίλεξε τουλάχιστον 2 κατηγορίες για να δεις τους συνδυασμούς</div>
         </div>
@@ -1312,7 +1336,7 @@ const CAT_COLOR_MAP={
 const PORTFOLIO_COLORS={'Core':'#6b9478','Statement':'#9a6a8a','Functional':'#6a7a9a','Unclassified':'#b5a898'};
 const PORTFOLIO_TARGETS={'Core':70,'Statement':20,'Functional':10};
 function catColor(cat){return CAT_COLOR_MAP[cat]||'#9a7a4a';}
-const COLOR_HEX={'White':'#F5F5F0','Beige':'#D4B88A','Black':'#1A1A1A','Navy':'#1B2A4A','Camel':'#C9A96E','Chocolate Brown':'#4A2C17','Olive':'#7A7A45','Grey (Light)':'#C4C4C0','Grey (Mid)':'#8B8B88','Grey (Charcoal)':'#6B6B6B','Burgundy':'#6D1A2A','Red':'#C0392B','Mint':'#9DC4B0','Mushroom':'#B5A898','Sand':'#D4C4A8','Cobalt':'#1E3A8A','Powder Blue':'#7EB8D4','Emerald':'#2D5A27','Hunter Green':'#2D5A27','Hot Pink':'#D5006D','Rose Gold':'#E8B4B8','Coral':'#C4673A','Aubergine':'#6B3FA0','Off-White/Ivory':'#EDE8DC','Gold':'#B8860B'};
+const COLOR_HEX={'White':'#F5F5F0','Beige':'#D4B88A','Black':'#1A1A1A','Navy':'#1B2A4A','Camel':'#C9A96E','Chocolate Brown':'#4A2C17','Brown':'#7A5230','Olive':'#7A7A45','Grey (Light)':'#C4C4C0','Grey (Mid)':'#8B8B88','Grey (Charcoal)':'#6B6B6B','Grey':'#9B9B98','Burgundy':'#6D1A2A','Red':'#C0392B','Mint':'#9DC4B0','Mushroom':'#B5A898','Sand':'#D4C4A8','Cobalt':'#1E3A8A','Powder Blue':'#7EB8D4','Emerald':'#2D7A4A','Hunter Green':'#2D5A27','Hot Pink':'#D5006D','Pink':'#E89AB0','Rose Gold':'#E8B4B8','Coral':'#C4673A','Aubergine':'#5C2E5C','Purple':'#7E4FA8','Lilac':'#B98FD9','Off-White/Ivory':'#EDE8DC','Gold':'#B8860B','Yellow':'#E8C547','Orange':'#E07A3C','Green':'#5A8C5A','Blue':'#3A6EA5','Turquoise':'#3FB8B0','Silver':'#C8C8CC'};
 
 let currentUser=null, allItems=[], wearLogs=[], currentFilter='all', currentCat2Filter='all', sortMode='recently_worn', editingItemId=null, uploadedPhotoFile=null;
 let feelingFilter='', faceFilter='', portfolioFilter='';
@@ -1784,7 +1808,8 @@ async function uploadPhoto(itemId){
 async function saveItem(){
   const title=document.getElementById('f-title').value.trim();
   if(!title){showToast('Βάλε τίτλο');return;}
-  const btn=document.getElementById('item-save-btn');btn.disabled=true;btn.textContent='…';
+  const setSaveBtns=(disabled,txt)=>{['item-save-btn','item-save-btn-top'].forEach((bid,i)=>{const b=document.getElementById(bid);if(b){b.disabled=disabled;b.textContent=i===1?(txt==='…'?'…':'💾 Αποθήκευση'):txt;}});};
+  setSaveBtns(true,'…');
   const py=document.getElementById('f-purchase-year').value;
   const pm=document.getElementById('f-purchase-month').value;
   let purchasedAt=null;
@@ -1820,17 +1845,17 @@ async function saveItem(){
   let itemId=editingItemId;
   if(editingItemId){
     const{error}=await sb.from('wardrobe').update(rec).eq('id',editingItemId);
-    if(error){showToast('Σφάλμα: '+error.message);btn.disabled=false;btn.textContent='Αποθήκευση';return;}
+    if(error){showToast('Σφάλμα: '+error.message);setSaveBtns(false,'Αποθήκευση');return;}
   }else{
     const{data,error}=await sb.from('wardrobe').insert(rec).select().single();
-    if(error){showToast('Σφάλμα: '+error.message);btn.disabled=false;btn.textContent='Αποθήκευση';return;}
+    if(error){showToast('Σφάλμα: '+error.message);setSaveBtns(false,'Αποθήκευση');return;}
     itemId=data.id;
   }
   if(uploadedPhotoFile&&itemId){
     const url=await uploadPhoto(itemId);
     if(url)await sb.from('wardrobe').update({photo_url:url}).eq('id',itemId);
   }
-  btn.disabled=false;btn.textContent='Αποθήκευση';
+  setSaveBtns(false,'Αποθήκευση');
   await loadItems();renderWardrobe();renderPortfolioDonuts();closeItemModal();showToast('✓ Αποθηκεύτηκε');
 }
 async function deleteItem(){
@@ -2050,8 +2075,14 @@ function renderGoneStats(){
   document.getElementById('g-value').textContent='€'+Math.round(totalValue);
   const soldItems=A.filter(a=>a.archive_method==='Sold');
   const soldTotal=soldItems.reduce((s,a)=>s+(a.sold_price||0),0);
+  const soldOriginal=soldItems.reduce((s,a)=>s+(a.price||0),0);
   document.getElementById('g-sold').textContent='€'+Math.round(soldTotal);
-  document.getElementById('g-sold-sub').textContent=soldItems.length+' πωλήσεις';
+  if(soldItems.length){
+    const recoveryPct=soldOriginal>0?Math.round(soldTotal/soldOriginal*100):0;
+    document.getElementById('g-sold-sub').innerHTML=soldItems.length+' πωλήσεις · πήρες πίσω <strong>'+recoveryPct+'%</strong> από €'+Math.round(soldOriginal);
+  } else {
+    document.getElementById('g-sold-sub').textContent='καμία πώληση ακόμα';
+  }
   const cpws=A.map(a=>a.cpw_at_archive).filter(v=>v!=null);
   document.getElementById('g-avg-cpw').textContent=cpws.length?'€'+(cpws.reduce((x,y)=>x+y,0)/cpws.length).toFixed(2):'—';
   const prices=A.map(a=>a.price).filter(v=>v!=null);
@@ -2380,19 +2411,44 @@ function initCombosDash(){
   const now=new Date();const from=new Date(now.getFullYear(),now.getMonth()-5,1);
   document.getElementById('combos-from').value=`${from.getFullYear()}-${String(from.getMonth()+1).padStart(2,'0')}`;
   document.getElementById('combos-to').value=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+  // populate color dropdown
+  const sel=document.getElementById('cb-color');
+  if(sel){const prev=sel.value;const colors=[...new Set(allItems.map(i=>i.color).filter(Boolean))].sort();sel.innerHTML='<option value="">Όλα τα χρώματα</option>'+colors.map(c=>'<option value="'+escHtml(c)+'">'+escHtml(c)+'</option>').join('');if(prev)sel.value=prev;}
 }
 function loadCombosDash(){
   const fromV=document.getElementById('combos-from').value,toV=document.getElementById('combos-to').value;
   const c1=document.getElementById('cb-cat1').value,c2=document.getElementById('cb-cat2').value,c3=document.getElementById('cb-cat3').value;
+  const colorF=document.getElementById('cb-color')?document.getElementById('cb-color').value:'';
   if(!fromV||!toV)return;
   const fromD=fromV+'-01';const[ty,tm]=toV.split('-').map(Number);const toD=`${ty}-${String(tm).padStart(2,'0')}-${new Date(ty,tm,0).getDate()}`;
   const logs=wearLogs.filter(l=>l.worn_date>=fromD&&l.worn_date<=toD);
-  const byDay={};logs.forEach(l=>{(byDay[l.worn_date]=byDay[l.worn_date]||[]).push(l.wardrobe_item_id);});
+  let byDay={};logs.forEach(l=>{(byDay[l.worn_date]=byDay[l.worn_date]||[]).push(l.wardrobe_item_id);});
+  // if a color is chosen, keep only days that included an item of that color
+  if(colorF){
+    const filtered={};
+    Object.entries(byDay).forEach(([day,ids])=>{
+      const hasColor=ids.some(id=>{const it=allItems.find(i=>i.id===id);return it&&it.color===colorF;});
+      if(hasColor)filtered[day]=ids;
+    });
+    byDay=filtered;
+  }
   const days=Object.keys(byDay);
+  const flatLogs=days.flatMap(d=>byDay[d]);
   document.getElementById('cb-days').textContent=days.length;
-  document.getElementById('cb-avg').textContent=days.length?(logs.length/days.length).toFixed(1):'—';
+  document.getElementById('cb-avg').textContent=days.length?(flatLogs.length/days.length).toFixed(1):'—';
+  // COLOR BREAKDOWN — what was worn by color in the period (respects day filter)
+  const cbWrap=document.getElementById('cb-color-breakdown');
+  if(cbWrap){
+    const colorWears={};flatLogs.forEach(id=>{const it=allItems.find(i=>i.id===id);if(it&&it.color)colorWears[it.color]=(colorWears[it.color]||0)+1;});
+    const sortedC=Object.entries(colorWears).sort((a,b)=>b[1]-a[1]);
+    const maxC=sortedC[0]?.[1]||1;
+    if(sortedC.length){
+      const title=colorF?`🎨 Χρήσεις τις μέρες που φόρεσες <strong style="color:var(--accent)">${escHtml(colorF)}</strong>`:'🎨 Τι φόρεσες ανά χρώμα (αριθμός χρήσεων)';
+      cbWrap.innerHTML='<div class="chart-card"><div class="chart-title" style="text-transform:none;letter-spacing:0;font-size:11px;">'+title+'</div>'+sortedC.map(([col,cnt])=>renderHBar(col,cnt,maxC,cnt+' χρ.',COLOR_HEX[col]||'#aaa')).join('')+'</div>';
+    } else cbWrap.innerHTML='';
+  }
   const cats=[c1,c2,c3].filter(Boolean);
-  if(cats.length<2){document.getElementById('cb-pairs').textContent='—';document.getElementById('cb-triples').textContent='—';document.getElementById('cb-combos-wrap').innerHTML='<div style="color:var(--text-dim);font-size:11px;text-align:center;padding:20px;">Επίλεξε τουλάχιστον 2 κατηγορίες</div>';return;}
+  if(cats.length<2){document.getElementById('cb-pairs').textContent='—';document.getElementById('cb-triples').textContent='—';document.getElementById('cb-combos-wrap').innerHTML='<div style="color:var(--text-dim);font-size:11px;text-align:center;padding:20px;">Επίλεξε τουλάχιστον 2 κατηγορίες για συνδυασμούς'+(colorF?' (το χρώμα φιλτράρει ήδη τις μέρες παραπάνω)':'')+'</div>';return;}
   const pairCounts={},tripleCounts={};
   days.forEach(day=>{
     const ids=byDay[day];const itemsByDay=ids.map(id=>allItems.find(i=>i.id===id)).filter(Boolean);
@@ -2406,7 +2462,7 @@ function loadCombosDash(){
   const sorted=Object.entries(counts).sort((a,b)=>b[1]-a[1]).slice(0,15);
   const wrap=document.getElementById('cb-combos-wrap');
   if(!sorted.length){wrap.innerHTML='<div style="color:var(--text-dim);font-size:11px;text-align:center;padding:20px;">Δεν βρέθηκαν συνδυασμοί σε αυτή την περίοδο</div>';return;}
-  wrap.innerHTML='<div class="section-title">🔝 Top συνδυασμοί</div>'+sorted.map(([key,cnt])=>{
+  wrap.innerHTML='<div class="section-title">🔝 Top συνδυασμοί'+(colorF?' (μέρες με '+escHtml(colorF)+')':'')+'</div>'+sorted.map(([key,cnt])=>{
     const ids=key.split('|');const items=ids.map(id=>allItems.find(i=>i.id===id)).filter(Boolean);
     return`<div style="display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--border);border-radius:2px;padding:8px 11px;margin-bottom:6px;">
       <div style="display:flex;gap:4px;flex:1;">${items.map(i=>`<div style="width:34px;height:42px;border-radius:1px;background:var(--surface3);display:flex;align-items:center;justify-content:center;font-size:14px;overflow:hidden;">${i.photo_url?`<img src="${escHtml(i.photo_url)}" style="width:34px;height:42px;object-fit:cover;">`:'👗'}</div>`).join('')}</div>
@@ -2419,11 +2475,13 @@ function loadCombosDash(){
 // ============ SETS / OUTFIT BUILDER (NEW) ============
 const NEUTRAL_COLORS=['white','off-white/ivory','black','beige','camel','sand','mushroom','navy','grey (light)','grey (mid)','grey (charcoal)','chocolate brown','gold'];
 const COLOR_FAMILIES={
-  blue:['navy','cobalt','powder blue'],
-  green:['olive','mint','emerald','hunter green'],
-  red:['red','burgundy','coral'],
-  pink:['hot pink','rose gold'],
-  purple:['aubergine']
+  blue:['navy','cobalt','powder blue','blue','turquoise'],
+  green:['olive','mint','emerald','hunter green','green'],
+  red:['red','burgundy','coral','orange'],
+  pink:['hot pink','rose gold','pink'],
+  purple:['aubergine','purple','lilac'],
+  brown:['brown','chocolate brown'],
+  yellow:['yellow','gold']
 };
 function normColor(c){return String(c||'').trim().toLowerCase();}
 function isNeutral(c){return NEUTRAL_COLORS.includes(normColor(c));}
@@ -2585,22 +2643,46 @@ function renderSetCard(base,occasion,pieces){
     <div class="set-items-row">${piecesHtml}</div>
   </div>`;
 }
+let setBasePickCat='all';
 function populateSetItemDropdown(){
-  const sel=document.getElementById('set-base-item');if(!sel)return;
-  const prev=sel.value;
-  const grouped={};
-  allItems.forEach(i=>{const c=i.cat1||i.category||'Άλλα';(grouped[c]=grouped[c]||[]).push(i);});
-  const order=['Dresses','Tops','Pants','Outwear','Shoes','Bags','Accessories'];
-  const catLabel={Dresses:'Φορέματα',Tops:'Tops',Pants:'Παντελόνια',Outwear:'Outwear',Shoes:'Παπούτσια',Bags:'Τσάντες',Accessories:'Αξεσουάρ'};
-  let html='<option value="">— Επίλεξε κομμάτι —</option>';
-  order.forEach(cat=>{
-    if(!grouped[cat])return;
-    html+=`<optgroup label="${catLabel[cat]||cat}">`;
-    grouped[cat].sort((a,b)=>a.title.localeCompare(b.title)).forEach(i=>{html+=`<option value="${i.id}">${escHtml(i.title)}${i.color?' · '+escHtml(i.color):''}</option>`;});
-    html+='</optgroup>';
-  });
-  sel.innerHTML=html;
-  if(prev)sel.value=prev;
+  // refresh the display in case the selected item changed/was deleted
+  const id=document.getElementById('set-base-item').value;
+  if(id&&!allItems.find(i=>i.id===id))setSetBaseItem('');
+  else if(id)setSetBaseItem(id);
+}
+function openSetPicker(){
+  setBasePickCat='all';
+  renderSetPickCats();renderSetPickGrid();
+  document.getElementById('set-picker-panel').style.display='block';
+  document.getElementById('set-picker-panel').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function closeSetPicker(){document.getElementById('set-picker-panel').style.display='none';}
+function renderSetPickCats(){
+  const cats=['all','Dresses','Tops','Pants','Outwear','Shoes','Bags','Accessories'];
+  const labels={all:'Όλα',Dresses:'Φορέματα',Tops:'Tops',Pants:'Παντελόνια',Outwear:'Outwear',Shoes:'Παπούτσια',Bags:'Τσάντες',Accessories:'Αξεσουάρ'};
+  document.getElementById('set-pick-cats').innerHTML=cats.map(c=>`<button class="pick-cat-btn ${c===setBasePickCat?'active':''}" onclick="setSetBasePickCat('${c}')">${labels[c]}</button>`).join('');
+}
+function setSetBasePickCat(c){setBasePickCat=c;renderSetPickCats();renderSetPickGrid();}
+function renderSetPickGrid(){
+  let items=[...allItems];
+  if(setBasePickCat!=='all')items=items.filter(i=>(i.cat1||i.category)===setBasePickCat);
+  items.sort((a,b)=>a.title.localeCompare(b.title));
+  const grid=document.getElementById('set-pick-grid');
+  const selId=document.getElementById('set-base-item').value;
+  if(!items.length){grid.innerHTML='<div class="pick-empty">Κανένα ρούχο</div>';return;}
+  grid.innerHTML=items.map(item=>`<div class="pick-item ${item.id===selId?'selected':''}" onclick="chooseSetItem('${item.id}')"><div class="pick-check">✓</div><div class="pick-photo">${item.photo_url?`<img src="${escHtml(item.photo_url)}">`:'👗'}</div><div class="pick-label">${escHtml(item.title)}${item.color?'<br><span style="color:var(--text-dim);">'+escHtml(item.color)+'</span>':''}</div></div>`).join('');
+}
+function chooseSetItem(id){setSetBaseItem(id);closeSetPicker();}
+function setSetBaseItem(id){
+  document.getElementById('set-base-item').value=id||'';
+  const thumb=document.getElementById('set-base-thumb');
+  const nameEl=document.getElementById('set-base-name');
+  const metaEl=document.getElementById('set-base-meta');
+  if(!id){thumb.innerHTML='👗';nameEl.textContent='Πάτησε για να διαλέξεις κομμάτι';nameEl.style.color='var(--text-dim)';metaEl.textContent='';return;}
+  const item=allItems.find(i=>i.id===id);if(!item)return;
+  thumb.innerHTML=item.photo_url?`<img src="${escHtml(item.photo_url)}" style="width:38px;height:46px;object-fit:cover;">`:'👗';
+  nameEl.textContent=item.title;nameEl.style.color='var(--text)';
+  metaEl.textContent=[item.color,item.cat2||item.cat1||item.category].filter(Boolean).join(' · ');
 }
 function generateSets(){
   const baseId=document.getElementById('set-base-item').value;
@@ -2691,7 +2773,6 @@ function showDashSub(sub,btn){
   if(sub==='scores')loadScoresDash();
   if(sub==='purchases')loadPurchasesDash();
   if(sub==='combos'){initCombosDash();loadCombosDash();}
-  if(sub==='gone')renderGoneStats();
 }
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200);}
 

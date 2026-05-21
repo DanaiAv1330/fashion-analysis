@@ -1843,14 +1843,30 @@ async function saveItem(){
     uniforms:getSelectedUniformIds()
   };
   let itemId=editingItemId;
-  if(editingItemId){
-    const{error}=await sb.from('wardrobe').update(rec).eq('id',editingItemId);
-    if(error){showToast('Σφάλμα: '+error.message);setSaveBtns(false,'Αποθήκευση');return;}
-  }else{
-    const{data,error}=await sb.from('wardrobe').insert(rec).select().single();
-    if(error){showToast('Σφάλμα: '+error.message);setSaveBtns(false,'Αποθήκευση');return;}
-    itemId=data.id;
+  // Helper: detect "missing column" errors from Supabase and strip that key, then retry.
+  function missingColumn(err){
+    if(!err)return null;
+    const msg=(err.message||'')+' '+(err.details||'')+' '+(err.hint||'');
+    // e.g. "Could not find the 'length' column of 'wardrobe' in the schema cache"
+    let m=msg.match(/find the '([^']+)' column/i)||msg.match(/column "?([a-zA-Z_]+)"? of/i)||msg.match(/'([a-zA-Z_]+)' column/i);
+    return m?m[1]:null;
   }
+  async function trySave(record){
+    let working={...record};
+    for(let attempt=0;attempt<6;attempt++){
+      let res;
+      if(editingItemId)res=await sb.from('wardrobe').update(working).eq('id',editingItemId);
+      else res=await sb.from('wardrobe').insert(working).select().single();
+      if(!res.error)return{data:res.data,working};
+      const col=missingColumn(res.error);
+      if(col&&col in working){delete working[col];continue;} // strip and retry
+      return{error:res.error};
+    }
+    return{error:{message:'Πολλές άγνωστες στήλες'}};
+  }
+  const result=await trySave(rec);
+  if(result.error){showToast('Σφάλμα: '+result.error.message);setSaveBtns(false,'Αποθήκευση');return;}
+  if(!editingItemId&&result.data)itemId=result.data.id;
   if(uploadedPhotoFile&&itemId){
     const url=await uploadPhoto(itemId);
     if(url)await sb.from('wardrobe').update({photo_url:url}).eq('id',itemId);

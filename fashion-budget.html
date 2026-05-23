@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Budget Planner | Fashion Analysis by Danai</title>
+  <meta name="description" content="Από το μηνιαίο εισόδημα στο πραγματικό budget ρούχων, και μετά στην κατανομή 70-20-10 — με τη λογική του CFO." />
+
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="apple-touch-icon" href="favicon.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream:#F5F0E8; --cream-dark:#EDE6D6; --cream-mid:#F9F5EE;
+      --gold:#B8965A; --gold-light:#D4AF7A; --gold-pale:#E8D8BC; --gold-dark:#8A6E3C;
+      --text-dark:#2C2416; --text-mid:#5A4A30; --text-light:#8A7A60;
+      --sage:#7A8C70; --rose:#C4826A; --ink:#3A2E1E;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--cream); color: var(--text-dark);
+      font-family: 'Jost', sans-serif; font-weight: 400; line-height: 1.6;
+      min-height: 100vh; display: flex; flex-direction: column;
+    }
+
+    nav {
+      background: var(--cream); border-bottom: 0.5px solid var(--gold-pale);
+      padding: 0 2rem; position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between; height: 60px;
+    }
+    .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 500; color: var(--text-dark); text-decoration: none; letter-spacing: 0.02em; }
+    .nav-logo span { font-style: italic; color: var(--gold-dark); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { font-size: 12px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-mid); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--gold-dark); }
+
+    .hero { text-align: center; padding: 4rem 2rem 3rem; border-bottom: 0.5px solid var(--gold-pale); max-width: 720px; margin: 0 auto; width: 100%; }
+    .eyebrow { font-size: 10px; font-weight: 500; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; }
+    .hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(32px,5vw,48px); font-weight: 400; color: var(--text-dark); line-height: 1.2; margin-bottom: 1rem; }
+    .hero h1 em { font-style: italic; color: var(--gold-dark); }
+    .hero-sub { font-size: 14px; font-weight: 300; color: var(--text-light); line-height: 1.7; max-width: 540px; margin: 0 auto; }
+
+    main { flex: 1; max-width: 780px; margin: 0 auto; width: 100%; padding: 3rem 2rem 4rem; }
+
+    .section-label { font-size: 10px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.5rem; }
+    .section-title { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 400; color: var(--text-dark); margin-bottom: 1.75rem; line-height: 1.3; }
+    .section-title em { font-style: italic; color: var(--gold-dark); }
+    .divider { border: none; border-top: 0.5px solid var(--gold-pale); margin: 3rem 0; }
+
+    /* STAGE HEADER */
+    .stage-head { text-align: center; margin: 0 0 2rem; }
+    .stage-badge { display: inline-block; font-family: 'Cormorant Garamond', serif; font-size: 15px; font-style: italic; color: var(--gold-dark); border: 0.5px solid var(--gold-pale); border-radius: 99px; padding: 4px 18px; margin-bottom: 1rem; background: var(--cream-mid); }
+    .stage-head h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(26px,4vw,34px); font-weight: 400; color: var(--text-dark); line-height: 1.25; }
+    .stage-head h2 em { font-style: italic; color: var(--gold-dark); }
+    .stage-head p { font-size: 13px; color: var(--text-light); max-width: 30rem; margin: 0.75rem auto 0; line-height: 1.6; }
+
+    /* INCOME INPUT */
+    .input-card { background: var(--cream-mid); border: 0.5px solid var(--gold-pale); border-radius: 2px; padding: 1.75rem 1.5rem; margin-bottom: 2rem; }
+    .input-label { font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-light); margin-bottom: 0.75rem; }
+    .budget-input-row { display: flex; align-items: baseline; gap: 0.5rem; }
+    .cur-sign { font-family: 'Cormorant Garamond', serif; font-size: 38px; font-weight: 400; color: var(--gold-dark); }
+    #income { background: transparent; border: none; border-bottom: 1px solid var(--gold-pale); font-family: 'Cormorant Garamond', serif; font-size: 44px; font-weight: 500; color: var(--text-dark); width: 220px; padding: 0 0 4px; transition: border-color 0.2s; }
+    #income:focus { outline: none; border-bottom-color: var(--gold); }
+    .budget-hint { font-size: 12px; color: var(--text-light); margin-top: 0.75rem; font-style: italic; }
+    .preset-row { display: flex; gap: 8px; margin-top: 1rem; flex-wrap: wrap; }
+    .preset { font-size: 11px; font-weight: 500; letter-spacing: 0.06em; color: var(--text-mid); background: var(--cream); border: 0.5px solid var(--gold-pale); border-radius: 99px; padding: 5px 14px; cursor: pointer; transition: all 0.2s; font-family: 'Jost', sans-serif; }
+    .preset:hover { border-color: var(--gold); color: var(--gold-dark); }
+
+    /* WATERFALL LAYERS */
+    .layer { background: var(--cream-mid); border: 0.5px solid var(--gold-pale); border-radius: 2px; padding: 1.3rem 1.25rem; margin-bottom: 12px; position: relative; }
+    .layer::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; border-radius: 2px 0 0 2px; }
+    .l1::before { background: var(--sage); }
+    .l2::before { background: var(--ink); }
+    .l3::before { background: var(--gold-light); }
+
+    .layer-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; margin-bottom: 4px; }
+    .layer-step { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-light); font-weight: 500; }
+    .layer-name { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 600; color: var(--text-dark); }
+    .layer-amount { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 600; white-space: nowrap; }
+    .l1 .layer-amount { color: var(--sage); }
+    .l2 .layer-amount { color: var(--ink); }
+    .l3 .layer-amount { color: var(--gold-dark); }
+
+    .layer-desc { font-size: 12px; color: var(--text-mid); line-height: 1.55; margin: 8px 0 12px; }
+    .layer-controls { display: flex; align-items: center; gap: 12px; }
+    input[type=range] { -webkit-appearance: none; appearance: none; flex: 1; height: 2px; background: var(--gold-pale); border-radius: 2px; outline: none; cursor: pointer; }
+    input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 16px; height: 16px; border-radius: 50%; background: var(--gold); cursor: pointer; border: 2px solid var(--cream); box-shadow: 0 1px 4px rgba(0,0,0,0.15); }
+    input[type=range]::-moz-range-thumb { width: 16px; height: 16px; border-radius: 50%; background: var(--gold); cursor: pointer; border: 2px solid var(--cream); }
+    .ctrl-val { font-size: 13px; color: var(--text-mid); width: 48px; text-align: right; font-weight: 500; }
+
+    .euro-input { width: 90px; background: var(--cream); border: 0.5px solid var(--gold-pale); border-radius: 2px; padding: 5px 8px; font-family: 'Jost', sans-serif; font-size: 14px; color: var(--text-dark); text-align: right; }
+    .euro-input:focus { outline: none; border-color: var(--gold); }
+    .input-mode-note { font-size: 10px; color: var(--text-light); letter-spacing: 0.04em; }
+
+    /* REMAINING */
+    .remain-card { background: var(--cream-dark); border: 0.5px solid var(--gold-pale); border-radius: 2px; padding: 1.5rem 1.25rem; margin-top: 4px; }
+    .remain-head { display: flex; justify-content: space-between; align-items: baseline; }
+    .remain-label { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-mid); }
+    .remain-amount { font-family: 'Cormorant Garamond', serif; font-size: 30px; font-weight: 600; color: var(--text-dark); }
+    .remain-amount.neg { color: var(--rose); }
+    .remain-sub { font-size: 12px; color: var(--text-light); margin-top: 6px; font-style: italic; }
+
+    /* DISCRETIONARY SPLIT */
+    .disc-cat { margin-bottom: 1.1rem; }
+    .disc-cat:last-child { margin-bottom: 0; }
+    .disc-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; gap: 1rem; }
+    .disc-name { font-family: 'Cormorant Garamond', serif; font-size: 17px; font-weight: 600; color: var(--text-dark); }
+    .disc-name.fashion { color: var(--gold-dark); }
+    .disc-amount { font-family: 'Cormorant Garamond', serif; font-size: 19px; font-weight: 600; white-space: nowrap; }
+    .disc-pct { font-size: 11px; color: var(--text-light); margin-left: 4px; font-family: 'Jost', sans-serif; font-weight: 400; }
+    .disc-track { height: 22px; background: var(--cream); border-radius: 1px; overflow: hidden; }
+    .disc-fill { height: 100%; display: flex; align-items: center; padding: 0 9px; font-size: 10px; font-weight: 500; transition: width 0.4s ease; white-space: nowrap; overflow: hidden; }
+    .disc-ctrl { display: flex; align-items: center; gap: 10px; margin-top: 5px; }
+    .disc-ctrl input[type=range] { height: 2px; }
+    .disc-ctrl .ctrl-val { font-size: 11px; width: 36px; }
+
+    /* FASHION RESULT (the bridge) */
+    .fashion-result { background: var(--ink); border-radius: 2px; padding: 1.75rem 1.5rem; margin-top: 2rem; text-align: center; color: var(--cream); }
+    .fashion-result .fr-label { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold-light); margin-bottom: 0.5rem; }
+    .fashion-result .fr-amount { font-family: 'Cormorant Garamond', serif; font-size: clamp(40px,10vw,56px); font-weight: 500; line-height: 1; color: #fff; }
+    .fashion-result .fr-amount .small { font-size: 0.4em; color: var(--gold-light); }
+    .fashion-result .fr-sub { font-size: 13px; color: #C9BCA3; margin-top: 0.75rem; max-width: 28rem; margin-left: auto; margin-right: auto; }
+    .fr-annual { font-size: 12px; color: var(--gold-light); margin-top: 0.75rem; letter-spacing: 0.06em; }
+    .fr-arrow { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-light); margin-top: 1.25rem; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .fr-arrow::before, .fr-arrow::after { content: ''; height: 0.5px; width: 30px; background: rgba(212,175,122,0.4); }
+
+    .insight-box { margin-top: 1.5rem; padding: 1rem 1.25rem; border-radius: 2px; font-size: 13px; line-height: 1.6; border-left: 2px solid var(--sage); background: #E8EDE5; color: var(--text-mid); }
+    .insight-box.warn { border-left-color: var(--rose); background: #F2E8E2; }
+    .insight-box strong { color: var(--text-dark); font-weight: 500; }
+
+    .reset-link { display: inline-block; margin-top: 1.25rem; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-dark); background: none; border: none; cursor: pointer; font-family: 'Jost', sans-serif; border-bottom: 0.5px solid var(--gold-pale); padding-bottom: 2px; }
+    .reset-link:hover { color: var(--text-dark); }
+
+    /* 70-20-10 ALLOCATION */
+    .alloc-wrap { background: var(--cream-mid); border: 0.5px solid var(--gold-pale); border-radius: 2px; padding: 1.5rem 1.25rem; }
+    .alloc-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1.25rem; padding-bottom: 0.75rem; border-bottom: 0.5px solid var(--gold-pale); }
+    .alloc-head .lbl { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-light); }
+    .alloc-head .total { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 600; color: var(--text-dark); }
+
+    .alloc-cat { margin-bottom: 1.4rem; }
+    .alloc-cat:last-child { margin-bottom: 0; }
+    .alloc-cat-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; gap: 1rem; }
+    .cat-name { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 600; color: var(--text-dark); }
+    .cat-fin { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-light); display: block; margin-top: 1px; font-family: 'Jost', sans-serif; }
+    .cat-amount { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 600; white-space: nowrap; }
+    .cat-pct { font-size: 12px; color: var(--text-light); margin-left: 4px; font-family: 'Jost', sans-serif; font-weight: 400; }
+    .cat-track { height: 26px; background: var(--cream-dark); border-radius: 1px; overflow: hidden; position: relative; }
+    .cat-fill { height: 100%; display: flex; align-items: center; padding: 0 10px; font-size: 11px; font-weight: 500; letter-spacing: 0.03em; transition: width 0.4s ease; white-space: nowrap; overflow: hidden; }
+    .cat-desc { font-size: 12px; color: var(--text-mid); margin-top: 8px; line-height: 1.55; }
+    .c-core .cat-amount { color: var(--gold-dark); }
+    .c-trend .cat-amount { color: var(--rose); }
+    .c-func .cat-amount { color: var(--text-light); }
+    .slider-row { display: flex; align-items: center; gap: 12px; margin-top: 6px; }
+    .slider-val { font-size: 12px; color: var(--text-mid); width: 36px; text-align: right; font-weight: 500; }
+
+    /* RULE CARDS */
+    .rule-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 600px) { .rule-grid { grid-template-columns: 1fr; } }
+    .rule-card { background: var(--cream-mid); border: 0.5px solid var(--gold-pale); border-radius: 2px; padding: 1.25rem 1.1rem; }
+    .rule-num { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 300; opacity: 0.25; line-height: 1; margin-bottom: 6px; }
+    .rule-title { font-family: 'Cormorant Garamond', serif; font-size: 17px; font-weight: 600; margin-bottom: 6px; }
+    .rule-desc { font-size: 13px; color: var(--text-mid); line-height: 1.6; }
+
+    /* CTA */
+    .cta-strip { background: var(--cream-dark); border: 0.5px solid var(--gold-pale); border-radius: 2px; padding: 1.25rem 1.5rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+    .cta-text { font-size: 13px; color: var(--text-mid); }
+    .cta-text strong { color: var(--text-dark); font-weight: 500; }
+    .cta-btn { font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold-dark); text-decoration: none; border: 0.5px solid var(--gold); padding: 8px 18px; border-radius: 1px; transition: background 0.2s, color 0.2s; white-space: nowrap; font-family: 'Jost', sans-serif; }
+    .cta-btn:hover { background: var(--gold); color: var(--cream); }
+
+    footer { border-top: 0.5px solid var(--gold-pale); padding: 2rem; text-align: center; }
+    .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 16px; font-weight: 400; color: var(--text-dark); margin-bottom: 0.5rem; }
+    .footer-logo em { font-style: italic; color: var(--gold-dark); }
+    .footer-sub { font-size: 11px; letter-spacing: 0.1em; color: var(--text-light); margin-bottom: 1rem; }
+    .footer-links { display: flex; justify-content: center; gap: 1.5rem; list-style: none; flex-wrap: wrap; }
+    .footer-links a { font-size: 11px; letter-spacing: 0.08em; color: var(--text-light); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--gold-dark); }
+
+    @media (max-width: 480px) {
+      nav { padding: 0 1rem; } .nav-links { gap: 1.2rem; }
+      main { padding: 2rem 1.1rem 3rem; } .hero { padding: 2.5rem 1.1rem 2rem; }
+      #income { width: 160px; font-size: 36px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">Fashion Analysis <span>by Danai</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">← Αρχική</a></li>
+      <li><a href="wardrobe-calculator.html">Calculator</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+  </nav>
+
+  <header class="hero">
+    <p class="eyebrow">Wardrobe Intelligence · CFO Method</p>
+    <h1>Ο πλήρης οδηγός<br>του <em>budget</em> σου</h1>
+    <p class="hero-sub">Από το μηνιαίο εισόδημα μέχρι το τελευταίο ευρώ για ρούχα. Πρώτα βρίσκουμε το πραγματικό σου fashion budget — και μετά το μοιράζουμε σωστά, με τη λογική της επένδυσης.</p>
+  </header>
+
+  <main>
+
+    <!-- ════════ STAGE 1: INCOME → FASHION BUDGET ════════ -->
+    <div class="stage-head">
+      <span class="stage-badge">Μέρος Α</span>
+      <h2>Πόσα έχεις <em>πραγματικά</em> για ρούχα;</h2>
+      <p>Σκέψου σαν οικονομική διευθύντρια της ζωής σου: πρώτα επένδυση, μετά ανάγκες, μετά καλοπέραση — και ό,τι μένει για ρούχα είναι το αληθινό νούμερο. Όχι αυτό που νόμιζες.</p>
+    </div>
+
+    <!-- INCOME -->
+    <p class="section-label">Βήμα 1</p>
+    <h2 class="section-title">Το <em>μηνιαίο εισόδημα</em> σου</h2>
+
+    <div class="input-card">
+      <p class="input-label">Καθαρό μηνιαίο εισόδημα</p>
+      <div class="budget-input-row">
+        <span class="cur-sign">€</span>
+        <input type="text" id="income" inputmode="numeric" value="1000" autocomplete="off" />
+      </div>
+      <p class="budget-hint">Βάλε το καθαρό ποσό που μπαίνει στον λογαριασμό σου κάθε μήνα.</p>
+      <div class="preset-row">
+        <button class="preset" data-v="800">€800</button>
+        <button class="preset" data-v="1000">€1.000</button>
+        <button class="preset" data-v="1500">€1.500</button>
+        <button class="preset" data-v="2500">€2.500</button>
+      </div>
+    </div>
+
+    <!-- WATERFALL -->
+    <p class="section-label">Βήμα 2 · Η σειρά του CFO</p>
+    <h2 class="section-title">Πρώτα ό,τι <em>μετράει</em>, μετά τα ρούχα</h2>
+
+    <div class="layer l1">
+      <div class="layer-head">
+        <div>
+          <span class="layer-step">Στρώμα 1 · Πρώτα απ' όλα</span>
+          <div class="layer-name">Επένδυση & Αποταμίευση</div>
+        </div>
+        <span class="layer-amount" id="amt-inv">€150</span>
+      </div>
+      <p class="layer-desc">Φεύγει αυτόματα την ίδια μέρα που μπαίνει ο μισθός. Αν το αφήσεις για το τέλος, δεν θα μείνει ποτέ τίποτα — είναι μαθηματικά βέβαιο.</p>
+      <div class="layer-controls">
+        <input type="range" id="s-inv" min="0" max="40" value="15" />
+        <span class="ctrl-val" id="v-inv">15%</span>
+      </div>
+    </div>
+
+    <div class="layer l2">
+      <div class="layer-head">
+        <div>
+          <span class="layer-step">Στρώμα 2 · Μη διαπραγματεύσιμα</span>
+          <div class="layer-name">Πάγια / Ανάγκες</div>
+        </div>
+        <span class="layer-amount" id="amt-fix">€500</span>
+      </div>
+      <p class="layer-desc">Νοίκι ή δόση, λογαριασμοί, σούπερ μάρκετ, μεταφορά, ασφάλειες. Βάλε το πραγματικό νούμερο — όχι το ιδανικό.</p>
+      <div class="layer-controls">
+        <span class="cur-sign" style="font-size:18px;">€</span>
+        <input type="text" class="euro-input" id="e-fix" inputmode="numeric" value="500" />
+        <span class="input-mode-note">σε ευρώ</span>
+      </div>
+    </div>
+
+    <div class="layer l3">
+      <div class="layer-head">
+        <div>
+          <span class="layer-step">Στρώμα 3 · Να ζεις, όχι να υπάρχεις</span>
+          <div class="layer-name">Quality of Life</div>
+        </div>
+        <span class="layer-amount" id="amt-qol">€150</span>
+      </div>
+      <p class="layer-desc">Καφές με τη φίλη σου, γυμναστήριο, κομμωτής, ένα δείπνο έξω. Αν δεν το υπολογίσεις, θα το φας από το budget των ρούχων — και θα νομίζεις ότι είσαι σπάταλη.</p>
+      <div class="layer-controls">
+        <span class="cur-sign" style="font-size:18px;">€</span>
+        <input type="text" class="euro-input" id="e-qol" inputmode="numeric" value="150" />
+        <span class="input-mode-note">σε ευρώ</span>
+      </div>
+    </div>
+
+    <div class="remain-card">
+      <div class="remain-head">
+        <span class="remain-label">Discretionary — ό,τι έμεινε</span>
+        <span class="remain-amount" id="amt-disc">€200</span>
+      </div>
+      <p class="remain-sub">Προσοχή: αυτό ΔΕΝ είναι όλο για ρούχα. Είναι το ποσό που σπάμε σε όλα τα «έξτρα».</p>
+    </div>
+
+    <hr class="divider" />
+
+    <!-- DISCRETIONARY SPLIT -->
+    <p class="section-label">Βήμα 3 · Σπάμε το discretionary</p>
+    <h2 class="section-title">Πού πάει το <em>«ό,τι έμεινε»</em></h2>
+
+    <div class="layer" style="padding:1.5rem 1.25rem;">
+      <div class="disc-cat">
+        <div class="disc-head">
+          <span class="disc-name fashion">Ρούχα & Αξεσουάρ</span>
+          <span class="disc-amount" id="d-amt-fash" style="color:var(--gold-dark);">€75<span class="disc-pct" id="d-pct-fash">38%</span></span>
+        </div>
+        <div class="disc-track"><div class="disc-fill" id="d-bar-fash" style="width:38%;background:#C4B48A;color:#3A2E1E;">το πραγματικό fashion budget</div></div>
+        <div class="disc-ctrl"><input type="range" id="d-s-fash" min="0" max="100" value="38" /><span class="ctrl-val" id="d-v-fash">38%</span></div>
+      </div>
+      <div class="disc-cat">
+        <div class="disc-head">
+          <span class="disc-name">Ταξίδια & Εμπειρίες</span>
+          <span class="disc-amount" id="d-amt-trav">€50<span class="disc-pct" id="d-pct-trav">25%</span></span>
+        </div>
+        <div class="disc-track"><div class="disc-fill" id="d-bar-trav" style="width:25%;background:#A8B89E;color:#1E3018;"></div></div>
+        <div class="disc-ctrl"><input type="range" id="d-s-trav" min="0" max="100" value="25" /><span class="ctrl-val" id="d-v-trav">25%</span></div>
+      </div>
+      <div class="disc-cat">
+        <div class="disc-head">
+          <span class="disc-name">Beauty & Self-care</span>
+          <span class="disc-amount" id="d-amt-beau">€25<span class="disc-pct" id="d-pct-beau">12%</span></span>
+        </div>
+        <div class="disc-track"><div class="disc-fill" id="d-bar-beau" style="width:12%;background:#C9A488;color:#3A1810;"></div></div>
+        <div class="disc-ctrl"><input type="range" id="d-s-beau" min="0" max="100" value="12" /><span class="ctrl-val" id="d-v-beau">12%</span></div>
+      </div>
+      <div class="disc-cat">
+        <div class="disc-head">
+          <span class="disc-name">Δώρα (για άλλους)</span>
+          <span class="disc-amount" id="d-amt-gift">€25<span class="disc-pct" id="d-pct-gift">12%</span></span>
+        </div>
+        <div class="disc-track"><div class="disc-fill" id="d-bar-gift" style="width:12%;background:#C8BEB0;color:#2C2416;"></div></div>
+        <div class="disc-ctrl"><input type="range" id="d-s-gift" min="0" max="100" value="12" /><span class="ctrl-val" id="d-v-gift">12%</span></div>
+      </div>
+      <div class="disc-cat">
+        <div class="disc-head">
+          <span class="disc-name">Buffer (απρόβλεπτα)</span>
+          <span class="disc-amount" id="d-amt-buf">€25<span class="disc-pct" id="d-pct-buf">13%</span></span>
+        </div>
+        <div class="disc-track"><div class="disc-fill" id="d-bar-buf" style="width:13%;background:#B8A890;color:#2C2416;"></div></div>
+        <div class="disc-ctrl"><input type="range" id="d-s-buf" min="0" max="100" value="13" /><span class="ctrl-val" id="d-v-buf">13%</span></div>
+      </div>
+      <button class="reset-link" id="reset-disc">↺ Επαναφορά στις προτεινόμενες αναλογίες</button>
+    </div>
+
+    <!-- THE BRIDGE: fashion budget result -->
+    <div class="fashion-result">
+      <p class="fr-label">Το πραγματικό σου fashion budget</p>
+      <div class="fr-amount"><span class="small">€</span><span id="fr-num">75</span><span class="small"> / μήνα</span></div>
+      <p class="fr-annual" id="fr-annual">≈ €900 τον χρόνο</p>
+      <p class="fr-sub">Αυτό είναι το νούμερο που μπαίνει στον κανόνα 70-20-10 παρακάτω. Όχι τα €200 που «έμειναν».</p>
+      <p class="fr-arrow">Δες πώς μοιράζεται</p>
+    </div>
+
+    <div class="insight-box" id="insight">
+      <strong>Ωραία ισορροπία.</strong> Επενδύεις πρώτα, καλύπτεις τις ανάγκες σου, και ξοδεύεις σε ρούχα με σχέδιο — όχι ό,τι έμεινε στην τύχη.
+    </div>
+
+    <hr class="divider" />
+
+    <!-- ════════ STAGE 2: FASHION BUDGET → 70-20-10 ════════ -->
+    <div class="stage-head">
+      <span class="stage-badge">Μέρος Β</span>
+      <h2>Πώς μοιράζεται το <em>fashion budget</em></h2>
+      <p>Τώρα που ξέρεις το νούμερο, ο κανόνας 70-20-10 το σπάει σωστά: τα περισσότερα στα core κομμάτια που αποδίδουν, λίγα στα trends, λίγα στα functional.</p>
+    </div>
+
+    <p class="section-label">Ο κανόνας 70-20-10</p>
+    <h2 class="section-title">Core · Trend · <em>Function</em></h2>
+
+    <div class="alloc-wrap">
+      <div class="alloc-head">
+        <span class="lbl">Μηνιαίο fashion budget</span>
+        <span class="total" id="allocTotal">€75 · 100%</span>
+      </div>
+
+      <div class="alloc-cat c-core">
+        <div class="alloc-cat-head">
+          <div>
+            <span class="cat-name">Core</span>
+            <span class="cat-fin">Τα θεμέλια · χαμηλό CPW</span>
+          </div>
+          <div class="cat-amount" id="a-amt-core">€53<span class="cat-pct" id="a-pct-core">70%</span></div>
+        </div>
+        <div class="cat-track"><div class="cat-fill" id="a-bar-core" style="width:70%;background:#C4B48A;color:#3A2E1E;">σταθερά, αποδοτικά</div></div>
+        <div class="slider-row"><input type="range" id="a-s-core" min="0" max="100" value="70" /><span class="slider-val" id="a-v-core">70%</span></div>
+        <p class="cat-desc">Το καλό blazer, το denim που σου κάθεται, η λευκή μπλούζα ποιότητας, το trench. Δεν είναι glamorous — αλλά φτιάχνουν το 80% των συνόλων σου. Εδώ αξίζει η επένδυση.</p>
+      </div>
+
+      <div class="alloc-cat c-trend">
+        <div class="alloc-cat-head">
+          <div>
+            <span class="cat-name">Trend</span>
+            <span class="cat-fin">Η χαρά της μόδας · ελεγχόμενο ρίσκο</span>
+          </div>
+          <div class="cat-amount" id="a-amt-trend">€15<span class="cat-pct" id="a-pct-trend">20%</span></div>
+        </div>
+        <div class="cat-track"><div class="cat-fill" id="a-bar-trend" style="width:20%;background:#C9A488;color:#3A1810;">της εποχής</div></div>
+        <div class="slider-row"><input type="range" id="a-s-trend" min="0" max="100" value="20" /><span class="slider-val" id="a-v-trend">20%</span></div>
+        <p class="cat-desc">Κομμάτια της σεζόν, με χρώμα και φόρμα. Μικρότερη διάρκεια ζωής, οπότε δεν χρειάζονται μεγάλο budget. Χωρίς αυτά όμως, η ντουλάπα γίνεται στολή.</p>
+      </div>
+
+      <div class="alloc-cat c-func">
+        <div class="alloc-cat-head">
+          <div>
+            <span class="cat-name">Function</span>
+            <span class="cat-fin">Ειδική λειτουργία</span>
+          </div>
+          <div class="cat-amount" id="a-amt-func">€8<span class="cat-pct" id="a-pct-func">10%</span></div>
+        </div>
+        <div class="cat-track"><div class="cat-fill" id="a-bar-func" style="width:10%;background:#C8BEB0;color:#2C2416;"></div></div>
+        <div class="slider-row"><input type="range" id="a-s-func" min="0" max="100" value="10" /><span class="slider-val" id="a-v-func">10%</span></div>
+        <p class="cat-desc">Αθλητικά, αδιάβροχο, formal για γάμους. Δεν τα φοράς συχνά, αλλά όταν τα χρειάζεσαι, τα χρειάζεσαι απόλυτα. Συχνά ξεχνιούνται — και χτυπάνε εκτός budget.</p>
+      </div>
+
+      <button class="reset-link" id="reset-alloc">↺ Επαναφορά στο 70-20-10</button>
+
+      <div class="insight-box" id="alloc-insight">
+        <strong>Ισορροπημένη κατανομή.</strong> Το μεγαλύτερο μέρος πάει στα core — εκεί που φοριέται καθημερινά και αποδίδει.
+      </div>
+    </div>
+
+    <hr class="divider" />
+
+    <!-- RULES -->
+    <p class="section-label">Οι κανόνες αγοράς</p>
+    <h2 class="section-title">4 κανόνες πριν <em>κάθε αγορά</em></h2>
+
+    <div class="rule-grid">
+      <div class="rule-card">
+        <p class="rule-num">01</p>
+        <p class="rule-title">Πρώτα η wishlist</p>
+        <p class="rule-desc">Τίποτα δεν μπαίνει στο καλάθι αν δεν έχει περάσει πρώτα από τη wishlist. Το «το είδα, το πήρα» είναι ο εχθρός του budget.</p>
+      </div>
+      <div class="rule-card">
+        <p class="rule-num">02</p>
+        <p class="rule-title">Σε ποια κατηγορία;</p>
+        <p class="rule-desc">Πριν αγοράσεις, ρώτα: core, trend ή function; Αν η κατηγορία έχει «γεμίσει» για φέτος, περίμενε.</p>
+      </div>
+      <div class="rule-card">
+        <p class="rule-num">03</p>
+        <p class="rule-title">Το τεστ του CPW</p>
+        <p class="rule-desc">Διαίρεσε την τιμή με τις φορές που ρεαλιστικά θα το φορέσεις. Πάνω από 7€/φορά; Ξανασκέψου το.</p>
+      </div>
+      <div class="rule-card">
+        <p class="rule-num">04</p>
+        <p class="rule-title">Πάνω από το μηνιαίο; Περίμενε</p>
+        <p class="rule-desc">Αν κάτι κοστίζει πάνω από το μηνιαίο σου, δεν το παίρνεις με δόσεις. Μαζεύεις. Η αναμονή φιλτράρει τις μισές αγορές που θα μετάνιωνες.</p>
+      </div>
+    </div>
+
+    <hr class="divider" />
+
+    <div class="cta-strip">
+      <p class="cta-text">Πέρασε τη <strong>wishlist</strong> σου στο εργαλείο και κράτα κάθε αγορά μέσα στο budget.</p>
+      <a href="wishlist.html" class="cta-btn">Άνοιξε τη Wishlist →</a>
+    </div>
+
+  </main>
+
+  <footer>
+    <p class="footer-logo">Fashion Analysis <em>by Danai</em></p>
+    <p class="footer-sub">Wardrobe Intelligence &nbsp;·&nbsp; Style Education &nbsp;·&nbsp; Fashion Analysis</p>
+    <ul class="footer-links">
+      <li><a href="index.html">Αρχική</a></li>
+      <li><a href="wardrobe-calculator.html">KPIs Calculator</a></li>
+      <li><a href="wishlist.html">Wardrobe Wishlist</a></li>
+      <li><a href="wardrobe-tracker.html">Wardrobe Tracker</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+  </footer>
+
+  <script>
+  (function(){
+    function num(id){ var v=parseFloat(String(document.getElementById(id).value).replace(/[^0-9.]/g,'')); return (isNaN(v)||v<0)?0:v; }
+    function fmt(n){ return '€'+Math.round(n).toLocaleString('el-GR'); }
+
+    var discCats = ['fash','trav','beau','gift','buf'];
+    var discDefaults = { fash:38, trav:25, beau:12, gift:12, buf:13 };
+    var allocCats = ['core','trend','func'];
+    var allocDefaults = { core:70, trend:20, func:10 };
+
+    var fashionBudget = 0; // the bridge value
+
+    function renderStage1(){
+      var income = num('income');
+
+      var invPct = parseInt(document.getElementById('s-inv').value,10);
+      var inv = income * invPct/100;
+      document.getElementById('v-inv').textContent = invPct+'%';
+      document.getElementById('amt-inv').textContent = fmt(inv);
+
+      var fix = num('e-fix');
+      var qol = num('e-qol');
+      document.getElementById('amt-fix').textContent = fmt(fix);
+      document.getElementById('amt-qol').textContent = fmt(qol);
+
+      var disc = income - inv - fix - qol;
+      var discEl = document.getElementById('amt-disc');
+      discEl.textContent = fmt(disc);
+      discEl.className = 'remain-amount' + (disc<0 ? ' neg' : '');
+      var effDisc = Math.max(disc,0);
+
+      var dvals = {}; var dsum = 0;
+      discCats.forEach(function(c){ dvals[c]=parseInt(document.getElementById('d-s-'+c).value,10); dsum+=dvals[c]; });
+
+      var fashAmount = 0;
+      discCats.forEach(function(c){
+        var share = dsum>0 ? dvals[c]/dsum : 0;
+        var amt = effDisc * share;
+        if(c==='fash') fashAmount = amt;
+        document.getElementById('d-v-'+c).textContent = dvals[c]+'%';
+        document.getElementById('d-pct-'+c).textContent = Math.round(share*100)+'%';
+        document.getElementById('d-amt-'+c).childNodes[0].nodeValue = fmt(amt);
+        document.getElementById('d-bar-'+c).style.width = (share*100)+'%';
+      });
+
+      fashionBudget = fashAmount;
+      document.getElementById('fr-num').textContent = Math.round(fashAmount).toLocaleString('el-GR');
+      document.getElementById('fr-annual').textContent = '≈ '+fmt(fashAmount*12)+' τον χρόνο';
+
+      var ins = document.getElementById('insight');
+      if(disc < 0){
+        ins.className='insight-box warn';
+        ins.innerHTML='<strong>Τα έξοδα ξεπερνούν το εισόδημα.</strong> Με αυτά τα νούμερα δεν μένει τίποτα για discretionary — βγαίνεις '+fmt(Math.abs(disc))+' πάνω. Δες πού μπορείς να κόψεις στα πάγια ή στο quality of life πριν σκεφτείς ρούχα.';
+      } else if(income>0 && fashAmount/income > 0.20){
+        ins.className='insight-box warn';
+        ins.innerHTML='<strong>Μεγάλο μερίδιο στα ρούχα.</strong> Το fashion budget είναι '+Math.round(fashAmount/income*100)+'% του εισοδήματός σου. Δεν είναι «λάθος» — αλλά σιγουρέψου ότι η επένδυση και το buffer δεν θυσιάζονται.';
+      } else if(invPct < 10){
+        ins.className='insight-box warn';
+        ins.innerHTML='<strong>Λίγη επένδυση.</strong> Με '+invPct+'%, αποταμιεύεις κάτω από το ελάχιστο που προτείνει η μέθοδος (10%). Το «εγώ πρώτα» είναι το θεμέλιο — αν μπορείς, ανέβασέ το.';
+      } else {
+        ins.className='insight-box';
+        ins.innerHTML='<strong>Ωραία ισορροπία.</strong> Επενδύεις '+invPct+'% πρώτα, καλύπτεις τις ανάγκες σου, και σου μένουν '+fmt(fashAmount)+'/μήνα για ρούχα — με σχέδιο, όχι στην τύχη.';
+      }
+
+      renderStage2();
+    }
+
+    function renderStage2(){
+      var avals = {}; var asum = 0;
+      allocCats.forEach(function(c){ avals[c]=parseInt(document.getElementById('a-s-'+c).value,10); asum+=avals[c]; });
+
+      document.getElementById('allocTotal').textContent = fmt(fashionBudget)+' · '+asum+'%';
+      document.getElementById('allocTotal').style.color = (asum===100)?'var(--text-dark)':'var(--rose)';
+
+      allocCats.forEach(function(c){
+        var share = asum>0 ? avals[c]/asum : 0;
+        var amt = fashionBudget * share;
+        document.getElementById('a-v-'+c).textContent = avals[c]+'%';
+        document.getElementById('a-pct-'+c).textContent = Math.round(share*100)+'%';
+        document.getElementById('a-amt-'+c).childNodes[0].nodeValue = fmt(amt);
+        document.getElementById('a-bar-'+c).style.width = (share*100)+'%';
+      });
+
+      var ins = document.getElementById('alloc-insight');
+      var coreShare = asum>0 ? avals.core/asum*100 : 0;
+      var trendShare = asum>0 ? avals.trend/asum*100 : 0;
+      if(asum !== 100){
+        ins.className='insight-box warn';
+        ins.innerHTML='<strong>Τα ποσοστά αθροίζουν '+asum+'%.</strong> Τα ποσά υπολογίζονται αναλογικά — αλλά για καθαρή εικόνα, ρύθμισέ τα να βγάζουν 100%.';
+      } else if(trendShare > 30){
+        ins.className='insight-box warn';
+        ins.innerHTML='<strong>Πολλά trends.</strong> Με '+Math.round(trendShare)+'% σε trend κομμάτια, ρισκάρεις ντουλάπα με εποχιακά που δεν συνδυάζονται. Ο κανόνας προτείνει γύρω στο 20%.';
+      } else if(coreShare < 55){
+        ins.className='insight-box warn';
+        ins.innerHTML='<strong>Λίγα core.</strong> Με '+Math.round(coreShare)+'% στα θεμέλια, η ντουλάπα χάνει τη σταθερή της βάση. Εκεί πέφτει το 70% της χρήσης — άρα κι εκεί πρέπει να πέφτει η επένδυση.';
+      } else {
+        ins.className='insight-box';
+        ins.innerHTML='<strong>Ισορροπημένη κατανομή.</strong> Τα '+fmt(fashionBudget*avals.core/asum)+' στα core είναι το έξυπνο: εκεί φοριέται καθημερινά και πέφτει το cost-per-wear.';
+      }
+    }
+
+    // events stage 1
+    document.getElementById('income').addEventListener('input', renderStage1);
+    document.getElementById('s-inv').addEventListener('input', renderStage1);
+    document.getElementById('e-fix').addEventListener('input', renderStage1);
+    document.getElementById('e-qol').addEventListener('input', renderStage1);
+    discCats.forEach(function(c){ document.getElementById('d-s-'+c).addEventListener('input', renderStage1); });
+    document.querySelectorAll('.preset').forEach(function(b){
+      b.addEventListener('click', function(){ document.getElementById('income').value=b.getAttribute('data-v'); renderStage1(); });
+    });
+    document.getElementById('reset-disc').addEventListener('click', function(){
+      discCats.forEach(function(c){ document.getElementById('d-s-'+c).value=discDefaults[c]; });
+      renderStage1();
+    });
+
+    // events stage 2
+    allocCats.forEach(function(c){ document.getElementById('a-s-'+c).addEventListener('input', renderStage2); });
+    document.getElementById('reset-alloc').addEventListener('click', function(){
+      allocCats.forEach(function(c){ document.getElementById('a-s-'+c).value=allocDefaults[c]; });
+      renderStage2();
+    });
+
+    renderStage1();
+  })();
+  </script>
+
+</body>
+</html>

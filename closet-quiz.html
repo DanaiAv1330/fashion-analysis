@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Η Ντουλάπα σου λέει ποια είσαι — Το Τεστ</title>
+<meta name="description" content="10 ψυχολογικά προφίλ ντουλάπας. Απάντησε 12 ερωτήσεις και ανακάλυψε το προφίλ σου — με συμβουλές βελτίωσης.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#f6f1e7;
+    --cream-deep:#efe7d6;
+    --ink:#1c1a17;
+    --ink-soft:#3a352e;
+    --gold:#b08d4f;
+    --gold-deep:#8c6d38;
+    --line:#d8ccb4;
+    --paper:#fbf8f1;
+    --shadow:rgba(40,33,22,.10);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Jost',sans-serif;
+    font-weight:300;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    background-image:
+      radial-gradient(circle at 15% 10%, rgba(176,141,79,.06), transparent 40%),
+      radial-gradient(circle at 85% 90%, rgba(176,141,79,.05), transparent 45%);
+    min-height:100vh;
+  }
+  .wrap{max-width:760px;margin:0 auto;padding:0 24px;}
+
+  /* ---------- HERO ---------- */
+  header.hero{
+    text-align:center;
+    padding:72px 24px 36px;
+  }
+  .kicker{
+    font-family:'Jost',sans-serif;
+    font-weight:400;
+    letter-spacing:.42em;
+    text-transform:uppercase;
+    font-size:11px;
+    color:var(--gold-deep);
+    margin-bottom:22px;
+  }
+  .hero h1{
+    font-family:'Cormorant Garamond',serif;
+    font-weight:600;
+    font-size:clamp(38px,7vw,68px);
+    line-height:1.04;
+    letter-spacing:.01em;
+  }
+  .hero h1 em{font-style:italic;color:var(--gold-deep);}
+  .hero .sub{
+    font-family:'Cormorant Garamond',serif;
+    font-style:italic;
+    font-size:clamp(18px,2.6vw,23px);
+    color:var(--ink-soft);
+    margin-top:18px;
+    max-width:540px;
+    margin-left:auto;margin-right:auto;
+  }
+  .rule{
+    width:54px;height:1px;background:var(--gold);
+    margin:30px auto;opacity:.7;
+  }
+  .meta{
+    font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--ink-soft);opacity:.7;
+  }
+
+  /* ---------- CARD / SCREENS ---------- */
+  .screen{display:none;animation:fade .5s ease both;}
+  .screen.active{display:block;}
+  @keyframes fade{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+
+  .card{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:3px;
+    padding:40px 36px 44px;
+    margin:14px 0 60px;
+    box-shadow:0 18px 50px -28px var(--shadow);
+    position:relative;
+  }
+  .card::before{
+    content:"";position:absolute;inset:7px;
+    border:1px solid var(--line);border-radius:2px;
+    pointer-events:none;opacity:.5;
+  }
+
+  /* intro screen */
+  .intro-list{list-style:none;margin:8px 0 30px;}
+  .intro-list li{
+    font-family:'Cormorant Garamond',serif;font-size:20px;
+    padding:11px 0 11px 32px;position:relative;border-bottom:1px solid var(--line);
+    color:var(--ink-soft);
+  }
+  .intro-list li:last-child{border-bottom:none;}
+  .intro-list li::before{
+    content:"";position:absolute;left:6px;top:21px;width:7px;height:7px;
+    background:var(--gold);border-radius:50%;
+  }
+
+  /* ---------- BUTTONS ---------- */
+  .btn{
+    display:inline-block;cursor:pointer;border:none;
+    font-family:'Jost',sans-serif;font-weight:400;
+    letter-spacing:.18em;text-transform:uppercase;font-size:12.5px;
+    background:var(--ink);color:var(--cream);
+    padding:16px 38px;border-radius:2px;
+    transition:all .35s cubic-bezier(.2,.7,.3,1);
+  }
+  .btn:hover{background:var(--gold-deep);transform:translateY(-2px);box-shadow:0 10px 24px -12px var(--shadow);}
+  .btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--ink);}
+  .btn.ghost:hover{background:var(--ink);color:var(--cream);}
+  .center{text-align:center;}
+
+  /* ---------- PROGRESS ---------- */
+  .progress-shell{margin:6px 0 30px;}
+  .progress-top{
+    display:flex;justify-content:space-between;align-items:baseline;
+    font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-deep);
+    margin-bottom:10px;
+  }
+  .bar{height:2px;background:var(--line);border-radius:2px;overflow:hidden;}
+  .bar i{display:block;height:100%;background:var(--gold);width:0;transition:width .5s cubic-bezier(.2,.7,.3,1);}
+
+  /* ---------- QUESTION ---------- */
+  .q-num{
+    font-family:'Cormorant Garamond',serif;font-style:italic;
+    font-size:19px;color:var(--gold-deep);margin-bottom:6px;
+  }
+  .q-title{
+    font-family:'Cormorant Garamond',serif;font-weight:600;
+    font-size:clamp(25px,4vw,33px);line-height:1.18;margin-bottom:26px;
+  }
+  .opt{
+    display:block;width:100%;text-align:left;cursor:pointer;
+    background:var(--cream);border:1px solid var(--line);
+    border-radius:2px;padding:16px 18px;margin-bottom:12px;
+    font-family:'Jost',sans-serif;font-weight:300;font-size:16px;color:var(--ink-soft);
+    transition:all .25s ease;position:relative;
+  }
+  .opt:hover{border-color:var(--gold);background:#fff;color:var(--ink);transform:translateX(3px);}
+  .opt.sel{border-color:var(--gold-deep);background:#fff;color:var(--ink);box-shadow:inset 3px 0 0 var(--gold);}
+  .nav-row{display:flex;justify-content:space-between;margin-top:24px;gap:12px;}
+
+  /* ---------- RESULT ---------- */
+  .result-kicker{text-align:center;}
+  .result-title{
+    font-family:'Cormorant Garamond',serif;font-weight:600;
+    font-size:clamp(34px,6vw,52px);text-align:center;line-height:1.05;margin:4px 0 6px;
+  }
+  .result-emoji{font-size:46px;text-align:center;display:block;margin-bottom:6px;}
+  .result-tag{
+    text-align:center;font-family:'Cormorant Garamond',serif;font-style:italic;
+    font-size:21px;color:var(--ink-soft);margin-bottom:6px;
+  }
+  .match-line{
+    text-align:center;font-size:12px;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--gold-deep);margin-bottom:30px;
+  }
+
+  .bars-block{margin:8px 0 36px;}
+  .pbar{margin-bottom:16px;}
+  .pbar .lab{
+    display:flex;justify-content:space-between;align-items:baseline;
+    font-family:'Cormorant Garamond',serif;font-size:19px;margin-bottom:5px;
+  }
+  .pbar .lab .pct{font-family:'Jost',sans-serif;font-size:13px;color:var(--gold-deep);letter-spacing:.05em;}
+  .pbar .track{height:7px;background:var(--cream-deep);border-radius:6px;overflow:hidden;}
+  .pbar .fill{height:100%;width:0;border-radius:6px;background:linear-gradient(90deg,var(--gold),var(--gold-deep));transition:width 1s cubic-bezier(.2,.7,.3,1);}
+  .pbar:nth-child(1) .fill{background:linear-gradient(90deg,#c8a35e,var(--gold-deep));}
+  .pbar.dim .lab{color:var(--ink-soft);opacity:.75;}
+  .pbar.dim .fill{background:var(--line);}
+
+  .detail{
+    border-top:1px solid var(--line);padding-top:26px;margin-top:8px;
+  }
+  .detail h3{
+    font-family:'Cormorant Garamond',serif;font-weight:600;font-size:27px;margin-bottom:4px;
+  }
+  .detail .micro{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:14px;}
+  .detail p{margin-bottom:14px;color:var(--ink-soft);font-size:16px;}
+  .coach{
+    background:var(--cream);border-left:2px solid var(--gold);
+    padding:18px 20px;border-radius:2px;margin-top:18px;
+  }
+  .coach .ctitle{
+    font-family:'Jost',sans-serif;font-weight:500;font-size:11px;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--gold-deep);margin-bottom:7px;
+  }
+  .coach p{font-size:15.5px;margin-bottom:14px;}
+  .coach p:last-child{margin-bottom:0;}
+  .coach strong{font-weight:500;color:var(--ink);}
+
+  .secondary-detail{margin-top:30px;}
+  .secondary-detail .sd{
+    border-top:1px solid var(--line);padding-top:20px;margin-bottom:6px;
+  }
+  .secondary-detail .sd h4{
+    font-family:'Cormorant Garamond',serif;font-weight:600;font-size:22px;margin-bottom:4px;
+  }
+  .secondary-detail .sd .tip{font-size:15px;color:var(--ink-soft);}
+  .secondary-detail .sd .tip b{font-weight:500;color:var(--gold-deep);font-family:'Jost';font-size:11px;letter-spacing:.18em;text-transform:uppercase;display:block;margin-bottom:5px;}
+
+  /* ---------- CTA ---------- */
+  .cta{
+    margin-top:46px;border-top:1px solid var(--line);padding-top:34px;text-align:center;
+  }
+  .cta h3{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:30px;line-height:1.1;margin-bottom:8px;}
+  .cta p{color:var(--ink-soft);font-size:15.5px;max-width:440px;margin:0 auto 22px;}
+  .subscribe{display:flex;gap:10px;max-width:440px;margin:0 auto 14px;flex-wrap:wrap;}
+  .subscribe input{
+    flex:1;min-width:200px;padding:14px 16px;border:1px solid var(--line);border-radius:2px;
+    font-family:'Jost';font-size:15px;background:var(--paper);color:var(--ink);
+  }
+  .subscribe input:focus{outline:none;border-color:var(--gold);}
+  .sub-note{font-size:12px;color:var(--ink-soft);opacity:.7;}
+  .sub-ok{color:var(--gold-deep);font-family:'Cormorant Garamond';font-style:italic;font-size:19px;margin-top:8px;display:none;}
+  .sub-ok .btn{font-style:normal;font-family:'Jost';}
+  .video-cta{margin-top:6px;}
+
+  .share-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:26px;}
+  .share-row .btn{padding:13px 24px;font-size:11.5px;}
+
+  .restart{margin-top:30px;text-align:center;}
+  .restart button{
+    background:none;border:none;cursor:pointer;color:var(--ink-soft);
+    font-family:'Cormorant Garamond';font-style:italic;font-size:18px;
+    border-bottom:1px solid var(--line);padding-bottom:2px;transition:color .3s;
+  }
+  .restart button:hover{color:var(--gold-deep);}
+
+  footer{text-align:center;padding:40px 24px 60px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);opacity:.6;}
+
+  @media(max-width:560px){
+    .card{padding:30px 22px 34px;}
+    .subscribe{flex-direction:column;}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- ===== INTRO ===== -->
+  <section class="screen active" id="s-intro">
+    <header class="hero">
+      <div class="kicker">Fashion Analysis by Danai</div>
+      <h1>Η ντουλάπα σου<br>λέει <em>ποια είσαι</em></h1>
+      <div class="rule"></div>
+      <p class="sub">Δεν είναι απλώς ρούχα. Είναι ένα αρχείο αναμνήσεων, φιλοδοξιών και εκδοχών του εαυτού σου.</p>
+    </header>
+
+    <div class="card">
+      <ul class="intro-list">
+        <li>12 σύντομες ερωτήσεις — λιγότερο από 3 λεπτά</li>
+        <li>Τα top 3 προφίλ σου με ποσοστό ταιριάσματος</li>
+        <li>Συμβουλές βελτίωσης για το κυρίαρχο προφίλ σου</li>
+      </ul>
+      <div class="center">
+        <button class="btn" onclick="start()">Ξεκίνα το τεστ</button>
+      </div>
+      <p class="meta center" style="margin-top:20px;">Βασισμένο σε 3 ψυχολογικούς άξονες: αποθήκευση · χρώματα · είδη ρούχων</p>
+    </div>
+  </section>
+
+  <!-- ===== QUIZ ===== -->
+  <section class="screen" id="s-quiz">
+    <div class="card">
+      <div class="progress-shell">
+        <div class="progress-top">
+          <span id="p-label">Ερώτηση 1 / 12</span>
+          <span id="p-pct">8%</span>
+        </div>
+        <div class="bar"><i id="p-fill"></i></div>
+      </div>
+      <div class="q-num" id="q-num">01</div>
+      <h2 class="q-title" id="q-title"></h2>
+      <div id="q-opts"></div>
+      <div class="nav-row">
+        <button class="btn ghost" id="back-btn" onclick="back()">Πίσω</button>
+        <span></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== RESULT ===== -->
+  <section class="screen" id="s-result">
+    <div class="card">
+      <div class="result-kicker kicker">Το προφίλ σου</div>
+      <span class="result-emoji" id="r-emoji"></span>
+      <h2 class="result-title" id="r-title"></h2>
+      <p class="result-tag" id="r-tag"></p>
+      <p class="match-line" id="r-match"></p>
+
+      <div class="bars-block" id="r-bars"></div>
+
+      <div class="detail">
+        <h3 id="d-title"></h3>
+        <div class="micro" id="d-micro"></div>
+        <p id="d-desc"></p>
+        <p id="d-shadow"></p>
+        <div class="coach">
+          <div class="ctitle">✦ Το θετικό σου</div>
+          <p id="d-pos"></p>
+          <div class="ctitle">✦ Η συμβουλή βελτίωσης</div>
+          <p id="d-tip"></p>
+        </div>
+      </div>
+
+      <div class="secondary-detail" id="r-secondary"></div>
+
+      <!-- CTA -->
+      <div class="cta">
+        <h3>Τώρα που ξέρεις το προφίλ σου — ποιο είναι το επόμενο βήμα;</h3>
+        <p>Μπες στη λίστα και κατέβασε δωρεάν τον οδηγό «Το Επόμενο Βήμα» — ένα βήμα-βήμα μονοπάτι για να ψωνίζεις πιο στοχευμένα, χωρίς να χάσεις το μοναδικό σου στυλ.</p>
+        <div class="subscribe">
+          <input type="email" id="sub-email" placeholder="Το email σου">
+          <button class="btn" onclick="subscribe()">Πάρε τον οδηγό</button>
+        </div>
+        <p class="sub-note">Χωρίς spam. Μόνο fashion που βγάζει νόημα.</p>
+        <div class="sub-ok" id="sub-ok">
+          <p style="margin-bottom:14px;">Ευχαριστώ! Ο οδηγός είναι δικός σου ✦<br><span style="font-size:14px;opacity:.8;">(σου τον στείλαμε και στο email)</span></p>
+          <a class="btn" id="download-btn" href="#" download>Κατέβασε τον οδηγό (PDF)</a>
+        </div>
+
+        <div class="video-cta" id="video-cta">
+          <div class="rule" style="margin:30px auto;"></div>
+          <a class="btn ghost" id="video-btn" href="#" target="_blank" rel="noopener">▶ Δες το αναλυτικό video</a>
+        </div>
+
+        <div class="share-row">
+          <button class="btn ghost" onclick="shareResult()">Μοιράσου το αποτέλεσμα</button>
+          <button class="btn ghost" onclick="copyResult()">Αντιγραφή link</button>
+        </div>
+      </div>
+
+      <div class="restart">
+        <button onclick="restart()">Κάνε ξανά το τεστ</button>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer>Fashion Analysis by Danai · Ψυχολογία της ντουλάπας</footer>
+
+<script>
+/* =========================================================
+   ⚙️ CONFIG — άλλαξε ΜΟΝΟ αυτές τις 2 γραμμές
+   ========================================================= */
+const VIDEO_URL = "#";              // π.χ. "https://youtu.be/XXXXXXXX"
+const GUIDE_URL = "wardrobe-guide.pdf"; // το PDF στο ίδιο folder στο GitHub
+
+/* =========================================================
+   PROFILES — 10 προφίλ με keys
+   ========================================================= */
+const PROFILES = {
+  curator:   {emoji:"🗂️", name:"Η Επιμελήτρια", tag:"Τάξη, σύστημα, σταθερότητα.",
+    micro:"Ανάγκη ελέγχου & ηρεμίας",
+    desc:"Όλα μοιάζουν ήσυχα. Ίδιες κρεμάστρες, διπλωμένα ρούχα, ουδέτερα χρώματα, καμία οπτική φασαρία. Δεν χρησιμοποιείς τη μόδα για έκφραση — τη χρησιμοποιείς για σταθερότητα. Η ενέργειά σου δεν πάει στο «τι να φορέσω σήμερα».",
+    shadow:"Η αρνητική πλευρά: πολλές φορές η ανάγκη για τάξη γίνεται ανάγκη για έλεγχο, και η προσωπική έκφραση αρχίζει να φιλτράρεται υπερβολικά.",
+    pos:"Έχεις χτίσει ένα σύστημα που οι περισσότεροι ζηλεύουν. Δεν σπαταλάς ενέργεια σε ασήμαντες αποφάσεις και η ντουλάπα σου δουλεύει πραγματικά για σένα.",
+    tip:"Μην προσπαθήσεις να γίνεις πιο «χαοτική» — δεν είσαι. Δώσε στον εαυτό σου ένα <strong>ελεγχόμενο πειραματικό πεδίο</strong>: ένα τολμηρό αξεσουάρ, ένα χρώμα-έκπληξη μέσα στο ήδη οργανωμένο σύστημά σου. Κρατάς τη σταθερότητα, αλλά αφήνεις χώρο για την προσωπικότητά σου."},
+
+  shielded:  {emoji:"🖤", name:"Η Καμουφλαρισμένη", tag:"Το μαύρο σαν ασπίδα.",
+    micro:"Emotional shielding",
+    desc:"Η γυναίκα της oversized μαύρης μπλούζας. Του «δεν θέλω να με κοιτάνε πολύ». Πολύ μαύρο, navy, loose γραμμές, ασφαλή κομμάτια. Το ρούχο λειτουργεί σαν συναισθηματική ασπίδα — ένας τρόπος να υπάρχεις χωρίς να εκτίθεσαι πλήρως.",
+    shadow:"Η αρνητική πλευρά: πολλές γυναίκες περνούν φάσεις όπου ντύνονται περισσότερο για να προστατευτούν παρά για να εκφραστούν — και ξεχνούν πώς είναι το αντίθετο.",
+    pos:"Έχεις χτίσει μια ντουλάπα που σε κάνει να νιώθεις ασφαλής, και αυτό δεν είναι μικρό πράγμα. Η άνεση είναι θεμιτή ανάγκη, όχι αδυναμία.",
+    tip:"Δεν χρειάζεται να πετάξεις το μαύρο — μπορεί να γίνει η πιο κομψή σου βάση. Άλλαξε τη <strong>σχέση</strong> σου μαζί του: φόρα το επειδή το διαλέγεις, όχι επειδή κρύβεσαι. Ξεκίνα μικρά — μια καλύτερη εφαρμογή, μια ωραία υφή, ένα χρώμα κοντά στο πρόσωπο."},
+
+  butterfly: {emoji:"🦋", name:"Η Πεταλούδα", tag:"Χρώμα, παιχνίδι, dopamine.",
+    micro:"Novelty-seeking",
+    desc:"Θέλεις να τα βλέπεις όλα: ανοιχτές κρεμάστρες, χρώματα, prints, ρούχα που μοιάζουν να ανήκουν σε 5 διαφορετικούς ανθρώπους. Δεν είναι έλλειψη ταυτότητας — είναι υπερβολικά πολλές ταυτότητες μαζί. Χρησιμοποιείς τη μόδα σαν εξερεύνηση και σαν dopamine.",
+    shadow:"Η αρνητική πλευρά: η ντουλάπα γεμίζει, αλλά το προσωπικό στιλ δεν σταθεροποιείται ποτέ.",
+    pos:"Έχεις κάτι που πολλοί δεν αποκτούν ποτέ — ελευθερία και χαρά στο ντύσιμο. Δεν φοβάσαι το χρώμα, το ρίσκο, την έκφραση.",
+    tip:"Δεν θέλουμε να σου κόψουμε τα φτερά — θέλουμε να βρεις τον <strong>μίτο</strong> σου. Ψάξε το κοινό νήμα στα αγαπημένα σου. Φτιάξε μια μικρή σταθερή βάση (5-7 κομμάτια «εσύ») και άσε τα trends να παίζουν γύρω της."},
+
+  archivist: {emoji:"📦", name:"Η Συναισθηματική Αρχειοθέτρια", tag:"Κρατάς εκδοχές του εαυτού σου.",
+    micro:"Extended self",
+    desc:"Δεν κρατάς ρούχα — κρατάς εκδοχές του εαυτού σου. Το φόρεμα από εκείνο το ταξίδι, το τζιν των 25, το σακάκι της «καλής δουλειάς». Δεν δυσκολεύεσαι να αποχωριστείς το ρούχο· δυσκολεύεσαι να αποχωριστείς την εκδοχή του εαυτού σου που ζει μέσα του.",
+    shadow:"Η αρνητική πλευρά: η ντουλάπα γεμίζει με κομμάτια που εξυπηρετούν τη μνήμη σου, όχι τη ζωή σου.",
+    pos:"Έχεις βάθος και συναισθηματική μνήμη. Τα ρούχα σου αφηγούνται μια ιστορία — αυτή η ικανότητα να δίνεις νόημα είναι όμορφη.",
+    tip:"Ξεχώρισε το ρούχο από το συναίσθημα. Για τα πιο φορτισμένα, κράτα μια <strong>φωτογραφία</strong> ή ένα μικρό memory box. Για τα «θα το φορέσω όταν…», βάλε προθεσμία. Η ανάμνηση ζει μέσα σου, όχι μέσα στο ύφασμα."},
+
+  corporate: {emoji:"💼", name:"Η Corporate Performer", tag:"Το ντύσιμο ως εργαλείο.",
+    micro:"Status signaling",
+    desc:"Η ντουλάπα σου μοιάζει στρατηγική: blazers, δομή, μπλε, γκρι, λευκά πουκάμισα, οργάνωση ανά κατηγορία. Το ρούχο εδώ δεν είναι προσωπική έκφραση — είναι επικοινωνιακή στρατηγική. «Πώς θέλω να με αντιλαμβάνονται;»",
+    shadow:"Η αρνητική πλευρά: όταν λειτουργείς χρόνια σε απαιτητικά περιβάλλοντα, αρχίζεις να ντύνεσαι για απόδοση παρά για συναίσθημα — και η γυναίκα χάνεται πίσω από τη «φόρμα».",
+    pos:"Καταλαβαίνεις κάτι που πολλοί αγνοούν — ότι η εικόνα επικοινωνεί πριν μιλήσεις. Έχεις χτίσει μια ντουλάπα-εργαλείο που σου ανοίγει πόρτες.",
+    tip:"Χτίσε μια μικρή <strong>«off-duty»</strong> γωνιά για το εσύ εκτός ρόλου. Και μέσα στα corporate σύνολα, βάλε ένα προσωπικό στοιχείο — μια υφή, ένα χρώμα, ένα κόσμημα με νόημα. Αξιοπιστία και προσωπικότητα δεν είναι ανταγωνιστικές."},
+
+  aspirational:{emoji:"🏷️", name:"Η Φιλόδοξη Καταναλώτρια", tag:"Αγορά ελπίδας.",
+    micro:"Fantasy self buying",
+    desc:"Η γυναίκα με τα tags. Τα «κάποτε θα το φορέσω», τα activewear χωρίς active lifestyle, τα ρούχα για brunches που δεν κάνεις ποτέ. Δεν αγοράζεις για τον σημερινό σου εαυτό — αγοράζεις για τον μελλοντικό. Η κατανάλωση γίνεται αγορά ελπίδας.",
+    shadow:"Η αρνητική πλευρά: ντουλάπα γεμάτη δυνατότητες, αλλά όχι πραγματική καθημερινότητα.",
+    pos:"Έχεις όνειρα και φιλοδοξία — βλέπεις εκδοχές του εαυτού σου που θέλεις να γίνεις. Αυτή η ελπίδα είναι κινητήρια δύναμη.",
+    tip:"Πριν από κάθε αγορά ρώτα: «Αγοράζω για τη ζωή που ζω <strong>τώρα</strong>, ή για μια ζωή που φαντάζομαι;» Ντύσε με αγάπη την τωρινή σου εκδοχή — αξίζει τα ωραία ρούχα, όχι κάποια μελλοντική «ανταμοιβή»."},
+
+  perfectionist:{emoji:"✨", name:"Η Τελειομανής Curator", tag:"Aesthetic perfection.",
+    micro:"Aesthetic ως coping",
+    desc:"Αν δεις τη ντουλάπα της online, θα γίνει viral: color coding, ίδιες κρεμάστρες, τέλειο δίπλωμα, minimal πολυτέλεια. Η αισθητική γίνεται μηχανισμός αντιμετώπισης — όταν ο κόσμος έξω μοιάζει χαοτικός, φτιάχνεις ένα μικρό σύστημα τελειότητας για ασφάλεια.",
+    shadow:"Η αρνητική πλευρά: συχνά αγοράζεις για το aesthetic, όχι για τη ζωή σου — και η πίεση να μένουν όλα «τέλεια» γίνεται εξαντλητική.",
+    pos:"Έχεις μάτι. Η αίσθηση της αρμονίας και της λεπτομέρειας είναι πραγματικό ταλέντο.",
+    tip:"Δοκίμασε σκόπιμα να «χαλάσεις» λίγο το σύστημα: φόρα το τέλειο κομμάτι σε <strong>συνηθισμένη μέρα</strong>, χωρίς περίσταση. Τα ρούχα υπάρχουν για να ζουν μαζί σου, όχι για να φωτογραφίζονται."},
+
+  chameleon: {emoji:"🦎", name:"Η Χαμαιλέοντας", tag:"Πολλές ντουλάπες σε μία.",
+    micro:"High social adaptability",
+    desc:"Άλλα ρούχα για δουλειά, άλλα για φίλους, άλλα για Instagram, άλλα για σχέση. Και κάθε version μοιάζει αληθινή. Διαβάζεις πολύ έντονα τις κοινωνικές προσδοκίες και προσαρμόζεσαι αισθητικά ανάλογα με το περιβάλλον.",
+    shadow:"Η αρνητική πλευρά: μετά από χρόνια, μπορεί να μην ξέρεις ποιο στιλ είναι πραγματικά δικό σου.",
+    pos:"Έχεις σπάνια κοινωνική ευφυΐα και ευελιξία. Ξέρεις να διαβάζεις τον χώρο και να προσαρμόζεσαι — χάρισμα που ανοίγει πόρτες.",
+    tip:"Ψάξε το <strong>κοινό στοιχείο</strong> σε όλες τις εκδοχές σου — κάτι μένει σταθερό. Δοκίμασε: μια μέρα ντύσου χωρίς να σκεφτείς ποιον θα δεις. Τι θα διάλεγες αν δεν υπήρχε κανένα βλέμμα;"},
+
+  minimalist:{emoji:"⚪", name:"Η Minimal Functionalist", tag:"Λιγότερες αποφάσεις.",
+    micro:"Decision fatigue reduction",
+    desc:"Έχεις λύσει τη ντουλάπα σαν εξίσωση: λίγα ρούχα, μαύρο, λευκό, denim, γήινα, πρακτικά κομμάτια σαν στολή. Μοιάζει με την Επιμελήτρια, αλλά το κίνητρο είναι άλλο — δεν θες να σκέφτεσαι. Κρατάς την ενέργειά σου για ό,τι μετράει.",
+    shadow:"Η αρνητική πλευρά: η λειτουργικότητα μπορεί σιγά σιγά να σβήσει την απόλαυση — η μόδα γίνεται ένα ακόμα task που πρέπει να «λυθεί».",
+    pos:"Έχεις καθαρότητα και αυτογνωσία — ξέρεις τι σε εξυπηρετεί. Αυτή η αποδοτικότητα είναι μια μορφή ευφυΐας.",
+    tip:"Μην ταυτίσεις την απλότητα με την αδιαφορία. Επένδυσε στην <strong>ποιότητα</strong> αντί στην ποσότητα — αφού φοράς λίγα, ας είναι εξαιρετικά. Το minimal δεν χρειάζεται να είναι βαρετό· μπορεί να είναι ήσυχα κομψό."},
+
+  romantic:  {emoji:"🌸", name:"Η Ρομαντική Συλλέκτρια", tag:"Nostalgia & τρυφερότητα.",
+    micro:"Emotional storytelling",
+    desc:"Η ντουλάπα σου μοιάζει με όμορφο παραμύθι: pastels, cream, floral tones, vintage, δαντέλες, θηλυκές γραμμές. Κάθε κομμάτι αντιμετωπίζεται σαν κειμήλιο. Το ντύσιμο γίνεται emotional storytelling — ζεις μέσα σε μια ατμόσφαιρα που σε κάνει να νιώθεις.",
+    shadow:"Η αρνητική πλευρά: μερικές φορές η νοσταλγία σε κρατά προσκολλημένη σε μια αισθητική του παρελθόντος ή σε μια φαντασιωμένη εκδοχή της ζωής.",
+    pos:"Έχεις σπάνια ευαισθησία και αίσθηση ομορφιάς. Σε έναν κόσμο που τρέχει, εσύ φτιάχνεις ποίηση από τα ρούχα σου.",
+    tip:"Φέρε τον ρομαντισμό σου στο <strong>σήμερα</strong>. Συνδύασε τα vintage κομμάτια με κάτι πιο σύγχρονο ή structured, ώστε η αισθητική σου να αναπνέει. Κράτα τη nostalgia ως έμπνευση, όχι ως καταφύγιο."}
+};
+
+/* =========================================================
+   QUESTIONS — 12 ερωτήσεις, κάθε option δίνει βάρη σε προφίλ
+   ========================================================= */
+const QUESTIONS = [
+  {q:"Ανοίγεις την ντουλάπα σου. Τι βλέπεις πρώτα;",
+   a:[
+    {t:"Όλα τακτοποιημένα, ίδιες κρεμάστρες, καμία φασαρία", w:{curator:3, perfectionist:1}},
+    {t:"Χρώματα, prints, ρούχα παντού — οπτικό πανηγύρι", w:{butterfly:3}},
+    {t:"Λίγα πράγματα, όλα κρυμμένα και πρακτικά", w:{minimalist:3}},
+    {t:"Πολλά κομμάτια, κάποια με ιστορία που δεν αποχωρίζομαι", w:{archivist:3}},
+   ]},
+  {q:"Ποιο χρώμα κυριαρχεί στα ρούχα σου;",
+   a:[
+    {t:"Μαύρο, ανθρακί, σκούρα — με «κρύβουν»", w:{shielded:3}},
+    {t:"Μπλε, γκρι, navy, λευκά πουκάμισα", w:{corporate:3}},
+    {t:"Beige, cream, γήινα, παστέλ", w:{romantic:2, minimalist:1}},
+    {t:"Έντονα χρώματα & prints — όσο πιο ζωντανά τόσο καλύτερα", w:{butterfly:3}},
+   ]},
+  {q:"Πώς αποθηκεύεις συνήθως τα ρούχα σου;",
+   a:[
+    {t:"Όλα κλειστά σε συρτάρια/κουτιά, καθαρές επιφάνειες", w:{curator:2, minimalist:2}},
+    {t:"Ανοιχτά & ορατά — αν δεν το βλέπω, δεν υπάρχει", w:{butterfly:3}},
+    {t:"Color-coded, σχεδόν σαν βιτρίνα", w:{perfectionist:3}},
+    {t:"Με στοργή, αλλά κρατάω και πολλά παλιά", w:{archivist:2, romantic:1}},
+   ]},
+  {q:"Πόσα ρούχα έχεις με ετικέτα, αφόρετα;",
+   a:[
+    {t:"Αρκετά — «κάποτε θα τα φορέσω»", w:{aspirational:3}},
+    {t:"Σχεδόν κανένα, αγοράζω μόνο ό,τι θα φορέσω", w:{minimalist:2, curator:1}},
+    {t:"Κάποια «καλά» που περιμένουν τη σωστή περίσταση", w:{archivist:2, romantic:1}},
+    {t:"Λίγα, αλλά πάντα μπαίνουν νέα trend κομμάτια", w:{butterfly:2, chameleon:1}},
+   ]},
+  {q:"Όταν ψωνίζεις, για ποια εκδοχή του εαυτού σου αγοράζεις;",
+   a:[
+    {t:"Για τη μελλοντική, πιο οργανωμένη/fit εκδοχή μου", w:{aspirational:3}},
+    {t:"Για όποια διάθεση νιώθω εκείνη τη στιγμή", w:{butterfly:3}},
+    {t:"Για τη ζωή που ζω τώρα, πρακτικά", w:{minimalist:2, curator:1}},
+    {t:"Για το πώς θέλω να με βλέπουν οι άλλοι", w:{corporate:2, chameleon:1}},
+   ]},
+  {q:"Τι ρόλο παίζει το ντύσιμο στη δουλειά σου;",
+   a:[
+    {t:"Εργαλείο αξιοπιστίας — ντύνομαι στρατηγικά", w:{corporate:3}},
+    {t:"Θέλω να ντύνομαι γρήγορα χωρίς να σκέφτομαι", w:{minimalist:3}},
+    {t:"Προσαρμόζομαι ανάλογα με το περιβάλλον", w:{chameleon:3}},
+    {t:"Το κρατάω διακριτικό, χωρίς να τραβάω βλέμματα", w:{shielded:2, curator:1}},
+   ]},
+  {q:"Πώς νιώθεις όταν πρέπει να πετάξεις ένα παλιό ρούχο;",
+   a:[
+    {t:"Δύσκολο — συνδέεται με αναμνήσεις", w:{archivist:3}},
+    {t:"Εύκολο, αν δεν το φοράω φεύγει", w:{minimalist:2, curator:1}},
+    {t:"Το κρατάω αν είναι όμορφο/vintage", w:{romantic:3}},
+    {t:"Δεν με νοιάζει, αγοράζω συνέχεια καινούρια", w:{butterfly:2, aspirational:1}},
+   ]},
+  {q:"Ποια σιλουέτα σε εκφράζει περισσότερο;",
+   a:[
+    {t:"Oversized, loose, άνετα — να μη φαίνομαι πολύ", w:{shielded:3}},
+    {t:"Structured, blazers, καθαρές γραμμές", w:{corporate:3}},
+    {t:"Θηλυκές, ρομαντικές, λεπτές γραμμές", w:{romantic:3}},
+    {t:"Αλλάζω συνέχεια, ανάλογα με τη φάση", w:{butterfly:2, chameleon:1}},
+   ]},
+  {q:"Πόσο σε αγχώνει η ακαταστασία στη ντουλάπα;",
+   a:[
+    {t:"Πολύ — το χάος με κουράζει ψυχικά", w:{curator:2, perfectionist:2}},
+    {t:"Καθόλου, η «ακαταστασία» μου έχει νόημα", w:{butterfly:3}},
+    {t:"Μέτρια, αρκεί να βρίσκω εύκολα ό,τι θέλω", w:{minimalist:2}},
+    {t:"Δεν το σκέφτομαι, με νοιάζει πιο πολύ το συναίσθημα", w:{archivist:1, romantic:2}},
+   ]},
+  {q:"Πόσο διαφορετικά ντύνεσαι σε διαφορετικές περιστάσεις;",
+   a:[
+    {t:"Πολύ — έχω «κεφάλαια» στην ντουλάπα ανά ρόλο", w:{chameleon:3}},
+    {t:"Σχεδόν καθόλου, έχω ένα σταθερό uniform", w:{minimalist:2, curator:1}},
+    {t:"Αλλάζω αλλά μέσα στο ίδιο ρομαντικό μου ύφος", w:{romantic:2}},
+    {t:"Στη δουλειά διαφορετικά, αλλιώς πιο χαλαρά", w:{corporate:2}},
+   ]},
+  {q:"Ποια φράση σε αντιπροσωπεύει πιο πολύ;",
+   a:[
+    {t:"«Θέλω η ζωή μου να μοιάζει ήρεμη»", w:{romantic:2, minimalist:1, curator:1}},
+    {t:"«Θέλω να φαίνομαι ικανή & σε έλεγχο»", w:{corporate:3}},
+    {t:"«Θέλω να εκφράζομαι & να πειραματίζομαι»", w:{butterfly:3}},
+    {t:"«Θέλω να νιώθω ασφαλής & να μην εκτίθεμαι»", w:{shielded:3}},
+   ]},
+  {q:"Όταν ένα κομμάτι σου είναι «τέλειο», τι κάνεις;",
+   a:[
+    {t:"Το φυλάω για ειδική περίσταση", w:{archivist:2, aspirational:1}},
+    {t:"Το βάζω σε επιμελημένο, color-coded σημείο", w:{perfectionist:3}},
+    {t:"Το φοράω αμέσως, παντού", w:{butterfly:2, minimalist:1}},
+    {t:"Το συνδυάζω ώστε να «επικοινωνεί» σωστά", w:{corporate:2, chameleon:1}},
+   ]},
+];
+
+/* =========================================================
+   STATE & LOGIC
+   ========================================================= */
+let current = 0;
+let answers = new Array(QUESTIONS.length).fill(null);
+
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function start(){ current=0; answers=new Array(QUESTIONS.length).fill(null); show('s-quiz'); render(); }
+function restart(){ document.getElementById('sub-ok').style.display='none'; document.getElementById('sub-email').value=''; start(); }
+
+function render(){
+  const Q = QUESTIONS[current];
+  document.getElementById('q-num').textContent = String(current+1).padStart(2,'0');
+  document.getElementById('q-title').textContent = Q.q;
+  const pct = Math.round(((current)/QUESTIONS.length)*100);
+  document.getElementById('p-label').textContent = `Ερώτηση ${current+1} / ${QUESTIONS.length}`;
+  document.getElementById('p-pct').textContent = `${Math.round(((current+1)/QUESTIONS.length)*100)}%`;
+  document.getElementById('p-fill').style.width = `${((current+1)/QUESTIONS.length)*100}%`;
+  document.getElementById('back-btn').style.visibility = current===0 ? 'hidden' : 'visible';
+
+  const box = document.getElementById('q-opts');
+  box.innerHTML='';
+  Q.a.forEach((opt,i)=>{
+    const b=document.createElement('button');
+    b.className='opt'+(answers[current]===i?' sel':'');
+    b.textContent=opt.t;
+    b.onclick=()=>choose(i);
+    box.appendChild(b);
+  });
+}
+
+function choose(i){
+  answers[current]=i;
+  // visual select
+  document.querySelectorAll('#q-opts .opt').forEach((el,idx)=>el.classList.toggle('sel',idx===i));
+  // auto-advance
+  setTimeout(()=>{
+    if(current < QUESTIONS.length-1){ current++; render(); }
+    else { computeResult(); }
+  },260);
+}
+
+function back(){ if(current>0){ current--; render(); } }
+
+function computeResult(){
+  const scores={};
+  Object.keys(PROFILES).forEach(k=>scores[k]=0);
+  answers.forEach((ai,qi)=>{
+    if(ai===null) return;
+    const w=QUESTIONS[qi].a[ai].w;
+    Object.entries(w).forEach(([k,v])=>scores[k]+=v);
+  });
+  const total = Object.values(scores).reduce((a,b)=>a+b,0) || 1;
+  const ranked = Object.entries(scores)
+    .map(([k,v])=>({k, v, pct: Math.round((v/total)*100)}))
+    .sort((a,b)=>b.v-a.v);
+
+  renderResult(ranked);
+}
+
+function renderResult(ranked){
+  const top = ranked[0];
+  const P = PROFILES[top.k];
+  document.getElementById('r-emoji').textContent = P.emoji;
+  document.getElementById('r-title').textContent = P.name;
+  document.getElementById('r-tag').textContent = P.tag;
+  document.getElementById('r-match').textContent = `Ταίριασμα ${top.pct}%`;
+
+  // top 3 bars
+  const top3 = ranked.slice(0,3);
+  const barsBox = document.getElementById('r-bars');
+  barsBox.innerHTML='';
+  top3.forEach((r,idx)=>{
+    const pr=PROFILES[r.k];
+    const div=document.createElement('div');
+    div.className='pbar'+(idx>0?' dim':'');
+    div.innerHTML=`<div class="lab"><span>${pr.emoji} ${pr.name}</span><span class="pct">${r.pct}%</span></div>
+                   <div class="track"><div class="fill" data-w="${r.pct}"></div></div>`;
+    barsBox.appendChild(div);
+  });
+
+  // primary detail
+  document.getElementById('d-title').textContent = `${P.emoji} ${P.name}`;
+  document.getElementById('d-micro').textContent = P.micro;
+  document.getElementById('d-desc').textContent = P.desc;
+  document.getElementById('d-shadow').textContent = P.shadow;
+  document.getElementById('d-pos').innerHTML = P.pos;
+  document.getElementById('d-tip').innerHTML = P.tip;
+
+  // secondary (2nd & 3rd) short tips
+  const sec=document.getElementById('r-secondary');
+  sec.innerHTML='<p class="match-line" style="margin-bottom:18px;">Αλλά κανείς δεν είναι ένα μόνο προφίλ — έχεις και:</p>';
+  top3.slice(1).forEach(r=>{
+    const pr=PROFILES[r.k];
+    const div=document.createElement('div');
+    div.className='sd';
+    div.innerHTML=`<h4>${pr.emoji} ${pr.name} <span style="font-size:15px;color:var(--gold-deep);font-style:italic;">· ${r.pct}%</span></h4>
+                   <p class="tip"><b>Σύντομη συμβουλή</b>${stripTags(pr.tip)}</p>`;
+    sec.appendChild(div);
+  });
+
+  show('s-result');
+  // wire video button
+  const vbtn=document.getElementById('video-btn');
+  if(VIDEO_URL && VIDEO_URL!=="#"){ vbtn.href=VIDEO_URL; document.getElementById('video-cta').style.display='block'; }
+  else { document.getElementById('video-cta').style.display='none'; }
+  // animate bars
+  setTimeout(()=>{
+    document.querySelectorAll('#r-bars .fill').forEach(f=>{ f.style.width=f.dataset.w+'%'; });
+  },150);
+}
+
+function stripTags(html){ const d=document.createElement('div'); d.innerHTML=html; return d.textContent; }
+
+/* ---------- CTA actions ---------- */
+function subscribe(){
+  const email=document.getElementById('sub-email').value.trim();
+  if(!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){
+    document.getElementById('sub-email').style.borderColor='#b5544a';
+    return;
+  }
+  // NOTE: σύνδεσε εδώ το MailerLite form action / API σου (δες οδηγίες κάτω από το αρχείο)
+  document.getElementById('sub-email').style.display='none';
+  document.querySelector('.subscribe .btn').style.display='none';
+  document.getElementById('download-btn').href = GUIDE_URL;
+  document.getElementById('sub-ok').style.display='block';
+}
+
+function shareResult(){
+  const title=document.getElementById('r-title').textContent;
+  const pct=document.getElementById('r-match').textContent;
+  const text=`Έκανα το τεστ ντουλάπας και βγήκα «${title}» (${pct})! Δες ποια είσαι εσύ 👗`;
+  if(navigator.share){
+    navigator.share({title:'Το τεστ της ντουλάπας', text, url:location.href}).catch(()=>{});
+  } else {
+    copyText(text+' '+location.href);
+    flash('Αντιγράφηκε! Επικόλλησέ το όπου θες ✦');
+  }
+}
+function copyResult(){ copyText(location.href); flash('Το link αντιγράφηκε ✦'); }
+function copyText(t){
+  if(navigator.clipboard){ navigator.clipboard.writeText(t).catch(()=>{}); }
+  else { const ta=document.createElement('textarea'); ta.value=t; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); }
+}
+function flash(msg){
+  const ok=document.getElementById('sub-ok');
+  ok.textContent=msg; ok.style.display='block';
+  setTimeout(()=>{ if(ok.textContent===msg){ ok.textContent='Ευχαριστώ! Τα λέμε στο inbox σου ✦'; ok.style.display='none'; } },3000);
+}
+
+/* keyboard: 1-4 to answer */
+document.addEventListener('keydown',e=>{
+  if(document.getElementById('s-quiz').classList.contains('active')){
+    const n=parseInt(e.key);
+    if(n>=1&&n<=4){ const opts=document.querySelectorAll('#q-opts .opt'); if(opts[n-1]) opts[n-1].click(); }
+  }
+});
+</script>
+</body>
+</html>

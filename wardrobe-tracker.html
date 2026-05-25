@@ -1045,11 +1045,31 @@ body{padding-bottom:0;}
         </div>
         <div style="font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);margin-bottom:8px;">ΔΑΝ™ Component Distributions</div>
         <div style="display:flex;flex-direction:column;gap:10px;">
-          <div class="chart-card"><div class="chart-title">ΔΑΝ™ — Distribution (/100)</div><div id="dist-score" class="dist-chart"></div></div>
-          <div class="chart-card"><div class="chart-title">Απόσβεση — Distribution (/10)</div><div id="dist-cpw" class="dist-chart"></div></div>
-          <div class="chart-card"><div class="chart-title">Ευελιξία — Distribution (/10)</div><div id="dist-vers" class="dist-chart"></div></div>
-          <div class="chart-card"><div class="chart-title">Χρήση — Distribution (/10)</div><div id="dist-ur" class="dist-chart"></div></div>
-          <div class="chart-card"><div class="chart-title">Συνέπεια — Distribution (/10)</div><div id="dist-align" class="dist-chart"></div></div>
+          <div class="chart-card">
+            <div class="chart-title">ΔΑΝ™ — Κατανομή (/100)</div>
+            <div class="chart-formula">📐 ΔΑΝ™ = (Χρήση + Ευελιξία + Συνέπεια + Απόσβεση) × 2.5. Πόσα ρούχα πέφτουν σε κάθε δεκάδα (0, 10, 20… 100).</div>
+            <div id="dist-score" class="dist-chart"></div>
+          </div>
+          <div class="chart-card">
+            <div class="chart-title">Απόσβεση — Κατανομή (/10)</div>
+            <div class="chart-formula">📐 Score βάσει CPW (τιμή ÷ συνολικές χρήσεις): όσο χαμηλότερο CPW, τόσο ψηλότερο score. Πόσα ρούχα ανά τιμή 0–10.</div>
+            <div id="dist-cpw" class="dist-chart"></div>
+          </div>
+          <div class="chart-card">
+            <div class="chart-title">Ευελιξία — Κατανομή (/10)</div>
+            <div class="chart-formula">📐 Πόσα διαφορετικά κομμάτια συνδυάστηκαν μαζί του στο ημερολόγιο (+ floor από παλιά φοράματα). Πόσα ρούχα ανά τιμή 0–10.</div>
+            <div id="dist-vers" class="dist-chart"></div>
+          </div>
+          <div class="chart-card">
+            <div class="chart-title">Χρήση — Κατανομή (/10)</div>
+            <div class="chart-formula">📐 Συχνότητα χρήσης ανά χρόνο (συνολικές χρήσεις ÷ έτη από αγορά). Πόσα ρούχα ανά τιμή 0–10.</div>
+            <div id="dist-ur" class="dist-chart"></div>
+          </div>
+          <div class="chart-card">
+            <div class="chart-title">Συνέπεια — Κατανομή (/10)</div>
+            <div class="chart-formula">📐 Πόσο ταιριάζει με τα Outfit Uniforms σου (σε πόσα uniforms ανήκει). Πόσα ρούχα ανά τιμή 0–10.</div>
+            <div id="dist-align" class="dist-chart"></div>
+          </div>
         </div>
         <div style="font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);margin:18px 0 8px;">🔍 Ανάλυση ΔΑΝ™ ανά κατηγορία / ρούχο</div>
         <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;">
@@ -1301,7 +1321,7 @@ const sb = createClient(
 const CATEGORIES = {
   'Tops':['T-Shirts','Long Sleeve T-Shirts','Sleeveless','Polo Shirts','Blouses','Shirts','Hoodies','Sweaters','Cardigans'],
   'Dresses':['Day Dresses','Mini Dresses','Shirt Dresses','T-shirt Dresses','Sweatshirt Dress','Sweater Dress','Party Dresses'],
-  'Pants':['Jeans','Trousers','Dress Pants','Track Pants'],
+  'Pants':['Jeans','Trousers','Dress Pants','Track Pants','Skirts'],
   'Outwear':['Coats','Trench Coats','Blazer','Fleece Jackets','Zip Up Hoodies','Parkas','Puffer Jackets'],
   'Shoes':['Sneakers','Flats','Heels','Sandals','Slides','Boots','Combat Boots','Boat Shoes & Moccasine'],
   'Bags':['Tote Bag','Crossbody','Backpack','Clutch'],
@@ -2451,12 +2471,31 @@ function loadScoresDash(){
   document.getElementById('sc-value-sub').textContent=totalItems+' κομμάτια';
   document.getElementById('sc-avg-age').textContent=formatAge(getAvgAgeMonths(items));
   const agg=computeAggKPIs();document.getElementById('sc-conscious').textContent=agg.avgCons!=null?agg.avgCons.toFixed(1):'—';
-  const distChart=(id,fn,buckets,labels)=>{const el=document.getElementById(id);if(!el)return;const vals=items.map(fn).filter(v=>v!=null);if(!vals.length){el.innerHTML='<div class="dist-empty">—</div>';return;}const counts=buckets.map(()=>0);vals.forEach(v=>{for(let i=buckets.length-1;i>=0;i--){if(v>=buckets[i]){counts[i]++;break;}}});const max=Math.max(...counts,1);el.innerHTML=counts.map((c,i)=>renderHBar(labels[i],c,max,String(c),'var(--accent)')).join('');};
-  distChart('dist-score',getWPS,[0,20,40,60,80],['0-19','20-39','40-59','60-79','80-100']);
-  distChart('dist-cpw',getCPWScore,[0,2,4,6,8],['0-1','2-3','4-5','6-7','8-10']);
-  distChart('dist-vers',getVersatilityScore,[0,2,4,6,8],['0-1','2-3','4-5','6-7','8-10']);
-  distChart('dist-ur',getUsageRateScore,[0,2,4,6,8],['0-1','2-3','4-5','6-7','8-10']);
-  distChart('dist-align',getAlignmentScore,[0,2,4,6,8],['0-1','2-3','4-5','6-7','8-10']);
+  // Per-integer 0–10 distribution (one bar per value, not grouped)
+  const distChart10=(id,fn)=>{
+    const el=document.getElementById(id);if(!el)return;
+    const vals=items.map(fn).filter(v=>v!=null);
+    if(!vals.length){el.innerHTML='<div class="dist-empty">—</div>';return;}
+    const counts=Array(11).fill(0); // indices 0..10
+    vals.forEach(v=>{const r=Math.max(0,Math.min(10,Math.round(v)));counts[r]++;});
+    const max=Math.max(...counts,1);
+    el.innerHTML=counts.map((c,i)=>renderHBar(String(i),c,max,String(c),'var(--accent)')).join('');
+  };
+  // ΔΑΝ™ /100 distribution per decade (0,10,20,...,100)
+  const distChartDAN=(id,fn)=>{
+    const el=document.getElementById(id);if(!el)return;
+    const vals=items.map(fn).filter(v=>v!=null);
+    if(!vals.length){el.innerHTML='<div class="dist-empty">—</div>';return;}
+    const counts=Array(11).fill(0); // 0..100 step 10
+    vals.forEach(v=>{const r=Math.max(0,Math.min(10,Math.round(v/10)));counts[r]++;});
+    const max=Math.max(...counts,1);
+    el.innerHTML=counts.map((c,i)=>renderHBar(String(i*10),c,max,String(c),'var(--accent)')).join('');
+  };
+  distChartDAN('dist-score',getWPS);
+  distChart10('dist-cpw',getCPWScore);
+  distChart10('dist-vers',getVersatilityScore);
+  distChart10('dist-ur',getUsageRateScore);
+  distChart10('dist-align',getAlignmentScore);
   loadWPSDrill();
 }
 function loadWPSDrill(){

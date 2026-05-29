@@ -2082,15 +2082,17 @@ function getUsageRateScore(item){
   return Math.max(calc||0,floor)||(calc===null&&floor===0?0:Math.max(calc||0,floor));
 }
 function getAlignmentScore(item){
+  // 70% uniform membership ratio + 30% calendar appearance ratio
   const uniformCount=(item.uniforms||[]).length;
   const totalUniforms=outfitUniforms.length;
-  if(totalUniforms===0)return 5;
-  if(uniformCount===0)return 1;
-  const ratio=uniformCount/totalUniforms;
-  if(uniformCount>=3)return 10;
-  if(uniformCount===2)return 8;
-  if(ratio>=0.5)return 7;
-  return 5;
+  const uniformRatio=totalUniforms>0?uniformCount/totalUniforms:0;
+
+  const totalLogs=wearLogs.length;
+  const itemLogs=wearLogs.filter(l=>l.wardrobe_item_id===item.id).length;
+  const calendarRatio=totalLogs>0?itemLogs/totalLogs:0;
+
+  const combined=(uniformRatio*0.7)+(calendarRatio*0.3);
+  return Math.min(10,parseFloat((combined*10).toFixed(1)));
 }
 function getWPS(item){
   const u=getUsageRateScore(item);

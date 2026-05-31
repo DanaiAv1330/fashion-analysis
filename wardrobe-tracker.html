@@ -2762,7 +2762,6 @@ function buildSetForOccasion(base,occasion,season,usedClothingIds){
     let candidates=allItems.filter(i=>{
       if(i.id===base.id)return false;
       if((i.cat1||i.category)!==cat)return false;
-      if(!reusableCats.includes(cat)&&usedClothingIds.has(i.id))return false;
       // occasion gate — αν το ρούχο έχει ορισμένες περιστάσεις, πρέπει να ταιριάζει
       if(!occasionAllows(i,occasion.key))return false;
       // season filter for clothing/shoes (bags & accessories: any)
@@ -2772,7 +2771,8 @@ function buildSetForOccasion(base,occasion,season,usedClothingIds){
     if(!candidates.length)continue;
     candidates=candidates.map(c=>({item:c,score:pieceScore(c,base,occasion,baseUniformIds)})).sort((a,b)=>b.score-a.score);
     // Prefer candidates not yet used globally; fallback to any if all used
-    const unused=candidates.filter(c=>!usedClothingIds.has(c.item.id));
+    const isReusable=reusableCats.includes(cat);
+    const unused=isReusable?candidates:candidates.filter(c=>!usedClothingIds.has(c.item.id));
     const pool=unused.length?unused:candidates;
     const best=pool[0].item;
     pieces.push(best);

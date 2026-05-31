@@ -2757,6 +2757,8 @@ function buildSetForOccasion(base,occasion,season,usedClothingIds){
   const pieces=[base];
   const reusableCats=['Bags','Accessories'];
   for(const cat of cats){
+    // Summer: include Outwear in only ~1 in 4 sets (25% chance), unless base is Outwear
+    if(cat==='Outwear'&&season==='summer'&&baseCat!=='Outwear'&&Math.random()>0.25)continue;
     let candidates=allItems.filter(i=>{
       if(i.id===base.id)return false;
       if((i.cat1||i.category)!==cat)return false;
@@ -2769,7 +2771,10 @@ function buildSetForOccasion(base,occasion,season,usedClothingIds){
     });
     if(!candidates.length)continue;
     candidates=candidates.map(c=>({item:c,score:pieceScore(c,base,occasion,baseUniformIds)})).sort((a,b)=>b.score-a.score);
-    const best=candidates[0].item;
+    // Prefer candidates not yet used globally; fallback to any if all used
+    const unused=candidates.filter(c=>!usedClothingIds.has(c.item.id));
+    const pool=unused.length?unused:candidates;
+    const best=pool[0].item;
     pieces.push(best);
     if(!reusableCats.includes(cat))usedClothingIds.add(best.id);
   }

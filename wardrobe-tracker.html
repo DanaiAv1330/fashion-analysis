@@ -2082,14 +2082,15 @@ function getUsageRateScore(item){
   return Math.max(calc||0,floor)||(calc===null&&floor===0?0:Math.max(calc||0,floor));
 }
 function getAlignmentScore(item){
-  // 70% uniform membership ratio + 30% calendar appearance ratio
+  // 60% uniform membership ratio + 40% calendar day ratio
+  // Calendar: unique days item was worn / total days with any log entry
   const uniformCount=(item.uniforms||[]).length;
   const totalUniforms=outfitUniforms.length;
   const uniformRatio=totalUniforms>0?uniformCount/totalUniforms:0;
 
-  const totalLogs=wearLogs.length;
-  const itemLogs=wearLogs.filter(l=>l.wardrobe_item_id===item.id).length;
-  const calendarRatio=totalLogs>0?itemLogs/totalLogs:0;
+  const totalDays=new Set(wearLogs.map(l=>l.worn_date)).size;
+  const itemDays=new Set(wearLogs.filter(l=>l.wardrobe_item_id===item.id).map(l=>l.worn_date)).size;
+  const calendarRatio=totalDays>0?itemDays/totalDays:0;
 
   const combined=(uniformRatio*0.6)+(calendarRatio*0.4);
   return Math.min(10,parseFloat((combined*10).toFixed(1)));

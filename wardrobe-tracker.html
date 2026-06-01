@@ -1379,8 +1379,8 @@ sb.auth.onAuthStateChange((event,session)=>{
 
 // INIT
 async function initApp(){await Promise.all([loadItems(),loadAllLogs(),loadArchivedItems(),loadOutfitUniforms()]);initColorFilterDropdown();renderWardrobe();renderActiveFilters();renderCalendar();loadMonthDash();initTotalDash();}
-async function loadItems(){const{data}=await sb.from('wardrobe').select('*').order('created_at',{ascending:false});allItems=(data||[]).map(i=>({...i,uniforms:i.uniforms||[],occasions:i.occasions||[]}));initColorFilterDropdown();}
-async function loadAllLogs(){const{data}=await sb.from('wear_log').select('*').order('worn_date',{ascending:false});wearLogs=data||[];}
+async function loadItems(){const{data}=await sb.from('wardrobe').select('*').order('created_at',{ascending:false});allItems=(data||[]).map(i=>({...i,uniforms:i.uniforms||[],occasions:i.occasions||[]}));initColorFilterDropdown();_alignCache.clear();}
+async function loadAllLogs(){const{data}=await sb.from('wear_log').select('*').order('worn_date',{ascending:false});wearLogs=data||[];_alignCache.clear();}
 async function loadLogsForDate(d){const{data}=await sb.from('wear_log').select('*').eq('worn_date',d);selectedDateLogs=data||[];}
 
 // UTILS
@@ -2081,26 +2081,34 @@ function getUsageRateScore(item){
   if(monthsOld>0&&monthsOld<3&&total>=1){if(total>=10)floor=7;else if(total>=5)floor=6;else if(total>=2)floor=5;else floor=4;}
   return Math.max(calc||0,floor)||(calc===null&&floor===0?0:Math.max(calc||0,floor));
 }
-function getAlignmentScore(item){
-  // 35% uniform ratio + 35% calendar day ratio + 30% usage rank (percentile)
-  // Uniform: how many uniforms item belongs to / total uniforms
-  const uniformCount=(item.uniforms||[]).length;
-  const totalUniforms=outfitUniforms.length;
-  const uniformRatio=totalUniforms>0?uniformCount/totalUniforms:0;
-
-  // Calendar: unique days worn / total logged days
+// Pre-computed alignment cache — rebuilt on loadItems/loadAllLogs
+let _alignCache=new Map();
+function _buildAlignCache(){
+  _alignCache.clear();
   const totalDays=new Set(wearLogs.map(l=>l.worn_date)).size;
-  const itemDays=new Set(wearLogs.filter(l=>l.wardrobe_item_id===item.id).map(l=>l.worn_date)).size;
-  const calendarRatio=totalDays>0?itemDays/totalDays:0;
-
-  // Usage rank: percentile position among all items by total wear count (0–1)
-  const itemWears=itemDays; // reuse unique days as wear proxy (consistent with calendarRatio)
-  const allWears=allItems.map(i=>new Set(wearLogs.filter(l=>l.wardrobe_item_id===i.id).map(l=>l.worn_date)).size);
-  const rank=allWears.filter(w=>w<itemWears).length;
-  const usageRank=allItems.length>1?rank/(allItems.length-1):0;
-
-  const combined=(uniformRatio*0.35)+(calendarRatio*0.35)+(usageRank*0.30);
-  return Math.min(10,parseFloat((combined*10).toFixed(1)));
+  // compute unique worn days per item
+  const itemDaysMap=new Map();
+  allItems.forEach(i=>{
+    const d=new Set(wearLogs.filter(l=>l.wardrobe_item_id===i.id).map(l=>l.worn_date)).size;
+    itemDaysMap.set(i.id,d);
+  });
+  const allDayCounts=[...itemDaysMap.values()];
+  const n=allItems.length;
+  allItems.forEach(item=>{
+    const uniformCount=(item.uniforms||[]).length;
+    const totalUniforms=outfitUniforms.length;
+    const uniformRatio=totalUniforms>0?uniformCount/totalUniforms:0;
+    const itemDays=itemDaysMap.get(item.id)||0;
+    const calendarRatio=totalDays>0?itemDays/totalDays:0;
+    const rank=allDayCounts.filter(w=>w<itemDays).length;
+    const usageRank=n>1?rank/(n-1):0;
+    const combined=(uniformRatio*0.35)+(calendarRatio*0.35)+(usageRank*0.30);
+    _alignCache.set(item.id,Math.min(10,parseFloat((combined*10).toFixed(1))));
+  });
+}
+function getAlignmentScore(item){
+  if(!_alignCache.has(item.id))_buildAlignCache();
+  return _alignCache.get(item.id)??0;
 }
 function getWPS(item){
   const u=getUsageRateScore(item);

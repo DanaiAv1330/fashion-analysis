@@ -438,6 +438,11 @@ body{padding-bottom:0;}
         <button id="auth-btn" onclick="handleAuth()"
           style="width:100%;padding:0.85rem;background:#c4956a;border:none;border-radius:8px;font-family:'Jost',sans-serif;font-size:0.72rem;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:white;cursor:pointer;margin-top:0.4rem;transition:opacity 0.2s;"
           onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">Σύνδεση</button>
+        <div id="forgot-wrap" style="text-align:center;margin-top:2px;">
+          <button onclick="handleForgotPassword()" id="forgot-btn"
+            style="background:none;border:none;font-family:'Jost',sans-serif;font-size:0.7rem;color:rgba(255,255,255,0.35);cursor:pointer;letter-spacing:0.05em;text-decoration:underline;text-underline-offset:3px;transition:color 0.2s;padding:4px 0;"
+            onmouseover="this.style.color='#c4956a'" onmouseout="this.style.color='rgba(255,255,255,0.35)'">Ξέχασες τον κωδικό σου;</button>
+        </div>
         <div id="auth-msg" style="display:none;" class="auth-msg"></div>
       </div>
     </div>
@@ -1360,6 +1365,16 @@ function switchAuthTab(mode,btn){
   if(signupBtn){signupBtn.style.borderBottomColor=mode==='signup'?'#c4956a':'transparent';signupBtn.style.color=mode==='signup'?'white':'rgba(255,255,255,0.4)';}
   document.getElementById('auth-btn').textContent=mode==='login'?'Σύνδεση':'Εγγραφή';
   document.getElementById('auth-msg').style.display='none';
+  const fw=document.getElementById('forgot-wrap');if(fw)fw.style.display=mode==='login'?'block':'none';
+}
+async function handleForgotPassword(){
+  const email=document.getElementById('auth-email').value.trim();
+  if(!email){showAuthMsg('Βάλε το email σου παραπάνω και ξαναπάτησε.','error');return;}
+  const btn=document.getElementById('forgot-btn');btn.disabled=true;btn.textContent='…';
+  const{error}=await sb.auth.resetPasswordForEmail(email,{redirectTo:window.location.href});
+  btn.disabled=false;btn.textContent='Ξέχασες τον κωδικό σου;';
+  if(error){showAuthMsg(error.message,'error');}
+  else{showAuthMsg('✓ Στάλθηκε email επαναφοράς κωδικού. Έλεγξε τα εισερχόμενά σου.','success');}
 }
 async function handleAuth(){
   const email=document.getElementById('auth-email').value.trim(),pw=document.getElementById('auth-password').value;

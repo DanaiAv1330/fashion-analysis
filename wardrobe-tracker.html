@@ -1078,13 +1078,22 @@ body{padding-bottom:0;}
           </div>
         </div>
         <div style="font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);margin:18px 0 8px;">🔍 Ανάλυση ΔΑΝ™ ανά κατηγορία / ρούχο</div>
-        <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;">
+        <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;align-items:center;">
           <div class="sort-wrap">
             <span class="sort-label">Τύπος ·</span>
             <select class="sort-select" id="wps-drill-type" onchange="loadWPSDrill()">
               <option value="category">Ανά Κατηγορία</option>
               <option value="color">Ανά Χρώμα</option>
               <option value="portfolio">Ανά Portfolio Type</option>
+            </select>
+          </div>
+          <div class="sort-wrap" id="wps-drill-group-wrap" style="display:none;">
+            <span class="sort-label">Ομάδα ·</span>
+            <select class="sort-select" id="wps-drill-group" onchange="loadWPSDrill()">
+              <option value="">Όλα</option>
+              <option value="clothing">Ρούχα</option>
+              <option value="outwear">Outwear</option>
+              <option value="accessories">Αξεσουάρ</option>
             </select>
           </div>
         </div>
@@ -2570,10 +2579,13 @@ function loadScoresDash(){
 function loadWPSDrill(){
   const type=document.getElementById('wps-drill-type').value;
   const wrap=document.getElementById('wps-drill-content');if(!wrap)return;
+  // show/hide group filter only when color is selected
+  const grpWrap=document.getElementById('wps-drill-group-wrap');
+  if(grpWrap) grpWrap.style.display=type==='color'?'flex':'none';
+  const grpVal=type==='color'?(document.getElementById('wps-drill-group')?.value||''):'';
   const groups={};
-  allItems.forEach(i=>{let key;if(type==='category')key=i.cat1||i.category||'—';else if(type==='color')key=i.color||'—';else key=getPortfolioType(i);(groups[key]=groups[key]||[]).push(i);});
+  allItems.filter(i=>colorGroupMatch(i,grpVal)).forEach(i=>{let key;if(type==='category')key=i.cat1||i.category||'—';else if(type==='color')key=i.color||'—';else key=getPortfolioType(i);(groups[key]=groups[key]||[]).push(i);});
   const rows=Object.entries(groups).map(([k,items])=>{const scores=items.map(getWPS);const avg=scores.reduce((x,y)=>x+y,0)/scores.length;return{key:k,avg,count:items.length};}).sort((a,b)=>b.avg-a.avg);
-  const colorFn=type==='category'?catColor:type==='color'?(k=>COLOR_HEX[k]||'#aaa'):(k=>PORTFOLIO_COLORS[k]||'#aaa');
   wrap.innerHTML='<div class="chart-card">'+rows.map(r=>renderHBar(r.key+' ('+r.count+')',r.avg,100,Math.round(r.avg)+'/100',wpsColor(r.avg))).join('')+'</div>';
 }
 

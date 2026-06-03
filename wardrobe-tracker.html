@@ -991,8 +991,9 @@ body{padding-bottom:0;}
               <div class="chart-title" style="margin:0;">Χρωματική Παλέτα (Αριθμός Χρήσεων)</div>
               <select class="sort-select" id="t-color-wears-filter" onchange="loadTotalDash()" style="font-size:9px;">
                 <option value="">Όλα</option>
-                <option value="accessories">Αξεσουάρ</option>
                 <option value="clothing">Ρούχα</option>
+                <option value="outwear">Outwear</option>
+                <option value="accessories">Αξεσουάρ</option>
               </select>
             </div>
             <div class="chart-formula">📐 Σύνολο wear logs της περιόδου ομαδοποιημένα ανά χρώμα</div>
@@ -1108,8 +1109,30 @@ body{padding-bottom:0;}
         <div style="font-family:var(--font-serif);font-size:15px;font-weight:300;margin:16px 0 10px;">Σύνθεση <em style="color:var(--accent);font-style:italic">Ντουλάπας</em></div>
         <div class="chart-card" style="margin-bottom:12px;"><div class="chart-title">Τεμάχια ανά Κατηγορία</div><div id="cat-items-chart"></div></div>
         <div class="chart-card" style="margin-bottom:12px;"><div class="chart-title">Επένδυση (€) ανά Κατηγορία</div><div id="cat-value-chart"></div></div>
-        <div class="chart-card" style="margin-bottom:12px;"><div class="chart-title">Τεμάχια ανά Χρώμα (Top 15)</div><div id="color-items-chart"></div></div>
-        <div class="chart-card" style="margin-bottom:12px;"><div class="chart-title">Επένδυση (€) ανά Χρώμα (Top 15)</div><div id="color-value-chart"></div></div>
+        <div class="chart-card" style="margin-bottom:12px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+            <div class="chart-title" style="margin:0;">Τεμάχια ανά Χρώμα (Top 15)</div>
+            <select class="sort-select" id="color-items-group-filter" onchange="loadPurchasesDash()" style="font-size:9px;">
+              <option value="">Όλα</option>
+              <option value="clothing">Ρούχα</option>
+              <option value="outwear">Outwear</option>
+              <option value="accessories">Αξεσουάρ</option>
+            </select>
+          </div>
+          <div id="color-items-chart"></div>
+        </div>
+        <div class="chart-card" style="margin-bottom:12px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+            <div class="chart-title" style="margin:0;">Επένδυση (€) ανά Χρώμα (Top 15)</div>
+            <select class="sort-select" id="color-value-group-filter" onchange="loadPurchasesDash()" style="font-size:9px;">
+              <option value="">Όλα</option>
+              <option value="clothing">Ρούχα</option>
+              <option value="outwear">Outwear</option>
+              <option value="accessories">Αξεσουάρ</option>
+            </select>
+          </div>
+          <div id="color-value-chart"></div>
+        </div>
         <div style="font-family:var(--font-serif);font-size:15px;font-weight:300;margin:16px 0 10px;">Feeling <em style="color:var(--accent);font-style:italic">& Face Effect</em></div>
         <div class="chart-card" style="margin-bottom:12px;"><div class="chart-title">Πώς αισθάνομαι (τεμάχια ανά κατηγορία)</div><div id="feeling-chart"></div></div>
         <div class="chart-card" style="margin-bottom:12px;"><div class="chart-title">Πώς φαίνεται το πρόσωπό μου</div><div id="face-effect-chart"></div></div>
@@ -1276,7 +1299,18 @@ body{padding-bottom:0;}
     <div class="section-title">Κατηγορίες που φεύγουν</div>
     <div class="chart-card" style="margin-bottom:12px;"><div id="g-cat-chart"></div></div>
     <div class="section-title">Χρώματα που φεύγουν</div>
-    <div class="chart-card" style="margin-bottom:12px;"><div id="g-color-chart"></div></div>
+    <div class="chart-card" style="margin-bottom:12px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+        <div style="font-size:9px;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-dim);">Ανά ομάδα</div>
+        <select class="sort-select" id="g-color-group-filter" onchange="loadGoneDash()" style="font-size:9px;">
+          <option value="">Όλα</option>
+          <option value="clothing">Ρούχα</option>
+          <option value="outwear">Outwear</option>
+          <option value="accessories">Αξεσουάρ</option>
+        </select>
+      </div>
+      <div id="g-color-chart"></div>
+    </div>
     <div class="section-title">Αποχωρήσεις ανά μήνα</div>
     <div class="chart-card" style="margin-bottom:12px;">
       <div class="bar-chart" id="g-timeline" style="height:90px;padding-bottom:20px;"></div>
@@ -2246,7 +2280,9 @@ function renderGoneStats(){
   renderChart('g-method-chart',byField('archive_method'));
   renderChart('g-reason-chart',byField('archive_reason'));
   renderChart('g-cat-chart',byField('cat1'),k=>catColor(k));
-  renderChart('g-color-chart',byField('color'),k=>COLOR_HEX[k]||'#aaa');
+  const gColorGrp = document.getElementById('g-color-group-filter')?.value || '';
+  const gColorData=(()=>{const m={};A.filter(a=>colorGroupMatch(a,gColorGrp)).forEach(a=>{const k=a.color||'—';m[k]=(m[k]||0)+1;});return Object.entries(m).sort((x,y)=>y[1]-x[1]);})();
+  renderChart('g-color-chart',gColorData,k=>COLOR_HEX[k]||'#aaa');
   const byMonth={};A.forEach(a=>{const d=new Date(a.archived_at);const k=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;byMonth[k]=(byMonth[k]||0)+1;});
   const sortedM=Object.entries(byMonth).sort((x,y)=>x[0].localeCompare(y[0]));
   const tl=document.getElementById('g-timeline');
@@ -2468,7 +2504,7 @@ function loadTotalDash(){
   top5.sort((a,b)=>b.count-a.count);top5=top5.slice(0,5);
   document.getElementById('cpw-table-total').innerHTML=top5.length?top5.map(({item,count})=>{const cpw=getCPW(item);return`<div class="cpw-row" onclick="openItemModal('${item.id}')"><div class="cpw-row-thumb">${item.photo_url?`<img src="${escHtml(item.photo_url)}">`:'👗'}</div><div class="cpw-row-body"><div class="cpw-row-name">${escHtml(item.title)}</div><div class="cpw-row-sub">${[item.brand,item.cat2||item.cat1].filter(Boolean).join(' · ')}</div></div><div class="cpw-row-right"><div class="cpw-v ${cpwClass(cpw)}">${count}× περίοδο</div>${cpw?`<div class="cpw-row-sub">CPW €${cpw.toFixed(2)}</div>`:''}</div></div>`;}).join(''):'<div style="padding:14px;font-size:11px;color:var(--text-dim);text-align:center;">Καμία χρήση</div>';
   const cwFilter=document.getElementById('t-color-wears-filter').value;
-  const colorWears={};logs.forEach(l=>{const item=allItems.find(i=>i.id===l.wardrobe_item_id);if(!item||!item.color)return;const isAcc=(item.cat1||item.category)==='Accessories'||(item.cat1||item.category)==='Bags';if(cwFilter==='accessories'&&!isAcc)return;if(cwFilter==='clothing'&&isAcc)return;colorWears[item.color]=(colorWears[item.color]||0)+1;});
+  const colorWears={};logs.forEach(l=>{const item=allItems.find(i=>i.id===l.wardrobe_item_id);if(!item||!item.color)return;if(!colorGroupMatch(item,cwFilter))return;colorWears[item.color]=(colorWears[item.color]||0)+1;});
   const cwSorted=Object.entries(colorWears).sort((a,b)=>b[1]-a[1]);const maxCW=cwSorted[0]?.[1]||1;
   document.getElementById('t-color-wears-legend').innerHTML=cwSorted.length?cwSorted.map(([k,v])=>renderHBar(k,v,maxCW,v+' χρ.',COLOR_HEX[k]||'#aaa')).join(''):'<div style="font-size:10px;color:var(--text-dim);">—</div>';
 }
@@ -2541,6 +2577,17 @@ function loadWPSDrill(){
   wrap.innerHTML='<div class="chart-card">'+rows.map(r=>renderHBar(r.key+' ('+r.count+')',r.avg,100,Math.round(r.avg)+'/100',wpsColor(r.avg))).join('')+'</div>';
 }
 
+// COLOR GROUP FILTER HELPER
+// val: '' = all, 'clothing' = Tops/Dresses/Pants, 'outwear' = Outwear, 'accessories' = Shoes/Bags/Accessories
+function colorGroupMatch(item, val){
+  if(!val) return true;
+  const c = item.cat1 || item.category || '';
+  if(val === 'clothing') return ['Tops','Dresses','Pants'].includes(c);
+  if(val === 'outwear')  return c === 'Outwear';
+  if(val === 'accessories') return ['Shoes','Bags','Accessories','Jewelry'].includes(c);
+  return true;
+}
+
 // PURCHASES DASH
 function loadPurchasesDash(){
   const byMonthAll={};allItems.forEach(i=>{if(i.purchase_month)byMonthAll[i.purchase_month]=(byMonthAll[i.purchase_month]||0)+1;});
@@ -2560,10 +2607,12 @@ function loadPurchasesDash(){
   const catVal={};allItems.forEach(i=>{const c=i.cat1||i.category||'—';catVal[c]=(catVal[c]||0)+(i.price||0);});
   const cvSorted=Object.entries(catVal).sort((a,b)=>b[1]-a[1]);const maxCV=cvSorted[0]?.[1]||1;
   document.getElementById('cat-value-chart').innerHTML=cvSorted.map(([k,v])=>renderHBar(k,v,maxCV,'€'+Math.round(v),catColor(k))).join('');
-  const colItems={};allItems.forEach(i=>{if(i.color)colItems[i.color]=(colItems[i.color]||0)+1;});
+  const colItemsGrp = document.getElementById('color-items-group-filter')?.value || '';
+  const colItems={};allItems.filter(i=>colorGroupMatch(i,colItemsGrp)).forEach(i=>{if(i.color)colItems[i.color]=(colItems[i.color]||0)+1;});
   const coSorted=Object.entries(colItems).sort((a,b)=>b[1]-a[1]).slice(0,15);const maxCo=coSorted[0]?.[1]||1;
   document.getElementById('color-items-chart').innerHTML=coSorted.map(([k,v])=>renderHBar(k,v,maxCo,String(v),COLOR_HEX[k]||'#aaa')).join('');
-  const colVal={};allItems.forEach(i=>{if(i.color)colVal[i.color]=(colVal[i.color]||0)+(i.price||0);});
+  const colValGrp = document.getElementById('color-value-group-filter')?.value || '';
+  const colVal={};allItems.filter(i=>colorGroupMatch(i,colValGrp)).forEach(i=>{if(i.color)colVal[i.color]=(colVal[i.color]||0)+(i.price||0);});
   const cvalSorted=Object.entries(colVal).sort((a,b)=>b[1]-a[1]).slice(0,15);const maxCval=cvalSorted[0]?.[1]||1;
   document.getElementById('color-value-chart').innerHTML=cvalSorted.map(([k,v])=>renderHBar(k,v,maxCval,'€'+Math.round(v),COLOR_HEX[k]||'#aaa')).join('');
   // feeling

@@ -1235,15 +1235,21 @@ body{padding-bottom:0;}
 
 <!-- ARCHIVE MODAL -->
 <div id="archive-modal" style="display:none;position:fixed;inset:0;background:rgba(42,35,26,0.5);z-index:300;align-items:center;justify-content:center;padding:16px;">
-  <div style="background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:20px;width:100%;max-width:420px;max-height:90vh;overflow-y:auto;">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:3px;width:100%;max-width:420px;max-height:90vh;display:flex;flex-direction:column;">
+    <!-- Sticky header with action buttons -->
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px 14px;border-bottom:1px solid var(--border);flex-shrink:0;">
       <div style="font-family:var(--font-serif);font-size:17px;font-weight:300;">Αποχώρηση <em style="font-style:italic;color:var(--accent)" id="archive-item-name"></em></div>
-      <button onclick="closeArchiveModal()" style="background:none;border:1px solid var(--border);color:var(--text-muted);width:26px;height:26px;border-radius:50%;cursor:pointer;font-size:11px;">✕</button>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <button class="btn-sm primary" id="arch-confirm-btn" onclick="confirmArchive()">📦 Αποχώρηση</button>
+        <button onclick="closeArchiveModal()" style="background:none;border:1px solid var(--border);color:var(--text-muted);width:26px;height:26px;border-radius:50%;cursor:pointer;font-size:11px;flex-shrink:0;">✕</button>
+      </div>
     </div>
-    <div style="display:flex;flex-direction:column;gap:12px;">
+    <!-- Scrollable content -->
+    <div style="overflow-y:auto;padding:16px 20px 20px;display:flex;flex-direction:column;gap:12px;">
+      <div id="arch-msg" style="display:none;font-size:11px;padding:8px;border-radius:2px;"></div>
       <div style="display:flex;flex-direction:column;gap:4px;">
         <label style="font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);">Τι έγινε;</label>
-        <select id="arch-method" style="font-family:var(--font-sans);font-size:12px;border:1px solid var(--border);background:var(--surface2);padding:8px;border-radius:1px;color:var(--text);outline:none;">
+        <select id="arch-method" onchange="document.getElementById('arch-sold-wrap').style.display=this.value==='Sold'?'flex':'none'" style="font-family:var(--font-sans);font-size:12px;border:1px solid var(--border);background:var(--surface2);padding:8px;border-radius:1px;color:var(--text);outline:none;">
           <option value="">— Επιλογή —</option>
           <option value="Sold">💰 Το πούλησα</option>
           <option value="Donated">🤝 Το δώρισα (οργάνωση)</option>
@@ -1273,11 +1279,6 @@ body{padding-bottom:0;}
       <div style="display:flex;flex-direction:column;gap:4px;">
         <label style="font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);">Σημειώσεις (προαιρετικό)</label>
         <textarea id="arch-notes" rows="2" placeholder="Οτιδήποτε θέλεις να θυμάσαι..." style="font-family:var(--font-sans);font-size:12px;border:1px solid var(--border);background:var(--surface2);padding:8px;border-radius:1px;color:var(--text);outline:none;resize:vertical;"></textarea>
-      </div>
-      <div id="arch-msg" style="display:none;font-size:11px;padding:8px;border-radius:2px;"></div>
-      <div style="display:flex;gap:8px;justify-content:flex-end;padding-top:4px;">
-        <button class="btn-sm" onclick="closeArchiveModal()">Ακύρωση</button>
-        <button class="btn-sm primary" id="arch-confirm-btn" onclick="confirmArchive()">📦 Αποχώρηση</button>
       </div>
     </div>
   </div>

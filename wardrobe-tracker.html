@@ -1289,6 +1289,7 @@ body{padding-bottom:0;}
   <div class="dash-subtabs" style="background:var(--surface);border-bottom:1px solid var(--border);padding:0 12px;">
     <button class="dash-subtab active" onclick="showGoneSub('list',this)">📋 Λίστα</button>
     <button class="dash-subtab" onclick="showGoneSub('stats',this)">📊 Ανάλυση</button>
+    <button class="dash-subtab" onclick="showGoneSub('opportunity',this)">💸 Κόστος</button>
   </div>
   <div id="gone-sub-list" style="padding:10px 12px 20px;">
     <div id="gone-list-content"><div class="loading"><div class="spinner"></div></div></div>
@@ -1325,6 +1326,51 @@ body{padding-bottom:0;}
     <div class="chart-card" style="margin-bottom:12px;">
       <div class="bar-chart" id="g-timeline" style="height:90px;padding-bottom:20px;"></div>
     </div>
+  </div>
+
+  <!-- OPPORTUNITY COST SUBTAB -->
+  <div id="gone-sub-opportunity" style="display:none;padding:10px 12px 20px;">
+    <!-- Intro -->
+    <div style="background:linear-gradient(135deg,rgba(196,149,106,0.12),rgba(107,148,120,0.08));border:1px solid var(--border);border-radius:4px;padding:14px;margin-bottom:14px;">
+      <div style="font-family:var(--font-serif);font-size:16px;font-weight:300;margin-bottom:6px;">Αν αντί να αγοράσεις, <em style="font-style:italic;color:var(--accent)">επένδυες;</em></div>
+      <div style="font-size:10px;color:var(--text-muted);line-height:1.6;">Κάθε αγορά ρούχου έχει ένα κρυφό κόστος: το κεφάλαιο που χάθηκε αντί να επενδυθεί. Δες τι θα είχες σήμερα αν τα χρήματά σου δούλευαν σε ένα ETF με ετήσια απόδοση 10%.</div>
+    </div>
+
+    <!-- ETF rate control -->
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:10px 12px;">
+      <div style="font-size:10px;color:var(--text-muted);white-space:nowrap;">Ετήσια απόδοση ETF</div>
+      <input type="range" id="etf-rate-slider" min="5" max="15" value="10" step="0.5" style="flex:1;accent-color:var(--accent);" oninput="document.getElementById('etf-rate-val').textContent=this.value+'%';renderOpportunityCost();">
+      <div id="etf-rate-val" style="font-size:13px;font-weight:500;color:var(--accent);min-width:36px;text-align:right;">10%</div>
+    </div>
+
+    <!-- KPI row -->
+    <div class="kpi-grid" style="margin-bottom:14px;">
+      <div class="kpi-card alert">
+        <div class="kpi-label">Σύνολο που ξόδεψες</div>
+        <div class="kpi-value" id="opp-total-spent">—</div>
+        <div class="kpi-sub">στα gone ρούχα</div>
+      </div>
+      <div class="kpi-card" style="border-color:rgba(107,148,120,0.4);background:var(--green-soft);">
+        <div class="kpi-label">Θα είχες σήμερα</div>
+        <div class="kpi-value" id="opp-etf-value" style="color:var(--green-text);">—</div>
+        <div class="kpi-sub">αν επένδυες κάθε αγορά</div>
+      </div>
+      <div class="kpi-card alert">
+        <div class="kpi-label">Χαμένο κεφάλαιο</div>
+        <div class="kpi-value" id="opp-lost">—</div>
+        <div class="kpi-sub">opportunity cost</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Avg χρόνια κρατήθηκαν</div>
+        <div class="kpi-value" id="opp-avg-years">—</div>
+        <div class="kpi-sub">πριν φύγουν</div>
+      </div>
+    </div>
+
+    <!-- Per-item breakdown -->
+    <div class="section-title" style="margin-bottom:8px;">Ανάλυση ανά ρούχο</div>
+    <div style="font-size:9px;color:var(--text-dim);margin-bottom:8px;letter-spacing:0.05em;">Ταξινόμηση κατά χαμένο κεφάλαιο (υψηλότερο πρώτο)</div>
+    <div id="opp-items-list"></div>
   </div>
 </div>
 
@@ -2240,29 +2286,100 @@ function showGoneSub(sub,btn){
   document.querySelectorAll('#tab-gone .dash-subtab').forEach(b=>b.classList.remove('active'));btn.classList.add('active');
   document.getElementById('gone-sub-list').style.display=sub==='list'?'block':'none';
   document.getElementById('gone-sub-stats').style.display=sub==='stats'?'block':'none';
-  if(sub==='list')renderGoneList();else renderGoneStats();
+  document.getElementById('gone-sub-opportunity').style.display=sub==='opportunity'?'block':'none';
+  if(sub==='list')renderGoneList();else if(sub==='stats')renderGoneStats();else renderOpportunityCost();
 }
 function renderGoneList(){
   const wrap=document.getElementById('gone-list-content');if(!wrap)return;
   if(!archivedItems.length){wrap.innerHTML='<div class="empty-state"><div class="empty-title">Κανένα κομμάτι εδώ</div><div class="empty-sub">Όταν αποχωρεί ένα ρούχο, εμφανίζεται εδώ.</div></div>';return;}
   const methodEmoji={'Sold':'💰','Donated':'🤝','Gifted':'🎁','Threw away':'🗑','Swapped':'🔄','Other':'✏️'};
-  wrap.innerHTML=archivedItems.map(a=>{
-    const d=new Date(a.archived_at);
-    return`<div class="list-row" style="cursor:default;">
-      <div class="list-thumb">${a.photo_url?`<img src="${escHtml(a.photo_url)}" onerror="this.outerHTML='👗'">`:'👗'}</div>
-      <div class="list-body">
-        <div class="list-name">${escHtml(a.title)}</div>
-        <div class="list-meta-s">${[a.brand,a.cat2||a.cat1,a.color].filter(Boolean).join(' · ')}</div>
-        <div class="list-score">${methodEmoji[a.archive_method]||''} ${escHtml(a.archive_method||'')}${a.archive_reason?' · '+escHtml(a.archive_reason):''}${a.sold_price?' · €'+a.sold_price:''}</div>
-        ${a.archive_notes?`<div style="font-size:9px;color:var(--text-dim);font-style:italic;margin-top:2px;">"${escHtml(a.archive_notes)}"</div>`:''}
+  const now=new Date();
+  const MN_GR=['Ιαν','Φεβ','Μαρ','Απρ','Μαΐ','Ιουν','Ιουλ','Αυγ','Σεπ','Οκτ','Νοε','Δεκ'];
+  wrap.innerHTML=archivedItems.map((a,idx)=>{
+    const dArchive=new Date(a.archived_at);
+    // Purchase date
+    let purchaseDateStr='—';
+    let purchaseDate=null;
+    if(a.purchase_year){
+      purchaseDateStr=a.purchase_month?`${MN_GR[a.purchase_month-1]} ${a.purchase_year}`:`${a.purchase_year}`;
+      purchaseDate=new Date(a.purchase_year, (a.purchase_month||1)-1, 1);
+    } else if(a.purchased_at){
+      purchaseDate=new Date(a.purchased_at);
+      purchaseDateStr=`${MN_GR[purchaseDate.getMonth()]} ${purchaseDate.getFullYear()}`;
+    }
+    // Years owned (purchase → archive)
+    let yearsOwnedStr='—';
+    let monthsOwned=null;
+    if(purchaseDate){
+      monthsOwned=Math.round((dArchive-purchaseDate)/(1000*60*60*24*30.44));
+      const yrs=Math.floor(monthsOwned/12);const mos=monthsOwned%12;
+      if(yrs>0&&mos>0)yearsOwnedStr=`${yrs}χρ ${mos}μ`;
+      else if(yrs>0)yearsOwnedStr=`${yrs} χρόν${yrs===1?'ο':'ια'}`;
+      else yearsOwnedStr=`${mos} μήν${mos===1?'α':'ες'}`;
+    }
+    // Utilization rate (wears per month owned)
+    const wears=a.total_wear_at_archive||0;
+    let utilizationStr='—';
+    if(monthsOwned&&monthsOwned>0){
+      const rate=(wears/monthsOwned).toFixed(1);
+      utilizationStr=`${rate}× / μήνα`;
+    }
+    // CPW
+    const cpwStr=a.cpw_at_archive?`€${a.cpw_at_archive.toFixed(2)}`:( a.price&&wears>0?`€${(a.price/wears).toFixed(2)}`:'—');
+    return`<div class="list-row gone-card" style="cursor:pointer;flex-direction:column;padding:0;overflow:hidden;" onclick="toggleGoneCard(${idx})">
+      <div style="display:flex;align-items:flex-start;gap:10px;padding:10px 12px;">
+        <div class="list-thumb">${a.photo_url?`<img src="${escHtml(a.photo_url)}" onerror="this.outerHTML='👗'">`:'👗'}</div>
+        <div class="list-body">
+          <div class="list-name">${escHtml(a.title)}</div>
+          <div class="list-meta-s">${[a.brand,a.cat2||a.cat1,a.color].filter(Boolean).join(' · ')}</div>
+          <div class="list-score">${methodEmoji[a.archive_method]||''} ${escHtml(a.archive_method||'')}${a.archive_reason?' · '+escHtml(a.archive_reason):''}${a.sold_price?' · €'+a.sold_price:''}</div>
+          ${a.archive_notes?`<div style="font-size:9px;color:var(--text-dim);font-style:italic;margin-top:2px;">"${escHtml(a.archive_notes)}"</div>`:''}
+        </div>
+        <div class="list-right" style="flex-shrink:0;align-items:flex-end;">
+          <div style="font-size:9px;color:var(--text-dim);">${dArchive.getDate()} ${MN_GR[dArchive.getMonth()]} ${dArchive.getFullYear()}</div>
+          <div class="list-uses">${wears}× φορέθηκε</div>
+          ${cpwStr!=='—'?`<div class="list-uses">CPW ${cpwStr}</div>`:''}
+          <div style="font-size:9px;color:var(--accent);margin-top:3px;">▼ λεπτομέρειες</div>
+        </div>
       </div>
-      <div class="list-right">
-        <div style="font-size:9px;color:var(--text-dim);">${d.getDate()} ${MN_SHORT[d.getMonth()]} ${d.getFullYear()}</div>
-        <div class="list-uses">${a.total_wear_at_archive||0}× φορέθηκε</div>
-        ${a.cpw_at_archive?`<div class="list-uses">CPW €${a.cpw_at_archive.toFixed(2)}</div>`:''}
+      <div class="gone-card-detail" id="gone-detail-${idx}" style="display:none;border-top:1px solid var(--border-soft);padding:10px 12px;background:var(--surface2);">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:9px 10px;">
+            <div style="font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);margin-bottom:4px;">🛒 Αγοράστηκε</div>
+            <div style="font-size:13px;font-weight:400;color:var(--text);">${purchaseDateStr}</div>
+            <div style="font-size:10px;color:var(--text-muted);margin-top:1px;">${a.price?'€'+a.price:''}</div>
+          </div>
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:9px 10px;">
+            <div style="font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);margin-bottom:4px;">⏱ Χρόνια στη ντουλάπα</div>
+            <div style="font-size:13px;font-weight:400;color:var(--text);">${yearsOwnedStr}</div>
+            <div style="font-size:10px;color:var(--text-muted);margin-top:1px;">έως ${dArchive.getDate()} ${MN_GR[dArchive.getMonth()]} ${dArchive.getFullYear()}</div>
+          </div>
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:9px 10px;">
+            <div style="font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);margin-bottom:4px;">👗 Φορέθηκε</div>
+            <div style="font-size:13px;font-weight:400;color:var(--text);">${wears} φορές</div>
+            <div style="font-size:10px;color:var(--text-muted);margin-top:1px;">${utilizationStr}</div>
+          </div>
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:9px 10px;">
+            <div style="font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);margin-bottom:4px;">💸 Cost Per Wear</div>
+            <div style="font-size:13px;font-weight:400;color:${cpwStr==='—'?'var(--text-muted)':parseFloat(cpwStr.replace('€',''))>10?'var(--red-text)':'var(--green-text)'};">${cpwStr}</div>
+            <div style="font-size:10px;color:var(--text-muted);margin-top:1px;">${a.price?'από €'+a.price:''}</div>
+          </div>
+        </div>
+        ${purchaseDate&&a.price?`<div style="margin-top:8px;padding:8px 10px;background:rgba(196,149,106,0.08);border:1px solid rgba(196,149,106,0.25);border-radius:3px;font-size:9px;color:var(--text-muted);">
+          💡 Αν αντί για αυτό το ρούχο επένδυες €${a.price} σε ETF (10%/έτος) τον ${purchaseDateStr}, σήμερα θα είχες <strong style="color:var(--accent);">€${calcETFValue(a.price,purchaseDate,dArchive,0.10).toFixed(0)}</strong>
+        </div>`:''}
       </div>
     </div>`;
   }).join('');
+}
+function toggleGoneCard(idx){
+  const d=document.getElementById(`gone-detail-${idx}`);
+  if(!d)return;
+  const isOpen=d.style.display!=='none';
+  d.style.display=isOpen?'none':'block';
+  // update arrow indicator
+  const row=d.closest('.gone-card');
+  if(row){const arr=row.querySelector('[style*="▼"]')||row.querySelector('[style*="▲"]');if(arr)arr.textContent=isOpen?'▼ λεπτομέρειες':'▲ κλείσιμο';}
 }
 function renderGoneStats(){
   const A=archivedItems;
@@ -2297,6 +2414,104 @@ function renderGoneStats(){
   const sortedM=Object.entries(byMonth).sort((x,y)=>x[0].localeCompare(y[0]));
   const tl=document.getElementById('g-timeline');
   if(tl){const max=Math.max(...sortedM.map(m=>m[1]),1);tl.innerHTML=sortedM.length?sortedM.map(([k,v])=>{const[y,mo]=k.split('-');const h=Math.round(v/max*60);return`<div class="bar-col"><div class="bar-val">${v}</div><div class="bar hi" style="height:${h}px;"></div><div class="bar-lbl">${MN_SHORT[parseInt(mo)-1]}<br>${y.slice(2)}</div></div>`;}).join(''):'<div style="font-size:10px;color:var(--text-dim);text-align:center;width:100%;padding-top:20px;">—</div>';}
+}
+
+// ETF OPPORTUNITY COST HELPERS
+function calcETFValue(principal,fromDate,toDate,annualRate){
+  if(!principal||!fromDate||!toDate)return 0;
+  const years=(toDate-fromDate)/(1000*60*60*24*365.25);
+  if(years<=0)return principal;
+  return principal*Math.pow(1+annualRate,years);
+}
+
+function renderOpportunityCost(){
+  const A=archivedItems;
+  const rate=parseFloat(document.getElementById('etf-rate-slider')?.value||10)/100;
+  const now=new Date();
+  const MN_GR=['Ιαν','Φεβ','Μαρ','Απρ','Μαΐ','Ιουν','Ιουλ','Αυγ','Σεπ','Οκτ','Νοε','Δεκ'];
+
+  // Build items with data
+  const items=A.map(a=>{
+    const price=a.price||0;
+    let purchaseDate=null;
+    let purchaseDateStr='—';
+    if(a.purchase_year){
+      purchaseDate=new Date(a.purchase_year,(a.purchase_month||1)-1,1);
+      purchaseDateStr=a.purchase_month?`${MN_GR[a.purchase_month-1]} ${a.purchase_year}`:`${a.purchase_year}`;
+    } else if(a.purchased_at){
+      purchaseDate=new Date(a.purchased_at);
+      purchaseDateStr=`${MN_GR[purchaseDate.getMonth()]} ${purchaseDate.getFullYear()}`;
+    }
+    const archiveDate=new Date(a.archived_at);
+    const etfNow=purchaseDate&&price?calcETFValue(price,purchaseDate,now,rate):0;
+    const etfAtArchive=purchaseDate&&price?calcETFValue(price,purchaseDate,archiveDate,rate):0;
+    const oppCost=etfNow-price;
+    // Years owned
+    let yearsStr='—';
+    if(purchaseDate){
+      const months=Math.round((archiveDate-purchaseDate)/(1000*60*60*24*30.44));
+      const yrs=Math.floor(months/12);const mos=months%12;
+      yearsStr=yrs>0&&mos>0?`${yrs}χρ ${mos}μ`:yrs>0?`${yrs}χρ`:`${mos}μ`;
+    }
+    return{...a,price,purchaseDate,purchaseDateStr,etfNow,etfAtArchive,oppCost,yearsStr};
+  }).filter(a=>a.price>0);
+
+  // KPIs
+  const totalSpent=items.reduce((s,a)=>s+a.price,0);
+  const totalETF=items.reduce((s,a)=>s+a.etfNow,0);
+  const totalLost=totalETF-totalSpent;
+  const itemsWithDates=items.filter(a=>a.purchaseDate);
+  const avgMonths=itemsWithDates.length?
+    itemsWithDates.reduce((s,a)=>s+Math.round((new Date(a.archived_at)-a.purchaseDate)/(1000*60*60*24*30.44)),0)/itemsWithDates.length:0;
+  const avgYears=(avgMonths/12).toFixed(1);
+
+  document.getElementById('opp-total-spent').textContent='€'+Math.round(totalSpent);
+  document.getElementById('opp-etf-value').textContent='€'+Math.round(totalETF);
+  document.getElementById('opp-lost').textContent='€'+Math.round(totalLost);
+  document.getElementById('opp-avg-years').textContent=avgMonths>0?avgYears+'χρ':'—';
+
+  // Per-item list sorted by opp cost desc
+  const sorted=[...items].sort((a,b)=>b.oppCost-a.oppCost);
+  const listEl=document.getElementById('opp-items-list');
+  if(!listEl)return;
+  if(!sorted.length){listEl.innerHTML='<div style="text-align:center;color:var(--text-dim);font-size:11px;padding:20px;">Δεν υπάρχουν ρούχα με τιμή αγοράς.</div>';return;}
+
+  listEl.innerHTML=sorted.map((a,i)=>{
+    const rankColor=i<3?'var(--red-text)':i<Math.floor(sorted.length/2)?'var(--amber)':'var(--green-text)';
+    const wears=a.total_wear_at_archive||0;
+    const cpwStr=a.cpw_at_archive?`€${a.cpw_at_archive.toFixed(2)}`:(a.price&&wears>0?`€${(a.price/wears).toFixed(2)}`:'—');
+    return`<div style="background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:10px 12px;margin-bottom:8px;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div style="width:22px;height:22px;border-radius:50%;background:${i<3?'var(--red-soft)':'var(--surface2)'};display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;color:${rankColor};flex-shrink:0;">${i+1}</div>
+        <div class="list-thumb" style="width:36px;height:36px;">${a.photo_url?`<img src="${escHtml(a.photo_url)}" style="width:36px;height:36px;object-fit:cover;border-radius:2px;" onerror="this.outerHTML='👗'">`:'👗'}</div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:12px;font-weight:400;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${escHtml(a.title)}</div>
+          <div style="font-size:9px;color:var(--text-dim);">${a.purchaseDateStr} · ${a.yearsStr} · ${wears}× · CPW ${cpwStr}</div>
+        </div>
+        <div style="text-align:right;flex-shrink:0;">
+          <div style="font-size:11px;color:var(--red-text);font-weight:500;">-€${Math.round(a.oppCost)}</div>
+          <div style="font-size:8px;color:var(--text-dim);">χαμένο</div>
+        </div>
+      </div>
+      <div style="margin-top:8px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;">
+        <div style="text-align:center;padding:5px;background:var(--surface2);border-radius:2px;">
+          <div style="font-size:8px;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.07em;">Αγοράστηκε</div>
+          <div style="font-size:11px;font-weight:400;">€${a.price}</div>
+          <div style="font-size:8px;color:var(--text-dim);">${a.purchaseDateStr}</div>
+        </div>
+        <div style="text-align:center;padding:5px;background:var(--surface2);border-radius:2px;">
+          <div style="font-size:8px;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.07em;">ETF σήμερα</div>
+          <div style="font-size:11px;font-weight:400;color:var(--green-text);">€${Math.round(a.etfNow)}</div>
+          <div style="font-size:8px;color:var(--text-dim);">10%/έτος</div>
+        </div>
+        <div style="text-align:center;padding:5px;background:var(--red-soft);border-radius:2px;">
+          <div style="font-size:8px;color:var(--red-text);text-transform:uppercase;letter-spacing:0.07em;">Κόστος ευκ.</div>
+          <div style="font-size:11px;font-weight:400;color:var(--red-text);">€${Math.round(a.oppCost)}</div>
+          <div style="font-size:8px;color:var(--text-dim);">${((a.oppCost/a.price)*100).toFixed(0)}% επιπλέον</div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
 }
 
 // CALENDAR

@@ -1485,7 +1485,18 @@ sb.auth.onAuthStateChange((event,session)=>{
 // INIT
 async function initApp(){await Promise.all([loadItems(),loadAllLogs(),loadArchivedItems(),loadOutfitUniforms()]);initColorFilterDropdown();renderWardrobe();renderActiveFilters();renderCalendar();loadMonthDash();initTotalDash();}
 async function loadItems(){const{data}=await sb.from('wardrobe').select('*').order('created_at',{ascending:false});allItems=(data||[]).map(i=>({...i,uniforms:i.uniforms||[],occasions:i.occasions||[]}));initColorFilterDropdown();_alignCache.clear();}
-async function loadAllLogs(){const{data}=await sb.from('wear_log').select('*').order('worn_date',{ascending:false});wearLogs=data||[];_alignCache.clear();}
+async function loadAllLogs(){
+  let all=[],from=0,pageSize=1000,keepGoing=true;
+  while(keepGoing){
+    const{data,error}=await sb.from('wear_log').select('*').order('worn_date',{ascending:false}).range(from,from+pageSize-1);
+    if(error){console.error('loadAllLogs error',error);break;}
+    all=all.concat(data||[]);
+    keepGoing=(data&&data.length===pageSize);
+    from+=pageSize;
+  }
+  wearLogs=all;
+  _alignCache.clear();
+}
 async function loadLogsForDate(d){const{data}=await sb.from('wear_log').select('*').eq('worn_date',d);selectedDateLogs=data||[];}
 
 // UTILS

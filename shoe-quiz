@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Το Ιδανικό Παπούτσι — Shoe Matcher</title>
+<meta name="description" content="Πες μου το outfit ή την περίσταση — και θα σου πω το ιδανικό παπούτσι. Δωρεάν interactive εργαλείο από το Fashion Analysis by Danai.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#f6f1e7;
+    --cream-deep:#efe7d6;
+    --ink:#1c1a17;
+    --ink-soft:#3a352e;
+    --gold:#b08d4f;
+    --gold-deep:#8c6d38;
+    --line:#d8ccb4;
+    --paper:#fbf8f1;
+    --shadow:rgba(40,33,22,.10);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Jost',sans-serif;
+    font-weight:300;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    background-image:
+      radial-gradient(circle at 15% 10%, rgba(176,141,79,.06), transparent 40%),
+      radial-gradient(circle at 85% 90%, rgba(176,141,79,.05), transparent 45%);
+    min-height:100vh;
+  }
+  .wrap{max-width:760px;margin:0 auto;padding:0 24px;}
+
+  /* ---------- HERO ---------- */
+  header.hero{
+    text-align:center;
+    padding:72px 24px 36px;
+  }
+  .kicker{
+    font-family:'Jost',sans-serif;
+    font-weight:400;
+    letter-spacing:.42em;
+    text-transform:uppercase;
+    font-size:11px;
+    color:var(--gold-deep);
+    margin-bottom:22px;
+  }
+  .hero h1{
+    font-family:'Cormorant Garamond',serif;
+    font-weight:600;
+    font-size:clamp(38px,7vw,64px);
+    line-height:1.04;
+    letter-spacing:.01em;
+  }
+  .hero h1 em{font-style:italic;color:var(--gold-deep);}
+  .hero .sub{
+    font-family:'Cormorant Garamond',serif;
+    font-style:italic;
+    font-size:clamp(18px,2.6vw,23px);
+    color:var(--ink-soft);
+    margin-top:18px;
+    max-width:540px;
+    margin-left:auto;margin-right:auto;
+  }
+  .rule{
+    width:54px;height:1px;background:var(--gold);
+    margin:30px auto;opacity:.7;
+  }
+  .meta{
+    font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--ink-soft);opacity:.7;
+  }
+
+  /* ---------- SCREENS ---------- */
+  .screen{display:none;animation:fade .5s ease both;}
+  .screen.active{display:block;}
+  @keyframes fade{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+
+  .card{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:3px;
+    padding:40px 36px 44px;
+    margin:14px 0 60px;
+    box-shadow:0 18px 50px -28px var(--shadow);
+    position:relative;
+  }
+  .card::before{
+    content:"";position:absolute;inset:7px;
+    border:1px solid var(--line);border-radius:2px;
+    pointer-events:none;opacity:.5;
+  }
+
+  /* ---------- MODE PICKER ---------- */
+  .mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:8px 0 10px;}
+  @media(max-width:560px){.mode-grid{grid-template-columns:1fr;}}
+  .mode-card{
+    cursor:pointer;background:var(--cream);border:1px solid var(--line);
+    border-radius:2px;padding:26px 20px;text-align:left;
+    transition:all .3s ease;position:relative;
+  }
+  .mode-card:hover{border-color:var(--gold);background:#fff;transform:translateY(-3px);box-shadow:0 14px 30px -18px var(--shadow);}
+  .mode-emoji{font-size:30px;display:block;margin-bottom:10px;}
+  .mode-card h3{
+    font-family:'Cormorant Garamond',serif;font-weight:600;font-size:24px;line-height:1.15;margin-bottom:7px;
+  }
+  .mode-card p{font-size:14.5px;color:var(--ink-soft);}
+  .mode-card .go{
+    display:inline-block;margin-top:14px;font-size:11.5px;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--gold-deep);font-weight:400;
+  }
+
+  /* ---------- BUTTONS ---------- */
+  .btn{
+    display:inline-block;cursor:pointer;border:none;
+    font-family:'Jost',sans-serif;font-weight:400;
+    letter-spacing:.18em;text-transform:uppercase;font-size:12.5px;
+    background:var(--ink);color:var(--cream);
+    padding:16px 38px;border-radius:2px;
+    transition:all .35s cubic-bezier(.2,.7,.3,1);
+  }
+  .btn:hover{background:var(--gold-deep);transform:translateY(-2px);box-shadow:0 10px 24px -12px var(--shadow);}
+  .btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--ink);}
+  .btn.ghost:hover{background:var(--ink);color:var(--cream);}
+  .center{text-align:center;}
+
+  /* ---------- PROGRESS ---------- */
+  .progress-shell{margin:6px 0 30px;}
+  .progress-top{
+    display:flex;justify-content:space-between;align-items:baseline;
+    font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-deep);
+    margin-bottom:10px;
+  }
+  .bar{height:2px;background:var(--line);border-radius:2px;overflow:hidden;}
+  .bar i{display:block;height:100%;background:var(--gold);width:0;transition:width .5s cubic-bezier(.2,.7,.3,1);}
+
+  /* ---------- QUESTION ---------- */
+  .q-num{
+    font-family:'Cormorant Garamond',serif;font-style:italic;
+    font-size:19px;color:var(--gold-deep);margin-bottom:6px;
+  }
+  .q-title{
+    font-family:'Cormorant Garamond',serif;font-weight:600;
+    font-size:clamp(25px,4vw,33px);line-height:1.18;margin-bottom:26px;
+  }
+  .opt{
+    display:block;width:100%;text-align:left;cursor:pointer;
+    background:var(--cream);border:1px solid var(--line);
+    border-radius:2px;padding:16px 18px;margin-bottom:12px;
+    font-family:'Jost',sans-serif;font-weight:300;font-size:16px;color:var(--ink-soft);
+    transition:all .25s ease;position:relative;
+  }
+  .opt:hover{border-color:var(--gold);background:#fff;color:var(--ink);transform:translateX(3px);}
+  .opt.sel{border-color:var(--gold-deep);background:#fff;color:var(--ink);box-shadow:inset 3px 0 0 var(--gold);}
+  .nav-row{display:flex;justify-content:space-between;margin-top:24px;gap:12px;}
+
+  /* ---------- RESULT ---------- */
+  .result-kicker{text-align:center;}
+  .ctx-line{
+    text-align:center;font-family:'Cormorant Garamond',serif;font-style:italic;
+    font-size:19px;color:var(--ink-soft);margin-bottom:26px;
+  }
+
+  .win-card{
+    background:var(--cream);border:1px solid var(--gold);
+    border-radius:2px;padding:30px 26px;text-align:center;margin-bottom:18px;
+    position:relative;
+  }
+  .win-badge{
+    position:absolute;top:-11px;left:50%;transform:translateX(-50%);
+    background:var(--gold-deep);color:var(--cream);font-size:10px;
+    letter-spacing:.24em;text-transform:uppercase;padding:4px 14px;border-radius:2px;
+    white-space:nowrap;
+  }
+  .win-emoji{font-size:44px;display:block;margin-bottom:8px;}
+  .win-name{
+    font-family:'Cormorant Garamond',serif;font-weight:600;
+    font-size:clamp(30px,5vw,42px);line-height:1.05;margin-bottom:10px;
+  }
+  .win-why{font-size:15.5px;color:var(--ink-soft);max-width:480px;margin:0 auto;}
+  .win-tip{
+    margin-top:16px;padding-top:16px;border-top:1px solid var(--line);
+    font-family:'Cormorant Garamond',serif;font-style:italic;font-size:17.5px;color:var(--gold-deep);
+    max-width:480px;margin-left:auto;margin-right:auto;
+  }
+  .no-heel{
+    margin-top:16px;padding:14px 16px;background:var(--paper);
+    border:1px dashed var(--gold);border-radius:2px;
+    max-width:480px;margin-left:auto;margin-right:auto;text-align:left;
+  }
+  .no-heel .nh-label{
+    font-size:10px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--gold-deep);font-weight:400;margin-bottom:5px;
+  }
+  .no-heel .nh-name{
+    font-family:'Cormorant Garamond',serif;font-weight:600;font-size:19px;line-height:1.15;margin-bottom:4px;
+  }
+  .no-heel p{font-size:13.5px;color:var(--ink-soft);margin:0;}
+
+  .alt-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:8px;}
+  @media(max-width:560px){.alt-grid{grid-template-columns:1fr;}}
+  .alt-card{
+    background:var(--paper);border:1px solid var(--line);border-radius:2px;
+    padding:20px 18px;text-align:center;
+  }
+  .alt-label{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:8px;}
+  .alt-emoji{font-size:28px;display:block;margin-bottom:5px;}
+  .alt-name{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:22px;margin-bottom:6px;line-height:1.1;}
+  .alt-why{font-size:13.5px;color:var(--ink-soft);}
+  .alt-flat{
+    margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);
+    font-size:12.5px;color:var(--gold-deep);
+  }
+  .alt-flat b{font-weight:500;color:var(--ink);}
+
+  .coach{
+    background:var(--cream);border-left:2px solid var(--gold);
+    padding:18px 20px;border-radius:2px;margin-top:24px;
+  }
+  .coach .ctitle{
+    font-family:'Jost',sans-serif;font-weight:500;font-size:11px;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--gold-deep);margin-bottom:7px;
+  }
+  .coach p{font-size:15.5px;margin-bottom:0;color:var(--ink-soft);}
+  .coach strong{font-weight:500;color:var(--ink);}
+
+  /* ---------- CTA ---------- */
+  .cta{
+    margin-top:46px;border-top:1px solid var(--line);padding-top:34px;text-align:center;
+  }
+  .cta h3{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:30px;line-height:1.1;margin-bottom:8px;}
+  .cta p{color:var(--ink-soft);font-size:15.5px;max-width:460px;margin:0 auto 22px;}
+  .subscribe{display:flex;flex-direction:column;gap:10px;max-width:440px;margin:0 auto 14px;}
+  .subscribe input{
+    width:100%;padding:14px 16px;border:1px solid var(--line);border-radius:2px;
+    font-family:'Jost';font-size:15px;background:var(--paper);color:var(--ink);
+  }
+  .subscribe input:focus{outline:none;border-color:var(--gold);}
+  .sub-note{font-size:12px;color:var(--ink-soft);opacity:.7;}
+  .sub-ok{color:var(--gold-deep);font-family:'Cormorant Garamond';font-style:italic;font-size:19px;margin-top:8px;display:none;}
+
+  .share-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:26px;}
+  .share-row .btn{padding:13px 24px;font-size:11.5px;}
+
+  .restart{margin-top:30px;text-align:center;}
+  .restart button{
+    background:none;border:none;cursor:pointer;color:var(--ink-soft);
+    font-family:'Cormorant Garamond';font-style:italic;font-size:18px;
+    border-bottom:1px solid var(--line);padding-bottom:2px;transition:color .3s;
+  }
+  .restart button:hover{color:var(--gold-deep);}
+
+  footer{text-align:center;padding:40px 24px 60px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);opacity:.6;}
+  footer a{color:var(--gold-deep);text-decoration:none;}
+  footer a:hover{text-decoration:underline;}
+
+  @media(max-width:560px){
+    .card{padding:30px 22px 34px;}
+  }
+  @media(prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important;}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- ===== INTRO / MODE PICK ===== -->
+  <section class="screen active" id="s-intro">
+    <header class="hero">
+      <div class="kicker">Fashion Analysis by Danai</div>
+      <h1>Ποιο παπούτσι<br><em>ταιριάζει</em> σήμερα;</h1>
+      <div class="rule"></div>
+      <p class="sub">Το σωστό παπούτσι δεν είναι θέμα τύχης — είναι θέμα αναλογιών, περίστασης και εποχής.</p>
+    </header>
+
+    <div class="card">
+      <p class="meta center" style="margin-bottom:22px;">Διάλεξε πώς θες να ξεκινήσουμε</p>
+      <div class="mode-grid">
+        <button class="mode-card" onclick="startMode('A')">
+          <span class="mode-emoji">👗</span>
+          <h3>Έχω το outfit</h3>
+          <p>Ξέρεις τι θα φορέσεις; Πες μου το σύνολο και θα σου πω ποιο παπούτσι το ολοκληρώνει.</p>
+          <span class="go">3 ερωτήσεις →</span>
+        </button>
+        <button class="mode-card" onclick="startMode('B')">
+          <span class="mode-emoji">📍</span>
+          <h3>Πες μου τη συνθήκη</h3>
+          <p>Δεν έχεις αποφασίσει outfit; Πες μου πού πας και πώς θες να νιώθεις — ξεκινάμε από το παπούτσι.</p>
+          <span class="go">4 ερωτήσεις →</span>
+        </button>
+      </div>
+      <p class="meta center" style="margin-top:20px;">14 κατηγορίες παπουτσιών · αποτέλεσμα με αιτιολόγηση</p>
+    </div>
+  </section>
+
+  <!-- ===== QUIZ ===== -->
+  <section class="screen" id="s-quiz">
+    <div class="card">
+      <div class="progress-shell">
+        <div class="progress-top">
+          <span id="p-label">Ερώτηση 1</span>
+          <span id="p-pct">0%</span>
+        </div>
+        <div class="bar"><i id="p-fill"></i></div>
+      </div>
+      <div class="q-num" id="q-num">01</div>
+      <h2 class="q-title" id="q-title"></h2>
+      <div id="q-opts"></div>
+      <div class="nav-row">
+        <button class="btn ghost" id="back-btn" onclick="back()">Πίσω</button>
+        <span></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== RESULT ===== -->
+  <section class="screen" id="s-result">
+    <div class="card">
+      <div class="result-kicker kicker">Η πρόταση για σένα</div>
+      <p class="ctx-line" id="r-ctx"></p>
+
+      <div class="win-card">
+        <div class="win-badge">✦ Ιδανική επιλογή</div>
+        <span class="win-emoji" id="w-emoji"></span>
+        <h2 class="win-name" id="w-name"></h2>
+        <p class="win-why" id="w-why"></p>
+        <p class="win-tip" id="w-tip"></p>
+        <div class="no-heel" id="w-flat" style="display:none;">
+          <div class="nh-label">✦ Χωρίς τακούνι;</div>
+          <div class="nh-name" id="w-flat-name"></div>
+          <p id="w-flat-why"></p>
+        </div>
+      </div>
+
+      <div class="alt-grid">
+        <div class="alt-card">
+          <div class="alt-label">Δεύτερη επιλογή</div>
+          <span class="alt-emoji" id="a1-emoji"></span>
+          <div class="alt-name" id="a1-name"></div>
+          <p class="alt-why" id="a1-why"></p>
+          <div class="alt-flat" id="a1-flat" style="display:none;"></div>
+        </div>
+        <div class="alt-card">
+          <div class="alt-label">Εναλλακτική</div>
+          <span class="alt-emoji" id="a2-emoji"></span>
+          <div class="alt-name" id="a2-name"></div>
+          <p class="alt-why" id="a2-why"></p>
+          <div class="alt-flat" id="a2-flat" style="display:none;"></div>
+        </div>
+      </div>
+
+      <div class="coach">
+        <div class="ctitle">✦ Styling κανόνας</div>
+        <p id="coach-text"></p>
+      </div>
+
+      <!-- CTA -->
+      <div class="cta">
+        <h3>Θες ολόκληρο τον οδηγό για παπούτσια &amp; styling;</h3>
+        <p>Μπες στη λίστα — με την κυκλοφορία του δωρεάν ebook θα είσαι από τις πρώτες που θα το λάβουν, μαζί με το πλήρες κεφάλαιο «Το σωστό παπούτσι για κάθε outfit».</p>
+        <form id="sub-form" class="subscribe">
+          <input type="text" id="sub-name" name="fields[name]" placeholder="Το όνομά σου" required>
+          <input type="email" id="sub-email" name="fields[email]" placeholder="Το email σου" autocomplete="email" required>
+          <input type="hidden" name="fields[source]" value="Shoe Quiz">
+          <input type="hidden" name="fields[shoe_result]" id="sub-result" value="">
+          <button class="btn" type="submit" id="sub-btn">Θέλω τον οδηγό</button>
+        </form>
+        <p class="sub-note">Χωρίς spam. Μόνο fashion που βγάζει νόημα.</p>
+        <div class="sub-ok" id="sub-ok">Ευχαριστώ! Είσαι μέσα ✦<br><span style="font-size:14px;opacity:.8;">Θα σου στείλουμε τον οδηγό μόλις κυκλοφορήσει.</span></div>
+
+        <div class="share-row">
+          <button class="btn ghost" onclick="shareResult()">Μοιράσου το</button>
+          <button class="btn ghost" onclick="copyResult()">Αντιγραφή link</button>
+        </div>
+      </div>
+
+      <div class="restart">
+        <button onclick="restart()">Δοκίμασε άλλο outfit ή περίσταση</button>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer>Fashion Analysis by Danai · Shoe Matcher · <a href="index.html">Πίσω στην αρχική</a></footer>
+
+<script>
+/* =========================================================
+   SHOES — 14 κατηγορίες
+   ========================================================= */
+const SHOES = {
+  sn:{emoji:"👟", name:"Sneakers",
+      why:"Άνεση και effortless χαρακτήρας — το πιο ευέλικτο casual παπούτσι."},
+  sp:{emoji:"🏃‍♀️", name:"Αθλητικά απόδοσης",
+      why:"Σχεδιασμένα για υποστήριξη και κίνηση — εδώ προηγείται η λειτουργία, όχι το styling."},
+  lo:{emoji:"👞", name:"Loafers",
+      why:"Smart-casual κομψότητα χωρίς τακούνι — «ντύνουν» το look χωρίς προσπάθεια."},
+  mo:{emoji:"🥿", name:"Μοκασίνια",
+      why:"Μαλακά και άνετα, με πιο χαλαρό χαρακτήρα από τα loafers — ιδανικά για πολλές ώρες."},
+  ba:{emoji:"🩰", name:"Ballet flats",
+      why:"Θηλυκή απλότητα — ελαφραίνουν το σύνολο και δείχνουν πάντα φροντισμένα."},
+  he:{emoji:"👠", name:"Pumps / Γόβες",
+      why:"Το πιο polished statement — επιμηκύνουν τη γραμμή του ποδιού και ανεβάζουν κάθε σύνολο."},
+  sl:{emoji:"👠", name:"Slingbacks",
+      why:"Η κομψότητα της γόβας με περισσότερη άνεση και πιο φρέσκια, μοντέρνα αίσθηση."},
+  mu:{emoji:"👡", name:"Mules",
+      why:"Χαλαρή πολυτέλεια — ανεβάζουν το casual και «ξεφορμάρουν» το πολύ αυστηρό."},
+  ab:{emoji:"🥾", name:"Μποτάκια",
+      why:"Ο πιο ευέλικτος σύμμαχος για κρύες μέρες — δένουν με σχεδόν τα πάντα."},
+  kb:{emoji:"👢", name:"Knee-high μπότες",
+      why:"Statement και ζεστασιά μαζί — ισορροπούν τέλεια φούστες και φορέματα τον χειμώνα."},
+  sa:{emoji:"🩴", name:"Flat πέδιλα / Σανδάλια",
+      why:"Ανάλαφρα και δροσερά — η βάση του καλοκαιρινού styling."},
+  hs:{emoji:"👡", name:"Πέδιλα με τακούνι",
+      why:"Η βραδινή επιλογή του καλοκαιριού — κομψότητα χωρίς βάρος."},
+  ox:{emoji:"👞", name:"Oxfords / Derbys",
+      why:"Tailored, ελαφρώς androgynous χαρακτήρας — μια διαφορετική, δυνατή κομψότητα."},
+  es:{emoji:"👡", name:"Espadrilles / Πλατφόρμες",
+      why:"Καλοκαιρινή διάθεση με λίγο extra ύψος — χωρίς τη δέσμευση του τακουνιού."}
+};
+
+/* Flat εναλλακτική για κάθε κατηγορία με τακούνι —
+   για όσες δεν φορούν τακούνι (μέση, άνεση, προτίμηση) */
+const FLAT_ALT = {
+  he:{name:"Μυτερή flat γόβα (pointed-toe flat)",
+      why:"Η μυτερή γραμμή κρατά την ίδια polished, επιμηκυμένη σιλουέτα — χωρίς καθόλου ύψος."},
+  sl:{name:"Flat slingback με μυτερή μύτη",
+      why:"Ίδια κομψότητα και «ανοιχτός» αστράγαλος, μηδενική καταπόνηση."},
+  hs:{name:"Flat πέδιλο με λεπτά λουράκια",
+      why:"Τα λεπτά λουράκια διατηρούν τη βραδινή φινέτσα — το τακούνι δεν είναι απαραίτητο."},
+  mu:{name:"Flat mule (μυτερή ή τετράγωνη μύτη)",
+      why:"Η ίδια χαλαρή πολυτέλεια, σε εκδοχή που φοριέται όλη μέρα."},
+  kb:{name:"Flat knee-high μπότα (riding style)",
+      why:"Ίδιο statement και ζεστασιά, με άνεση για όλη τη μέρα."}
+};
+
+/* Συγκεκριμένα tips ανά συνδυασμό shoe|answer (προαιρετικά) */
+const COMBO_TIPS = {
+  "kb|skinny":"Skinny μέσα στην μπότα: η πιο καθαρή χειμωνιάτικη γραμμή.",
+  "ab|skinny":"Μποτάκι που τελειώνει στο λεπτό σημείο του αστραγάλου = πιο μακρύ πόδι.",
+  "he|wide":"Με wide-leg, το ύψος της γόβας κρατά την αναλογία ψηλή — το παντελόνι να «χαϊδεύει» το παπούτσι.",
+  "sl|wide":"Η μυτερή γραμμή του slingback ξεπροβάλλει ιδανικά κάτω από φαρδύ μπατζάκι.",
+  "mu|wide":"Mule με μικρό τακούνι: δίνει ύψος χωρίς να «χάνεται» μέσα στο μπατζάκι.",
+  "hs|wide":"Λεπτά λουράκια + φαρδιά γραμμή παντελονιού = ισορροπία όγκων.",
+  "lo|tailored":"Loafer + tailored παντελόνι: το πιο σίγουρο smart-casual δίδυμο.",
+  "ox|tailored":"Oxford με tailored γραμμή: menswear κομψότητα που ξεχωρίζει.",
+  "ab|midi":"Με midi, διάλεξε μποτάκι σε τόνο κοντά στο καλσόν ή τη φούστα για ενιαία γραμμή.",
+  "sl|midi":"Το slingback αφήνει τον αστράγαλο «ανοιχτό» — ό,τι χρειάζεται το midi μήκος.",
+  "kb|midi":"Midi + knee-high: άφησε 2–5 εκ. να αναπνέει η γραμμή ανάμεσά τους.",
+  "kb|mini":"Mini + ψηλή μπότα: ισορροπία ανάμεσα σε «δείχνω» και «καλύπτω».",
+  "ba|mini":"Με mini, το flat κρατά το σύνολο νεανικό χωρίς να γίνεται υπερβολικό.",
+  "sa|maxi":"Flat πέδιλο + maxi: αβίαστη καλοκαιρινή κομψότητα.",
+  "es|maxi":"Η πλατφόρμα δίνει ύψος ώστε το maxi να μη «σέρνεται».",
+  "hs|maxi":"Τακούνι κάτω από maxi: κανείς δεν το βλέπει, όλοι βλέπουν την ψηλότερη σιλουέτα.",
+  "sn|shorts":"Sneaker + σορτς: φρόντισε κάλτσα αόρατη ή πολύ χαμηλή.",
+  "sn|legg":"Athleisure rule: το sneaker είναι το φυσικό «τελείωμα» του look.",
+  "sn|travel":"Για ταξίδι, sneaker με στήριξη καμάρας — τα fashion flat κουράζουν.",
+  "mo|travel":"Μοκασίνι: πατάς σαν σε παντόφλα, δείχνεις ντυμένη.",
+  "he|event":"Σε event πολλών ωρών, προτίμησε block ή χαμηλότερο τακούνι 6–8 εκ.",
+  "hs|event":"Λεπτά λουράκια φωτογραφίζονται υπέροχα — δοκίμασέ τα από πριν για άνεση.",
+  "lo|office":"Loafer στο γραφείο: κύρος χωρίς θυσία άνεσης.",
+  "sl|office":"Slingback: η πιο κομψή «γέφυρα» ανάμεσα σε meeting και after-work."
+};
+
+/* =========================================================
+   QUESTIONS
+   ========================================================= */
+const QUESTIONS_A = [
+  {
+    title:"Τι φοράς στο κάτω μέρος;",
+    opts:[
+      {key:"skinny",  label:"Skinny ή straight jeans",            w:{ab:3,lo:3,sn:3,kb:3,ba:2,mu:2,he:2,sl:2,ox:2,mo:2,sa:1,hs:1,es:1}},
+      {key:"wide",    label:"Wide-leg / palazzo παντελόνι",        w:{he:3,sl:3,mu:3,hs:3,lo:2,es:2,ab:1,sn:1,ox:1,sa:1,mo:1}},
+      {key:"tailored",label:"Tailored παντελόνι",                  w:{lo:3,he:3,sl:3,ox:3,mu:2,ba:2,ab:2,hs:2,sn:1,mo:1}},
+      {key:"midi",    label:"Midi φούστα ή φόρεμα",                w:{ab:3,sl:3,kb:3,he:2,ba:2,sn:2,mu:2,hs:2,lo:2,es:2,sa:1,ox:1}},
+      {key:"mini",    label:"Mini φούστα ή φόρεμα",                w:{ba:3,kb:3,sn:2,ab:2,mu:2,sa:2,sl:2,es:2,lo:2,he:1,hs:1,ox:1}},
+      {key:"maxi",    label:"Maxi φόρεμα ή φούστα",                w:{sa:3,es:3,hs:3,mu:2,sl:2,he:2,kb:2,ab:2,sn:1,ba:1,lo:1}},
+      {key:"shorts",  label:"Σορτς ή βερμούδα",                    w:{sa:3,sn:3,es:3,mu:2,ba:2,mo:1,sl:1,hs:1,lo:1}},
+      {key:"legg",    label:"Leggings / athleisure",               w:{sn:3,sp:3,mo:1,ab:1,ba:1}}
+    ]
+  },
+  {
+    title:"Πού θα πας με αυτό το outfit;",
+    opts:[
+      {key:"office", label:"Γραφείο ή επαγγελματικό ραντεβού",     w:{lo:3,sl:3,ox:3,he:2,ba:2,ab:2,mu:2,mo:1,kb:1}, excl:["sp"]},
+      {key:"casual", label:"Casual βόλτα, καφές, brunch",          w:{sn:3,mo:3,ba:2,mu:2,es:2,sa:2,lo:2,ab:2,sl:1}},
+      {key:"night",  label:"Βραδινή έξοδος ή date",                w:{he:3,hs:3,sl:2,mu:2,ab:2,kb:2,ba:1,es:1}, excl:["sp"]},
+      {key:"event",  label:"Event, γάμος ή βάφτιση",               w:{he:3,hs:3,sl:3,mu:1,ba:1}, excl:["sp","sn","mo","sa"]},
+      {key:"travel", label:"Ταξίδι ή μέρα με πολύ περπάτημα",      w:{sn:3,mo:3,sp:2,lo:2,ab:2,ba:1,es:1,sa:1}}
+    ]
+  },
+  {
+    title:"Τι καιρό θα έχει;",
+    opts:[
+      {key:"hot",  label:"Ζέστη — καλοκαιρινή μέρα",               w:{sa:3,es:3,hs:3,mu:2,sl:2,sn:1,ba:1}, excl:["kb","ab"]},
+      {key:"cold", label:"Κρύο — χειμωνιάτικη μέρα",               w:{ab:3,kb:3,sn:2,lo:2,ox:2,sp:1,mo:1,he:1}, excl:["sa","hs","es"]},
+      {key:"mid",  label:"Μεταβατική εποχή — δροσιά",              w:{ab:2,lo:2,sn:2,ba:2,sl:2,mu:2,ox:2,mo:2,he:1,kb:1,es:1}}
+    ]
+  }
+];
+
+const QUESTIONS_B = [
+  {
+    title:"Πού πηγαίνεις;",
+    opts:[
+      {key:"office", label:"Γραφείο ή επαγγελματικό meeting",      w:{lo:3,sl:3,ox:3,he:2,ba:2,ab:2,mu:2,kb:1,mo:1}, excl:["sp"]},
+      {key:"casual", label:"Brunch, καφές ή βόλτα",                w:{sn:2,ba:2,mo:2,mu:2,es:2,lo:2,sa:2,ab:2,sl:1}},
+      {key:"night",  label:"Βραδινό ή date",                        w:{he:3,hs:2,sl:2,mu:2,ab:2,kb:2,ba:1}, excl:["sp"]},
+      {key:"event",  label:"Event, γάμος ή βάφτιση",               w:{he:3,hs:3,sl:3,mu:1}, excl:["sp","sn","mo","sa"]},
+      {key:"travel", label:"Ταξίδι / sightseeing",                  w:{sn:3,mo:3,sp:2,lo:1,es:1,ba:1,ab:2}},
+      {key:"gym",    label:"Γυμναστήριο ή sport δραστηριότητα",     w:{sp:9,sn:2}, only:["sp","sn"]}
+    ]
+  },
+  {
+    title:"Πόσο θα περπατήσεις ή θα είσαι όρθια;",
+    opts:[
+      {key:"alot",   label:"Πολύ — ώρες στο πόδι",                  w:{sn:3,mo:3,sp:2,lo:2,ba:1,ab:1,es:1}, pen:{he:-3,hs:-3,mu:-2,sl:-1}},
+      {key:"some",   label:"Μέτρια — λίγο περπάτημα, λίγο κάθισμα", w:{lo:2,ba:2,sl:2,ab:2,mu:1,mo:1,sn:1,es:1,hs:1,he:1}},
+      {key:"little", label:"Ελάχιστα — κυρίως καθιστή ή με αμάξι",  w:{he:3,hs:3,sl:2,mu:2,kb:1}}
+    ]
+  },
+  {
+    title:"Πώς θες να νιώθεις;",
+    opts:[
+      {key:"polished",  label:"Polished — επιμελημένη και κομψή",   w:{he:3,sl:3,lo:2,ox:2,ab:1,kb:1,mu:1,hs:1}},
+      {key:"effortless",label:"Effortless — άνετη και αβίαστη",     w:{sn:3,mo:2,es:2,sa:2,ba:1,mu:1,lo:1}},
+      {key:"feminine",  label:"Feminine — θηλυκή και ρομαντική",    w:{ba:3,sl:2,he:2,hs:2,mu:1,es:1,kb:1}},
+      {key:"edgy",      label:"Edgy — δυναμική και statement",      w:{ab:3,kb:3,ox:2,mu:1,sp:1,he:1}}
+    ]
+  },
+  {
+    title:"Τι καιρό θα έχει;",
+    opts:[
+      {key:"hot",  label:"Ζέστη — καλοκαιρινή μέρα",               w:{sa:3,es:3,hs:3,mu:2,sl:2,sn:1,ba:1}, excl:["kb","ab"]},
+      {key:"cold", label:"Κρύο — χειμωνιάτικη μέρα",               w:{ab:3,kb:3,sn:2,lo:2,ox:2,sp:1,mo:1,he:1}, excl:["sa","hs","es"]},
+      {key:"mid",  label:"Μεταβατική εποχή — δροσιά",              w:{ab:2,lo:2,sn:2,ba:2,sl:2,mu:2,ox:2,mo:2,he:1,kb:1,es:1}}
+    ]
+  }
+];
+
+/* Styling κανόνας ανά πρώτη απάντηση (αναλογίες / άνεση) */
+const COACH_A = {
+  skinny:"Στενή γραμμή κάτω = ελευθερία πάνω στο παπούτσι. Σχεδόν όλα δουλεύουν — διάλεξε με βάση την περίσταση. <strong>Tip:</strong> nude τόνοι κοντά στο δέρμα επιμηκύνουν το πόδι.",
+  wide:"Με φαρδύ μπατζάκι, ο κανόνας είναι <strong>ύψος ή μύτη</strong>: τακούνι, πλατφόρμα ή μυτερή γραμμή κρατούν την αναλογία ψηλή. Τα flat με στρογγυλή μύτη «κονταίνουν» τη σιλουέτα.",
+  tailored:"Το tailored παντελόνι ζητά παπούτσι με <strong>δομή</strong> — loafer, γόβα, oxford. Το μπατζάκι ιδανικά αγγίζει το παπούτσι χωρίς να τσακίζει.",
+  midi:"Το midi μήκος «κόβει» τη γάμπα — γι' αυτό θέλει παπούτσι που <strong>ανοίγει τον αστράγαλο</strong> (slingback, χαμηλό μποτάκι) ή μπότα που συνεχίζει τη γραμμή.",
+  mini:"Με mini, ισορρόπησε την έκθεση: flat ή μπότα κρατούν το σύνολο κομψό. Πολύ ψηλό τακούνι + πολύ κοντό μήκος = χάνεται η ισορροπία.",
+  maxi:"Το maxi κρύβει το παπούτσι αλλά όχι το <strong>ύψος</strong> του: μια πλατφόρμα ή τακούνι αλλάζει όλη τη σιλουέτα χωρίς να φαίνεται.",
+  shorts:"Με σορτς, μείνε <strong>χαμηλά και ανάλαφρα</strong>: πέδιλο, sneaker, espadrille. Ό,τι πιο βαρύ τραβά το βλέμμα λάθος.",
+  legg:"Στο athleisure ο κανόνας είναι η <strong>συνέπεια</strong>: αθλητική σιλουέτα από πάνω μέχρι κάτω. Sneaker πάντα."
+};
+const COACH_B = {
+  alot:"Όταν θα είσαι ώρες στο πόδι, ο κανόνας είναι <strong>στήριξη πρώτα</strong>: σόλα με απορρόφηση, σταθερή φτέρνα. Η κομψότητα χτίζεται από πάνω — με το παλτό, την τσάντα, τα αξεσουάρ.",
+  some:"Με μέτριο περπάτημα έχεις την πολυτέλεια της μέσης λύσης: <strong>χαμηλό ή block τακούνι</strong>, loafer ή κομψό flat. Άνεση και στυλ χωρίς συμβιβασμό.",
+  little:"Όταν δεν θα περπατήσεις πολύ, είναι η στιγμή του <strong>statement</strong>: λεπτό τακούνι, λουράκια, ό,τι δεν αντέχεις σε μια κανονική μέρα."
+};
+
+/* =========================================================
+   STATE & FLOW
+   ========================================================= */
+let mode = 'A';
+let questions = QUESTIONS_A;
+let step = 0;
+let answers = [];
+
+function startMode(m){
+  mode = m;
+  questions = (m === 'A') ? QUESTIONS_A : QUESTIONS_B;
+  step = 0;
+  answers = [];
+  show('s-quiz');
+  renderQ();
+}
+
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function renderQ(){
+  const q = questions[step];
+  const total = questions.length;
+  document.getElementById('p-label').textContent = 'Ερώτηση ' + (step+1) + ' / ' + total;
+  document.getElementById('p-pct').textContent = Math.round(step/total*100) + '%';
+  document.getElementById('p-fill').style.width = (step/total*100) + '%';
+  document.getElementById('q-num').textContent = String(step+1).padStart(2,'0');
+  document.getElementById('q-title').textContent = q.title;
+  const wrap = document.getElementById('q-opts');
+  wrap.innerHTML = '';
+  q.opts.forEach((opt,i)=>{
+    const b = document.createElement('button');
+    b.className = 'opt' + (answers[step]===i ? ' sel' : '');
+    b.textContent = opt.label;
+    b.onclick = ()=>pick(i);
+    wrap.appendChild(b);
+  });
+  document.getElementById('back-btn').style.visibility = 'visible';
+}
+
+function pick(i){
+  answers[step] = i;
+  if(step < questions.length-1){
+    step++;
+    setTimeout(renderQ, 180);
+  } else {
+    setTimeout(showResult, 220);
+  }
+}
+
+function back(){
+  if(step > 0){ step--; renderQ(); }
+  else { show('s-intro'); }
+}
+
+function restart(){
+  step = 0; answers = [];
+  const f = document.getElementById('sub-form');
+  if(f) f.style.display = '';
+  document.getElementById('sub-ok').style.display = 'none';
+  show('s-intro');
+}
+
+/* =========================================================
+   SCORING
+   ========================================================= */
+let lastResult = null;
+
+function computeScores(){
+  const scores = {};
+  Object.keys(SHOES).forEach(k=>scores[k]=0);
+  let excluded = new Set();
+  let onlyList = null;
+
+  answers.forEach((ai,qi)=>{
+    const opt = questions[qi].opts[ai];
+    if(opt.w) Object.entries(opt.w).forEach(([k,v])=>{ scores[k]+=v; });
+    if(opt.pen) Object.entries(opt.pen).forEach(([k,v])=>{ scores[k]+=v; });
+    if(opt.excl) opt.excl.forEach(k=>excluded.add(k));
+    if(opt.only) onlyList = opt.only;
+  });
+
+  let keys = Object.keys(SHOES).filter(k=>!excluded.has(k));
+  if(onlyList) keys = keys.filter(k=>onlyList.includes(k));
+  keys.sort((a,b)=>scores[b]-scores[a]);
+  return keys.slice(0,3);
+}
+
+function tipFor(shoeKey){
+  /* ψάξε combo tip με βάση τις απαντήσεις, αλλιώς γενικό */
+  for(let qi=0; qi<answers.length; qi++){
+    const optKey = questions[qi].opts[answers[qi]].key;
+    const t = COMBO_TIPS[shoeKey + '|' + optKey];
+    if(t) return t;
+  }
+  return '';
+}
+
+function ctxLine(){
+  const parts = answers.map((ai,qi)=>questions[qi].opts[ai].label.split('—')[0].split('/')[0].trim());
+  return parts.join(' · ');
+}
+
+function showResult(){
+  const top = computeScores();
+  const main = SHOES[top[0]];
+  lastResult = main.name;
+
+  document.getElementById('r-ctx').textContent = ctxLine();
+  document.getElementById('w-emoji').textContent = main.emoji;
+  document.getElementById('w-name').textContent = main.name;
+  document.getElementById('w-why').textContent = main.why;
+  const tip = tipFor(top[0]);
+  const tipEl = document.getElementById('w-tip');
+  tipEl.textContent = tip ? '“' + tip + '”' : '';
+  tipEl.style.display = tip ? '' : 'none';
+
+  /* Flat εναλλακτική για τη νικήτρια επιλογή (αν έχει τακούνι) */
+  const wFlat = FLAT_ALT[top[0]];
+  const wFlatEl = document.getElementById('w-flat');
+  if(wFlat){
+    document.getElementById('w-flat-name').textContent = wFlat.name;
+    document.getElementById('w-flat-why').textContent = wFlat.why;
+    wFlatEl.style.display = '';
+  } else {
+    wFlatEl.style.display = 'none';
+  }
+
+  const a1 = SHOES[top[1]], a2 = SHOES[top[2]];
+  document.getElementById('a1-emoji').textContent = a1 ? a1.emoji : '';
+  document.getElementById('a1-name').textContent = a1 ? a1.name : '—';
+  document.getElementById('a1-why').textContent = a1 ? a1.why : '';
+  document.getElementById('a2-emoji').textContent = a2 ? a2.emoji : '';
+  document.getElementById('a2-name').textContent = a2 ? a2.name : '—';
+  document.getElementById('a2-why').textContent = a2 ? a2.why : '';
+
+  /* Flat εναλλακτικές για τις δευτερεύουσες επιλογές */
+  [[top[1],'a1-flat'],[top[2],'a2-flat']].forEach(([key,elId])=>{
+    const el = document.getElementById(elId);
+    const fa = key ? FLAT_ALT[key] : null;
+    if(fa){
+      el.innerHTML = 'Χωρίς τακούνι: <b>' + fa.name + '</b>';
+      el.style.display = '';
+    } else {
+      el.style.display = 'none';
+    }
+  });
+
+  const firstKey = questions[0].opts[answers[0]].key;
+  const coach = (mode==='A') ? COACH_A[firstKey] : COACH_B[questions[1].opts[answers[1]].key];
+  document.getElementById('coach-text').innerHTML = coach || 'Το σωστό παπούτσι ολοκληρώνει την αναλογία του συνόλου — δεν είναι απλώς το «τελευταίο» κομμάτι.';
+
+  document.getElementById('sub-result').value = main.name;
+
+  if (typeof gtag === 'function') {
+    gtag('event', 'shoe_quiz_result', {
+      'event_category': 'engagement',
+      'event_label': main.name,
+      'quiz_mode': mode
+    });
+  }
+
+  show('s-result');
+}
+
+/* =========================================================
+   MAILERLITE SUBSCRIBE
+   ========================================================= */
+const ML_URL = "https://assets.mailerlite.com/jsonp/2295067/forms/185835026362926505/subscribe";
+
+document.getElementById('sub-form').addEventListener('submit', async function(e){
+  e.preventDefault();
+  const btn = document.getElementById('sub-btn');
+  btn.disabled = true;
+  btn.textContent = 'Μια στιγμή…';
+  try{
+    const fd = new FormData(this);
+    await fetch(ML_URL, { method:'POST', body:fd, mode:'no-cors' });
+    this.style.display = 'none';
+    document.getElementById('sub-ok').style.display = 'block';
+    if (typeof gtag === 'function') {
+      gtag('event', 'shoe_quiz_signup', {
+        'event_category': 'engagement',
+        'event_label': lastResult || ''
+      });
+    }
+  }catch(err){
+    alert('Κάτι πήγε στραβά. Δοκίμασε ξανά ή στείλε email στο dbvabydanai@gmail.com');
+    btn.disabled = false;
+    btn.textContent = 'Θέλω τον οδηγό';
+  }
+});
+
+/* =========================================================
+   SHARE
+   ========================================================= */
+function shareResult(){
+  const text = lastResult
+    ? 'Το ιδανικό μου παπούτσι σύμφωνα με το Shoe Matcher: ' + lastResult + ' 👠 Δοκίμασέ το κι εσύ:'
+    : 'Βρες το ιδανικό παπούτσι για κάθε outfit:';
+  if(navigator.share){
+    navigator.share({title:'Shoe Matcher — Fashion Analysis by Danai', text, url:location.href}).catch(()=>{});
+  } else {
+    copyResult();
+  }
+}
+function copyResult(){
+  const t = location.href;
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(t).then(()=>alert('Το link αντιγράφηκε!')).catch(()=>{});
+  }
+}
+</script>
+
+</body>
+</html>

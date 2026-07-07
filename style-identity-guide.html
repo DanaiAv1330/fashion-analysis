@@ -10,6 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <link rel="icon" type="image/x-icon" href="favicon.ico" />
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-DBRDY0FNX7"></script>
   <script>
@@ -21,13 +22,13 @@
 
   <style>
     .sig {
-      --sig-cream:    #faf7f4;
+      --sig-cream:    #f5f0e8;
       --sig-warm-off: #f3ede6;
       --sig-latte:    #e8ddd3;
       --sig-taupe:    #c5b5a7;
       --sig-mocha:    #8b6f5e;
       --sig-espresso: #4a3028;
-      --sig-gold:     #c9a96e;
+      --sig-gold:     #9a7a4a;
       --sig-ink:      #2a2018;
       background: var(--sig-cream);
       color: var(--sig-espresso);
@@ -36,7 +37,9 @@
       font-size: 15px;
       line-height: 1.75;
     }
-    .sig *, .sig *::before, .sig *::after { box-sizing: border-box; }
+    .sig *, .sig *::before, .sig *::after { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    .sig button, .sig input, .sig select, .sig textarea { font-family: inherit; -webkit-appearance: none; appearance: none; outline: none; }
+    .sig button { cursor: pointer; }
 
     /* ── NAV DROPDOWN (homepage) ── */
     .nav-dropdown { position: relative; }
@@ -1155,6 +1158,21 @@
 
   buildWordLists();
 
+  // ── SUPABASE ──
+  const sb = supabase.createClient(
+    'https://cdtgaxjdcjyvlkzeafje.supabase.co',
+    'sb_publishable_GEUNs3IBvjSktOQRHYMsLA_W_tlje3D'
+  );
+
+  async function saveToSupabase(email, quizType, result) {
+    try {
+      await sb.from('email_subscribers').insert([{ email, source: quizType }]);
+    } catch (e) { console.warn('Supabase email_subscribers insert failed:', e); }
+    try {
+      await sb.from('quiz_responses').insert([{ email, quiz_type: quizType, result }]);
+    } catch (e) { console.warn('Supabase quiz_responses insert failed:', e); }
+  }
+
   // ── EMAIL FORM SUBMISSION ──
   const swForm = document.getElementById('styleWordsForm');
   if (swForm) {
@@ -1178,6 +1196,13 @@
           method: 'POST',
           body: formData,
           mode: 'no-cors'
+        });
+
+        const email = document.getElementById('sw-email').value.trim();
+        saveToSupabase(email, 'style_identity', {
+          lifestyle: selectedWords.lifestyle,
+          moodboard: selectedWords.moodboard,
+          feeling: selectedWords.feeling
         });
 
         // Hide form, show success

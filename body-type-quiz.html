@@ -16,15 +16,18 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    button, input, select, textarea { font-family: inherit; -webkit-appearance: none; appearance: none; outline: none; }
+    button { cursor: pointer; }
 
     :root {
-      --cream: #f9f6f1;
+      --cream: #f5f0e8;
       --dark: #1a1a1a;
       --mid: #3d3d3d;
       --muted: #8a8a7a;
-      --accent: #c9a96e;
+      --accent: #9a7a4a;
       --accent-light: #e8d9c0;
       --border: #e0d9ce;
       --white: #ffffff;
@@ -40,73 +43,24 @@
       line-height: 1.7;
     }
 
-    /* ── NAV ── */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      background: var(--cream);
-      border-bottom: 1px solid var(--border);
-      padding: 18px 40px;
-      display: flex; align-items: center; justify-content: space-between;
-    }
-    .nav-logo {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.05rem; font-weight: 500; letter-spacing: 0.02em;
-      color: var(--dark); text-decoration: none;
-      line-height: 1.2;
-    }
-    .nav-logo span { display: block; font-size: 0.7rem; font-family: 'Jost', sans-serif; font-weight: 300; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
-    .nav-links { display: flex; gap: 32px; list-style: none; }
-    .nav-links a { font-family: 'Jost', sans-serif; font-size: 0.8rem; font-weight: 400; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mid); text-decoration: none; transition: color 0.2s; }
-    .nav-links a:hover { color: var(--accent); }
-    .nav-links .active { color: var(--dark); font-weight: 500; }
-
-    /* NAV DROPDOWN */
-    .nav-dropdown { position: relative; }
-    .nav-dropdown-toggle { cursor: pointer; }
-    .nav-dropdown-menu {
-      display: none;
-      position: absolute;
-      top: calc(100% + 8px);
-      left: 50%;
-      transform: translateX(-50%);
-      background: #fff;
-      border: 1px solid var(--border);
-      min-width: 210px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.10);
-      z-index: 200;
-      padding: 6px 0;
-      list-style: none;
-    }
-    .nav-dropdown-menu li a {
-      display: block; padding: 9px 18px;
-      font-size: 0.75rem; letter-spacing: 0.04em;
-      color: var(--dark); text-decoration: none;
-      transition: background 0.15s; white-space: nowrap;
-      font-weight: 300; text-transform: none; letter-spacing: 0;
-    }
-    .nav-dropdown-menu li a:hover { background: #f5f0e8; color: var(--accent); }
-    .nav-dropdown:hover .nav-dropdown-menu,
-    .nav-dropdown.open .nav-dropdown-menu { display: block; }
-    .nav-cta { background: var(--dark); color: var(--white) !important; padding: 8px 16px !important; }
-
     /* ── HERO ── */
-    .hero {
+    .quiz-hero {
       padding: 140px 40px 80px;
       max-width: 800px; margin: 0 auto;
       text-align: center;
     }
-    .hero-tag {
+    .quiz-hero-tag {
       font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase;
       color: var(--accent); font-weight: 400; margin-bottom: 20px;
     }
-    .hero h1 {
+    .quiz-hero h1 {
       font-family: 'Cormorant Garamond', serif;
       font-size: clamp(2.4rem, 5vw, 3.8rem);
       font-weight: 400; line-height: 1.15;
       color: var(--dark); margin-bottom: 22px;
     }
-    .hero h1 em { font-style: italic; color: var(--accent); }
-    .hero p {
+    .quiz-hero h1 em { font-style: italic; color: var(--accent); }
+    .quiz-hero p {
       font-size: 0.95rem; color: var(--muted); max-width: 520px; margin: 0 auto 40px;
       font-weight: 300;
     }
@@ -330,9 +284,7 @@
     .footer-copy { grid-column: 1 / -1; font-size: 0.7rem; color: var(--border); padding-top: 24px; border-top: 1px solid var(--border); }
 
     @media (max-width: 700px) {
-      nav { padding: 16px 20px; }
-      .nav-links { display: none; }
-      .section, .hero { padding-left: 20px; padding-right: 20px; }
+      .section, .quiz-hero { padding-left: 20px; padding-right: 20px; }
       .quiz-wrapper { padding: 32px 24px; }
       .result-header, .result-body { padding: 28px 24px; }
       footer { grid-template-columns: 1fr; padding: 40px 20px 28px; }
@@ -378,8 +330,8 @@
 </nav>
 
 <!-- HERO -->
-<section class="hero">
-  <p class="hero-tag">Free Tool · Body Type Analysis</p>
+<section class="quiz-hero">
+  <p class="quiz-hero-tag">Free Tool · Body Type Analysis</p>
   <h1>Βρες τον <em>σωματότυπό</em> σου.<br>Ντύσου με πρόθεση.</h1>
   <p>Μέτρησε ώμους, μέση και γοφούς — και μάθε ποιες γραμμές, χρώματα και κομμάτια κολακεύουν πραγματικά το σώμα σου.</p>
   <div class="scroll-hint">Scroll για να ξεκινήσεις</div>
@@ -742,12 +694,15 @@
     showResult(type, shoulders, waist, hips);
   }
 
+  let currentBodyTypeResult = {};
+
   function showResult(type, shoulders, waist, hips) {
     const bt = bodyTypes[type];
 
     document.getElementById('result-name').innerHTML = bt.nameEl;
     document.getElementById('result-desc').textContent = bt.desc;
     document.getElementById('bt-hidden-type').value = bt.name;
+    currentBodyTypeResult = { body_type: bt.name, shoulders_cm: shoulders, waist_cm: waist, hips_cm: hips };
 
     // measurements display
     const unit = currentUnit;
@@ -793,6 +748,21 @@
     if (btSubmit) { btSubmit.disabled = false; btSubmit.textContent = 'Στείλε μου το →'; }
   }
 
+  // ── SUPABASE ──
+  const sb = supabase.createClient(
+    'https://cdtgaxjdcjyvlkzeafje.supabase.co',
+    'sb_publishable_GEUNs3IBvjSktOQRHYMsLA_W_tlje3D'
+  );
+
+  async function saveToSupabase(email, quizType, result) {
+    try {
+      await sb.from('email_subscribers').insert([{ email, source: quizType }]);
+    } catch (e) { console.warn('Supabase email_subscribers insert failed:', e); }
+    try {
+      await sb.from('quiz_responses').insert([{ email, quiz_type: quizType, result }]);
+    } catch (e) { console.warn('Supabase quiz_responses insert failed:', e); }
+  }
+
   // ── EMAIL CAPTURE SUBMISSION ──
   const bodyTypeSubForm = document.getElementById('bodyTypeSubForm');
   if (bodyTypeSubForm) {
@@ -810,6 +780,7 @@
       try {
         const formData = new FormData(bodyTypeSubForm);
         await fetch(bodyTypeSubForm.action, { method: 'POST', body: formData, mode: 'no-cors' });
+        saveToSupabase(email, 'body_type', currentBodyTypeResult);
         bodyTypeSubForm.style.display = 'none';
         document.getElementById('bt-success').style.display = 'block';
         if (typeof gtag === 'function') {

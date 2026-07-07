@@ -9,19 +9,22 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css" />
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
   :root{
-    --cream:#f6f1e7;
+    --cream:#f5f0e8;
     --cream-deep:#efe7d6;
     --ink:#1c1a17;
     --ink-soft:#3a352e;
-    --gold:#b08d4f;
-    --gold-deep:#8c6d38;
+    --gold:#9a7a4a;
+    --gold-deep:#8a6e3c;
     --line:#d8ccb4;
     --paper:#fbf8f1;
     --shadow:rgba(40,33,22,.10);
   }
-  *{margin:0;padding:0;box-sizing:border-box;}
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  button,input,select,textarea{font-family:inherit;-webkit-appearance:none;appearance:none;outline:none;}
+  button{cursor:pointer;}
   html{scroll-behavior:smooth;}
   body{
     background:var(--cream);
@@ -38,7 +41,7 @@
   .wrap{max-width:760px;margin:0 auto;padding:0 24px;}
 
   /* ---------- HERO ---------- */
-  header.hero{
+  header.quiz-hero{
     text-align:center;
     padding:72px 24px 36px;
   }
@@ -51,15 +54,15 @@
     color:var(--gold-deep);
     margin-bottom:22px;
   }
-  .hero h1{
+  .quiz-hero h1{
     font-family:'Cormorant Garamond',serif;
     font-weight:600;
     font-size:clamp(38px,7vw,64px);
     line-height:1.04;
     letter-spacing:.01em;
   }
-  .hero h1 em{font-style:italic;color:var(--gold-deep);}
-  .hero .sub{
+  .quiz-hero h1 em{font-style:italic;color:var(--gold-deep);}
+  .quiz-hero .sub{
     font-family:'Cormorant Garamond',serif;
     font-style:italic;
     font-size:clamp(18px,2.6vw,23px);
@@ -309,7 +312,7 @@
 
   <!-- ===== INTRO / MODE PICK ===== -->
   <section class="screen active" id="s-intro">
-    <header class="hero">
+    <header class="quiz-hero">
       <div class="kicker">Fashion Analysis by Danai</div>
       <h1>Ποιο παπούτσι<br><em>ταιριάζει</em> σήμερα;</h1>
       <div class="rule"></div>
@@ -831,6 +834,23 @@ function showResult(){
 }
 
 /* =========================================================
+   SUPABASE
+   ========================================================= */
+const sb = supabase.createClient(
+  'https://cdtgaxjdcjyvlkzeafje.supabase.co',
+  'sb_publishable_GEUNs3IBvjSktOQRHYMsLA_W_tlje3D'
+);
+
+async function saveToSupabase(email, quizType, result, rawAnswers) {
+  try {
+    await sb.from('email_subscribers').insert([{ email, source: quizType }]);
+  } catch (e) { console.warn('Supabase email_subscribers insert failed:', e); }
+  try {
+    await sb.from('quiz_responses').insert([{ email, quiz_type: quizType, result, raw_answers: rawAnswers }]);
+  } catch (e) { console.warn('Supabase quiz_responses insert failed:', e); }
+}
+
+/* =========================================================
    MAILERLITE SUBSCRIBE
    ========================================================= */
 const ML_URL = "https://assets.mailerlite.com/jsonp/2295067/forms/185835026362926505/subscribe";
@@ -843,6 +863,8 @@ document.getElementById('sub-form').addEventListener('submit', async function(e)
   try{
     const fd = new FormData(this);
     await fetch(ML_URL, { method:'POST', body:fd, mode:'no-cors' });
+    const email = document.getElementById('sub-email').value.trim();
+    saveToSupabase(email, 'shoe_matcher', { shoe_result: lastResult, mode }, answers);
     this.style.display = 'none';
     document.getElementById('sub-ok').style.display = 'block';
     if (typeof gtag === 'function') {

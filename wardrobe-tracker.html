@@ -555,7 +555,7 @@ body{padding-bottom:0;}
         <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 -16px 14px;padding:12px 16px;position:sticky;top:0;z-index:50;background:var(--surface);border-bottom:1px solid var(--border);border-radius:3px 3px 0 0;box-shadow:0 2px 8px rgba(90,70,40,0.06);">
           <div style="font-family:var(--font-serif);font-size:16px;font-weight:300;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" id="inline-item-title">Νέο <em style="font-style:italic;color:var(--accent)">Κομμάτι</em></div>
           <button class="btn-sm danger" id="item-delete-btn-top" style="display:none;flex-shrink:0;padding:7px 10px;" onclick="openArchiveModal()" title="Αποχώρηση">📦</button>
-          <button class="btn-sm primary" id="item-save-btn-top" onclick="saveItem()" style="flex-shrink:0;padding:7px 16px;">💾 Αποθήκευση</button>
+          <button class="btn-sm primary" id="item-save-btn-top" onclick="saveItem()" style="flex-shrink:0;padding:7px 10px;" title="Αποθήκευση">💾</button>
           <button onclick="closeItemModal()" style="flex-shrink:0;background:none;border:1px solid var(--border);color:var(--text-muted);width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:12px;">✕</button>
         </div>
         <!-- Photo -->
@@ -2017,7 +2017,7 @@ async function uploadPhoto(itemId){
 async function saveItem(){
   const title=document.getElementById('f-title').value.trim();
   if(!title){showToast('Βάλε τίτλο');return;}
-  const setSaveBtns=(disabled,txt)=>{['item-save-btn','item-save-btn-top'].forEach((bid,i)=>{const b=document.getElementById(bid);if(b){b.disabled=disabled;b.textContent=i===1?(txt==='…'?'…':'💾 Αποθήκευση'):txt;}});};
+  const setSaveBtns=(disabled,txt)=>{['item-save-btn','item-save-btn-top'].forEach((bid,i)=>{const b=document.getElementById(bid);if(b){b.disabled=disabled;b.textContent=i===1?(txt==='…'?'…':'💾'):txt;}});};
   setSaveBtns(true,'…');
   const py=document.getElementById('f-purchase-year').value;
   const pm=document.getElementById('f-purchase-month').value;

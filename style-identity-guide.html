@@ -890,7 +890,8 @@
 
     <form id="styleWordsForm"
           action="https://assets.mailerlite.com/jsonp/2295067/forms/185835026362926505/subscribe"
-          method="POST">
+          method="POST"
+          target="ml-submit-frame">
       <div class="ef-row">
         <div class="ef-field">
           <label class="ef-label" for="sw-name">Όνομα</label>
@@ -1176,57 +1177,45 @@
   // ── EMAIL FORM SUBMISSION ──
   const swForm = document.getElementById('styleWordsForm');
   if (swForm) {
-    swForm.addEventListener('submit', async function(e) {
-      e.preventDefault();
-
+    swForm.addEventListener('submit', function(e) {
       // Validate that 3 words are selected
       if (!selectedWords.lifestyle || !selectedWords.moodboard || !selectedWords.feeling) {
+        e.preventDefault();
         alert('Παρακαλώ επίλεξε μία λέξη από κάθε στήλη πρώτα.');
         return;
       }
 
+      // Do NOT preventDefault — the form submits for real (into the hidden
+      // iframe via target="ml-submit-frame"), matching what MailerLite expects.
       const submitBtn = document.getElementById('sw-submit');
       submitBtn.disabled = true;
       submitBtn.innerHTML = 'Αποστολή...';
 
-      try {
-        const formData = new FormData(swForm);
+      const email = document.getElementById('sw-email').value.trim();
+      saveToSupabase(email, 'style_identity', {
+        lifestyle: selectedWords.lifestyle,
+        moodboard: selectedWords.moodboard,
+        feeling: selectedWords.feeling
+      });
 
-        await fetch(swForm.action, {
-          method: 'POST',
-          body: formData,
-          mode: 'no-cors'
+      // Hide form, show success
+      swForm.style.display = 'none';
+      document.getElementById('sw-success').classList.add('show');
+
+      // GA event
+      if (typeof gtag === 'function') {
+        gtag('event', 'style_words_signup', {
+          'event_category': 'engagement',
+          'event_label': 'Style Identity — 3 Words',
+          'lifestyle': selectedWords.lifestyle,
+          'moodboard': selectedWords.moodboard,
+          'feeling': selectedWords.feeling
         });
-
-        const email = document.getElementById('sw-email').value.trim();
-        saveToSupabase(email, 'style_identity', {
-          lifestyle: selectedWords.lifestyle,
-          moodboard: selectedWords.moodboard,
-          feeling: selectedWords.feeling
-        });
-
-        // Hide form, show success
-        swForm.style.display = 'none';
-        document.getElementById('sw-success').classList.add('show');
-
-        // GA event
-        if (typeof gtag === 'function') {
-          gtag('event', 'style_words_signup', {
-            'event_category': 'engagement',
-            'event_label': 'Style Identity — 3 Words',
-            'lifestyle': selectedWords.lifestyle,
-            'moodboard': selectedWords.moodboard,
-            'feeling': selectedWords.feeling
-          });
-        }
-      } catch (err) {
-        alert('Κάτι πήγε στραβά. Δοκίμασε ξανά ή στείλε email στο dbvabydanai@gmail.com');
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = 'Στείλε μου τις 3 λέξεις →';
       }
     });
   }
 </script>
 
+<iframe name="ml-submit-frame" style="display:none" aria-hidden="true" title="form submission target"></iframe>
 </body>
 </html>

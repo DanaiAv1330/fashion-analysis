@@ -363,7 +363,7 @@
       <div class="cta">
         <h3>Τώρα που ξέρεις το προφίλ σου — ποιο είναι το επόμενο βήμα;</h3>
         <p>Μπες στη λίστα και κατέβασε δωρεάν τον οδηγό «Το Επόμενο Βήμα» — ένα βήμα-βήμα μονοπάτι για να ψωνίζεις πιο στοχευμένα, χωρίς να χάσεις το μοναδικό σου στυλ.</p>
-        <form class="subscribe" id="closetSubForm" action="https://assets.mailerlite.com/jsonp/2295067/forms/185835026362926505/subscribe" method="post">
+        <form class="subscribe" id="closetSubForm" action="https://assets.mailerlite.com/jsonp/2295067/forms/185835026362926505/subscribe" method="post" target="ml-submit-frame">
           <input type="email" id="sub-email" name="fields[email]" placeholder="Το email σου" required>
           <button type="submit" class="btn" id="sub-submit">Πάρε τον οδηγό</button>
           <input type="hidden" name="fields[source]" value="Closet Quiz">
@@ -785,29 +785,23 @@ async function saveToSupabase(email, quizType, result, rawAnswers) {
 /* ---------- CTA actions ---------- */
 const closetSubForm = document.getElementById('closetSubForm');
 if (closetSubForm) {
-  closetSubForm.addEventListener('submit', async function(e){
-    e.preventDefault();
+  closetSubForm.addEventListener('submit', function(e){
     const emailInput = document.getElementById('sub-email');
     const email = emailInput.value.trim();
     if(!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){
+      e.preventDefault();
       emailInput.style.borderColor='#b5544a';
       return;
     }
+    // Do NOT preventDefault — the form submits for real (into the hidden
+    // iframe via target="ml-submit-frame"), matching what MailerLite expects.
     const submitBtn = document.getElementById('sub-submit');
     submitBtn.disabled = true;
     submitBtn.textContent = 'Αποστολή...';
-    try {
-      const formData = new FormData(closetSubForm);
-      await fetch(closetSubForm.action, { method:'POST', body: formData, mode:'no-cors' });
-      saveToSupabase(email, 'closet_psychology', { top_profile: currentProfileName, top3: currentRankedResult }, answers);
-      closetSubForm.style.display='none';
-      document.getElementById('download-btn').href = GUIDE_URL;
-      document.getElementById('sub-ok').style.display='block';
-    } catch(err) {
-      submitBtn.disabled = false;
-      submitBtn.textContent = 'Πάρε τον οδηγό';
-      alert('Κάτι πήγε στραβά. Δοκίμασε ξανά ή στείλε email στο dbvabydanai@gmail.com');
-    }
+    saveToSupabase(email, 'closet_psychology', { top_profile: currentProfileName, top3: currentRankedResult }, answers);
+    closetSubForm.style.display='none';
+    document.getElementById('download-btn').href = GUIDE_URL;
+    document.getElementById('sub-ok').style.display='block';
   });
 }
 
@@ -841,5 +835,6 @@ document.addEventListener('keydown',e=>{
   }
 });
 </script>
+<iframe name="ml-submit-frame" style="display:none" aria-hidden="true" title="form submission target"></iframe>
 </body>
 </html>

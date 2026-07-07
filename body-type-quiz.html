@@ -468,7 +468,7 @@
       <div class="email-capture" id="email-capture">
         <h3 class="email-capture-title">Θες το αποτέλεσμά σου στο email σου;</h3>
         <p class="email-capture-sub">Στείλε μας το email σου και κράτα τον πλήρη οδηγό για τον σωματότυπό σου — μαζί με tips στυλ κάθε εβδομάδα.</p>
-        <form class="email-capture-form" id="bodyTypeSubForm" action="https://assets.mailerlite.com/jsonp/2295067/forms/185835026362926505/subscribe" method="post">
+        <form class="email-capture-form" id="bodyTypeSubForm" action="https://assets.mailerlite.com/jsonp/2295067/forms/185835026362926505/subscribe" method="post" target="ml-submit-frame">
           <input type="email" id="bt-email" name="fields[email]" placeholder="Το email σου" required>
           <button type="submit" class="email-capture-btn" id="bt-submit">Στείλε μου το →</button>
           <input type="hidden" name="fields[source]" value="Body Type Quiz">
@@ -766,38 +766,33 @@
   // ── EMAIL CAPTURE SUBMISSION ──
   const bodyTypeSubForm = document.getElementById('bodyTypeSubForm');
   if (bodyTypeSubForm) {
-    bodyTypeSubForm.addEventListener('submit', async function(e) {
-      e.preventDefault();
+    bodyTypeSubForm.addEventListener('submit', function(e) {
       const emailInput = document.getElementById('bt-email');
       const email = emailInput.value.trim();
       if (!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+        e.preventDefault();
         emailInput.style.borderColor = '#c07070';
         return;
       }
+      // Do NOT preventDefault — the form submits for real (into the hidden
+      // iframe via target="ml-submit-frame"), matching what MailerLite expects.
       const submitBtn = document.getElementById('bt-submit');
       submitBtn.disabled = true;
       submitBtn.textContent = 'Αποστολή...';
-      try {
-        const formData = new FormData(bodyTypeSubForm);
-        await fetch(bodyTypeSubForm.action, { method: 'POST', body: formData, mode: 'no-cors' });
-        saveToSupabase(email, 'body_type', currentBodyTypeResult);
-        bodyTypeSubForm.style.display = 'none';
-        document.getElementById('bt-success').style.display = 'block';
-        if (typeof gtag === 'function') {
-          gtag('event', 'body_type_quiz_signup', {
-            'event_category': 'engagement',
-            'event_label': 'Body Type Quiz',
-            'body_type': document.getElementById('bt-hidden-type').value
-          });
-        }
-      } catch (err) {
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Στείλε μου το →';
-        alert('Κάτι πήγε στραβά. Δοκίμασε ξανά ή στείλε email στο dbvabydanai@gmail.com');
+      saveToSupabase(email, 'body_type', currentBodyTypeResult);
+      bodyTypeSubForm.style.display = 'none';
+      document.getElementById('bt-success').style.display = 'block';
+      if (typeof gtag === 'function') {
+        gtag('event', 'body_type_quiz_signup', {
+          'event_category': 'engagement',
+          'event_label': 'Body Type Quiz',
+          'body_type': document.getElementById('bt-hidden-type').value
+        });
       }
     });
   }
 </script>
 
+<iframe name="ml-submit-frame" style="display:none" aria-hidden="true" title="form submission target"></iframe>
 </body>
 </html>

@@ -1449,7 +1449,7 @@
         <div style="margin-top:2rem;padding:2rem;background:var(--cag-warm-white);border:1px solid var(--cag-line);border-radius:2px;text-align:center">
           <h3 style="font-family:var(--cag-serif);font-size:1.4rem;font-weight:400;color:var(--cag-bark);margin-bottom:0.5rem">Θες το ${palette} στο email σου;</h3>
           <p style="font-size:0.85rem;color:var(--cag-dust);max-width:440px;margin:0 auto 1.3rem">Κράτα την πλήρη παλέτα σου και πάρε εβδομαδιαία tips στυλ στο inbox σου.</p>
-          <form id="colorSubForm" action="https://assets.mailerlite.com/jsonp/2295067/forms/185835026362926505/subscribe" method="post" style="display:flex;gap:10px;max-width:420px;margin:0 auto;flex-wrap:wrap;justify-content:center">
+          <form id="colorSubForm" action="https://assets.mailerlite.com/jsonp/2295067/forms/185835026362926505/subscribe" method="post" target="ml-submit-frame" style="display:flex;gap:10px;max-width:420px;margin:0 auto;flex-wrap:wrap;justify-content:center">
             <input type="email" id="ca-email" name="fields[email]" placeholder="Το email σου" required style="flex:1;min-width:200px;padding:13px 16px;border:1px solid var(--cag-line);background:#fff;font-family:var(--cag-sans);font-size:0.9rem;color:var(--cag-ink);outline:none">
             <button type="submit" id="ca-submit" style="padding:13px 22px;background:var(--cag-ink);color:#fff;border:none;font-family:var(--cag-sans);font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;white-space:nowrap">Στείλε μου το →</button>
             <input type="hidden" name="fields[source]" value="Color Analysis Quiz">
@@ -1481,35 +1481,31 @@
   function attachColorSubForm() {
     const form = document.getElementById('colorSubForm');
     if (!form) return;
-    form.addEventListener('submit', async function(e) {
-      e.preventDefault();
+    form.addEventListener('submit', function(e) {
       const emailInput = document.getElementById('ca-email');
       const email = emailInput.value.trim();
       if (!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+        e.preventDefault();
         emailInput.style.borderColor = '#c0504a';
         return;
       }
+      // Do NOT preventDefault here — the form submits for real (into the hidden
+      // iframe via target="ml-submit-frame"), which is what MailerLite's endpoint
+      // actually expects. A fetch()/no-cors call here cannot verify delivery and
+      // was silently failing.
       const btn = document.getElementById('ca-submit');
       btn.disabled = true;
       btn.textContent = 'Αποστολή...';
-      try {
-        const formData = new FormData(form);
-        await fetch(form.action, { method: 'POST', body: formData, mode: 'no-cors' });
-        const seasonInput = form.querySelector('input[name="fields[color_season]"]');
-        const season = seasonInput ? seasonInput.value : null;
-        saveToSupabase(email, 'color_analysis', { color_season: season }, quizAnswers);
-        form.style.display = 'none';
-        document.getElementById('ca-success').style.display = 'block';
-        if (typeof gtag === 'function') {
-          gtag('event', 'color_quiz_signup', {
-            'event_category': 'engagement',
-            'event_label': 'Color Analysis Quiz'
-          });
-        }
-      } catch (err) {
-        btn.disabled = false;
-        btn.textContent = 'Στείλε μου το →';
-        alert('Κάτι πήγε στραβά. Δοκίμασε ξανά ή στείλε email στο dbvabydanai@gmail.com');
+      const seasonInput = form.querySelector('input[name="fields[color_season]"]');
+      const season = seasonInput ? seasonInput.value : null;
+      saveToSupabase(email, 'color_analysis', { color_season: season }, quizAnswers);
+      form.style.display = 'none';
+      document.getElementById('ca-success').style.display = 'block';
+      if (typeof gtag === 'function') {
+        gtag('event', 'color_quiz_signup', {
+          'event_category': 'engagement',
+          'event_label': 'Color Analysis Quiz'
+        });
       }
     });
   }
@@ -1526,5 +1522,6 @@
   quizInit();
 </script>
 
+<iframe name="ml-submit-frame" style="display:none" aria-hidden="true" title="form submission target"></iframe>
 </body>
 </html>

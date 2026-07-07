@@ -329,7 +329,8 @@
           <!-- MailerLite Form — sends data to MailerLite, shows custom success message -->
           <form id="newsletterForm"
                 action="https://assets.mailerlite.com/jsonp/2295067/forms/185835026362926505/subscribe"
-                method="POST">
+                method="POST"
+                target="ml-submit-frame">
             <div id="formContainer">
               <div class="form-row">
                 <div class="form-group">
@@ -464,7 +465,8 @@
       });
     }
 
-    // Newsletter form submit — sends to MailerLite via fetch, shows custom success message
+    // Newsletter form submit — submits for real into a hidden iframe (matches
+    // what MailerLite's endpoint expects), shows custom success message
     const form = document.getElementById('newsletterForm');
     const formContainer = document.getElementById('formContainer');
     const successMsg = document.getElementById('successMsg');
@@ -472,46 +474,29 @@
     const submitBtn = document.getElementById('submitBtn');
 
     if (form) {
-      form.addEventListener('submit', async function(e) {
-        e.preventDefault();
-
-        // Disable button & show loading
+      form.addEventListener('submit', function(e) {
+        // Do NOT preventDefault — native HTML5 required/type=email validation
+        // still blocks empty/invalid submissions. The form submits for real
+        // (into the hidden iframe via target="ml-submit-frame"), which is what
+        // MailerLite's endpoint actually expects — the previous fetch()/no-cors
+        // approach could never verify delivery and was silently failing.
         submitBtn.disabled = true;
         submitBtn.innerHTML = 'Εγγραφή...';
 
-        try {
-          const formData = new FormData(form);
+        formContainer.style.display = 'none';
+        errorMsg.style.display = 'none';
+        successMsg.style.display = 'block';
 
-          // MailerLite accepts POST submissions to the JSONP endpoint
-          // 'no-cors' mode: submission goes through but we can't read the response
-          await fetch(form.action, {
-            method: 'POST',
-            body: formData,
-            mode: 'no-cors'
+        // GA event tracking
+        if (typeof gtag === 'function') {
+          gtag('event', 'newsletter_signup', {
+            'event_category': 'engagement',
+            'event_label': 'Newsletter form submission'
           });
-
-          // No network error → assume success
-          formContainer.style.display = 'none';
-          errorMsg.style.display = 'none';
-          successMsg.style.display = 'block';
-
-          // GA event tracking
-          if (typeof gtag === 'function') {
-            gtag('event', 'newsletter_signup', {
-              'event_category': 'engagement',
-              'event_label': 'Newsletter form submission'
-            });
-          }
-        } catch (err) {
-          // Network error
-          formContainer.style.display = 'none';
-          successMsg.style.display = 'none';
-          errorMsg.style.display = 'block';
-          submitBtn.disabled = false;
-          submitBtn.innerHTML = 'Εγγραφή στο Newsletter →';
         }
       });
     }
   </script>
+<iframe name="ml-submit-frame" style="display:none" aria-hidden="true" title="form submission target"></iframe>
 </body>
 </html>

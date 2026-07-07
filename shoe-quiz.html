@@ -404,7 +404,7 @@
       <div class="cta">
         <h3>Θες ολόκληρο τον οδηγό για παπούτσια &amp; styling;</h3>
         <p>Μπες στη λίστα — με την κυκλοφορία του δωρεάν ebook θα είσαι από τις πρώτες που θα το λάβουν, μαζί με το πλήρες κεφάλαιο «Το σωστό παπούτσι για κάθε outfit».</p>
-        <form id="sub-form" class="subscribe">
+        <form id="sub-form" class="subscribe" action="https://assets.mailerlite.com/jsonp/2295067/forms/185835026362926505/subscribe" method="post" target="ml-submit-frame">
           <input type="text" id="sub-name" name="fields[name]" placeholder="Το όνομά σου" required>
           <input type="email" id="sub-email" name="fields[email]" placeholder="Το email σου" autocomplete="email" required>
           <input type="hidden" name="fields[source]" value="Shoe Quiz">
@@ -853,30 +853,21 @@ async function saveToSupabase(email, quizType, result, rawAnswers) {
 /* =========================================================
    MAILERLITE SUBSCRIBE
    ========================================================= */
-const ML_URL = "https://assets.mailerlite.com/jsonp/2295067/forms/185835026362926505/subscribe";
-
-document.getElementById('sub-form').addEventListener('submit', async function(e){
-  e.preventDefault();
+document.getElementById('sub-form').addEventListener('submit', function(e){
+  // Do NOT preventDefault — the form submits for real (into the hidden
+  // iframe via target="ml-submit-frame"), matching what MailerLite expects.
   const btn = document.getElementById('sub-btn');
   btn.disabled = true;
   btn.textContent = 'Μια στιγμή…';
-  try{
-    const fd = new FormData(this);
-    await fetch(ML_URL, { method:'POST', body:fd, mode:'no-cors' });
-    const email = document.getElementById('sub-email').value.trim();
-    saveToSupabase(email, 'shoe_matcher', { shoe_result: lastResult, mode }, answers);
-    this.style.display = 'none';
-    document.getElementById('sub-ok').style.display = 'block';
-    if (typeof gtag === 'function') {
-      gtag('event', 'shoe_quiz_signup', {
-        'event_category': 'engagement',
-        'event_label': lastResult || ''
-      });
-    }
-  }catch(err){
-    alert('Κάτι πήγε στραβά. Δοκίμασε ξανά ή στείλε email στο dbvabydanai@gmail.com');
-    btn.disabled = false;
-    btn.textContent = 'Θέλω τον οδηγό';
+  const email = document.getElementById('sub-email').value.trim();
+  saveToSupabase(email, 'shoe_matcher', { shoe_result: lastResult, mode }, answers);
+  this.style.display = 'none';
+  document.getElementById('sub-ok').style.display = 'block';
+  if (typeof gtag === 'function') {
+    gtag('event', 'shoe_quiz_signup', {
+      'event_category': 'engagement',
+      'event_label': lastResult || ''
+    });
   }
 });
 
@@ -901,5 +892,6 @@ function copyResult(){
 }
 </script>
 
+<iframe name="ml-submit-frame" style="display:none" aria-hidden="true" title="form submission target"></iframe>
 </body>
 </html>

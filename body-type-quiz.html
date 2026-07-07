@@ -322,6 +322,7 @@
         <li><a href="wishlist.html">🛍 Wardrobe Wishlist</a></li>
         <li><a href="wardrobe-tracker.html">📱 Wardrobe Tracker</a></li>
         <li><a href="wardrobe-calculator.html">📊 KPIs Calculator</a></li>
+          <li><a href="wardrobe-profile.html">💎 Το Προφίλ μου</a></li>
       </ul>
     </li>
     <li><a href="about.html">About</a></li>
@@ -519,6 +520,7 @@
           <li><a href="wishlist.html">Wardrobe Wishlist</a></li>
           <li><a href="wardrobe-tracker.html">Wardrobe Tracker</a></li>
           <li><a href="wardrobe-calculator.html">KPIs Calculator</a></li>
+          <li><a href="wardrobe-profile.html">Το Προφίλ μου</a></li>
         </ul>
       </div>
       <div class="footer-nav-col">
@@ -763,6 +765,17 @@
     } catch (e) { console.warn('Supabase quiz_responses insert failed:', e); }
   }
 
+  // ── LOCAL WARDROBE PROFILE (powers wardrobe-profile.html) ──
+  function saveToLocalProfile(quizType, result, email) {
+    try {
+      const profile = JSON.parse(localStorage.getItem('faProfile') || '{}');
+      profile[quizType] = result;
+      if (email) profile.email = email;
+      profile.updatedAt = new Date().toISOString();
+      localStorage.setItem('faProfile', JSON.stringify(profile));
+    } catch (e) { console.warn('Local profile save failed:', e); }
+  }
+
   // ── EMAIL CAPTURE SUBMISSION ──
   const bodyTypeSubForm = document.getElementById('bodyTypeSubForm');
   if (bodyTypeSubForm) {
@@ -780,6 +793,7 @@
       submitBtn.disabled = true;
       submitBtn.textContent = 'Αποστολή...';
       saveToSupabase(email, 'body_type', currentBodyTypeResult);
+      saveToLocalProfile('body_type', currentBodyTypeResult, email);
       bodyTypeSubForm.style.display = 'none';
       document.getElementById('bt-success').style.display = 'block';
       if (typeof gtag === 'function') {

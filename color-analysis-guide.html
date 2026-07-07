@@ -525,6 +525,7 @@
         <li><a href="wishlist.html">🛍 Wardrobe Wishlist</a></li>
         <li><a href="wardrobe-tracker.html">📱 Wardrobe Tracker</a></li>
         <li><a href="wardrobe-calculator.html">📊 KPIs Calculator</a></li>
+          <li><a href="wardrobe-profile.html">💎 Το Προφίλ μου</a></li>
       </ul>
     </li>
     <li><a href="about.html">About</a></li>
@@ -1049,6 +1050,7 @@
           <li><a href="wishlist.html">Wardrobe Wishlist</a></li>
           <li><a href="wardrobe-tracker.html">Wardrobe Tracker</a></li>
           <li><a href="wardrobe-calculator.html">KPIs Calculator</a></li>
+          <li><a href="wardrobe-profile.html">Το Προφίλ μου</a></li>
         </ul>
       </div>
       <div class="footer-nav-col">
@@ -1478,6 +1480,17 @@
     } catch (e) { console.warn('Supabase quiz_responses insert failed:', e); }
   }
 
+  // ── LOCAL WARDROBE PROFILE (powers wardrobe-profile.html) ──
+  function saveToLocalProfile(quizType, result, email) {
+    try {
+      const profile = JSON.parse(localStorage.getItem('faProfile') || '{}');
+      profile[quizType] = result;
+      if (email) profile.email = email;
+      profile.updatedAt = new Date().toISOString();
+      localStorage.setItem('faProfile', JSON.stringify(profile));
+    } catch (e) { console.warn('Local profile save failed:', e); }
+  }
+
   function attachColorSubForm() {
     const form = document.getElementById('colorSubForm');
     if (!form) return;
@@ -1499,6 +1512,7 @@
       const seasonInput = form.querySelector('input[name="fields[color_season]"]');
       const season = seasonInput ? seasonInput.value : null;
       saveToSupabase(email, 'color_analysis', { color_season: season }, quizAnswers);
+      saveToLocalProfile('color_analysis', { color_season: season }, email);
       form.style.display = 'none';
       document.getElementById('ca-success').style.display = 'block';
       if (typeof gtag === 'function') {

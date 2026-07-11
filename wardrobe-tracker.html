@@ -554,8 +554,7 @@ body{padding-bottom:0;}
       <div style="background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:0 16px 16px;">
         <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 -16px 14px;padding:12px 16px;position:sticky;top:0;z-index:50;background:var(--surface);border-bottom:1px solid var(--border);border-radius:3px 3px 0 0;box-shadow:0 2px 8px rgba(90,70,40,0.06);">
           <div style="font-family:var(--font-serif);font-size:16px;font-weight:300;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" id="inline-item-title">Νέο <em style="font-style:italic;color:var(--accent)">Κομμάτι</em></div>
-          <button class="btn-sm danger" id="item-delete-btn-top" style="display:none;flex-shrink:0;padding:7px 10px;" onclick="openArchiveModal()" title="Αποχώρηση">📦</button>
-          <button class="btn-sm primary" id="item-save-btn-top" onclick="saveItem()" style="flex-shrink:0;padding:7px 10px;" title="Αποθήκευση">💾</button>
+          <button class="btn-sm primary" id="item-save-btn-top" onclick="saveItem()" style="flex-shrink:0;padding:7px 16px;">💾 Αποθήκευση</button>
           <button onclick="closeItemModal()" style="flex-shrink:0;background:none;border:1px solid var(--border);color:var(--text-muted);width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:12px;">✕</button>
         </div>
         <!-- Photo -->
@@ -1484,9 +1483,36 @@ sb.auth.onAuthStateChange((event,session)=>{
 });
 
 // INIT
-async function initApp(){await Promise.all([loadItems(),loadAllLogs(),loadArchivedItems(),loadOutfitUniforms()]);initColorFilterDropdown();renderWardrobe();renderActiveFilters();renderCalendar();loadMonthDash();initTotalDash();}
+async function initApp(){await Promise.all([loadItems(),loadAllLogs(),loadArchivedItems(),loadOutfitUniforms()]);initColorFilterDropdown();renderWardrobe();renderActiveFilters();renderCalendar();loadMonthDash();initTotalDash();showLoadDiagnostic();}
+// ΠΡΟΣΩΡΙΝΟ DIAGNOSTIC — δείχνει πόσες καταγραφές wear_log όντως φορτώθηκαν, ώστε να εντοπίσουμε αν λείπουν δεδομένα στη βάση ή είναι θέμα φόρτωσης/cache. Θα αφαιρεθεί μόλις λυθεί το πρόβλημα.
+function showLoadDiagnostic(){
+  const dates=wearLogs.map(l=>l.worn_date).filter(Boolean).sort();
+  const earliest=dates[0]||'—';
+  const latest=dates[dates.length-1]||'—';
+  const byMonth={};
+  wearLogs.forEach(l=>{if(l.worn_date){const k=l.worn_date.slice(0,7);byMonth[k]=(byMonth[k]||0)+1;}});
+  const thisYear=new Date().getFullYear();
+  const monthLine=[1,2,3,4,5,6].map(m=>{const k=`${thisYear}-${String(m).padStart(2,'0')}`;return `${MN_SHORT[m-1]}:${byMonth[k]||0}`;}).join(' · ');
+  console.log('[DIAGNOSTIC] total wearLogs:',wearLogs.length,'earliest:',earliest,'latest:',latest,'byMonth:',byMonth);
+  const div=document.createElement('div');
+  div.id='load-diag';
+  div.style.cssText='position:fixed;top:0;left:0;right:0;z-index:99999;background:#2b2620;color:#f5f0e8;font-family:Jost,sans-serif;font-size:11px;padding:10px 14px;line-height:1.6;box-shadow:0 2px 10px rgba(0,0,0,.35);';
+  div.innerHTML=`<div><strong>Diagnostic:</strong> Σύνολο εγγραφών: ${wearLogs.length} · Παλαιότερη: ${earliest} · Νεότερη: ${latest}</div><div style="margin-top:2px;">${thisYear}: ${monthLine}</div><div style="margin-top:6px;text-align:right;"><button onclick="document.getElementById('load-diag').remove()" style="background:#c9a96e;color:#2b2620;border:none;padding:4px 12px;border-radius:4px;font-size:10px;font-family:Jost,sans-serif;">Κλείσιμο</button></div>`;
+  document.body.prepend(div);
+}
 async function loadItems(){const{data}=await sb.from('wardrobe').select('*').order('created_at',{ascending:false});allItems=(data||[]).map(i=>({...i,uniforms:i.uniforms||[],occasions:i.occasions||[]}));initColorFilterDropdown();_alignCache.clear();}
-async function loadAllLogs(){const{data}=await sb.from('wear_log').select('*').order('worn_date',{ascending:false});wearLogs=data||[];_alignCache.clear();}
+async function loadAllLogs(){
+  let all=[],from=0,pageSize=1000,keepGoing=true;
+  while(keepGoing){
+    const{data,error}=await sb.from('wear_log').select('*').order('worn_date',{ascending:false}).range(from,from+pageSize-1);
+    if(error){console.error('loadAllLogs error',error);break;}
+    all=all.concat(data||[]);
+    keepGoing=(data&&data.length===pageSize);
+    from+=pageSize;
+  }
+  wearLogs=all;
+  _alignCache.clear();
+}
 async function loadLogsForDate(d){const{data}=await sb.from('wear_log').select('*').eq('worn_date',d);selectedDateLogs=data||[];}
 
 // UTILS
@@ -1957,7 +1983,6 @@ function openItemModal(id){
   editingItemId=id||null;uploadedPhotoFile=null;
   document.getElementById('inline-item-title').innerHTML=id?'Επεξεργασία <em style="font-style:italic;color:var(--accent)">Κομματιού</em>':'Νέο <em style="font-style:italic;color:var(--accent)">Κομμάτι</em>';
   document.getElementById('item-delete-btn').style.display=id?'inline-block':'none';
-  document.getElementById('item-delete-btn-top').style.display=id?'inline-block':'none';
   ['f-title','f-brand','f-pattern','f-material','f-size','f-notes'].forEach(f=>document.getElementById(f).value='');
   ['f-price','f-prev-worn','f-purchase-year','f-purchase-month','f-season','f-cat1','f-cat2','f-sleeve','f-length','f-feeling','f-face-effect'].forEach(f=>document.getElementById(f).value='');
   document.getElementById('f-prev-worn').value='0';
@@ -2017,7 +2042,7 @@ async function uploadPhoto(itemId){
 async function saveItem(){
   const title=document.getElementById('f-title').value.trim();
   if(!title){showToast('Βάλε τίτλο');return;}
-  const setSaveBtns=(disabled,txt)=>{['item-save-btn','item-save-btn-top'].forEach((bid,i)=>{const b=document.getElementById(bid);if(b){b.disabled=disabled;b.textContent=i===1?(txt==='…'?'…':'💾'):txt;}});};
+  const setSaveBtns=(disabled,txt)=>{['item-save-btn','item-save-btn-top'].forEach((bid,i)=>{const b=document.getElementById(bid);if(b){b.disabled=disabled;b.textContent=i===1?(txt==='…'?'…':'💾 Αποθήκευση'):txt;}});};
   setSaveBtns(true,'…');
   const py=document.getElementById('f-purchase-year').value;
   const pm=document.getElementById('f-purchase-month').value;

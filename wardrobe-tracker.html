@@ -526,19 +526,22 @@ body{padding-bottom:0;}
         <button id="btn-color-insight"></button>
       </div>
       <div class="toolbar-row-bottom">
-        <div class="sort-wrap">
-          <span class="sort-label">Ταξινόμηση ·</span>
-          <select class="sort-select" onchange="setSortMode(this.value)">
-            <option value="newest">Πιο πρόσφατη αγορά</option>
-            <option value="cpw_best">Καλύτερο CPW</option>
-            <option value="cpw_worst">Χειρότερο CPW</option>
-            <option value="recently_worn" selected>Πρόσφατα φορεμένο</option>
-            <option value="least_worn">Λιγότερο φορεμένο</option>
-            <option value="most_worn">Περισσότερο φορεμένο</option>
-            <option value="price_high">Τιμή ↑</option>
-            <option value="price_low">Τιμή ↓</option>
-            <option value="wps_best">Καλύτερο ΔΑΝ™</option>
-          </select>
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+          <div id="wardrobe-count" style="font-family:var(--font-sans);font-size:9px;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-dim);white-space:nowrap;">—</div>
+          <div class="sort-wrap">
+            <span class="sort-label">Ταξινόμηση ·</span>
+            <select class="sort-select" onchange="setSortMode(this.value)">
+              <option value="newest">Πιο πρόσφατη αγορά</option>
+              <option value="cpw_best">Καλύτερο CPW</option>
+              <option value="cpw_worst">Χειρότερο CPW</option>
+              <option value="recently_worn" selected>Πρόσφατα φορεμένο</option>
+              <option value="least_worn">Λιγότερο φορεμένο</option>
+              <option value="most_worn">Περισσότερο φορεμένο</option>
+              <option value="price_high">Τιμή ↑</option>
+              <option value="price_low">Τιμή ↓</option>
+              <option value="wps_best">Καλύτερο ΔΑΝ™</option>
+            </select>
+          </div>
         </div>
         <div class="view-wrap">
           <button class="view-btn active" id="btn-grid" onclick="setView('grid')">⊞</button>
@@ -1873,8 +1876,14 @@ function filterItems(){
   else items.sort((a,b)=>{const ay=(a.purchase_year||0)*100+(a.purchase_month||0);const by=(b.purchase_year||0)*100+(b.purchase_month||0);return by-ay;});
   return items;
 }
+function updateWardrobeCount(shown){
+  const el=document.getElementById('wardrobe-count');if(!el)return;
+  const total=allItems.length;
+  el.textContent=(shown===total)?`${total} ρούχα`:`${shown} από ${total} ρούχα`;
+}
 function renderWardrobe(){
   const items=filterItems();
+  updateWardrobeCount(items.length);
   const grid=document.getElementById('wgrid'),list=document.getElementById('wlist');
   if(!items.length){const msg=`<div class="empty-state"><div class="empty-title">Κανένα κομμάτι</div><div class="empty-sub">${currentFilter==='all'?'Πρόσθεσε το πρώτο σου κομμάτι!':'Κανένα κομμάτι με αυτό το φίλτρο.'}</div></div>`;grid.innerHTML=msg;list.innerHTML=msg;return;}
   grid.innerHTML=items.map(item=>{

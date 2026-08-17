@@ -523,6 +523,7 @@ body{padding-bottom:0;}
         <button class="btn-sm primary" style="font-size:9px;padding:4px 10px;margin-left:8px;" onclick="fixSizeFieldMigration()">🔧 Διόρθωση τώρα</button>
         <button class="btn-sm" style="font-size:9px;padding:4px 8px;" onclick="document.getElementById('size-fix-banner').style.display='none';">✕</button>
       </div>
+      <div id="size-fix-status" style="display:none;padding:10px 12px;background:var(--red-soft);border:1px solid rgba(140,74,58,0.3);border-radius:2px;margin:0 0 4px;font-size:10px;color:var(--red-text);white-space:pre-wrap;line-height:1.6;"></div>
       <!-- hidden legacy controls kept for compatibility (not shown) -->
       <div style="display:none;">
         <select id="filter-portfolio"></select>
@@ -3531,6 +3532,8 @@ async function fixSizeFieldMigration(){
   const candidates=allItems.filter(it=>!it.size && it.size_field);
   if(!candidates.length){showToast('Όλα τα μεγέθη είναι ήδη σωστά — τίποτα να διορθωθεί');return;}
   if(!confirm(`Βρέθηκαν ${candidates.length} ρούχα με μέγεθος στο λάθος πεδίο (size_field). Να αντιγραφεί στο σωστό πεδίο (size) τώρα;`))return;
+  const statusBox=document.getElementById('size-fix-status');
+  statusBox.style.display='block';statusBox.textContent=`Διόρθωση σε εξέλιξη… 0/${candidates.length}`;
   let ok=0,fail=0,silentFail=0,firstError=null;
   for(let i=0;i<candidates.length;i++){
     const it=candidates[i];
@@ -3538,17 +3541,16 @@ async function fixSizeFieldMigration(){
     if(error){fail++;if(!firstError)firstError=error;console.error('Size fix failed for',it.id,it.title,error);}
     else if(!data||!data.length){silentFail++;console.error('Size fix: 0 γραμμές ενημερώθηκαν (πιθανό RLS θέμα) για',it.id,it.title);}
     else ok++;
-    if(i%10===0)showProgress(`Διόρθωση μεγεθών… ${i+1}/${candidates.length} (✓${ok} ✗${fail+silentFail})`);
+    if(i%10===0)statusBox.textContent=`Διόρθωση σε εξέλιξη… ${i+1}/${candidates.length} (✓${ok} ✗${fail+silentFail})`;
   }
   await loadItems();renderWardrobe();checkSizeFixBanner();
-  let msg=`✓ Διόρθωση μεγεθών: ${ok} επιτυχίες`;
-  if(fail)msg+=`, ${fail} σφάλματα`;
-  if(silentFail)msg+=`, ${silentFail} δεν ενημερώθηκαν (πιθανό πρόβλημα δικαιωμάτων/RLS στο Supabase)`;
-  showProgress(msg+'.');
-  showToast(silentFail?`⚠ ${ok} ok, ${silentFail} απέτυχαν σιωπηλά`:(fail?`⚠ ${fail} σφάλματα — δες λεπτομέρειες`:`✓ Διορθώθηκαν ${ok} μεγέθη`));
+  let out=`✓ Επιτυχίες: ${ok}\n✗ Σφάλματα: ${fail}`;
+  if(silentFail)out+=`\n⚠ Χωρίς αλλαγή (πιθανό RLS): ${silentFail}`;
   if(firstError){
-    alert(`Λεπτομέρειες σφάλματος (στείλε screenshot):\n\nΜήνυμα: ${firstError.message||'—'}\nΚωδικός: ${firstError.code||'—'}\nDetails: ${firstError.details||'—'}\nHint: ${firstError.hint||'—'}`);
+    out+=`\n\n— Λεπτομέρειες πρώτου σφάλματος (κάνε screenshot σε ΑΥΤΟ) —\nΜήνυμα: ${firstError.message||'—'}\nΚωδικός: ${firstError.code||'—'}\nDetails: ${firstError.details||'—'}\nHint: ${firstError.hint||'—'}`;
   }
+  statusBox.textContent=out;
+  showToast(fail||silentFail?'⚠ Δες το κόκκινο πλαίσιο πάνω στην οθόνη':`✓ Διορθώθηκαν ${ok} μεγέθη`);
 }
 
 // NAV

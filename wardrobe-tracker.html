@@ -518,6 +518,11 @@ body{padding-bottom:0;}
       <div id="feeling-color-insight" style="display:none;padding:10px 12px;background:var(--surface);border:1px solid var(--border);border-radius:2px;margin:0 0 4px;"></div>
       <div id="color-filter-insight" style="display:none;padding:10px 12px;background:var(--surface);border:1px solid var(--border);border-radius:2px;margin:0 0 4px;"></div>
       <div id="score-filter-result" style="display:none;padding:8px 10px;background:var(--surface2);border:1px solid var(--border-soft);border-radius:2px;margin:0 0 4px;font-size:10px;color:var(--text-muted);"></div>
+      <div id="size-fix-banner" style="display:none;padding:9px 12px;background:rgba(196,149,106,0.12);border:1px solid rgba(196,149,106,0.4);border-radius:2px;margin:0 0 4px;font-size:11px;color:var(--text);">
+        <span id="size-fix-banner-text"></span>
+        <button class="btn-sm primary" style="font-size:9px;padding:4px 10px;margin-left:8px;" onclick="fixSizeFieldMigration()">🔧 Διόρθωση τώρα</button>
+        <button class="btn-sm" style="font-size:9px;padding:4px 8px;" onclick="document.getElementById('size-fix-banner').style.display='none';">✕</button>
+      </div>
       <!-- hidden legacy controls kept for compatibility (not shown) -->
       <div style="display:none;">
         <select id="filter-portfolio"></select>
@@ -1227,15 +1232,6 @@ body{padding-bottom:0;}
           </div>
           <div class="bulk-progress" id="bulk-progress"></div>
         </div>
-        <div class="bulk-import-box" style="margin-top:14px;">
-          <div class="bulk-import-title">🔧 Διόρθωση Μεγεθών</div>
-          <div class="bulk-import-sub">
-            Το αρχικό bulk import είχε αποθηκεύσει τα μεγέθη σε λάθος πεδίο (size_field αντί για size), γι' αυτό εμφανίζονται κενά στο Size/Μέγεθος. Πάτα εδώ για να τα αντιγράψεις αυτόματα στο σωστό πεδίο — δεν αγγίζει τίποτα άλλο.
-          </div>
-          <div style="display:flex;gap:8px;flex-wrap:wrap;">
-            <button class="btn-sm primary" onclick="fixSizeFieldMigration()">▶ Διόρθωση τώρα</button>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -1500,7 +1496,18 @@ sb.auth.onAuthStateChange((event,session)=>{
 });
 
 // INIT
-async function initApp(){await Promise.all([loadItems(),loadAllLogs(),loadArchivedItems(),loadOutfitUniforms()]);initColorFilterDropdown();renderWardrobe();renderActiveFilters();renderCalendar();loadMonthDash();initTotalDash();showLoadDiagnostic();}
+async function initApp(){await Promise.all([loadItems(),loadAllLogs(),loadArchivedItems(),loadOutfitUniforms()]);initColorFilterDropdown();renderWardrobe();renderActiveFilters();renderCalendar();loadMonthDash();initTotalDash();showLoadDiagnostic();checkSizeFixBanner();}
+function checkSizeFixBanner(){
+  const banner=document.getElementById('size-fix-banner');
+  if(!banner)return;
+  const n=allItems.filter(it=>!it.size && it.size_field).length;
+  if(n>0){
+    document.getElementById('size-fix-banner-text').textContent=`⚠ Βρέθηκαν ${n} ρούχα με μέγεθος στο λάθος πεδίο (από το αρχικό import).`;
+    banner.style.display='block';
+  }else{
+    banner.style.display='none';
+  }
+}
 // ΠΡΟΣΩΡΙΝΟ DIAGNOSTIC — δείχνει πόσες καταγραφές wear_log όντως φορτώθηκαν, ώστε να εντοπίσουμε αν λείπουν δεδομένα στη βάση ή είναι θέμα φόρτωσης/cache. Θα αφαιρεθεί μόλις λυθεί το πρόβλημα.
 function showLoadDiagnostic(){
   const dates=wearLogs.map(l=>l.worn_date).filter(Boolean).sort();
@@ -1566,7 +1573,8 @@ function exportWardrobeToExcel(){
     const totalWear=getTotalWear(item);
     const cpw=getCPW(item);
     const lastWorn=getLastWorn(item.id);
-    const missing=MISSING_CHECKS.filter(([key])=>!item[key]).map(([,label])=>label);
+    const effSize=item.size||item.size_field||''; // fallback: παλιά ρούχα έχουν το μέγεθος στο size_field
+    const missing=MISSING_CHECKS.filter(([key])=>key==='size'?!effSize:!item[key]).map(([,label])=>label);
     return{
       'ID':item.id,
       'Τίτλος':item.title||'',
@@ -1576,7 +1584,7 @@ function exportWardrobeToExcel(){
       'Χρώμα':item.color||'',
       'Μοτίβο':item.pattern||'',
       'Υλικό':item.material||'',
-      'Μέγεθος':item.size||'',
+      'Μέγεθος':effSize,
       'Τιμή (€)':item.price||'',
       'Έτος Αγοράς':item.purchase_year||'',
       'Μήνας Αγοράς':item.purchase_month||'',
@@ -1632,7 +1640,7 @@ function exportWardrobeToExcel(){
     {'Στατιστικό':'Χωρίς τιμή','Πλήθος':allItems.filter(i=>!i.price).length},
     {'Στατιστικό':'Χωρίς brand','Πλήθος':allItems.filter(i=>!i.brand).length},
     {'Στατιστικό':'Χωρίς χρώμα','Πλήθος':allItems.filter(i=>!i.color).length},
-    {'Στατιστικό':'Χωρίς μέγεθος','Πλήθος':allItems.filter(i=>!i.size).length},
+    {'Στατιστικό':'Χωρίς μέγεθος','Πλήθος':allItems.filter(i=>!(i.size||i.size_field)).length},
     {'Στατιστικό':'Χωρίς ημ. αγοράς','Πλήθος':allItems.filter(i=>!i.purchase_year).length},
     {'Στατιστικό':'Χωρίς υλικό','Πλήθος':allItems.filter(i=>!i.material).length},
     {'Στατιστικό':'Χωρίς σεζόν','Πλήθος':allItems.filter(i=>!i.season).length},
@@ -2251,7 +2259,7 @@ function openItemModal(id){
       populateColorDropdown(item.color||'');
       document.getElementById('f-pattern').value=item.pattern||'';
       document.getElementById('f-material').value=item.material||'';
-      document.getElementById('f-size').value=item.size||'';
+      document.getElementById('f-size').value=item.size||item.size_field||'';
       document.getElementById('f-price').value=item.price||'';
       document.getElementById('f-prev-worn').value=item.prev_worn||0;
       document.getElementById('f-purchase-year').value=item.purchase_year||'';
@@ -3523,16 +3531,21 @@ async function fixSizeFieldMigration(){
   const candidates=allItems.filter(it=>!it.size && it.size_field);
   if(!candidates.length){showToast('Όλα τα μεγέθη είναι ήδη σωστά — τίποτα να διορθωθεί');return;}
   if(!confirm(`Βρέθηκαν ${candidates.length} ρούχα με μέγεθος στο λάθος πεδίο (size_field). Να αντιγραφεί στο σωστό πεδίο (size) τώρα;`))return;
-  let ok=0,fail=0;
+  let ok=0,fail=0,silentFail=0;
   for(let i=0;i<candidates.length;i++){
     const it=candidates[i];
-    const{error}=await sb.from('wardrobe').update({size:it.size_field}).eq('id',it.id);
-    if(error){fail++;console.error('Size fix failed for',it.id,it.title,error);}else ok++;
-    if(i%10===0)showProgress(`Διόρθωση μεγεθών… ${i+1}/${candidates.length} (✓${ok} ✗${fail})`);
+    const{data,error}=await sb.from('wardrobe').update({size:it.size_field}).eq('id',it.id).select('id,size');
+    if(error){fail++;console.error('Size fix failed for',it.id,it.title,error);}
+    else if(!data||!data.length){silentFail++;console.error('Size fix: 0 γραμμές ενημερώθηκαν (πιθανό RLS θέμα) για',it.id,it.title);}
+    else ok++;
+    if(i%10===0)showProgress(`Διόρθωση μεγεθών… ${i+1}/${candidates.length} (✓${ok} ✗${fail+silentFail})`);
   }
-  await loadItems();renderWardrobe();
-  showProgress(`✓ Διόρθωση μεγεθών ολοκληρώθηκε: ${ok} επιτυχίες, ${fail} αποτυχίες.`);
-  showToast(`✓ Διορθώθηκαν ${ok} μεγέθη`);
+  await loadItems();renderWardrobe();checkSizeFixBanner();
+  let msg=`✓ Διόρθωση μεγεθών: ${ok} επιτυχίες`;
+  if(fail)msg+=`, ${fail} σφάλματα`;
+  if(silentFail)msg+=`, ${silentFail} δεν ενημερώθηκαν (πιθανό πρόβλημα δικαιωμάτων/RLS στο Supabase — πες μου αν συμβεί, θέλει έλεγχο εκεί)`;
+  showProgress(msg+'.');
+  showToast(silentFail?`⚠ ${ok} ok, ${silentFail} απέτυχαν σιωπηλά — δες λεπτομέρειες`:`✓ Διορθώθηκαν ${ok} μεγέθη`);
 }
 
 // NAV

@@ -458,6 +458,8 @@ body{padding-bottom:0;}
     <div class="user-info" id="user-display"></div>
     <a href="wishlist.html" class="btn-logout" style="text-decoration:none;background:#5a4030;display:inline-flex;align-items:center;gap:4px;" title="Πήγαινε στο Wardrobe Wishlist">🛍 Wishlist</a>
     <button class="btn-logout" style="background:#6b8f71;" onclick="exportWardrobeToExcel()" title="Κατέβασε όλη τη ντουλάπα σε Excel">📥 Excel</button>
+    <input type="file" id="excel-import-input" accept=".xlsx,.xls" style="display:none" onchange="handleExcelImportFile(event)">
+    <button class="btn-logout" style="background:#8a7455;" onclick="document.getElementById('excel-import-input').click()" title="Ανέβασε το επεξεργασμένο Excel για μαζική ενημέρωση">📤 Εισαγωγή Excel</button>
     <button class="btn-logout" onclick="handleLogout()">Έξοδος</button>
     <button class="btn-new-item" onclick="openItemModal()">+ Νέο</button>
   </div>
@@ -1225,6 +1227,15 @@ body{padding-bottom:0;}
           </div>
           <div class="bulk-progress" id="bulk-progress"></div>
         </div>
+        <div class="bulk-import-box" style="margin-top:14px;">
+          <div class="bulk-import-title">🔧 Διόρθωση Μεγεθών</div>
+          <div class="bulk-import-sub">
+            Το αρχικό bulk import είχε αποθηκεύσει τα μεγέθη σε λάθος πεδίο (size_field αντί για size), γι' αυτό εμφανίζονται κενά στο Size/Μέγεθος. Πάτα εδώ για να τα αντιγράψεις αυτόματα στο σωστό πεδίο — δεν αγγίζει τίποτα άλλο.
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="btn-sm primary" onclick="fixSizeFieldMigration()">▶ Διόρθωση τώρα</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -1557,6 +1568,7 @@ function exportWardrobeToExcel(){
     const lastWorn=getLastWorn(item.id);
     const missing=MISSING_CHECKS.filter(([key])=>!item[key]).map(([,label])=>label);
     return{
+      'ID':item.id,
       'Τίτλος':item.title||'',
       'Brand':item.brand||'',
       'Κατηγορία':item.cat1||item.category||'',
@@ -1592,13 +1604,26 @@ function exportWardrobeToExcel(){
 
   const ws=XLSX.utils.json_to_sheet(rows);
   ws['!cols']=[
-    {wch:24},{wch:14},{wch:12},{wch:14},{wch:12},{wch:10},{wch:12},{wch:9},
+    {wch:8},{wch:24},{wch:14},{wch:12},{wch:14},{wch:12},{wch:10},{wch:12},{wch:9},
     {wch:9},{wch:10},{wch:10},{wch:9},{wch:9},{wch:9},{wch:12},{wch:8},
     {wch:12},{wch:12},{wch:10},{wch:9},{wch:10},{wch:11},{wch:12},{wch:12},
     {wch:18},{wch:18},{wch:26},{wch:9},{wch:30},{wch:13}
   ];
   const wb=XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb,ws,'Ντουλάπα');
+
+  const instructionsRows=[
+    {'Οδηγίες':'ΜΗΝ σβήσεις ή αλλάξεις τη στήλη "ID" — χρησιμοποιείται για να ταιριάξει η γραμμή με το σωστό ρούχο κατά την επαναφόρτωση.'},
+    {'Οδηγίες':'ΜΗΝ προσθέσεις νέες γραμμές εδώ — το bulk upload ενημερώνει μόνο υπάρχοντα ρούχα, δεν δημιουργεί νέα.'},
+    {'Οδηγίες':'Επεξεργάσιμες στήλες: Τίτλος, Brand, Κατηγορία, Υποκατηγορία, Χρώμα, Μοτίβο, Υλικό, Μέγεθος, Τιμή (€), Έτος Αγοράς, Μήνας Αγοράς, Σεζόν, Μανίκι, Μήκος, Αγαπημένο (Ναι/Όχι), Για Review (Ναι/Όχι), Feeling, Face Effect, Conscious Score, Portfolio Type, Σημειώσεις.'},
+    {'Οδηγίες':'ΜΗΝ αλλάξεις (υπολογίζονται αυτόματα και αγνοούνται στο import): Σύνολο Φορεμάτων, CPW (€), Τελευταία Φορά, Dormant, Περιστάσεις, Uniforms, Φωτογραφία, ΛΕΙΠΟΥΝ, Ημ. Καταχώρησης.'},
+    {'Οδηγίες':'Για "Αγαπημένο" και "Για Review" γράψε ακριβώς: Ναι ή Όχι.'},
+    {'Οδηγίες':'Όταν τελειώσεις, αποθήκευσε το αρχείο (.xlsx) και ανέβασέ το με το κουμπί "📤 Εισαγωγή Excel" στην εφαρμογή.'},
+    {'Οδηγίες':'Θα δεις προεπισκόπηση με το πλήθος αλλαγών πριν εφαρμοστούν — τίποτα δεν ενημερώνεται χωρίς την επιβεβαίωσή σου.'}
+  ];
+  const ws3=XLSX.utils.json_to_sheet(instructionsRows);
+  ws3['!cols']=[{wch:110}];
+  XLSX.utils.book_append_sheet(wb,ws3,'Οδηγίες');
 
   const total=allItems.length;
   const summaryRows=[
@@ -1625,6 +1650,128 @@ function exportWardrobeToExcel(){
   XLSX.writeFile(wb,`wardrobe-export-${dateStr}.xlsx`);
   showToast('📥 Το Excel κατέβηκε!');
 }
+
+// EXCEL IMPORT — διαβάζει το επεξεργασμένο .xlsx και κάνει bulk update στο Supabase
+const EXCEL_IMPORT_MAP=[
+  ['Τίτλος','title','string'],
+  ['Brand','brand','string'],
+  ['Κατηγορία','cat1','string'],
+  ['Υποκατηγορία','cat2','string'],
+  ['Χρώμα','color','string'],
+  ['Μοτίβο','pattern','string'],
+  ['Υλικό','material','string'],
+  ['Μέγεθος','size','string'],
+  ['Τιμή (€)','price','number'],
+  ['Έτος Αγοράς','purchase_year','int'],
+  ['Μήνας Αγοράς','purchase_month','int'],
+  ['Σεζόν','season','string'],
+  ['Μανίκι','sleeve_length','string'],
+  ['Μήκος','length','string'],
+  ['Αγαπημένο','is_favorite','bool'],
+  ['Για Review','archive_candidate','bool'],
+  ['Feeling','feeling','string'],
+  ['Face Effect','face_effect','string'],
+  ['Conscious Score','conscious_score','string'],
+  ['Portfolio Type','portfolio_type','string'],
+  ['Σημειώσεις','notes','string']
+];
+function _importCastValue(raw,type){
+  if(raw===undefined||raw===null)return null;
+  const s=String(raw).trim();
+  if(type==='string')return s||null;
+  if(type==='number'){const n=parseFloat(s.replace(',','.'));return isNaN(n)?null:n;}
+  if(type==='int'){const n=parseInt(s,10);return isNaN(n)?null:n;}
+  if(type==='bool')return s==='Ναι'||s.toLowerCase()==='yes'||s.toLowerCase()==='true';
+  return s;
+}
+function _importValuesEqual(a,b,type){
+  if(type==='bool')return !!a===!!b;
+  if(type==='number'||type==='int'){
+    const na=(a===null||a===undefined||a==='')?null:Number(a);
+    const nb=(b===null||b===undefined||b==='')?null:Number(b);
+    return na===nb;
+  }
+  const sa=(a===null||a===undefined)?'':String(a).trim();
+  const sb=(b===null||b===undefined)?'':String(b).trim();
+  return sa===sb;
+}
+function handleExcelImportFile(event){
+  const file=event.target.files[0];
+  event.target.value='';
+  if(!file)return;
+  if(typeof XLSX==='undefined'){showToast('Σφάλμα φόρτωσης βιβλιοθήκης Excel');return;}
+  const reader=new FileReader();
+  reader.onload=async(e)=>{
+    try{
+      const wb=XLSX.read(e.target.result,{type:'array'});
+      const sheetName=wb.SheetNames.includes('Ντουλάπα')?'Ντουλάπα':wb.SheetNames[0];
+      const sheet=wb.Sheets[sheetName];
+      const rows=XLSX.utils.sheet_to_json(sheet,{defval:''});
+      if(!rows.length){showToast('Το αρχείο δεν έχει γραμμές');return;}
+
+      const itemsById={};
+      allItems.forEach(it=>{itemsById[it.id]=it;});
+
+      const toUpdate=[]; // {id, changes, title}
+      let noId=0,notFound=0,noTitle=0,unchanged=0;
+
+      rows.forEach(row=>{
+        const id=String(row['ID']||'').trim();
+        if(!id){noId++;return;}
+        const item=itemsById[id];
+        if(!item){notFound++;return;}
+        const newTitle=String(row['Τίτλος']||'').trim();
+        if(!newTitle){noTitle++;return;}
+
+        const changes={};
+        EXCEL_IMPORT_MAP.forEach(([col,key,type])=>{
+          if(!(col in row))return;
+          const cellStr=String(row[col]===undefined||row[col]===null?'':row[col]).trim();
+          if(cellStr==='')return; // ΚΕΝΟ ΚΕΛΙ = ποτέ δεν αγγίζει/σβήνει υπάρχουσα τιμή
+          const newVal=_importCastValue(row[col],type);
+          if(newVal===null||newVal===undefined)return; // μη αναγνωρίσιμη τιμή -> αγνοείται, δεν σβήνει τίποτα
+          const curVal=item[key];
+          if(!_importValuesEqual(newVal,curVal,type)){
+            changes[key]=newVal;
+          }
+        });
+        if(Object.keys(changes).length===0){unchanged++;return;}
+
+        // keep category in sync with cat1, and recompute purchased_at if year/month changed
+        if('cat1' in changes)changes.category=changes.cat1;
+        if('purchase_year' in changes||'purchase_month' in changes){
+          const py=('purchase_year' in changes)?changes.purchase_year:item.purchase_year;
+          const pm=('purchase_month' in changes)?changes.purchase_month:item.purchase_month;
+          changes.purchased_at=py?`${py}-${String(pm||1).padStart(2,'0')}-01`:null;
+        }
+        toUpdate.push({id,changes,title:newTitle});
+      });
+
+      let msg=`Βρέθηκαν ${toUpdate.length} ρούχα με αλλαγές προς ενημέρωση.`;
+      if(unchanged)msg+=`\n${unchanged} χωρίς αλλαγές.`;
+      if(notFound)msg+=`\n⚠ ${notFound} γραμμές με ID που δεν βρέθηκε (μην αλλάξεις τη στήλη ID).`;
+      if(noId)msg+=`\n⚠ ${noId} γραμμές χωρίς ID αγνοήθηκαν.`;
+      if(noTitle)msg+=`\n⚠ ${noTitle} γραμμές χωρίς Τίτλο αγνοήθηκαν.`;
+      if(!toUpdate.length){showToast('Δεν βρέθηκαν αλλαγές για εφαρμογή');if(notFound||noId||noTitle)alert(msg);return;}
+      msg+='\n\nΝα εφαρμοστούν οι αλλαγές τώρα;';
+      if(!confirm(msg))return;
+
+      let ok=0,fail=0;
+      for(const u of toUpdate){
+        const{error}=await sb.from('wardrobe').update(u.changes).eq('id',u.id);
+        if(error){fail++;console.error('Import update failed for',u.id,u.title,error);}
+        else ok++;
+      }
+      await loadItems();renderWardrobe();renderPortfolioDonuts();
+      showToast(`✓ Εισαγωγή: ${ok} ενημερώθηκαν${fail?`, ${fail} απέτυχαν`:''}`);
+    }catch(err){
+      console.error('Excel import error',err);
+      showToast('Σφάλμα ανάγνωσης αρχείου — έλεγξε τη μορφή');
+    }
+  };
+  reader.readAsArrayBuffer(file);
+}
+
 function getVersatilityScore(item){
   let calendarScore=null;
   const logs2026=wearLogs.filter(l=>l.wardrobe_item_id===item.id&&l.worn_date>='2026-01-01');
@@ -3369,6 +3516,24 @@ async function runBulkImport(e){
   await loadItems();renderWardrobe();showProgress(`✓ Ολοκληρώθηκε: ${ok} επιτυχίες, ${fail} αποτυχίες.`);
 }
 function showProgress(txt){const el=document.getElementById('bulk-progress');if(el){el.style.display='block';el.textContent=txt;}}
+
+// ΔΙΟΡΘΩΣΗ ΜΕΓΕΘΩΝ — one-time backfill: το αρχικό bulk import είχε αποθηκεύσει τα μεγέθη
+// στη στήλη "size_field" αντί για τη στήλη "size" που χρησιμοποιεί η φόρμα/εξαγωγή.
+async function fixSizeFieldMigration(){
+  const candidates=allItems.filter(it=>!it.size && it.size_field);
+  if(!candidates.length){showToast('Όλα τα μεγέθη είναι ήδη σωστά — τίποτα να διορθωθεί');return;}
+  if(!confirm(`Βρέθηκαν ${candidates.length} ρούχα με μέγεθος στο λάθος πεδίο (size_field). Να αντιγραφεί στο σωστό πεδίο (size) τώρα;`))return;
+  let ok=0,fail=0;
+  for(let i=0;i<candidates.length;i++){
+    const it=candidates[i];
+    const{error}=await sb.from('wardrobe').update({size:it.size_field}).eq('id',it.id);
+    if(error){fail++;console.error('Size fix failed for',it.id,it.title,error);}else ok++;
+    if(i%10===0)showProgress(`Διόρθωση μεγεθών… ${i+1}/${candidates.length} (✓${ok} ✗${fail})`);
+  }
+  await loadItems();renderWardrobe();
+  showProgress(`✓ Διόρθωση μεγεθών ολοκληρώθηκε: ${ok} επιτυχίες, ${fail} αποτυχίες.`);
+  showToast(`✓ Διορθώθηκαν ${ok} μεγέθη`);
+}
 
 // NAV
 function showTab(tab,btn){

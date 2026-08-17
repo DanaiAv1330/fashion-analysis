@@ -7,6 +7,7 @@
 <title>Wardrobe Tracker</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&family=Noto+Serif:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <!-- External bulk data — place wardrobe_data.js in the same folder -->
 <script src="wardrobe_data.js"></script>
 <style>
@@ -456,6 +457,7 @@ body{padding-bottom:0;}
   <div class="header-right">
     <div class="user-info" id="user-display"></div>
     <a href="wishlist.html" class="btn-logout" style="text-decoration:none;background:#5a4030;display:inline-flex;align-items:center;gap:4px;" title="Πήγαινε στο Wardrobe Wishlist">🛍 Wishlist</a>
+    <button class="btn-logout" style="background:#6b8f71;" onclick="exportWardrobeToExcel()" title="Κατέβασε όλη τη ντουλάπα σε Excel">📥 Excel</button>
     <button class="btn-logout" onclick="handleLogout()">Έξοδος</button>
     <button class="btn-new-item" onclick="openItemModal()">+ Νέο</button>
   </div>
@@ -1534,6 +1536,95 @@ function cpwClass(c){if(!c)return'';if(c<5)return'good';if(c<10)return'warn';ret
 
 // SCORING
 function getCPWScore(item){const c=getCPW(item);if(!c)return null;if(c<=1)return 10;if(c<=3)return 9;if(c<=5)return 8;if(c<=8)return 7;if(c<=12)return 6;if(c<=18)return 5;if(c<=25)return 4;if(c<=40)return 3;if(c<=60)return 2;return 1;}
+
+// EXCEL EXPORT — κατεβάζει όλη τη ντουλάπα σε .xlsx με στήλη "ΛΕΙΠΟΥΝ" για ελλιπή πεδία
+function exportWardrobeToExcel(){
+  if(typeof XLSX==='undefined'){showToast('Σφάλμα φόρτωσης βιβλιοθήκης Excel — δοκίμασε ξανά');return;}
+  if(!allItems||!allItems.length){showToast('Δεν υπάρχουν ρούχα για εξαγωγή');return;}
+  const uniformNameById={};
+  (typeof outfitUniforms!=='undefined'?outfitUniforms:[]).forEach(u=>{uniformNameById[u.id]=u.name||'';});
+
+  const MISSING_CHECKS=[
+    ['brand','Brand'],['color','Χρώμα'],['size','Μέγεθος'],['price','Τιμή'],
+    ['purchase_year','Έτος Αγοράς'],['material','Υλικό'],['season','Σεζόν'],
+    ['photo_url','Φωτογραφία'],['cat2','Υποκατηγορία'],['feeling','Feeling'],
+    ['face_effect','Face Effect'],['portfolio_type','Portfolio Type']
+  ];
+
+  const rows=allItems.map(item=>{
+    const totalWear=getTotalWear(item);
+    const cpw=getCPW(item);
+    const lastWorn=getLastWorn(item.id);
+    const missing=MISSING_CHECKS.filter(([key])=>!item[key]).map(([,label])=>label);
+    return{
+      'Τίτλος':item.title||'',
+      'Brand':item.brand||'',
+      'Κατηγορία':item.cat1||item.category||'',
+      'Υποκατηγορία':item.cat2||'',
+      'Χρώμα':item.color||'',
+      'Μοτίβο':item.pattern||'',
+      'Υλικό':item.material||'',
+      'Μέγεθος':item.size||'',
+      'Τιμή (€)':item.price||'',
+      'Έτος Αγοράς':item.purchase_year||'',
+      'Μήνας Αγοράς':item.purchase_month||'',
+      'Σεζόν':item.season||'',
+      'Μανίκι':item.sleeve_length||'',
+      'Μήκος':item.length||'',
+      'Σύνολο Φορεμάτων':totalWear,
+      'CPW (€)':cpw?Number(cpw.toFixed(2)):'',
+      'Τελευταία Φορά':lastWorn||'',
+      'Dormant (>30 ημ)':isDormant(item)?'Ναι':'Όχι',
+      'Αγαπημένο':item.is_favorite?'Ναι':'Όχι',
+      'Για Review':item.archive_candidate?'Ναι':'Όχι',
+      'Feeling':item.feeling||'',
+      'Face Effect':item.face_effect||'',
+      'Conscious Score':item.conscious_score||'',
+      'Portfolio Type':item.portfolio_type||'',
+      'Περιστάσεις':(item.occasions||[]).join(', '),
+      'Uniforms':(item.uniforms||[]).map(id=>uniformNameById[id]||'').filter(Boolean).join(', '),
+      'Σημειώσεις':item.notes||'',
+      'Φωτογραφία':item.photo_url?'Ναι':'Όχι',
+      'ΛΕΙΠΟΥΝ':missing.join(', ')||'—',
+      'Ημ. Καταχώρησης':item.created_at?String(item.created_at).split('T')[0]:''
+    };
+  });
+
+  const ws=XLSX.utils.json_to_sheet(rows);
+  ws['!cols']=[
+    {wch:24},{wch:14},{wch:12},{wch:14},{wch:12},{wch:10},{wch:12},{wch:9},
+    {wch:9},{wch:10},{wch:10},{wch:9},{wch:9},{wch:9},{wch:12},{wch:8},
+    {wch:12},{wch:12},{wch:10},{wch:9},{wch:10},{wch:11},{wch:12},{wch:12},
+    {wch:18},{wch:18},{wch:26},{wch:9},{wch:30},{wch:13}
+  ];
+  const wb=XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb,ws,'Ντουλάπα');
+
+  const total=allItems.length;
+  const summaryRows=[
+    {'Στατιστικό':'Σύνολο ρούχων','Πλήθος':total},
+    {'Στατιστικό':'Χωρίς φωτογραφία','Πλήθος':allItems.filter(i=>!i.photo_url).length},
+    {'Στατιστικό':'Χωρίς τιμή','Πλήθος':allItems.filter(i=>!i.price).length},
+    {'Στατιστικό':'Χωρίς brand','Πλήθος':allItems.filter(i=>!i.brand).length},
+    {'Στατιστικό':'Χωρίς χρώμα','Πλήθος':allItems.filter(i=>!i.color).length},
+    {'Στατιστικό':'Χωρίς μέγεθος','Πλήθος':allItems.filter(i=>!i.size).length},
+    {'Στατιστικό':'Χωρίς ημ. αγοράς','Πλήθος':allItems.filter(i=>!i.purchase_year).length},
+    {'Στατιστικό':'Χωρίς υλικό','Πλήθος':allItems.filter(i=>!i.material).length},
+    {'Στατιστικό':'Χωρίς σεζόν','Πλήθος':allItems.filter(i=>!i.season).length},
+    {'Στατιστικό':'Χωρίς υποκατηγορία','Πλήθος':allItems.filter(i=>!i.cat2).length},
+    {'Στατιστικό':'Χωρίς Feeling','Πλήθος':allItems.filter(i=>!i.feeling).length},
+    {'Στατιστικό':'Χωρίς Face Effect','Πλήθος':allItems.filter(i=>!i.face_effect).length},
+    {'Στατιστικό':'Χωρίς Portfolio Type','Πλήθος':allItems.filter(i=>!i.portfolio_type).length},
+    {'Στατιστικό':'Σχεδόν κενές καταχωρήσεις (>4 κενά)','Πλήθος':allItems.filter(i=>MISSING_CHECKS.filter(([key])=>!i[key]).length>4).length}
+  ];
+  const ws2=XLSX.utils.json_to_sheet(summaryRows);
+  ws2['!cols']=[{wch:34},{wch:10}];
+  XLSX.utils.book_append_sheet(wb,ws2,'Σύνοψη');
+
+  const dateStr=new Date().toISOString().split('T')[0];
+  XLSX.writeFile(wb,`wardrobe-export-${dateStr}.xlsx`);
+  showToast('📥 Το Excel κατέβηκε!');
+}
 function getVersatilityScore(item){
   let calendarScore=null;
   const logs2026=wearLogs.filter(l=>l.wardrobe_item_id===item.id&&l.worn_date>='2026-01-01');

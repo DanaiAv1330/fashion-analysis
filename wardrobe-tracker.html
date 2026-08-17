@@ -7,7 +7,6 @@
 <title>Wardrobe Tracker</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&family=Noto+Serif:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <!-- External bulk data — place wardrobe_data.js in the same folder -->
 <script src="wardrobe_data.js"></script>
 <style>
@@ -457,9 +456,6 @@ body{padding-bottom:0;}
   <div class="header-right">
     <div class="user-info" id="user-display"></div>
     <a href="wishlist.html" class="btn-logout" style="text-decoration:none;background:#5a4030;display:inline-flex;align-items:center;gap:4px;" title="Πήγαινε στο Wardrobe Wishlist">🛍 Wishlist</a>
-    <button class="btn-logout" style="background:#6b8f71;" onclick="exportWardrobeToExcel()" title="Κατέβασε όλη τη ντουλάπα σε Excel">📥 Excel</button>
-    <input type="file" id="excel-import-input" accept=".xlsx,.xls" style="display:none" onchange="handleExcelImportFile(event)">
-    <button class="btn-logout" style="background:#8a7455;" onclick="document.getElementById('excel-import-input').click()" title="Ανέβασε το επεξεργασμένο Excel για μαζική ενημέρωση">📤 Εισαγωγή Excel</button>
     <button class="btn-logout" onclick="handleLogout()">Έξοδος</button>
     <button class="btn-new-item" onclick="openItemModal()">+ Νέο</button>
   </div>
@@ -518,12 +514,6 @@ body{padding-bottom:0;}
       <div id="feeling-color-insight" style="display:none;padding:10px 12px;background:var(--surface);border:1px solid var(--border);border-radius:2px;margin:0 0 4px;"></div>
       <div id="color-filter-insight" style="display:none;padding:10px 12px;background:var(--surface);border:1px solid var(--border);border-radius:2px;margin:0 0 4px;"></div>
       <div id="score-filter-result" style="display:none;padding:8px 10px;background:var(--surface2);border:1px solid var(--border-soft);border-radius:2px;margin:0 0 4px;font-size:10px;color:var(--text-muted);"></div>
-      <div id="size-fix-banner" style="display:none;padding:9px 12px;background:rgba(196,149,106,0.12);border:1px solid rgba(196,149,106,0.4);border-radius:2px;margin:0 0 4px;font-size:11px;color:var(--text);">
-        <span id="size-fix-banner-text"></span>
-        <button class="btn-sm primary" style="font-size:9px;padding:4px 10px;margin-left:8px;" onclick="fixSizeFieldMigration()">🔧 Διόρθωση τώρα</button>
-        <button class="btn-sm" style="font-size:9px;padding:4px 8px;" onclick="document.getElementById('size-fix-banner').style.display='none';">✕</button>
-      </div>
-      <div id="size-fix-status" style="display:none;padding:10px 12px;background:var(--red-soft);border:1px solid rgba(140,74,58,0.3);border-radius:2px;margin:0 0 4px;font-size:10px;color:var(--red-text);white-space:pre-wrap;line-height:1.6;"></div>
       <!-- hidden legacy controls kept for compatibility (not shown) -->
       <div style="display:none;">
         <select id="filter-portfolio"></select>
@@ -1428,11 +1418,11 @@ const sb = createClient(
 );
 
 const CATEGORIES = {
-  'Tops':['T-Shirts','Long Sleeve T-Shirts','Sleeveless','Polo Shirts','Blouses','Shirts','Hoodies','Sweaters','Cardigans'],
-  'Dresses':['Day Dresses','Mini Dresses','Shirt Dresses','T-shirt Dresses','Sweatshirt Dress','Sweater Dress','Party Dresses'],
-  'Pants':['Jeans','Trousers','Dress Pants','Track Pants','Skirts'],
+  'Tops':['Short Sleeve','Long Sleeve','Sleeveless','Special Occasion','Shirts','Hoodies','Sweaters','Cardigans'],
+  'Dresses':['Mini Short Sleeve','Midi / Maxi Short Sleeve','Mini Long Sleeve','Midi / Maxi Long Sleeve','Mini Sleeveless','Midi / Maxi Sleeveless','Special Occasion'],
+  'Pants':['Jeans','Με λάστιχο','Γραφείου','Φόρμες','Skirts'],
   'Outwear':['Coats','Trench Coats','Blazer','Fleece Jackets','Zip Up Hoodies','Parkas','Puffer Jackets'],
-  'Shoes':['Sneakers','Flats','Heels','Sandals','Slides','Boots','Combat Boots','Boat Shoes & Moccasine'],
+  'Shoes':['Sneakers','Flats','Heels','Sandals','Slides','Boots','Combat Boots','Loafers'],
   'Bags':['Tote Bag','Crossbody','Backpack','Clutch'],
   'Accessories':['Κοσμήματα','Γυαλιά ηλίου','Ζώνες','Πορτοφόλια']
 };
@@ -1497,18 +1487,7 @@ sb.auth.onAuthStateChange((event,session)=>{
 });
 
 // INIT
-async function initApp(){await Promise.all([loadItems(),loadAllLogs(),loadArchivedItems(),loadOutfitUniforms()]);initColorFilterDropdown();renderWardrobe();renderActiveFilters();renderCalendar();loadMonthDash();initTotalDash();showLoadDiagnostic();checkSizeFixBanner();}
-function checkSizeFixBanner(){
-  const banner=document.getElementById('size-fix-banner');
-  if(!banner)return;
-  const n=allItems.filter(it=>!it.size && it.size_field).length;
-  if(n>0){
-    document.getElementById('size-fix-banner-text').textContent=`⚠ Βρέθηκαν ${n} ρούχα με μέγεθος στο λάθος πεδίο (από το αρχικό import).`;
-    banner.style.display='block';
-  }else{
-    banner.style.display='none';
-  }
-}
+async function initApp(){await Promise.all([loadItems(),loadAllLogs(),loadArchivedItems(),loadOutfitUniforms()]);initColorFilterDropdown();renderWardrobe();renderActiveFilters();renderCalendar();loadMonthDash();initTotalDash();showLoadDiagnostic();}
 // ΠΡΟΣΩΡΙΝΟ DIAGNOSTIC — δείχνει πόσες καταγραφές wear_log όντως φορτώθηκαν, ώστε να εντοπίσουμε αν λείπουν δεδομένα στη βάση ή είναι θέμα φόρτωσης/cache. Θα αφαιρεθεί μόλις λυθεί το πρόβλημα.
 function showLoadDiagnostic(){
   const dates=wearLogs.map(l=>l.worn_date).filter(Boolean).sort();
@@ -1555,232 +1534,6 @@ function cpwClass(c){if(!c)return'';if(c<5)return'good';if(c<10)return'warn';ret
 
 // SCORING
 function getCPWScore(item){const c=getCPW(item);if(!c)return null;if(c<=1)return 10;if(c<=3)return 9;if(c<=5)return 8;if(c<=8)return 7;if(c<=12)return 6;if(c<=18)return 5;if(c<=25)return 4;if(c<=40)return 3;if(c<=60)return 2;return 1;}
-
-// EXCEL EXPORT — κατεβάζει όλη τη ντουλάπα σε .xlsx με στήλη "ΛΕΙΠΟΥΝ" για ελλιπή πεδία
-function exportWardrobeToExcel(){
-  if(typeof XLSX==='undefined'){showToast('Σφάλμα φόρτωσης βιβλιοθήκης Excel — δοκίμασε ξανά');return;}
-  if(!allItems||!allItems.length){showToast('Δεν υπάρχουν ρούχα για εξαγωγή');return;}
-  const uniformNameById={};
-  (typeof outfitUniforms!=='undefined'?outfitUniforms:[]).forEach(u=>{uniformNameById[u.id]=u.name||'';});
-
-  const MISSING_CHECKS=[
-    ['brand','Brand'],['color','Χρώμα'],['size','Μέγεθος'],['price','Τιμή'],
-    ['purchase_year','Έτος Αγοράς'],['material','Υλικό'],['season','Σεζόν'],
-    ['photo_url','Φωτογραφία'],['cat2','Υποκατηγορία'],['feeling','Feeling'],
-    ['face_effect','Face Effect'],['portfolio_type','Portfolio Type']
-  ];
-
-  const rows=allItems.map(item=>{
-    const totalWear=getTotalWear(item);
-    const cpw=getCPW(item);
-    const lastWorn=getLastWorn(item.id);
-    const effSize=item.size||item.size_field||''; // fallback: παλιά ρούχα έχουν το μέγεθος στο size_field
-    const missing=MISSING_CHECKS.filter(([key])=>key==='size'?!effSize:!item[key]).map(([,label])=>label);
-    return{
-      'ID':item.id,
-      'Τίτλος':item.title||'',
-      'Brand':item.brand||'',
-      'Κατηγορία':item.cat1||item.category||'',
-      'Υποκατηγορία':item.cat2||'',
-      'Χρώμα':item.color||'',
-      'Μοτίβο':item.pattern||'',
-      'Υλικό':item.material||'',
-      'Μέγεθος':effSize,
-      'Τιμή (€)':item.price||'',
-      'Έτος Αγοράς':item.purchase_year||'',
-      'Μήνας Αγοράς':item.purchase_month||'',
-      'Σεζόν':item.season||'',
-      'Μανίκι':item.sleeve_length||'',
-      'Μήκος':item.length||'',
-      'Σύνολο Φορεμάτων':totalWear,
-      'CPW (€)':cpw?Number(cpw.toFixed(2)):'',
-      'Τελευταία Φορά':lastWorn||'',
-      'Dormant (>30 ημ)':isDormant(item)?'Ναι':'Όχι',
-      'Αγαπημένο':item.is_favorite?'Ναι':'Όχι',
-      'Για Review':item.archive_candidate?'Ναι':'Όχι',
-      'Feeling':item.feeling||'',
-      'Face Effect':item.face_effect||'',
-      'Conscious Score':item.conscious_score||'',
-      'Portfolio Type':item.portfolio_type||'',
-      'Περιστάσεις':(item.occasions||[]).join(', '),
-      'Uniforms':(item.uniforms||[]).map(id=>uniformNameById[id]||'').filter(Boolean).join(', '),
-      'Σημειώσεις':item.notes||'',
-      'Φωτογραφία':item.photo_url?'Ναι':'Όχι',
-      'ΛΕΙΠΟΥΝ':missing.join(', ')||'—',
-      'Ημ. Καταχώρησης':item.created_at?String(item.created_at).split('T')[0]:''
-    };
-  });
-
-  const ws=XLSX.utils.json_to_sheet(rows);
-  ws['!cols']=[
-    {wch:8},{wch:24},{wch:14},{wch:12},{wch:14},{wch:12},{wch:10},{wch:12},{wch:9},
-    {wch:9},{wch:10},{wch:10},{wch:9},{wch:9},{wch:9},{wch:12},{wch:8},
-    {wch:12},{wch:12},{wch:10},{wch:9},{wch:10},{wch:11},{wch:12},{wch:12},
-    {wch:18},{wch:18},{wch:26},{wch:9},{wch:30},{wch:13}
-  ];
-  const wb=XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb,ws,'Ντουλάπα');
-
-  const instructionsRows=[
-    {'Οδηγίες':'ΜΗΝ σβήσεις ή αλλάξεις τη στήλη "ID" — χρησιμοποιείται για να ταιριάξει η γραμμή με το σωστό ρούχο κατά την επαναφόρτωση.'},
-    {'Οδηγίες':'ΜΗΝ προσθέσεις νέες γραμμές εδώ — το bulk upload ενημερώνει μόνο υπάρχοντα ρούχα, δεν δημιουργεί νέα.'},
-    {'Οδηγίες':'Επεξεργάσιμες στήλες: Τίτλος, Brand, Κατηγορία, Υποκατηγορία, Χρώμα, Μοτίβο, Υλικό, Μέγεθος, Τιμή (€), Έτος Αγοράς, Μήνας Αγοράς, Σεζόν, Μανίκι, Μήκος, Αγαπημένο (Ναι/Όχι), Για Review (Ναι/Όχι), Feeling, Face Effect, Conscious Score, Portfolio Type, Σημειώσεις.'},
-    {'Οδηγίες':'ΜΗΝ αλλάξεις (υπολογίζονται αυτόματα και αγνοούνται στο import): Σύνολο Φορεμάτων, CPW (€), Τελευταία Φορά, Dormant, Περιστάσεις, Uniforms, Φωτογραφία, ΛΕΙΠΟΥΝ, Ημ. Καταχώρησης.'},
-    {'Οδηγίες':'Για "Αγαπημένο" και "Για Review" γράψε ακριβώς: Ναι ή Όχι.'},
-    {'Οδηγίες':'Όταν τελειώσεις, αποθήκευσε το αρχείο (.xlsx) και ανέβασέ το με το κουμπί "📤 Εισαγωγή Excel" στην εφαρμογή.'},
-    {'Οδηγίες':'Θα δεις προεπισκόπηση με το πλήθος αλλαγών πριν εφαρμοστούν — τίποτα δεν ενημερώνεται χωρίς την επιβεβαίωσή σου.'}
-  ];
-  const ws3=XLSX.utils.json_to_sheet(instructionsRows);
-  ws3['!cols']=[{wch:110}];
-  XLSX.utils.book_append_sheet(wb,ws3,'Οδηγίες');
-
-  const total=allItems.length;
-  const summaryRows=[
-    {'Στατιστικό':'Σύνολο ρούχων','Πλήθος':total},
-    {'Στατιστικό':'Χωρίς φωτογραφία','Πλήθος':allItems.filter(i=>!i.photo_url).length},
-    {'Στατιστικό':'Χωρίς τιμή','Πλήθος':allItems.filter(i=>!i.price).length},
-    {'Στατιστικό':'Χωρίς brand','Πλήθος':allItems.filter(i=>!i.brand).length},
-    {'Στατιστικό':'Χωρίς χρώμα','Πλήθος':allItems.filter(i=>!i.color).length},
-    {'Στατιστικό':'Χωρίς μέγεθος','Πλήθος':allItems.filter(i=>!(i.size||i.size_field)).length},
-    {'Στατιστικό':'Χωρίς ημ. αγοράς','Πλήθος':allItems.filter(i=>!i.purchase_year).length},
-    {'Στατιστικό':'Χωρίς υλικό','Πλήθος':allItems.filter(i=>!i.material).length},
-    {'Στατιστικό':'Χωρίς σεζόν','Πλήθος':allItems.filter(i=>!i.season).length},
-    {'Στατιστικό':'Χωρίς υποκατηγορία','Πλήθος':allItems.filter(i=>!i.cat2).length},
-    {'Στατιστικό':'Χωρίς Feeling','Πλήθος':allItems.filter(i=>!i.feeling).length},
-    {'Στατιστικό':'Χωρίς Face Effect','Πλήθος':allItems.filter(i=>!i.face_effect).length},
-    {'Στατιστικό':'Χωρίς Portfolio Type','Πλήθος':allItems.filter(i=>!i.portfolio_type).length},
-    {'Στατιστικό':'Σχεδόν κενές καταχωρήσεις (>4 κενά)','Πλήθος':allItems.filter(i=>MISSING_CHECKS.filter(([key])=>!i[key]).length>4).length}
-  ];
-  const ws2=XLSX.utils.json_to_sheet(summaryRows);
-  ws2['!cols']=[{wch:34},{wch:10}];
-  XLSX.utils.book_append_sheet(wb,ws2,'Σύνοψη');
-
-  const dateStr=new Date().toISOString().split('T')[0];
-  XLSX.writeFile(wb,`wardrobe-export-${dateStr}.xlsx`);
-  showToast('📥 Το Excel κατέβηκε!');
-}
-
-// EXCEL IMPORT — διαβάζει το επεξεργασμένο .xlsx και κάνει bulk update στο Supabase
-const EXCEL_IMPORT_MAP=[
-  ['Τίτλος','title','string'],
-  ['Brand','brand','string'],
-  ['Κατηγορία','cat1','string'],
-  ['Υποκατηγορία','cat2','string'],
-  ['Χρώμα','color','string'],
-  ['Μοτίβο','pattern','string'],
-  ['Υλικό','material','string'],
-  ['Μέγεθος','size','string'],
-  ['Τιμή (€)','price','number'],
-  ['Έτος Αγοράς','purchase_year','int'],
-  ['Μήνας Αγοράς','purchase_month','int'],
-  ['Σεζόν','season','string'],
-  ['Μανίκι','sleeve_length','string'],
-  ['Μήκος','length','string'],
-  ['Αγαπημένο','is_favorite','bool'],
-  ['Για Review','archive_candidate','bool'],
-  ['Feeling','feeling','string'],
-  ['Face Effect','face_effect','string'],
-  ['Conscious Score','conscious_score','string'],
-  ['Portfolio Type','portfolio_type','string'],
-  ['Σημειώσεις','notes','string']
-];
-function _importCastValue(raw,type){
-  if(raw===undefined||raw===null)return null;
-  const s=String(raw).trim();
-  if(type==='string')return s||null;
-  if(type==='number'){const n=parseFloat(s.replace(',','.'));return isNaN(n)?null:n;}
-  if(type==='int'){const n=parseInt(s,10);return isNaN(n)?null:n;}
-  if(type==='bool')return s==='Ναι'||s.toLowerCase()==='yes'||s.toLowerCase()==='true';
-  return s;
-}
-function _importValuesEqual(a,b,type){
-  if(type==='bool')return !!a===!!b;
-  if(type==='number'||type==='int'){
-    const na=(a===null||a===undefined||a==='')?null:Number(a);
-    const nb=(b===null||b===undefined||b==='')?null:Number(b);
-    return na===nb;
-  }
-  const sa=(a===null||a===undefined)?'':String(a).trim();
-  const sb=(b===null||b===undefined)?'':String(b).trim();
-  return sa===sb;
-}
-function handleExcelImportFile(event){
-  const file=event.target.files[0];
-  event.target.value='';
-  if(!file)return;
-  if(typeof XLSX==='undefined'){showToast('Σφάλμα φόρτωσης βιβλιοθήκης Excel');return;}
-  const reader=new FileReader();
-  reader.onload=async(e)=>{
-    try{
-      const wb=XLSX.read(e.target.result,{type:'array'});
-      const sheetName=wb.SheetNames.includes('Ντουλάπα')?'Ντουλάπα':wb.SheetNames[0];
-      const sheet=wb.Sheets[sheetName];
-      const rows=XLSX.utils.sheet_to_json(sheet,{defval:''});
-      if(!rows.length){showToast('Το αρχείο δεν έχει γραμμές');return;}
-
-      const itemsById={};
-      allItems.forEach(it=>{itemsById[it.id]=it;});
-
-      const toUpdate=[]; // {id, changes, title}
-      let noId=0,notFound=0,noTitle=0,unchanged=0;
-
-      rows.forEach(row=>{
-        const id=String(row['ID']||'').trim();
-        if(!id){noId++;return;}
-        const item=itemsById[id];
-        if(!item){notFound++;return;}
-        const newTitle=String(row['Τίτλος']||'').trim();
-        if(!newTitle){noTitle++;return;}
-
-        const changes={};
-        EXCEL_IMPORT_MAP.forEach(([col,key,type])=>{
-          if(!(col in row))return;
-          const cellStr=String(row[col]===undefined||row[col]===null?'':row[col]).trim();
-          if(cellStr==='')return; // ΚΕΝΟ ΚΕΛΙ = ποτέ δεν αγγίζει/σβήνει υπάρχουσα τιμή
-          const newVal=_importCastValue(row[col],type);
-          if(newVal===null||newVal===undefined)return; // μη αναγνωρίσιμη τιμή -> αγνοείται, δεν σβήνει τίποτα
-          const curVal=item[key];
-          if(!_importValuesEqual(newVal,curVal,type)){
-            changes[key]=newVal;
-          }
-        });
-        if(Object.keys(changes).length===0){unchanged++;return;}
-
-        // keep category in sync with cat1, and recompute purchased_at if year/month changed
-        if('cat1' in changes)changes.category=changes.cat1;
-        if('purchase_year' in changes||'purchase_month' in changes){
-          const py=('purchase_year' in changes)?changes.purchase_year:item.purchase_year;
-          const pm=('purchase_month' in changes)?changes.purchase_month:item.purchase_month;
-          changes.purchased_at=py?`${py}-${String(pm||1).padStart(2,'0')}-01`:null;
-        }
-        toUpdate.push({id,changes,title:newTitle});
-      });
-
-      let msg=`Βρέθηκαν ${toUpdate.length} ρούχα με αλλαγές προς ενημέρωση.`;
-      if(unchanged)msg+=`\n${unchanged} χωρίς αλλαγές.`;
-      if(notFound)msg+=`\n⚠ ${notFound} γραμμές με ID που δεν βρέθηκε (μην αλλάξεις τη στήλη ID).`;
-      if(noId)msg+=`\n⚠ ${noId} γραμμές χωρίς ID αγνοήθηκαν.`;
-      if(noTitle)msg+=`\n⚠ ${noTitle} γραμμές χωρίς Τίτλο αγνοήθηκαν.`;
-      if(!toUpdate.length){showToast('Δεν βρέθηκαν αλλαγές για εφαρμογή');if(notFound||noId||noTitle)alert(msg);return;}
-      msg+='\n\nΝα εφαρμοστούν οι αλλαγές τώρα;';
-      if(!confirm(msg))return;
-
-      let ok=0,fail=0;
-      for(const u of toUpdate){
-        const{error}=await sb.from('wardrobe').update(u.changes).eq('id',u.id);
-        if(error){fail++;console.error('Import update failed for',u.id,u.title,error);}
-        else ok++;
-      }
-      await loadItems();renderWardrobe();renderPortfolioDonuts();
-      showToast(`✓ Εισαγωγή: ${ok} ενημερώθηκαν${fail?`, ${fail} απέτυχαν`:''}`);
-    }catch(err){
-      console.error('Excel import error',err);
-      showToast('Σφάλμα ανάγνωσης αρχείου — έλεγξε τη μορφή');
-    }
-  };
-  reader.readAsArrayBuffer(file);
-}
-
 function getVersatilityScore(item){
   let calendarScore=null;
   const logs2026=wearLogs.filter(l=>l.wardrobe_item_id===item.id&&l.worn_date>='2026-01-01');
@@ -2260,7 +2013,7 @@ function openItemModal(id){
       populateColorDropdown(item.color||'');
       document.getElementById('f-pattern').value=item.pattern||'';
       document.getElementById('f-material').value=item.material||'';
-      document.getElementById('f-size').value=item.size||item.size_field||'';
+      document.getElementById('f-size').value=item.size||'';
       document.getElementById('f-price').value=item.price||'';
       document.getElementById('f-prev-worn').value=item.prev_worn||0;
       document.getElementById('f-purchase-year').value=item.purchase_year||'';
@@ -3245,52 +2998,52 @@ function matchesSeason(item,season){
 }
 const SET_OCCASIONS=[
   {key:'casual',label:'Καθημερινό',emoji:'🚶‍♀️',
-    shoeCat2:['Sneakers','Flats','Sandals','Slides','Combat Boots','Boots','Boat Shoes & Moccasine'],
+    shoeCat2:['Sneakers','Flats','Sandals','Slides','Combat Boots','Boots','Loafers'],
     outwearCat2:['Zip Up Hoodies','Fleece Jackets','Parkas','Puffer Jackets','Coats','Trench Coats'],
     bagCat2:['Tote Bag','Crossbody','Backpack'],
-    topCat2:['T-Shirts','Long Sleeve T-Shirts','Sleeveless','Hoodies','Sweaters','Polo Shirts'],
+    topCat2:['Short Sleeve','Long Sleeve','Sleeveless','Hoodies','Sweaters'],
     preferPortfolio:'Core',
     uniformHints:['casual','καθημ','everyday','day']},
   {key:'office',label:'Γραφείο',emoji:'💼',
-    shoeCat2:['Flats','Heels','Boots','Boat Shoes & Moccasine','Sneakers'],
+    shoeCat2:['Flats','Heels','Boots','Loafers','Sneakers'],
     outwearCat2:['Blazer','Coats','Trench Coats'],
     bagCat2:['Tote Bag','Crossbody'],
-    topCat2:['Shirts','Blouses','Polo Shirts','Sweaters','Cardigans'],
+    topCat2:['Shirts','Special Occasion','Sweaters','Cardigans'],
     preferPortfolio:'Core',
     uniformHints:['work','γραφε','office','δουλ','business','smart']},
   {key:'evening',label:'Βραδινό',emoji:'🌙',
     shoeCat2:['Heels','Sandals','Flats','Boots'],
     outwearCat2:['Blazer','Coats','Trench Coats'],
     bagCat2:['Clutch','Crossbody'],
-    topCat2:['Blouses','Shirts','Sweaters'],
+    topCat2:['Special Occasion','Shirts','Sweaters'],
     preferPortfolio:'Statement',
     uniformHints:['evening','βραδ','night','έξοδ','out']},
   {key:'formal',label:'Επίσημο',emoji:'🎩',
     shoeCat2:['Heels','Flats','Boots'],
     outwearCat2:['Blazer','Coats','Trench Coats'],
     bagCat2:['Clutch','Crossbody'],
-    topCat2:['Blouses','Shirts'],
+    topCat2:['Special Occasion','Shirts'],
     preferPortfolio:'Statement',
     uniformHints:['formal','επίσ','γιορτ','party','wedding','γάμ']},
   {key:'sport',label:'Σπορ',emoji:'🏃‍♀️',
     shoeCat2:['Sneakers','Slides'],
     outwearCat2:['Zip Up Hoodies','Fleece Jackets','Puffer Jackets','Parkas'],
     bagCat2:['Backpack','Crossbody'],
-    topCat2:['T-Shirts','Sleeveless','Long Sleeve T-Shirts','Hoodies'],
+    topCat2:['Short Sleeve','Sleeveless','Long Sleeve','Hoodies'],
     preferPortfolio:'Functional',
     uniformHints:['sport','αθλητ','gym','γυμ','run','train']},
   {key:'vacation',label:'Διακοπές',emoji:'🏖️',
     shoeCat2:['Sandals','Slides','Sneakers','Flats'],
     outwearCat2:['Trench Coats','Coats','Fleece Jackets'],
     bagCat2:['Tote Bag','Crossbody','Backpack','Clutch'],
-    topCat2:['T-Shirts','Sleeveless','Blouses','Polo Shirts'],
+    topCat2:['Short Sleeve','Sleeveless','Special Occasion'],
     preferPortfolio:'Statement',
     uniformHints:['vacation','διακοπ','beach','παραλ','holiday']},
   {key:'travel',label:'Ταξίδι',emoji:'✈️',
-    shoeCat2:['Sneakers','Flats','Boots','Boat Shoes & Moccasine'],
+    shoeCat2:['Sneakers','Flats','Boots','Loafers'],
     outwearCat2:['Trench Coats','Coats','Puffer Jackets','Parkas','Zip Up Hoodies'],
     bagCat2:['Backpack','Tote Bag','Crossbody'],
-    topCat2:['T-Shirts','Long Sleeve T-Shirts','Sweaters','Polo Shirts'],
+    topCat2:['Short Sleeve','Long Sleeve','Sweaters'],
     preferPortfolio:'Core',
     uniformHints:['travel','ταξίδ','airport','αεροδρ','trip']}
 ];
@@ -3525,33 +3278,6 @@ async function runBulkImport(e){
   await loadItems();renderWardrobe();showProgress(`✓ Ολοκληρώθηκε: ${ok} επιτυχίες, ${fail} αποτυχίες.`);
 }
 function showProgress(txt){const el=document.getElementById('bulk-progress');if(el){el.style.display='block';el.textContent=txt;}}
-
-// ΔΙΟΡΘΩΣΗ ΜΕΓΕΘΩΝ — one-time backfill: το αρχικό bulk import είχε αποθηκεύσει τα μεγέθη
-// στη στήλη "size_field" αντί για τη στήλη "size" που χρησιμοποιεί η φόρμα/εξαγωγή.
-async function fixSizeFieldMigration(){
-  const candidates=allItems.filter(it=>!it.size && it.size_field);
-  if(!candidates.length){showToast('Όλα τα μεγέθη είναι ήδη σωστά — τίποτα να διορθωθεί');return;}
-  if(!confirm(`Βρέθηκαν ${candidates.length} ρούχα με μέγεθος στο λάθος πεδίο (size_field). Να αντιγραφεί στο σωστό πεδίο (size) τώρα;`))return;
-  const statusBox=document.getElementById('size-fix-status');
-  statusBox.style.display='block';statusBox.textContent=`Διόρθωση σε εξέλιξη… 0/${candidates.length}`;
-  let ok=0,fail=0,silentFail=0,firstError=null;
-  for(let i=0;i<candidates.length;i++){
-    const it=candidates[i];
-    const{data,error}=await sb.from('wardrobe').update({size:it.size_field}).eq('id',it.id).select('id,size');
-    if(error){fail++;if(!firstError)firstError=error;console.error('Size fix failed for',it.id,it.title,error);}
-    else if(!data||!data.length){silentFail++;console.error('Size fix: 0 γραμμές ενημερώθηκαν (πιθανό RLS θέμα) για',it.id,it.title);}
-    else ok++;
-    if(i%10===0)statusBox.textContent=`Διόρθωση σε εξέλιξη… ${i+1}/${candidates.length} (✓${ok} ✗${fail+silentFail})`;
-  }
-  await loadItems();renderWardrobe();checkSizeFixBanner();
-  let out=`✓ Επιτυχίες: ${ok}\n✗ Σφάλματα: ${fail}`;
-  if(silentFail)out+=`\n⚠ Χωρίς αλλαγή (πιθανό RLS): ${silentFail}`;
-  if(firstError){
-    out+=`\n\n— Λεπτομέρειες πρώτου σφάλματος (κάνε screenshot σε ΑΥΤΟ) —\nΜήνυμα: ${firstError.message||'—'}\nΚωδικός: ${firstError.code||'—'}\nDetails: ${firstError.details||'—'}\nHint: ${firstError.hint||'—'}`;
-  }
-  statusBox.textContent=out;
-  showToast(fail||silentFail?'⚠ Δες το κόκκινο πλαίσιο πάνω στην οθόνη':`✓ Διορθώθηκαν ${ok} μεγέθη`);
-}
 
 // NAV
 function showTab(tab,btn){

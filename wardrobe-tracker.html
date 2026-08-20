@@ -1590,7 +1590,7 @@ function escHtml(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt
 // Κλειστό λεξιλόγιο — MUST stay identical (spelling/order) to wishlist.html
 // so values match across the two apps. "Άλλο" is the only catch-all (no free-text add).
 const FABRIC_OPTIONS=['Βαμβάκι','Λινό','Μαλλί','Κασμίρ','Μοχέρ','Μετάξι','Σατέν','Βελούδο',
-  'Δένιμ','Δέρμα','Suede','Πολυεστέρας','Viscose','Modal','Lyocell / Tencel','Νάιλον / Πολυαμίδιο','Ελαστάνη / Spandex','Ακρυλικό','Δαντέλα','Άλλο'];
+  'Δένιμ','Δέρμα','Suede','Τεχνητό Δέρμα','Πολυεστέρας','Viscose','Modal','Lyocell / Tencel','Νάιλον / Πολυαμίδιο','Ελαστάνη / Spandex','Ακρυλικό','Δαντέλα','Ράφια / Ψάθα','Άλλο'];
 let materialRows=[]; // [{name, pct, note?}]
 
 function initMaterialChips(){
@@ -1694,7 +1694,7 @@ function fillMaterialChips(val){
     }catch(e){
       // legacy free-text value (π.χ. "Βαμβάκι 80%, Ελαστάνη-20%") — ανακτά όνομα + ποσοστό ανά κομμάτι.
       // Ονόματα εκτός κλειστής λίστας μπαίνουν ως γραμμές χωρίς να γίνονται πλέον νέα chip (κλειστό λεξιλόγιο).
-      val.split(',').map(s=>s.trim()).filter(Boolean).forEach(seg=>{
+      val.split(/[,/&]+/).map(s=>s.trim()).filter(Boolean).forEach(seg=>{
         const p=parseLegacyMaterialSegment(seg);
         if(p)materialRows.push({name:p.name,pct:p.pct,note:null});
       });
@@ -1720,15 +1720,15 @@ function parseMaterialComposition(raw){
     if(Array.isArray(parsed))return parsed.filter(p=>p&&p.name);
   }catch(e){}
   // legacy free-text value — ανακτά ό,τι ποσοστά υπάρχουν ώστε να μπουν κι αυτά στα στατιστικά
-  return raw.split(',').map(s=>parseLegacyMaterialSegment(s)).filter(p=>p&&p.name);
+  return raw.split(/[,/&]+/).map(s=>parseLegacyMaterialSegment(s)).filter(p=>p&&p.name);
 }
 // natural = φυσικές ίνες · leather = δέρμα · seminat = ημι-συνθετικά (τεχνητές ίνες φυσικής προέλευσης, π.χ. ξυλοπολτός)
 // synthetic = πλήρως συνθετικά/πλαστικά (προϊόντα πετρελαίου) · other = ύφανση/φινίρισμα άγνωστης ίνας ή "Άλλο"
 const FABRIC_CLASS={
-  'Βαμβάκι':'natural','Λινό':'natural','Μαλλί':'natural','Κασμίρ':'natural','Μοχέρ':'natural','Μετάξι':'natural','Δένιμ':'natural',
+  'Βαμβάκι':'natural','Λινό':'natural','Μαλλί':'natural','Κασμίρ':'natural','Μοχέρ':'natural','Μετάξι':'natural','Δένιμ':'natural','Ράφια / Ψάθα':'natural',
   'Δέρμα':'leather','Suede':'leather',
   'Viscose':'seminat','Modal':'seminat','Lyocell / Tencel':'seminat',
-  'Πολυεστέρας':'synthetic','Νάιλον / Πολυαμίδιο':'synthetic','Ελαστάνη / Spandex':'synthetic','Ακρυλικό':'synthetic',
+  'Πολυεστέρας':'synthetic','Νάιλον / Πολυαμίδιο':'synthetic','Ελαστάνη / Spandex':'synthetic','Ακρυλικό':'synthetic','Τεχνητό Δέρμα':'synthetic',
   'Σατέν':'other','Βελούδο':'other','Δαντέλα':'other','Άλλο':'other'
 };
 function fabricColor(name){

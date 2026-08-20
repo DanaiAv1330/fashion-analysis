@@ -907,7 +907,7 @@ function populateColorFilterDropdown() {
 function populateMaterialFilterDropdown() {
   const sel = document.getElementById('material-filter-select'); if (!sel) return;
   const used = [...new Set(allItems.flatMap(i => parseMaterialComposition(i.material).map(c => c.name)).filter(Boolean))].sort((a, b) => a.localeCompare(b));
-  sel.innerHTML = '<option value="all">Όλα τα υλικά</option>' + used.map(m => `<option value="${escHtml(m)}">${escHtml(m)}</option>`).join('');
+  sel.innerHTML = '<option value="all">Όλα τα υλικά</option><option value="__empty__">❌ Όχι συμπληρωμένο</option>' + used.map(m => `<option value="${escHtml(m)}">${escHtml(m)}</option>`).join('');
   sel.value = currentMaterialFilter;
 }
 
@@ -1316,7 +1316,7 @@ function renderItems() {
   if (currentCat1Filter !== 'all') items = items.filter(i => i.category === currentCat1Filter);
   if (currentCat2Filter !== 'all') items = items.filter(i => i.subcategory === currentCat2Filter);
   if (currentColorFilter !== 'all') items = items.filter(i => i.color === currentColorFilter);
-  if (currentMaterialFilter !== 'all') items = items.filter(i => parseMaterialComposition(i.material).some(c => c.name === currentMaterialFilter));
+  if (currentMaterialFilter !== 'all') items = items.filter(i => currentMaterialFilter === '__empty__' ? parseMaterialComposition(i.material).length === 0 : parseMaterialComposition(i.material).some(c => c.name === currentMaterialFilter));
 
   items.sort((a, b) => {
     const ra = (a.rank === null || a.rank === undefined) ? 999 : a.rank;
@@ -1664,7 +1664,7 @@ function initCustomBrands() {
 // Κλειστό λεξιλόγιο — MUST stay identical (spelling/order) to wardrobe-tracker.html
 // so values match across the two apps. "Άλλο" is the only catch-all (no free-text add).
 const FABRIC_OPTIONS = ['Βαμβάκι','Λινό','Μαλλί','Κασμίρ','Μοχέρ','Μετάξι','Σατέν','Βελούδο',
-  'Δένιμ','Δέρμα','Suede','Πολυεστέρας','Viscose','Modal','Lyocell / Tencel','Νάιλον / Πολυαμίδιο','Ελαστάνη / Spandex','Ακρυλικό','Δαντέλα','Άλλο'];
+  'Δένιμ','Δέρμα','Suede','Τεχνητό Δέρμα','Πολυεστέρας','Viscose','Modal','Lyocell / Tencel','Νάιλον / Πολυαμίδιο','Ελαστάνη / Spandex','Ακρυλικό','Δαντέλα','Ράφια / Ψάθα','Άλλο'];
 let materialRows = []; // [{name, pct, note?}]
 
 function initMaterialChips() {
@@ -1791,7 +1791,7 @@ function fillMaterialChips(val) {
     } catch (e) {
       // legacy free-text value (π.χ. "Βαμβάκι 80%, Ελαστάνη-20%") — ανακτά όνομα + ποσοστό ανά κομμάτι.
       // Ονόματα εκτός κλειστής λίστας μπαίνουν ως γραμμές χωρίς να γίνονται πλέον νέα chip (κλειστό λεξιλόγιο).
-      val.split(',').map(s => s.trim()).filter(Boolean).forEach(seg => {
+      val.split(/[,/&]+/).map(s => s.trim()).filter(Boolean).forEach(seg => {
         const p = parseLegacyMaterialSegment(seg);
         if (p) materialRows.push({ name: p.name, pct: p.pct, note: null });
       });
@@ -1820,7 +1820,7 @@ function parseMaterialComposition(raw) {
     if (Array.isArray(parsed)) return parsed.filter(p => p && p.name);
   } catch (e) {}
   // legacy free-text value — ανακτά ό,τι ονόματα υπάρχουν ώστε να δουλέψει και το φίλτρο σε παλιές εγγραφές
-  return raw.split(',').map(s => parseLegacyMaterialSegment(s)).filter(p => p && p.name);
+  return raw.split(/[,/&]+/).map(s => parseLegacyMaterialSegment(s)).filter(p => p && p.name);
 }
 
 // ── SAVE ITEM ──

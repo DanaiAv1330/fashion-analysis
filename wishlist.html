@@ -446,31 +446,47 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
 
 <div class="filters">
   <span class="filter-label">Status ·</span>
-  <button class="filter-btn active" onclick="setFilter('all',this)">Όλα</button>
-  <button class="filter-btn" onclick="setFilter('green',this)">✅ Conscious</button>
-  <button class="filter-btn" onclick="setFilter('lightgreen',this)">🌱 Well Thought</button>
-  <button class="filter-btn" onclick="setFilter('yellow',this)">🤔 48h Rule</button>
-  <button class="filter-btn" onclick="setFilter('red',this)">⚡ Impulse</button>
-  <button class="filter-btn" onclick="setFilter('replacement',this)">🔄 Αντικατάσταση</button>
+  <select class="color-filter-select" id="status-filter-select" onchange="setFilter(this.value)">
+    <option value="all">Όλα</option>
+    <option value="green">✅ Conscious</option>
+    <option value="lightgreen">🌱 Well Thought</option>
+    <option value="yellow">🤔 48h Rule</option>
+    <option value="red">⚡ Impulse</option>
+    <option value="replacement">🔄 Αντικατάσταση</option>
+  </select>
 </div>
 
 <div class="filters-cat" id="filters-cat">
   <span class="filter-label">Κατηγορία ·</span>
-  <button class="filter-btn active" data-cat1="all" onclick="setCat1Filter('all',this)">Όλες</button>
-  <button class="filter-btn" data-cat1="Tops" onclick="setCat1Filter('Tops',this)">Tops</button>
-  <button class="filter-btn" data-cat1="Dresses" onclick="setCat1Filter('Dresses',this)">Dresses</button>
-  <button class="filter-btn" data-cat1="Pants" onclick="setCat1Filter('Pants',this)">Pants</button>
-  <button class="filter-btn" data-cat1="Outwear" onclick="setCat1Filter('Outwear',this)">Outwear</button>
-  <button class="filter-btn" data-cat1="Shoes" onclick="setCat1Filter('Shoes',this)">Shoes</button>
-  <button class="filter-btn" data-cat1="Bags" onclick="setCat1Filter('Bags',this)">Bags</button>
-  <button class="filter-btn" data-cat1="Accessories" onclick="setCat1Filter('Accessories',this)">Accessories</button>
+  <select class="color-filter-select" id="cat1-filter-select" onchange="setCat1Filter(this.value)">
+    <option value="all">Όλες</option>
+    <option value="Tops">Tops</option>
+    <option value="Dresses">Dresses</option>
+    <option value="Pants">Pants</option>
+    <option value="Outwear">Outwear</option>
+    <option value="Shoes">Shoes</option>
+    <option value="Bags">Bags</option>
+    <option value="Accessories">Accessories</option>
+  </select>
 </div>
-<div class="filters-cat2" id="filters-cat2" style="display:none;"></div>
+<div class="filters-cat2" id="filters-cat2" style="display:none;">
+  <span class="filter-label">Υποκατηγορία ·</span>
+  <select class="color-filter-select" id="cat2-filter-select" onchange="setCat2Filter(this.value)">
+    <option value="all">Όλες οι υποκατηγορίες</option>
+  </select>
+</div>
 
 <div class="filters-color">
   <span class="filter-label">Χρώμα ·</span>
   <select class="color-filter-select" id="color-filter-select" onchange="setColorFilter(this.value)">
     <option value="all">Όλα τα χρώματα</option>
+  </select>
+</div>
+
+<div class="filters-color">
+  <span class="filter-label">Υλικό ·</span>
+  <select class="color-filter-select" id="material-filter-select" onchange="setMaterialFilter(this.value)">
+    <option value="all">Όλα τα υλικά</option>
   </select>
 </div>
 
@@ -832,6 +848,7 @@ let currentFilter = 'all';
 let currentCat1Filter = 'all';
 let currentCat2Filter = 'all';
 let currentColorFilter = 'all';
+let currentMaterialFilter = 'all';
 let editingId = null;
 let sortableInstance = null;
 
@@ -887,30 +904,38 @@ function populateColorFilterDropdown() {
   sel.innerHTML = '<option value="all">Όλα τα χρώματα</option>' + used.map(c => `<option value="${escHtml(c)}">${COLOR_HEX[c] ? '● ' : ''}${escHtml(c)}</option>`).join('');
   sel.value = currentColorFilter;
 }
+function populateMaterialFilterDropdown() {
+  const sel = document.getElementById('material-filter-select'); if (!sel) return;
+  const used = [...new Set(allItems.flatMap(i => parseMaterialComposition(i.material).map(c => c.name)).filter(Boolean))].sort((a, b) => a.localeCompare(b));
+  sel.innerHTML = '<option value="all">Όλα τα υλικά</option>' + used.map(m => `<option value="${escHtml(m)}">${escHtml(m)}</option>`).join('');
+  sel.value = currentMaterialFilter;
+}
 
-function setCat1Filter(cat1, btn) {
+function setCat1Filter(cat1) {
   currentCat1Filter = cat1;
   currentCat2Filter = 'all';
-  document.querySelectorAll('#filters-cat .filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
   const cat2Wrap = document.getElementById('filters-cat2');
+  const cat2Sel = document.getElementById('cat2-filter-select');
   if (cat1 === 'all' || !CATEGORIES[cat1]) {
-    cat2Wrap.style.display = 'none'; cat2Wrap.innerHTML = '';
+    cat2Wrap.style.display = 'none'; cat2Sel.innerHTML = '<option value="all">Όλες οι υποκατηγορίες</option>';
   } else {
     cat2Wrap.style.display = 'flex';
-    cat2Wrap.innerHTML = `<button class="filter-btn active" onclick="setCat2Filter('all',this)">Όλες οι υποκατηγορίες</button>` +
-      CATEGORIES[cat1].map(s => `<button class="filter-btn" onclick="setCat2Filter('${escHtml(s)}',this)">${escHtml(s)}</button>`).join('');
+    cat2Sel.innerHTML = '<option value="all">Όλες οι υποκατηγορίες</option>' +
+      CATEGORIES[cat1].map(s => `<option value="${escHtml(s)}">${escHtml(s)}</option>`).join('');
+    cat2Sel.value = 'all';
   }
   renderItems();
 }
-function setCat2Filter(cat2, btn) {
+function setCat2Filter(cat2) {
   currentCat2Filter = cat2;
-  document.querySelectorAll('#filters-cat2 .filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
   renderItems();
 }
 function setColorFilter(color) {
   currentColorFilter = color;
+  renderItems();
+}
+function setMaterialFilter(mat) {
+  currentMaterialFilter = mat;
   renderItems();
 }
 
@@ -954,7 +979,7 @@ async function changeRank(id, newValStr) {
   await persistRankUpdates(updates);
 }
 function isReorderEnabled() {
-  return currentFilter === 'all' && currentCat1Filter === 'all' && currentCat2Filter === 'all' && currentColorFilter === 'all';
+  return currentFilter === 'all' && currentCat1Filter === 'all' && currentCat2Filter === 'all' && currentColorFilter === 'all' && currentMaterialFilter === 'all';
 }
 function initSortableList() {
   const el = document.getElementById('items-list');
@@ -1265,6 +1290,7 @@ async function loadItems() {
   const rankUpdates = normalizeRanksLocal();
   await persistRankUpdates(rankUpdates);
   populateColorFilterDropdown();
+  populateMaterialFilterDropdown();
   renderItems();
   updateStats();
   await loadPurchasesSilent();
@@ -1290,6 +1316,7 @@ function renderItems() {
   if (currentCat1Filter !== 'all') items = items.filter(i => i.category === currentCat1Filter);
   if (currentCat2Filter !== 'all') items = items.filter(i => i.subcategory === currentCat2Filter);
   if (currentColorFilter !== 'all') items = items.filter(i => i.color === currentColorFilter);
+  if (currentMaterialFilter !== 'all') items = items.filter(i => parseMaterialComposition(i.material).some(c => c.name === currentMaterialFilter));
 
   items.sort((a, b) => {
     const ra = (a.rank === null || a.rank === undefined) ? 999 : a.rank;
@@ -1298,7 +1325,7 @@ function renderItems() {
     return new Date(b.created_at) - new Date(a.created_at);
   });
 
-  const noFilters = currentFilter === 'all' && currentCat1Filter === 'all' && currentCat2Filter === 'all' && currentColorFilter === 'all';
+  const noFilters = currentFilter === 'all' && currentCat1Filter === 'all' && currentCat2Filter === 'all' && currentColorFilter === 'all' && currentMaterialFilter === 'all';
   if (!items.length) {
     list.innerHTML = `<div class="empty-state">
       <div class="empty-title">Καμία εγγραφή</div>
@@ -1474,10 +1501,8 @@ function updateStats() {
   document.getElementById('stat-value').textContent = valueDisplay;
 }
 
-function setFilter(f, btn) {
+function setFilter(f) {
   currentFilter = f;
-  document.querySelectorAll('#panel-wishlist .filters .filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
   renderItems();
 }
 
@@ -1639,7 +1664,7 @@ function initCustomBrands() {
 // Κλειστό λεξιλόγιο — MUST stay identical (spelling/order) to wardrobe-tracker.html
 // so values match across the two apps. "Άλλο" is the only catch-all (no free-text add).
 const FABRIC_OPTIONS = ['Βαμβάκι','Λινό','Μαλλί','Κασμίρ','Μοχέρ','Μετάξι','Σατέν','Βελούδο',
-  'Δένιμ','Δέρμα','Suede','Πολυεστέρας','Viscose','Modal','Lyocell / Tencel','Νάιλον','Ελαστάνη / Spandex','Ακρυλικό','Δαντέλα','Άλλο'];
+  'Δένιμ','Δέρμα','Suede','Πολυεστέρας','Viscose','Modal','Lyocell / Tencel','Νάιλον / Πολυαμίδιο','Ελαστάνη / Spandex','Ακρυλικό','Δαντέλα','Άλλο'];
 let materialRows = []; // [{name, pct, note?}]
 
 function initMaterialChips() {
@@ -1787,6 +1812,15 @@ function formatMaterialDisplay(raw) {
     }
   } catch (e) {}
   return raw;
+}
+function parseMaterialComposition(raw) {
+  if (!raw) return [];
+  try {
+    const parsed = JSON.parse(raw);
+    if (Array.isArray(parsed)) return parsed.filter(p => p && p.name);
+  } catch (e) {}
+  // legacy free-text value — ανακτά ό,τι ονόματα υπάρχουν ώστε να δουλέψει και το φίλτρο σε παλιές εγγραφές
+  return raw.split(',').map(s => parseLegacyMaterialSegment(s)).filter(p => p && p.name);
 }
 
 // ── SAVE ITEM ──

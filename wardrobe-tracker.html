@@ -293,6 +293,24 @@ body{font-family:var(--font-sans);font-weight:300;background:var(--bg);color:var
 .form-group input::placeholder{color:var(--text-dim);}
 .form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--accent);}
 .form-group textarea{resize:vertical;min-height:52px;}
+.material-chips-wrap{display:flex;flex-wrap:wrap;gap:5px;margin-top:4px;}
+.mat-chip{font-family:var(--font-sans);font-size:9px;letter-spacing:0.07em;text-transform:uppercase;border:1px solid var(--border);padding:4px 9px;border-radius:10px;cursor:pointer;color:var(--text-muted);transition:all 0.15s;display:flex;align-items:center;gap:4px;background:none;}
+.mat-chip.active{border-color:var(--accent);color:var(--accent);background:var(--accent-dim);}
+.mat-rows-wrap{margin-top:10px;display:flex;flex-direction:column;gap:6px;}
+.mat-row{display:flex;align-items:center;gap:8px;background:var(--surface2);border:1px solid var(--border);border-radius:2px;padding:6px 9px;}
+.mat-row-name{flex:1;font-size:11px;color:var(--text);}
+.mat-row input[type=number]{width:52px;flex:none;font-size:11px;padding:4px 6px;border:1px solid var(--border);background:var(--surface);border-radius:1px;text-align:right;outline:none;-webkit-appearance:none;}
+.mat-row-pct-sign{font-size:10px;color:var(--text-dim);}
+.mat-row-remove{background:none;border:none;color:var(--text-dim);cursor:pointer;font-size:13px;padding:0 2px;line-height:1;}
+.mat-row-remove:hover{color:var(--red-text);}
+.mat-row-empty{font-size:10px;color:var(--text-dim);padding:4px 0;}
+.mat-total-track{width:100%;height:5px;background:var(--surface3);border-radius:3px;overflow:hidden;margin-top:9px;}
+.mat-total-fill{height:100%;border-radius:3px;background:var(--accent-light);transition:width 0.2s,background 0.2s;}
+.mat-total-fill.complete{background:var(--green);}
+.mat-total-fill.over{background:var(--red);}
+.mat-total-label{font-size:9px;color:var(--text-muted);margin-top:4px;text-align:right;}
+.mat-total-label.complete{color:var(--green-text);}
+.mat-total-label.over{color:var(--red-text);}
 .checkbox-row{display:flex;align-items:center;gap:8px;padding:4px 0;cursor:pointer;}
 .checkbox-row input[type="checkbox"]{width:14px;height:14px;accent-color:var(--accent);cursor:pointer;}
 .checkbox-row label{font-size:11px;letter-spacing:0;text-transform:none;color:var(--text-muted);cursor:pointer;}
@@ -593,8 +611,23 @@ body{padding-bottom:0;}
               <input type="text" id="f-color-other" placeholder="Γράψε χρώμα" style="display:none;margin-top:5px;font-family:var(--font-sans);font-size:12px;font-weight:300;border:1px solid var(--border);background:var(--surface2);padding:7px 9px;border-radius:1px;color:var(--text);outline:none;width:100%;">
             </div>
             <div class="form-group"><label>Pattern</label><input type="text" id="f-pattern" placeholder="π.χ. stripes"></div>
-            <div class="form-group"><label>Υλικό</label><input type="text" id="f-material"></div>
             <div class="form-group"><label>Size</label><input type="text" id="f-size"></div>
+            <div class="form-group full">
+              <label>Σύνθεση Υφάσματος <span style="font-weight:300;text-transform:none;letter-spacing:0;font-size:9px;color:var(--text-dim)">(πρόσθεσε υλικά + ποσοστό %, έως 100%)</span></label>
+              <div id="material-chips" class="material-chips-wrap"></div>
+              <div style="display:flex;gap:6px;margin-top:6px;align-items:center;">
+                <input type="text" id="f-material-other" placeholder="+ Άλλο υλικό…"
+                  style="flex:1;font-size:11px;padding:5px 8px;border:1px solid var(--border);background:var(--surface2);border-radius:1px;outline:none;"
+                  onkeydown="if(event.key==='Enter'){event.preventDefault();addCustomMaterial(this.value);}">
+                <button type="button"
+                  onclick="addCustomMaterial(document.getElementById('f-material-other').value);"
+                  style="font-size:9px;padding:5px 10px;background:none;border:1px solid var(--border);cursor:pointer;border-radius:1px;color:var(--text-muted);">+</button>
+              </div>
+              <div id="material-rows" class="mat-rows-wrap"></div>
+              <div class="mat-total-track"><div id="mat-total-fill" class="mat-total-fill"></div></div>
+              <div id="mat-total-label" class="mat-total-label">0% / 100%</div>
+              <input type="hidden" id="f-material">
+            </div>
             <div class="form-group"><label>Τιμή (€)</label><input type="number" id="f-price" step="0.01"></div>
             <div class="form-group"><label>Χρονιά Αγοράς</label><input type="number" id="f-purchase-year" placeholder="2024" min="2000" max="2030"></div>
             <div class="form-group"><label>Μήνας Αγοράς</label>
@@ -879,13 +912,6 @@ body{padding-bottom:0;}
             <button onclick="changeDashMonth(1)">›</button>
           </div>
         </div>
-        <div class="toolbar-row" id="month-season-filter" style="margin-bottom:10px;flex-wrap:wrap;">
-          <span style="font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-dim);flex-shrink:0;">🌤 Εποχή:</span>
-          <button class="chip active" data-season="" onclick="toggleSeasonChip(this,'month')">Όλα</button>
-          <button class="chip" data-season="Άνοιξη / Καλοκαίρι" onclick="toggleSeasonChip(this,'month')">☀️ Άνοιξη/Καλοκαίρι</button>
-          <button class="chip" data-season="Φθινόπωρο / Χειμώνας" onclick="toggleSeasonChip(this,'month')">❄️ Φθιν./Χειμώνας</button>
-          <button class="chip" data-season="4 εποχές" onclick="toggleSeasonChip(this,'month')">🔁 4 εποχές</button>
-        </div>
         <div class="kpi-grid">
           <div class="kpi-card good-k"><div class="kpi-label">Utilization Rate</div><div class="kpi-value" id="kpi-util">—</div><div class="kpi-sub" id="kpi-util-sub">—</div></div>
           <div class="kpi-card good-k"><div class="kpi-label">Active Capital μήνα</div><div class="kpi-value" id="kpi-active">—</div><div class="kpi-sub" id="kpi-active-sub">αξία φορεμένων</div></div>
@@ -952,13 +978,6 @@ body{padding-bottom:0;}
           <span class="range-label">Από</span><input type="month" class="range-input" id="range-from" onchange="loadTotalDash()">
           <span style="color:var(--text-dim);font-size:10px;">→</span>
           <input type="month" class="range-input" id="range-to" onchange="loadTotalDash()">
-        </div>
-        <div class="toolbar-row" id="total-season-filter" style="margin-bottom:10px;flex-wrap:wrap;">
-          <span style="font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-dim);flex-shrink:0;">🌤 Εποχή:</span>
-          <button class="chip active" data-season="" onclick="toggleSeasonChip(this,'total')">Όλα</button>
-          <button class="chip" data-season="Άνοιξη / Καλοκαίρι" onclick="toggleSeasonChip(this,'total')">☀️ Άνοιξη/Καλοκαίρι</button>
-          <button class="chip" data-season="Φθινόπωρο / Χειμώνας" onclick="toggleSeasonChip(this,'total')">❄️ Φθιν./Χειμώνας</button>
-          <button class="chip" data-season="4 εποχές" onclick="toggleSeasonChip(this,'total')">🔁 4 εποχές</button>
         </div>
         <div class="kpi-grid">
           <div class="kpi-card good-k"><div class="kpi-label">Utilization Rate</div><div class="kpi-value" id="t-util">—</div><div class="kpi-sub" id="t-util-sub">—</div></div>
@@ -1163,6 +1182,21 @@ body{padding-bottom:0;}
         <div style="font-family:var(--font-serif);font-size:15px;font-weight:300;margin:16px 0 10px;">Feeling <em style="color:var(--accent);font-style:italic">& Face Effect</em></div>
         <div class="chart-card" style="margin-bottom:12px;"><div class="chart-title">Πώς αισθάνομαι (τεμάχια ανά κατηγορία)</div><div id="feeling-chart"></div></div>
         <div class="chart-card" style="margin-bottom:12px;"><div class="chart-title">Πώς φαίνεται το πρόσωπό μου</div><div id="face-effect-chart"></div></div>
+        <div style="font-family:var(--font-serif);font-size:15px;font-weight:300;margin:16px 0 10px;">Σύνθεση <em style="color:var(--accent);font-style:italic">Υφασμάτων</em></div>
+        <div class="chart-card" style="margin-bottom:12px;">
+          <div class="chart-title">Κάλυψη Δεδομένων</div>
+          <div style="display:flex;align-items:baseline;gap:8px;">
+            <div style="font-family:var(--font-serif);font-size:24px;color:var(--accent);" id="fabric-coverage">—</div>
+            <div style="font-size:9px;color:var(--text-muted);" id="fabric-coverage-sub">—</div>
+          </div>
+        </div>
+        <div class="kpi-grid">
+          <div class="kpi-card good-k"><div class="kpi-label">Φυσικές Ίνες</div><div class="kpi-value" id="fabric-natural">—</div></div>
+          <div class="kpi-card"><div class="kpi-label">Δέρμα</div><div class="kpi-value" id="fabric-leather">—</div></div>
+          <div class="kpi-card alert"><div class="kpi-label">Συνθετικά</div><div class="kpi-value" id="fabric-synthetic">—</div></div>
+        </div>
+        <div class="chart-card" style="margin-bottom:12px;"><div class="chart-title">Πιο συχνά Υφάσματα (αρ. ρούχων)</div><div id="fabric-items-chart"></div></div>
+        <div class="chart-card" style="margin-bottom:12px;"><div class="chart-title">Επένδυση (€) ανά Ύφασμα</div><div id="fabric-value-chart"></div></div>
       </div>
 
       <!-- OUTFIT COMBOS -->
@@ -1457,7 +1491,6 @@ let feelingFilter='', faceFilter='', portfolioFilter='', occasionFilter='';
 let scoreComponentFilter='', scoreBucketFilter='';
 let calYear=new Date().getFullYear(), calMonth=new Date().getMonth(), selectedDate=todayStr(), selectedDateLogs=[];
 let dashYear=new Date().getFullYear(), dashMonth=new Date().getMonth();
-let monthSeasonFilter=[], totalSeasonFilter=[];
 let archivedItems=[];
 let outfitUniforms=[];
 let colorFilter='';
@@ -1502,7 +1535,7 @@ sb.auth.onAuthStateChange((event,session)=>{
 });
 
 // INIT
-async function initApp(){await Promise.all([loadItems(),loadAllLogs(),loadArchivedItems(),loadOutfitUniforms()]);initColorFilterDropdown();renderWardrobe();renderActiveFilters();renderCalendar();loadMonthDash();initTotalDash();showLoadDiagnostic();}
+async function initApp(){initMaterialChips();await Promise.all([loadItems(),loadAllLogs(),loadArchivedItems(),loadOutfitUniforms()]);initColorFilterDropdown();renderWardrobe();renderActiveFilters();renderCalendar();loadMonthDash();initTotalDash();showLoadDiagnostic();}
 // ΠΡΟΣΩΡΙΝΟ DIAGNOSTIC — δείχνει πόσες καταγραφές wear_log όντως φορτώθηκαν, ώστε να εντοπίσουμε αν λείπουν δεδομένα στη βάση ή είναι θέμα φόρτωσης/cache. Θα αφαιρεθεί μόλις λυθεί το πρόβλημα.
 function showLoadDiagnostic(){
   const dates=wearLogs.map(l=>l.worn_date).filter(Boolean).sort();
@@ -1539,6 +1572,177 @@ function todayStr(){return new Date().toISOString().split('T')[0];}
 function fmtDate(iso){const d=new Date(iso);return`${d.getDate()} ${MN_SHORT[d.getMonth()]}`;}
 function fmtMonthYear(y,m){return`${MN_FULL[m]} ${y}`;}
 function escHtml(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+// ── FABRIC COMPOSITION (Σύνθεση Υφάσματος) ──
+// Canonical fabric names — MUST stay identical (spelling/order) to wishlist.html
+// so values match across the two apps.
+const FABRIC_OPTIONS=['Βαμβάκι','Λινό','Μαλλί','Κασμίρ','Μοχέρ','Μετάξι','Σατέν','Βελούδο',
+  'Δένιμ','Δέρμα','Suede','Πολυεστέρας','Viscose','Modal','Νάιλον','Ελαστάνη / Spandex','Ακρυλικό','Δαντέλα'];
+let customMaterials=JSON.parse(localStorage.getItem('wb_materials')||'[]');
+let materialRows=[]; // [{name, pct}]
+
+function initMaterialChips(){
+  const wrap=document.getElementById('material-chips');
+  if(!wrap)return;
+  wrap.innerHTML='';
+  FABRIC_OPTIONS.forEach(name=>{
+    const btn=document.createElement('button');
+    btn.type='button';btn.className='mat-chip';btn.dataset.mat=name;btn.textContent=name;
+    btn.addEventListener('click',()=>addMaterialFromChip(name));
+    wrap.appendChild(btn);
+  });
+  customMaterials.forEach(val=>{
+    if(FABRIC_OPTIONS.includes(val))return;
+    if(wrap.querySelector(`.mat-chip[data-mat="${CSS.escape(val)}"]`))return;
+    const btn=document.createElement('button');
+    btn.type='button';btn.className='mat-chip';btn.dataset.mat=val;btn.textContent=val;
+    btn.addEventListener('click',()=>addMaterialFromChip(val));
+    wrap.appendChild(btn);
+  });
+}
+function addCustomMaterial(val){
+  val=val.trim();if(!val)return;
+  if(!FABRIC_OPTIONS.includes(val)&&!customMaterials.includes(val)){
+    customMaterials.push(val);localStorage.setItem('wb_materials',JSON.stringify(customMaterials));
+    const wrap=document.getElementById('material-chips');
+    const btn=document.createElement('button');
+    btn.type='button';btn.className='mat-chip';btn.dataset.mat=val;btn.textContent=val;
+    btn.addEventListener('click',()=>addMaterialFromChip(val));
+    wrap.appendChild(btn);
+  }
+  addMaterialFromChip(val);
+  document.getElementById('f-material-other').value='';
+}
+function addMaterialFromChip(name){
+  if(!materialRows.find(r=>r.name===name)){materialRows.push({name,pct:null});renderMaterialRows();}
+}
+function removeMaterialRow(name){
+  materialRows=materialRows.filter(r=>r.name!==name);
+  renderMaterialRows();
+}
+function updateMaterialPct(name,val){
+  const row=materialRows.find(r=>r.name===name);if(!row)return;
+  let n=parseFloat(val);
+  if(isNaN(n))n=null;else n=Math.max(0,Math.min(100,n));
+  row.pct=n;renderMaterialTotal();syncMaterialHidden();
+}
+function renderMaterialRows(){
+  document.querySelectorAll('#material-chips .mat-chip').forEach(btn=>{
+    btn.classList.toggle('active',materialRows.some(r=>r.name===btn.dataset.mat));
+  });
+  const wrap=document.getElementById('material-rows');
+  if(!wrap)return;
+  wrap.innerHTML='';
+  if(!materialRows.length){
+    wrap.innerHTML='<div class="mat-row-empty">Επίλεξε υλικά από τις επιλογές πάνω…</div>';
+  }else{
+    materialRows.forEach(r=>{
+      const row=document.createElement('div');row.className='mat-row';
+      const nameSpan=document.createElement('span');nameSpan.className='mat-row-name';nameSpan.textContent=r.name;
+      const pctInput=document.createElement('input');
+      pctInput.type='number';pctInput.min='0';pctInput.max='100';pctInput.step='1';pctInput.placeholder='%';
+      pctInput.value=(r.pct===null||r.pct===undefined)?'':r.pct;
+      pctInput.addEventListener('input',()=>updateMaterialPct(r.name,pctInput.value));
+      const sign=document.createElement('span');sign.className='mat-row-pct-sign';sign.textContent='%';
+      const rm=document.createElement('button');rm.type='button';rm.className='mat-row-remove';rm.textContent='✕';
+      rm.addEventListener('click',()=>removeMaterialRow(r.name));
+      row.append(nameSpan,pctInput,sign,rm);
+      wrap.appendChild(row);
+    });
+  }
+  renderMaterialTotal();syncMaterialHidden();
+}
+function renderMaterialTotal(){
+  const total=materialRows.reduce((s,r)=>s+(r.pct||0),0);
+  const fill=document.getElementById('mat-total-fill');
+  const label=document.getElementById('mat-total-label');
+  if(!fill||!label)return;
+  fill.style.width=Math.min(100,total)+'%';
+  fill.classList.remove('complete','over');label.classList.remove('complete','over');
+  if(total>100){fill.classList.add('over');label.classList.add('over');label.textContent=`${total}% — ξεπερνά το 100%`;}
+  else if(total===100){fill.classList.add('complete');label.classList.add('complete');label.textContent=`100% ✓ Ολοκληρώθηκε`;}
+  else{label.textContent=`${total}% / 100%`;}
+}
+function syncMaterialHidden(){
+  const valid=materialRows.filter(r=>r.name);
+  const el=document.getElementById('f-material');
+  if(el)el.value=valid.length?JSON.stringify(valid):'';
+}
+function resetMaterialChips(){materialRows=[];renderMaterialRows();}
+function fillMaterialChips(val){
+  materialRows=[];
+  if(val){
+    try{
+      const parsed=JSON.parse(val);
+      if(Array.isArray(parsed))materialRows=parsed.map(p=>({name:p.name,pct:(p.pct===undefined||p.pct===null)?null:p.pct}));
+    }catch(e){
+      val.split(',').map(s=>s.trim()).filter(Boolean).forEach(name=>materialRows.push({name,pct:null}));
+    }
+    let addedNew=false;
+    materialRows.forEach(r=>{
+      if(!FABRIC_OPTIONS.includes(r.name)&&!customMaterials.includes(r.name)){customMaterials.push(r.name);addedNew=true;}
+    });
+    if(addedNew){localStorage.setItem('wb_materials',JSON.stringify(customMaterials));initMaterialChips();}
+  }
+  renderMaterialRows();
+}
+function formatMaterialDisplay(raw){
+  if(!raw)return'';
+  try{
+    const parsed=JSON.parse(raw);
+    if(Array.isArray(parsed))return parsed.map(p=>(p.pct!==null&&p.pct!==undefined)?`${p.name} ${p.pct}%`:p.name).join(' · ');
+  }catch(e){}
+  return raw;
+}
+function parseMaterialComposition(raw){
+  if(!raw)return[];
+  try{
+    const parsed=JSON.parse(raw);
+    if(Array.isArray(parsed))return parsed.filter(p=>p&&p.name);
+  }catch(e){}
+  return[]; // legacy plain-text values have no % breakdown — excluded from fabric stats until re-saved
+}
+const FABRIC_CLASS={
+  'Βαμβάκι':'natural','Λινό':'natural','Μαλλί':'natural','Κασμίρ':'natural','Μοχέρ':'natural','Μετάξι':'natural','Δένιμ':'natural',
+  'Δέρμα':'leather','Suede':'leather',
+  'Πολυεστέρας':'synthetic','Νάιλον':'synthetic','Ελαστάνη / Spandex':'synthetic','Ακρυλικό':'synthetic','Viscose':'synthetic','Modal':'synthetic',
+  'Σατέν':'other','Βελούδο':'other','Δαντέλα':'other'
+};
+function fabricColor(name){
+  const cls=FABRIC_CLASS[name]||'other';
+  return cls==='natural'?'#7ba673':cls==='leather'?'#9a7a4a':cls==='synthetic'?'#8c4a3a':'#c4956a';
+}
+function loadFabricStats(){
+  const covEl=document.getElementById('fabric-coverage');
+  if(!covEl)return; // section not present on this page load
+  const fabricCount={},fabricValue={};
+  let classTotals={natural:0,leather:0,synthetic:0,other:0},classWeight=0,itemsWithData=0;
+  allItems.forEach(item=>{
+    const comp=parseMaterialComposition(item.material);
+    if(!comp.length)return;
+    itemsWithData++;
+    comp.forEach(c=>{
+      fabricCount[c.name]=(fabricCount[c.name]||0)+1;
+      const w=(c.pct||0)/100;
+      fabricValue[c.name]=(fabricValue[c.name]||0)+w*(item.price||0);
+      const cls=FABRIC_CLASS[c.name]||'other';
+      classTotals[cls]+=w;classWeight+=w;
+    });
+  });
+  const coverage=allItems.length?Math.round(itemsWithData/allItems.length*100):0;
+  covEl.textContent=coverage+'%';
+  document.getElementById('fabric-coverage-sub').textContent=itemsWithData+' από '+allItems.length+' ρούχα με καταγεγραμμένη σύνθεση';
+  document.getElementById('fabric-natural').textContent=(classWeight?Math.round(classTotals.natural/classWeight*100):0)+'%';
+  document.getElementById('fabric-leather').textContent=(classWeight?Math.round(classTotals.leather/classWeight*100):0)+'%';
+  document.getElementById('fabric-synthetic').textContent=(classWeight?Math.round(classTotals.synthetic/classWeight*100):0)+'%';
+  const fcSorted=Object.entries(fabricCount).sort((a,b)=>b[1]-a[1]);
+  const maxFC=fcSorted[0]?.[1]||1;
+  document.getElementById('fabric-items-chart').innerHTML=fcSorted.length?fcSorted.map(([k,v])=>renderHBar(k,v,maxFC,String(v),fabricColor(k))).join(''):'<div style="font-size:10px;color:var(--text-dim);">Δεν υπάρχουν ακόμη δεδομένα σύνθεσης υφάσματος.</div>';
+  const fvSorted=Object.entries(fabricValue).sort((a,b)=>b[1]-a[1]);
+  const maxFV=fvSorted[0]?.[1]||1;
+  document.getElementById('fabric-value-chart').innerHTML=fvSorted.length?fvSorted.map(([k,v])=>renderHBar(k,v,maxFV,'€'+Math.round(v),fabricColor(k))).join(''):'<div style="font-size:10px;color:var(--text-dim);">Δεν υπάρχουν ακόμη δεδομένα σύνθεσης υφάσματος.</div>';
+}
+
 function getWearCount(id){return wearLogs.filter(l=>l.wardrobe_item_id===id).length;}
 function getTotalWear(item){return(item.prev_worn||0)+getWearCount(item.id);}
 function getLastWorn(id){const logs=wearLogs.filter(l=>l.wardrobe_item_id===id).sort((a,b)=>b.worn_date.localeCompare(a.worn_date));return logs.length?logs[0].worn_date:null;}
@@ -2009,7 +2213,8 @@ function openItemModal(id){
   document.getElementById('inline-item-title').innerHTML=id?'Επεξεργασία <em style="font-style:italic;color:var(--accent)">Κομματιού</em>':'Νέο <em style="font-style:italic;color:var(--accent)">Κομμάτι</em>';
   document.getElementById('item-delete-btn').style.display=id?'inline-block':'none';
   document.getElementById('item-delete-btn-top').style.display=id?'inline-block':'none';
-  ['f-title','f-brand','f-pattern','f-material','f-size','f-notes'].forEach(f=>document.getElementById(f).value='');
+  ['f-title','f-brand','f-pattern','f-size','f-notes'].forEach(f=>document.getElementById(f).value='');
+  resetMaterialChips();
   ['f-price','f-prev-worn','f-purchase-year','f-purchase-month','f-season','f-cat1','f-cat2','f-sleeve','f-length','f-feeling','f-face-effect'].forEach(f=>document.getElementById(f).value='');
   document.getElementById('f-prev-worn').value='0';
   document.getElementById('f-fav').checked=false;
@@ -2027,7 +2232,7 @@ function openItemModal(id){
       document.getElementById('f-cat2').value=item.cat2||'';
       populateColorDropdown(item.color||'');
       document.getElementById('f-pattern').value=item.pattern||'';
-      document.getElementById('f-material').value=item.material||'';
+      fillMaterialChips(item.material||'');
       document.getElementById('f-size').value=item.size||'';
       document.getElementById('f-price').value=item.price||'';
       document.getElementById('f-prev-worn').value=item.prev_worn||0;
@@ -2651,24 +2856,6 @@ async function confirmPickItems(){
 async function removeWearLog(id,e){e.stopPropagation();await sb.from('wear_log').delete().eq('id',id);await loadAllLogs();renderCalendar();renderWardrobe();}
 
 // DASHBOARD HELPERS
-function toggleSeasonChip(btn,scope){
-  const containerId=scope==='month'?'month-season-filter':'total-season-filter';
-  const container=document.getElementById(containerId);
-  const allChip=container.querySelector('.chip[data-season=""]');
-  const season=btn.dataset.season;
-  if(season===''){
-    container.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
-    allChip.classList.add('active');
-  }else{
-    allChip.classList.remove('active');
-    btn.classList.toggle('active');
-    const activeCount=container.querySelectorAll('.chip.active').length;
-    if(activeCount===0)allChip.classList.add('active');
-  }
-  const active=[...container.querySelectorAll('.chip.active')].map(c=>c.dataset.season).filter(Boolean);
-  if(scope==='month'){monthSeasonFilter=active;loadMonthDash();}
-  else{totalSeasonFilter=active;loadTotalDash();}
-}
 function getAvgAgeMonths(items){
   const ages=items.filter(i=>i.purchased_at).map(i=>(new Date()-new Date(i.purchased_at))/(30.44*24*3600*1000));
   return ages.length?ages.reduce((x,y)=>x+y,0)/ages.length:null;
@@ -2685,23 +2872,21 @@ function selectDashMonth(val){const[y,m]=val.split('-').map(Number);dashYear=y;d
 function loadMonthDash(){
   buildMonthSelect();
   document.getElementById('dash-month-label').textContent=fmtMonthYear(dashYear,dashMonth);
-  const baseItems=monthSeasonFilter.length?allItems.filter(i=>monthSeasonFilter.includes(i.season)):allItems;
-  const baseIds=new Set(baseItems.map(i=>i.id));
-  const monthLogs=wearLogs.filter(l=>{const d=new Date(l.worn_date);return d.getFullYear()===dashYear&&d.getMonth()===dashMonth&&baseIds.has(l.wardrobe_item_id);});
+  const monthLogs=wearLogs.filter(l=>{const d=new Date(l.worn_date);return d.getFullYear()===dashYear&&d.getMonth()===dashMonth;});
   const wornIds=[...new Set(monthLogs.map(l=>l.wardrobe_item_id))];
   const wornItems=wornIds.map(id=>allItems.find(i=>i.id===id)).filter(Boolean);
-  const totalItems=baseItems.length;
+  const totalItems=allItems.length;
   const util=totalItems?Math.round(wornIds.length/totalItems*100):0;
   document.getElementById('kpi-util').textContent=util+'%';
-  document.getElementById('kpi-util-sub').textContent=wornIds.length+'/'+totalItems+' κομμάτια'+(monthSeasonFilter.length?' (εποχή)':'');
+  document.getElementById('kpi-util-sub').textContent=wornIds.length+'/'+totalItems+' κομμάτια';
   const activeCapital=wornItems.reduce((s,i)=>s+(i.price||0),0);
-  const totalCapital=baseItems.reduce((s,i)=>s+(i.price||0),0);
+  const totalCapital=allItems.reduce((s,i)=>s+(i.price||0),0);
   document.getElementById('kpi-active').textContent='€'+Math.round(activeCapital);
   document.getElementById('kpi-active-sub').textContent=Math.round(activeCapital/totalCapital*100||0)+'% αξίας';
   document.getElementById('kpi-dormant').textContent='€'+Math.round(totalCapital-activeCapital);
   document.getElementById('kpi-dormant-sub').textContent=(totalItems-wornIds.length)+' κομμάτια';
   const wornPrices=wornItems.map(i=>i.price).filter(Boolean);
-  const unwornItems=baseItems.filter(i=>!wornIds.includes(i.id));
+  const unwornItems=allItems.filter(i=>!wornIds.includes(i.id));
   const unwornPrices=unwornItems.map(i=>i.price).filter(Boolean);
   document.getElementById('kpi-cost-worn').textContent=wornPrices.length?'€'+Math.round(wornPrices.reduce((x,y)=>x+y,0)/wornPrices.length):'—';
   document.getElementById('kpi-cost-unworn').textContent=unwornPrices.length?'€'+Math.round(unwornPrices.reduce((x,y)=>x+y,0)/unwornPrices.length):'—';
@@ -2757,22 +2942,20 @@ function loadTotalDash(){
   const fromV=document.getElementById('range-from').value,toV=document.getElementById('range-to').value;
   if(!fromV||!toV)return;
   const fromD=fromV+'-01';const[ty,tm]=toV.split('-').map(Number);const toD=`${ty}-${String(tm).padStart(2,'0')}-${new Date(ty,tm,0).getDate()}`;
-  const baseItems=totalSeasonFilter.length?allItems.filter(i=>totalSeasonFilter.includes(i.season)):allItems;
-  const baseIds=new Set(baseItems.map(i=>i.id));
-  const logs=wearLogs.filter(l=>l.worn_date>=fromD&&l.worn_date<=toD&&baseIds.has(l.wardrobe_item_id));
+  const logs=wearLogs.filter(l=>l.worn_date>=fromD&&l.worn_date<=toD);
   const wornIds=[...new Set(logs.map(l=>l.wardrobe_item_id))];
   const wornItems=wornIds.map(id=>allItems.find(i=>i.id===id)).filter(Boolean);
-  const totalItems=baseItems.length;
+  const totalItems=allItems.length;
   document.getElementById('t-util').textContent=(totalItems?Math.round(wornIds.length/totalItems*100):0)+'%';
-  document.getElementById('t-util-sub').textContent=wornIds.length+'/'+totalItems+(totalSeasonFilter.length?' (εποχή)':'');
+  document.getElementById('t-util-sub').textContent=wornIds.length+'/'+totalItems;
   const activeCapital=wornItems.reduce((s,i)=>s+(i.price||0),0);
-  const totalCapital=baseItems.reduce((s,i)=>s+(i.price||0),0);
+  const totalCapital=allItems.reduce((s,i)=>s+(i.price||0),0);
   document.getElementById('t-active').textContent='€'+Math.round(activeCapital);
   document.getElementById('t-active-sub').textContent=Math.round(activeCapital/totalCapital*100||0)+'% αξίας';
   document.getElementById('t-dormant').textContent='€'+Math.round(totalCapital-activeCapital);
   document.getElementById('t-dormant-sub').textContent=(totalItems-wornIds.length)+' κομμάτια';
   const wornPrices=wornItems.map(i=>i.price).filter(Boolean);
-  const unwornItems=baseItems.filter(i=>!wornIds.includes(i.id));const unwornPrices=unwornItems.map(i=>i.price).filter(Boolean);
+  const unwornItems=allItems.filter(i=>!wornIds.includes(i.id));const unwornPrices=unwornItems.map(i=>i.price).filter(Boolean);
   document.getElementById('t-cost-worn').textContent=wornPrices.length?'€'+Math.round(wornPrices.reduce((x,y)=>x+y,0)/wornPrices.length):'—';
   document.getElementById('t-cost-unworn').textContent=unwornPrices.length?'€'+Math.round(unwornPrices.reduce((x,y)=>x+y,0)/unwornPrices.length):'—';
   const cpws=wornItems.map(i=>getCPW(i)).filter(v=>v!=null);
@@ -2927,6 +3110,7 @@ function loadPurchasesDash(){
   const faceColors={Good:'#6b9478',Bad:'#b55a4a','Not Sure':'#c4956a'};
   const maxFace=Math.max(...Object.values(faceCounts),1);
   document.getElementById('face-effect-chart').innerHTML=Object.entries(faceCounts).map(([k,v])=>renderHBar(k,v,maxFace,String(v),faceColors[k])).join('');
+  loadFabricStats();
 }
 
 // COMBOS DASH

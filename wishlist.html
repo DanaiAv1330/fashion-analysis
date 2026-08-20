@@ -8,7 +8,6 @@
 <title>Wardrobe Wishlist</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&family=Noto+Serif:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
 <style>
 :root {
   --bg:#f2ede6;--surface:#faf7f2;--surface2:#f5f0e8;--surface3:#eee8de;
@@ -22,6 +21,12 @@
   --red:#8c4a3a;--red-soft:rgba(140,74,58,0.08);--red-text:#7a3020;
   --amber:#9a6a1a;
   --dark:#0a0a0a;
+  /* Priority tier colors */
+  --tier-a:#8c4a3a;--tier-a-soft:rgba(140,74,58,0.09);
+  --tier-b:#b8760a;--tier-b-soft:rgba(184,118,10,0.10);
+  --tier-c:#8a7d6e;--tier-c-soft:rgba(138,125,110,0.09);
+  --tier-d:#7a8ba8;--tier-d-soft:rgba(122,139,168,0.09);
+  --tier-e:#b5a898;--tier-e-soft:rgba(181,168,152,0.10);
   --font-display:'Cormorant Garamond','Noto Serif',Georgia,serif;
   --font-serif:'Cormorant Garamond','Noto Serif',Georgia,serif;
   --font-sans:'Jost','Noto Sans',system-ui,sans-serif;
@@ -52,25 +57,52 @@ body{font-family:var(--font-sans);font-weight:300;background:var(--bg);color:var
 .iform-hint{font-size:9px;color:var(--text-dim);margin-top:3px;letter-spacing:0;}
 .iform-actions{display:flex;gap:8px;justify-content:flex-end;padding-top:14px;border-top:1px solid var(--border);}
 
-/* ── RANK / DRAG REORDER ── */
-.col-rank{display:flex;align-items:center;gap:4px;}
-.drag-handle{cursor:grab;color:var(--text-dim);font-size:14px;line-height:1;padding:4px 2px;user-select:none;touch-action:none;}
-.drag-handle:active{cursor:grabbing;}
-.rank-input{width:30px;font-family:var(--font-serif);font-size:13px;font-weight:500;text-align:center;border:1.5px solid var(--border);background:var(--surface2);color:var(--text);border-radius:3px;padding:3px 0;outline:none;-moz-appearance:textfield;}
-.rank-input::-webkit-outer-spin-button,.rank-input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0;}
-.rank-input:focus{border-color:var(--accent);}
-.card.sortable-ghost{opacity:0.35;}
-.card.sortable-chosen .card-row{background:var(--accent-dim);}
-.reorder-hint{font-size:9px;color:var(--text-dim);padding:6px 12px;font-style:italic;}
-.reorder-hint.disabled{color:var(--accent-dark);}
+/* ── PRIORITY TIER SELECTOR ── */
+.tier-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:4px;}
+@media(max-width:480px){.tier-grid{grid-template-columns:repeat(5,1fr);gap:4px;}}
+.tier-option{cursor:pointer;border:1.5px solid var(--border);background:var(--surface2);padding:10px 4px 9px;border-radius:3px;text-align:center;transition:all 0.18s;position:relative;display:block;}
+.tier-option input{display:none;}
+.tier-option .tier-letter{font-family:var(--font-serif);font-size:20px;font-weight:400;line-height:1;transition:color 0.18s;}
+.tier-option .tier-label{font-size:7.5px;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-muted);margin-top:4px;line-height:1.2;transition:color 0.18s;}
+.tier-option:hover{border-color:var(--text-muted);transform:translateY(-1px);}
+.tier-option.selected{border-width:2.5px;padding:9px 3px 8px;transform:translateY(-2px);box-shadow:0 3px 10px rgba(90,70,40,0.15);}
+.tier-option.selected .tier-letter{font-weight:500;}
+.tier-option.selected .tier-label{font-weight:500;}
+.tier-option.selected::after{content:“✓”;position:absolute;top:-7px;right:-7px;width:18px;height:18px;border-radius:50%;background:#fff;color:var(--text);font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 4px rgba(0,0,0,0.18);border:1.5px solid;}
 
-/* ── CATEGORY / COLOR FILTERS ── */
-.filters-cat,.filters-cat2{padding:8px 14px;display:flex;gap:6px;align-items:center;border-bottom:1px solid var(--border);background:var(--surface2);flex-wrap:wrap;}
-.filters-cat2{background:var(--surface3);padding:6px 14px 8px 26px;}
-.filters-color{padding:8px 14px;display:flex;gap:8px;align-items:center;border-bottom:1px solid var(--border);background:var(--surface2);flex-wrap:wrap;}
-.color-filter-select{font-family:var(--font-sans);font-size:10px;letter-spacing:0.04em;border:1px solid var(--border);background:var(--surface);color:var(--text-muted);padding:5px 9px;border-radius:10px;outline:none;-webkit-appearance:none;}
-.color-filter-select:focus{border-color:var(--accent);}
-.color-swatch-dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;border:1px solid rgba(0,0,0,0.15);vertical-align:-1px;}
+.tier-option[data-tier=“A”].selected{border-color:#8c4a3a;background:#e8c4b8;}
+.tier-option[data-tier=“A”].selected .tier-letter{color:#6b3020;}
+.tier-option[data-tier=“A”].selected .tier-label{color:#8c4a3a;}
+.tier-option[data-tier=“A”].selected::after{color:#8c4a3a;border-color:#8c4a3a;}
+
+.tier-option[data-tier=“B”].selected{border-color:#b8760a;background:#f0d9a8;}
+.tier-option[data-tier=“B”].selected .tier-letter{color:#8a5700;}
+.tier-option[data-tier=“B”].selected .tier-label{color:#b8760a;}
+.tier-option[data-tier=“B”].selected::after{color:#b8760a;border-color:#b8760a;}
+
+.tier-option[data-tier=“C”].selected{border-color:#6b5f52;background:#d8d0c4;}
+.tier-option[data-tier=“C”].selected .tier-letter{color:#4a4038;}
+.tier-option[data-tier=“C”].selected .tier-label{color:#6b5f52;}
+.tier-option[data-tier=“C”].selected::after{color:#6b5f52;border-color:#6b5f52;}
+
+.tier-option[data-tier=“D”].selected{border-color:#5a7090;background:#c8d4e4;}
+.tier-option[data-tier=“D”].selected .tier-letter{color:#3a4a60;}
+.tier-option[data-tier=“D”].selected .tier-label{color:#5a7090;}
+.tier-option[data-tier=“D”].selected::after{color:#5a7090;border-color:#5a7090;}
+
+.tier-option[data-tier=“E”].selected{border-color:#8a7d6e;background:#e0d8cc;}
+.tier-option[data-tier=“E”].selected .tier-letter{color:#4a4038;}
+.tier-option[data-tier=“E”].selected .tier-label{color:#6b5f52;}
+.tier-option[data-tier=“E”].selected::after{color:#8a7d6e;border-color:#8a7d6e;}
+
+/* Tier badges in cards */
+.tier-badge{display:inline-flex;align-items:center;justify-content:center;font-family:var(--font-serif);font-size:11px;font-weight:600;width:22px;height:22px;border-radius:50%;border:2px solid;flex-shrink:0;}
+.tier-badge.A{color:#fff;border-color:#8c4a3a;background:#8c4a3a;}
+.tier-badge.B{color:#fff;border-color:#b8760a;background:#b8760a;}
+.tier-badge.C{color:#fff;border-color:#6b5f52;background:#6b5f52;}
+.tier-badge.D{color:#fff;border-color:#5a7090;background:#5a7090;}
+.tier-badge.E{color:#4a4038;border-color:#8a7d6e;background:#d8d0c4;}
+.tier-badge.none{color:var(--text-dim);border-color:var(--border);background:var(--surface2);font-size:10px;font-weight:400;border-width:1.5px;}
 
 /* ── AUTH SCREEN ── */
 .auth-msg{font-size:11px;text-align:center;padding:8px;border-radius:8px;margin-top:4px;font-family:var(--font-sans);}
@@ -86,8 +118,8 @@ body{font-family:var(--font-sans);font-weight:300;background:var(--bg);color:var
 
 /* ── BUDGET BAR ── */
 .budget-bar{margin:14px 14px 0;background:linear-gradient(135deg,#c4956a 0%,#b58557 100%);border:none;border-radius:10px;padding:16px 18px;color:white;box-shadow:0 4px 14px rgba(196,149,106,0.25);position:relative;overflow:hidden;}
-.budget-bar::before{content:"";position:absolute;right:-40px;top:-40px;width:140px;height:140px;border:1px solid rgba(255,255,255,0.10);border-radius:50%;pointer-events:none;}
-.budget-bar::after{content:"";position:absolute;right:10px;top:10px;width:80px;height:80px;border:1px solid rgba(255,255,255,0.06);border-radius:50%;pointer-events:none;}
+.budget-bar::before{content:””;position:absolute;right:-40px;top:-40px;width:140px;height:140px;border:1px solid rgba(255,255,255,0.10);border-radius:50%;pointer-events:none;}
+.budget-bar::after{content:””;position:absolute;right:10px;top:10px;width:80px;height:80px;border:1px solid rgba(255,255,255,0.06);border-radius:50%;pointer-events:none;}
 @media(min-width:768px){.budget-bar{margin:18px 32px 0;}}
 .budget-bar-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;position:relative;z-index:1;}
 .budget-bar-title{font-family:var(--font-display);font-size:16px;font-weight:400;color:white;}
@@ -161,9 +193,24 @@ body{font-family:var(--font-sans);font-weight:300;background:var(--bg);color:var
 .cat-bar-fill{height:100%;border-radius:3px;background:var(--accent-light);}
 .cat-comment{font-size:10px;color:var(--text-muted);line-height:1.5;font-style:italic;padding-top:6px;border-top:1px solid var(--border-soft);}
 .material-chips-wrap{display:flex;flex-wrap:wrap;gap:5px;margin-top:4px;}
-.mat-chip{font-family:var(--font-sans);font-size:9px;letter-spacing:0.07em;text-transform:uppercase;border:1px solid var(--border);padding:4px 9px;border-radius:10px;cursor:pointer;color:var(--text-muted);transition:all 0.15s;display:flex;align-items:center;gap:4px;}
+.mat-chip{font-family:var(--font-sans);font-size:9px;letter-spacing:0.07em;text-transform:uppercase;border:1px solid var(--border);padding:4px 9px;border-radius:10px;cursor:pointer;color:var(--text-muted);transition:all 0.15s;display:flex;align-items:center;gap:4px;background:none;}
 .mat-chip input{display:none;}
-.mat-chip:has(input:checked){border-color:var(--accent);color:var(--accent);background:var(--accent-dim);}
+.mat-chip.active,.mat-chip:has(input:checked){border-color:var(--accent);color:var(--accent);background:var(--accent-dim);}
+.mat-rows-wrap{margin-top:10px;display:flex;flex-direction:column;gap:6px;}
+.mat-row{display:flex;align-items:center;gap:8px;background:var(--surface2);border:1px solid var(--border);border-radius:2px;padding:6px 9px;}
+.mat-row-name{flex:1;font-size:11px;color:var(--text);}
+.mat-row input[type=number]{width:52px;flex:none;font-size:11px;padding:4px 6px;border:1px solid var(--border);background:var(--surface);border-radius:1px;text-align:right;outline:none;-webkit-appearance:none;}
+.mat-row-pct-sign{font-size:10px;color:var(--text-dim);}
+.mat-row-remove{background:none;border:none;color:var(--text-dim);cursor:pointer;font-size:13px;padding:0 2px;line-height:1;}
+.mat-row-remove:hover{color:var(--red-text);}
+.mat-row-empty{font-size:10px;color:var(--text-dim);padding:4px 0;}
+.mat-total-track{width:100%;height:5px;background:var(--surface3);border-radius:3px;overflow:hidden;margin-top:9px;}
+.mat-total-fill{height:100%;border-radius:3px;background:var(--accent-light);transition:width 0.2s,background 0.2s;}
+.mat-total-fill.complete{background:var(--green);}
+.mat-total-fill.over{background:var(--red);}
+.mat-total-label{font-size:9px;color:var(--text-muted);margin-top:4px;text-align:right;}
+.mat-total-label.complete{color:var(--green-text);}
+.mat-total-label.over{color:var(--red-text);}
 .insight-card{display:flex;align-items:flex-start;gap:10px;padding:10px 13px;background:var(--surface);border:1px solid var(--border);border-radius:2px;margin-bottom:6px;}
 .insight-icon{font-size:16px;flex-shrink:0;margin-top:1px;}
 .insight-msg{font-size:11px;color:var(--text-muted);line-height:1.6;}
@@ -210,12 +257,19 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
 .filter-btn{font-family:var(--font-sans);font-size:9px;letter-spacing:0.08em;text-transform:uppercase;background:none;border:1px solid var(--border);color:var(--text-muted);padding:4px 11px;cursor:pointer;border-radius:10px;transition:all 0.15s;}
 .filter-btn.active,.filter-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-dim);}
 
-
+.filters-tier{padding:8px 14px;display:flex;gap:6px;align-items:center;border-bottom:1px solid var(--border);background:var(--surface2);flex-wrap:wrap;}
+.tier-filter-btn{font-family:var(--font-serif);font-size:12px;font-weight:500;background:var(--surface);border:1.5px solid var(--border);color:var(--text-muted);width:30px;height:30px;cursor:pointer;border-radius:50%;transition:all 0.15s;display:flex;align-items:center;justify-content:center;}
+.tier-filter-btn:hover{transform:translateY(-1px);}
+.tier-filter-btn[data-t=“A”].active,.tier-filter-btn[data-t=“A”]:hover{border-color:#8c4a3a;color:#fff;background:#8c4a3a;}
+.tier-filter-btn[data-t=“B”].active,.tier-filter-btn[data-t=“B”]:hover{border-color:#b8760a;color:#fff;background:#b8760a;}
+.tier-filter-btn[data-t=“C”].active,.tier-filter-btn[data-t=“C”]:hover{border-color:#6b5f52;color:#fff;background:#6b5f52;}
+.tier-filter-btn[data-t=“D”].active,.tier-filter-btn[data-t=“D”]:hover{border-color:#5a7090;color:#fff;background:#5a7090;}
+.tier-filter-btn[data-t=“E”].active,.tier-filter-btn[data-t=“E”]:hover{border-color:#8a7d6e;color:#4a4038;background:#d8d0c4;}
 
 /* ── LIST ── */
 .list-container{padding:14px 14px 60px;max-width:900px;margin:0 auto;}
 @media(min-width:768px){.list-container{padding:18px 32px 60px;}}
-.list-header{display:grid;grid-template-columns:44px 2fr 90px 70px 130px 80px;gap:8px;padding:0 12px 8px;font-size:8px;letter-spacing:0.13em;text-transform:uppercase;color:var(--text-dim);border-bottom:1px solid var(--border);margin-bottom:5px;}
+.list-header{display:grid;grid-template-columns:2fr 90px 70px 130px 80px;gap:8px;padding:0 12px 8px;font-size:8px;letter-spacing:0.13em;text-transform:uppercase;color:var(--text-dim);border-bottom:1px solid var(--border);margin-bottom:5px;}
 @media(max-width:600px){.list-header{display:none;}}
 
 .card{border:1px solid var(--border);border-radius:2px;margin-bottom:6px;background:var(--surface);overflow:hidden;transition:box-shadow 0.2s;cursor:pointer;}
@@ -224,8 +278,8 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
 .card.lightgreen{border-left:3px solid var(--lightgreen);}
 .card.yellow{border-left:3px solid #b8960a;}
 .card.red{border-left:3px solid var(--red);}
-.card-row{display:grid;grid-template-columns:44px 2fr 90px 70px 130px 80px;gap:8px;padding:12px 12px;align-items:center;}
-@media(max-width:600px){.card-row{grid-template-columns:34px 1fr auto auto;gap:6px;}.col-date,.col-cpw{display:none;}.col-price{font-weight:500;}}
+.card-row{display:grid;grid-template-columns:2fr 90px 70px 130px 80px;gap:8px;padding:12px 12px;align-items:center;}
+@media(max-width:600px){.card-row{grid-template-columns:1fr auto;}.col-date,.col-price,.col-cpw{display:none;}}
 .item-name-row{display:flex;align-items:center;gap:8px;}
 .item-name{font-family:var(--font-serif);font-size:14px;font-weight:400;line-height:1.2;}
 .item-sub{font-size:9px;color:var(--text-muted);margin-top:2px;}
@@ -295,7 +349,7 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
 .form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--accent);}
 .form-group textarea{resize:vertical;min-height:52px;}
 .checkbox-row{display:flex;align-items:center;gap:8px;padding:4px 0;}
-.checkbox-row input[type="checkbox"]{width:14px;height:14px;accent-color:var(--accent);cursor:pointer;padding:0;border:none;}
+.checkbox-row input[type=“checkbox”]{width:14px;height:14px;accent-color:var(--accent);cursor:pointer;padding:0;border:none;}
 .checkbox-row label{font-size:11px;letter-spacing:0;text-transform:none;color:var(--text-muted);cursor:pointer;}
 
 /* CPW preview */
@@ -436,32 +490,21 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
   <button class="filter-btn" onclick="setFilter('replacement',this)">🔄 Αντικατάσταση</button>
 </div>
 
-<div class="filters-cat" id="filters-cat">
-  <span class="filter-label">Κατηγορία ·</span>
-  <button class="filter-btn active" data-cat1="all" onclick="setCat1Filter('all',this)">Όλες</button>
-  <button class="filter-btn" data-cat1="Tops" onclick="setCat1Filter('Tops',this)">Tops</button>
-  <button class="filter-btn" data-cat1="Dresses" onclick="setCat1Filter('Dresses',this)">Dresses</button>
-  <button class="filter-btn" data-cat1="Pants" onclick="setCat1Filter('Pants',this)">Pants</button>
-  <button class="filter-btn" data-cat1="Outwear" onclick="setCat1Filter('Outwear',this)">Outwear</button>
-  <button class="filter-btn" data-cat1="Shoes" onclick="setCat1Filter('Shoes',this)">Shoes</button>
-  <button class="filter-btn" data-cat1="Bags" onclick="setCat1Filter('Bags',this)">Bags</button>
-  <button class="filter-btn" data-cat1="Accessories" onclick="setCat1Filter('Accessories',this)">Accessories</button>
-</div>
-<div class="filters-cat2" id="filters-cat2" style="display:none;"></div>
-
-<div class="filters-color">
-  <span class="filter-label">Χρώμα ·</span>
-  <select class="color-filter-select" id="color-filter-select" onchange="setColorFilter(this.value)">
-    <option value="all">Όλα τα χρώματα</option>
-  </select>
+<div class="filters-tier">
+  <span class="filter-label">Προτεραιότητα ·</span>
+  <button class="filter-btn active" onclick="setTierFilter('all',this)" style="font-size:9px;">Όλες</button>
+  <button class="tier-filter-btn" data-t="A" onclick="setTierFilter('A',this)" title="Προτεραιότητα — το χρειάζομαι">A</button>
+  <button class="tier-filter-btn" data-t="B" onclick="setTierFilter('B',this)" title="Σημαντικό">B</button>
+  <button class="tier-filter-btn" data-t="C" onclick="setTierFilter('C',this)" title="Μου αρέσει, το σκέφτομαι">Γ</button>
+  <button class="tier-filter-btn" data-t="D" onclick="setTierFilter('D',this)" title="Το είδα και τρελάθηκα">Δ</button>
+  <button class="tier-filter-btn" data-t="E" onclick="setTierFilter('E',this)" title="Αν περισσέψει budget">E</button>
 </div>
 
 <div class="list-container">
   <div class="list-header">
-    <div></div><div>Αντικείμενο</div><div>Ημερομηνία</div><div>Τιμή</div>
+    <div>Αντικείμενο</div><div>Ημερομηνία</div><div>Τιμή</div>
     <div>CPW / εβδ.</div><div>Status</div>
   </div>
-  <div class="reorder-hint" id="reorder-hint" style="display:none;"></div>
   <div id="items-list">
     <div class="loading"><div class="spinner"></div><br>Φόρτωση...</div>
   </div>
@@ -512,71 +555,122 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
 
         <div class="iform-group">
           <label>Κατηγορία</label>
-          <select id="f-cat1" onchange="updateWishlistCat2()">
+          <select id="f-category">
             <option value="">— Επιλογή —</option>
-            <option>Tops</option>
-            <option>Dresses</option>
-            <option>Pants</option>
-            <option>Outwear</option>
-            <option>Shoes</option>
-            <option>Bags</option>
-            <option>Accessories</option>
+            <optgroup label="Ρούχα">
+              <option>Μπλούζες / Tops</option>
+              <option>Πουκάμισα</option>
+              <option>Φούστες</option>
+              <option>Παντελόνια</option>
+              <option>Φορέματα</option>
+              <option>Πλεκτά / Πουλόβερ</option>
+              <option>Blazers</option>
+              <option>Jackets</option>
+              <option>Ζακέτες / Cardigans</option>
+              <option>Καμπαρντίνες / Trench</option>
+              <option>Παλτά</option>
+              <option>Σετ / Coordinates</option>
+            </optgroup>
+            <optgroup label="Παπούτσια">
+              <option>Sneakers</option>
+              <option>Boots / Booties</option>
+              <option>Flats</option>
+              <option>Sandals</option>
+              <option>Heels</option>
+            </optgroup>
+            <optgroup label="Αξεσουάρ">
+              <option>Τσάντες</option>
+              <option>Γυαλιά ηλίου</option>
+              <option>Πορτοφόλι</option>
+              <option>Κοσμήματα</option>
+              <option>Αξεσουάρ — Other</option>
+            </optgroup>
           </select>
-        </div>
-
-        <div class="iform-group">
-          <label>Υποκατηγορία</label>
-          <select id="f-cat2"><option value="">— Επιλογή Κατηγορίας πρώτα —</option></select>
         </div>
 
         <div class="iform-group">
           <label>Χρώμα</label>
-          <select id="f-color" onchange="handleWishlistColorSelect(this)">
+          <select id="f-color">
             <option value="">— Επιλογή —</option>
+            <optgroup label="Neutrals">
+              <option>Λευκό</option><option>Εκρού / Off-white</option>
+              <option>Beige / Camel</option><option>Γκρι ανοιχτό</option>
+              <option>Γκρι σκούρο</option><option>Μαύρο</option>
+              <option>Καφέ / Ταμπά</option><option>Chocolate</option>
+            </optgroup>
+            <optgroup label="Blues & Greens">
+              <option>Navy</option><option>Μπλε ρουά</option>
+              <option>Γαλάζιο</option><option>Denim</option>
+              <option>Πράσινο σκούρο</option><option>Χακί / Olive</option>
+              <option>Mint / Sage</option>
+            </optgroup>
+            <optgroup label="Reds & Pinks">
+              <option>Κόκκινο</option><option>Burgundy / Μπορντό</option>
+              <option>Ροζ παλ</option><option>Dusty Pink</option>
+              <option>Fuchsia / Hot pink</option>
+              <option>Terracotta / Ώχρα</option><option>Πορτοκαλί</option>
+            </optgroup>
+            <optgroup label="Purples & Yellows">
+              <option>Μωβ / Λιλά</option><option>Κίτρινο / Mustard</option>
+            </optgroup>
+            <optgroup label="Patterns">
+              <option>Ριγέ</option><option>Καρό / Vichy</option>
+              <option>Floral / Print</option><option>Animal print</option>
+              <option>Πολύχρωμο</option>
+            </optgroup>
           </select>
-          <input type="text" id="f-color-other" placeholder="Γράψε χρώμα"
-            style="display:none;margin-top:6px;">
         </div>
 
         <div class="iform-group full">
-          <label>Υλικό <span style="font-weight:300;text-transform:none;letter-spacing:0;font-size:9px;color:var(--text-dim)">(επίλεξε όσα θέλεις)</span></label>
-          <div id="material-chips" class="material-chips-wrap">
-            <label class="mat-chip"><input type="checkbox" value="Βαμβάκι"> Βαμβάκι</label>
-            <label class="mat-chip"><input type="checkbox" value="Λινό"> Λινό</label>
-            <label class="mat-chip"><input type="checkbox" value="Μαλλί"> Μαλλί</label>
-            <label class="mat-chip"><input type="checkbox" value="Κασμίρ"> Κασμίρ</label>
-            <label class="mat-chip"><input type="checkbox" value="Μετάξι"> Μετάξι</label>
-            <label class="mat-chip"><input type="checkbox" value="Σατέν"> Σατέν</label>
-            <label class="mat-chip"><input type="checkbox" value="Δένιμ"> Δένιμ</label>
-            <label class="mat-chip"><input type="checkbox" value="Δέρμα"> Δέρμα</label>
-            <label class="mat-chip"><input type="checkbox" value="Suede"> Suede</label>
-            <label class="mat-chip"><input type="checkbox" value="Πολυεστέρας"> Πολυεστέρας</label>
-            <label class="mat-chip"><input type="checkbox" value="Viscose"> Viscose</label>
-            <label class="mat-chip"><input type="checkbox" value="Νάιλον"> Νάιλον</label>
-            <div id="material-custom-chips"></div>
-          </div>
+          <label>Σύνθεση Υφάσματος <span style="font-weight:300;text-transform:none;letter-spacing:0;font-size:9px;color:var(--text-dim)">(πρόσθεσε υλικά + ποσοστό %, έως 100%)</span></label>
+          <div id="material-chips" class="material-chips-wrap"></div>
           <div style="display:flex;gap:6px;margin-top:6px;align-items:center;">
-            <input type="text" id="f-material-other" placeholder="+ Other υλικό…"
+            <input type="text" id="f-material-other" placeholder="+ Άλλο υλικό…"
               style="flex:1;font-size:11px;padding:5px 8px;border:1px solid var(--border);background:var(--surface2);border-radius:1px;outline:none;"
-              onkeydown="if(event.key==='Enter'){event.preventDefault();addCustomMaterial(this.value);this.value='';}">
+              onkeydown="if(event.key==='Enter'){event.preventDefault();addCustomMaterial(this.value);}">
             <button type="button"
-              onclick="addCustomMaterial(document.getElementById('f-material-other').value);document.getElementById('f-material-other').value='';"
+              onclick="addCustomMaterial(document.getElementById('f-material-other').value);"
               style="font-size:9px;padding:5px 10px;background:none;border:1px solid var(--border);cursor:pointer;border-radius:1px;color:var(--text-muted);">+</button>
           </div>
+          <div id="material-rows" class="mat-rows-wrap"></div>
+          <div class="mat-total-track"><div id="mat-total-fill" class="mat-total-fill"></div></div>
+          <div id="mat-total-label" class="mat-total-label">0% / 100%</div>
           <input type="hidden" id="f-material">
         </div>
       </div>
     </div>
 
     <div class="iform-section">
-      <div class="iform-section-title">Σειρά Προτεραιότητας</div>
-      <div class="iform-grid">
-        <div class="iform-group">
-          <label>Θέση στη λίστα</label>
-          <input type="number" id="f-rank" min="1" placeholder="π.χ. 1">
-          <div class="iform-hint">Άσε το κενό για να πάει στο τέλος της λίστας. Μπορείς πάντα να αλλάξεις τη σειρά μετά σέρνοντας τα αντικείμενα ή γράφοντας νέο νούμερο πάνω στη λίστα.</div>
-        </div>
+      <div class="iform-section-title">Προτεραιότητα Αγοράς</div>
+      <div class="iform-hint" style="margin-bottom:8px;">Πόσο πολύ το θέλεις;</div>
+      <div class="tier-grid">
+        <label class="tier-option" data-tier="A" onclick="selectTier('A')">
+          <input type="radio" name="priority" value="A">
+          <div class="tier-letter">A</div>
+          <div class="tier-label">Προτεραιότητα</div>
+        </label>
+        <label class="tier-option" data-tier="B" onclick="selectTier('B')">
+          <input type="radio" name="priority" value="B">
+          <div class="tier-letter">B</div>
+          <div class="tier-label">Σημαντικό</div>
+        </label>
+        <label class="tier-option" data-tier="C" onclick="selectTier('C')">
+          <input type="radio" name="priority" value="C">
+          <div class="tier-letter">Γ</div>
+          <div class="tier-label">Το σκέφτομαι</div>
+        </label>
+        <label class="tier-option" data-tier="D" onclick="selectTier('D')">
+          <input type="radio" name="priority" value="D">
+          <div class="tier-letter">Δ</div>
+          <div class="tier-label">Τρελάθηκα</div>
+        </label>
+        <label class="tier-option" data-tier="E" onclick="selectTier('E')">
+          <input type="radio" name="priority" value="E">
+          <div class="tier-letter">E</div>
+          <div class="tier-label">Αν περισσέψει</div>
+        </label>
       </div>
+      <div class="iform-hint" id="tier-hint-text" style="margin-top:8px;min-height:15px;"></div>
     </div>
 
     <div class="iform-section">
@@ -830,160 +924,8 @@ const sb = createClient(
 let currentUser = null;
 let allItems = [];
 let currentFilter = 'all';
-let currentCat1Filter = 'all';
-let currentCat2Filter = 'all';
-let currentColorFilter = 'all';
+let currentTierFilter = 'all';
 let editingId = null;
-let sortableInstance = null;
-
-// ── CATEGORY / SUBCATEGORY (matches Wardrobe Tracker) ──
-const CATEGORIES = {
-  'Tops':['Short Sleeve','Long Sleeve','Sleeveless','Special Occasion','Shirts','Hoodies','Sweaters','Cardigans'],
-  'Dresses':['Mini Short Sleeve','Midi / Maxi Short Sleeve','Mini Long Sleeve','Midi / Maxi Long Sleeve','Mini Sleeveless','Midi / Maxi Sleeveless','Special Occasion'],
-  'Pants':['Jeans','Με λάστιχο','Γραφείου','Φόρμες','Skirts'],
-  'Outwear':['Coats','Trench Coats','Blazer','Fleece Jackets','Zip Up Hoodies','Parkas','Puffer Jackets'],
-  'Shoes':['Sneakers','Flats','Heels','Sandals','Slides','Boots','Combat Boots','Loafers'],
-  'Bags':['Tote Bag','Crossbody','Backpack','Clutch'],
-  'Accessories':['Κοσμήματα','Γυαλιά ηλίου','Ζώνες','Πορτοφόλια']
-};
-// ── COLORS (matches Wardrobe Tracker) ──
-const COLOR_HEX={'White':'#F5F5F0','Beige':'#D4B88A','Black':'#1A1A1A','Navy':'#1B2A4A','Camel':'#C9A96E','Chocolate Brown':'#4A2C17','Brown':'#7A5230','Olive':'#7A7A45','Grey (Light)':'#C4C4C0','Grey (Mid)':'#8B8B88','Grey (Charcoal)':'#6B6B6B','Grey':'#9B9B98','Burgundy':'#6D1A2A','Red':'#C0392B','Mint':'#9DC4B0','Mushroom':'#B5A898','Sand':'#D4C4A8','Cobalt':'#1E3A8A','Powder Blue':'#7EB8D4','Emerald':'#2D7A4A','Hunter Green':'#2D5A27','Hot Pink':'#D5006D','Pink':'#E89AB0','Rose Gold':'#E8B4B8','Coral':'#C4673A','Aubergine':'#5C2E5C','Purple':'#7E4FA8','Lilac':'#B98FD9','Off-White/Ivory':'#EDE8DC','Gold':'#B8860B','Yellow':'#E8C547','Orange':'#E07A3C','Green':'#5A8C5A','Blue':'#3A6EA5','Turquoise':'#3FB8B0','Silver':'#C8C8CC'};
-
-function updateWishlistCat2(currentVal) {
-  const cat1 = document.getElementById('f-cat1').value;
-  const cat2Sel = document.getElementById('f-cat2');
-  if (!cat1 || !CATEGORIES[cat1]) { cat2Sel.innerHTML = '<option value="">— Επιλογή Κατηγορίας πρώτα —</option>'; return; }
-  cat2Sel.innerHTML = '<option value="">— Επιλογή —</option>' + CATEGORIES[cat1].map(s => `<option>${escHtml(s)}</option>`).join('');
-  if (currentVal && CATEGORIES[cat1].includes(currentVal)) cat2Sel.value = currentVal;
-}
-
-function getWishlistColorOptions() {
-  const fromHex = Object.keys(COLOR_HEX);
-  const fromItems = allItems.map(i => i.color).filter(Boolean);
-  return [...new Set([...fromHex, ...fromItems])].sort((a, b) => a.localeCompare(b));
-}
-function populateWishlistColorDropdown(currentVal) {
-  const sel = document.getElementById('f-color'); if (!sel) return;
-  const opts = getWishlistColorOptions();
-  sel.innerHTML = '<option value="">— Επιλογή —</option>' + opts.map(c => `<option value="${escHtml(c)}">${escHtml(c)}</option>`).join('') + '<option value="__other__">✏️ Άλλο…</option>';
-  const other = document.getElementById('f-color-other');
-  if (currentVal && opts.includes(currentVal)) { sel.value = currentVal; other.style.display = 'none'; other.value = ''; }
-  else if (currentVal) { sel.value = '__other__'; other.style.display = 'block'; other.value = currentVal; }
-  else { sel.value = ''; other.style.display = 'none'; other.value = ''; }
-}
-function handleWishlistColorSelect(sel) {
-  const other = document.getElementById('f-color-other');
-  if (sel.value === '__other__') { other.style.display = 'block'; other.focus(); }
-  else { other.style.display = 'none'; other.value = ''; }
-}
-function getWishlistColorValue() {
-  const sel = document.getElementById('f-color');
-  if (sel.value === '__other__') return document.getElementById('f-color-other').value.trim() || null;
-  return sel.value || null;
-}
-
-function populateColorFilterDropdown() {
-  const sel = document.getElementById('color-filter-select'); if (!sel) return;
-  const used = [...new Set(allItems.map(i => i.color).filter(Boolean))].sort((a, b) => a.localeCompare(b));
-  sel.innerHTML = '<option value="all">Όλα τα χρώματα</option>' + used.map(c => `<option value="${escHtml(c)}">${COLOR_HEX[c] ? '● ' : ''}${escHtml(c)}</option>`).join('');
-  sel.value = currentColorFilter;
-}
-
-function setCat1Filter(cat1, btn) {
-  currentCat1Filter = cat1;
-  currentCat2Filter = 'all';
-  document.querySelectorAll('#filters-cat .filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  const cat2Wrap = document.getElementById('filters-cat2');
-  if (cat1 === 'all' || !CATEGORIES[cat1]) {
-    cat2Wrap.style.display = 'none'; cat2Wrap.innerHTML = '';
-  } else {
-    cat2Wrap.style.display = 'flex';
-    cat2Wrap.innerHTML = `<button class="filter-btn active" onclick="setCat2Filter('all',this)">Όλες οι υποκατηγορίες</button>` +
-      CATEGORIES[cat1].map(s => `<button class="filter-btn" onclick="setCat2Filter('${escHtml(s)}',this)">${escHtml(s)}</button>`).join('');
-  }
-  renderItems();
-}
-function setCat2Filter(cat2, btn) {
-  currentCat2Filter = cat2;
-  document.querySelectorAll('#filters-cat2 .filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  renderItems();
-}
-function setColorFilter(color) {
-  currentColorFilter = color;
-  renderItems();
-}
-
-// ── RANK HELPERS ──
-function normalizeRanksLocal() {
-  const sorted = [...allItems].sort((a, b) => {
-    const ra = (a.rank === null || a.rank === undefined) ? Infinity : a.rank;
-    const rb = (b.rank === null || b.rank === undefined) ? Infinity : b.rank;
-    if (ra !== rb) return ra - rb;
-    return new Date(a.created_at) - new Date(b.created_at);
-  });
-  const updates = [];
-  sorted.forEach((item, idx) => {
-    const newRank = idx + 1;
-    if (item.rank !== newRank) { item.rank = newRank; updates.push({ id: item.id, rank: newRank }); }
-  });
-  allItems = sorted;
-  return updates;
-}
-async function persistRankUpdates(updates) {
-  if (!updates || !updates.length) return;
-  await Promise.all(updates.map(u => sb.from('wishlist').update({ rank: u.rank }).eq('id', u.id)));
-}
-async function changeRank(id, newValStr) {
-  const total = allItems.length;
-  let newRank = parseInt(newValStr, 10);
-  if (!newRank || isNaN(newRank)) { renderItems(); return; }
-  newRank = Math.min(Math.max(1, newRank), total);
-  const item = allItems.find(i => String(i.id) === String(id));
-  if (!item) return;
-  const oldRank = item.rank;
-  if (newRank === oldRank) return;
-  if (newRank < oldRank) {
-    allItems.forEach(i => { if (i.id !== item.id && i.rank >= newRank && i.rank < oldRank) i.rank++; });
-  } else {
-    allItems.forEach(i => { if (i.id !== item.id && i.rank <= newRank && i.rank > oldRank) i.rank--; });
-  }
-  item.rank = newRank;
-  renderItems();
-  const updates = allItems.map(i => ({ id: i.id, rank: i.rank }));
-  await persistRankUpdates(updates);
-}
-function isReorderEnabled() {
-  return currentFilter === 'all' && currentCat1Filter === 'all' && currentCat2Filter === 'all' && currentColorFilter === 'all';
-}
-function initSortableList() {
-  const el = document.getElementById('items-list');
-  const hint = document.getElementById('reorder-hint');
-  if (sortableInstance) { sortableInstance.destroy(); sortableInstance = null; }
-  if (!el || !allItems.length) { if (hint) hint.style.display = 'none'; return; }
-  if (!isReorderEnabled()) {
-    if (hint) { hint.style.display = 'block'; hint.classList.add('disabled'); hint.textContent = '↕️ Καθάρισε τα φίλτρα για να αλλάξεις τη σειρά προτεραιότητας'; }
-    return;
-  }
-  if (hint) { hint.style.display = 'block'; hint.classList.remove('disabled'); hint.textContent = '↕️ Σύρε ένα αντικείμενο (⠿) ή γράψε νέο νούμερο για να αλλάξεις τη σειρά'; }
-  if (typeof Sortable === 'undefined') return;
-  sortableInstance = Sortable.create(el, {
-    handle: '.drag-handle',
-    animation: 150,
-    draggable: '.card',
-    onEnd: async function () {
-      const ids = [...el.querySelectorAll('.card')].map(c => c.dataset.id);
-      ids.forEach((id, idx) => {
-        const item = allItems.find(i => String(i.id) === id);
-        if (item) item.rank = idx + 1;
-      });
-      renderItems();
-      const updates = allItems.map(i => ({ id: i.id, rank: i.rank }));
-      await persistRankUpdates(updates);
-    }
-  });
-}
 
 let budgetMap = {};
 
@@ -1263,9 +1205,6 @@ async function loadItems() {
   const { data, error } = await sb.from('wishlist').select('*').eq('purchased', false).order('created_at', { ascending: false });
   if (error) { showToast('Σφάλμα φόρτωσης'); return; }
   allItems = data || [];
-  const rankUpdates = normalizeRanksLocal();
-  await persistRankUpdates(rankUpdates);
-  populateColorFilterDropdown();
   renderItems();
   updateStats();
   await loadPurchasesSilent();
@@ -1278,6 +1217,33 @@ async function loadPurchasesSilent() {
   purchasedItems = data || [];
 }
 
+// ── TIER HELPERS ──
+const TIER_INFO = {
+  A: { label: 'Προτεραιότητα', full: 'A — Προτεραιότητα', hint: 'Το χρειάζομαι — πρέπει να το πάρω.' },
+  B: { label: 'Σημαντικό', full: 'B — Σημαντικό', hint: 'Σημαντικό αλλά όχι επείγον.' },
+  C: { label: 'Το σκέφτομαι', full: 'Γ — Το σκέφτομαι', hint: 'Μου αρέσει, το σκέφτομαι.' },
+  D: { label: 'Τρελάθηκα', full: 'Δ — Τρελάθηκα', hint: 'Το είδα μόλις και τρελάθηκα — αλλά δεν ξέρω αν θα το θέλω αύριο.' },
+  E: { label: 'Αν περισσέψει', full: 'E — Αν περισσέψει budget', hint: 'Αν περισσέψει budget θα το ήθελα.' },
+};
+const TIER_DISPLAY = { A: 'A', B: 'B', C: 'Γ', D: 'Δ', E: 'E' };
+
+function tierBadgeHtml(tier) {
+  if (!tier) return `<span class="tier-badge none" title="Δεν έχει οριστεί">–</span>`;
+  return `<span class="tier-badge ${tier}" title="${TIER_INFO[tier].full}">${TIER_DISPLAY[tier]}</span>`;
+}
+
+function selectTier(tier) {
+  document.querySelectorAll('.tier-option').forEach(opt => opt.classList.remove('selected'));
+  const picked = document.querySelector(`.tier-option[data-tier="${tier}"]`);
+  if (picked) {
+    picked.classList.add('selected');
+    const radio = picked.querySelector('input[type="radio"]');
+    if (radio) radio.checked = true;
+  }
+  const hintEl = document.getElementById('tier-hint-text');
+  if (hintEl && TIER_INFO[tier]) hintEl.textContent = '→ ' + TIER_INFO[tier].hint;
+}
+
 // ── RENDER ──
 function renderItems() {
   const list = document.getElementById('items-list');
@@ -1288,28 +1254,26 @@ function renderItems() {
   else if (currentFilter === 'red') items = items.filter(i => getStatus(i) === 'red');
   else if (currentFilter === 'replacement') items = items.filter(i => i.is_replacement);
 
-  if (currentCat1Filter !== 'all') items = items.filter(i => i.category === currentCat1Filter);
-  if (currentCat2Filter !== 'all') items = items.filter(i => i.subcategory === currentCat2Filter);
-  if (currentColorFilter !== 'all') items = items.filter(i => i.color === currentColorFilter);
+  if (currentTierFilter !== 'all') {
+    items = items.filter(i => i.priority === currentTierFilter);
+  }
 
+  const tierOrder = { A: 1, B: 2, C: 3, D: 4, E: 5 };
   items.sort((a, b) => {
-    const ra = (a.rank === null || a.rank === undefined) ? 999 : a.rank;
-    const rb = (b.rank === null || b.rank === undefined) ? 999 : b.rank;
-    if (ra !== rb) return ra - rb;
+    const ta = tierOrder[a.priority] || 99;
+    const tb = tierOrder[b.priority] || 99;
+    if (ta !== tb) return ta - tb;
     return new Date(b.created_at) - new Date(a.created_at);
   });
 
-  const noFilters = currentFilter === 'all' && currentCat1Filter === 'all' && currentCat2Filter === 'all' && currentColorFilter === 'all';
   if (!items.length) {
     list.innerHTML = `<div class="empty-state">
       <div class="empty-title">Καμία εγγραφή</div>
-      <div class="empty-sub">${noFilters ? 'Πρόσθεσε το πρώτο σου wishlist item!' : 'Δεν υπάρχουν αντικείμενα με αυτά τα φίλτρα.'}</div>
+      <div class="empty-sub">${currentFilter === 'all' && currentTierFilter === 'all' ? 'Πρόσθεσε το πρώτο σου wishlist item!' : 'Δεν υπάρχουν αντικείμενα με αυτά τα φίλτρα.'}</div>
     </div>`;
-    initSortableList();
     return;
   }
   list.innerHTML = items.map(item => renderCard(item)).join('');
-  initSortableList();
 }
 
 // ── STATUS LOGIC (with new Well Thought tier) ──
@@ -1403,21 +1367,15 @@ function renderCard(item) {
     }
   }
 
-  const rankDisplay = item.rank || '—';
   return `
-  <div class="card ${status}" id="card-${item.id}" data-id="${item.id}" onclick="toggleCard('${item.id}')">
+  <div class="card ${status}" id="card-${item.id}" onclick="toggleCard('${item.id}')">
     <div class="card-row">
-      <div class="col-rank" onclick="event.stopPropagation()">
-        <span class="drag-handle" title="Σύρε για αλλαγή σειράς">⠿</span>
-        <input type="number" class="rank-input" value="${rankDisplay}" min="1" max="${allItems.length}"
-          onclick="event.stopPropagation()" onfocus="event.stopPropagation()"
-          onchange="changeRank('${item.id}', this.value)">
-      </div>
       <div>
         <div class="item-name-row">
+          ${tierBadgeHtml(item.priority)}
           <div class="item-name">${escHtml(item.title)}</div>
         </div>
-        <div class="item-sub">${[item.brand, item.category, item.subcategory, item.color, item.material].filter(Boolean).join(' · ') || '—'}</div>
+        <div class="item-sub">${[item.brand, item.category, item.color, formatMaterialDisplay(item.material)].filter(Boolean).join(' · ') || '—'}</div>
         ${item.is_replacement ? '<span class="badge-repl">Αντικατάσταση</span>' : ''}
       </div>
       <div class="col-date">${formatDate(item.created_at)}</div>
@@ -1427,12 +1385,11 @@ function renderCard(item) {
     </div>
     <div class="card-detail">
       <div class="detail-grid">
-        <div class="detail-item"><label>Σειρά προτεραιότητας</label><value>${item.rank ? '#' + item.rank : '—'}</value></div>
+        ${item.priority ? `<div class="detail-item"><label>Προτεραιότητα</label><value>${TIER_INFO[item.priority].full}</value></div>` : ''}
         ${item.brand ? `<div class="detail-item"><label>Μάρκα</label><value>${escHtml(item.brand)}</value></div>` : ''}
         ${item.category ? `<div class="detail-item"><label>Κατηγορία</label><value>${escHtml(item.category)}</value></div>` : ''}
-        ${item.subcategory ? `<div class="detail-item"><label>Υποκατηγορία</label><value>${escHtml(item.subcategory)}</value></div>` : ''}
         ${item.color ? `<div class="detail-item"><label>Χρώμα</label><value>${escHtml(item.color)}</value></div>` : ''}
-        ${item.material ? `<div class="detail-item"><label>Υλικό</label><value>${escHtml(item.material)}</value></div>` : ''}
+        ${item.material ? `<div class="detail-item"><label>Σύνθεση Υφάσματος</label><value>${escHtml(formatMaterialDisplay(item.material))}</value></div>` : ''}
         ${item.sleeve_length ? `<div class="detail-item"><label>Μανίκι</label><value>${escHtml(item.sleeve_length)}</value></div>` : ''}
         ${item.neckline ? `<div class="detail-item"><label>Λαιμόκοψη</label><value>${escHtml(item.neckline)}</value></div>` : ''}
         ${item.item_length ? `<div class="detail-item"><label>Μήκος</label><value>${escHtml(item.item_length)}</value></div>` : ''}
@@ -1482,6 +1439,13 @@ function setFilter(f, btn) {
   renderItems();
 }
 
+function setTierFilter(t, btn) {
+  currentTierFilter = t;
+  document.querySelectorAll('.filters-tier .filter-btn, .filters-tier .tier-filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderItems();
+}
+
 function toggleCard(id) {
   const card = document.getElementById('card-' + id);
   document.querySelectorAll('.card.open').forEach(c => { if (c !== card) c.classList.remove('open'); });
@@ -1518,17 +1482,18 @@ function openInlineForm(item = null) {
   editingId = item ? item.id : null;
   document.getElementById('inline-form-title').innerHTML = item ? 'Επεξεργασία <em>Εγγραφής</em>' : 'Νέα <em>Εγγραφή</em>';
 
-  ['f-title','f-sleeve','f-neckline','f-length','f-season',
-   'f-price','f-cpw-cat','f-times','f-link','f-outfit1','f-outfit2','f-outfit3','f-notes','f-entry-date','f-rank'].forEach(id => {
+  ['f-title','f-category','f-color','f-sleeve','f-neckline','f-length','f-season',
+   'f-price','f-cpw-cat','f-times','f-link','f-outfit1','f-outfit2','f-outfit3','f-notes','f-entry-date'].forEach(id => {
     const el = document.getElementById(id); if (el) el.value = '';
   });
-  document.getElementById('f-cat1').value = '';
-  updateWishlistCat2();
-  populateWishlistColorDropdown(null);
   document.getElementById('f-replacement').checked = false;
   document.getElementById('f-brand').value = '';
   document.getElementById('f-brand-other').style.display = 'none';
   document.getElementById('f-brand-other').value = '';
+  document.querySelectorAll('input[name="priority"]').forEach(r => r.checked = false);
+  document.querySelectorAll('.tier-option').forEach(opt => opt.classList.remove('selected'));
+  const tierHint = document.getElementById('tier-hint-text');
+  if (tierHint) tierHint.textContent = '';
   resetMaterialChips();
   renderUniformSelector(item?.uniform_ids || []);
   ['cpw-val','cpw-target','cpw-needed'].forEach(id => {
@@ -1544,9 +1509,8 @@ function openInlineForm(item = null) {
       if (match) { bSel.value = item.brand; }
       else { addCustomBrand(item.brand); bSel.value = item.brand; }
     }
-    document.getElementById('f-cat1').value = (item.category && CATEGORIES[item.category]) ? item.category : '';
-    updateWishlistCat2(item.subcategory || '');
-    populateWishlistColorDropdown(item.color || null);
+    document.getElementById('f-category').value = item.category || '';
+    document.getElementById('f-color').value = item.color || '';
     if (item.material) fillMaterialChips(item.material);
     document.getElementById('f-sleeve').value = item.sleeve_length || '';
     document.getElementById('f-neckline').value = item.neckline || '';
@@ -1561,7 +1525,7 @@ function openInlineForm(item = null) {
     document.getElementById('f-outfit3').value = item.outfit_3 || '';
     document.getElementById('f-notes').value = item.notes || '';
     document.getElementById('f-replacement').checked = item.is_replacement || false;
-    document.getElementById('f-rank').value = item.rank || '';
+    if (item.priority) selectTier(item.priority);
     if (item.created_at) document.getElementById('f-entry-date').value = item.created_at.split('T')[0];
     calcCPW();
   }
@@ -1636,58 +1600,170 @@ function initCustomBrands() {
   });
 }
 
-// ── MATERIAL CHIPS ──
+// ── FABRIC COMPOSITION (Σύνθεση Υφάσματος) ──
+// Canonical fabric names — MUST stay identical (spelling/order) to wardrobe-tracker.html
+// so values match across the two apps.
+const FABRIC_OPTIONS = ['Βαμβάκι','Λινό','Μαλλί','Κασμίρ','Μοχέρ','Μετάξι','Σατέν','Βελούδο',
+  'Δένιμ','Δέρμα','Suede','Πολυεστέρας','Viscose','Modal','Νάιλον','Ελαστάνη / Spandex','Ακρυλικό','Δαντέλα'];
 let customMaterials = JSON.parse(localStorage.getItem('wb_materials') || '[]');
+let materialRows = []; // [{name, pct}]
 
 function initMaterialChips() {
-  const wrap = document.getElementById('material-custom-chips');
+  const wrap = document.getElementById('material-chips');
   if (!wrap) return;
-  customMaterials.forEach(val => {
-    if (!document.querySelector(`#material-chips input[value="${CSS.escape(val)}"]`)) {
-      const lbl = document.createElement('label');
-      lbl.className = 'mat-chip';
-      lbl.innerHTML = `<input type="checkbox" value="${escHtml(val)}"> ${escHtml(val)}`;
-      wrap.appendChild(lbl);
-    }
+  wrap.innerHTML = '';
+  FABRIC_OPTIONS.forEach(name => {
+    const btn = document.createElement('button');
+    btn.type = 'button'; btn.className = 'mat-chip'; btn.dataset.mat = name; btn.textContent = name;
+    btn.addEventListener('click', () => addMaterialFromChip(name));
+    wrap.appendChild(btn);
   });
-  document.getElementById('material-chips').addEventListener('change', syncMaterialHidden);
+  customMaterials.forEach(val => {
+    if (FABRIC_OPTIONS.includes(val)) return;
+    if (wrap.querySelector(`.mat-chip[data-mat="${CSS.escape(val)}"]`)) return;
+    const btn = document.createElement('button');
+    btn.type = 'button'; btn.className = 'mat-chip'; btn.dataset.mat = val; btn.textContent = val;
+    btn.addEventListener('click', () => addMaterialFromChip(val));
+    wrap.appendChild(btn);
+  });
 }
 
 function addCustomMaterial(val) {
   val = val.trim();
   if (!val) return;
-  const allCbs = [...document.querySelectorAll('#material-chips input[type=checkbox]')];
-  const existing = allCbs.find(cb => cb.value === val);
-  if (existing) { existing.checked = true; syncMaterialHidden(); return; }
-  if (!customMaterials.includes(val)) { customMaterials.push(val); localStorage.setItem('wb_materials', JSON.stringify(customMaterials)); }
-  const wrap = document.getElementById('material-custom-chips');
-  const lbl = document.createElement('label');
-  lbl.className = 'mat-chip';
-  lbl.innerHTML = `<input type="checkbox" value="${escHtml(val)}" checked> ${escHtml(val)}`;
-  lbl.querySelector('input').addEventListener('change', syncMaterialHidden);
-  wrap.appendChild(lbl);
+  if (!FABRIC_OPTIONS.includes(val) && !customMaterials.includes(val)) {
+    customMaterials.push(val);
+    localStorage.setItem('wb_materials', JSON.stringify(customMaterials));
+    const wrap = document.getElementById('material-chips');
+    const btn = document.createElement('button');
+    btn.type = 'button'; btn.className = 'mat-chip'; btn.dataset.mat = val; btn.textContent = val;
+    btn.addEventListener('click', () => addMaterialFromChip(val));
+    wrap.appendChild(btn);
+  }
+  addMaterialFromChip(val);
+  document.getElementById('f-material-other').value = '';
+}
+
+function addMaterialFromChip(name) {
+  if (!materialRows.find(r => r.name === name)) {
+    materialRows.push({ name, pct: null });
+    renderMaterialRows();
+  }
+}
+
+function removeMaterialRow(name) {
+  materialRows = materialRows.filter(r => r.name !== name);
+  renderMaterialRows();
+}
+
+function updateMaterialPct(name, val) {
+  const row = materialRows.find(r => r.name === name);
+  if (!row) return;
+  let n = parseFloat(val);
+  if (isNaN(n)) n = null;
+  else n = Math.max(0, Math.min(100, n));
+  row.pct = n;
+  renderMaterialTotal();
   syncMaterialHidden();
+}
+
+function renderMaterialRows() {
+  document.querySelectorAll('#material-chips .mat-chip').forEach(btn => {
+    btn.classList.toggle('active', materialRows.some(r => r.name === btn.dataset.mat));
+  });
+  const wrap = document.getElementById('material-rows');
+  wrap.innerHTML = '';
+  if (!materialRows.length) {
+    wrap.innerHTML = '<div class="mat-row-empty">Επίλεξε υλικά από τις επιλογές πάνω…</div>';
+  } else {
+    materialRows.forEach(r => {
+      const row = document.createElement('div'); row.className = 'mat-row';
+      const nameSpan = document.createElement('span'); nameSpan.className = 'mat-row-name'; nameSpan.textContent = r.name;
+      const pctInput = document.createElement('input');
+      pctInput.type = 'number'; pctInput.min = '0'; pctInput.max = '100'; pctInput.step = '1'; pctInput.placeholder = '%';
+      pctInput.value = (r.pct === null || r.pct === undefined) ? '' : r.pct;
+      pctInput.addEventListener('input', () => updateMaterialPct(r.name, pctInput.value));
+      const sign = document.createElement('span'); sign.className = 'mat-row-pct-sign'; sign.textContent = '%';
+      const rm = document.createElement('button'); rm.type = 'button'; rm.className = 'mat-row-remove'; rm.textContent = '✕';
+      rm.addEventListener('click', () => removeMaterialRow(r.name));
+      row.append(nameSpan, pctInput, sign, rm);
+      wrap.appendChild(row);
+    });
+  }
+  renderMaterialTotal();
+  syncMaterialHidden();
+}
+
+function renderMaterialTotal() {
+  const total = materialRows.reduce((s, r) => s + (r.pct || 0), 0);
+  const fill = document.getElementById('mat-total-fill');
+  const label = document.getElementById('mat-total-label');
+  if (!fill || !label) return;
+  fill.style.width = Math.min(100, total) + '%';
+  fill.classList.remove('complete', 'over');
+  label.classList.remove('complete', 'over');
+  if (total > 100) { fill.classList.add('over'); label.classList.add('over'); label.textContent = `${total}% — ξεπερνά το 100%`; }
+  else if (total === 100) { fill.classList.add('complete'); label.classList.add('complete'); label.textContent = `100% ✓ Ολοκληρώθηκε`; }
+  else { label.textContent = `${total}% / 100%`; }
 }
 
 function syncMaterialHidden() {
-  const checked = [...document.querySelectorAll('#material-chips input[type=checkbox]:checked')].map(c => c.value);
-  document.getElementById('f-material').value = checked.join(', ');
+  const valid = materialRows.filter(r => r.name);
+  document.getElementById('f-material').value = valid.length ? JSON.stringify(valid) : '';
 }
 
 function resetMaterialChips() {
-  document.querySelectorAll('#material-chips input[type=checkbox]').forEach(cb => cb.checked = false);
-  document.getElementById('f-material').value = '';
+  materialRows = [];
+  renderMaterialRows();
+}
+
+function parseLegacyMaterialSegment(seg) {
+  seg = String(seg || '').trim();
+  if (!seg) return null;
+  const m = seg.match(/(\d{1,3}(?:[.,]\d+)?)\s*%/);
+  let pct = null, name = seg;
+  if (m) {
+    pct = parseFloat(m[1].replace(',', '.'));
+    name = seg.replace(m[0], '').trim().replace(/^[-–—:\/]+|[-–—:\/]+$/g, '').trim();
+  }
+  return name ? { name, pct } : null;
 }
 
 function fillMaterialChips(val) {
-  if (!val) return;
-  const parts = val.split(',').map(s => s.trim()).filter(Boolean);
-  parts.forEach(p => {
-    const cb = document.querySelector(`#material-chips input[type=checkbox][value="${CSS.escape(p)}"]`);
-    if (cb) { cb.checked = true; }
-    else { addCustomMaterial(p); }
-  });
-  syncMaterialHidden();
+  materialRows = [];
+  if (val) {
+    try {
+      const parsed = JSON.parse(val);
+      if (Array.isArray(parsed)) {
+        materialRows = parsed.map(p => ({ name: p.name, pct: (p.pct === undefined || p.pct === null) ? null : p.pct }));
+      }
+    } catch (e) {
+      // legacy free-text value (π.χ. "Βαμβάκι 80%, Ελαστάνη-20%") — ανακτά όνομα + ποσοστό ανά κομμάτι
+      val.split(',').map(s => s.trim()).filter(Boolean).forEach(seg => {
+        const p = parseLegacyMaterialSegment(seg);
+        if (p) materialRows.push(p);
+      });
+    }
+    let addedNew = false;
+    materialRows.forEach(r => {
+      if (!FABRIC_OPTIONS.includes(r.name) && !customMaterials.includes(r.name)) {
+        customMaterials.push(r.name); addedNew = true;
+      }
+    });
+    if (addedNew) { localStorage.setItem('wb_materials', JSON.stringify(customMaterials)); initMaterialChips(); }
+  }
+  renderMaterialRows();
+}
+
+function formatMaterialDisplay(raw) {
+  if (!raw) return '';
+  try {
+    const parsed = JSON.parse(raw);
+    if (Array.isArray(parsed)) {
+      return parsed.map(p => (p.pct !== null && p.pct !== undefined) ? `${p.name} ${p.pct}%` : p.name).join(' · ');
+    }
+  } catch (e) {}
+  return raw;
 }
 
 // ── SAVE ITEM ──
@@ -1700,16 +1776,14 @@ async function saveItem() {
 
   syncMaterialHidden();
   const entryDateVal = document.getElementById('f-entry-date').value;
-  const requestedRankVal = document.getElementById('f-rank').value;
-  const requestedRank = requestedRankVal ? parseInt(requestedRankVal, 10) : null;
+  const priorityRadio = document.querySelector('input[name="priority"]:checked');
 
   const payload = {
     user_id: currentUser.id,
     title,
     brand: getBrandValue(),
-    category: document.getElementById('f-cat1').value || null,
-    subcategory: document.getElementById('f-cat2').value || null,
-    color: getWishlistColorValue(),
+    category: document.getElementById('f-category').value || null,
+    color: document.getElementById('f-color').value || null,
     material: document.getElementById('f-material').value.trim() || null,
     uniform_ids: getSelectedUniformIds(),
     sleeve_length: document.getElementById('f-sleeve').value || null,
@@ -1725,17 +1799,13 @@ async function saveItem() {
     outfit_3: document.getElementById('f-outfit3').value.trim() || null,
     notes: document.getElementById('f-notes').value.trim() || null,
     is_replacement: document.getElementById('f-replacement').checked,
+    priority: priorityRadio ? priorityRadio.value : null,
     ...(entryDateVal ? { created_at: new Date(entryDateVal).toISOString() } : {}),
   };
 
-  let error, savedId = editingId;
-  if (editingId) {
-    ({ error } = await sb.from('wishlist').update(payload).eq('id', editingId));
-  } else {
-    const { data, error: insErr } = await sb.from('wishlist').insert(payload).select().single();
-    error = insErr;
-    savedId = data ? data.id : null;
-  }
+  let error;
+  if (editingId) ({ error } = await sb.from('wishlist').update(payload).eq('id', editingId));
+  else ({ error } = await sb.from('wishlist').insert(payload));
 
   btn.disabled = false; btn.textContent = 'Αποθήκευση';
   if (error) { showToast('Σφάλμα αποθήκευσης: ' + error.message); return; }
@@ -1743,10 +1813,6 @@ async function saveItem() {
   closeModal();
   showToast(editingId ? '✓ Αποθηκεύτηκε' : '✓ Προστέθηκε στη wishlist');
   await loadItems();
-
-  if (savedId && requestedRank && requestedRank >= 1) {
-    await changeRank(savedId, requestedRank);
-  }
 }
 
 function editItem(id) {
@@ -2078,7 +2144,8 @@ function renderPurchases() {
   document.getElementById('purch-list').innerHTML=filtered.length
     ?filtered.map(item=>{
       const{cls,label}=BADGE[getPurchCat(item)]||BADGE.impulse;
-      return`<div class="purch-row"><div class="purch-row-body"><div class="purch-row-name">${escHtml(item.title)}</div><div class="purch-row-meta">${[item.brand,item.category,item.purchased_at?fmtDateShort(item.purchased_at):''].filter(Boolean).join(' · ')}</div></div><div class="purch-row-right"><div class="purch-row-price">${item.price?`€${item.price}`:'—'}</div><span class="purch-badge ${cls}">${label}</span></div></div>`;
+      const tierBdg = item.priority ? tierBadgeHtml(item.priority) : '';
+      return`<div class="purch-row"><div class="purch-row-body"><div class="purch-row-name">${tierBdg}${escHtml(item.title)}</div><div class="purch-row-meta">${[item.brand,item.category,item.purchased_at?fmtDateShort(item.purchased_at):''].filter(Boolean).join(' · ')}</div></div><div class="purch-row-right"><div class="purch-row-price">${item.price?`€${item.price}`:'—'}</div><span class="purch-badge ${cls}">${label}</span></div></div>`;
     }).join('')
     :'<div style="color:var(--text-dim);font-size:11px;padding:8px 0">Καμία αγορά σε αυτή την κατηγορία</div>';
 }

@@ -161,9 +161,24 @@ body{font-family:var(--font-sans);font-weight:300;background:var(--bg);color:var
 .cat-bar-fill{height:100%;border-radius:3px;background:var(--accent-light);}
 .cat-comment{font-size:10px;color:var(--text-muted);line-height:1.5;font-style:italic;padding-top:6px;border-top:1px solid var(--border-soft);}
 .material-chips-wrap{display:flex;flex-wrap:wrap;gap:5px;margin-top:4px;}
-.mat-chip{font-family:var(--font-sans);font-size:9px;letter-spacing:0.07em;text-transform:uppercase;border:1px solid var(--border);padding:4px 9px;border-radius:10px;cursor:pointer;color:var(--text-muted);transition:all 0.15s;display:flex;align-items:center;gap:4px;}
+.mat-chip{font-family:var(--font-sans);font-size:9px;letter-spacing:0.07em;text-transform:uppercase;border:1px solid var(--border);padding:4px 9px;border-radius:10px;cursor:pointer;color:var(--text-muted);transition:all 0.15s;display:flex;align-items:center;gap:4px;background:none;}
 .mat-chip input{display:none;}
-.mat-chip:has(input:checked){border-color:var(--accent);color:var(--accent);background:var(--accent-dim);}
+.mat-chip.active,.mat-chip:has(input:checked){border-color:var(--accent);color:var(--accent);background:var(--accent-dim);}
+.mat-rows-wrap{margin-top:10px;display:flex;flex-direction:column;gap:6px;}
+.mat-row{display:flex;align-items:center;gap:8px;background:var(--surface2);border:1px solid var(--border);border-radius:2px;padding:6px 9px;}
+.mat-row-name{flex:1;font-size:11px;color:var(--text);}
+.mat-row input[type=number]{width:52px;flex:none;font-size:11px;padding:4px 6px;border:1px solid var(--border);background:var(--surface);border-radius:1px;text-align:right;outline:none;-webkit-appearance:none;}
+.mat-row-pct-sign{font-size:10px;color:var(--text-dim);}
+.mat-row-remove{background:none;border:none;color:var(--text-dim);cursor:pointer;font-size:13px;padding:0 2px;line-height:1;}
+.mat-row-remove:hover{color:var(--red-text);}
+.mat-row-empty{font-size:10px;color:var(--text-dim);padding:4px 0;}
+.mat-total-track{width:100%;height:5px;background:var(--surface3);border-radius:3px;overflow:hidden;margin-top:9px;}
+.mat-total-fill{height:100%;border-radius:3px;background:var(--accent-light);transition:width 0.2s,background 0.2s;}
+.mat-total-fill.complete{background:var(--green);}
+.mat-total-fill.over{background:var(--red);}
+.mat-total-label{font-size:9px;color:var(--text-muted);margin-top:4px;text-align:right;}
+.mat-total-label.complete{color:var(--green-text);}
+.mat-total-label.over{color:var(--red-text);}
 .insight-card{display:flex;align-items:flex-start;gap:10px;padding:10px 13px;background:var(--surface);border:1px solid var(--border);border-radius:2px;margin-bottom:6px;}
 .insight-icon{font-size:16px;flex-shrink:0;margin-top:1px;}
 .insight-msg{font-size:11px;color:var(--text-muted);line-height:1.6;}
@@ -539,30 +554,19 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
         </div>
 
         <div class="iform-group full">
-          <label>Υλικό <span style="font-weight:300;text-transform:none;letter-spacing:0;font-size:9px;color:var(--text-dim)">(επίλεξε όσα θέλεις)</span></label>
-          <div id="material-chips" class="material-chips-wrap">
-            <label class="mat-chip"><input type="checkbox" value="Βαμβάκι"> Βαμβάκι</label>
-            <label class="mat-chip"><input type="checkbox" value="Λινό"> Λινό</label>
-            <label class="mat-chip"><input type="checkbox" value="Μαλλί"> Μαλλί</label>
-            <label class="mat-chip"><input type="checkbox" value="Κασμίρ"> Κασμίρ</label>
-            <label class="mat-chip"><input type="checkbox" value="Μετάξι"> Μετάξι</label>
-            <label class="mat-chip"><input type="checkbox" value="Σατέν"> Σατέν</label>
-            <label class="mat-chip"><input type="checkbox" value="Δένιμ"> Δένιμ</label>
-            <label class="mat-chip"><input type="checkbox" value="Δέρμα"> Δέρμα</label>
-            <label class="mat-chip"><input type="checkbox" value="Suede"> Suede</label>
-            <label class="mat-chip"><input type="checkbox" value="Πολυεστέρας"> Πολυεστέρας</label>
-            <label class="mat-chip"><input type="checkbox" value="Viscose"> Viscose</label>
-            <label class="mat-chip"><input type="checkbox" value="Νάιλον"> Νάιλον</label>
-            <div id="material-custom-chips"></div>
-          </div>
+          <label>Σύνθεση Υφάσματος <span style="font-weight:300;text-transform:none;letter-spacing:0;font-size:9px;color:var(--text-dim)">(πρόσθεσε υλικά + ποσοστό %, έως 100%)</span></label>
+          <div id="material-chips" class="material-chips-wrap"></div>
           <div style="display:flex;gap:6px;margin-top:6px;align-items:center;">
-            <input type="text" id="f-material-other" placeholder="+ Other υλικό…"
+            <input type="text" id="f-material-other" placeholder="+ Άλλο υλικό…"
               style="flex:1;font-size:11px;padding:5px 8px;border:1px solid var(--border);background:var(--surface2);border-radius:1px;outline:none;"
-              onkeydown="if(event.key==='Enter'){event.preventDefault();addCustomMaterial(this.value);this.value='';}">
+              onkeydown="if(event.key==='Enter'){event.preventDefault();addCustomMaterial(this.value);}">
             <button type="button"
-              onclick="addCustomMaterial(document.getElementById('f-material-other').value);document.getElementById('f-material-other').value='';"
+              onclick="addCustomMaterial(document.getElementById('f-material-other').value);"
               style="font-size:9px;padding:5px 10px;background:none;border:1px solid var(--border);cursor:pointer;border-radius:1px;color:var(--text-muted);">+</button>
           </div>
+          <div id="material-rows" class="mat-rows-wrap"></div>
+          <div class="mat-total-track"><div id="mat-total-fill" class="mat-total-fill"></div></div>
+          <div id="mat-total-label" class="mat-total-label">0% / 100%</div>
           <input type="hidden" id="f-material">
         </div>
       </div>
@@ -1417,7 +1421,7 @@ function renderCard(item) {
         <div class="item-name-row">
           <div class="item-name">${escHtml(item.title)}</div>
         </div>
-        <div class="item-sub">${[item.brand, item.category, item.subcategory, item.color, item.material].filter(Boolean).join(' · ') || '—'}</div>
+        <div class="item-sub">${[item.brand, item.category, item.subcategory, item.color, formatMaterialDisplay(item.material)].filter(Boolean).join(' · ') || '—'}</div>
         ${item.is_replacement ? '<span class="badge-repl">Αντικατάσταση</span>' : ''}
       </div>
       <div class="col-date">${formatDate(item.created_at)}</div>
@@ -1432,7 +1436,7 @@ function renderCard(item) {
         ${item.category ? `<div class="detail-item"><label>Κατηγορία</label><value>${escHtml(item.category)}</value></div>` : ''}
         ${item.subcategory ? `<div class="detail-item"><label>Υποκατηγορία</label><value>${escHtml(item.subcategory)}</value></div>` : ''}
         ${item.color ? `<div class="detail-item"><label>Χρώμα</label><value>${escHtml(item.color)}</value></div>` : ''}
-        ${item.material ? `<div class="detail-item"><label>Υλικό</label><value>${escHtml(item.material)}</value></div>` : ''}
+        ${item.material ? `<div class="detail-item"><label>Σύνθεση Υφάσματος</label><value>${escHtml(formatMaterialDisplay(item.material))}</value></div>` : ''}
         ${item.sleeve_length ? `<div class="detail-item"><label>Μανίκι</label><value>${escHtml(item.sleeve_length)}</value></div>` : ''}
         ${item.neckline ? `<div class="detail-item"><label>Λαιμόκοψη</label><value>${escHtml(item.neckline)}</value></div>` : ''}
         ${item.item_length ? `<div class="detail-item"><label>Μήκος</label><value>${escHtml(item.item_length)}</value></div>` : ''}
@@ -1636,58 +1640,170 @@ function initCustomBrands() {
   });
 }
 
-// ── MATERIAL CHIPS ──
+// ── FABRIC COMPOSITION (Σύνθεση Υφάσματος) ──
+// Canonical fabric names — MUST stay identical (spelling/order) to wardrobe-tracker.html
+// so values match across the two apps.
+const FABRIC_OPTIONS = ['Βαμβάκι','Λινό','Μαλλί','Κασμίρ','Μοχέρ','Μετάξι','Σατέν','Βελούδο',
+  'Δένιμ','Δέρμα','Suede','Πολυεστέρας','Viscose','Modal','Νάιλον','Ελαστάνη / Spandex','Ακρυλικό','Δαντέλα'];
 let customMaterials = JSON.parse(localStorage.getItem('wb_materials') || '[]');
+let materialRows = []; // [{name, pct}]
 
 function initMaterialChips() {
-  const wrap = document.getElementById('material-custom-chips');
+  const wrap = document.getElementById('material-chips');
   if (!wrap) return;
-  customMaterials.forEach(val => {
-    if (!document.querySelector(`#material-chips input[value="${CSS.escape(val)}"]`)) {
-      const lbl = document.createElement('label');
-      lbl.className = 'mat-chip';
-      lbl.innerHTML = `<input type="checkbox" value="${escHtml(val)}"> ${escHtml(val)}`;
-      wrap.appendChild(lbl);
-    }
+  wrap.innerHTML = '';
+  FABRIC_OPTIONS.forEach(name => {
+    const btn = document.createElement('button');
+    btn.type = 'button'; btn.className = 'mat-chip'; btn.dataset.mat = name; btn.textContent = name;
+    btn.addEventListener('click', () => addMaterialFromChip(name));
+    wrap.appendChild(btn);
   });
-  document.getElementById('material-chips').addEventListener('change', syncMaterialHidden);
+  customMaterials.forEach(val => {
+    if (FABRIC_OPTIONS.includes(val)) return;
+    if (wrap.querySelector(`.mat-chip[data-mat="${CSS.escape(val)}"]`)) return;
+    const btn = document.createElement('button');
+    btn.type = 'button'; btn.className = 'mat-chip'; btn.dataset.mat = val; btn.textContent = val;
+    btn.addEventListener('click', () => addMaterialFromChip(val));
+    wrap.appendChild(btn);
+  });
 }
 
 function addCustomMaterial(val) {
   val = val.trim();
   if (!val) return;
-  const allCbs = [...document.querySelectorAll('#material-chips input[type=checkbox]')];
-  const existing = allCbs.find(cb => cb.value === val);
-  if (existing) { existing.checked = true; syncMaterialHidden(); return; }
-  if (!customMaterials.includes(val)) { customMaterials.push(val); localStorage.setItem('wb_materials', JSON.stringify(customMaterials)); }
-  const wrap = document.getElementById('material-custom-chips');
-  const lbl = document.createElement('label');
-  lbl.className = 'mat-chip';
-  lbl.innerHTML = `<input type="checkbox" value="${escHtml(val)}" checked> ${escHtml(val)}`;
-  lbl.querySelector('input').addEventListener('change', syncMaterialHidden);
-  wrap.appendChild(lbl);
+  if (!FABRIC_OPTIONS.includes(val) && !customMaterials.includes(val)) {
+    customMaterials.push(val);
+    localStorage.setItem('wb_materials', JSON.stringify(customMaterials));
+    const wrap = document.getElementById('material-chips');
+    const btn = document.createElement('button');
+    btn.type = 'button'; btn.className = 'mat-chip'; btn.dataset.mat = val; btn.textContent = val;
+    btn.addEventListener('click', () => addMaterialFromChip(val));
+    wrap.appendChild(btn);
+  }
+  addMaterialFromChip(val);
+  document.getElementById('f-material-other').value = '';
+}
+
+function addMaterialFromChip(name) {
+  if (!materialRows.find(r => r.name === name)) {
+    materialRows.push({ name, pct: null });
+    renderMaterialRows();
+  }
+}
+
+function removeMaterialRow(name) {
+  materialRows = materialRows.filter(r => r.name !== name);
+  renderMaterialRows();
+}
+
+function updateMaterialPct(name, val) {
+  const row = materialRows.find(r => r.name === name);
+  if (!row) return;
+  let n = parseFloat(val);
+  if (isNaN(n)) n = null;
+  else n = Math.max(0, Math.min(100, n));
+  row.pct = n;
+  renderMaterialTotal();
   syncMaterialHidden();
+}
+
+function renderMaterialRows() {
+  document.querySelectorAll('#material-chips .mat-chip').forEach(btn => {
+    btn.classList.toggle('active', materialRows.some(r => r.name === btn.dataset.mat));
+  });
+  const wrap = document.getElementById('material-rows');
+  wrap.innerHTML = '';
+  if (!materialRows.length) {
+    wrap.innerHTML = '<div class="mat-row-empty">Επίλεξε υλικά από τις επιλογές πάνω…</div>';
+  } else {
+    materialRows.forEach(r => {
+      const row = document.createElement('div'); row.className = 'mat-row';
+      const nameSpan = document.createElement('span'); nameSpan.className = 'mat-row-name'; nameSpan.textContent = r.name;
+      const pctInput = document.createElement('input');
+      pctInput.type = 'number'; pctInput.min = '0'; pctInput.max = '100'; pctInput.step = '1'; pctInput.placeholder = '%';
+      pctInput.value = (r.pct === null || r.pct === undefined) ? '' : r.pct;
+      pctInput.addEventListener('input', () => updateMaterialPct(r.name, pctInput.value));
+      const sign = document.createElement('span'); sign.className = 'mat-row-pct-sign'; sign.textContent = '%';
+      const rm = document.createElement('button'); rm.type = 'button'; rm.className = 'mat-row-remove'; rm.textContent = '✕';
+      rm.addEventListener('click', () => removeMaterialRow(r.name));
+      row.append(nameSpan, pctInput, sign, rm);
+      wrap.appendChild(row);
+    });
+  }
+  renderMaterialTotal();
+  syncMaterialHidden();
+}
+
+function renderMaterialTotal() {
+  const total = materialRows.reduce((s, r) => s + (r.pct || 0), 0);
+  const fill = document.getElementById('mat-total-fill');
+  const label = document.getElementById('mat-total-label');
+  if (!fill || !label) return;
+  fill.style.width = Math.min(100, total) + '%';
+  fill.classList.remove('complete', 'over');
+  label.classList.remove('complete', 'over');
+  if (total > 100) { fill.classList.add('over'); label.classList.add('over'); label.textContent = `${total}% — ξεπερνά το 100%`; }
+  else if (total === 100) { fill.classList.add('complete'); label.classList.add('complete'); label.textContent = `100% ✓ Ολοκληρώθηκε`; }
+  else { label.textContent = `${total}% / 100%`; }
 }
 
 function syncMaterialHidden() {
-  const checked = [...document.querySelectorAll('#material-chips input[type=checkbox]:checked')].map(c => c.value);
-  document.getElementById('f-material').value = checked.join(', ');
+  const valid = materialRows.filter(r => r.name);
+  document.getElementById('f-material').value = valid.length ? JSON.stringify(valid) : '';
 }
 
 function resetMaterialChips() {
-  document.querySelectorAll('#material-chips input[type=checkbox]').forEach(cb => cb.checked = false);
-  document.getElementById('f-material').value = '';
+  materialRows = [];
+  renderMaterialRows();
+}
+
+function parseLegacyMaterialSegment(seg) {
+  seg = String(seg || '').trim();
+  if (!seg) return null;
+  const m = seg.match(/(\d{1,3}(?:[.,]\d+)?)\s*%/);
+  let pct = null, name = seg;
+  if (m) {
+    pct = parseFloat(m[1].replace(',', '.'));
+    name = seg.replace(m[0], '').trim().replace(/^[-–—:\/]+|[-–—:\/]+$/g, '').trim();
+  }
+  return name ? { name, pct } : null;
 }
 
 function fillMaterialChips(val) {
-  if (!val) return;
-  const parts = val.split(',').map(s => s.trim()).filter(Boolean);
-  parts.forEach(p => {
-    const cb = document.querySelector(`#material-chips input[type=checkbox][value="${CSS.escape(p)}"]`);
-    if (cb) { cb.checked = true; }
-    else { addCustomMaterial(p); }
-  });
-  syncMaterialHidden();
+  materialRows = [];
+  if (val) {
+    try {
+      const parsed = JSON.parse(val);
+      if (Array.isArray(parsed)) {
+        materialRows = parsed.map(p => ({ name: p.name, pct: (p.pct === undefined || p.pct === null) ? null : p.pct }));
+      }
+    } catch (e) {
+      // legacy free-text value (π.χ. "Βαμβάκι 80%, Ελαστάνη-20%") — ανακτά όνομα + ποσοστό ανά κομμάτι
+      val.split(',').map(s => s.trim()).filter(Boolean).forEach(seg => {
+        const p = parseLegacyMaterialSegment(seg);
+        if (p) materialRows.push(p);
+      });
+    }
+    let addedNew = false;
+    materialRows.forEach(r => {
+      if (!FABRIC_OPTIONS.includes(r.name) && !customMaterials.includes(r.name)) {
+        customMaterials.push(r.name); addedNew = true;
+      }
+    });
+    if (addedNew) { localStorage.setItem('wb_materials', JSON.stringify(customMaterials)); initMaterialChips(); }
+  }
+  renderMaterialRows();
+}
+
+function formatMaterialDisplay(raw) {
+  if (!raw) return '';
+  try {
+    const parsed = JSON.parse(raw);
+    if (Array.isArray(parsed)) {
+      return parsed.map(p => (p.pct !== null && p.pct !== undefined) ? `${p.name} ${p.pct}%` : p.name).join(' · ');
+    }
+  } catch (e) {}
+  return raw;
 }
 
 // ── SAVE ITEM ──

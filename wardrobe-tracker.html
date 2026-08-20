@@ -912,6 +912,13 @@ body{padding-bottom:0;}
             <button onclick="changeDashMonth(1)">›</button>
           </div>
         </div>
+        <div class="toolbar-row" id="month-season-filter" style="margin-bottom:10px;flex-wrap:wrap;">
+          <span style="font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-dim);flex-shrink:0;">🌤 Εποχή:</span>
+          <button class="chip active" data-season="" onclick="toggleSeasonChip(this,'month')">Όλα</button>
+          <button class="chip" data-season="Άνοιξη / Καλοκαίρι" onclick="toggleSeasonChip(this,'month')">☀️ Άνοιξη/Καλοκαίρι</button>
+          <button class="chip" data-season="Φθινόπωρο / Χειμώνας" onclick="toggleSeasonChip(this,'month')">❄️ Φθιν./Χειμώνας</button>
+          <button class="chip" data-season="4 εποχές" onclick="toggleSeasonChip(this,'month')">🔁 4 εποχές</button>
+        </div>
         <div class="kpi-grid">
           <div class="kpi-card good-k"><div class="kpi-label">Utilization Rate</div><div class="kpi-value" id="kpi-util">—</div><div class="kpi-sub" id="kpi-util-sub">—</div></div>
           <div class="kpi-card good-k"><div class="kpi-label">Active Capital μήνα</div><div class="kpi-value" id="kpi-active">—</div><div class="kpi-sub" id="kpi-active-sub">αξία φορεμένων</div></div>
@@ -978,6 +985,13 @@ body{padding-bottom:0;}
           <span class="range-label">Από</span><input type="month" class="range-input" id="range-from" onchange="loadTotalDash()">
           <span style="color:var(--text-dim);font-size:10px;">→</span>
           <input type="month" class="range-input" id="range-to" onchange="loadTotalDash()">
+        </div>
+        <div class="toolbar-row" id="total-season-filter" style="margin-bottom:10px;flex-wrap:wrap;">
+          <span style="font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-dim);flex-shrink:0;">🌤 Εποχή:</span>
+          <button class="chip active" data-season="" onclick="toggleSeasonChip(this,'total')">Όλα</button>
+          <button class="chip" data-season="Άνοιξη / Καλοκαίρι" onclick="toggleSeasonChip(this,'total')">☀️ Άνοιξη/Καλοκαίρι</button>
+          <button class="chip" data-season="Φθινόπωρο / Χειμώνας" onclick="toggleSeasonChip(this,'total')">❄️ Φθιν./Χειμώνας</button>
+          <button class="chip" data-season="4 εποχές" onclick="toggleSeasonChip(this,'total')">🔁 4 εποχές</button>
         </div>
         <div class="kpi-grid">
           <div class="kpi-card good-k"><div class="kpi-label">Utilization Rate</div><div class="kpi-value" id="t-util">—</div><div class="kpi-sub" id="t-util-sub">—</div></div>
@@ -1491,6 +1505,7 @@ let feelingFilter='', faceFilter='', portfolioFilter='', occasionFilter='';
 let scoreComponentFilter='', scoreBucketFilter='';
 let calYear=new Date().getFullYear(), calMonth=new Date().getMonth(), selectedDate=todayStr(), selectedDateLogs=[];
 let dashYear=new Date().getFullYear(), dashMonth=new Date().getMonth();
+let monthSeasonFilter=[], totalSeasonFilter=[];
 let archivedItems=[];
 let outfitUniforms=[];
 let colorFilter='';
@@ -1669,6 +1684,17 @@ function syncMaterialHidden(){
   if(el)el.value=valid.length?JSON.stringify(valid):'';
 }
 function resetMaterialChips(){materialRows=[];renderMaterialRows();}
+function parseLegacyMaterialSegment(seg){
+  seg=String(seg||'').trim();
+  if(!seg)return null;
+  const m=seg.match(/(\d{1,3}(?:[.,]\d+)?)\s*%/);
+  let pct=null,name=seg;
+  if(m){
+    pct=parseFloat(m[1].replace(',','.'));
+    name=seg.replace(m[0],'').trim().replace(/^[-–—:\/]+|[-–—:\/]+$/g,'').trim();
+  }
+  return name?{name,pct}:null;
+}
 function fillMaterialChips(val){
   materialRows=[];
   if(val){
@@ -1676,7 +1702,11 @@ function fillMaterialChips(val){
       const parsed=JSON.parse(val);
       if(Array.isArray(parsed))materialRows=parsed.map(p=>({name:p.name,pct:(p.pct===undefined||p.pct===null)?null:p.pct}));
     }catch(e){
-      val.split(',').map(s=>s.trim()).filter(Boolean).forEach(name=>materialRows.push({name,pct:null}));
+      // legacy free-text value (π.χ. "Βαμβάκι 80%, Ελαστάνη-20%") — ανακτά όνομα + ποσοστό ανά κομμάτι
+      val.split(',').map(s=>s.trim()).filter(Boolean).forEach(seg=>{
+        const p=parseLegacyMaterialSegment(seg);
+        if(p)materialRows.push(p);
+      });
     }
     let addedNew=false;
     materialRows.forEach(r=>{
@@ -1700,7 +1730,8 @@ function parseMaterialComposition(raw){
     const parsed=JSON.parse(raw);
     if(Array.isArray(parsed))return parsed.filter(p=>p&&p.name);
   }catch(e){}
-  return[]; // legacy plain-text values have no % breakdown — excluded from fabric stats until re-saved
+  // legacy free-text value — ανακτά ό,τι ποσοστά υπάρχουν ώστε να μπουν κι αυτά στα στατιστικά
+  return raw.split(',').map(s=>parseLegacyMaterialSegment(s)).filter(p=>p&&p.name);
 }
 const FABRIC_CLASS={
   'Βαμβάκι':'natural','Λινό':'natural','Μαλλί':'natural','Κασμίρ':'natural','Μοχέρ':'natural','Μετάξι':'natural','Δένιμ':'natural',
@@ -2856,6 +2887,24 @@ async function confirmPickItems(){
 async function removeWearLog(id,e){e.stopPropagation();await sb.from('wear_log').delete().eq('id',id);await loadAllLogs();renderCalendar();renderWardrobe();}
 
 // DASHBOARD HELPERS
+function toggleSeasonChip(btn,scope){
+  const containerId=scope==='month'?'month-season-filter':'total-season-filter';
+  const container=document.getElementById(containerId);
+  const allChip=container.querySelector('.chip[data-season=""]');
+  const season=btn.dataset.season;
+  if(season===''){
+    container.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+    allChip.classList.add('active');
+  }else{
+    allChip.classList.remove('active');
+    btn.classList.toggle('active');
+    const activeCount=container.querySelectorAll('.chip.active').length;
+    if(activeCount===0)allChip.classList.add('active');
+  }
+  const active=[...container.querySelectorAll('.chip.active')].map(c=>c.dataset.season).filter(Boolean);
+  if(scope==='month'){monthSeasonFilter=active;loadMonthDash();}
+  else{totalSeasonFilter=active;loadTotalDash();}
+}
 function getAvgAgeMonths(items){
   const ages=items.filter(i=>i.purchased_at).map(i=>(new Date()-new Date(i.purchased_at))/(30.44*24*3600*1000));
   return ages.length?ages.reduce((x,y)=>x+y,0)/ages.length:null;
@@ -2872,21 +2921,23 @@ function selectDashMonth(val){const[y,m]=val.split('-').map(Number);dashYear=y;d
 function loadMonthDash(){
   buildMonthSelect();
   document.getElementById('dash-month-label').textContent=fmtMonthYear(dashYear,dashMonth);
-  const monthLogs=wearLogs.filter(l=>{const d=new Date(l.worn_date);return d.getFullYear()===dashYear&&d.getMonth()===dashMonth;});
+  const baseItems=monthSeasonFilter.length?allItems.filter(i=>monthSeasonFilter.includes(i.season)):allItems;
+  const baseIds=new Set(baseItems.map(i=>i.id));
+  const monthLogs=wearLogs.filter(l=>{const d=new Date(l.worn_date);return d.getFullYear()===dashYear&&d.getMonth()===dashMonth&&baseIds.has(l.wardrobe_item_id);});
   const wornIds=[...new Set(monthLogs.map(l=>l.wardrobe_item_id))];
   const wornItems=wornIds.map(id=>allItems.find(i=>i.id===id)).filter(Boolean);
-  const totalItems=allItems.length;
+  const totalItems=baseItems.length;
   const util=totalItems?Math.round(wornIds.length/totalItems*100):0;
   document.getElementById('kpi-util').textContent=util+'%';
-  document.getElementById('kpi-util-sub').textContent=wornIds.length+'/'+totalItems+' κομμάτια';
+  document.getElementById('kpi-util-sub').textContent=wornIds.length+'/'+totalItems+' κομμάτια'+(monthSeasonFilter.length?' (εποχή)':'');
   const activeCapital=wornItems.reduce((s,i)=>s+(i.price||0),0);
-  const totalCapital=allItems.reduce((s,i)=>s+(i.price||0),0);
+  const totalCapital=baseItems.reduce((s,i)=>s+(i.price||0),0);
   document.getElementById('kpi-active').textContent='€'+Math.round(activeCapital);
   document.getElementById('kpi-active-sub').textContent=Math.round(activeCapital/totalCapital*100||0)+'% αξίας';
   document.getElementById('kpi-dormant').textContent='€'+Math.round(totalCapital-activeCapital);
   document.getElementById('kpi-dormant-sub').textContent=(totalItems-wornIds.length)+' κομμάτια';
   const wornPrices=wornItems.map(i=>i.price).filter(Boolean);
-  const unwornItems=allItems.filter(i=>!wornIds.includes(i.id));
+  const unwornItems=baseItems.filter(i=>!wornIds.includes(i.id));
   const unwornPrices=unwornItems.map(i=>i.price).filter(Boolean);
   document.getElementById('kpi-cost-worn').textContent=wornPrices.length?'€'+Math.round(wornPrices.reduce((x,y)=>x+y,0)/wornPrices.length):'—';
   document.getElementById('kpi-cost-unworn').textContent=unwornPrices.length?'€'+Math.round(unwornPrices.reduce((x,y)=>x+y,0)/unwornPrices.length):'—';
@@ -2942,20 +2993,22 @@ function loadTotalDash(){
   const fromV=document.getElementById('range-from').value,toV=document.getElementById('range-to').value;
   if(!fromV||!toV)return;
   const fromD=fromV+'-01';const[ty,tm]=toV.split('-').map(Number);const toD=`${ty}-${String(tm).padStart(2,'0')}-${new Date(ty,tm,0).getDate()}`;
-  const logs=wearLogs.filter(l=>l.worn_date>=fromD&&l.worn_date<=toD);
+  const baseItems=totalSeasonFilter.length?allItems.filter(i=>totalSeasonFilter.includes(i.season)):allItems;
+  const baseIds=new Set(baseItems.map(i=>i.id));
+  const logs=wearLogs.filter(l=>l.worn_date>=fromD&&l.worn_date<=toD&&baseIds.has(l.wardrobe_item_id));
   const wornIds=[...new Set(logs.map(l=>l.wardrobe_item_id))];
   const wornItems=wornIds.map(id=>allItems.find(i=>i.id===id)).filter(Boolean);
-  const totalItems=allItems.length;
+  const totalItems=baseItems.length;
   document.getElementById('t-util').textContent=(totalItems?Math.round(wornIds.length/totalItems*100):0)+'%';
-  document.getElementById('t-util-sub').textContent=wornIds.length+'/'+totalItems;
+  document.getElementById('t-util-sub').textContent=wornIds.length+'/'+totalItems+(totalSeasonFilter.length?' (εποχή)':'');
   const activeCapital=wornItems.reduce((s,i)=>s+(i.price||0),0);
-  const totalCapital=allItems.reduce((s,i)=>s+(i.price||0),0);
+  const totalCapital=baseItems.reduce((s,i)=>s+(i.price||0),0);
   document.getElementById('t-active').textContent='€'+Math.round(activeCapital);
   document.getElementById('t-active-sub').textContent=Math.round(activeCapital/totalCapital*100||0)+'% αξίας';
   document.getElementById('t-dormant').textContent='€'+Math.round(totalCapital-activeCapital);
   document.getElementById('t-dormant-sub').textContent=(totalItems-wornIds.length)+' κομμάτια';
   const wornPrices=wornItems.map(i=>i.price).filter(Boolean);
-  const unwornItems=allItems.filter(i=>!wornIds.includes(i.id));const unwornPrices=unwornItems.map(i=>i.price).filter(Boolean);
+  const unwornItems=baseItems.filter(i=>!wornIds.includes(i.id));const unwornPrices=unwornItems.map(i=>i.price).filter(Boolean);
   document.getElementById('t-cost-worn').textContent=wornPrices.length?'€'+Math.round(wornPrices.reduce((x,y)=>x+y,0)/wornPrices.length):'—';
   document.getElementById('t-cost-unworn').textContent=unwornPrices.length?'€'+Math.round(unwornPrices.reduce((x,y)=>x+y,0)/unwornPrices.length):'—';
   const cpws=wornItems.map(i=>getCPW(i)).filter(v=>v!=null);

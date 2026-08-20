@@ -172,6 +172,9 @@ body{font-family:var(--font-sans);font-weight:300;background:var(--bg);color:var
 .mat-row-remove{background:none;border:none;color:var(--text-dim);cursor:pointer;font-size:13px;padding:0 2px;line-height:1;}
 .mat-row-remove:hover{color:var(--red-text);}
 .mat-row-empty{font-size:10px;color:var(--text-dim);padding:4px 0;}
+.mat-row-note{margin-top:-2px;}
+.mat-row-note input{width:100%;font-size:10px;padding:5px 8px;border:1px solid var(--border);background:var(--surface);border-radius:1px;outline:none;color:var(--text-muted);}
+.mat-row-note input:focus{border-color:var(--accent);color:var(--text);}
 .mat-total-track{width:100%;height:5px;background:var(--surface3);border-radius:3px;overflow:hidden;margin-top:9px;}
 .mat-total-fill{height:100%;border-radius:3px;background:var(--accent-light);transition:width 0.2s,background 0.2s;}
 .mat-total-fill.complete{background:var(--green);}
@@ -554,16 +557,8 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
         </div>
 
         <div class="iform-group full">
-          <label>Σύνθεση Υφάσματος <span style="font-weight:300;text-transform:none;letter-spacing:0;font-size:9px;color:var(--text-dim)">(πρόσθεσε υλικά + ποσοστό %, έως 100%)</span></label>
+          <label>Σύνθεση Υφάσματος <span style="font-weight:300;text-transform:none;letter-spacing:0;font-size:9px;color:var(--text-dim)">(πρόσθεσε υλικά + ποσοστό %, έως 100%. Αν κάτι δεν καλύπτεται, διάλεξε «Άλλο»)</span></label>
           <div id="material-chips" class="material-chips-wrap"></div>
-          <div style="display:flex;gap:6px;margin-top:6px;align-items:center;">
-            <input type="text" id="f-material-other" placeholder="+ Άλλο υλικό…"
-              style="flex:1;font-size:11px;padding:5px 8px;border:1px solid var(--border);background:var(--surface2);border-radius:1px;outline:none;"
-              onkeydown="if(event.key==='Enter'){event.preventDefault();addCustomMaterial(this.value);}">
-            <button type="button"
-              onclick="addCustomMaterial(document.getElementById('f-material-other').value);"
-              style="font-size:9px;padding:5px 10px;background:none;border:1px solid var(--border);cursor:pointer;border-radius:1px;color:var(--text-muted);">+</button>
-          </div>
           <div id="material-rows" class="mat-rows-wrap"></div>
           <div class="mat-total-track"><div id="mat-total-fill" class="mat-total-fill"></div></div>
           <div id="mat-total-label" class="mat-total-label">0% / 100%</div>
@@ -1641,12 +1636,11 @@ function initCustomBrands() {
 }
 
 // ── FABRIC COMPOSITION (Σύνθεση Υφάσματος) ──
-// Canonical fabric names — MUST stay identical (spelling/order) to wardrobe-tracker.html
-// so values match across the two apps.
+// Κλειστό λεξιλόγιο — MUST stay identical (spelling/order) to wardrobe-tracker.html
+// so values match across the two apps. "Άλλο" is the only catch-all (no free-text add).
 const FABRIC_OPTIONS = ['Βαμβάκι','Λινό','Μαλλί','Κασμίρ','Μοχέρ','Μετάξι','Σατέν','Βελούδο',
-  'Δένιμ','Δέρμα','Suede','Πολυεστέρας','Viscose','Modal','Νάιλον','Ελαστάνη / Spandex','Ακρυλικό','Δαντέλα'];
-let customMaterials = JSON.parse(localStorage.getItem('wb_materials') || '[]');
-let materialRows = []; // [{name, pct}]
+  'Δένιμ','Δέρμα','Suede','Πολυεστέρας','Viscose','Modal','Lyocell / Tencel','Νάιλον','Ελαστάνη / Spandex','Ακρυλικό','Δαντέλα','Άλλο'];
+let materialRows = []; // [{name, pct, note?}]
 
 function initMaterialChips() {
   const wrap = document.getElementById('material-chips');
@@ -1658,35 +1652,11 @@ function initMaterialChips() {
     btn.addEventListener('click', () => addMaterialFromChip(name));
     wrap.appendChild(btn);
   });
-  customMaterials.forEach(val => {
-    if (FABRIC_OPTIONS.includes(val)) return;
-    if (wrap.querySelector(`.mat-chip[data-mat="${CSS.escape(val)}"]`)) return;
-    const btn = document.createElement('button');
-    btn.type = 'button'; btn.className = 'mat-chip'; btn.dataset.mat = val; btn.textContent = val;
-    btn.addEventListener('click', () => addMaterialFromChip(val));
-    wrap.appendChild(btn);
-  });
-}
-
-function addCustomMaterial(val) {
-  val = val.trim();
-  if (!val) return;
-  if (!FABRIC_OPTIONS.includes(val) && !customMaterials.includes(val)) {
-    customMaterials.push(val);
-    localStorage.setItem('wb_materials', JSON.stringify(customMaterials));
-    const wrap = document.getElementById('material-chips');
-    const btn = document.createElement('button');
-    btn.type = 'button'; btn.className = 'mat-chip'; btn.dataset.mat = val; btn.textContent = val;
-    btn.addEventListener('click', () => addMaterialFromChip(val));
-    wrap.appendChild(btn);
-  }
-  addMaterialFromChip(val);
-  document.getElementById('f-material-other').value = '';
 }
 
 function addMaterialFromChip(name) {
   if (!materialRows.find(r => r.name === name)) {
-    materialRows.push({ name, pct: null });
+    materialRows.push({ name, pct: null, note: null });
     renderMaterialRows();
   }
 }
@@ -1704,6 +1674,13 @@ function updateMaterialPct(name, val) {
   else n = Math.max(0, Math.min(100, n));
   row.pct = n;
   renderMaterialTotal();
+  syncMaterialHidden();
+}
+
+function updateMaterialNote(name, val) {
+  const row = materialRows.find(r => r.name === name);
+  if (!row) return;
+  row.note = val.trim() || null;
   syncMaterialHidden();
 }
 
@@ -1728,6 +1705,15 @@ function renderMaterialRows() {
       rm.addEventListener('click', () => removeMaterialRow(r.name));
       row.append(nameSpan, pctInput, sign, rm);
       wrap.appendChild(row);
+      if (r.name === 'Άλλο') {
+        const noteRow = document.createElement('div'); noteRow.className = 'mat-row-note';
+        const noteInput = document.createElement('input');
+        noteInput.type = 'text'; noteInput.placeholder = 'τι υλικό είναι; (προαιρετικό, μόνο για δική σου αναφορά)';
+        noteInput.value = r.note || '';
+        noteInput.addEventListener('input', () => updateMaterialNote(r.name, noteInput.value));
+        noteRow.appendChild(noteInput);
+        wrap.appendChild(noteRow);
+      }
     });
   }
   renderMaterialTotal();
@@ -1775,22 +1761,16 @@ function fillMaterialChips(val) {
     try {
       const parsed = JSON.parse(val);
       if (Array.isArray(parsed)) {
-        materialRows = parsed.map(p => ({ name: p.name, pct: (p.pct === undefined || p.pct === null) ? null : p.pct }));
+        materialRows = parsed.map(p => ({ name: p.name, pct: (p.pct === undefined || p.pct === null) ? null : p.pct, note: p.note || null }));
       }
     } catch (e) {
-      // legacy free-text value (π.χ. "Βαμβάκι 80%, Ελαστάνη-20%") — ανακτά όνομα + ποσοστό ανά κομμάτι
+      // legacy free-text value (π.χ. "Βαμβάκι 80%, Ελαστάνη-20%") — ανακτά όνομα + ποσοστό ανά κομμάτι.
+      // Ονόματα εκτός κλειστής λίστας μπαίνουν ως γραμμές χωρίς να γίνονται πλέον νέα chip (κλειστό λεξιλόγιο).
       val.split(',').map(s => s.trim()).filter(Boolean).forEach(seg => {
         const p = parseLegacyMaterialSegment(seg);
-        if (p) materialRows.push(p);
+        if (p) materialRows.push({ name: p.name, pct: p.pct, note: null });
       });
     }
-    let addedNew = false;
-    materialRows.forEach(r => {
-      if (!FABRIC_OPTIONS.includes(r.name) && !customMaterials.includes(r.name)) {
-        customMaterials.push(r.name); addedNew = true;
-      }
-    });
-    if (addedNew) { localStorage.setItem('wb_materials', JSON.stringify(customMaterials)); initMaterialChips(); }
   }
   renderMaterialRows();
 }
@@ -1800,7 +1780,10 @@ function formatMaterialDisplay(raw) {
   try {
     const parsed = JSON.parse(raw);
     if (Array.isArray(parsed)) {
-      return parsed.map(p => (p.pct !== null && p.pct !== undefined) ? `${p.name} ${p.pct}%` : p.name).join(' · ');
+      return parsed.map(p => {
+        const label = (p.name === 'Άλλο' && p.note) ? `Άλλο (${p.note})` : p.name;
+        return (p.pct !== null && p.pct !== undefined) ? `${label} ${p.pct}%` : label;
+      }).join(' · ');
     }
   } catch (e) {}
   return raw;

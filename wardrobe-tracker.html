@@ -1590,7 +1590,7 @@ function escHtml(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt
 // Κλειστό λεξιλόγιο — MUST stay identical (spelling/order) to wishlist.html
 // so values match across the two apps. "Άλλο" is the only catch-all (no free-text add).
 const FABRIC_OPTIONS=['Βαμβάκι','Λινό','Μαλλί','Κασμίρ','Μοχέρ','Μετάξι','Σατέν','Βελούδο',
-  'Δένιμ','Δέρμα','Suede','Τεχνητό Δέρμα','Πολυεστέρας','Viscose','Modal','Lyocell / Tencel','Νάιλον / Πολυαμίδιο','Ελαστάνη / Spandex','Ακρυλικό','Δαντέλα','Ράφια / Ψάθα','Πλαστικό',
+  'Δένιμ','Δέρμα','Full Grain Δέρμα','Suede','Nubuck','Λουστρίνι / Patent Leather','Τεχνητό Δέρμα','Πολυεστέρας','Viscose','Modal','Lyocell / Tencel','Νάιλον / Πολυαμίδιο','Ελαστάνη / Spandex','Ακρυλικό','Δαντέλα','Ράφια / Ψάθα','Πλαστικό',
   'Χρυσός','Ασήμι','Επιχρυσωμένο / Επάργυρο','Άλλο'];
 let materialRows=[]; // [{name, pct, note?}]
 
@@ -1727,7 +1727,7 @@ function parseMaterialComposition(raw){
 // synthetic = πλήρως συνθετικά/πλαστικά (προϊόντα πετρελαίου) · other = ύφανση/φινίρισμα άγνωστης ίνας ή "Άλλο"
 const FABRIC_CLASS={
   'Βαμβάκι':'natural','Λινό':'natural','Μαλλί':'natural','Κασμίρ':'natural','Μοχέρ':'natural','Μετάξι':'natural','Δένιμ':'natural','Ράφια / Ψάθα':'natural',
-  'Δέρμα':'leather','Suede':'leather',
+  'Δέρμα':'leather','Full Grain Δέρμα':'leather','Suede':'leather','Nubuck':'leather','Λουστρίνι / Patent Leather':'leather',
   'Viscose':'seminat','Modal':'seminat','Lyocell / Tencel':'seminat',
   'Πολυεστέρας':'synthetic','Νάιλον / Πολυαμίδιο':'synthetic','Ελαστάνη / Spandex':'synthetic','Ακρυλικό':'synthetic','Τεχνητό Δέρμα':'synthetic','Πλαστικό':'synthetic',
   'Σατέν':'other','Βελούδο':'other','Δαντέλα':'other','Χρυσός':'other','Ασήμι':'other','Επιχρυσωμένο / Επάργυρο':'other','Άλλο':'other'

@@ -490,6 +490,17 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
   </select>
 </div>
 
+<div class="filters-color">
+  <span class="filter-label">Εποχή ·</span>
+  <select class="color-filter-select" id="season-filter-select" onchange="setSeasonFilter(this.value)">
+    <option value="all">Όλες οι εποχές</option>
+    <option value="__empty__">❌ Χωρίς καταχώρηση</option>
+    <option value="Άνοιξη / Καλοκαίρι">Άνοιξη / Καλοκαίρι</option>
+    <option value="Φθινόπωρο / Χειμώνας">Φθινόπωρο / Χειμώνας</option>
+    <option value="4 εποχές">4 εποχές</option>
+  </select>
+</div>
+
 <div class="list-container">
   <div class="list-header">
     <div></div><div>Αντικείμενο</div><div>Ημερομηνία</div><div>Τιμή</div>
@@ -849,6 +860,7 @@ let currentCat1Filter = 'all';
 let currentCat2Filter = 'all';
 let currentColorFilter = 'all';
 let currentMaterialFilter = 'all';
+let currentSeasonFilter = 'all';
 let editingId = null;
 let sortableInstance = null;
 
@@ -938,6 +950,10 @@ function setMaterialFilter(mat) {
   currentMaterialFilter = mat;
   renderItems();
 }
+function setSeasonFilter(season) {
+  currentSeasonFilter = season;
+  renderItems();
+}
 
 // ── RANK HELPERS ──
 function normalizeRanksLocal() {
@@ -979,7 +995,7 @@ async function changeRank(id, newValStr) {
   await persistRankUpdates(updates);
 }
 function isReorderEnabled() {
-  return currentFilter === 'all' && currentCat1Filter === 'all' && currentCat2Filter === 'all' && currentColorFilter === 'all' && currentMaterialFilter === 'all';
+  return currentFilter === 'all' && currentCat1Filter === 'all' && currentCat2Filter === 'all' && currentColorFilter === 'all' && currentMaterialFilter === 'all' && currentSeasonFilter === 'all';
 }
 function initSortableList() {
   const el = document.getElementById('items-list');
@@ -1317,6 +1333,7 @@ function renderItems() {
   if (currentCat2Filter !== 'all') items = items.filter(i => i.subcategory === currentCat2Filter);
   if (currentColorFilter !== 'all') items = items.filter(i => i.color === currentColorFilter);
   if (currentMaterialFilter !== 'all') items = items.filter(i => currentMaterialFilter === '__empty__' ? parseMaterialComposition(i.material).length === 0 : parseMaterialComposition(i.material).some(c => c.name === currentMaterialFilter));
+  if (currentSeasonFilter !== 'all') items = items.filter(i => currentSeasonFilter === '__empty__' ? !i.season : i.season === currentSeasonFilter);
 
   items.sort((a, b) => {
     const ra = (a.rank === null || a.rank === undefined) ? 999 : a.rank;
@@ -1325,7 +1342,7 @@ function renderItems() {
     return new Date(b.created_at) - new Date(a.created_at);
   });
 
-  const noFilters = currentFilter === 'all' && currentCat1Filter === 'all' && currentCat2Filter === 'all' && currentColorFilter === 'all' && currentMaterialFilter === 'all';
+  const noFilters = currentFilter === 'all' && currentCat1Filter === 'all' && currentCat2Filter === 'all' && currentColorFilter === 'all' && currentMaterialFilter === 'all' && currentSeasonFilter === 'all';
   if (!items.length) {
     list.innerHTML = `<div class="empty-state">
       <div class="empty-title">Καμία εγγραφή</div>

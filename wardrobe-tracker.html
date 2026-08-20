@@ -2020,7 +2020,7 @@ function onFilterCriterionChange(crit){
   else if(crit==='feeling')opts+=FEELING_OPTS.map(f=>`<option value="${escHtml(f)}">${escHtml(f)}</option>`).join('');
   else if(crit==='face')opts+='<option value="Good">✨ Good</option><option value="Bad">🌧️ Bad</option><option value="Not Sure">🤔 Not Sure</option>';
   else if(crit==='color'){const colors=[...new Set(allItems.map(i=>i.color).filter(Boolean))].sort();opts+=colors.map(c=>`<option value="${escHtml(c)}">${escHtml(c)}</option>`).join('');}
-  else if(crit==='material'){const mats=[...new Set(allItems.flatMap(i=>parseMaterialComposition(i.material).map(c=>c.name)).filter(Boolean))].sort();opts+=mats.map(m=>`<option value="${escHtml(m)}">${escHtml(m)}</option>`).join('');}
+  else if(crit==='material'){const mats=[...new Set(allItems.flatMap(i=>parseMaterialComposition(i.material).map(c=>c.name)).filter(Boolean))].sort();opts+='<option value="__empty__">❌ Όχι συμπληρωμένο</option>'+mats.map(m=>`<option value="${escHtml(m)}">${escHtml(m)}</option>`).join('');}
   else if(crit==='occasion')opts+=OCCASION_LIST.map(o=>`<option value="${o.key}">${o.emoji} ${o.label}</option>`).join('');
   else if(crit==='score'){opts='<option value="">— Επιλογή δείκτη —</option><option value="dan">ΔΑΝ™ (/100)</option><option value="usage">Χρήση (/10)</option><option value="vers">Ευελιξία (/10)</option><option value="align">Συνέπεια (/10)</option><option value="cpw">Απόσβεση (/10)</option>';}
   valSel.innerHTML=opts;valSel.value='';valSel.style.display='';
@@ -2063,7 +2063,7 @@ function renderActiveFilters(){
   if(feelingFilter)chips.push(labelFor('feeling',feelingFilter));
   if(faceFilter)chips.push(labelFor('face',faceFilter));
   if(colorFilter)chips.push(labelFor('color','🎨 '+colorFilter));
-  if(materialFilter)chips.push(labelFor('material','🧵 '+materialFilter));
+  if(materialFilter)chips.push(labelFor('material','🧵 '+(materialFilter==='__empty__'?'Όχι συμπληρωμένο':materialFilter)));
   if(occasionFilter){const o=OCCASION_LIST.find(x=>x.key===occasionFilter);chips.push(labelFor('occasion',o?o.emoji+' '+o.label:occasionFilter));}
   if(scoreComponentFilter&&scoreBucketFilter){const cl={dan:'ΔΑΝ™',usage:'Χρήση',vers:'Ευελιξία',align:'Συνέπεια',cpw:'Απόσβεση'};chips.push(labelFor('score',cl[scoreComponentFilter]+' '+scoreBucketFilter));}
   if(chips.length){row.style.display='flex';row.innerHTML=chips.join('')+`<button class="chip" onclick="clearAllWardrobeFilters()" style="font-size:9px;border-color:var(--text-dim);color:var(--text-dim);">Καθαρισμός όλων</button>`;}
@@ -2097,7 +2097,7 @@ function filterItems(){
   if(feelingFilter)items=items.filter(i=>i.feeling===feelingFilter);
   if(faceFilter)items=items.filter(i=>getFaceCategory(i.face_effect)===faceFilter);
   if(colorFilter)items=items.filter(i=>i.color===colorFilter);
-  if(materialFilter)items=items.filter(i=>parseMaterialComposition(i.material).some(c=>c.name===materialFilter));
+  if(materialFilter)items=items.filter(i=>materialFilter==='__empty__'?parseMaterialComposition(i.material).length===0:parseMaterialComposition(i.material).some(c=>c.name===materialFilter));
   if(portfolioFilter)items=items.filter(i=>getPortfolioType(i)===portfolioFilter);
   if(occasionFilter)items=items.filter(i=>(i.occasions||[]).includes(occasionFilter));
   if(scoreComponentFilter&&scoreBucketFilter){

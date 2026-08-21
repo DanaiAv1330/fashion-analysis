@@ -520,6 +520,7 @@ body{padding-bottom:0;}
           <option value="face">Face Effect</option>
           <option value="color">Χρώμα</option>
           <option value="material">Υλικό</option>
+          <option value="season">Εποχή</option>
           <option value="occasion">Περίσταση</option>
           <option value="score">Δείκτης (ΔΑΝ™ κλπ)</option>
         </select>
@@ -1507,6 +1508,7 @@ let archivedItems=[];
 let outfitUniforms=[];
 let colorFilter='';
 let materialFilter='';
+let seasonFilter='';
 let colorInsightOpen=false;
 let editingUniformId=null;
 
@@ -1932,7 +1934,7 @@ function initColorFilterDropdown(){
 function setColorFilter(val){colorFilter=val;renderWardrobe();updateScoreFilterCounter();if(val)renderColorInsight(val);else{const el=document.getElementById('color-filter-insight');if(el)el.style.display='none';}}
 function setPortfolioFilter(val){portfolioFilter=val;renderWardrobe();updateScoreFilterCounter();}
 function clearAllWardrobeFilters(){
-  currentFilter='all';currentCat2Filter='all';feelingFilter='';faceFilter='';colorFilter='';materialFilter='';portfolioFilter='';occasionFilter='';scoreComponentFilter='';scoreBucketFilter='';
+  currentFilter='all';currentCat2Filter='all';feelingFilter='';faceFilter='';colorFilter='';materialFilter='';seasonFilter='';portfolioFilter='';occasionFilter='';scoreComponentFilter='';scoreBucketFilter='';
   document.querySelectorAll('#cat-chips-row .chip').forEach((c,i)=>{c.classList.remove('active');if(i===0)c.classList.add('active');});
   document.getElementById('cat2-chips-row').style.display='none';
   const fcrit=document.getElementById('filter-criterion');if(fcrit)fcrit.value='';
@@ -2010,7 +2012,7 @@ function onFilterCriterionChange(crit){
   const valSel=document.getElementById('filter-value');
   const val2Sel=document.getElementById('filter-value2');
   // reset all active filters first (only one criterion active at a time via this UI)
-  feelingFilter='';faceFilter='';colorFilter='';materialFilter='';portfolioFilter='';occasionFilter='';scoreComponentFilter='';scoreBucketFilter='';
+  feelingFilter='';faceFilter='';colorFilter='';materialFilter='';seasonFilter='';portfolioFilter='';occasionFilter='';scoreComponentFilter='';scoreBucketFilter='';
   document.getElementById('color-filter-insight').style.display='none';
   document.getElementById('feeling-color-insight').style.display='none';
   document.getElementById('score-filter-result').style.display='none';
@@ -2022,6 +2024,7 @@ function onFilterCriterionChange(crit){
   else if(crit==='face')opts+='<option value="Good">✨ Good</option><option value="Bad">🌧️ Bad</option><option value="Not Sure">🤔 Not Sure</option>';
   else if(crit==='color'){const colors=[...new Set(allItems.map(i=>i.color).filter(Boolean))].sort();opts+=colors.map(c=>`<option value="${escHtml(c)}">${escHtml(c)}</option>`).join('');}
   else if(crit==='material'){const mats=[...new Set(allItems.flatMap(i=>parseMaterialComposition(i.material).map(c=>c.name)).filter(Boolean))].sort();opts+='<option value="__empty__">❌ Όχι συμπληρωμένο</option>'+mats.map(m=>`<option value="${escHtml(m)}">${escHtml(m)}</option>`).join('');}
+  else if(crit==='season'){opts+='<option value="__empty__">❌ Χωρίς καταχώρηση</option><option value="Άνοιξη / Καλοκαίρι">Άνοιξη / Καλοκαίρι</option><option value="Φθινόπωρο / Χειμώνας">Φθινόπωρο / Χειμώνας</option><option value="4 εποχές">4 εποχές</option>';}
   else if(crit==='occasion')opts+=OCCASION_LIST.map(o=>`<option value="${o.key}">${o.emoji} ${o.label}</option>`).join('');
   else if(crit==='score'){opts='<option value="">— Επιλογή δείκτη —</option><option value="dan">ΔΑΝ™ (/100)</option><option value="usage">Χρήση (/10)</option><option value="vers">Ευελιξία (/10)</option><option value="align">Συνέπεια (/10)</option><option value="cpw">Απόσβεση (/10)</option>';}
   valSel.innerHTML=opts;valSel.value='';valSel.style.display='';
@@ -2034,12 +2037,13 @@ function onFilterValueChange(val){
   document.getElementById('feeling-color-insight').style.display='none';
   document.getElementById('score-filter-result').style.display='none';
   val2Sel.style.display='none';val2Sel.value='';
-  feelingFilter='';faceFilter='';colorFilter='';materialFilter='';portfolioFilter='';occasionFilter='';scoreComponentFilter='';scoreBucketFilter='';
+  feelingFilter='';faceFilter='';colorFilter='';materialFilter='';seasonFilter='';portfolioFilter='';occasionFilter='';scoreComponentFilter='';scoreBucketFilter='';
   if(crit==='portfolio')portfolioFilter=val;
   else if(crit==='feeling')feelingFilter=val;
   else if(crit==='face')faceFilter=val;
   else if(crit==='color'){colorFilter=val;if(val)renderColorInsight(val);}
   else if(crit==='material')materialFilter=val;
+  else if(crit==='season')seasonFilter=val;
   else if(crit==='occasion')occasionFilter=val;
   else if(crit==='score'){
     scoreComponentFilter=val;
@@ -2065,6 +2069,7 @@ function renderActiveFilters(){
   if(faceFilter)chips.push(labelFor('face',faceFilter));
   if(colorFilter)chips.push(labelFor('color','🎨 '+colorFilter));
   if(materialFilter)chips.push(labelFor('material','🧵 '+(materialFilter==='__empty__'?'Όχι συμπληρωμένο':materialFilter)));
+  if(seasonFilter)chips.push(labelFor('season','🗓️ '+(seasonFilter==='__empty__'?'Χωρίς καταχώρηση':seasonFilter)));
   if(occasionFilter){const o=OCCASION_LIST.find(x=>x.key===occasionFilter);chips.push(labelFor('occasion',o?o.emoji+' '+o.label:occasionFilter));}
   if(scoreComponentFilter&&scoreBucketFilter){const cl={dan:'ΔΑΝ™',usage:'Χρήση',vers:'Ευελιξία',align:'Συνέπεια',cpw:'Απόσβεση'};chips.push(labelFor('score',cl[scoreComponentFilter]+' '+scoreBucketFilter));}
   if(chips.length){row.style.display='flex';row.innerHTML=chips.join('')+`<button class="chip" onclick="clearAllWardrobeFilters()" style="font-size:9px;border-color:var(--text-dim);color:var(--text-dim);">Καθαρισμός όλων</button>`;}
@@ -2079,6 +2084,7 @@ function clearOneFilter(type){
     else if(type==='face')faceFilter='';
     else if(type==='color'){colorFilter='';document.getElementById('color-filter-insight').style.display='none';}
     else if(type==='material')materialFilter='';
+    else if(type==='season')seasonFilter='';
     else if(type==='occasion')occasionFilter='';
     else if(type==='score'){scoreComponentFilter='';scoreBucketFilter='';document.getElementById('score-filter-result').style.display='none';}
     // reset the criterion dropdowns to neutral
@@ -2099,6 +2105,7 @@ function filterItems(){
   if(faceFilter)items=items.filter(i=>getFaceCategory(i.face_effect)===faceFilter);
   if(colorFilter)items=items.filter(i=>i.color===colorFilter);
   if(materialFilter)items=items.filter(i=>materialFilter==='__empty__'?parseMaterialComposition(i.material).length===0:parseMaterialComposition(i.material).some(c=>c.name===materialFilter));
+  if(seasonFilter)items=items.filter(i=>seasonFilter==='__empty__'?!i.season:i.season===seasonFilter);
   if(portfolioFilter)items=items.filter(i=>getPortfolioType(i)===portfolioFilter);
   if(occasionFilter)items=items.filter(i=>(i.occasions||[]).includes(occasionFilter));
   if(scoreComponentFilter&&scoreBucketFilter){

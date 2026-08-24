@@ -72,6 +72,25 @@ body{font-family:var(--font-sans);font-weight:300;background:var(--bg);color:var
 .color-filter-select:focus{border-color:var(--accent);}
 .color-swatch-dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;border:1px solid rgba(0,0,0,0.15);vertical-align:-1px;}
 
+/* ── UNIFIED FILTER (2-level dropdown) ── */
+.filter-unified{gap:8px;}
+.filter-unified select.color-filter-select{flex:1;min-width:0;max-width:220px;}
+@media(max-width:480px){.filter-unified select.color-filter-select{max-width:none;}.filter-unified{flex-wrap:wrap;}}
+.active-chips{display:none;flex-wrap:wrap;gap:6px;padding:8px 14px;border-bottom:1px solid var(--border);background:var(--surface3);}
+.chip-filter{display:inline-flex;align-items:center;gap:5px;font-size:9px;letter-spacing:0.03em;background:var(--accent-dim);color:var(--accent-dark);border:1px solid var(--border);padding:4px 6px 4px 10px;border-radius:12px;}
+.chip-filter button{background:none;border:none;color:var(--accent-dark);cursor:pointer;font-size:10px;line-height:1;padding:2px;opacity:0.7;}
+.chip-filter button:hover{opacity:1;}
+.chip-clear-all{font-family:var(--font-sans);font-size:9px;letter-spacing:0.06em;text-transform:uppercase;background:none;border:none;color:var(--text-dim);cursor:pointer;text-decoration:underline;text-underline-offset:2px;padding:4px 2px;}
+.chip-clear-all:hover{color:var(--red-text);}
+
+/* ── NEXT-YEAR DEFERRAL ── */
+.year-divider{display:flex;align-items:center;gap:10px;margin:16px 0 10px;color:var(--text-dim);}
+.year-divider::before,.year-divider::after{content:"";flex:1;height:1px;background:var(--border);}
+.year-divider span{font-size:9px;letter-spacing:0.14em;text-transform:uppercase;white-space:nowrap;color:var(--accent-dark);font-weight:500;}
+.badge-nextyear{display:inline-block;font-size:7px;letter-spacing:0.08em;text-transform:uppercase;padding:1px 6px;border-radius:1px;margin-top:3px;margin-left:5px;background:rgba(126,79,168,0.10);color:#7e4fa8;border:1px solid rgba(126,79,168,0.25);}
+.card.nextyear{background:var(--surface3);}
+.card.nextyear .item-name{color:var(--text-muted);}
+
 /* ── AUTH SCREEN ── */
 .auth-msg{font-size:11px;text-align:center;padding:8px;border-radius:8px;margin-top:4px;font-family:var(--font-sans);}
 .auth-msg.error{background:rgba(140,74,58,0.18);color:#ffb8a8;border:1px solid rgba(140,74,58,0.35);}
@@ -444,8 +463,23 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
   <div class="stat"><div class="stat-num" style="color:var(--accent)" id="stat-value">—</div><div class="stat-label">Αξία</div></div>
 </div>
 
+<div class="filters filter-unified" id="filters-unified">
+  <span class="filter-label">Φίλτρο ·</span>
+  <select class="color-filter-select" id="filter-criterion-select" onchange="onCriterionChange(this.value)">
+    <option value="status">Κατάσταση</option>
+    <option value="cat1">Κατηγορία</option>
+    <option value="cat2">Υποκατηγορία</option>
+    <option value="color">Χρώμα</option>
+    <option value="material">Υλικό</option>
+    <option value="season">Εποχή</option>
+  </select>
+  <select class="color-filter-select" id="filter-value-select" onchange="onFilterValueChange(this.value)"></select>
+</div>
+<div class="active-chips" id="active-chips"></div>
+
+<!-- Data-source selects (hidden) — keep app logic unchanged, drive the unified dropdown above -->
+<div style="display:none" aria-hidden="true">
 <div class="filters">
-  <span class="filter-label">Status ·</span>
   <select class="color-filter-select" id="status-filter-select" onchange="setFilter(this.value)">
     <option value="all">Όλα</option>
     <option value="green">✅ Conscious</option>
@@ -457,7 +491,6 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
 </div>
 
 <div class="filters-cat" id="filters-cat">
-  <span class="filter-label">Κατηγορία ·</span>
   <select class="color-filter-select" id="cat1-filter-select" onchange="setCat1Filter(this.value)">
     <option value="all">Όλες</option>
     <option value="Tops">Tops</option>
@@ -470,28 +503,24 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
   </select>
 </div>
 <div class="filters-cat2" id="filters-cat2" style="display:none;">
-  <span class="filter-label">Υποκατηγορία ·</span>
   <select class="color-filter-select" id="cat2-filter-select" onchange="setCat2Filter(this.value)">
     <option value="all">Όλες οι υποκατηγορίες</option>
   </select>
 </div>
 
 <div class="filters-color">
-  <span class="filter-label">Χρώμα ·</span>
   <select class="color-filter-select" id="color-filter-select" onchange="setColorFilter(this.value)">
     <option value="all">Όλα τα χρώματα</option>
   </select>
 </div>
 
 <div class="filters-color">
-  <span class="filter-label">Υλικό ·</span>
   <select class="color-filter-select" id="material-filter-select" onchange="setMaterialFilter(this.value)">
     <option value="all">Όλα τα υλικά</option>
   </select>
 </div>
 
 <div class="filters-color">
-  <span class="filter-label">Εποχή ·</span>
   <select class="color-filter-select" id="season-filter-select" onchange="setSeasonFilter(this.value)">
     <option value="all">Όλες οι εποχές</option>
     <option value="__empty__">❌ Χωρίς καταχώρηση</option>
@@ -500,6 +529,8 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
     <option value="4 εποχές">4 εποχές</option>
   </select>
 </div>
+</div>
+<!-- /hidden data-source selects -->
 
 <div class="list-container">
   <div class="list-header">
@@ -690,6 +721,10 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
       <div class="checkbox-row" style="margin-top:9px">
         <input type="checkbox" id="f-replacement">
         <label for="f-replacement">🔄 Αντικατάσταση υπάρχοντος item — αναιρεί το δίμηνο</label>
+      </div>
+      <div class="checkbox-row" style="margin-top:6px">
+        <input type="checkbox" id="f-nextyear">
+        <label for="f-nextyear">📅 Για του χρόνου — μένει στη λίστα αλλά πάει στο τέλος</label>
       </div>
     </div>
 
@@ -953,6 +988,69 @@ function setMaterialFilter(mat) {
 function setSeasonFilter(season) {
   currentSeasonFilter = season;
   renderItems();
+}
+
+// ── UNIFIED 2-LEVEL FILTER DROPDOWN ──
+let currentCriterion = 'status';
+const CRITERION_MAP = {
+  status:   { sourceId: 'status-filter-select',   setter: v => setFilter(v),       get: () => currentFilter },
+  cat1:     { sourceId: 'cat1-filter-select',      setter: v => setCat1Filter(v),   get: () => currentCat1Filter },
+  cat2:     { sourceId: 'cat2-filter-select',      setter: v => setCat2Filter(v),   get: () => currentCat2Filter },
+  color:    { sourceId: 'color-filter-select',     setter: v => setColorFilter(v),  get: () => currentColorFilter },
+  material: { sourceId: 'material-filter-select',  setter: v => setMaterialFilter(v), get: () => currentMaterialFilter },
+  season:   { sourceId: 'season-filter-select',    setter: v => setSeasonFilter(v), get: () => currentSeasonFilter }
+};
+function syncFilterValueSelect() {
+  const cfg = CRITERION_MAP[currentCriterion];
+  const src = document.getElementById(cfg.sourceId);
+  const dst = document.getElementById('filter-value-select');
+  if (!src || !dst) return;
+  dst.innerHTML = src.innerHTML;
+  dst.value = cfg.get();
+  if (dst.selectedIndex === -1) dst.selectedIndex = 0;
+}
+function onCriterionChange(criterion) {
+  currentCriterion = criterion;
+  syncFilterValueSelect();
+}
+function onFilterValueChange(value) {
+  const cfg = CRITERION_MAP[currentCriterion];
+  const src = document.getElementById(cfg.sourceId);
+  if (src) src.value = value;
+  cfg.setter(value);
+  if (currentCriterion === 'cat1') syncFilterValueSelect(); // cat1 change can reset own value; keep in sync
+}
+function statusFilterLabel(v) {
+  return { green:'✅ Conscious', lightgreen:'🌱 Well Thought', yellow:'🤔 48h Rule', red:'⚡ Impulse', replacement:'🔄 Αντικατάσταση' }[v] || v;
+}
+function renderActiveChips() {
+  const wrap = document.getElementById('active-chips');
+  if (!wrap) return;
+  const chips = [];
+  if (currentFilter !== 'all') chips.push({ c:'status', label:'Κατάσταση: ' + statusFilterLabel(currentFilter) });
+  if (currentCat1Filter !== 'all') chips.push({ c:'cat1', label:'Κατηγορία: ' + currentCat1Filter });
+  if (currentCat2Filter !== 'all') chips.push({ c:'cat2', label:'Υποκατηγορία: ' + currentCat2Filter });
+  if (currentColorFilter !== 'all') chips.push({ c:'color', label:'Χρώμα: ' + currentColorFilter });
+  if (currentMaterialFilter !== 'all') chips.push({ c:'material', label:'Υλικό: ' + (currentMaterialFilter === '__empty__' ? 'Χωρίς καταχώρηση' : currentMaterialFilter) });
+  if (currentSeasonFilter !== 'all') chips.push({ c:'season', label:'Εποχή: ' + (currentSeasonFilter === '__empty__' ? 'Χωρίς καταχώρηση' : currentSeasonFilter) });
+  if (!chips.length) { wrap.innerHTML = ''; wrap.style.display = 'none'; return; }
+  wrap.style.display = 'flex';
+  wrap.innerHTML = chips.map(ch => `<span class="chip-filter">${escHtml(ch.label)}<button type="button" onclick="clearChipFilter('${ch.c}')" aria-label="Αφαίρεση φίλτρου">✕</button></span>`).join('')
+    + `<button type="button" class="chip-clear-all" onclick="clearAllFilters()">Καθαρισμός όλων</button>`;
+}
+function clearChipFilter(criterion) {
+  const cfg = CRITERION_MAP[criterion];
+  const src = document.getElementById(cfg.sourceId);
+  if (src) src.value = 'all';
+  cfg.setter('all');
+  if (currentCriterion === criterion) syncFilterValueSelect();
+}
+function clearAllFilters() {
+  ['status-filter-select','cat1-filter-select','color-filter-select','material-filter-select','season-filter-select'].forEach(id => {
+    const el = document.getElementById(id); if (el) el.value = 'all';
+  });
+  setFilter('all'); setCat1Filter('all'); setColorFilter('all'); setMaterialFilter('all'); setSeasonFilter('all');
+  syncFilterValueSelect();
 }
 
 // ── RANK HELPERS ──
@@ -1307,6 +1405,7 @@ async function loadItems() {
   await persistRankUpdates(rankUpdates);
   populateColorFilterDropdown();
   populateMaterialFilterDropdown();
+  syncFilterValueSelect();
   renderItems();
   updateStats();
   await loadPurchasesSilent();
@@ -1336,6 +1435,8 @@ function renderItems() {
   if (currentSeasonFilter !== 'all') items = items.filter(i => currentSeasonFilter === '__empty__' ? !i.season : i.season === currentSeasonFilter);
 
   items.sort((a, b) => {
+    const na = a.next_year ? 1 : 0, nb = b.next_year ? 1 : 0;
+    if (na !== nb) return na - nb;
     const ra = (a.rank === null || a.rank === undefined) ? 999 : a.rank;
     const rb = (b.rank === null || b.rank === undefined) ? 999 : b.rank;
     if (ra !== rb) return ra - rb;
@@ -1343,6 +1444,7 @@ function renderItems() {
   });
 
   const noFilters = currentFilter === 'all' && currentCat1Filter === 'all' && currentCat2Filter === 'all' && currentColorFilter === 'all' && currentMaterialFilter === 'all' && currentSeasonFilter === 'all';
+  renderActiveChips();
   if (!items.length) {
     list.innerHTML = `<div class="empty-state">
       <div class="empty-title">Καμία εγγραφή</div>
@@ -1351,7 +1453,16 @@ function renderItems() {
     initSortableList();
     return;
   }
-  list.innerHTML = items.map(item => renderCard(item)).join('');
+  let html = '';
+  let dividerInserted = false;
+  items.forEach(item => {
+    if (!dividerInserted && item.next_year && html !== '') {
+      html += `<div class="year-divider"><span>📅 Για του χρόνου</span></div>`;
+      dividerInserted = true;
+    }
+    html += renderCard(item);
+  });
+  list.innerHTML = html;
   initSortableList();
 }
 
@@ -1448,7 +1559,7 @@ function renderCard(item) {
 
   const rankDisplay = item.rank || '—';
   return `
-  <div class="card ${status}" id="card-${item.id}" data-id="${item.id}" onclick="toggleCard('${item.id}')">
+  <div class="card ${status}${item.next_year ? ' nextyear' : ''}" id="card-${item.id}" data-id="${item.id}" onclick="toggleCard('${item.id}')">
     <div class="card-row">
       <div class="col-rank" onclick="event.stopPropagation()">
         <span class="drag-handle" title="Σύρε για αλλαγή σειράς">⠿</span>
@@ -1462,6 +1573,7 @@ function renderCard(item) {
         </div>
         <div class="item-sub">${[item.brand, item.category, item.subcategory, item.color, formatMaterialDisplay(item.material)].filter(Boolean).join(' · ') || '—'}</div>
         ${item.is_replacement ? '<span class="badge-repl">Αντικατάσταση</span>' : ''}
+        ${item.next_year ? '<span class="badge-nextyear">📅 Επόμενο Έτος</span>' : ''}
       </div>
       <div class="col-date">${formatDate(item.created_at)}</div>
       <div class="col-price">${item.price ? '€' + item.price : '—'}</div>
@@ -1494,6 +1606,7 @@ function renderCard(item) {
       <div class="detail-actions">
         ${item.link ? `<a href="${item.link}" target="_blank" class="link-ext">↗ Δες το link</a>` : ''}
         <div style="flex:1"></div>
+        <button class="btn-sm" onclick="event.stopPropagation();toggleNextYear('${item.id}')">${item.next_year ? '↩️ Επιστροφή σε φέτος' : '📅 Μετάθεση σε επόμενο έτος'}</button>
         <button class="btn-sm danger" onclick="event.stopPropagation();deleteItem('${item.id}')">Διαγραφή</button>
         <button class="btn-sm" onclick="event.stopPropagation();editItem('${item.id}')">Επεξεργασία</button>
         <button class="btn-sm primary" onclick="event.stopPropagation();markPurchased('${item.id}')">✓ Αγοράστηκε</button>
@@ -1567,6 +1680,7 @@ function openInlineForm(item = null) {
   updateWishlistCat2();
   populateWishlistColorDropdown(null);
   document.getElementById('f-replacement').checked = false;
+  document.getElementById('f-nextyear').checked = false;
   document.getElementById('f-brand').value = '';
   document.getElementById('f-brand-other').style.display = 'none';
   document.getElementById('f-brand-other').value = '';
@@ -1602,6 +1716,7 @@ function openInlineForm(item = null) {
     document.getElementById('f-outfit3').value = item.outfit_3 || '';
     document.getElementById('f-notes').value = item.notes || '';
     document.getElementById('f-replacement').checked = item.is_replacement || false;
+    document.getElementById('f-nextyear').checked = item.next_year || false;
     document.getElementById('f-rank').value = item.rank || '';
     if (item.created_at) document.getElementById('f-entry-date').value = item.created_at.split('T')[0];
     calcCPW();
@@ -1876,6 +1991,7 @@ async function saveItem() {
     outfit_3: document.getElementById('f-outfit3').value.trim() || null,
     notes: document.getElementById('f-notes').value.trim() || null,
     is_replacement: document.getElementById('f-replacement').checked,
+    next_year: document.getElementById('f-nextyear').checked,
     ...(entryDateVal ? { created_at: new Date(entryDateVal).toISOString() } : {}),
   };
 
@@ -1911,6 +2027,18 @@ async function deleteItem(id) {
   if (error) { showToast('Σφάλμα διαγραφής'); return; }
   showToast('✓ Διαγράφηκε');
   await loadItems();
+}
+
+// ── NEXT-YEAR DEFERRAL ──
+async function toggleNextYear(id) {
+  const item = allItems.find(i => String(i.id) === String(id));
+  if (!item) return;
+  const newVal = !item.next_year;
+  item.next_year = newVal;
+  renderItems();
+  const { error } = await sb.from('wishlist').update({ next_year: newVal }).eq('id', id);
+  if (error) { showToast('Σφάλμα αποθήκευσης'); item.next_year = !newVal; renderItems(); return; }
+  showToast(newVal ? '📅 Μετακινήθηκε στη λίστα του επόμενου έτους' : '↩️ Επέστρεψε στη φετινή λίστα');
 }
 
 // ── MARK PURCHASED ──

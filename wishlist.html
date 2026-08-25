@@ -133,6 +133,8 @@ body{font-family:var(--font-sans);font-weight:300;background:var(--bg);color:var
 .budget-alert-icon{font-size:14px;flex-shrink:0;line-height:1.1;}
 .budget-empty{text-align:center;padding:6px 0;font-size:11px;color:rgba(255,255,255,0.85);position:relative;z-index:1;}
 .budget-empty-link{color:white;cursor:pointer;text-decoration:underline;text-underline-offset:2px;font-weight:500;}
+.budget-split-note{margin-top:10px;padding:9px 12px;border-radius:8px;font-size:10.5px;line-height:1.5;background:rgba(255,255,255,0.14);color:rgba(255,255,255,0.92);border:1px solid rgba(255,255,255,0.18);position:relative;z-index:1;}
+.budget-split-note strong{color:#fde8c8;}
 
 /* ── PURCHASES ── */
 .purchases-header{padding:16px 14px 0;display:flex;align-items:center;justify-content:space-between;}
@@ -264,6 +266,8 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
 .card-row{display:grid;grid-template-columns:44px 2fr 90px 70px 130px 80px;gap:8px;padding:12px 12px;align-items:center;}
 @media(max-width:600px){.card-row{grid-template-columns:34px 1fr auto auto;gap:6px;}.col-date,.col-cpw{display:none;}.col-price{font-weight:500;}}
 .item-name-row{display:flex;align-items:center;gap:8px;}
+.link-icon{font-size:12px;text-decoration:none;flex-shrink:0;opacity:0.7;transition:opacity 0.15s;line-height:1;}
+.link-icon:hover{opacity:1;}
 .item-name{font-family:var(--font-serif);font-size:14px;font-weight:400;line-height:1.2;}
 .item-sub{font-size:9px;color:var(--text-muted);margin-top:2px;}
 .badge-repl{display:inline-block;font-size:7px;letter-spacing:0.08em;text-transform:uppercase;padding:1px 6px;border-radius:1px;margin-top:3px;background:rgba(80,110,160,0.1);color:#5a7ab0;border:1px solid rgba(80,110,160,0.2);}
@@ -1264,8 +1268,10 @@ function renderBudgetBars() {
     .filter(i => i.purchase_year === curYear)
     .reduce((s, i) => s + (i.price || 0), 0);
   const wishlistValue = allItems.reduce((s, i) => s + (i.price || 0), 0);
+  const wishlistValueThisYear = allItems.filter(i => !i.next_year).reduce((s, i) => s + (i.price || 0), 0);
+  const wishlistValueNextYear = allItems.filter(i => i.next_year).reduce((s, i) => s + (i.price || 0), 0);
 
-  renderWishlistBudgetBar(budget, spent, wishlistValue, curYear);
+  renderWishlistBudgetBar(budget, spent, wishlistValue, curYear, wishlistValueThisYear, wishlistValueNextYear);
   renderPurchasesBudgetBar(budget, spent, curYear);
 }
 
@@ -1274,9 +1280,12 @@ function fmtMoney(n) {
   return '€' + Math.round(n);
 }
 
-function renderWishlistBudgetBar(budget, spent, wishlistValue, year) {
+function renderWishlistBudgetBar(budget, spent, wishlistValue, year, wishlistThisYear, wishlistNextYear) {
   const el = document.getElementById('budget-bar-wishlist');
   if (!el) return;
+  const splitNote = wishlistNextYear > 0
+    ? `<div class="budget-split-note">💡 Από ${fmtMoney(wishlistValue)} της wishlist, <strong>${fmtMoney(wishlistThisYear)}</strong> είναι προγραμματισμένα για φέτος — τα υπόλοιπα ${fmtMoney(wishlistNextYear)} έχουν μετατεθεί για του χρόνου.</div>`
+    : '';
   if (!budget) {
     el.innerHTML = `
       <div class="budget-bar-head">
@@ -1286,7 +1295,8 @@ function renderWishlistBudgetBar(budget, spent, wishlistValue, year) {
       <div class="budget-empty">
         Δεν έχεις ορίσει budget για φέτος.
         <span class="budget-empty-link" onclick="openBudgetModal(${year})">Πρόσθεσέ το τώρα →</span>
-      </div>`;
+      </div>
+      ${splitNote}`;
     return;
   }
 
@@ -1336,7 +1346,8 @@ function renderWishlistBudgetBar(budget, spent, wishlistValue, year) {
       <div class="budget-legend-item"><div class="budget-legend-sw pending"></div>Wishlist <span class="budget-legend-num">${fmtMoney(wishlistValue)}</span></div>
       <div class="budget-legend-item"><div class="budget-legend-sw remaining"></div>Διαθέσιμα <span class="budget-legend-num">${fmtMoney(Math.max(0, budget - spent))}</span></div>
     </div>
-    ${alertHtml}`;
+    ${alertHtml}
+    ${splitNote}`;
 }
 
 function renderPurchasesBudgetBar(budget, spent, year) {
@@ -1570,6 +1581,7 @@ function renderCard(item) {
       <div>
         <div class="item-name-row">
           <div class="item-name">${escHtml(item.title)}</div>
+          ${item.link ? `<a href="${item.link}" target="_blank" rel="noopener" class="link-icon" onclick="event.stopPropagation()" title="Άνοιγμα link">🔗</a>` : ''}
         </div>
         <div class="item-sub">${[item.brand, item.category, item.subcategory, item.color, formatMaterialDisplay(item.material)].filter(Boolean).join(' · ') || '—'}</div>
         ${item.is_replacement ? '<span class="badge-repl">Αντικατάσταση</span>' : ''}

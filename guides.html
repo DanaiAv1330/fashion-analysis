@@ -255,8 +255,43 @@
     }
   </style>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style id="acct-widget-styles">
+.acct-nav-icon{cursor:pointer;font-size:16px;display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;transition:background .15s;background:none;border:none;color:inherit;}
+.acct-nav-icon:hover{background:rgba(200,169,106,0.18);}
+.acct-modal-overlay{position:fixed;inset:0;background:rgba(20,15,10,0.55);z-index:9999;display:none;align-items:center;justify-content:center;padding:20px;}
+.acct-modal-overlay.open{display:flex;}
+.acct-modal{background:#FAF7F2;border-radius:4px;max-width:380px;width:100%;padding:34px 30px;box-shadow:0 20px 60px rgba(0,0,0,0.25);font-family:'Jost',sans-serif;position:relative;}
+.acct-modal-close{position:absolute;top:14px;right:16px;cursor:pointer;font-size:22px;line-height:1;color:#9E8E7E;background:none;border:none;padding:4px;}
+.acct-modal h3{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.5rem;font-weight:400;color:#1A1410;margin:0 0 4px 0;}
+.acct-modal p.acct-sub{font-size:0.78rem;color:#9E8E7E;margin:0 0 20px 0;line-height:1.5;}
+.acct-tabs{display:flex;border-bottom:1px solid rgba(90,70,50,0.15);margin-bottom:18px;}
+.acct-tab{flex:1;background:none;border:none;font-family:'Jost',sans-serif;font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:#9E8E7E;padding:8px;cursor:pointer;border-bottom:2px solid transparent;}
+.acct-tab.active{color:#1A1410;border-bottom-color:#C8A96A;}
+.acct-field{margin-bottom:12px;}
+.acct-field label{display:block;font-size:0.65rem;letter-spacing:0.08em;text-transform:uppercase;color:#9E8E7E;margin-bottom:5px;}
+.acct-field input{width:100%;padding:10px 12px;border:1px solid rgba(90,70,50,0.2);border-radius:2px;background:#fff;font-family:'Jost',sans-serif;font-size:0.85rem;color:#1A1410;outline:none;box-sizing:border-box;}
+.acct-field input:focus{border-color:#C8A96A;}
+.acct-submit{width:100%;padding:11px;background:#1A1410;color:#FAF7F2;border:none;border-radius:2px;font-family:'Jost',sans-serif;font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;margin-top:4px;}
+.acct-submit:disabled{opacity:0.5;cursor:not-allowed;}
+.acct-msg{font-size:0.75rem;text-align:center;padding:8px;border-radius:2px;margin-top:10px;display:none;}
+.acct-msg.error{background:rgba(180,80,60,0.1);color:#a3452f;display:block;}
+.acct-msg.success{background:rgba(90,140,90,0.1);color:#3d7a45;display:block;}
+.acct-forgot{display:block;text-align:center;font-size:0.7rem;color:#9E8E7E;margin-top:12px;text-decoration:underline;cursor:pointer;}
+.acct-loggedin{text-align:center;}
+.acct-loggedin .acct-email{font-size:0.85rem;color:#5C4A3A;margin-bottom:16px;line-height:1.5;}
+.acct-logout{font-size:0.7rem;color:#9E8E7E;text-decoration:underline;cursor:pointer;background:none;border:none;margin-top:14px;}
+.acct-claim-note{font-size:0.72rem;color:#3d7a45;margin-top:10px;line-height:1.4;}
+</style>
 </head>
 <body>
+<!-- ACCOUNT MODAL: optional login / signup for cross-device profile -->
+<div class="acct-modal-overlay" id="acct-modal-overlay">
+  <div class="acct-modal">
+    <button class="acct-modal-close" onclick="acctCloseModal()" aria-label="Κλείσιμο" type="button">&times;</button>
+    <div id="acct-modal-body"></div>
+  </div>
+</div>
 
   <!-- NAV -->
 
@@ -283,7 +318,8 @@
       </li>
       <li><a href="about.html">About</a></li>
       <li><a href="mailto:fashionanalysisbydanai@gmail.com" class="nav-cta">Contact</a></li>
-    </ul>
+    <li><button class="acct-nav-icon" id="acct-nav-icon" onclick="acctOpenModal()" title="Ο λογαριασμός μου" type="button">👤</button></li>
+  </ul>
   </nav>
 
   <!-- PAGE HERO -->
@@ -528,5 +564,115 @@
     });
   </script>
 
+<script>
+const sb = supabase.createClient(
+  'https://cdtgaxjdcjyvlkzeafje.supabase.co',
+  'sb_publishable_GEUNs3IBvjSktOQRHYMsLA_W_tlje3D'
+);
+</script>
+<script>
+(function(){
+  let acctMode = 'login';
+  let acctUser = null;
+
+  function acctShowMsg(elId, txt, type){
+    const el = document.getElementById(elId);
+    if(!el) return;
+    el.textContent = txt; el.className = 'acct-msg ' + type;
+  }
+
+  function renderAuthForm(){
+    const body = document.getElementById('acct-modal-body');
+    if(!body) return;
+    body.innerHTML = `
+      <h3>\u039f \u03bb\u03bf\u03b3\u03b1\u03c1\u03b9\u03b1\u03c3\u03bc\u03cc\u03c2 \u03bc\u03bf\u03c5</h3>
+      <p class="acct-sub">\u03a3\u03c5\u03bd\u03b4\u03ad\u03c3\u03bf\u03c5 \u03b3\u03b9\u03b1 \u03bd\u03b1 \u03ad\u03c7\u03b5\u03b9\u03c2 \u03c4\u03bf \u03c0\u03c1\u03bf\u03c6\u03af\u03bb \u03c3\u03bf\u03c5 \u03b1\u03c0\u03cc \u03bf\u03c0\u03bf\u03b9\u03b1\u03b4\u03ae\u03c0\u03bf\u03c4\u03b5 \u03c3\u03c5\u03c3\u03ba\u03b5\u03c5\u03ae \u2014 \u03c0\u03c1\u03bf\u03b1\u03b9\u03c1\u03b5\u03c4\u03b9\u03ba\u03cc, \u03bc\u03c0\u03bf\u03c1\u03b5\u03af\u03c2 \u03bd\u03b1 \u03ba\u03ac\u03bd\u03b5\u03b9\u03c2 \u03c4\u03b1 quiz \u03ba\u03b1\u03b9 \u03c7\u03c9\u03c1\u03af\u03c2 \u03c3\u03cd\u03bd\u03b4\u03b5\u03c3\u03b7.</p>
+      <div class="acct-tabs">
+        <button class="acct-tab ${acctMode==='login'?'active':''}" onclick="acctSwitchTab('login')" type="button">\u03a3\u03cd\u03bd\u03b4\u03b5\u03c3\u03b7</button>
+        <button class="acct-tab ${acctMode==='signup'?'active':''}" onclick="acctSwitchTab('signup')" type="button">\u0395\u03b3\u03b3\u03c1\u03b1\u03c6\u03ae</button>
+      </div>
+      <div class="acct-field"><label>Email</label><input type="email" id="acct-email" placeholder="email@example.com" autocomplete="email"></div>
+      <div class="acct-field"><label>\u039a\u03c9\u03b4\u03b9\u03ba\u03cc\u03c2</label><input type="password" id="acct-password" placeholder="\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022" autocomplete="${acctMode==='login'?'current-password':'new-password'}"></div>
+      <button class="acct-submit" id="acct-submit-btn" type="button" onclick="acctHandleAuth()">${acctMode==='login'?'\u03a3\u03cd\u03bd\u03b4\u03b5\u03c3\u03b7':'\u0395\u03b3\u03b3\u03c1\u03b1\u03c6\u03ae'}</button>
+      ${acctMode==='login' ? '<span class="acct-forgot" onclick="acctForgotPassword()">\u039e\u03ad\u03c7\u03b1\u03c3\u03b5\u03c2 \u03c4\u03bf\u03bd \u03ba\u03c9\u03b4\u03b9\u03ba\u03cc;</span>' : ''}
+      <div class="acct-msg" id="acct-msg"></div>
+    `;
+  }
+
+  window.acctSwitchTab = function(mode){ acctMode = mode; renderAuthForm(); };
+
+  window.acctHandleAuth = async function(){
+    const email = document.getElementById('acct-email').value.trim();
+    const pw = document.getElementById('acct-password').value;
+    if(!email || !pw){ acctShowMsg('acct-msg','\u03a3\u03c5\u03bc\u03c0\u03bb\u03ae\u03c1\u03c9\u03c3\u03b5 email \u03ba\u03b1\u03b9 \u03ba\u03c9\u03b4\u03b9\u03ba\u03cc','error'); return; }
+    const btn = document.getElementById('acct-submit-btn');
+    btn.disabled = true; btn.textContent = '\u2026';
+    const fn = acctMode === 'login' ? sb.auth.signInWithPassword.bind(sb.auth) : sb.auth.signUp.bind(sb.auth);
+    const { data, error } = await fn({ email, password: pw });
+    btn.disabled = false; btn.textContent = acctMode==='login' ? '\u03a3\u03cd\u03bd\u03b4\u03b5\u03c3\u03b7' : '\u0395\u03b3\u03b3\u03c1\u03b1\u03c6\u03ae';
+    if(error){
+      const map = {'Invalid login credentials':'\u039b\u03ac\u03b8\u03bf\u03c2 email \u03ae \u03ba\u03c9\u03b4\u03b9\u03ba\u03cc\u03c2.','User already registered':'\u0393\u03bf email \u03c5\u03c0\u03ac\u03c1\u03c7\u03b5\u03b9 \u03ae\u03b4\u03b7.'};
+      acctShowMsg('acct-msg', map[error.message] || error.message, 'error');
+    } else if(acctMode === 'signup' && !data.session){
+      acctShowMsg('acct-msg','\u0388\u03bb\u03b5\u03b3\u03be\u03b5 \u03c4\u03bf email \u03c3\u03bf\u03c5 \u03b3\u03b9\u03b1 \u03b5\u03c0\u03b9\u03b2\u03b5\u03b2\u03b1\u03af\u03c9\u03c3\u03b7!','success');
+    }
+  };
+
+  window.acctForgotPassword = async function(){
+    const email = document.getElementById('acct-email').value.trim();
+    if(!email){ acctShowMsg('acct-msg','\u0392\u03ac\u03bb\u03b5 \u03c4\u03bf email \u03c3\u03bf\u03c5 \u03c0\u03b1\u03c1\u03b1\u03c0\u03ac\u03bd\u03c9 \u03c0\u03c1\u03ce\u03c4\u03b1.','error'); return; }
+    const { error } = await sb.auth.resetPasswordForEmail(email, { redirectTo: window.location.href });
+    acctShowMsg('acct-msg', error ? error.message : '\u2713 \u0392\u03c1\u03ae\u03ba\u03b5 email \u03b5\u03c0\u03b1\u03bd\u03b1\u03c6\u03bf\u03c1\u03ac\u03c2 \u03ba\u03c9\u03b4\u03b9\u03ba\u03bf\u03cd.', error ? 'error' : 'success');
+  };
+
+  function renderLoggedIn(){
+    const body = document.getElementById('acct-modal-body');
+    if(!body) return;
+    body.innerHTML = `
+      <h3>\u039f \u03bb\u03bf\u03b3\u03b1\u03c1\u03b9\u03b1\u03c3\u03bc\u03cc\u03c2 \u03bc\u03bf\u03c5</h3>
+      <div class="acct-loggedin">
+        <p class="acct-email">\u03a3\u03c5\u03bd\u03b4\u03b5\u03b4\u03b5\u03bc\u03ad\u03bd\u03b7 \u03c9\u03c2<br><strong>${acctUser.email}</strong></p>
+        <p class="acct-sub">\u03a4\u03b1 \u03b1\u03c0\u03bf\u03c4\u03b5\u03bb\u03ad\u03c3\u03bc\u03b1\u03c4\u03ac \u03c3\u03bf\u03c5 \u03b1\u03c0\u03cc \u03b5\u03b4\u03ce \u03ba\u03b1\u03b9 \u03c0\u03ad\u03c1\u03b1 \u03b8\u03b1 \u03c3\u03b5 \u03b1\u03ba\u03bf\u03bb\u03bf\u03c5\u03b8\u03bf\u03cd\u03bd \u03c3\u03b5 \u03ba\u03ac\u03b8\u03b5 \u03c3\u03c5\u03c3\u03ba\u03b5\u03c5\u03ae.</p>
+        <div class="acct-msg" id="acct-msg"></div>
+        <button class="acct-logout" type="button" onclick="acctLogout()">\u0391\u03c0\u03bf\u03c3\u03cd\u03bd\u03b4\u03b5\u03c3\u03b7</button>
+      </div>
+    `;
+  }
+
+  window.acctLogout = async function(){ await sb.auth.signOut(); };
+
+  window.acctOpenModal = function(){
+    const overlay = document.getElementById('acct-modal-overlay');
+    if(!overlay) return;
+    overlay.classList.add('open');
+    acctUser ? renderLoggedIn() : renderAuthForm();
+  };
+  window.acctCloseModal = function(){
+    const overlay = document.getElementById('acct-modal-overlay');
+    if(overlay) overlay.classList.remove('open');
+  };
+
+  function acctUpdateIcon(){
+    const icon = document.getElementById('acct-nav-icon');
+    if(icon) icon.textContent = acctUser ? '\U0001F7E2' : '\U0001F464';
+  }
+
+  sb.auth.onAuthStateChange((event, session) => {
+    acctUser = session && session.user ? session.user : null;
+    acctUpdateIcon();
+    const overlay = document.getElementById('acct-modal-overlay');
+    if(overlay && overlay.classList.contains('open')){
+      acctUser ? renderLoggedIn() : renderAuthForm();
+    }
+    if (typeof window.acctOnAuthChange === 'function') { window.acctOnAuthChange(acctUser); }
+  });
+
+  sb.auth.getSession().then(({data})=>{
+    acctUser = data && data.session ? data.session.user : null;
+    acctUpdateIcon();
+    if (typeof window.acctOnAuthChange === 'function') { window.acctOnAuthChange(acctUser); }
+  });
+})();
+</script>
 </body>
 </html>

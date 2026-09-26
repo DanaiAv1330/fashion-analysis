@@ -136,6 +136,23 @@ body{font-family:var(--font-sans);font-weight:300;background:var(--bg);color:var
 .budget-split-note{margin-top:10px;padding:9px 12px;border-radius:8px;font-size:10.5px;line-height:1.5;background:rgba(255,255,255,0.14);color:rgba(255,255,255,0.92);border:1px solid rgba(255,255,255,0.18);position:relative;z-index:1;}
 .budget-split-note strong{color:#fde8c8;}
 
+/* ── MONTHLY ITEM LIMIT (optional) ── */
+.item-limit{margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.20);position:relative;z-index:1;}
+.item-limit-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;}
+.item-limit-month{font-family:var(--font-display);font-size:15px;font-style:italic;color:white;}
+.item-limit-right{display:flex;align-items:center;gap:10px;}
+.item-limit-dots{display:flex;gap:5px;flex-wrap:wrap;}
+.item-limit-dot{width:11px;height:11px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.75);flex-shrink:0;}
+.item-limit-dot.used{background:rgba(255,255,255,0.92);border-color:rgba(255,255,255,0.92);}
+.item-limit-dot.over{background:#e8a895;border-color:#e8a895;}
+.item-limit-count{font-family:var(--font-display);font-size:15px;color:white;white-space:nowrap;}
+.item-limit-year{font-size:10.5px;color:rgba(255,255,255,0.85);margin-top:6px;}
+.item-limit-year strong{color:#fde8c8;font-weight:500;}
+.item-limit .budget-alert{margin-top:10px;}
+.limit-warning{margin:-4px 0 16px;padding:10px 14px;border-radius:2px;font-size:11px;line-height:1.55;background:rgba(184,150,10,0.07);color:#6b5200;border:1px solid rgba(184,150,10,0.25);}
+.limit-warning.info{background:var(--accent-dim);color:var(--accent-dark);border-color:var(--border);}
+.limit-warning strong{font-weight:500;}
+
 /* ── PURCHASES ── */
 .purchases-header{padding:16px 14px 0;display:flex;align-items:center;justify-content:space-between;}
 @media(min-width:768px){.purchases-header{padding:18px 32px 0;}}
@@ -405,7 +422,6 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
           style="flex:1;font-family:'Jost',sans-serif;font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;background:none;border:none;border-bottom:2px solid transparent;color:rgba(255,255,255,0.4);padding:0.7rem 0;cursor:pointer;margin-bottom:-1px;transition:all 0.2s;">Εγγραφή</button>
       </div>
 
-```
   <div style="display:flex;flex-direction:column;gap:1rem;">
     <div>
       <label style="display:block;font-size:0.68rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:#c4956a;margin-bottom:0.5rem;">Email</label>
@@ -426,7 +442,6 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
     <div id="auth-msg" class="auth-msg" style="display:none;"></div>
   </div>
 </div>
-```
 
   </div>
 </div>
@@ -455,7 +470,6 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
 
   <div class="app-panel active" id="panel-wishlist">
 
-```
 <div class="budget-bar" id="budget-bar-wishlist"></div>
 
 <div class="stats-bar" id="stats-bar">
@@ -738,7 +752,6 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
     </div>
   </div>
 </div>
-```
 
   </div>
 
@@ -749,7 +762,6 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
       <div class="purchases-year-label">Αγορές <em id="purchases-year-label">2026</em></div>
     </div>
 
-```
 <div class="budget-bar" id="budget-bar-purchases"></div>
 
 <div class="list-container" style="padding-bottom:0;padding-top:14px;">
@@ -777,7 +789,6 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
   </div>
   <div id="purch-list"></div>
 </div>
-```
 
   </div>
 
@@ -803,7 +814,6 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
       </div>
       <div id="uniforms-list"><div class="loading"><div class="spinner"></div></div></div>
 
-```
   <div id="uniform-form-wrap" style="display:none;margin-top:14px;background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:16px;animation:slideDown 0.2s ease;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
       <div style="font-family:var(--font-serif);font-size:16px;font-weight:300;" id="uniform-form-title">Νέο <em style="font-style:italic;color:var(--accent)">Uniform</em></div>
@@ -821,7 +831,6 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
     </div>
   </div>
 </div>
-```
 
   </div>
 </div>
@@ -834,6 +843,7 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
       <div class="modal-title">Ετήσιο <em>Budget</em></div>
       <div style="font-size:11px;color:var(--text-muted);line-height:1.6;margin-bottom:16px;">
         Όρισε πόσα θες να ξοδέψεις φέτος για ρούχα & αξεσουάρ. Θα ενημερώνεσαι ξεχωριστά για το πραγματικό spending και για το wishlist.
+        Προαιρετικά, βάλε και όριο κομματιών ανά μήνα για ένα δεύτερο «φρένο».
       </div>
       <div class="form-section">
         <div class="form-grid">
@@ -845,6 +855,11 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
             <label>Ετήσιο budget (€)</label>
             <input type="number" id="budget-amount" placeholder="π.χ. 1500" step="50" min="0" style="font-size:16px;padding:10px 11px;">
             <div style="font-size:10px;color:var(--text-dim);margin-top:5px;">Άφησε κενό ή 0 για να αφαιρεθεί το budget του έτους</div>
+          </div>
+          <div class="form-group full">
+            <label>Όριο κομματιών ανά μήνα (προαιρετικό)</label>
+            <input type="number" id="budget-item-limit" placeholder="π.χ. 2" step="1" min="0" inputmode="numeric" oninput="updateItemLimitHint()" style="font-size:16px;padding:10px 11px;">
+            <div id="budget-item-limit-hint" style="font-size:10px;color:var(--text-dim);margin-top:5px;">Άφησε κενό αν δεν σε ενδιαφέρει — δεν θα εμφανίζεται πουθενά.</div>
           </div>
         </div>
       </div>
@@ -874,6 +889,7 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
         </div>
       </div>
       <div id="purchase-verdict" class="purchase-verdict" style="margin:12px 0 16px;"></div>
+      <div id="purchase-limit-warning" class="limit-warning" style="display:none;"></div>
       <div class="modal-actions">
         <button class="btn-sm" onclick="document.getElementById('purchase-modal').classList.remove('open');document.body.style.overflow='';">Ακύρωση</button>
         <button class="btn-sm primary" id="confirm-purchase-btn" onclick="confirmPurchase()">Καταγραφή</button>
@@ -1128,6 +1144,7 @@ function initSortableList() {
 }
 
 let budgetMap = {};
+let limitMap = {}; // year → monthly item limit (only if the user set one)
 
 // ── AUTH ──
 let authMode = 'login';
@@ -1185,6 +1202,7 @@ async function handleLogout() {
   document.getElementById('auth-screen').style.display = 'flex';
   allItems = [];
   budgetMap = {};
+  limitMap = {};
 }
 
 sb.auth.onAuthStateChange((event, session) => {
@@ -1206,9 +1224,16 @@ async function loadBudgets() {
   if (error) {
     console.warn('Budget table not yet available:', error.message);
     budgetMap = {};
+    limitMap = {};
   } else {
     budgetMap = {};
-    (data || []).forEach(b => { budgetMap[b.year] = parseFloat(b.amount); });
+    limitMap = {};
+    (data || []).forEach(b => {
+      const amt = parseFloat(b.amount);
+      if (amt > 0) budgetMap[b.year] = amt;
+      const lim = parseInt(b.monthly_item_limit, 10);
+      if (lim > 0) limitMap[b.year] = lim;
+    });
   }
   renderBudgetBars();
 }
@@ -1223,37 +1248,68 @@ function openBudgetModal(year) {
   }
   yearSel.value = year || curYear;
   document.getElementById('budget-amount').value = budgetMap[yearSel.value] || '';
+  document.getElementById('budget-item-limit').value = limitMap[yearSel.value] || '';
+  updateItemLimitHint();
   yearSel.addEventListener('change', () => {
     document.getElementById('budget-amount').value = budgetMap[yearSel.value] || '';
+    document.getElementById('budget-item-limit').value = limitMap[yearSel.value] || '';
+    updateItemLimitHint();
   });
   document.getElementById('budget-modal').classList.add('open');
   document.body.style.overflow = 'hidden';
   setTimeout(() => document.getElementById('budget-amount').focus(), 200);
 }
 
+function updateItemLimitHint() {
+  const el = document.getElementById('budget-item-limit-hint');
+  if (!el) return;
+  const lim = parseInt(document.getElementById('budget-item-limit').value, 10);
+  el.textContent = lim > 0
+    ? `= έως ${lim * 12} κομμάτια για όλο το έτος (${lim} τον μήνα, χωρίς μεταφορά αδιάθετων).`
+    : 'Άφησε κενό αν δεν σε ενδιαφέρει — δεν θα εμφανίζεται πουθενά.';
+}
+
 async function saveBudget() {
   const year = parseInt(document.getElementById('budget-year').value, 10);
   const amountRaw = document.getElementById('budget-amount').value.trim();
   const amount = parseFloat(amountRaw);
+  const hasAmount = !!amountRaw && !isNaN(amount) && amount > 0;
+  const limitRaw = parseInt(document.getElementById('budget-item-limit').value, 10);
+  const hasLimit = !isNaN(limitRaw) && limitRaw > 0;
   const btn = document.getElementById('budget-save-btn');
   btn.disabled = true; btn.textContent = '…';
 
-  if (!amountRaw || amount === 0 || isNaN(amount)) {
+  if (!hasAmount && !hasLimit) {
     const { error } = await sb.from('annual_budgets').delete().eq('user_id', currentUser.id).eq('year', year);
     btn.disabled = false; btn.textContent = 'Αποθήκευση';
     if (error) { showToast('Σφάλμα: ' + error.message); return; }
     delete budgetMap[year];
+    delete limitMap[year];
     showToast('✓ Budget αφαιρέθηκε');
   } else {
-    const { error } = await sb.from('annual_budgets').upsert({
+    const payload = {
       user_id: currentUser.id,
       year,
-      amount,
-    }, { onConflict: 'user_id,year' });
+      amount: hasAmount ? amount : 0,
+      monthly_item_limit: hasLimit ? limitRaw : null,
+    };
+    let { error } = await sb.from('annual_budgets').upsert(payload, { onConflict: 'user_id,year' });
+    let limitSaved = true;
+    if (error && error.message && error.message.includes('monthly_item_limit')) {
+      // Column not created yet in Supabase — save the € budget anyway
+      delete payload.monthly_item_limit;
+      limitSaved = false;
+      ({ error } = await sb.from('annual_budgets').upsert(payload, { onConflict: 'user_id,year' }));
+    }
     btn.disabled = false; btn.textContent = 'Αποθήκευση';
     if (error) { showToast('Σφάλμα: ' + error.message); return; }
-    budgetMap[year] = amount;
-    showToast('✓ Budget αποθηκεύτηκε');
+    if (hasAmount) budgetMap[year] = amount; else delete budgetMap[year];
+    if (limitSaved) {
+      if (hasLimit) limitMap[year] = limitRaw; else delete limitMap[year];
+      showToast('✓ Budget αποθηκεύτηκε');
+    } else {
+      showToast('✓ Budget αποθηκεύτηκε · το όριο κομματιών δεν αποθηκεύτηκε');
+    }
   }
   document.getElementById('budget-modal').classList.remove('open');
   document.body.style.overflow = '';
@@ -1273,6 +1329,66 @@ function renderBudgetBars() {
 
   renderWishlistBudgetBar(budget, spent, wishlistValue, curYear, wishlistValueThisYear, wishlistValueNextYear);
   renderPurchasesBudgetBar(budget, spent, curYear);
+}
+
+// ── MONTHLY ITEM LIMIT (optional per user/year) ──
+const MONTHS_NOM = ['Ιανουάριος','Φεβρουάριος','Μάρτιος','Απρίλιος','Μάιος','Ιούνιος','Ιούλιος','Αύγουστος','Σεπτέμβριος','Οκτώβριος','Νοέμβριος','Δεκέμβριος'];
+const MONTHS_GEN = ['Ιανουαρίου','Φεβρουαρίου','Μαρτίου','Απριλίου','Μαΐου','Ιουνίου','Ιουλίου','Αυγούστου','Σεπτεμβρίου','Οκτωβρίου','Νοεμβρίου','Δεκεμβρίου'];
+function monthAcc(m) { return MONTHS_NOM[m].slice(0, -1); } // «τον Σεπτέμβριο»
+function piecesWord(n) { return n === 1 ? 'κομμάτι' : 'κομμάτια'; }
+function countPurchasesInMonth(year, monthIdx, items) {
+  const key = `${year}-${String(monthIdx + 1).padStart(2, '0')}`;
+  return (items || purchasedItems).filter(i => (i.purchased_at || '').slice(0, 7) === key).length;
+}
+
+function buildItemLimitHtml(year, context) {
+  const limit = limitMap[year];
+  if (!limit) return '';
+  const now = new Date();
+  const m = now.getMonth();
+  const monthCount = countPurchasesInMonth(year, m);
+  const yearCount = purchasedItems.filter(i => i.purchase_year === year).length;
+  const yearLimit = limit * 12;
+
+  let dotsHtml = '';
+  if (limit <= 12) {
+    const total = Math.max(limit, monthCount);
+    for (let k = 0; k < total; k++) {
+      const cls = k < Math.min(monthCount, limit) ? 'used' : (k >= limit ? 'over' : '');
+      dotsHtml += `<span class="item-limit-dot ${cls}"></span>`;
+    }
+  }
+
+  const nextMonth = MONTHS_NOM[(m + 1) % 12];
+  let alertHtml = '';
+  if (monthCount > limit) {
+    const extra = monthCount - limit;
+    alertHtml = `<div class="budget-alert over"><span class="budget-alert-icon">⚠️</span>
+      <span><strong>Ξεπέρασες το όριο του ${MONTHS_GEN[m]}</strong> κατά ${extra} ${piecesWord(extra)}. Δεν πειράζει — ο ${nextMonth} είναι νέα αρχή.</span></div>`;
+  } else if (monthCount === limit) {
+    alertHtml = `<div class="budget-alert warn"><span class="budget-alert-icon">🧺</span>
+      <span>Έφτασες το όριο του ${MONTHS_GEN[m]}.${context === 'wishlist' && allItems.length ? ` Το επόμενο κομμάτι της wishlist μπορεί να περιμένει τον ${monthAcc((m + 1) % 12)}.` : ''}</span></div>`;
+  } else if (context === 'wishlist') {
+    const left = limit - monthCount;
+    alertHtml = `<div class="budget-alert good"><span class="budget-alert-icon">✨</span>
+      <span>Απομένουν <strong>${left} ${piecesWord(left)}</strong> για τον ${monthAcc(m)}. Διάλεξε από την κορυφή της λίστας σου.</span></div>`;
+  }
+
+  const yearNote = yearCount > yearLimit
+    ? ` · <strong>+${yearCount - yearLimit}</strong> πάνω από το ετήσιο όριο`
+    : '';
+
+  return `<div class="item-limit">
+    <div class="item-limit-head">
+      <div class="item-limit-month">${MONTHS_NOM[m]}</div>
+      <div class="item-limit-right">
+        ${dotsHtml ? `<div class="item-limit-dots" aria-hidden="true">${dotsHtml}</div>` : ''}
+        <div class="item-limit-count">${monthCount}/${limit} ${piecesWord(limit)}</div>
+      </div>
+    </div>
+    <div class="item-limit-year">Φέτος: ${yearCount} από ${yearLimit} κομμάτια${yearNote}</div>
+    ${alertHtml}
+  </div>`;
 }
 
 function fmtMoney(n) {
@@ -1296,7 +1412,8 @@ function renderWishlistBudgetBar(budget, spent, wishlistValue, year, wishlistThi
         Δεν έχεις ορίσει budget για φέτος.
         <span class="budget-empty-link" onclick="openBudgetModal(${year})">Πρόσθεσέ το τώρα →</span>
       </div>
-      ${splitNote}`;
+      ${splitNote}
+      ${buildItemLimitHtml(year, 'wishlist')}`;
     return;
   }
 
@@ -1347,7 +1464,8 @@ function renderWishlistBudgetBar(budget, spent, wishlistValue, year, wishlistThi
       <div class="budget-legend-item"><div class="budget-legend-sw remaining"></div>Διαθέσιμα <span class="budget-legend-num">${fmtMoney(Math.max(0, budget - spent))}</span></div>
     </div>
     ${alertHtml}
-    ${splitNote}`;
+    ${splitNote}
+    ${buildItemLimitHtml(year, 'wishlist')}`;
 }
 
 function renderPurchasesBudgetBar(budget, spent, year) {
@@ -1362,7 +1480,8 @@ function renderPurchasesBudgetBar(budget, spent, year) {
       <div class="budget-empty">
         Δεν έχεις ορίσει budget για φέτος.
         <span class="budget-empty-link" onclick="openBudgetModal(${year})">Πρόσθεσέ το τώρα →</span>
-      </div>`;
+      </div>
+      ${buildItemLimitHtml(year, 'purchases')}`;
     return;
   }
   const spentPct = Math.min(100, (spent / budget) * 100);
@@ -1403,7 +1522,8 @@ function renderPurchasesBudgetBar(budget, spent, year) {
       <div class="budget-track-spent ${spentColorClass}" style="width:${spentPct}%"></div>
       <div class="budget-track-label">${fmtMoney(spent)} / ${fmtMoney(budget)}${spentOver ? ' · +' + fmtMoney(over) : ''}</div>
     </div>
-    ${alertHtml}`;
+    ${alertHtml}
+    ${buildItemLimitHtml(year, 'purchases')}`;
 }
 
 // ── LOAD ITEMS ──
@@ -2096,6 +2216,30 @@ function updatePurchaseVerdict(item) {
   const verdictEl = document.getElementById('purchase-verdict');
   verdictEl.innerHTML = `<strong>${v.icon} ${v.title}</strong><br><span style="font-size:10px;letter-spacing:0;text-transform:none;font-weight:300;">${v.msg}</span>`;
   verdictEl.className = 'purchase-verdict ' + v.cls;
+  updatePurchaseLimitWarning(purchaseDate);
+}
+
+function updatePurchaseLimitWarning(purchaseDate) {
+  const el = document.getElementById('purchase-limit-warning');
+  if (!el) return;
+  const y = purchaseDate.getFullYear();
+  const m = purchaseDate.getMonth();
+  const limit = limitMap[y];
+  // Only for the current year (those purchases are loaded) and only if a limit exists
+  if (!limit || y !== new Date().getFullYear()) { el.style.display = 'none'; el.innerHTML = ''; return; }
+  const already = countPurchasesInMonth(y, m);
+  const nth = already + 1;
+  if (nth > limit) {
+    el.className = 'limit-warning';
+    el.innerHTML = `⚠️ <strong>Έχεις ήδη αγοράσει ${already} από τα ${limit} κομμάτια του ${MONTHS_GEN[m]}.</strong> Αυτό θα είναι το ${nth}ο. Σίγουρα το χρειάζεσαι τώρα ή μπορεί να περιμένει τον ${monthAcc((m + 1) % 12)};`;
+  } else if (nth === limit) {
+    el.className = 'limit-warning info';
+    el.innerHTML = `🧺 Αυτό είναι το <strong>τελευταίο κομμάτι</strong> του ${MONTHS_GEN[m]} (${nth}/${limit}).`;
+  } else {
+    el.className = 'limit-warning info';
+    el.innerHTML = `🧺 Κομμάτι ${nth}/${limit} για τον ${monthAcc(m)}.`;
+  }
+  el.style.display = 'block';
 }
 
 // Map wishlist category → wardrobe cat1
@@ -2426,8 +2570,22 @@ async function loadArchive() {
       }
     }
 
+    let limitBlock = '';
+    const yearLimitM = limitMap[parseInt(year, 10)];
+    if (yearLimitM) {
+      const yearLimitT = yearLimitM * 12;
+      limitBlock = total > yearLimitT
+        ? `<div style="margin:8px 0;padding:8px 11px;background:var(--red-soft);border:1px solid rgba(140,74,58,0.22);border-radius:2px;font-size:10px;color:var(--red-text);">
+          🧺 ${total} κομμάτια — ${total - yearLimitT} πάνω από το όριο των ${yearLimitT} (${yearLimitM}/μήνα).
+        </div>`
+        : `<div style="margin:8px 0;padding:8px 11px;background:var(--green-soft);border:1px solid var(--green-border);border-radius:2px;font-size:10px;color:var(--green-text);">
+          🧺 ${total}/${yearLimitT} κομμάτια — εντός ορίου (${yearLimitM}/μήνα).
+        </div>`;
+    }
+
     return`<div class="archive-year-block"><div class="archive-year-title"><em>${year}</em></div>
       ${budgetBlock}
+      ${limitBlock}
       <div style="font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);margin:6px 0 4px;">Τεμάχια</div>
       <div class="purch-compare-row" style="margin-bottom:8px;">
         <div class="purch-compare-card total" style="min-width:46px;"><div class="purch-compare-num">${total}</div><div class="purch-compare-lbl">Σύνολο</div></div>

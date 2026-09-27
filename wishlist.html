@@ -136,6 +136,42 @@ body{font-family:var(--font-sans);font-weight:300;background:var(--bg);color:var
 .budget-split-note{margin-top:10px;padding:9px 12px;border-radius:8px;font-size:10.5px;line-height:1.5;background:rgba(255,255,255,0.14);color:rgba(255,255,255,0.92);border:1px solid rgba(255,255,255,0.18);position:relative;z-index:1;}
 .budget-split-note strong{color:#fde8c8;}
 
+/* ── SUMMARY TAB ── */
+.summary-header{padding:16px 14px 0;}
+@media(min-width:768px){.summary-header{padding:18px 32px 0;}}
+.summary-header-title{font-family:var(--font-serif);font-size:20px;font-weight:300;}
+.summary-header-title em{font-style:italic;color:var(--accent);}
+.summary-header-sub{font-size:10.5px;color:var(--text-muted);margin-top:3px;}
+.summary-section{padding:18px 14px 0;}
+@media(min-width:768px){.summary-section{padding:20px 32px 0;}}
+.summary-stats{border:1px solid var(--border);border-radius:2px;}
+.pots-grid{display:grid;grid-template-columns:1fr;gap:10px;}
+@media(min-width:640px){.pots-grid{grid-template-columns:1fr 1fr;}}
+.pot-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:15px 16px;}
+.pot-card.over{border-color:rgba(140,74,58,0.35);}
+.pot-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:10px;}
+.pot-title{font-family:var(--font-display);font-size:17px;font-weight:400;}
+.pot-title em{font-style:italic;color:var(--accent);}
+.pot-sub{font-size:10px;color:var(--text-dim);text-align:right;}
+.pot-amount{font-family:var(--font-display);font-size:30px;font-weight:400;line-height:1;color:var(--text);}
+.pot-card.over .pot-amount{color:var(--red-text);}
+.pot-amount-label{font-size:10.5px;color:var(--text-muted);margin-top:4px;}
+.pot-track{height:6px;background:var(--surface3);border-radius:3px;overflow:hidden;margin:12px 0 9px;}
+.pot-fill{height:100%;border-radius:3px;background:var(--accent-light);transition:width 0.4s ease;}
+.pot-fill.over{background:var(--red);}
+.pot-breakdown{font-size:10.5px;color:var(--text-muted);line-height:1.65;}
+.pot-alert{margin-top:10px;padding:9px 12px;border-radius:6px;font-size:10.5px;line-height:1.55;background:var(--red-soft);color:var(--red-text);border:1px solid rgba(140,74,58,0.22);}
+.pot-alert.good{background:var(--green-soft);color:var(--green-text);border-color:var(--green-border);}
+.pot-empty{border:1px dashed var(--border);border-radius:10px;padding:18px 16px;text-align:center;background:var(--surface2);}
+.pot-empty-title{font-family:var(--font-display);font-size:17px;margin-bottom:4px;}
+.pot-empty-sub{font-size:10.5px;color:var(--text-muted);line-height:1.6;margin-bottom:12px;}
+.budget-mode-switch{display:flex;gap:6px;flex-wrap:wrap;}
+.budget-preview-note{font-size:10px;color:var(--text-dim);margin-top:6px;line-height:1.5;}
+.big-toggle{font-size:11px;line-height:1;background:none;border:1px solid var(--border);border-radius:10px;padding:3px 7px;cursor:pointer;opacity:0.45;filter:grayscale(1);transition:all 0.15s;}
+.big-toggle.on{opacity:1;filter:none;border-color:var(--accent);background:var(--accent-dim);}
+.big-toggle:hover{opacity:1;}
+.limit-warning.over{background:var(--red-soft);color:var(--red-text);border-color:rgba(140,74,58,0.22);}
+
 /* ── MONTHLY ITEM LIMIT (optional) ── */
 .item-limit{margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.20);position:relative;z-index:1;}
 .item-limit-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;}
@@ -461,6 +497,7 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
 
   <div style="background:var(--surface);border-bottom:1px solid var(--border);display:flex;overflow-x:auto;">
     <button class="app-tab active" onclick="showAppTab('wishlist',this)">📋 Wishlist</button>
+    <button class="app-tab" onclick="showAppTab('summary',this)">📊 Σύνοψη</button>
     <button class="app-tab" onclick="showAppTab('purchases',this)">🛍 Αγορές <span id="year-badge" style="font-size:9px;background:var(--accent-dim);color:var(--accent);border-radius:2px;padding:1px 5px;margin-left:4px;"></span></button>
     <button class="app-tab" onclick="showAppTab('archive',this)">📁 Αρχείο</button>
     <button class="app-tab" onclick="showAppTab('uniforms',this)">👗 Uniforms</button>
@@ -470,16 +507,8 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
 
   <div class="app-panel active" id="panel-wishlist">
 
-<div class="budget-bar" id="budget-bar-wishlist"></div>
 
-<div class="stats-bar" id="stats-bar">
-  <div class="stat"><div class="stat-num" id="stat-total">—</div><div class="stat-label">Σύνολο</div></div>
-  <div class="stat"><div class="stat-num" style="color:var(--green-text)" id="stat-ready">—</div><div class="stat-label">Conscious ✅</div></div>
-  <div class="stat"><div class="stat-num" style="color:var(--lightgreen-text)" id="stat-wellthought">—</div><div class="stat-label">Well Thought 🌱</div></div>
-  <div class="stat"><div class="stat-num" style="color:#8a6e00" id="stat-yellow">—</div><div class="stat-label">48h Rule 🤔</div></div>
-  <div class="stat"><div class="stat-num" style="color:var(--red-text)" id="stat-waiting">—</div><div class="stat-label">Impulse ⚡</div></div>
-  <div class="stat"><div class="stat-num" style="color:var(--accent)" id="stat-value">—</div><div class="stat-label">Αξία</div></div>
-</div>
+
 
 <div class="filters filter-unified" id="filters-unified">
   <span class="filter-label">Φίλτρο ·</span>
@@ -755,6 +784,36 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
 
   </div>
 
+  <!-- ═══ TAB: SUMMARY ═══ -->
+
+  <div class="app-panel" id="panel-summary">
+    <div class="summary-header">
+      <div class="summary-header-title">Σύνοψη <em id="summary-year-label"></em></div>
+      <div class="summary-header-sub">Budget, όρια και η εικόνα της wishlist σου σε μία ματιά.</div>
+    </div>
+
+    <div class="budget-bar" id="budget-bar-wishlist"></div>
+
+    <div class="summary-section">
+      <div class="purch-section-title">Μηνιαίο budget & μεγάλες αγορές</div>
+      <div id="summary-pots"></div>
+    </div>
+
+    <div class="summary-section" style="padding-bottom:60px;">
+      <div class="purch-section-title">Wishlist ανά κατάσταση</div>
+      <div class="summary-stats">
+<div class="stats-bar" id="stats-bar" style="border-bottom:none;">
+  <div class="stat"><div class="stat-num" id="stat-total">—</div><div class="stat-label">Σύνολο</div></div>
+  <div class="stat"><div class="stat-num" style="color:var(--green-text)" id="stat-ready">—</div><div class="stat-label">Conscious ✅</div></div>
+  <div class="stat"><div class="stat-num" style="color:var(--lightgreen-text)" id="stat-wellthought">—</div><div class="stat-label">Well Thought 🌱</div></div>
+  <div class="stat"><div class="stat-num" style="color:#8a6e00" id="stat-yellow">—</div><div class="stat-label">48h Rule 🤔</div></div>
+  <div class="stat"><div class="stat-num" style="color:var(--red-text)" id="stat-waiting">—</div><div class="stat-label">Impulse ⚡</div></div>
+  <div class="stat"><div class="stat-num" style="color:var(--accent)" id="stat-value">—</div><div class="stat-label">Αξία</div></div>
+</div>
+      </div>
+    </div>
+  </div>
+
   <!-- ═══ TAB: YEARLY PURCHASES ═══ -->
 
   <div class="app-panel" id="panel-purchases">
@@ -839,11 +898,10 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
 
 <div class="modal-overlay" id="budget-modal" onclick="if(event.target===this){this.classList.remove('open');document.body.style.overflow='';}">
   <div class="modal-scroll-wrap">
-    <div class="modal" style="max-width:440px">
-      <div class="modal-title">Ετήσιο <em>Budget</em></div>
+    <div class="modal" style="max-width:460px">
+      <div class="modal-title">Budget <em>ρούχων</em></div>
       <div style="font-size:11px;color:var(--text-muted);line-height:1.6;margin-bottom:16px;">
-        Όρισε πόσα θες να ξοδέψεις φέτος για ρούχα & αξεσουάρ. Θα ενημερώνεσαι ξεχωριστά για το πραγματικό spending και για το wishlist.
-        Προαιρετικά, βάλε και όριο κομματιών ανά μήνα για ένα δεύτερο «φρένο».
+        Ένα μηνιαίο budget (ό,τι δεν ξοδέψεις μεταφέρεται στον επόμενο μήνα) και ένα ετήσιο ταμείο για μεγάλες αγορές. Το ετήσιο budget είναι το άθροισμά τους. Όλα είναι προαιρετικά.
       </div>
       <div class="form-section">
         <div class="form-grid">
@@ -851,11 +909,50 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
             <label>Έτος</label>
             <select id="budget-year"></select>
           </div>
+        </div>
+      </div>
+      <div class="form-section">
+        <div class="form-section-title">Τρόπος υπολογισμού</div>
+        <div class="budget-mode-switch">
+          <button type="button" class="metric-tab active" id="budget-mode-pct" onclick="setBudgetMode('pct')">% του εισοδήματος</button>
+          <button type="button" class="metric-tab" id="budget-mode-fixed" onclick="setBudgetMode('fixed')">Σταθερά ποσά</button>
+        </div>
+        <div id="budget-pct-fields" class="form-grid" style="margin-top:12px;">
           <div class="form-group full">
-            <label>Ετήσιο budget (€)</label>
-            <input type="number" id="budget-amount" placeholder="π.χ. 1500" step="50" min="0" style="font-size:16px;padding:10px 11px;">
-            <div style="font-size:10px;color:var(--text-dim);margin-top:5px;">Άφησε κενό ή 0 για να αφαιρεθεί το budget του έτους</div>
+            <label>Μηνιαίο καθαρό εισόδημα (€)</label>
+            <input type="number" id="budget-income" placeholder="π.χ. 1000" step="50" min="0" inputmode="decimal" oninput="updateBudgetPreview()" style="font-size:16px;padding:10px 11px;">
+            <div class="budget-preview-note">Αποθηκεύεται μόνο στον λογαριασμό σου. Αν προτιμάς να μην το γράψεις, διάλεξε «Σταθερά ποσά».</div>
           </div>
+          <div class="form-group">
+            <label>Μηνιαίο budget (% εισοδ.)</label>
+            <input type="number" id="budget-monthly-pct" placeholder="π.χ. 5" step="0.5" min="0" max="100" inputmode="decimal" oninput="updateBudgetPreview()" style="font-size:16px;padding:10px 11px;">
+          </div>
+          <div class="form-group">
+            <label>Μεγάλες αγορές (% ετήσιου)</label>
+            <input type="number" id="budget-big-pct" placeholder="π.χ. 10" step="0.5" min="0" max="100" inputmode="decimal" oninput="updateBudgetPreview()" style="font-size:16px;padding:10px 11px;">
+          </div>
+        </div>
+        <div id="budget-fixed-fields" class="form-grid" style="margin-top:12px;display:none;">
+          <div class="form-group">
+            <label>Μηνιαίο budget (€)</label>
+            <input type="number" id="budget-monthly-amount" placeholder="π.χ. 50" step="5" min="0" inputmode="decimal" oninput="updateBudgetPreview()" style="font-size:16px;padding:10px 11px;">
+          </div>
+          <div class="form-group">
+            <label>Μεγάλες αγορές (€ / έτος)</label>
+            <input type="number" id="budget-big-amount" placeholder="π.χ. 1200" step="50" min="0" inputmode="decimal" oninput="updateBudgetPreview()" style="font-size:16px;padding:10px 11px;">
+          </div>
+        </div>
+        <div class="cpw-preview-box">
+          <div class="cpw-row"><span class="cpw-row-label">Μηνιαίο budget</span><span class="cpw-row-value" id="bp-monthly">—</span></div>
+          <div class="cpw-row"><span class="cpw-row-label">Μεγάλες αγορές / έτος</span><span class="cpw-row-value" id="bp-big">—</span></div>
+          <hr style="border:none;border-top:1px solid var(--border-soft);margin:6px 0">
+          <div class="cpw-row"><span class="cpw-row-label">Ετήσιο budget</span><span class="cpw-row-value" id="bp-total">—</span></div>
+        </div>
+        <div id="budget-legacy-note" class="budget-preview-note" style="display:none;"></div>
+      </div>
+      <div class="form-section">
+        <div class="form-section-title">Όριο κομματιών</div>
+        <div class="form-grid">
           <div class="form-group full">
             <label>Όριο κομματιών ανά μήνα (προαιρετικό)</label>
             <input type="number" id="budget-item-limit" placeholder="π.χ. 2" step="1" min="0" inputmode="numeric" oninput="updateItemLimitHint()" style="font-size:16px;padding:10px 11px;">
@@ -863,6 +960,7 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
           </div>
         </div>
       </div>
+      <div style="font-size:10px;color:var(--text-dim);margin-top:-6px;">Άφησε όλα τα πεδία κενά για να αφαιρεθεί το budget του έτους.</div>
       <div class="modal-actions">
         <button class="btn-sm" onclick="document.getElementById('budget-modal').classList.remove('open');document.body.style.overflow='';">Ακύρωση</button>
         <button class="btn-sm primary" id="budget-save-btn" onclick="saveBudget()">Αποθήκευση</button>
@@ -888,7 +986,12 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
           <div style="font-size:10px;color:var(--text-dim);margin-top:5px;">Μπορείς να βάλεις παρελθοντική ημερομηνία για παλιές αγορές</div>
         </div>
       </div>
+      <div class="checkbox-row" id="purchase-big-row" style="display:none;margin-top:10px;">
+        <input type="checkbox" id="purchase-big" onchange="updatePurchaseBudgetPreview()">
+        <label for="purchase-big">💎 Μεγάλη αγορά — χρέωσέ το στο ετήσιο ταμείο</label>
+      </div>
       <div id="purchase-verdict" class="purchase-verdict" style="margin:12px 0 16px;"></div>
+      <div id="purchase-budget-preview" class="limit-warning" style="display:none;"></div>
       <div id="purchase-limit-warning" class="limit-warning" style="display:none;"></div>
       <div class="modal-actions">
         <button class="btn-sm" onclick="document.getElementById('purchase-modal').classList.remove('open');document.body.style.overflow='';">Ακύρωση</button>
@@ -1145,6 +1248,7 @@ function initSortableList() {
 
 let budgetMap = {};
 let limitMap = {}; // year → monthly item limit (only if the user set one)
+let potMap = {};   // year → { monthly, big, income, monthlyPct, bigPct } (only if set)
 
 // ── AUTH ──
 let authMode = 'login';
@@ -1203,6 +1307,7 @@ async function handleLogout() {
   allItems = [];
   budgetMap = {};
   limitMap = {};
+  potMap = {};
 }
 
 sb.auth.onAuthStateChange((event, session) => {
@@ -1228,14 +1333,91 @@ async function loadBudgets() {
   } else {
     budgetMap = {};
     limitMap = {};
+    potMap = {};
     (data || []).forEach(b => {
-      const amt = parseFloat(b.amount);
-      if (amt > 0) budgetMap[b.year] = amt;
+      const monthly = parseFloat(b.monthly_amount) || 0;
+      const big = parseFloat(b.big_amount) || 0;
+      if (monthly > 0 || big > 0) {
+        potMap[b.year] = {
+          monthly, big,
+          income: parseFloat(b.monthly_income) || null,
+          monthlyPct: parseFloat(b.monthly_pct) || null,
+          bigPct: parseFloat(b.big_pct) || null,
+        };
+        budgetMap[b.year] = monthly * 12 + big; // annual = monthly pots + big-purchases pot
+      } else {
+        const amt = parseFloat(b.amount);
+        if (amt > 0) budgetMap[b.year] = amt; // older rows: plain annual amount
+      }
       const lim = parseInt(b.monthly_item_limit, 10);
       if (lim > 0) limitMap[b.year] = lim;
     });
   }
   renderBudgetBars();
+}
+
+let budgetMode = 'pct';
+
+function setBudgetMode(mode) {
+  budgetMode = mode;
+  document.getElementById('budget-mode-pct').classList.toggle('active', mode === 'pct');
+  document.getElementById('budget-mode-fixed').classList.toggle('active', mode === 'fixed');
+  document.getElementById('budget-pct-fields').style.display = mode === 'pct' ? 'grid' : 'none';
+  document.getElementById('budget-fixed-fields').style.display = mode === 'fixed' ? 'grid' : 'none';
+  updateBudgetPreview();
+}
+
+function readBudgetForm() {
+  const num = id => { const v = parseFloat(document.getElementById(id).value); return isNaN(v) || v < 0 ? 0 : v; };
+  if (budgetMode === 'pct') {
+    const income = num('budget-income'), mPct = num('budget-monthly-pct'), bPct = num('budget-big-pct');
+    return {
+      income: income || null, monthlyPct: mPct || null, bigPct: bPct || null,
+      monthly: Math.round(income * mPct) / 100,
+      big: Math.round(income * 12 * bPct) / 100,
+    };
+  }
+  return { income: null, monthlyPct: null, bigPct: null, monthly: num('budget-monthly-amount'), big: num('budget-big-amount') };
+}
+
+function fmtEur(n) {
+  const r = Math.round(n * 100) / 100;
+  const txt = Number.isInteger(r) ? r.toLocaleString('el-GR') : r.toLocaleString('el-GR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  return (n < 0 ? '−€' : '€') + txt.replace('-', '');
+}
+
+function updateBudgetPreview() {
+  const f = readBudgetForm();
+  document.getElementById('bp-monthly').textContent = f.monthly > 0 ? fmtEur(f.monthly) + ' / μήνα' : '—';
+  document.getElementById('bp-big').textContent = f.big > 0 ? fmtEur(f.big) : '—';
+  const total = f.monthly * 12 + f.big;
+  document.getElementById('bp-total').textContent = total > 0 ? fmtEur(total) : '—';
+}
+
+function fillBudgetForm(year) {
+  const pot = potMap[year];
+  ['budget-income','budget-monthly-pct','budget-big-pct','budget-monthly-amount','budget-big-amount'].forEach(id => document.getElementById(id).value = '');
+  if (pot && pot.income) {
+    document.getElementById('budget-income').value = pot.income;
+    document.getElementById('budget-monthly-pct').value = pot.monthlyPct || '';
+    document.getElementById('budget-big-pct').value = pot.bigPct || '';
+    setBudgetMode('pct');
+  } else if (pot) {
+    document.getElementById('budget-monthly-amount').value = pot.monthly || '';
+    document.getElementById('budget-big-amount').value = pot.big || '';
+    setBudgetMode('fixed');
+  } else {
+    setBudgetMode('pct');
+  }
+  const legacy = document.getElementById('budget-legacy-note');
+  if (!pot && budgetMap[year]) {
+    legacy.style.display = 'block';
+    legacy.textContent = `Για το ${year} έχεις ετήσιο budget ${fmtEur(budgetMap[year])} (παλιός τρόπος). Αν ορίσεις μηνιαίο budget ή μεγάλες αγορές, θα το αντικαταστήσουν.`;
+  } else {
+    legacy.style.display = 'none';
+  }
+  document.getElementById('budget-item-limit').value = limitMap[year] || '';
+  updateItemLimitHint();
 }
 
 function openBudgetModal(year) {
@@ -1247,17 +1429,10 @@ function openBudgetModal(year) {
     yearSel.add(opt);
   }
   yearSel.value = year || curYear;
-  document.getElementById('budget-amount').value = budgetMap[yearSel.value] || '';
-  document.getElementById('budget-item-limit').value = limitMap[yearSel.value] || '';
-  updateItemLimitHint();
-  yearSel.addEventListener('change', () => {
-    document.getElementById('budget-amount').value = budgetMap[yearSel.value] || '';
-    document.getElementById('budget-item-limit').value = limitMap[yearSel.value] || '';
-    updateItemLimitHint();
-  });
+  fillBudgetForm(parseInt(yearSel.value, 10));
+  yearSel.onchange = () => fillBudgetForm(parseInt(yearSel.value, 10));
   document.getElementById('budget-modal').classList.add('open');
   document.body.style.overflow = 'hidden';
-  setTimeout(() => document.getElementById('budget-amount').focus(), 200);
 }
 
 function updateItemLimitHint() {
@@ -1271,49 +1446,54 @@ function updateItemLimitHint() {
 
 async function saveBudget() {
   const year = parseInt(document.getElementById('budget-year').value, 10);
-  const amountRaw = document.getElementById('budget-amount').value.trim();
-  const amount = parseFloat(amountRaw);
-  const hasAmount = !!amountRaw && !isNaN(amount) && amount > 0;
+  const f = readBudgetForm();
+  const hasPots = f.monthly > 0 || f.big > 0;
   const limitRaw = parseInt(document.getElementById('budget-item-limit').value, 10);
   const hasLimit = !isNaN(limitRaw) && limitRaw > 0;
+  const hadLegacy = !potMap[year] && budgetMap[year];
   const btn = document.getElementById('budget-save-btn');
   btn.disabled = true; btn.textContent = '…';
 
-  if (!hasAmount && !hasLimit) {
+  if (!hasPots && !hasLimit) {
     const { error } = await sb.from('annual_budgets').delete().eq('user_id', currentUser.id).eq('year', year);
     btn.disabled = false; btn.textContent = 'Αποθήκευση';
     if (error) { showToast('Σφάλμα: ' + error.message); return; }
-    delete budgetMap[year];
-    delete limitMap[year];
+    delete budgetMap[year]; delete limitMap[year]; delete potMap[year];
     showToast('✓ Budget αφαιρέθηκε');
   } else {
     const payload = {
       user_id: currentUser.id,
       year,
-      amount: hasAmount ? amount : 0,
+      // annual = 12 × monthly + big pot; keep older plain annual amount if no pots are set
+      amount: hasPots ? Math.round((f.monthly * 12 + f.big) * 100) / 100 : (hadLegacy ? budgetMap[year] : 0),
+      monthly_amount: f.monthly > 0 ? f.monthly : null,
+      big_amount: f.big > 0 ? f.big : null,
+      monthly_income: f.income,
+      monthly_pct: f.monthlyPct,
+      big_pct: f.bigPct,
       monthly_item_limit: hasLimit ? limitRaw : null,
     };
-    let { error } = await sb.from('annual_budgets').upsert(payload, { onConflict: 'user_id,year' });
-    let limitSaved = true;
-    if (error && error.message && error.message.includes('monthly_item_limit')) {
-      // Column not created yet in Supabase — save the € budget anyway
-      delete payload.monthly_item_limit;
-      limitSaved = false;
-      ({ error } = await sb.from('annual_budgets').upsert(payload, { onConflict: 'user_id,year' }));
-    }
+    const { error } = await sb.from('annual_budgets').upsert(payload, { onConflict: 'user_id,year' });
     btn.disabled = false; btn.textContent = 'Αποθήκευση';
-    if (error) { showToast('Σφάλμα: ' + error.message); return; }
-    if (hasAmount) budgetMap[year] = amount; else delete budgetMap[year];
-    if (limitSaved) {
-      if (hasLimit) limitMap[year] = limitRaw; else delete limitMap[year];
-      showToast('✓ Budget αποθηκεύτηκε');
-    } else {
-      showToast('✓ Budget αποθηκεύτηκε · το όριο κομματιών δεν αποθηκεύτηκε');
+    if (error) {
+      const missingCol = /monthly_amount|big_amount|monthly_income|monthly_pct|big_pct|monthly_item_limit/.test(error.message || '');
+      showToast(missingCol ? 'Λείπουν στήλες στη βάση — τρέξε πρώτα το SQL' : 'Σφάλμα: ' + error.message);
+      return;
     }
+    if (hasPots) {
+      potMap[year] = { monthly: f.monthly, big: f.big, income: f.income, monthlyPct: f.monthlyPct, bigPct: f.bigPct };
+      budgetMap[year] = f.monthly * 12 + f.big;
+    } else {
+      delete potMap[year];
+      if (!hadLegacy) delete budgetMap[year];
+    }
+    if (hasLimit) limitMap[year] = limitRaw; else delete limitMap[year];
+    showToast('✓ Budget αποθηκεύτηκε');
   }
   document.getElementById('budget-modal').classList.remove('open');
   document.body.style.overflow = '';
   renderBudgetBars();
+  if (document.getElementById('panel-purchases').classList.contains('active')) renderPurchases();
 }
 
 // ── BUDGET BAR RENDERING ──
@@ -1329,6 +1509,128 @@ function renderBudgetBars() {
 
   renderWishlistBudgetBar(budget, spent, wishlistValue, curYear, wishlistValueThisYear, wishlistValueNextYear);
   renderPurchasesBudgetBar(budget, spent, curYear);
+  renderSummaryPots(curYear);
+  const yl = document.getElementById('summary-year-label'); if (yl) yl.textContent = curYear;
+}
+
+// ── MONTHLY POT (rolls over) + BIG-PURCHASES POT ──
+const SAVINGS_MSG = 'Είσαι εκτός budget. Βεβαιώσου ότι οι αποταμιεύσεις και οι επενδύσεις σου δεν επηρεάζονται.';
+
+function getPotState(year, monthIdx) {
+  const pot = potMap[year];
+  if (!pot) return null;
+  const M = pot.monthly || 0, B = pot.big || 0;
+  let spentBefore = 0, spentThis = 0, bigSpent = 0, bigCount = 0;
+  purchasedItems.filter(i => i.purchase_year === year).forEach(i => {
+    const p = parseFloat(i.price) || 0;
+    if (i.big_purchase) { bigSpent += p; bigCount++; return; }
+    const mi = parseInt((i.purchased_at || '').slice(5, 7), 10) - 1;
+    if (isNaN(mi)) return;
+    if (mi < monthIdx) spentBefore += p;
+    else if (mi === monthIdx) spentThis += p;
+  });
+  const carry = M * monthIdx - spentBefore;         // unused (or overspent) from earlier months this year
+  const pool = M + carry;                            // what this month started with
+  return { M, B, carry, pool, spentThis, available: pool - spentThis, bigSpent, bigCount, bigLeft: B - bigSpent };
+}
+
+function renderSummaryPots(year) {
+  const el = document.getElementById('summary-pots');
+  if (!el) return;
+  const pot = potMap[year];
+  if (!pot) {
+    el.innerHTML = `<div class="pot-empty">
+      <div class="pot-empty-title">Μηνιαίο budget & ταμείο μεγάλων αγορών</div>
+      <div class="pot-empty-sub">Π.χ. 5% του μηνιαίου εισοδήματος για κάθε μήνα (τα αδιάθετα μεταφέρονται) και 10% του ετήσιου για επενδυτικά κομμάτια.</div>
+      <button class="btn-sm primary" onclick="openBudgetModal(${year})">Όρισε budget</button>
+    </div>`;
+    return;
+  }
+  const m = new Date().getMonth();
+  const st = getPotState(year, m);
+  let html = '<div class="pots-grid">';
+
+  if (st.M > 0) {
+    const over = st.available < 0;
+    const fillPct = st.pool > 0 ? Math.min(100, st.spentThis / st.pool * 100) : (st.spentThis > 0 ? 100 : 0);
+    const carryTxt = st.carry > 0
+      ? ` + ${fmtEur(st.carry)} μεταφορά`
+      : st.carry < 0 ? ` − ${fmtEur(-st.carry)} υπέρβαση προηγούμενων μηνών` : '';
+    let alert = '';
+    if (over) alert = `<div class="pot-alert">⚠️ <strong>${fmtEur(-st.available)} πάνω από το budget.</strong> ${SAVINGS_MSG}</div>`;
+    else if (st.carry > 0 && m > 0) alert = `<div class="pot-alert good">✨ Έχεις μαζέψει ${fmtEur(st.carry)} από τους προηγούμενους μήνες.</div>`;
+    html += `<div class="pot-card${over ? ' over' : ''}">
+      <div class="pot-head"><div class="pot-title">Μηνιαίο <em>budget</em></div><div class="pot-sub">${MONTHS_NOM[m]}${pot.monthlyPct ? ` · ${pot.monthlyPct}% εισοδ.` : ''}</div></div>
+      <div class="pot-amount">${fmtEur(st.available)}</div>
+      <div class="pot-amount-label">${over ? 'υπέρβαση αυτόν τον μήνα' : 'διαθέσιμα αυτόν τον μήνα'}</div>
+      <div class="pot-track"><div class="pot-fill${over ? ' over' : ''}" style="width:${fillPct}%"></div></div>
+      <div class="pot-breakdown">${fmtEur(st.M)} μηνιαίο${carryTxt} · ${fmtEur(st.spentThis)} ξοδεμένα</div>
+      ${alert}
+    </div>`;
+  }
+
+  if (st.B > 0) {
+    const over = st.bigLeft < 0;
+    const fillPct = Math.min(100, st.bigSpent / st.B * 100);
+    html += `<div class="pot-card${over ? ' over' : ''}">
+      <div class="pot-head"><div class="pot-title">Μεγάλες <em>αγορές</em></div><div class="pot-sub">${year}${pot.bigPct ? ` · ${pot.bigPct}% ετήσιου εισοδ.` : ''}</div></div>
+      <div class="pot-amount">${fmtEur(st.bigLeft)}</div>
+      <div class="pot-amount-label">${over ? 'υπέρβαση του ετήσιου ταμείου' : 'διαθέσιμα για επενδυτικά κομμάτια'}</div>
+      <div class="pot-track"><div class="pot-fill${over ? ' over' : ''}" style="width:${fillPct}%"></div></div>
+      <div class="pot-breakdown">${fmtEur(st.bigSpent)} από ${fmtEur(st.B)} · ${st.bigCount} ${st.bigCount === 1 ? 'κομμάτι' : 'κομμάτια'} 💎</div>
+      ${over ? `<div class="pot-alert">⚠️ <strong>${fmtEur(-st.bigLeft)} πάνω από το ταμείο.</strong> ${SAVINGS_MSG}</div>` : ''}
+    </div>`;
+  }
+
+  html += '</div>';
+  el.innerHTML = html;
+}
+
+function updatePurchaseBudgetPreview() {
+  const el = document.getElementById('purchase-budget-preview');
+  const row = document.getElementById('purchase-big-row');
+  if (!el || !row) return;
+  const item = allItems.find(i => i.id === pendingPurchaseId);
+  const dateVal = document.getElementById('purchase-date-input').value;
+  const hide = () => { el.style.display = 'none'; el.innerHTML = ''; };
+  if (!item || !dateVal) { row.style.display = 'none'; hide(); return; }
+  const d = new Date(dateVal);
+  const y = d.getFullYear(), m = d.getMonth();
+  const pot = potMap[y];
+  row.style.display = pot && pot.big > 0 ? 'flex' : 'none';
+  if (!(pot && pot.big > 0)) document.getElementById('purchase-big').checked = false;
+  const price = parseFloat(item.price) || 0;
+  // Only for the current year (those purchases are loaded) and only if pots exist
+  if (!pot || !price || y !== new Date().getFullYear()) { hide(); return; }
+  const st = getPotState(y, m);
+  const isBig = document.getElementById('purchase-big').checked;
+  if (isBig) {
+    const after = st.bigLeft - price;
+    el.className = 'limit-warning ' + (after < 0 ? 'over' : 'info');
+    el.innerHTML = after < 0
+      ? `⚠️ <strong>Αυτή η αγορά ξεπερνά το ταμείο μεγάλων αγορών κατά ${fmtEur(-after)}.</strong> ${SAVINGS_MSG}`
+      : `💎 Από το ταμείο μεγάλων αγορών: διαθέσιμα ${fmtEur(st.bigLeft)} → μετά την αγορά <strong>${fmtEur(after)}</strong>.`;
+  } else if (st.M > 0) {
+    const after = st.available - price;
+    const bigHint = pot.big > 0 && st.bigLeft >= price ? ' Αν είναι επενδυτικό κομμάτι, τσέκαρε «Μεγάλη αγορά».' : '';
+    el.className = 'limit-warning ' + (after < 0 ? 'over' : 'info');
+    el.innerHTML = after < 0
+      ? `⚠️ <strong>Αυτή η αγορά σε βγάζει εκτός μηνιαίου budget κατά ${fmtEur(-after)}.</strong> ${SAVINGS_MSG}${bigHint}`
+      : `💶 Από το budget του ${MONTHS_GEN[m]}: διαθέσιμα ${fmtEur(st.available)} → μετά την αγορά <strong>${fmtEur(after)}</strong>.`;
+  } else { hide(); return; }
+  el.style.display = 'block';
+}
+
+async function toggleBigPurchase(id) {
+  const item = purchasedItems.find(i => String(i.id) === String(id));
+  if (!item) return;
+  const newVal = !item.big_purchase;
+  const { error } = await sb.from('wishlist').update({ big_purchase: newVal }).eq('id', id);
+  if (error) { showToast(/big_purchase/.test(error.message || '') ? 'Λείπει η στήλη big_purchase — τρέξε το SQL' : 'Σφάλμα: ' + error.message); return; }
+  item.big_purchase = newVal;
+  showToast(newVal ? '💎 Χρεώθηκε στις μεγάλες αγορές' : '💶 Χρεώθηκε στο μηνιαίο budget');
+  renderPurchases();
+  renderBudgetBars();
 }
 
 // ── MONTHLY ITEM LIMIT (optional per user/year) ──
@@ -1428,7 +1730,7 @@ function renderWishlistBudgetBar(budget, spent, wishlistValue, year, wishlistThi
   if (spentOver) {
     alertHtml = `<div class="budget-alert over">
       <span class="budget-alert-icon">⚠️</span>
-      <span><strong>Ξεπέρασες το budget!</strong> Έχεις ήδη ξοδέψει ${fmtMoney(spent)} από ${fmtMoney(budget)} — δηλαδή ${fmtMoney(spent - budget)} πάνω απ' το όριο.</span>
+      <span><strong>Ξεπέρασες το budget!</strong> Έχεις ήδη ξοδέψει ${fmtMoney(spent)} από ${fmtMoney(budget)} — δηλαδή ${fmtMoney(spent - budget)} πάνω απ' το όριο. ${SAVINGS_MSG}</span>
     </div>`;
   } else if (total > budget) {
     alertHtml = `<div class="budget-alert warn">
@@ -1493,7 +1795,7 @@ function renderPurchasesBudgetBar(budget, spent, year) {
   if (spentOver) {
     alertHtml = `<div class="budget-alert over">
       <span class="budget-alert-icon">⚠️</span>
-      <span><strong>Ξεπέρασες το budget του ${year} κατά ${fmtMoney(over)}.</strong> Σύνολο αγορών: ${fmtMoney(spent)} από ${fmtMoney(budget)}.</span>
+      <span><strong>Ξεπέρασες το budget του ${year} κατά ${fmtMoney(over)}.</strong> Σύνολο αγορών: ${fmtMoney(spent)} από ${fmtMoney(budget)}. ${SAVINGS_MSG}</span>
     </div>`;
   } else if (spent / budget >= 0.9) {
     alertHtml = `<div class="budget-alert warn">
@@ -2182,6 +2484,7 @@ function markPurchased(id) {
   pendingPurchaseId = id;
   document.getElementById('purchase-date-input').value = new Date().toISOString().split('T')[0];
   document.getElementById('purchase-item-name').textContent = item.title;
+  document.getElementById('purchase-big').checked = false;
   updatePurchaseVerdict(item);
   document.getElementById('purchase-modal').classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -2217,6 +2520,7 @@ function updatePurchaseVerdict(item) {
   verdictEl.innerHTML = `<strong>${v.icon} ${v.title}</strong><br><span style="font-size:10px;letter-spacing:0;text-transform:none;font-weight:300;">${v.msg}</span>`;
   verdictEl.className = 'purchase-verdict ' + v.cls;
   updatePurchaseLimitWarning(purchaseDate);
+  updatePurchaseBudgetPreview();
 }
 
 function updatePurchaseLimitWarning(purchaseDate) {
@@ -2294,10 +2598,17 @@ async function confirmPurchase() {
   btn.disabled = true; btn.textContent = '…';
 
   // 1. Update wishlist (existing behavior — keeps purchases dashboard data!)
-  const { error } = await sb.from('wishlist').update({
+  const isBigPurchase = document.getElementById('purchase-big-row').style.display !== 'none' && document.getElementById('purchase-big').checked;
+  const purchaseUpdate = {
     purchased: true, purchased_at: purchasedAt, purchase_year: purchaseYear,
     waited_two_months: waitedTwoMonths, purchase_category: purchCat,
-  }).eq('id', id);
+    big_purchase: isBigPurchase,
+  };
+  let { error } = await sb.from('wishlist').update(purchaseUpdate).eq('id', id);
+  if (error && /big_purchase/.test(error.message || '')) {
+    delete purchaseUpdate.big_purchase; // column not created yet — save the purchase anyway
+    ({ error } = await sb.from('wishlist').update(purchaseUpdate).eq('id', id));
+  }
 
   if (error) {
     btn.disabled = false; btn.textContent = 'Καταγραφή';
@@ -2368,6 +2679,7 @@ function showAppTab(id, btn) {
   document.getElementById('panel-' + id).classList.add('active');
   document.getElementById('btn-new-main').style.display = id === 'wishlist' ? '' : 'none';
   if (id === 'purchases') loadPurchases();
+  if (id === 'summary') renderBudgetBars();
   if (id === 'archive') loadArchive();
   if (id === 'uniforms') loadUniforms();
 }
@@ -2513,7 +2825,7 @@ function renderPurchases() {
   document.getElementById('purch-list').innerHTML=filtered.length
     ?filtered.map(item=>{
       const{cls,label}=BADGE[getPurchCat(item)]||BADGE.impulse;
-      return`<div class="purch-row"><div class="purch-row-body"><div class="purch-row-name">${escHtml(item.title)}</div><div class="purch-row-meta">${[item.brand,item.category,item.purchased_at?fmtDateShort(item.purchased_at):''].filter(Boolean).join(' · ')}</div></div><div class="purch-row-right"><div class="purch-row-price">${item.price?`€${item.price}`:'—'}</div><span class="purch-badge ${cls}">${label}</span></div></div>`;
+      return`<div class="purch-row"><div class="purch-row-body"><div class="purch-row-name">${escHtml(item.title)}</div><div class="purch-row-meta">${[item.brand,item.category,item.purchased_at?fmtDateShort(item.purchased_at):''].filter(Boolean).join(' · ')}</div></div><div class="purch-row-right"><div class="purch-row-price">${item.price?`€${item.price}`:'—'}</div><span class="purch-badge ${cls}">${label}</span>${potMap[item.purchase_year]&&potMap[item.purchase_year].big>0?`<button type="button" class="big-toggle${item.big_purchase?' on':''}" onclick="toggleBigPurchase('${item.id}')" title="${item.big_purchase?'Μεγάλη αγορά — πάτα για μηνιαίο budget':'Μηνιαίο budget — πάτα για μεγάλη αγορά'}">💎</button>`:''}</div></div>`;
     }).join('')
     :'<div style="color:var(--text-dim);font-size:11px;padding:8px 0">Καμία αγορά σε αυτή την κατηγορία</div>';
 }

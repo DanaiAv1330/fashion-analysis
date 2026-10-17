@@ -1773,7 +1773,9 @@ function getConsciousScore(item){const v=item.conscious_score;return(!v||v===0)?
 function getUsageRate(item){
   const t=getTotalWear(item);if(!t||!item.purchased_at)return null;
   const yrs=(new Date()-new Date(item.purchased_at))/(365.25*24*3600*1000);
-  if(yrs<0.05)return null;return t/yrs;
+  if(yrs<0.05)return null;
+  // Ρούχα κάτω του 1 έτους διαιρούνται με 1 χρόνο → δείχνει πραγματικές φορές, όχι προβολή
+  return t/Math.max(yrs,1);
 }
 function computeAggKPIs(){
   const ur=allItems.map(i=>getUsageRate(i)).filter(v=>v!==null);

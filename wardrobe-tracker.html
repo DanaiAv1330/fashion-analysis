@@ -560,6 +560,7 @@ body{padding-bottom:0;}
               <option value="recently_worn" selected>Πρόσφατα φορεμένο</option>
               <option value="least_worn">Λιγότερο φορεμένο</option>
               <option value="most_worn">Περισσότερο φορεμένο</option>
+              <option value="wears_per_year">Φορές / χρόνο ↓</option>
               <option value="price_high">Τιμή ↑</option>
               <option value="price_low">Τιμή ↓</option>
               <option value="wps_best">Καλύτερο ΔΑΝ™</option>
@@ -985,6 +986,7 @@ body{padding-bottom:0;}
                 <option value="">Όλα</option>
                 <option value="accessories">Αξεσουάρ</option>
                 <option value="clothing">Ρούχα</option>
+                <optgroup label="Ανά κατηγορία"><option value="cat:Tops">Tops</option><option value="cat:Pants">Παντελόνια</option><option value="cat:Dresses">Φορέματα</option><option value="cat:Outwear">Outwear</option><option value="cat:Shoes">Παπούτσια</option><option value="cat:Bags">Τσάντες</option><option value="cat:Accessories">Αξεσουάρ</option></optgroup>
               </select>
             </div>
             <div class="chart-formula">📐 Σύνολο wear logs του μήνα ομαδοποιημένα ανά χρώμα (μετράει κάθε φορά που φορέθηκε)</div>
@@ -1064,6 +1066,7 @@ body{padding-bottom:0;}
                 <option value="clothing">Ρούχα</option>
                 <option value="outwear">Outwear</option>
                 <option value="accessories">Αξεσουάρ</option>
+                <optgroup label="Ανά κατηγορία"><option value="cat:Tops">Tops</option><option value="cat:Pants">Παντελόνια</option><option value="cat:Dresses">Φορέματα</option><option value="cat:Outwear">Outwear</option><option value="cat:Shoes">Παπούτσια</option><option value="cat:Bags">Τσάντες</option><option value="cat:Accessories">Αξεσουάρ</option></optgroup>
               </select>
             </div>
             <div class="chart-formula">📐 Σύνολο wear logs της περιόδου ομαδοποιημένα ανά χρώμα</div>
@@ -1522,23 +1525,7 @@ sb.auth.onAuthStateChange((event,session)=>{
 });
 
 // INIT
-async function initApp(){initMaterialChips();await Promise.all([loadItems(),loadAllLogs(),loadArchivedItems(),loadOutfitUniforms()]);initColorFilterDropdown();renderWardrobe();renderActiveFilters();renderCalendar();loadMonthDash();initTotalDash();showLoadDiagnostic();}
-// ΠΡΟΣΩΡΙΝΟ DIAGNOSTIC — δείχνει πόσες καταγραφές wear_log όντως φορτώθηκαν, ώστε να εντοπίσουμε αν λείπουν δεδομένα στη βάση ή είναι θέμα φόρτωσης/cache. Θα αφαιρεθεί μόλις λυθεί το πρόβλημα.
-function showLoadDiagnostic(){
-  const dates=wearLogs.map(l=>l.worn_date).filter(Boolean).sort();
-  const earliest=dates[0]||'—';
-  const latest=dates[dates.length-1]||'—';
-  const byMonth={};
-  wearLogs.forEach(l=>{if(l.worn_date){const k=l.worn_date.slice(0,7);byMonth[k]=(byMonth[k]||0)+1;}});
-  const thisYear=new Date().getFullYear();
-  const monthLine=[1,2,3,4,5,6].map(m=>{const k=`${thisYear}-${String(m).padStart(2,'0')}`;return `${MN_SHORT[m-1]}:${byMonth[k]||0}`;}).join(' · ');
-  console.log('[DIAGNOSTIC] total wearLogs:',wearLogs.length,'earliest:',earliest,'latest:',latest,'byMonth:',byMonth);
-  const div=document.createElement('div');
-  div.id='load-diag';
-  div.style.cssText='position:fixed;top:0;left:0;right:0;z-index:99999;background:#2b2620;color:#f5f0e8;font-family:Jost,sans-serif;font-size:11px;padding:10px 14px;line-height:1.6;box-shadow:0 2px 10px rgba(0,0,0,.35);';
-  div.innerHTML=`<div><strong>Diagnostic:</strong> Σύνολο εγγραφών: ${wearLogs.length} · Παλαιότερη: ${earliest} · Νεότερη: ${latest}</div><div style="margin-top:2px;">${thisYear}: ${monthLine}</div><div style="margin-top:6px;text-align:right;"><button onclick="document.getElementById('load-diag').remove()" style="background:#c9a96e;color:#2b2620;border:none;padding:4px 12px;border-radius:4px;font-size:10px;font-family:Jost,sans-serif;">Κλείσιμο</button></div>`;
-  document.body.prepend(div);
-}
+async function initApp(){initMaterialChips();await Promise.all([loadItems(),loadAllLogs(),loadArchivedItems(),loadOutfitUniforms()]);initColorFilterDropdown();renderWardrobe();renderActiveFilters();renderCalendar();loadMonthDash();initTotalDash();}
 async function loadItems(){const{data}=await sb.from('wardrobe').select('*').order('created_at',{ascending:false});allItems=(data||[]).map(i=>({...i,uniforms:i.uniforms||[],occasions:i.occasions||[]}));initColorFilterDropdown();_alignCache.clear();}
 async function loadAllLogs(){
   let all=[],from=0,pageSize=1000,keepGoing=true;
@@ -2100,6 +2087,7 @@ function filterItems(){
   else if(sortMode==='recently_worn')items.sort((a,b)=>(getLastWorn(b.id)||'').localeCompare(getLastWorn(a.id)||''));
   else if(sortMode==='least_worn')items.sort((a,b)=>getTotalWear(a)-getTotalWear(b));
   else if(sortMode==='most_worn')items.sort((a,b)=>getTotalWear(b)-getTotalWear(a));
+  else if(sortMode==='wears_per_year')items.sort((a,b)=>(getUsageRate(b)??-1)-(getUsageRate(a)??-1));
   else if(sortMode==='price_high')items.sort((a,b)=>(b.price||0)-(a.price||0));
   else if(sortMode==='price_low')items.sort((a,b)=>(a.price||0)-(b.price||0));
   else if(sortMode==='wps_best')items.sort((a,b)=>getWPS(b)-getWPS(a));
@@ -2958,7 +2946,7 @@ function loadMonthDash(){
   document.getElementById('cpw-table-month').innerHTML=top5.length?top5.map(({item,count})=>{const cpw=getCPW(item);return`<div class="cpw-row" onclick="openItemModal('${item.id}')"><div class="cpw-row-thumb">${item.photo_url?`<img src="${escHtml(item.photo_url)}">`:'👗'}</div><div class="cpw-row-body"><div class="cpw-row-name">${escHtml(item.title)}</div><div class="cpw-row-sub">${[item.brand,item.cat2||item.cat1].filter(Boolean).join(' · ')}</div></div><div class="cpw-row-right"><div class="cpw-v ${cpwClass(cpw)}">${count}× μήνα</div>${cpw?`<div class="cpw-row-sub">CPW €${cpw.toFixed(2)}</div>`:''}</div></div>`;}).join(''):'<div style="padding:14px;font-size:11px;color:var(--text-dim);text-align:center;">Καμία χρήση αυτόν τον μήνα</div>';
   // color wears
   const cwFilter=document.getElementById('color-wears-filter').value;
-  const colorWears={};monthLogs.forEach(l=>{const item=allItems.find(i=>i.id===l.wardrobe_item_id);if(!item||!item.color)return;const isAcc=(item.cat1||item.category)==='Accessories'||(item.cat1||item.category)==='Bags';if(cwFilter==='accessories'&&!isAcc)return;if(cwFilter==='clothing'&&isAcc)return;colorWears[item.color]=(colorWears[item.color]||0)+1;});
+  const colorWears={};monthLogs.forEach(l=>{const item=allItems.find(i=>i.id===l.wardrobe_item_id);if(!item||!item.color)return;if(cwFilter.startsWith('cat:')){if((item.cat1||item.category)!==cwFilter.slice(4))return;colorWears[item.color]=(colorWears[item.color]||0)+1;return;}const isAcc=(item.cat1||item.category)==='Accessories'||(item.cat1||item.category)==='Bags';if(cwFilter==='accessories'&&!isAcc)return;if(cwFilter==='clothing'&&isAcc)return;colorWears[item.color]=(colorWears[item.color]||0)+1;});
   const cwSorted=Object.entries(colorWears).sort((a,b)=>b[1]-a[1]);const maxCW=cwSorted[0]?.[1]||1;
   document.getElementById('color-wears-legend').innerHTML=cwSorted.length?cwSorted.map(([k,v])=>renderHBar(k,v,maxCW,v+' χρ.',COLOR_HEX[k]||'#aaa')).join(''):'<div style="font-size:10px;color:var(--text-dim);">—</div>';
   // material wears
@@ -3121,6 +3109,7 @@ function loadWPSDrill(){
 function colorGroupMatch(item, val){
   if(!val) return true;
   const c = item.cat1 || item.category || '';
+  if(val.startsWith('cat:')) return c === val.slice(4);
   if(val === 'clothing') return ['Tops','Dresses','Pants'].includes(c);
   if(val === 'outwear')  return c === 'Outwear';
   if(val === 'accessories') return ['Shoes','Bags','Accessories','Jewelry'].includes(c);

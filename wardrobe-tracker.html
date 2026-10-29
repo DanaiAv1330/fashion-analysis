@@ -154,6 +154,14 @@ body{font-family:var(--font-sans);font-weight:300;background:var(--bg);color:var
 .xt-note{font-size:11px;line-height:1.55;color:var(--text);margin-top:8px;padding:8px 10px;background:var(--surface);border:1px solid var(--border-soft);border-radius:2px;}
 .xt-note.done{background:var(--green-soft);border-color:rgba(74,124,90,0.3);color:var(--green-text);}
 .xt-note.long{background:rgba(184,150,10,0.07);border-color:rgba(184,150,10,0.3);color:#6b5200;}
+.corner-badges{position:absolute;top:4px;left:4px;display:flex;flex-direction:column;align-items:flex-start;gap:2px;z-index:1;}
+.corner-badges .fav-badge,.corner-badges .archive-badge{position:static;}
+.flag-badge{background:#8c3a2c;color:white;font-size:8px;letter-spacing:0.05em;text-transform:uppercase;padding:2px 5px;border-radius:2px;font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,0.25);}
+.flag-tag{font-size:7px;letter-spacing:0.07em;text-transform:uppercase;background:#8c3a2c;color:white;padding:1px 5px;border-radius:1px;font-weight:500;}
+.chip.flag-chip.active{border-color:#8c3a2c;color:white;background:#8c3a2c;}
+.auto-info{font-size:10px;line-height:1.5;color:var(--text-muted);padding:6px 9px;background:var(--surface2);border:1px solid var(--border-soft);border-radius:2px;margin-top:6px;}
+.auto-info.warn{background:rgba(232,184,75,0.15);border-color:rgba(196,149,106,0.4);color:#5a4020;}
+.auto-info.flag{background:rgba(140,58,44,0.08);border-color:rgba(140,58,44,0.3);color:#8c3a2c;}
 .xts-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:12px;}
 .xts-table{width:100%;border-collapse:collapse;font-size:11px;}
 .xts-table th{font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);font-weight:400;text-align:right;padding:4px 4px 6px;border-bottom:1px solid var(--border);}
@@ -538,9 +546,9 @@ body{padding-bottom:0;}
         <button class="chip" onclick="setFilter('Bags',this)">Τσάντες</button>
         <button class="chip" onclick="setFilter('Accessories',this)">Αξεσουάρ</button>
         <div class="filter-sep"></div>
-        <button class="chip dormant-chip" onclick="setFilter('dormant',this)">⚠ Dormant</button>
         <button class="chip" onclick="setFilter('fav',this)">♥ Αγαπημένα</button>
         <button class="chip archive-chip" onclick="setFilter('archive_candidate',this)">⚠ Review</button>
+        <button class="chip flag-chip" onclick="setFilter('never',this)">🚩 Ποτέ φορεμένα</button>
       </div>
       <div class="toolbar-row" id="cat2-chips-row" style="display:none;"></div>
 
@@ -744,8 +752,10 @@ body{padding-bottom:0;}
             </div>
             <div class="form-group full"><label>Σημειώσεις</label><textarea id="f-notes"></textarea></div>
           </div>
-          <div class="checkbox-row" style="margin-top:8px;"><input type="checkbox" id="f-fav"><label for="f-fav">♥ Αγαπημένο</label></div>
-          <div class="checkbox-row" style="margin-top:4px;"><input type="checkbox" id="f-archive-candidate"><label for="f-archive-candidate">⚠ Υποψήφιο για αποχώρηση</label></div>
+          <input type="checkbox" id="f-fav" style="display:none;">
+          <div id="fav-auto-info" class="auto-info" style="display:none;"></div>
+          <div id="review-auto-info" class="auto-info warn" style="display:none;"></div>
+          <div class="checkbox-row" style="margin-top:6px;"><input type="checkbox" id="f-archive-candidate"><label for="f-archive-candidate">⚠ Βάλ' το κι εγώ στο Review (χειροκίνητα)</label></div>
         </div>
         <!-- Feeling & Face Effect -->
         <div style="margin-bottom:14px;">
@@ -862,7 +872,7 @@ body{padding-bottom:0;}
           <div class="mstat"><div class="mstat-num" id="ms-days">—</div><div class="mstat-label">Ημέρες με log</div></div>
           <div class="mstat"><div class="mstat-num" id="ms-uses">—</div><div class="mstat-label">Συνολικές χρήσεις</div></div>
           <div class="mstat"><div class="mstat-num" id="ms-items" style="color:var(--accent)">—</div><div class="mstat-label">Κομμάτια</div></div>
-          <div class="mstat"><div class="mstat-num" id="ms-dormant" style="color:var(--red-text)">—</div><div class="mstat-label">Dormant</div></div>
+          <div class="mstat"><div class="mstat-num" id="ms-dormant" style="color:var(--red-text)">—</div><div class="mstat-label">🚩 Ποτέ φορεμένα</div></div>
         </div>
       </div>
     </div>
@@ -1582,7 +1592,7 @@ sb.auth.onAuthStateChange((event,session)=>{
 
 // INIT
 async function initApp(){initMaterialChips();await Promise.all([loadItems(),loadAllLogs(),loadArchivedItems(),loadOutfitUniforms()]);initColorFilterDropdown();renderWardrobe();renderActiveFilters();renderCalendar();loadMonthDash();initTotalDash();}
-async function loadItems(){const{data}=await sb.from('wardrobe').select('*').order('created_at',{ascending:false});allItems=(data||[]).map(i=>({...i,uniforms:i.uniforms||[],occasions:i.occasions||[]}));initColorFilterDropdown();_alignCache.clear();}
+async function loadItems(){const{data}=await sb.from('wardrobe').select('*').order('created_at',{ascending:false});allItems=(data||[]).map(i=>({...i,uniforms:i.uniforms||[],occasions:i.occasions||[]}));initColorFilterDropdown();_alignCache.clear();_favCache=null;}
 async function loadAllLogs(){
   let all=[],from=0,pageSize=1000,keepGoing=true;
   while(keepGoing){
@@ -1593,7 +1603,7 @@ async function loadAllLogs(){
     from+=pageSize;
   }
   wearLogs=all;
-  _alignCache.clear();
+  _alignCache.clear();_favCache=null;
 }
 async function loadLogsForDate(d){const{data}=await sb.from('wear_log').select('*').eq('worn_date',d);selectedDateLogs=data||[];}
 
@@ -1837,6 +1847,59 @@ function computeExcellent({price,cat1,cat2,season,cpwCat,total,usageRate}){
 function getExcellentTarget(item){
   return computeExcellent({price:item.price,cat1:item.cat1||item.category,cat2:item.cat2,season:item.season,cpwCat:item.cpw_category,total:getTotalWear(item),usageRate:getUsageRate(item)});
 }
+// ── AUTO FLAGS: ♥ Αγαπημένα · ⚠ Review · 🚩 Ποτέ φορεμένα ──
+const FAV_MIN_DAN=40;         // ελάχιστο ΔΑΝ™ για να μπει στα ♥ Αγαπημένα
+const FAV_TOP_N=5;            // top 5 ΔΑΝ™ ανά υποκατηγορία (άρα και ανά κατηγορία) — όχι όσα είναι σε Review / αφόρετα
+const REVIEW_YEARS=3;         // ⚠ Review: 3+ χρόνια και κάτω από το 50% του στόχου
+const REVIEW_PCT=50;
+const NEVER_WORN_GRACE_MONTHS=3; // 🚩 μόνο αν έχει περάσει διάστημα από την αγορά (αν δεν υπάρχει ημερομηνία: πάντα)
+let _favCache=null;
+function ownedYears(item){
+  let d=null;
+  if(item.purchased_at)d=new Date(item.purchased_at);
+  else if(item.purchase_year)d=new Date(item.purchase_year,(item.purchase_month||1)-1,1);
+  if(!d||isNaN(d))return null;
+  return(new Date()-d)/(365.25*24*3600*1000);
+}
+function _buildFavCache(){
+  const groups={};
+  allItems.forEach(i=>{if(getTotalWear(i)<=0||isReview(i))return;const k=(i.cat1||i.category||'—')+'|'+(i.cat2||'');(groups[k]=groups[k]||[]).push(i);});
+  const fav=new Set();
+  Object.values(groups).forEach(list=>{list.map(i=>({i,s:getWPS(i)})).sort((a,b)=>b.s-a.s).slice(0,FAV_TOP_N).forEach(x=>{if(x.s>=FAV_MIN_DAN)fav.add(x.i.id);});});
+  _favCache=fav;
+}
+function isFavorite(item){if(!_favCache)_buildFavCache();return _favCache.has(item.id);}
+function favRank(item){
+  const k=(item.cat1||item.category||'—')+'|'+(item.cat2||'');
+  const list=allItems.filter(i=>getTotalWear(i)>0&&!isReview(i)&&((i.cat1||i.category||'—')+'|'+(i.cat2||''))===k).sort((a,b)=>getWPS(b)-getWPS(a));
+  return{rank:list.findIndex(i=>i.id===item.id)+1,of:list.length,group:item.cat2||item.cat1||item.category||'—'};
+}
+function isNeverWornFlag(item){
+  if(getTotalWear(item)>0)return false;
+  const y=ownedYears(item);
+  return y===null||y>=NEVER_WORN_GRACE_MONTHS/12;
+}
+function autoReview(item){
+  const y=ownedYears(item);if(y===null||y<REVIEW_YEARS)return null;
+  const x=getExcellentTarget(item);if(!x||x.reached||x.pct>=REVIEW_PCT)return null;
+  return{years:y,pct:x.pct,x};
+}
+function isReview(item){return !!item.archive_candidate||!!autoReview(item);}
+function reviewInfo(item){
+  const a=autoReview(item);
+  const parts=[];
+  if(a)parts.push(`${fmtNum(a.years)} χρόνια στην ντουλάπα και μόνο ${a.pct}% του στόχου (${a.x.total}/${a.x.needed} χρήσεις)`);
+  if(item.archive_candidate)parts.push('το έβαλες εσύ στο Review');
+  return{auto:!!a,manual:!!item.archive_candidate,reason:parts.join(' · ')};
+}
+function renderAutoFlagsInfo(item){
+  const fe=document.getElementById('fav-auto-info'),re=document.getElementById('review-auto-info');if(!fe||!re)return;
+  fe.style.display='none';re.style.display='none';
+  if(!item)return;
+  if(isFavorite(item)){const r=favRank(item);fe.style.display='block';fe.className='auto-info';fe.innerHTML=`♥ <strong>Αγαπημένο</strong> αυτόματα — #${r.rank} σε ΔΑΝ™ από τα ${r.of} φορεμένα στο «${escHtml(r.group)}».`;}
+  if(isNeverWornFlag(item)){re.style.display='block';re.className='auto-info flag';re.innerHTML='🚩 <strong>Δεν το έχεις φορέσει ποτέ.</strong> Κάτι δεν πάει καλά εδώ — φόρεσέ το αυτή την εβδομάδα ή σκέψου την αποχώρηση.';}
+  else{const a=autoReview(item);if(a){re.style.display='block';re.className='auto-info warn';re.innerHTML=`⚠ <strong>Αυτόματα στο Review:</strong> ${fmtNum(a.years)} χρόνια στην ντουλάπα και έχει κάνει μόνο ${a.pct}% του στόχου (${a.x.total}/${a.x.needed} χρήσεις).`;}}
+}
 function renderExcellentBox(){
   const box=document.getElementById('xt-box');if(!box)return;
   const item=editingItemId?allItems.find(i=>i.id===editingItemId):null;
@@ -2004,7 +2067,7 @@ function getColorValue(){
 // WARDROBE
 function updateCat2Chips(cat1){
   const row=document.getElementById('cat2-chips-row');
-  if(!cat1||cat1==='all'||cat1==='dormant'||cat1==='fav'||cat1==='archive_candidate'||!CATEGORIES[cat1]){row.style.display='none';currentCat2Filter='all';return;}
+  if(!cat1||cat1==='all'||cat1==='never'||cat1==='fav'||cat1==='archive_candidate'||!CATEGORIES[cat1]){row.style.display='none';currentCat2Filter='all';return;}
   row.style.display='flex';
   row.innerHTML=`<button class="chip active" onclick="setCat2Filter('all',this)">Όλα</button>`+CATEGORIES[cat1].map(s=>`<button class="chip" onclick="setCat2Filter('${escHtml(s)}',this)">${escHtml(s)}</button>`).join('');
   currentCat2Filter='all';
@@ -2086,8 +2149,8 @@ function updateScoreFilterCounter(){
   const count=filterItems().length;
   const componentLabels={'dan':'ΔΑΝ™','usage':'Χρήση','vers':'Ευελιξία','align':'Συνέπεια','cpw':'Απόσβεση'};
   const otherFilters=[];
-  if(currentFilter!=='all'&&currentFilter!=='dormant'&&currentFilter!=='fav'&&currentFilter!=='archive_candidate')otherFilters.push(currentFilter);
-  else if(currentFilter==='dormant')otherFilters.push('Dormant');
+  if(currentFilter!=='all'&&currentFilter!=='never'&&currentFilter!=='fav'&&currentFilter!=='archive_candidate')otherFilters.push(currentFilter);
+  else if(currentFilter==='never')otherFilters.push('Ποτέ φορεμένα');
   else if(currentFilter==='fav')otherFilters.push('Αγαπημένα');
   else if(currentFilter==='archive_candidate')otherFilters.push('Review');
   if(currentCat2Filter!=='all')otherFilters.push(currentCat2Filter);
@@ -2159,7 +2222,7 @@ function renderActiveFilters(){
   const row=document.getElementById('active-filters-row');if(!row)return;
   const chips=[];
   const labelFor=(t,v)=>`<button class="chip active" style="font-size:9px;" onclick="clearOneFilter('${t}')">${v} ✕</button>`;
-  if(currentFilter!=='all'){const map={dormant:'⚠ Dormant',fav:'♥ Αγαπημένα',archive_candidate:'⚠ Review',Tops:'Tops',Pants:'Παντελόνια',Dresses:'Φορέματα',Outwear:'Outwear',Shoes:'Παπούτσια',Bags:'Τσάντες',Accessories:'Αξεσουάρ'};chips.push(labelFor('cat',map[currentFilter]||currentFilter));}
+  if(currentFilter!=='all'){const map={never:'🚩 Ποτέ φορεμένα',fav:'♥ Αγαπημένα',archive_candidate:'⚠ Review',Tops:'Tops',Pants:'Παντελόνια',Dresses:'Φορέματα',Outwear:'Outwear',Shoes:'Παπούτσια',Bags:'Τσάντες',Accessories:'Αξεσουάρ'};chips.push(labelFor('cat',map[currentFilter]||currentFilter));}
   if(currentCat2Filter!=='all')chips.push(labelFor('cat2',currentCat2Filter));
   if(portfolioFilter)chips.push(labelFor('portfolio',portfolioFilter));
   if(feelingFilter)chips.push(labelFor('feeling',feelingFilter));
@@ -2193,9 +2256,9 @@ function clearOneFilter(type){
 }
 function filterItems(){
   let items=[...allItems];
-  if(currentFilter==='dormant')items=items.filter(i=>isDormant(i));
-  else if(currentFilter==='fav')items=items.filter(i=>i.is_favorite);
-  else if(currentFilter==='archive_candidate')items=items.filter(i=>i.archive_candidate);
+  if(currentFilter==='never')items=items.filter(i=>isNeverWornFlag(i));
+  else if(currentFilter==='fav')items=items.filter(i=>isFavorite(i));
+  else if(currentFilter==='archive_candidate')items=items.filter(i=>isReview(i));
   else if(currentFilter!=='all')items=items.filter(i=>i.cat1===currentFilter||i.category===currentFilter);
   if(currentCat2Filter!=='all')items=items.filter(i=>i.cat2===currentCat2Filter);
   if(feelingFilter)items=items.filter(i=>i.feeling===feelingFilter);
@@ -2257,9 +2320,10 @@ function renderWardrobe(){
       <div class="item-photo-placeholder">
         ${item.photo_url?`<img src="${escHtml(item.photo_url)}" class="item-photo" onerror="this.parentNode.innerHTML='👗'">`:'👗'}
         ${cpw?`<span class="cpw-badge ${cc}">€${cpw.toFixed(2)}</span>`:''}
-        ${isDormant(item)&&getWearCount(item.id)>0?`<span class="dormant-badge">${getDaysSinceWorn(item)}d</span>`:''}
-        ${item.is_favorite?`<span class="fav-badge">♥</span>`:''}
-        ${item.archive_candidate?`<span class="archive-badge">⚠ Review</span>`:''}
+        ${(()=>{const b=[];if(isFavorite(item))b.push('<span class="fav-badge">♥</span>');
+          if(isNeverWornFlag(item))b.push('<span class="flag-badge" title="Δεν έχει φορεθεί ποτέ">🚩 Ποτέ</span>');
+          else if(isReview(item))b.push(`<span class="archive-badge" title="${escHtml(reviewInfo(item).reason)}">⚠ Review</span>`);
+          return b.length?`<div class="corner-badges">${b.join('')}</div>`:'';})()}
         ${ptypeBadge}
         <span class="score-badge" style="background:rgba(42,35,26,0.85);">${getWPS(item)}</span>
       </div>
@@ -2286,7 +2350,7 @@ function renderWardrobe(){
     return`<div class="list-row" onclick="openItemModal('${item.id}')">
       <div class="list-thumb">${item.photo_url?`<img src="${escHtml(item.photo_url)}" onerror="this.outerHTML='👗'">`:'👗'}</div>
       <div class="list-body">
-        <div class="list-name">${escHtml(item.title)}${ptypeTag}</div>
+        <div class="list-name">${isFavorite(item)?'<span style="color:#b55a4a">♥</span> ':''}${escHtml(item.title)}${ptypeTag}</div>
         <div class="list-meta-s">${[item.brand,item.cat2||item.cat1,item.color].filter(Boolean).join(' · ')}${item.purchase_year?` · <span style="color:var(--text-dim)">${MN_SHORT[(item.purchase_month||1)-1]} ${item.purchase_year}</span>`:''}</div>
         ${ss?`<div class="list-score">${ss}</div>`:''}
         ${(()=>{const x=getExcellentTarget(item);if(!x)return'';
@@ -2296,7 +2360,7 @@ function renderWardrobe(){
       </div>
       <div class="list-right">
         <div class="list-cpw ${cc}">${cpw?`€${cpw.toFixed(2)}`:'—'}</div>
-        <div class="list-uses">${total} φορές${isDormant(item)&&getWearCount(item.id)>0?' <span class="dormant-tag">Dormant</span>':''}${item.archive_candidate?' <span class="archive-tag">⚠ Review</span>':''}</div>
+        <div class="list-uses">${total} φορές${isNeverWornFlag(item)?' <span class="flag-tag">🚩 Ποτέ</span>':isReview(item)?` <span class="archive-tag" title="${escHtml(reviewInfo(item).reason)}">⚠ Review</span>`:''}</div>
       </div>
     </div>`;
   }).join('');
@@ -2404,6 +2468,7 @@ function openItemModal(id){
   }
   renderUniformSelector(id?allItems.find(i=>i.id===id):null);
   renderExcellentBox();
+  renderAutoFlagsInfo(id?allItems.find(i=>i.id===id):null);
   document.getElementById('inline-item-wrap').style.display='block';
   document.getElementById('inline-item-wrap').scrollIntoView({behavior:'smooth',block:'start'});
 }
@@ -2969,7 +3034,7 @@ function renderMonthStats(){
   document.getElementById('ms-days').textContent=days;
   document.getElementById('ms-uses').textContent=monthLogs.length;
   document.getElementById('ms-items').textContent=items;
-  document.getElementById('ms-dormant').textContent=allItems.filter(i=>isDormant(i)).length;
+  document.getElementById('ms-dormant').textContent=allItems.filter(i=>isNeverWornFlag(i)).length;
 }
 
 // PICK PANEL
@@ -3470,7 +3535,7 @@ function pieceScore(candidate,base,occasion,baseUniformIds){
   // versatility
   score+=(getVersatilityScore(candidate)||0)*0.3;
   // favorite
-  if(candidate.is_favorite)score+=1.5;
+  if(isFavorite(candidate))score+=1.5;
   return score;
 }
 function occasionAllows(item,occasionKey){
@@ -3521,7 +3586,7 @@ function setWhyText(base,pieces,occasion){
   const matchingUniforms=outfitUniforms.filter(u=>{const n=(u.name||'').toLowerCase();return occasion.uniformHints.some(h=>n.includes(h));});
   if(matchingUniforms.length){const inSet=pieces.filter(p=>(p.uniforms||[]).some(uid=>matchingUniforms.some(mu=>mu.id===uid)));if(inSet.length>=2)reasons.push('κουμπώνει με το uniform «'+matchingUniforms[0].name+'»');}
   // favorite
-  const favs=pieces.filter(p=>p.is_favorite&&p.id!==base.id);
+  const favs=pieces.filter(p=>isFavorite(p)&&p.id!==base.id);
   if(favs.length)reasons.push('περιλαμβάνει αγαπημένα σου κομμάτια');
   // feeling
   const goodFeel=pieces.filter(p=>['😍 Excellent','😊 Good','💪 Powerful','🌸 Pretty'].includes(p.feeling));

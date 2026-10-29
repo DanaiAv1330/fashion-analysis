@@ -154,6 +154,18 @@ body{font-family:var(--font-sans);font-weight:300;background:var(--bg);color:var
 .xt-note{font-size:11px;line-height:1.55;color:var(--text);margin-top:8px;padding:8px 10px;background:var(--surface);border:1px solid var(--border-soft);border-radius:2px;}
 .xt-note.done{background:var(--green-soft);border-color:rgba(74,124,90,0.3);color:var(--green-text);}
 .xt-note.long{background:rgba(184,150,10,0.07);border-color:rgba(184,150,10,0.3);color:#6b5200;}
+.xts-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:12px;}
+.xts-table{width:100%;border-collapse:collapse;font-size:11px;}
+.xts-table th{font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);font-weight:400;text-align:right;padding:4px 4px 6px;border-bottom:1px solid var(--border);}
+.xts-table th:first-child,.xts-table td:first-child{text-align:left;}
+.xts-table td{padding:7px 4px;border-bottom:1px solid var(--border-soft);text-align:right;color:var(--text);white-space:nowrap;}
+.xts-table td.xts-bcell{width:34%;}
+.xts-bar{height:6px;background:var(--surface3);border-radius:3px;overflow:hidden;display:flex;}
+.xts-bar .r{background:var(--green);}
+.xts-bar .c{background:var(--accent-light);}
+.xts-pct{font-family:var(--font-serif);font-size:13px;}
+.xts-legend{display:flex;gap:12px;flex-wrap:wrap;font-size:9px;color:var(--text-muted);margin-top:8px;}
+.xts-legend i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:4px;vertical-align:-1px;}
 .xt-note .xt-calc{display:block;font-size:9.5px;color:var(--text-dim);margin-top:3px;}
 .empty-state{text-align:center;padding:50px 20px;color:var(--text-muted);}
 .empty-title{font-family:var(--font-serif);font-size:20px;font-weight:300;margin-bottom:8px;color:var(--text);}
@@ -1222,6 +1234,9 @@ body{padding-bottom:0;}
 
       <!-- PURCHASES -->
       <div class="dash-subpanel" id="dash-purchases">
+        <div style="font-family:var(--font-serif);font-size:16px;font-weight:300;margin-bottom:6px;">🏆 Στόχος <em style="color:var(--accent);font-style:italic">CPW</em></div>
+        <div style="font-size:10px;color:var(--text-dim);line-height:1.6;margin-bottom:12px;">Πόσα ρούχα έχουν φτάσει τις χρήσεις για <strong>εξαιρετική αγορά</strong> (CPW στο μισό του target). «Κοντά» = έχουν κάνει τουλάχιστον το 75%.</div>
+        <div id="xt-stats"></div>
         <div style="font-family:var(--font-serif);font-size:16px;font-weight:300;margin-bottom:14px;">Αγορές ανά <em style="color:var(--accent);font-style:italic">Μήνα</em></div>
         <div class="chart-card" style="margin-bottom:12px;">
           <div class="chart-title">Τεμάχια ανά μήνα (όλα τα χρόνια)</div>
@@ -3255,7 +3270,39 @@ function colorGroupMatch(item, val){
 }
 
 // PURCHASES DASH
+function renderTargetStats(){
+  const el=document.getElementById('xt-stats');if(!el)return;
+  const rows=allItems.map(i=>({item:i,x:getExcellentTarget(i)}));
+  const withT=rows.filter(r=>r.x);
+  const noPrice=rows.length-withT.length;
+  if(!withT.length){el.innerHTML='<div style="font-size:11px;color:var(--text-dim);padding:10px 0 18px;">Δεν υπάρχουν ακόμα ρούχα με τιμή.</div>';return;}
+  const isClose=x=>!x.reached&&x.pct>=75;
+  const reached=withT.filter(r=>r.x.reached).length, close=withT.filter(r=>isClose(r.x)).length, total=withT.length;
+  const pct=n=>total?Math.round(n/total*100):0;
+  const kpis=`<div class="xts-kpis">
+    <div class="kpi-card good-k"><div class="kpi-label">Πέτυχαν τον στόχο</div><div class="kpi-value">${reached}<span style="font-size:13px;color:var(--text-dim)">/${total}</span></div><div class="kpi-sub">${pct(reached)}% των ρούχων</div></div>
+    <div class="kpi-card score-k"><div class="kpi-label">Κοντά (75%+)</div><div class="kpi-value">${close}</div><div class="kpi-sub">${pct(close)}% · λίγες χρήσεις ακόμα</div></div>
+    <div class="kpi-card alert"><div class="kpi-label">Μακριά</div><div class="kpi-value">${total-reached-close}</div><div class="kpi-sub">${pct(total-reached-close)}% των ρούχων</div></div>
+  </div>`;
+  const table=(title,keyFn,sortFn)=>{
+    const g={};withT.forEach(r=>{const k=keyFn(r.item);if(!g[k])g[k]={n:0,r:0,c:0};g[k].n++;if(r.x.reached)g[k].r++;else if(isClose(r.x))g[k].c++;});
+    const entries=Object.entries(g).sort(sortFn);
+    return`<div class="chart-card" style="margin-bottom:12px;"><div class="chart-title">${title}</div>
+      <table class="xts-table"><thead><tr><th></th><th>Πέτυχαν</th><th>Κοντά</th><th>Σύνολο</th><th>%</th><th></th></tr></thead><tbody>
+      ${entries.map(([k,d])=>{const pr=Math.round(d.r/d.n*100),pc=Math.round(d.c/d.n*100);
+        return`<tr><td>${escHtml(k)}</td><td><strong>${d.r}</strong></td><td>${d.c||'—'}</td><td>${d.n}</td><td class="xts-pct" style="color:${pr>=50?'var(--green-text)':pr>=20?'var(--accent)':'var(--red-text)'}">${pr}%</td>
+        <td class="xts-bcell"><div class="xts-bar"><span class="r" style="width:${pr}%"></span><span class="c" style="width:${pc}%"></span></div></td></tr>`;}).join('')}
+      </tbody></table>
+      <div class="xts-legend"><span><i style="background:var(--green)"></i>Πέτυχαν</span><span><i style="background:var(--accent-light)"></i>Κοντά (75%+)</span></div></div>`;
+  };
+  const CAT_ORDER=['Tops','Dresses','Pants','Outwear','Shoes','Bags','Accessories'];
+  const byCat=table('Ανά κατηγορία',i=>i.cat1||i.category||'—',(a,b)=>{const ia=CAT_ORDER.indexOf(a[0]),ib=CAT_ORDER.indexOf(b[0]);return(ia<0?99:ia)-(ib<0?99:ib);});
+  const byYear=table('Ανά έτος αγοράς',i=>i.purchase_year?String(i.purchase_year):(i.purchased_at?String(new Date(i.purchased_at).getFullYear()):'Χωρίς έτος'),(a,b)=>{if(a[0]==='Χωρίς έτος')return 1;if(b[0]==='Χωρίς έτος')return -1;return b[0].localeCompare(a[0]);});
+  const note=noPrice?`<div style="font-size:9px;color:var(--text-dim);margin:-4px 0 14px;">${noPrice} ρούχα χωρίς τιμή δεν μετράνε στα στατιστικά.</div>`:'';
+  el.innerHTML=kpis+byCat+byYear+note;
+}
 function loadPurchasesDash(){
+  renderTargetStats();
   const byMonthAll={};allItems.forEach(i=>{if(i.purchase_month)byMonthAll[i.purchase_month]=(byMonthAll[i.purchase_month]||0)+1;});
   const maxMA=Math.max(...Object.values(byMonthAll),1);
   document.getElementById('purchase-by-month-chart').innerHTML=MN_SHORT.map((mn,idx)=>renderHBar(mn,byMonthAll[idx+1]||0,maxMA,String(byMonthAll[idx+1]||0),'var(--accent)')).join('');

@@ -414,6 +414,10 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
 .cpw-row.headline .cpw-row-label{color:var(--green-text);font-weight:500;}
 .cpw-row.headline .cpw-row-value{font-size:22px;color:var(--green-text);}
 .cpw-pace{font-size:10px;color:var(--text-muted);line-height:1.5;margin-top:2px;}
+.cpw-timeline{font-size:11px;line-height:1.55;color:var(--text);margin-top:8px;padding:8px 10px;background:var(--surface);border:1px solid var(--border-soft);border-radius:2px;}
+.cpw-timeline strong{font-weight:500;}
+.cpw-timeline .tl-calc{display:block;font-size:9.5px;color:var(--text-dim);margin-top:2px;}
+.cpw-timeline.long{background:rgba(184,150,10,0.07);border-color:rgba(184,150,10,0.3);color:#6b5200;}
 .commit-box{display:flex;align-items:flex-start;gap:11px;margin-top:10px;padding:13px 14px;border:1.5px dashed var(--accent);border-radius:4px;background:var(--accent-dim);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:all 0.15s;}
 .commit-box input{width:22px;height:22px;flex-shrink:0;margin-top:1px;accent-color:var(--green);cursor:pointer;}
 .commit-box-text{font-size:12px;line-height:1.5;color:var(--text);}
@@ -699,7 +703,7 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
 
         <div class="iform-group">
           <label>Κατηγορία</label>
-          <select id="f-cat1" onchange="updateWishlistCat2()">
+          <select id="f-cat1" onchange="updateWishlistCat2();calcCPW()">
             <option value="">— Επιλογή —</option>
             <option>Tops</option>
             <option>Dresses</option>
@@ -713,7 +717,7 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
 
         <div class="iform-group">
           <label>Υποκατηγορία</label>
-          <select id="f-cat2"><option value="">— Επιλογή Κατηγορίας πρώτα —</option></select>
+          <select id="f-cat2" onchange="calcCPW()"><option value="">— Επιλογή Κατηγορίας πρώτα —</option></select>
         </div>
 
         <div class="iform-group">
@@ -748,37 +752,17 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
     </div>
 
     <div class="iform-section">
-      <div class="iform-section-title">Χαρακτηριστικά (προαιρετικά)</div>
+      <div class="iform-section-title">Χαρακτηριστικά</div>
+      <!-- Μανίκι / Λαιμόκοψη / Μήκος αφαιρέθηκαν από τη φόρμα — κρατιούνται κρυφά ώστε οι παλιές τιμές να μη σβήνονται -->
+      <input type="hidden" id="f-sleeve"><input type="hidden" id="f-neckline"><input type="hidden" id="f-length">
       <div class="iform-grid">
-        <div class="iform-group">
-          <label>Μανίκι</label>
-          <select id="f-sleeve">
-            <option value="">—</option><option>Αμάνικο</option><option>Κοντό</option>
-            <option>3/4</option><option>Μακρύ</option><option>N/A</option>
-          </select>
-        </div>
-        <div class="iform-group">
-          <label>Λαιμόκοψη</label>
-          <select id="f-neckline">
-            <option value="">—</option><option>V-neck</option><option>Στρόγγυλη</option>
-            <option>Κλασική</option><option>Polo</option><option>Off-shoulder</option>
-            <option>Turtleneck</option><option>Boat neck</option><option>Square neck</option>
-            <option>N/A</option>
-          </select>
-        </div>
-        <div class="iform-group">
-          <label>Μήκος</label>
-          <select id="f-length">
-            <option value="">—</option><option>Crop</option><option>Κανονικό</option>
-            <option>Midi</option><option>Maxi</option><option>N/A</option>
-          </select>
-        </div>
-        <div class="iform-group">
+        <div class="iform-group full">
           <label>Εποχή</label>
-          <select id="f-season">
+          <select id="f-season" onchange="calcCPW()">
             <option value="">—</option><option>Άνοιξη / Καλοκαίρι</option>
             <option>Φθινόπωρο / Χειμώνας</option><option>4 εποχές</option>
           </select>
+          <div class="iform-hint">Μαζί με την κατηγορία δείχνει πόσες φορές τον χρόνο μπορείς ρεαλιστικά να το φορέσεις. Κενό = 4 εποχές.</div>
         </div>
       </div>
     </div>
@@ -2102,7 +2086,7 @@ function renderCard(item) {
         ${item.item_length ? `<div class="detail-item"><label>Μήκος</label><value>${escHtml(item.item_length)}</value></div>` : ''}
         ${item.season ? `<div class="detail-item"><label>Εποχή</label><value>${escHtml(item.season)}</value></div>` : ''}
         ${item.price ? `<div class="detail-item"><label>Τιμή</label><value>€${item.price}</value></div>` : ''}
-        ${item.times_per_week ? `<div class="detail-item"><label>🤝 Δέσμευση</label><value>${committedWearsOf(item.times_per_week)} χρήσεις</value></div>` : ''}
+        ${item.times_per_week ? (() => { const w = committedWearsOf(item.times_per_week); const pl = wearPlan(w, item.category, item.subcategory, item.season); return `<div class="detail-item"><label>🤝 Δέσμευση</label><value>${w} χρήσεις${pl ? (pl.years <= 1 ? ' · 1ος χρόνος' : ` · ${fmtNum(pl.perYear)}/χρόνο για ${yearsWord(pl.wholeYears)}`) : ''}</value></div>`; })() : ''}
         ${cpw ? `<div class="detail-item"><label>CPW με τη δέσμευση</label><value>€${cpw.toFixed(2)}</value></div>` : ''}
       </div>
       ${outfits.length ? `
@@ -2156,6 +2140,36 @@ function toggleCard(id) {
 // ── CPW CALCULATOR + WEAR COMMITMENT ──
 // «Εξαιρετική αγορά» = CPW στο μισό του target (ίδιο όριο με το 🏆 Εξαιρετικό). Η δέσμευση αποθηκεύεται ως times_per_week = χρήσεις ÷ 52.
 let commitNeeded = null;
+// Ρεαλιστικές φορές / εβδομάδα ανά είδος (συμφωνημένος πίνακας)
+const WEAR_PER_WEEK = {
+  'Outwear': { 'Coats':5, 'Puffer Jackets':5, 'Parkas':5, 'Trench Coats':3, 'Blazer':2, 'Fleece Jackets':2, 'Zip Up Hoodies':2 },
+  'Pants':   { 'Jeans':1, 'Με λάστιχο':3, 'Γραφείου':1, 'Φόρμες':1, 'Skirts':1 },
+  'Tops':    { 'Special Occasion':0.25 },
+  'Dresses': { 'Special Occasion':0.25 },
+  'Shoes':   { 'Sneakers':3, 'Boots':3, 'Sandals':3, 'Combat Boots':2, 'Loafers':2, 'Flats':2, 'Slides':2, 'Heels':0.5 },
+  'Bags':    { 'Tote Bag':3, 'Crossbody':3, 'Backpack':5, 'Clutch':0.25 },
+  'Accessories': { 'Πορτοφόλια':7, 'Κοσμήματα':7, 'Γυαλιά ηλίου':5, 'Ζώνες':2 },
+};
+// αν δεν έχει επιλεγεί υποκατηγορία
+const WEAR_PER_WEEK_DEFAULT = { 'Tops':1, 'Dresses':1, 'Pants':1, 'Outwear':3, 'Shoes':2, 'Bags':3, 'Accessories':3 };
+const SEASON_MONTHS = { 'Άνοιξη / Καλοκαίρι':6, 'Φθινόπωρο / Χειμώνας':6, '4 εποχές':12 };
+const LONG_COMMIT_YEARS = 3;
+function wearPerWeek(cat1, cat2) {
+  if (!cat1 || !WEAR_PER_WEEK_DEFAULT[cat1]) return null;
+  const sub = WEAR_PER_WEEK[cat1] || {};
+  return (cat2 && sub[cat2] !== undefined) ? sub[cat2] : WEAR_PER_WEEK_DEFAULT[cat1];
+}
+function fmtNum(n) { return (Math.round(n * 10) / 10).toString().replace('.', ','); }
+function wearPlan(needed, cat1, cat2, season) {
+  const perWeek = wearPerWeek(cat1, cat2);
+  if (!needed || !perWeek) return null;
+  const months = SEASON_MONTHS[season] || 12;
+  const weeksPerYear = months * 4;
+  const perYear = perWeek * weeksPerYear;
+  const years = needed / perYear;
+  return { perWeek, months, weeksPerYear, perYear: Math.round(perYear * 10) / 10, years, wholeYears: Math.ceil(years), seasonal: months < 12, seasonLabel: season && months < 12 ? season : '' };
+}
+function yearsWord(n) { return n === 1 ? '1 χρόνο' : `${n} χρόνια`; }
 function excellentWears(price, target) { return (price > 0 && target > 0) ? Math.ceil(price / (target / 2)) : null; }
 function committedWearsOf(tpw) { const t = parseFloat(tpw); return t > 0 ? Math.round(t * 52) : 0; }
 function fmtPace(n) { return (Math.round(n * 10) / 10).toString().replace('.', ','); }
@@ -2184,13 +2198,31 @@ function calcCPW() {
   needEl.textContent = `${Math.ceil(price / target)} χρήσεις`;
   exEl.textContent = `${needed} χρήσεις`;
   const perWeek1 = needed / 52, perWeek2 = needed / 104;
-  paceEl.innerHTML = `Δηλαδή CPW <strong>€${(price / needed).toFixed(2)}</strong> · περίπου <strong>${fmtPace(perWeek1)}×/εβδομάδα για 1 χρόνο</strong> ή ${fmtPace(perWeek2)}×/εβδομάδα για 2 χρόνια.`;
+  const plan = wearPlan(needed, document.getElementById('f-cat1').value, document.getElementById('f-cat2').value, document.getElementById('f-season').value);
+  let commitWhen = '';
+  if (!plan) {
+    paceEl.innerHTML = `Δηλαδή CPW <strong>€${(price / needed).toFixed(2)}</strong> · περίπου <strong>${fmtPace(perWeek1)}×/εβδομάδα για 1 χρόνο</strong> ή ${fmtPace(perWeek2)}×/εβδομάδα για 2 χρόνια.<div class="cpw-timeline">Διάλεξε <strong>κατηγορία</strong> και <strong>εποχή</strong> για να δεις σε πόσα χρόνια το βγάζεις.</div>`;
+  } else {
+    const seasonTxt = plan.seasonal ? ` (μόνο ${plan.seasonLabel})` : '';
+    const calc = `${fmtNum(plan.perWeek)}×/εβδ. × 4 εβδ. × ${plan.months} μήνες = έως ${fmtNum(plan.perYear)} φορές τον χρόνο`;
+    let line;
+    if (plan.years <= 1) {
+      const weeks = Math.ceil(needed / plan.perWeek);
+      line = `✨ Τις ${needed} χρήσεις τις βγάζεις μέσα στον <strong>1ο χρόνο</strong>${seasonTxt} — περίπου σε ${weeks} εβδομάδες που το φοράς.`;
+      commitWhen = ` μέσα στον 1ο χρόνο`;
+    } else {
+      line = `📅 Πρέπει να το φοράς <strong>${fmtNum(plan.perYear)} φορές τον χρόνο${seasonTxt} για ${yearsWord(plan.wholeYears)}</strong> (≈${fmtNum(plan.years)} χρόνια).`;
+      if (plan.years > LONG_COMMIT_YEARS) line += `<br>⚠️ Θα σου πάρει πάνω από ${LONG_COMMIT_YEARS} χρόνια — σίγουρα αξίζει; Θα σου αρέσει ακόμα τότε;`;
+      commitWhen = ` — ${fmtNum(plan.perYear)} φορές τον χρόνο για ${yearsWord(plan.wholeYears)}`;
+    }
+    paceEl.innerHTML = `Δηλαδή CPW <strong>€${(price / needed).toFixed(2)}</strong>.<div class="cpw-timeline${plan.years > LONG_COMMIT_YEARS ? ' long' : ''}">${line}<span class="tl-calc">${calc}</span></div>`;
+  }
   // keep the tick only if the saved/ticked commitment still covers the (possibly new) number
   const committed = committedWearsOf(document.getElementById('f-times').value);
   if (needed !== commitNeeded) cb.checked = committed >= needed;
   commitNeeded = needed;
   cb.disabled = false;
-  txt.innerHTML = `Θα το φορέσω τουλάχιστον <strong>${needed} φορές</strong>;<span class="commit-box-sub">Τσέκαρε για να δεσμευτείς — χωρίς αυτό δεν αποθηκεύεται.</span>`;
+  txt.innerHTML = `Θα το φορέσω τουλάχιστον <strong>${needed} φορές</strong>${commitWhen};<span class="commit-box-sub">Τσέκαρε για να δεσμευτείς — χωρίς αυτό δεν αποθηκεύεται.</span>`;
   box.className = 'commit-box' + (cb.checked ? ' checked' : '');
   if (cb.checked) { vrdEl.textContent = '🏆 Δεσμεύτηκες για εξαιρετική αγορά'; vrdEl.className = 'cpw-verdict good'; }
 }

@@ -133,6 +133,28 @@ body{font-family:var(--font-sans);font-weight:300;background:var(--bg);color:var
 .dormant-tag{font-size:7px;letter-spacing:0.07em;text-transform:uppercase;background:var(--red-soft);color:var(--red-text);border:1px solid rgba(140,74,58,0.2);padding:1px 5px;border-radius:1px;}
 .list-score{font-size:8px;color:var(--text-dim);margin-top:1px;}
 .list-score strong{color:var(--accent);font-weight:500;}
+/* ── EXCELLENT TARGET (benchmark) ── */
+.xt-line{display:flex;align-items:center;gap:6px;margin-top:3px;font-size:8.5px;color:var(--text-muted);}
+.xt-line strong{font-weight:500;color:var(--text);}
+.xt-line.done strong{color:var(--green-text);}
+.xt-track{flex:1;max-width:120px;height:4px;background:var(--surface3);border-radius:2px;overflow:hidden;}
+.xt-fill{height:100%;background:var(--accent-light);border-radius:2px;}
+.xt-fill.done{background:var(--green);}
+.item-xt{height:3px;background:var(--surface3);border-radius:2px;overflow:hidden;margin-top:4px;}
+.xt-box{background:var(--surface2);border:1px solid var(--border);border-radius:3px;padding:12px 14px;}
+.xt-row{display:flex;justify-content:space-between;align-items:baseline;padding:2px 0;}
+.xt-row-label{font-size:9px;letter-spacing:0.09em;text-transform:uppercase;color:var(--text-muted);}
+.xt-row-value{font-family:var(--font-serif);font-size:15px;color:var(--text);}
+.xt-row.head .xt-row-label{color:var(--green-text);font-weight:500;}
+.xt-row.head .xt-row-value{font-size:22px;color:var(--green-text);}
+.xt-big-track{height:8px;background:var(--surface3);border-radius:4px;overflow:hidden;margin:8px 0 4px;}
+.xt-big-fill{height:100%;background:var(--accent);border-radius:4px;transition:width 0.3s;}
+.xt-big-fill.done{background:var(--green);}
+.xt-progress-label{font-size:10px;color:var(--text-muted);text-align:right;}
+.xt-note{font-size:11px;line-height:1.55;color:var(--text);margin-top:8px;padding:8px 10px;background:var(--surface);border:1px solid var(--border-soft);border-radius:2px;}
+.xt-note.done{background:var(--green-soft);border-color:rgba(74,124,90,0.3);color:var(--green-text);}
+.xt-note.long{background:rgba(184,150,10,0.07);border-color:rgba(184,150,10,0.3);color:#6b5200;}
+.xt-note .xt-calc{display:block;font-size:9.5px;color:var(--text-dim);margin-top:3px;}
 .empty-state{text-align:center;padding:50px 20px;color:var(--text-muted);}
 .empty-title{font-family:var(--font-serif);font-size:20px;font-weight:300;margin-bottom:8px;color:var(--text);}
 .empty-sub{font-size:11px;margin-bottom:18px;}
@@ -564,6 +586,8 @@ body{padding-bottom:0;}
               <option value="price_high">Τιμή ↑</option>
               <option value="price_low">Τιμή ↓</option>
               <option value="wps_best">Καλύτερο ΔΑΝ™</option>
+              <option value="xt_close">🏆 Πιο κοντά στον στόχο</option>
+              <option value="xt_far">🏆 Πιο μακριά από τον στόχο</option>
             </select>
           </div>
         </div>
@@ -601,14 +625,14 @@ body{padding-bottom:0;}
             <div class="form-group full"><label>Τίτλος *</label><input type="text" id="f-title" placeholder="π.χ. Navy T-Shirts"></div>
             <div class="form-group"><label>Brand</label><input type="text" id="f-brand"></div>
             <div class="form-group"><label>Κατηγορία (Cat1)</label>
-              <select id="f-cat1" onchange="updateFormCat2()">
+              <select id="f-cat1" onchange="updateFormCat2();renderExcellentBox()">
                 <option value="">— Επιλογή —</option>
                 <option>Tops</option><option>Dresses</option><option>Pants</option>
                 <option>Outwear</option><option>Shoes</option><option>Bags</option><option>Accessories</option>
               </select>
             </div>
             <div class="form-group"><label>Υποκατηγορία (Cat2)</label>
-              <select id="f-cat2"><option value="">— Επιλογή Cat1 πρώτα —</option></select>
+              <select id="f-cat2" onchange="renderExcellentBox()"><option value="">— Επιλογή Cat1 πρώτα —</option></select>
             </div>
             <div class="form-group"><label>Χρώμα</label>
               <select id="f-color" onchange="handleColorSelect(this)">
@@ -626,7 +650,7 @@ body{padding-bottom:0;}
               <div id="mat-total-label" class="mat-total-label">0% / 100%</div>
               <input type="hidden" id="f-material">
             </div>
-            <div class="form-group"><label>Τιμή (€)</label><input type="number" id="f-price" step="0.01"></div>
+            <div class="form-group"><label>Τιμή (€)</label><input type="number" id="f-price" step="0.01" oninput="renderExcellentBox()"></div>
             <div class="form-group"><label>Χρονιά Αγοράς</label><input type="number" id="f-purchase-year" placeholder="2024" min="2000" max="2030"></div>
             <div class="form-group"><label>Μήνας Αγοράς</label>
               <select id="f-purchase-month">
@@ -640,9 +664,26 @@ body{padding-bottom:0;}
               </select>
             </div>
             <div class="form-group"><label>Εποχή</label>
-              <select id="f-season"><option value="">—</option><option>Άνοιξη / Καλοκαίρι</option><option>Φθινόπωρο / Χειμώνας</option><option>4 εποχές</option></select>
+              <select id="f-season" onchange="renderExcellentBox()"><option value="">—</option><option>Άνοιξη / Καλοκαίρι</option><option>Φθινόπωρο / Χειμώνας</option><option>4 εποχές</option></select>
             </div>
           </div>
+        </div>
+        <!-- Excellent target (benchmark) -->
+        <div style="margin-bottom:14px;">
+          <div class="form-section-title">🏆 Στόχος Εξαιρετικής Αγοράς</div>
+          <div class="form-grid" style="margin-bottom:9px;">
+            <div class="form-group full"><label>Κατηγορία CPW</label>
+              <select id="f-cpw-cat" onchange="renderExcellentBox()">
+                <option value="">Αυτόματα (από το είδος)</option>
+                <option value="5">Καθημερινό (&lt;5€)</option>
+                <option value="10">Αξεσουάρ (&lt;10€)</option>
+                <option value="8">Outerwear (&lt;8€)</option>
+                <option value="10.0">Περιστασιακό (&lt;10€)</option>
+                <option value="20">Ειδική Περίσταση (&lt;20€)</option>
+              </select>
+            </div>
+          </div>
+          <div class="xt-box" id="xt-box"><div style="font-size:10px;color:var(--text-dim);">Βάλε τιμή και κατηγορία για να δεις τον στόχο.</div></div>
         </div>
         <!-- Portfolio Type -->
         <div style="margin-bottom:14px;">
@@ -674,7 +715,7 @@ body{padding-bottom:0;}
           <div class="form-grid">
             <div class="form-group">
               <label>Φορέθηκε έως 31/12/2025 <span style="color:var(--text-dim);font-size:8px">— δεν μπαίνει στο Calendar</span></label>
-              <input type="number" id="f-prev-worn" placeholder="0" min="0" value="0">
+              <input type="number" id="f-prev-worn" placeholder="0" min="0" value="0" oninput="renderExcellentBox()">
             </div>
           </div>
           <div style="font-size:9px;color:var(--text-dim);margin-top:4px;">Μετράει στο CPW αλλά δεν εμφανίζεται στο ημερολόγιο. Φοράματα 2026+ → Calendar.</div>
@@ -1737,6 +1778,86 @@ function getLastWorn(id){const logs=wearLogs.filter(l=>l.wardrobe_item_id===id).
 function getDaysSinceWorn(item){const last=getLastWorn(item.id);if(!last)return item.prev_worn>0?null:Infinity;return Math.floor((new Date()-new Date(last))/86400000);}
 function isDormant(item){const d=getDaysSinceWorn(item);if(d===null)return false;return d>30;}
 function getCPW(item){const t=getTotalWear(item);if(!item.price||!t)return null;return item.price/t;}
+
+// ── EXCELLENT TARGET (ίδια λογική με το Wishlist) ──
+// «Εξαιρετική αγορά» = CPW στο μισό του target. Οι πίνακες φορές/εβδομάδα & εποχής ΠΡΕΠΕΙ να μένουν ίδιοι με το wishlist.html.
+const WEAR_PER_WEEK={
+  'Outwear':{'Coats':5,'Puffer Jackets':5,'Parkas':5,'Trench Coats':3,'Blazer':2,'Fleece Jackets':2,'Zip Up Hoodies':2},
+  'Pants':{'Jeans':1,'Με λάστιχο':3,'Γραφείου':1,'Φόρμες':1,'Skirts':1},
+  'Tops':{'Special Occasion':0.25},
+  'Dresses':{'Special Occasion':0.25},
+  'Shoes':{'Sneakers':3,'Boots':3,'Sandals':3,'Combat Boots':2,'Loafers':2,'Flats':2,'Slides':2,'Heels':0.5},
+  'Bags':{'Tote Bag':3,'Crossbody':3,'Backpack':5,'Clutch':0.25},
+  'Accessories':{'Πορτοφόλια':7,'Κοσμήματα':7,'Γυαλιά ηλίου':5,'Ζώνες':2}
+};
+const WEAR_PER_WEEK_DEFAULT={'Tops':1,'Dresses':1,'Pants':1,'Outwear':3,'Shoes':2,'Bags':3,'Accessories':3};
+const SEASON_MONTHS={'Άνοιξη / Καλοκαίρι':6,'Φθινόπωρο / Χειμώνας':6,'4 εποχές':12};
+const LONG_COMMIT_YEARS=3;
+function wearPerWeek(cat1,cat2){if(!cat1||!WEAR_PER_WEEK_DEFAULT[cat1])return null;const sub=WEAR_PER_WEEK[cat1]||{};return(cat2&&sub[cat2]!==undefined)?sub[cat2]:WEAR_PER_WEEK_DEFAULT[cat1];}
+// Κατηγορία CPW όταν δεν έχει οριστεί χειροκίνητα
+function defaultCpwTarget(cat1,cat2){
+  if(cat2==='Special Occasion'||cat2==='Clutch')return 20;
+  if(cat1==='Outwear')return 8;
+  if(cat1==='Bags'||cat1==='Accessories')return 10;
+  if(cat2==='Heels')return 10;
+  return 5;
+}
+function cpwCatOptionValue(v){const n=parseFloat(v);if(!n)return'';return n===10?'10':String(n);}
+function fmtNum(n){return(Math.round(n*10)/10).toString().replace('.',',');}
+function yearsWord(n){return n===1?'1 χρόνο':`${n} χρόνια`;}
+function computeExcellent({price,cat1,cat2,season,cpwCat,total,usageRate}){
+  if(!(price>0))return null;
+  const manual=parseFloat(cpwCat);
+  const target=manual>0?manual:defaultCpwTarget(cat1,cat2);
+  const needed=Math.ceil(price/(target/2));
+  const remaining=Math.max(0,needed-total);
+  const perWeek=wearPerWeek(cat1,cat2);
+  const months=SEASON_MONTHS[season]||12;
+  const perYear=perWeek?perWeek*4*months:null;
+  return{target,auto:!(manual>0),needed,total,remaining,reached:remaining===0,pct:Math.min(100,Math.round(total/needed*100)),
+    perWeek,months,perYear,seasonal:months<12,season,
+    yearsMax:perYear?remaining/perYear:null,
+    yearsPace:(usageRate&&usageRate>0)?remaining/usageRate:null,usageRate};
+}
+function getExcellentTarget(item){
+  return computeExcellent({price:item.price,cat1:item.cat1||item.category,cat2:item.cat2,season:item.season,cpwCat:item.cpw_category,total:getTotalWear(item),usageRate:getUsageRate(item)});
+}
+function renderExcellentBox(){
+  const box=document.getElementById('xt-box');if(!box)return;
+  const item=editingItemId?allItems.find(i=>i.id===editingItemId):null;
+  const prev=parseInt(document.getElementById('f-prev-worn').value)||0;
+  const total=prev+(item?getWearCount(item.id):0);
+  const x=computeExcellent({price:parseFloat(document.getElementById('f-price').value),cat1:document.getElementById('f-cat1').value,cat2:document.getElementById('f-cat2').value,
+    season:document.getElementById('f-season').value,cpwCat:document.getElementById('f-cpw-cat').value,total,usageRate:item?getUsageRate(item):null});
+  if(!x){box.innerHTML='<div style="font-size:10px;color:var(--text-dim);">Βάλε τιμή και κατηγορία για να δεις τον στόχο.</div>';return;}
+  const price=parseFloat(document.getElementById('f-price').value);
+  const cpwNow=total?price/total:null;
+  let note;
+  if(x.reached){
+    note=`<div class="xt-note done">🏆 <strong>Έπιασες τον στόχο!</strong> Με ${total} χρήσεις το CPW είναι €${cpwNow.toFixed(2)} — εξαιρετική αγορά. Κάθε επόμενη χρήση είναι «δωρεάν».</div>`;
+  }else{
+    const lines=[];
+    if(x.perYear){
+      lines.push(x.yearsMax<=1
+        ?`⏱ Στον πιο γρήγορο ρυθμό τις ${x.remaining} χρήσεις τις βγάζεις <strong>μέσα στον επόμενο χρόνο</strong>${x.seasonal?` (μόνο ${x.season})`:''} — περίπου ${Math.ceil(x.remaining/x.perWeek)} εβδομάδες που το φοράς.`
+        :`⏱ Στον πιο γρήγορο ρυθμό: <strong>${fmtNum(x.perYear)} φορές τον χρόνο${x.seasonal?` (μόνο ${x.season})`:''} για ${yearsWord(Math.ceil(x.yearsMax))}</strong>.`);
+    }
+    if(x.yearsPace!==null){
+      lines.push(`📈 Με τον ρυθμό σου μέχρι τώρα (${fmtNum(x.usageRate)} φορές/χρόνο): ${x.yearsPace<=1?'<strong>μέσα στον επόμενο χρόνο</strong>':`<strong>≈${fmtNum(x.yearsPace)} χρόνια</strong> ακόμα`}.`);
+    }
+    const long=(x.yearsPace!==null?x.yearsPace:x.yearsMax||0)>LONG_COMMIT_YEARS;
+    if(long)lines.push(`⚠️ Πάνω από ${LONG_COMMIT_YEARS} χρόνια μακριά — βάλ' το πιο συχνά στα Sets ή σκέψου αν σου αξίζει χώρο στην ντουλάπα.`);
+    const calc=x.perYear?`<span class="xt-calc">${fmtNum(x.perWeek)}×/εβδ. × 4 εβδ. × ${x.months} μήνες = έως ${fmtNum(x.perYear)} φορές τον χρόνο</span>`:'<span class="xt-calc">Διάλεξε κατηγορία για να δεις σε πόσο χρόνο.</span>';
+    note=`<div class="xt-note${long?' long':''}">${lines.join('<br>')||''}${calc}</div>`;
+  }
+  box.innerHTML=`
+    <div class="xt-row"><span class="xt-row-label">Target CPW${x.auto?' (αυτόματο)':''}</span><span class="xt-row-value">&lt;${x.target}€ / χρήση</span></div>
+    <div class="xt-row head"><span class="xt-row-label">🏆 Για εξαιρετική αγορά</span><span class="xt-row-value">${x.needed} χρήσεις</span></div>
+    <div class="xt-row"><span class="xt-row-label">CPW τώρα</span><span class="xt-row-value">${cpwNow?'€'+cpwNow.toFixed(2):'—'} <span style="font-size:11px;color:var(--text-dim)">→ στόχος €${(price/x.needed).toFixed(2)}</span></span></div>
+    <div class="xt-big-track"><div class="xt-big-fill${x.reached?' done':''}" style="width:${x.pct}%"></div></div>
+    <div class="xt-progress-label">${x.total}/${x.needed} χρήσεις${x.reached?' ✓':` · <strong>${x.remaining} ακόμα</strong>`}</div>
+    ${note}`;
+}
 function cpwClass(c){if(!c)return'';if(c<5)return'good';if(c<10)return'warn';return'bad';}
 
 // SCORING
@@ -2093,6 +2214,13 @@ function filterItems(){
   else if(sortMode==='price_high')items.sort((a,b)=>(b.price||0)-(a.price||0));
   else if(sortMode==='price_low')items.sort((a,b)=>(a.price||0)-(b.price||0));
   else if(sortMode==='wps_best')items.sort((a,b)=>getWPS(b)-getWPS(a));
+  else if(sortMode==='xt_close'||sortMode==='xt_far'){
+    // όσα έπιασαν τον στόχο πάνε στο τέλος του «πιο κοντά»· χωρίς τιμή πάντα στο τέλος
+    const key=i=>{const x=getExcellentTarget(i);if(!x)return null;return x.reached?-1:x.remaining;};
+    items.sort((a,b)=>{const ka=key(a),kb=key(b);if(ka===null&&kb===null)return 0;if(ka===null)return 1;if(kb===null)return -1;
+      if(sortMode==='xt_close'){if(ka===-1&&kb!==-1)return 1;if(kb===-1&&ka!==-1)return -1;return ka-kb;}
+      return kb-ka;});
+  }
   else items.sort((a,b)=>{const ay=(a.purchase_year||0)*100+(a.purchase_month||0);const by=(b.purchase_year||0)*100+(b.purchase_month||0);return by-ay;});
   return items;
 }
@@ -2123,7 +2251,8 @@ function renderWardrobe(){
       <div class="item-info">
         <div class="item-title">${escHtml(item.title)}</div>
         <div class="item-meta">${[item.brand,item.cat2||item.cat1].filter(Boolean).join(' · ')}</div>
-        <div class="item-stats"><span>${total}×</span><span>${last?fmtDate(last):'Ποτέ'}</span></div>
+        <div class="item-stats"><span>${total}×${(()=>{const x=getExcellentTarget(item);return x?(x.reached?' 🏆':`/${x.needed}`):'';})()}</span><span>${last?fmtDate(last):'Ποτέ'}</span></div>
+        ${(()=>{const x=getExcellentTarget(item);return x?`<div class="item-xt" title="Στόχος εξαιρετικής αγοράς: ${x.needed} χρήσεις"><div class="xt-fill${x.reached?' done':''}" style="width:${x.pct}%"></div></div>`:'';})()}
       </div>
     </div>`;
   }).join('');
@@ -2145,6 +2274,10 @@ function renderWardrobe(){
         <div class="list-name">${escHtml(item.title)}${ptypeTag}</div>
         <div class="list-meta-s">${[item.brand,item.cat2||item.cat1,item.color].filter(Boolean).join(' · ')}${item.purchase_year?` · <span style="color:var(--text-dim)">${MN_SHORT[(item.purchase_month||1)-1]} ${item.purchase_year}</span>`:''}</div>
         ${ss?`<div class="list-score">${ss}</div>`:''}
+        ${(()=>{const x=getExcellentTarget(item);if(!x)return'';
+          return x.reached
+            ?`<div class="xt-line done">🏆 <strong>Εξαιρετική αγορά</strong> · ${x.total}/${x.needed} χρήσεις</div>`
+            :`<div class="xt-line">🏆 <strong>${x.remaining}</strong> χρήσεις ακόμα · ${x.total}/${x.needed}<span class="xt-track"><span class="xt-fill" style="display:block;width:${x.pct}%"></span></span></div>`;})()}
       </div>
       <div class="list-right">
         <div class="list-cpw ${cc}">${cpw?`€${cpw.toFixed(2)}`:'—'}</div>
@@ -2216,7 +2349,7 @@ function openItemModal(id){
   document.getElementById('item-delete-btn-top').style.display=id?'inline-block':'none';
   ['f-title','f-brand','f-pattern','f-size','f-notes'].forEach(f=>document.getElementById(f).value='');
   resetMaterialChips();
-  ['f-price','f-prev-worn','f-purchase-year','f-purchase-month','f-season','f-cat1','f-cat2','f-sleeve','f-length','f-feeling','f-face-effect'].forEach(f=>document.getElementById(f).value='');
+  ['f-price','f-prev-worn','f-purchase-year','f-purchase-month','f-season','f-cat1','f-cat2','f-sleeve','f-length','f-feeling','f-face-effect','f-cpw-cat'].forEach(f=>document.getElementById(f).value='');
   document.getElementById('f-prev-worn').value='0';
   document.getElementById('f-fav').checked=false;
   document.getElementById('f-archive-candidate').checked=false;
@@ -2240,6 +2373,7 @@ function openItemModal(id){
       document.getElementById('f-purchase-year').value=item.purchase_year||'';
       document.getElementById('f-purchase-month').value=item.purchase_month||'';
       document.getElementById('f-season').value=item.season||'';
+      document.getElementById('f-cpw-cat').value=cpwCatOptionValue(item.cpw_category);
       document.getElementById('f-sleeve').value=item.sleeve_length||'';
       document.getElementById('f-length').value=item.length||'';
       document.getElementById('f-notes').value=item.notes||'';
@@ -2254,6 +2388,7 @@ function openItemModal(id){
     }
   }
   renderUniformSelector(id?allItems.find(i=>i.id===id):null);
+  renderExcellentBox();
   document.getElementById('inline-item-wrap').style.display='block';
   document.getElementById('inline-item-wrap').scrollIntoView({behavior:'smooth',block:'start'});
 }
@@ -2297,6 +2432,7 @@ async function saveItem(){
     purchase_month:pm?parseInt(pm):null,
     purchased_at:purchasedAt,
     season:document.getElementById('f-season').value||null,
+    cpw_category:document.getElementById('f-cpw-cat').value?String(parseFloat(document.getElementById('f-cpw-cat').value)):null,
     sleeve_length:document.getElementById('f-sleeve').value||null,
     length:document.getElementById('f-length').value||null,
     notes:document.getElementById('f-notes').value.trim()||null,

@@ -21,6 +21,7 @@
   --yellow:#8a6e00;--yellow-soft:rgba(180,150,0,0.08);--yellow-text:#6b5200;--yellow-border:rgba(180,150,0,0.28);
   --red:#8c4a3a;--red-soft:rgba(140,74,58,0.08);--red-text:#7a3020;
   --amber:#9a6a1a;
+  --orange:#b8703a;--orange-soft:rgba(184,112,58,0.08);--orange-text:#8a4f22;--orange-border:rgba(184,112,58,0.28);
   --dark:#0a0a0a;
   --font-display:'Cormorant Garamond','Noto Serif',Georgia,serif;
   --font-serif:'Cormorant Garamond','Noto Serif',Georgia,serif;
@@ -218,12 +219,14 @@ body{font-family:var(--font-sans);font-weight:300;background:var(--bg);color:var
 .purch-compare-card.conscious{border-left:3px solid var(--green);background:var(--green-soft);}
 .purch-compare-card.well-thought{border-left:3px solid var(--lightgreen);background:var(--lightgreen-soft);}
 .purch-compare-card.rule48{border-left:3px solid #b8960a;background:rgba(184,150,10,0.06);}
+.purch-compare-card.short{border-left:3px solid var(--orange);background:var(--orange-soft);}
 .purch-compare-card.impulse{border-left:3px solid var(--red);background:var(--red-soft);}
 .purch-compare-card.repl{border-left:3px solid #5a7ab0;background:rgba(80,110,160,0.06);}
 .purch-compare-num{font-family:var(--font-serif);font-size:16px;font-weight:400;line-height:1;white-space:nowrap;}
 .purch-compare-card.conscious .purch-compare-num{color:var(--green-text);}
 .purch-compare-card.well-thought .purch-compare-num{color:var(--lightgreen-text);}
 .purch-compare-card.rule48 .purch-compare-num{color:#6b5200;}
+.purch-compare-card.short .purch-compare-num{color:var(--orange-text);}
 .purch-compare-card.impulse .purch-compare-num{color:var(--red-text);}
 .purch-compare-card.repl .purch-compare-num{color:#5a7ab0;}
 .purch-compare-lbl{font-size:8px;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-dim);margin-top:3px;white-space:nowrap;}
@@ -272,6 +275,7 @@ body{font-family:var(--font-sans);font-weight:300;background:var(--bg);color:var
 .purch-badge.conscious{background:var(--green-soft);color:var(--green-text);border:1px solid var(--green-border);}
 .purch-badge.well-thought{background:var(--lightgreen-soft);color:var(--lightgreen-text);border:1px solid var(--lightgreen-border);}
 .purch-badge.small-thought{background:rgba(154,106,26,0.09);color:var(--amber);border:1px solid rgba(154,106,26,0.25);}
+.purch-badge.short-thought{background:var(--orange-soft);color:var(--orange-text);border:1px solid var(--orange-border);}
 .purch-badge.impulse{background:var(--red-soft);color:var(--red-text);border:1px solid rgba(140,74,58,0.25);}
 .purch-badge.replacement{background:rgba(80,110,160,0.1);color:#5a7ab0;border:1px solid rgba(80,110,160,0.2);}
 .archive-year-block{margin-bottom:24px;}
@@ -315,6 +319,7 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
 .card.green{border-left:3px solid var(--green);}
 .card.lightgreen{border-left:3px solid var(--lightgreen);}
 .card.yellow{border-left:3px solid #b8960a;}
+.card.orange{border-left:3px solid var(--orange);}
 .card.red{border-left:3px solid var(--red);}
 .card-row{display:grid;grid-template-columns:44px 2fr 90px 70px 130px 80px;gap:8px;padding:12px 12px;align-items:center;}
 @media(max-width:600px){.card-row{grid-template-columns:34px 1fr auto auto;gap:6px;}.col-date,.col-cpw{display:none;}.col-price{font-weight:500;}}
@@ -336,10 +341,12 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
 .card.green .status-dot{background:var(--green-text);}
 .card.lightgreen .status-dot{background:var(--lightgreen-text);}
 .card.yellow .status-dot{background:#8a6e00;}
+.card.orange .status-dot{background:var(--orange-text);}
 .card.red .status-dot{background:var(--red-text);}
 .card.green .col-status{color:var(--green-text);}
 .card.lightgreen .col-status{color:var(--lightgreen-text);}
 .card.yellow .col-status{color:#8a6e00;}
+.card.orange .col-status{color:var(--orange-text);}
 .card.red .col-status{color:var(--red-text);}
 
 /* DETAIL PANEL */
@@ -356,6 +363,7 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
 .card.green .reasons-section{background:var(--green-soft);border:1px solid rgba(74,124,90,0.22);color:var(--green-text);}
 .card.lightgreen .reasons-section{background:var(--lightgreen-soft);border:1px solid var(--lightgreen-border);color:var(--lightgreen-text);}
 .card.yellow .reasons-section{background:rgba(184,150,10,0.07);border:1px solid rgba(184,150,10,0.25);color:#6b5200;}
+.card.orange .reasons-section{background:var(--orange-soft);border:1px solid var(--orange-border);color:var(--orange-text);}
 .card.red .reasons-section{background:var(--red-soft);border:1px solid rgba(140,74,58,0.22);color:var(--red-text);}
 .detail-actions{display:flex;gap:7px;margin-top:12px;padding-top:11px;border-top:1px solid var(--border-soft);align-items:center;flex-wrap:wrap;}
 .btn-sm{font-family:var(--font-sans);font-size:9px;letter-spacing:0.09em;text-transform:uppercase;padding:5px 12px;border-radius:1px;cursor:pointer;border:1px solid var(--border);background:none;color:var(--text-muted);transition:all 0.15s;}
@@ -401,6 +409,20 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
 .cpw-verdict.good{color:var(--green-text);}
 .cpw-verdict.warn{color:var(--amber);}
 .cpw-verdict.bad{color:var(--red-text);}
+/* ── WEAR COMMITMENT ── */
+.cpw-row.headline{padding:4px 0 2px;}
+.cpw-row.headline .cpw-row-label{color:var(--green-text);font-weight:500;}
+.cpw-row.headline .cpw-row-value{font-size:22px;color:var(--green-text);}
+.cpw-pace{font-size:10px;color:var(--text-muted);line-height:1.5;margin-top:2px;}
+.commit-box{display:flex;align-items:flex-start;gap:11px;margin-top:10px;padding:13px 14px;border:1.5px dashed var(--accent);border-radius:4px;background:var(--accent-dim);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:all 0.15s;}
+.commit-box input{width:22px;height:22px;flex-shrink:0;margin-top:1px;accent-color:var(--green);cursor:pointer;}
+.commit-box-text{font-size:12px;line-height:1.5;color:var(--text);}
+.commit-box-text strong{font-family:var(--font-serif);font-size:16px;font-weight:500;}
+.commit-box-sub{display:block;font-size:10px;color:var(--text-muted);margin-top:3px;}
+.commit-box.checked{border-style:solid;border-color:var(--green);background:var(--green-soft);}
+.commit-box.disabled{opacity:0.55;cursor:default;border-color:var(--border);background:var(--surface2);}
+.commit-box.shake{animation:commitShake 0.45s ease;border-color:var(--red);}
+@keyframes commitShake{0%,100%{transform:translateX(0);}20%,60%{transform:translateX(-6px);}40%,80%{transform:translateX(6px);}}
 .modal-actions{display:flex;gap:9px;justify-content:flex-end;margin-top:20px;padding-top:16px;border-top:1px solid var(--border);}
 
 /* EMPTY STATE */
@@ -413,6 +435,7 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
 .purchase-verdict.good{background:var(--green-soft);color:var(--green-text);border:1px solid var(--green-border);}
 .purchase-verdict.lightgood{background:var(--lightgreen-soft);color:var(--lightgreen-text);border:1px solid var(--lightgreen-border);}
 .purchase-verdict.warn{background:rgba(184,150,10,0.07);color:#6b5200;border:1px solid rgba(184,150,10,0.25);}
+.purchase-verdict.shortwarn{background:var(--orange-soft);color:var(--orange-text);border:1px solid var(--orange-border);}
 .purchase-verdict.bad{background:var(--red-soft);color:var(--red-text);border:1px solid rgba(140,74,58,0.22);}
 
 /* ── TOAST / LOADING ── */
@@ -425,6 +448,29 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
 /* Uniforms panel */
 .uniform-card{background:var(--surface);border:1px solid var(--border);border-radius:2px;padding:14px;margin-bottom:8px;}
 .uniform-card-name{font-family:var(--font-serif);font-size:15px;font-weight:400;margin-bottom:4px;}
+
+/* ── STATUS GUIDE (explains each status) ── */
+.status-guide{border-bottom:1px solid var(--border);background:var(--surface);}
+.status-guide summary{list-style:none;cursor:pointer;padding:10px 14px;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent-dark);display:flex;align-items:center;justify-content:space-between;gap:8px;-webkit-tap-highlight-color:transparent;}
+.status-guide summary::-webkit-details-marker{display:none;}
+.status-guide summary::after{content:"＋";font-size:12px;color:var(--text-dim);}
+.status-guide[open] summary::after{content:"－";}
+.status-guide-body{padding:2px 14px 14px;max-width:900px;}
+.sg-intro{font-size:11px;color:var(--text-muted);line-height:1.6;margin-bottom:10px;}
+.sg-row{display:flex;gap:10px;align-items:flex-start;padding:9px 11px;border:1px solid var(--border);border-left-width:3px;border-radius:2px;background:var(--surface2);margin-bottom:6px;}
+.sg-row.red{border-left-color:var(--red);}
+.sg-row.orange{border-left-color:var(--orange);}
+.sg-row.yellow{border-left-color:#b8960a;}
+.sg-row.lightgreen{border-left-color:var(--lightgreen);}
+.sg-row.green{border-left-color:var(--green);}
+.sg-icon{font-size:16px;line-height:1.2;flex-shrink:0;}
+.sg-main{flex:1;min-width:0;}
+.sg-head{display:flex;align-items:baseline;justify-content:space-between;gap:8px;flex-wrap:wrap;}
+.sg-name{font-family:var(--font-serif);font-size:15px;font-weight:400;color:var(--text);}
+.sg-meta{font-size:9px;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-dim);white-space:nowrap;}
+.sg-desc{font-size:11px;color:var(--text-muted);line-height:1.55;margin-top:2px;}
+.sg-note{font-size:10.5px;line-height:1.6;color:var(--accent-dark);background:var(--accent-dim);border:1px solid var(--border);border-radius:2px;padding:9px 11px;margin-top:8px;}
+.sg-note strong{font-weight:500;}
 
 ::-webkit-scrollbar{width:4px;}
 ::-webkit-scrollbar-track{background:transparent;}
@@ -510,6 +556,23 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
 
 
 
+<details class="status-guide" id="status-guide">
+  <summary>ℹ️ Τι σημαίνει κάθε status;</summary>
+  <div class="status-guide-body">
+    <div class="sg-intro">Το status δείχνει πόσο καιρό σκέφτεσαι ένα κομμάτι πριν το αγοράσεις. Είναι η ίδια κλίμακα με το <strong>Conscious Purchase Score</strong> του Wardrobe Tracker — όταν το αγοράσεις, το score περνάει αυτόματα στο κομμάτι στον Tracker.</div>
+    <div class="sg-row red"><span class="sg-icon">⚡</span><div class="sg-main"><div class="sg-head"><span class="sg-name">Impulse</span><span class="sg-meta">κάτω από 1 μέρα · Score 1/10</span></div><div class="sg-desc">Αγορά της στιγμής. Μόλις το είδες και η επιθυμία είναι στο πιο δυνατό της σημείο — άφησέ το να «κρυώσει».</div></div></div>
+    <div class="sg-row orange"><span class="sg-icon">💭</span><div class="sg-main"><div class="sg-head"><span class="sg-name">Σύντομη σκέψη</span><span class="sg-meta">1–2 ημέρες · Score 3/10</span></div><div class="sg-desc">Το έχεις «κοιμηθεί» μία νύχτα. Ακόμα νωρίς για απόφαση — περίμενε να κλείσουν οι 48 ώρες.</div></div></div>
+    <div class="sg-row yellow"><span class="sg-icon">🤔</span><div class="sg-main"><div class="sg-head"><span class="sg-name">48h Rule</span><span class="sg-meta">2 ημέρες – 2 εβδομάδες · Score 6/10</span></div><div class="sg-desc">Πέρασε το πρώτο φίλτρο. Αν το θυμάσαι ακόμα, αξίζει να συνεχίσεις να το σκέφτεσαι.</div></div></div>
+    <div class="sg-row lightgreen"><span class="sg-icon">🌱</span><div class="sg-main"><div class="sg-head"><span class="sg-name">Συνειδητή</span><span class="sg-meta">2 εβδομάδες – 1 μήνας · Score 8/10</span></div><div class="sg-desc">Η επιθυμία άντεξε στον χρόνο. Πλέον είναι σκεπτόμενη αγορά, όχι ενθουσιασμός.</div></div></div>
+    <div class="sg-row green"><span class="sg-icon">✅</span><div class="sg-main"><div class="sg-head"><span class="sg-name">Fully Conscious</span><span class="sg-meta">1+ μήνας · Score 10/10</span></div><div class="sg-desc">Το θέλεις σταθερά εδώ και καιρό. Έτοιμο για αγορά, χωρίς τύψεις.</div></div></div>
+    <div class="sg-note">
+      <strong>Στη λίστα</strong>, για να ανέβει ένα κομμάτι πάνω από Impulse χρειάζεται εκτός από τον χρόνο και <strong>δέσμευση χρήσεων</strong> (CPW εντός target) και <strong>3 συνδυασμούς</strong>. Αν λείπει κάτι από αυτά, μένει Impulse όσο καιρό κι αν περάσει.<br>
+      <strong>Στην καταγραφή αγοράς</strong> μετράει μόνο ο χρόνος που περίμενες — ίδια λογική με τον Tracker.<br>
+      🔄 <strong>Αντικατάσταση</strong>: παρακάμπτει την αναμονή, γιατί αντικαθιστάς κάτι που ήδη χρειάζεσαι.
+    </div>
+  </div>
+</details>
+
 <div class="filters filter-unified" id="filters-unified">
   <span class="filter-label">Φίλτρο ·</span>
   <select class="color-filter-select" id="filter-criterion-select" onchange="onCriterionChange(this.value)">
@@ -529,9 +592,10 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
 <div class="filters">
   <select class="color-filter-select" id="status-filter-select" onchange="setFilter(this.value)">
     <option value="all">Όλα</option>
-    <option value="green">✅ Conscious</option>
-    <option value="lightgreen">🌱 Well Thought</option>
+    <option value="green">✅ Fully Conscious</option>
+    <option value="lightgreen">🌱 Συνειδητή</option>
     <option value="yellow">🤔 48h Rule</option>
+    <option value="orange">💭 Σύντομη σκέψη</option>
     <option value="red">⚡ Impulse</option>
     <option value="replacement">🔄 Αντικατάσταση</option>
   </select>
@@ -582,7 +646,7 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
 <div class="list-container">
   <div class="list-header">
     <div></div><div>Αντικείμενο</div><div>Ημερομηνία</div><div>Τιμή</div>
-    <div>CPW / εβδ.</div><div>Status</div>
+    <div>CPW</div><div>Status</div>
   </div>
   <div class="reorder-hint" id="reorder-hint" style="display:none;"></div>
   <div id="items-list">
@@ -734,16 +798,23 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
             <option value="20">Ειδική Περίσταση (&lt;20€)</option>
           </select>
         </div>
-        <div class="iform-group"><label>Χρήσεις / εβδομάδα</label><input type="number" id="f-times" placeholder="π.χ. 1 ή 0.5" step="0.5" min="0.5" oninput="calcCPW()"></div>
-        <div class="iform-group"><label>Link</label><input type="url" id="f-link" placeholder="https://…"></div>
+        <div class="iform-group full"><label>Link</label><input type="url" id="f-link" placeholder="https://…"></div>
       </div>
+      <!-- committed wears are stored as times_per_week (= wears ÷ 52) so CPW/status logic keeps working -->
+      <input type="hidden" id="f-times">
       <div class="cpw-preview-box">
-        <div class="cpw-row"><span class="cpw-row-label">CPW σε 1 χρόνο</span><span class="cpw-row-value" id="cpw-val">—</span></div>
-        <div class="cpw-row"><span class="cpw-row-label">Target</span><span class="cpw-row-value" id="cpw-target">—</span></div>
+        <div class="cpw-row"><span class="cpw-row-label">Target CPW</span><span class="cpw-row-value" id="cpw-target">—</span></div>
         <div class="cpw-row"><span class="cpw-row-label">Χρήσεις για να αξίζει</span><span class="cpw-row-value" id="cpw-needed">—</span></div>
         <hr style="border:none;border-top:1px solid var(--border-soft);margin:6px 0">
+        <div class="cpw-row headline"><span class="cpw-row-label">🏆 Για εξαιρετική αγορά</span><span class="cpw-row-value" id="cpw-excellent">—</span></div>
+        <div class="cpw-pace" id="cpw-pace">Βάλε τιμή και κατηγορία CPW για να δεις πόσες φορές πρέπει να το φορέσεις.</div>
         <div class="cpw-verdict" id="cpw-verdict"></div>
+        <span id="cpw-val" style="display:none"></span>
       </div>
+      <label class="commit-box disabled" id="commit-box">
+        <input type="checkbox" id="f-commit" disabled onchange="onCommitChange()">
+        <span class="commit-box-text" id="commit-text">Δεσμεύομαι να το φορέσω όσες φορές χρειάζεται για να είναι εξαιρετική αγορά.<span class="commit-box-sub">Χωρίς αυτή τη δέσμευση δεν αποθηκεύεται.</span></span>
+      </label>
     </div>
 
     <div class="iform-section">
@@ -804,9 +875,10 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
       <div class="summary-stats">
 <div class="stats-bar" id="stats-bar" style="border-bottom:none;">
   <div class="stat"><div class="stat-num" id="stat-total">—</div><div class="stat-label">Σύνολο</div></div>
-  <div class="stat"><div class="stat-num" style="color:var(--green-text)" id="stat-ready">—</div><div class="stat-label">Conscious ✅</div></div>
-  <div class="stat"><div class="stat-num" style="color:var(--lightgreen-text)" id="stat-wellthought">—</div><div class="stat-label">Well Thought 🌱</div></div>
+  <div class="stat"><div class="stat-num" style="color:var(--green-text)" id="stat-ready">—</div><div class="stat-label">Fully Conscious ✅</div></div>
+  <div class="stat"><div class="stat-num" style="color:var(--lightgreen-text)" id="stat-wellthought">—</div><div class="stat-label">Συνειδητή 🌱</div></div>
   <div class="stat"><div class="stat-num" style="color:#8a6e00" id="stat-yellow">—</div><div class="stat-label">48h Rule 🤔</div></div>
+  <div class="stat"><div class="stat-num" style="color:var(--orange-text)" id="stat-short">—</div><div class="stat-label">Σύντ. σκέψη 💭</div></div>
   <div class="stat"><div class="stat-num" style="color:var(--red-text)" id="stat-waiting">—</div><div class="stat-label">Impulse ⚡</div></div>
   <div class="stat"><div class="stat-num" style="color:var(--accent)" id="stat-value">—</div><div class="stat-label">Αξία</div></div>
 </div>
@@ -840,9 +912,10 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
   <div class="purch-section-title" style="margin-top:20px">Αναλυτική λίστα αγορών</div>
   <div class="filters" style="padding:8px 0;border:none;background:none;margin-bottom:8px;">
     <button class="filter-btn active" onclick="setPurchFilter('all',this)">Όλες</button>
-    <button class="filter-btn" onclick="setPurchFilter('conscious',this)">✅ Conscious</button>
-    <button class="filter-btn" onclick="setPurchFilter('well-thought',this)">🌱 Well Thought</button>
+    <button class="filter-btn" onclick="setPurchFilter('conscious',this)">✅ Fully Conscious</button>
+    <button class="filter-btn" onclick="setPurchFilter('well-thought',this)">🌱 Συνειδητή</button>
     <button class="filter-btn" onclick="setPurchFilter('small-thought',this)">🤔 48h Rule</button>
+    <button class="filter-btn" onclick="setPurchFilter('short-thought',this)">💭 Σύντομη σκέψη</button>
     <button class="filter-btn" onclick="setPurchFilter('impulse',this)">⚡ Impulse</button>
     <button class="filter-btn" onclick="setPurchFilter('replacement',this)">🔄 Αντικατάσταση</button>
   </div>
@@ -1144,7 +1217,7 @@ function onFilterValueChange(value) {
   if (currentCriterion === 'cat1') syncFilterValueSelect(); // cat1 change can reset own value; keep in sync
 }
 function statusFilterLabel(v) {
-  return { green:'✅ Conscious', lightgreen:'🌱 Well Thought', yellow:'🤔 48h Rule', red:'⚡ Impulse', replacement:'🔄 Αντικατάσταση' }[v] || v;
+  return { green:'✅ Fully Conscious', lightgreen:'🌱 Συνειδητή', yellow:'🤔 48h Rule', orange:'💭 Σύντομη σκέψη', red:'⚡ Impulse', replacement:'🔄 Αντικατάσταση' }[v] || v;
 }
 function renderActiveChips() {
   const wrap = document.getElementById('active-chips');
@@ -1858,6 +1931,7 @@ function renderItems() {
   if (currentFilter === 'green') items = items.filter(i => getStatus(i) === 'green');
   else if (currentFilter === 'lightgreen') items = items.filter(i => getStatus(i) === 'lightgreen');
   else if (currentFilter === 'yellow') items = items.filter(i => getStatus(i) === 'yellow');
+  else if (currentFilter === 'orange') items = items.filter(i => getStatus(i) === 'orange');
   else if (currentFilter === 'red') items = items.filter(i => getStatus(i) === 'red');
   else if (currentFilter === 'replacement') items = items.filter(i => i.is_replacement);
 
@@ -1899,24 +1973,27 @@ function renderItems() {
   initSortableList();
 }
 
-// ── STATUS LOGIC (with new Well Thought tier) ──
+// ── STATUS LOGIC — same 5 tiers as the Wardrobe Tracker «Conscious Purchase Score» ──
+// Impulse <1 day (1) · Σύντομη σκέψη 1–2 days (3) · 48h Rule 2 days–2 weeks (6) · Συνειδητή 2 weeks–1 month (8) · Fully Conscious 1+ month (10)
+const WAIT_H = { short: 24, rule48: 48, considered: 24 * 14, full: 24 * 30 };
+function waitTier(hours) {
+  if (hours >= WAIT_H.full) return 'green';
+  if (hours >= WAIT_H.considered) return 'lightgreen';
+  if (hours >= WAIT_H.rule48) return 'yellow';
+  if (hours >= WAIT_H.short) return 'orange';
+  return 'red';
+}
 function getStatus(item) {
   const now = new Date();
   const created = new Date(item.created_at);
-  const hoursDiff = (now - created) / (1000 * 60 * 60);
-  const daysDiff = hoursDiff / 24;
-  const twoMonthsPassed = daysDiff >= 60 || item.is_replacement;
-  const oneMonthPassed = daysDiff >= 30 || item.is_replacement;
-  const fortyEightHoursPassed = hoursDiff >= 48 || item.is_replacement;
+  const hoursDiff = item.is_replacement ? Infinity : (now - created) / (1000 * 60 * 60);
   const cpwOk = item.price && item.times_per_week && item.cpw_category
     ? (item.price / (item.times_per_week * 52)) <= parseFloat(item.cpw_category)
     : false;
   const outfits = [item.outfit_1, item.outfit_2, item.outfit_3].filter(Boolean);
   const outfitsOk = outfits.length >= 3;
-  if (twoMonthsPassed && cpwOk && outfitsOk) return 'green';
-  if (oneMonthPassed && cpwOk && outfitsOk) return 'lightgreen';
-  if (fortyEightHoursPassed && cpwOk && outfitsOk) return 'yellow';
-  return 'red';
+  if (!(cpwOk && outfitsOk)) return 'red';
+  return waitTier(hoursDiff);
 }
 
 function getCPW(item) {
@@ -1946,38 +2023,36 @@ function renderCard(item) {
   const now = new Date();
   const created = new Date(item.created_at);
   const hoursDiff = (now - created) / (1000 * 60 * 60);
-  const daysDiff = hoursDiff / 24;
-  const twoMonthsPassed = daysDiff >= 60 || item.is_replacement;
-  const oneMonthPassed = daysDiff >= 30 || item.is_replacement;
-  const fortyEightHoursPassed = hoursDiff >= 48 || item.is_replacement;
   const cpwOk = cpw && item.cpw_category ? cpw <= parseFloat(item.cpw_category) : false;
   const target = item.cpw_category ? parseFloat(item.cpw_category) : null;
 
+  const timeTier = item.is_replacement ? 'green' : waitTier(hoursDiff);
+  const daysTo = h => Math.max(1, Math.ceil((h - hoursDiff) / 24));
+  const hoursTo = h => Math.max(1, Math.ceil(h - hoursDiff));
   let timeReason;
-  if (twoMonthsPassed) {
-    timeReason = `✓ &nbsp;${item.is_replacement ? 'Αντικατάσταση — το δίμηνο αναιρείται' : 'Πέρασαν 2+ μήνες — Conscious ✅'}`;
-  } else if (oneMonthPassed) {
-    const daysLeft = Math.max(0, Math.round(60 - daysDiff));
-    timeReason = `◐ &nbsp;Well Thought 🌱 — απομένουν ${daysLeft} μέρες για το πλήρες Conscious`;
-  } else if (fortyEightHoursPassed) {
-    const daysLeft = Math.max(0, Math.round(30 - daysDiff));
-    timeReason = `◐ &nbsp;48h Rule ✓ — απομένουν ${daysLeft} μέρες για Well Thought 🌱`;
+  if (timeTier === 'green') {
+    timeReason = `✓ &nbsp;${item.is_replacement ? 'Αντικατάσταση — η αναμονή αναιρείται' : 'Πέρασε 1+ μήνας — Fully Conscious ✅'}`;
+  } else if (timeTier === 'lightgreen') {
+    timeReason = `◐ &nbsp;Συνειδητή 🌱 — απομένουν ${daysTo(WAIT_H.full)} μέρες για Fully Conscious ✅`;
+  } else if (timeTier === 'yellow') {
+    timeReason = `◐ &nbsp;48h Rule 🤔 — απομένουν ${daysTo(WAIT_H.considered)} μέρες για Συνειδητή 🌱`;
+  } else if (timeTier === 'orange') {
+    timeReason = `◐ &nbsp;Σύντομη σκέψη 💭 — απομένουν ${hoursTo(WAIT_H.rule48)} ώρες για το 48h Rule`;
   } else {
-    const hoursLeft = Math.max(0, Math.round(48 - hoursDiff));
-    timeReason = `✗ &nbsp;Impulse zone — απομένουν ${hoursLeft} ώρες για το 48h rule`;
+    timeReason = `✗ &nbsp;Impulse zone ⚡ — απομένουν ${hoursTo(WAIT_H.short)} ώρες για Σύντομη σκέψη 💭`;
   }
 
   const reasons = [
     timeReason,
     cpw
-      ? (cpwOk ? `✓ &nbsp;CPW €${cpw.toFixed(2)} — εντός target` : `✗ &nbsp;CPW €${cpw.toFixed(2)} — πάνω από target (${target ? `<${target}€` : ''})`)
-      : `✗ &nbsp;CPW δεν υπολογίστηκε — συμπλήρωσε τιμή & χρήσεις`,
+      ? (cpwOk ? `✓ &nbsp;Δέσμευση ${committedWearsOf(item.times_per_week)} χρήσεων — CPW €${cpw.toFixed(2)}` : `✗ &nbsp;Η δέσμευση (${committedWearsOf(item.times_per_week)} χρήσεις) δεν φτάνει για το target — άνοιξε «Επεξεργασία» και δεσμεύσου ξανά`)
+      : `✗ &nbsp;Χωρίς δέσμευση χρήσεων — συμπλήρωσε τιμή & κατηγορία CPW και δεσμεύσου`,
     outfits.length >= 3
       ? `✓ &nbsp;${outfits.length}/3 συνδυασμοί καταγεγραμμένοι`
       : `✗ &nbsp;${outfits.length}/3 συνδυασμοί — χρειάζονται ${3 - outfits.length} ακόμα`
   ].join('<br>');
 
-  const statusLabel = status === 'green' ? 'Conscious ✅' : status === 'lightgreen' ? 'Well Thought 🌱' : status === 'yellow' ? '48h Rule 🤔' : 'Impulse ⚡';
+  const statusLabel = status === 'green' ? 'Fully Conscious ✅' : status === 'lightgreen' ? 'Συνειδητή 🌱' : status === 'yellow' ? '48h Rule 🤔' : status === 'orange' ? 'Σύντ. σκέψη 💭' : 'Impulse ⚡';
 
   let uniformHtml = '';
   if (item.uniform_ids && item.uniform_ids.length && allUniforms.length) {
@@ -2027,8 +2102,8 @@ function renderCard(item) {
         ${item.item_length ? `<div class="detail-item"><label>Μήκος</label><value>${escHtml(item.item_length)}</value></div>` : ''}
         ${item.season ? `<div class="detail-item"><label>Εποχή</label><value>${escHtml(item.season)}</value></div>` : ''}
         ${item.price ? `<div class="detail-item"><label>Τιμή</label><value>€${item.price}</value></div>` : ''}
-        ${item.times_per_week ? `<div class="detail-item"><label>Χρήσεις / εβδ.</label><value>${item.times_per_week}×</value></div>` : ''}
-        ${cpw ? `<div class="detail-item"><label>CPW (1 χρόνο)</label><value>€${cpw.toFixed(2)}</value></div>` : ''}
+        ${item.times_per_week ? `<div class="detail-item"><label>🤝 Δέσμευση</label><value>${committedWearsOf(item.times_per_week)} χρήσεις</value></div>` : ''}
+        ${cpw ? `<div class="detail-item"><label>CPW με τη δέσμευση</label><value>€${cpw.toFixed(2)}</value></div>` : ''}
       </div>
       ${outfits.length ? `
       <div class="outfits-section">
@@ -2054,12 +2129,14 @@ function updateStats() {
   const green = allItems.filter(i => getStatus(i) === 'green').length;
   const lightgreen = allItems.filter(i => getStatus(i) === 'lightgreen').length;
   const yellow = allItems.filter(i => getStatus(i) === 'yellow').length;
+  const orange = allItems.filter(i => getStatus(i) === 'orange').length;
   const red = allItems.filter(i => getStatus(i) === 'red').length;
   const value = allItems.reduce((s, i) => s + (i.price || 0), 0);
   document.getElementById('stat-total').textContent = total;
   document.getElementById('stat-ready').textContent = green;
   document.getElementById('stat-wellthought').textContent = lightgreen;
   document.getElementById('stat-yellow').textContent = yellow;
+  document.getElementById('stat-short').textContent = orange;
   document.getElementById('stat-waiting').textContent = red;
   const valueDisplay = value >= 1000 ? '€' + (value/1000).toFixed(1) + 'k' : value > 0 ? '€' + value.toFixed(0) : '—';
   document.getElementById('stat-value').textContent = valueDisplay;
@@ -2076,29 +2153,51 @@ function toggleCard(id) {
   card.classList.toggle('open');
 }
 
-// ── CPW CALCULATOR ──
+// ── CPW CALCULATOR + WEAR COMMITMENT ──
+// «Εξαιρετική αγορά» = CPW στο μισό του target (ίδιο όριο με το 🏆 Εξαιρετικό). Η δέσμευση αποθηκεύεται ως times_per_week = χρήσεις ÷ 52.
+let commitNeeded = null;
+function excellentWears(price, target) { return (price > 0 && target > 0) ? Math.ceil(price / (target / 2)) : null; }
+function committedWearsOf(tpw) { const t = parseFloat(tpw); return t > 0 ? Math.round(t * 52) : 0; }
+function fmtPace(n) { return (Math.round(n * 10) / 10).toString().replace('.', ','); }
 function calcCPW() {
   const price = parseFloat(document.getElementById('f-price').value);
-  const times = parseFloat(document.getElementById('f-times').value);
   const target = parseFloat(document.getElementById('f-cpw-cat').value);
-  const valEl = document.getElementById('cpw-val');
   const tgtEl = document.getElementById('cpw-target');
   const needEl = document.getElementById('cpw-needed');
+  const exEl = document.getElementById('cpw-excellent');
+  const paceEl = document.getElementById('cpw-pace');
   const vrdEl = document.getElementById('cpw-verdict');
-  if (target) tgtEl.textContent = `<${target}€`; else tgtEl.textContent = '—';
-  if (!price || !times) { valEl.textContent = '—'; needEl.textContent = target ? `${Math.ceil(price/target)} χρήσεις` : '—'; vrdEl.textContent = ''; return; }
-  const cpw = price / (times * 52);
-  valEl.textContent = `€${cpw.toFixed(2)} / χρήση`;
-  needEl.textContent = target ? `${Math.ceil(price/target)} χρήσεις` : '—';
-  if (!target) { vrdEl.textContent = ''; return; }
-  const ratio = cpw / target;
-  let msg, cls;
-  if (ratio <= 0.5) { msg = '🏆 Εξαιρετικό'; cls = 'good'; }
-  else if (ratio <= 1) { msg = '✅ Καλό — εντός target'; cls = 'good'; }
-  else if (ratio <= 1.6) { msg = `⚠ Οριακό — χρειάζεσαι ${Math.ceil(price/target)} χρήσεις`; cls = 'warn'; }
-  else { msg = `✗ Εκτός target`; cls = 'bad'; }
-  vrdEl.textContent = msg;
-  vrdEl.className = 'cpw-verdict ' + cls;
+  const box = document.getElementById('commit-box');
+  const cb = document.getElementById('f-commit');
+  const txt = document.getElementById('commit-text');
+  tgtEl.textContent = target ? `<${target}€ / χρήση` : '—';
+  vrdEl.textContent = ''; vrdEl.className = 'cpw-verdict';
+  const needed = excellentWears(price, target);
+  if (!needed) {
+    commitNeeded = null;
+    needEl.textContent = '—'; exEl.textContent = '—';
+    paceEl.textContent = 'Βάλε τιμή και κατηγορία CPW για να δεις πόσες φορές πρέπει να το φορέσεις.';
+    cb.checked = false; cb.disabled = true; box.className = 'commit-box disabled';
+    txt.innerHTML = 'Δεσμεύομαι να το φορέσω όσες φορές χρειάζεται για να είναι εξαιρετική αγορά.<span class="commit-box-sub">Συμπλήρωσε τιμή & κατηγορία CPW πρώτα.</span>';
+    return;
+  }
+  needEl.textContent = `${Math.ceil(price / target)} χρήσεις`;
+  exEl.textContent = `${needed} χρήσεις`;
+  const perWeek1 = needed / 52, perWeek2 = needed / 104;
+  paceEl.innerHTML = `Δηλαδή CPW <strong>€${(price / needed).toFixed(2)}</strong> · περίπου <strong>${fmtPace(perWeek1)}×/εβδομάδα για 1 χρόνο</strong> ή ${fmtPace(perWeek2)}×/εβδομάδα για 2 χρόνια.`;
+  // keep the tick only if the saved/ticked commitment still covers the (possibly new) number
+  const committed = committedWearsOf(document.getElementById('f-times').value);
+  if (needed !== commitNeeded) cb.checked = committed >= needed;
+  commitNeeded = needed;
+  cb.disabled = false;
+  txt.innerHTML = `Θα το φορέσω τουλάχιστον <strong>${needed} φορές</strong>;<span class="commit-box-sub">Τσέκαρε για να δεσμευτείς — χωρίς αυτό δεν αποθηκεύεται.</span>`;
+  box.className = 'commit-box' + (cb.checked ? ' checked' : '');
+  if (cb.checked) { vrdEl.textContent = '🏆 Δεσμεύτηκες για εξαιρετική αγορά'; vrdEl.className = 'cpw-verdict good'; }
+}
+function onCommitChange() {
+  const cb = document.getElementById('f-commit');
+  document.getElementById('f-times').value = (cb.checked && commitNeeded) ? (commitNeeded / 52) : '';
+  calcCPW();
 }
 
 // ── INLINE FORM ──
@@ -2120,7 +2219,9 @@ function openInlineForm(item = null) {
   document.getElementById('f-brand-other').value = '';
   resetMaterialChips();
   renderUniformSelector(item?.uniform_ids || []);
-  ['cpw-val','cpw-target','cpw-needed'].forEach(id => {
+  commitNeeded = null;
+  document.getElementById('f-commit').checked = false;
+  ['cpw-val','cpw-target','cpw-needed','cpw-excellent'].forEach(id => {
     const el = document.getElementById(id); if (el) el.textContent = '—';
   });
   const vrd = document.getElementById('cpw-verdict'); if (vrd) vrd.textContent = '';
@@ -2153,6 +2254,8 @@ function openInlineForm(item = null) {
     document.getElementById('f-nextyear').checked = item.next_year || false;
     document.getElementById('f-rank').value = item.rank || '';
     if (item.created_at) document.getElementById('f-entry-date').value = item.created_at.split('T')[0];
+    calcCPW();
+  } else {
     calcCPW();
   }
 
@@ -2394,6 +2497,14 @@ function parseMaterialComposition(raw) {
 async function saveItem() {
   const title = document.getElementById('f-title').value.trim();
   if (!title) { showToast('Ο τίτλος είναι υποχρεωτικός'); return; }
+  calcCPW();
+  if (commitNeeded && !document.getElementById('f-commit').checked) {
+    const box = document.getElementById('commit-box');
+    box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    box.classList.remove('shake'); void box.offsetWidth; box.classList.add('shake');
+    showToast(`Δεσμεύσου για ${commitNeeded} χρήσεις για να αποθηκευτεί`);
+    return;
+  }
 
   const btn = document.getElementById('save-btn');
   btn.disabled = true; btn.textContent = '…';
@@ -2490,21 +2601,23 @@ function markPurchased(id) {
   document.body.style.overflow = 'hidden';
 }
 
-// ── PURCHASE CATEGORY LOGIC (with new well-thought tier) ──
+// ── PURCHASE CATEGORY LOGIC — same tiers/thresholds as the Wardrobe Tracker ──
+// stored keys: conscious (Fully Conscious) · well-thought (Συνειδητή) · small-thought (48h Rule) · short-thought (Σύντομη σκέψη) · impulse · replacement
 function getPurchaseCategory(hoursWaited, isReplacement) {
   if (isReplacement) return 'replacement';
-  const daysWaited = hoursWaited / 24;
-  if (daysWaited >= 60) return 'conscious';
-  if (daysWaited >= 30) return 'well-thought';
-  if (hoursWaited >= 48) return 'small-thought';
+  if (hoursWaited >= WAIT_H.full) return 'conscious';
+  if (hoursWaited >= WAIT_H.considered) return 'well-thought';
+  if (hoursWaited >= WAIT_H.rule48) return 'small-thought';
+  if (hoursWaited >= WAIT_H.short) return 'short-thought';
   return 'impulse';
 }
 
 const VERDICT_MESSAGES = {
-  conscious: { icon:'✅', title:'Conscious Purchase', msg:'Περίμενες τουλάχιστον 2 μήνες — αυτό δείχνει πραγματική ανάγκη. Καλά έκανες!', cls:'good' },
-  'well-thought': { icon:'🌱', title:'Well Thought', msg:'Περίμενες πάνω από έναν μήνα — έχεις σκεφτεί σοβαρά την αγορά. Πολύ καλό βήμα!', cls:'lightgood' },
-  'small-thought': { icon:'🤔', title:'48h Rule ✓', msg:'Περίμενες πάνω από 48 ώρες — καλό βήμα! Αν μπορείς, την επόμενη φορά δοκίμασε να περιμένεις λίγο παραπάνω.', cls:'warn' },
-  impulse: { icon:'⚡', title:'Impulse Buy', msg:'Αγόρασες μέσα σε 48 ώρες. Δεν πειράζει — όλοι το κάνουμε. Την επόμενη φορά δοκίμασε να το αφήσεις για 2 μέρες!', cls:'bad' },
+  conscious: { icon:'✅', title:'Fully Conscious', msg:'Περίμενες πάνω από έναν μήνα — αυτό δείχνει πραγματική ανάγκη. Καλά έκανες! (Score 10/10)', cls:'good' },
+  'well-thought': { icon:'🌱', title:'Συνειδητή', msg:'Περίμενες 2 εβδομάδες έως έναν μήνα — έχεις σκεφτεί σοβαρά την αγορά. Πολύ καλό βήμα! (Score 8/10)', cls:'lightgood' },
+  'small-thought': { icon:'🤔', title:'48h Rule ✓', msg:'Πέρασαν οι 48 ώρες — καλό βήμα! Αν μπορείς, την επόμενη φορά άφησέ το 2 εβδομάδες για να γίνει Συνειδητή. (Score 6/10)', cls:'warn' },
+  'short-thought': { icon:'💭', title:'Σύντομη σκέψη', msg:'Το σκέφτηκες 1–2 μέρες. Κοντά ήσουν — με λίγες ώρες ακόμα θα έπιανες το 48h Rule. (Score 3/10)', cls:'shortwarn' },
+  impulse: { icon:'⚡', title:'Impulse Buy', msg:'Αγόρασες μέσα στην ίδια μέρα. Δεν πειράζει — όλοι το κάνουμε. Την επόμενη φορά δοκίμασε να το αφήσεις για 2 μέρες! (Score 1/10)', cls:'bad' },
   replacement: { icon:'🔄', title:'Replacement', msg:'Αντικαθιστάς κάτι που ήδη έχεις — αυτό είναι συνειδητή κατανάλωση!', cls:'good' },
 };
 
@@ -2572,11 +2685,46 @@ const WISHLIST_TO_WARDROBE_CAT = {
   'Αξεσουάρ — Other': 'Accessories',
 };
 
+// Legacy subcategory names → Tracker cat2 (only for items saved before the taxonomy alignment)
+const LEGACY_TO_TRACKER_CAT2 = {
+  'Πουκάμισα': 'Shirts', 'Πλεκτά / Πουλόβερ': 'Sweaters', 'Ζακέτες / Cardigans': 'Cardigans',
+  'Φούστες': 'Skirts', 'Blazers': 'Blazer', 'Καμπαρντίνες / Trench': 'Trench Coats', 'Παλτά': 'Coats',
+  'Sneakers': 'Sneakers', 'Boots / Booties': 'Boots', 'Flats': 'Flats', 'Sandals': 'Sandals', 'Heels': 'Heels',
+  'Γυαλιά ηλίου': 'Γυαλιά ηλίου', 'Πορτοφόλι': 'Πορτοφόλια', 'Κοσμήματα': 'Κοσμήματα',
+};
+function mapToTrackerCategory(item) {
+  let cat1 = null, cat2 = null;
+  if (item.category && CATEGORIES[item.category]) {
+    cat1 = item.category;                                   // current taxonomy (same as Tracker)
+    if (item.subcategory && CATEGORIES[cat1].includes(item.subcategory)) cat2 = item.subcategory;
+  } else if (item.category) {
+    cat1 = WISHLIST_TO_WARDROBE_CAT[item.category] || null; // legacy Greek category
+    const legacy2 = LEGACY_TO_TRACKER_CAT2[item.category];
+    if (cat1 && legacy2 && CATEGORIES[cat1].includes(legacy2)) cat2 = legacy2;
+  }
+  return { cat1, cat2 };
+}
+// Insert into wardrobe; if Supabase reports a column that doesn't exist, drop it and retry (same approach as the Tracker)
+async function insertWardrobeTolerant(payload) {
+  let working = { ...payload };
+  for (let attempt = 0; attempt < 6; attempt++) {
+    const { error } = await sb.from('wardrobe').insert(working);
+    if (!error) return null;
+    const msg = (error.message || '') + ' ' + (error.details || '') + ' ' + (error.hint || '');
+    const m = msg.match(/find the '([^']+)' column/i) || msg.match(/column "?([a-zA-Z_]+)"? of/i) || msg.match(/'([a-zA-Z_]+)' column/i);
+    const col = m ? m[1] : null;
+    if (col && col in working) { delete working[col]; continue; }
+    return error;
+  }
+  return { message: 'Πολλές άγνωστες στήλες' };
+}
+
 // Map purchase category → conscious_score for wardrobe
 const PURCH_CAT_TO_CONSCIOUS = {
   'conscious': 10,
   'well-thought': 8,
   'small-thought': 6,
+  'short-thought': 3,
   'impulse': 1,
   'replacement': 8,
 };
@@ -2609,6 +2757,11 @@ async function confirmPurchase() {
     delete purchaseUpdate.big_purchase; // column not created yet — save the purchase anyway
     ({ error } = await sb.from('wishlist').update(purchaseUpdate).eq('id', id));
   }
+  if (error && /purchase_category|check constraint/i.test(error.message || '')) {
+    // If the DB rejects the new 'short-thought' value, save without it — the category is recalculated from the dates anyway
+    delete purchaseUpdate.purchase_category;
+    ({ error } = await sb.from('wishlist').update(purchaseUpdate).eq('id', id));
+  }
 
   if (error) {
     btn.disabled = false; btn.textContent = 'Καταγραφή';
@@ -2616,15 +2769,17 @@ async function confirmPurchase() {
     return;
   }
 
-  // 2. Auto-sync → create entry in wardrobe table
-  const cat1 = WISHLIST_TO_WARDROBE_CAT[item.category] || null;
+  // 2. Auto-sync → create entry in wardrobe table (Tracker)
+  // The wishlist now uses the Tracker taxonomy (Tops/Dresses/… + subcategories), so category/subcategory pass straight through.
+  // Older items with the previous Greek categories are still translated via the legacy maps.
+  const { cat1, cat2 } = mapToTrackerCategory(item);
   const wardrobePayload = {
     user_id: currentUser.id,
     title: item.title,
     brand: item.brand,
     category: cat1,
     cat1: cat1,
-    cat2: item.category && !WISHLIST_TO_WARDROBE_CAT[item.category] ? item.category : null,
+    cat2: cat2,
     color: item.color,
     material: item.material,
     price: item.price,
@@ -2633,27 +2788,19 @@ async function confirmPurchase() {
     purchased_at: purchasedAt,
     season: item.season,
     sleeve_length: item.sleeve_length,
-    item_length: item.item_length,
+    length: item.item_length,   // the Tracker reads/writes «length»
     notes: item.notes,
     conscious_score: PURCH_CAT_TO_CONSCIOUS[purchCat] || null,
     uniforms: item.uniform_ids || [],
-    wishlist_id: item.id,  // back-reference (ignored if column doesn't exist)
+    wishlist_id: item.id,  // back-reference (dropped automatically if the column doesn't exist)
     prev_worn: 0,
   };
 
   let syncMsg = '';
-  const { error: wardrobeErr } = await sb.from('wardrobe').insert(wardrobePayload);
+  const wardrobeErr = await insertWardrobeTolerant(wardrobePayload);
   if (wardrobeErr) {
-    // If wishlist_id column doesn't exist, retry without it
-    if (wardrobeErr.message && wardrobeErr.message.includes('wishlist_id')) {
-      delete wardrobePayload.wishlist_id;
-      const { error: retryErr } = await sb.from('wardrobe').insert(wardrobePayload);
-      if (retryErr) syncMsg = ' (sync failed: ' + retryErr.message + ')';
-      else syncMsg = ' → 👗 Wardrobe';
-    } else {
-      syncMsg = ' (wardrobe sync failed)';
-      console.warn('Wardrobe sync error:', wardrobeErr);
-    }
+    syncMsg = ' (sync failed: ' + wardrobeErr.message + ')';
+    console.warn('Wardrobe sync error:', wardrobeErr);
   } else {
     syncMsg = ' → 👗 Wardrobe';
   }
@@ -2707,8 +2854,13 @@ async function loadPurchases() {
 }
 
 function getPurchCat(item) {
+  if (item.purchase_category === 'replacement' || item.is_replacement) return 'replacement';
+  // Recalculate from the dates with the current (Tracker-aligned) tiers, so older purchases use the same scale
+  if (item.created_at && item.purchased_at) {
+    const h = (new Date(item.purchased_at) - new Date(item.created_at)) / (1000 * 60 * 60);
+    if (!isNaN(h)) return getPurchaseCategory(h, false);
+  }
   if (item.purchase_category) return item.purchase_category;
-  if (item.is_replacement) return 'replacement';
   return item.waited_two_months ? 'conscious' : 'impulse';
 }
 
@@ -2719,9 +2871,12 @@ function renderPurchases() {
   const conscious    = items.filter(i => getPurchCat(i) === 'conscious');
   const wellThought  = items.filter(i => getPurchCat(i) === 'well-thought');
   const smallThought = items.filter(i => getPurchCat(i) === 'small-thought');
+  const shortThought = items.filter(i => getPurchCat(i) === 'short-thought');
   const impulse      = items.filter(i => getPurchCat(i) === 'impulse');
   const replacements = items.filter(i => getPurchCat(i) === 'replacement');
-  const nC=conscious.length, nWT=wellThought.length, n48=smallThought.length, nI=impulse.length, nR=replacements.length;
+  const nC=conscious.length, nWT=wellThought.length, n48=smallThought.length, nS=shortThought.length, nI=impulse.length, nR=replacements.length;
+  const cS=shortThought.reduce((s,i)=>s+(i.price||0),0);
+  const avgS=nS?cS/nS:0;
   const cC=conscious.reduce((s,i)=>s+(i.price||0),0);
   const cWT=wellThought.reduce((s,i)=>s+(i.price||0),0);
   const c48=smallThought.reduce((s,i)=>s+(i.price||0),0);
@@ -2732,20 +2887,22 @@ function renderPurchases() {
   const fmtA=n=>n>0?'€'+Math.round(n):'—';
   const fmtN=n=>n||'—';
   const metricConfigs={
-    cost:{title:'Κόστος',totalVal:fmtE(totalCost),cVal:fmtE(cC),wtVal:fmtE(cWT),r48Val:fmtE(c48),iVal:fmtE(cI),rVal:fmtE(cR),sep:'+'},
-    items:{title:'Τεμάχια',totalVal:total||'—',cVal:fmtN(nC),wtVal:fmtN(nWT),r48Val:fmtN(n48),iVal:fmtN(nI),rVal:fmtN(nR),sep:'+'},
-    avg:{title:'Μέσο κόστος / τεμάχιο',totalVal:fmtA(avgTot),cVal:fmtA(avgC),wtVal:fmtA(avgWT),r48Val:fmtA(avg48),iVal:fmtA(avgI),rVal:'—',sep:'·'},
+    cost:{title:'Κόστος',totalVal:fmtE(totalCost),cVal:fmtE(cC),wtVal:fmtE(cWT),r48Val:fmtE(c48),sVal:fmtE(cS),iVal:fmtE(cI),rVal:fmtE(cR),sep:'+'},
+    items:{title:'Τεμάχια',totalVal:total||'—',cVal:fmtN(nC),wtVal:fmtN(nWT),r48Val:fmtN(n48),sVal:fmtN(nS),iVal:fmtN(nI),rVal:fmtN(nR),sep:'+'},
+    avg:{title:'Μέσο κόστος / τεμάχιο',totalVal:fmtA(avgTot),cVal:fmtA(avgC),wtVal:fmtA(avgWT),r48Val:fmtA(avg48),sVal:fmtA(avgS),iVal:fmtA(avgI),rVal:'—',sep:'·'},
   };
   const mc=metricConfigs[currentMetric]||metricConfigs.cost;
   document.getElementById('metric-row-title').textContent=mc.title;
   document.getElementById('metric-row').innerHTML=`
     <div class="purch-compare-card total"><div class="purch-compare-num">${mc.totalVal}</div><div class="purch-compare-lbl">Σύνολο</div></div>
     <div class="purch-compare-sep">＝</div>
-    <div class="purch-compare-card conscious"><div class="purch-compare-num">${mc.cVal}</div><div class="purch-compare-lbl">Conscious</div></div>
+    <div class="purch-compare-card conscious"><div class="purch-compare-num">${mc.cVal}</div><div class="purch-compare-lbl">Fully Conscious</div></div>
     <div class="purch-compare-sep">${mc.sep}</div>
-    <div class="purch-compare-card well-thought"><div class="purch-compare-num">${mc.wtVal}</div><div class="purch-compare-lbl">Well Thought</div></div>
+    <div class="purch-compare-card well-thought"><div class="purch-compare-num">${mc.wtVal}</div><div class="purch-compare-lbl">Συνειδητή</div></div>
     <div class="purch-compare-sep">${mc.sep}</div>
     <div class="purch-compare-card rule48"><div class="purch-compare-num">${mc.r48Val}</div><div class="purch-compare-lbl">48h Rule</div></div>
+    <div class="purch-compare-sep">${mc.sep}</div>
+    <div class="purch-compare-card short"><div class="purch-compare-num">${mc.sVal}</div><div class="purch-compare-lbl">Σύντ. σκέψη</div></div>
     <div class="purch-compare-sep">${mc.sep}</div>
     <div class="purch-compare-card impulse"><div class="purch-compare-num">${mc.iVal}</div><div class="purch-compare-lbl">Impulse</div></div>
     <div class="purch-compare-sep">${mc.sep}</div>
@@ -2758,11 +2915,11 @@ function renderPurchases() {
   if(total>0){
     if(currentMetric==='cost'){
       if(cI===0)overallComment=`🌟 Zero impulse spending this year — every euro was intentional!`;
-      else if(cPatient>=cI)overallComment=`✨ Most of your spending (${fmtE(cPatient)}) went to thoughtful purchases (Conscious + Well Thought). Your budget is working for your wardrobe!`;
+      else if(cPatient>=cI)overallComment=`✨ Most of your spending (${fmtE(cPatient)}) went to thoughtful purchases (Fully Conscious + Συνειδητή). Your budget is working for your wardrobe!`;
       else overallComment=`⚡ ${fmtE(cI)} spent on impulse purchases. Try the 48h rule for the next one.`;
     }else if(currentMetric==='items'){
       if(nI===0)overallComment=`🌟 Zero impulse purchases this year! Every single item was a considered decision.`;
-      else if(nPatient>=nI)overallComment=`✨ ${nPatient} out of ${total} purchases were thoughtful decisions (Conscious + Well Thought)!`;
+      else if(nPatient>=nI)overallComment=`✨ ${nPatient} out of ${total} purchases were thoughtful decisions (Fully Conscious + Συνειδητή)!`;
       else overallComment=`⚡ ${nI} out of ${total} purchases were impulse buys. Try pausing before the next one.`;
     }else{
       if(nI===0)overallComment=`🌟 No impulse purchases — a clean and intentional year!`;
@@ -2779,11 +2936,12 @@ function renderPurchases() {
     const raw=i.category||'Άλλο';
     const cat=CAT_GROUP[raw]||raw;
     const pc=getPurchCat(i);
-    if(!catMap[cat])catMap[cat]={count:0,cost:0,conscious:0,wellThought:0,rule48:0,impulse:0,nConscious:0,nWellThought:0,nRule48:0,nImpulse:0};
+    if(!catMap[cat])catMap[cat]={count:0,cost:0,conscious:0,wellThought:0,rule48:0,short:0,impulse:0,nConscious:0,nWellThought:0,nRule48:0,nShort:0,nImpulse:0};
     catMap[cat].count++;catMap[cat].cost+=i.price||0;
     if(pc==='conscious'||pc==='replacement'){catMap[cat].conscious+=i.price||0;catMap[cat].nConscious++;}
     else if(pc==='well-thought'){catMap[cat].wellThought+=i.price||0;catMap[cat].nWellThought++;}
     else if(pc==='small-thought'){catMap[cat].rule48+=i.price||0;catMap[cat].nRule48++;}
+    else if(pc==='short-thought'){catMap[cat].short+=i.price||0;catMap[cat].nShort++;}
     else{catMap[cat].impulse+=i.price||0;catMap[cat].nImpulse++;}
   });
 
@@ -2800,10 +2958,10 @@ function renderPurchases() {
 
   function catRowHtml(d){
     const fC=n=>n>0?'€'+Math.round(n):'—';
-    if(currentMetric==='cost')return`<div class="purch-compare-row" style="overflow:visible;"><div class="purch-compare-card total" style="min-width:46px;"><div class="purch-compare-num">€${Math.round(d.cost)}</div><div class="purch-compare-lbl">Σύνολο</div></div><div class="purch-compare-sep">=</div><div class="purch-compare-card conscious" style="min-width:46px;"><div class="purch-compare-num">${fC(d.conscious)}</div><div class="purch-compare-lbl">Conscious</div></div><div class="purch-compare-sep">+</div><div class="purch-compare-card well-thought" style="min-width:46px;"><div class="purch-compare-num">${fC(d.wellThought)}</div><div class="purch-compare-lbl">Well Th.</div></div><div class="purch-compare-sep">+</div><div class="purch-compare-card rule48" style="min-width:46px;"><div class="purch-compare-num">${fC(d.rule48)}</div><div class="purch-compare-lbl">48h Rule</div></div><div class="purch-compare-sep">+</div><div class="purch-compare-card impulse" style="min-width:46px;"><div class="purch-compare-num">${fC(d.impulse)}</div><div class="purch-compare-lbl">Impulse</div></div></div>`;
-    if(currentMetric==='items')return`<div class="purch-compare-row" style="overflow:visible;"><div class="purch-compare-card total" style="min-width:46px;"><div class="purch-compare-num">${d.count}</div><div class="purch-compare-lbl">Σύνολο</div></div><div class="purch-compare-sep">=</div><div class="purch-compare-card conscious" style="min-width:46px;"><div class="purch-compare-num">${d.nConscious||'—'}</div><div class="purch-compare-lbl">Conscious</div></div><div class="purch-compare-sep">+</div><div class="purch-compare-card well-thought" style="min-width:46px;"><div class="purch-compare-num">${d.nWellThought||'—'}</div><div class="purch-compare-lbl">Well Th.</div></div><div class="purch-compare-sep">+</div><div class="purch-compare-card rule48" style="min-width:46px;"><div class="purch-compare-num">${d.nRule48||'—'}</div><div class="purch-compare-lbl">48h Rule</div></div><div class="purch-compare-sep">+</div><div class="purch-compare-card impulse" style="min-width:46px;"><div class="purch-compare-num">${d.nImpulse||'—'}</div><div class="purch-compare-lbl">Impulse</div></div></div>`;
-    const avgCC=d.nConscious?d.conscious/d.nConscious:0,avgWTc=d.nWellThought?d.wellThought/d.nWellThought:0,avg48c=d.nRule48?d.rule48/d.nRule48:0,avgII=d.nImpulse?d.impulse/d.nImpulse:0,avgTotC=d.count?d.cost/d.count:0;
-    return`<div class="purch-compare-row" style="overflow:visible;"><div class="purch-compare-card total" style="min-width:46px;"><div class="purch-compare-num">${fC(avgTotC)}</div><div class="purch-compare-lbl">Μέσο</div></div><div class="purch-compare-sep">·</div><div class="purch-compare-card conscious" style="min-width:46px;"><div class="purch-compare-num">${fC(avgCC)}</div><div class="purch-compare-lbl">Conscious</div></div><div class="purch-compare-sep">·</div><div class="purch-compare-card well-thought" style="min-width:46px;"><div class="purch-compare-num">${fC(avgWTc)}</div><div class="purch-compare-lbl">Well Th.</div></div><div class="purch-compare-sep">·</div><div class="purch-compare-card rule48" style="min-width:46px;"><div class="purch-compare-num">${fC(avg48c)}</div><div class="purch-compare-lbl">48h Rule</div></div><div class="purch-compare-sep">·</div><div class="purch-compare-card impulse" style="min-width:46px;"><div class="purch-compare-num">${fC(avgII)}</div><div class="purch-compare-lbl">Impulse</div></div></div>`;
+    if(currentMetric==='cost')return`<div class="purch-compare-row" style="overflow:visible;"><div class="purch-compare-card total" style="min-width:46px;"><div class="purch-compare-num">€${Math.round(d.cost)}</div><div class="purch-compare-lbl">Σύνολο</div></div><div class="purch-compare-sep">=</div><div class="purch-compare-card conscious" style="min-width:46px;"><div class="purch-compare-num">${fC(d.conscious)}</div><div class="purch-compare-lbl">Fully Consc.</div></div><div class="purch-compare-sep">+</div><div class="purch-compare-card well-thought" style="min-width:46px;"><div class="purch-compare-num">${fC(d.wellThought)}</div><div class="purch-compare-lbl">Συνειδητή</div></div><div class="purch-compare-sep">+</div><div class="purch-compare-card rule48" style="min-width:46px;"><div class="purch-compare-num">${fC(d.rule48)}</div><div class="purch-compare-lbl">48h Rule</div></div><div class="purch-compare-sep">+</div><div class="purch-compare-card short" style="min-width:46px;"><div class="purch-compare-num">${fC(d.short)}</div><div class="purch-compare-lbl">Σύντ. σκέψη</div></div><div class="purch-compare-sep">+</div><div class="purch-compare-card impulse" style="min-width:46px;"><div class="purch-compare-num">${fC(d.impulse)}</div><div class="purch-compare-lbl">Impulse</div></div></div>`;
+    if(currentMetric==='items')return`<div class="purch-compare-row" style="overflow:visible;"><div class="purch-compare-card total" style="min-width:46px;"><div class="purch-compare-num">${d.count}</div><div class="purch-compare-lbl">Σύνολο</div></div><div class="purch-compare-sep">=</div><div class="purch-compare-card conscious" style="min-width:46px;"><div class="purch-compare-num">${d.nConscious||'—'}</div><div class="purch-compare-lbl">Fully Consc.</div></div><div class="purch-compare-sep">+</div><div class="purch-compare-card well-thought" style="min-width:46px;"><div class="purch-compare-num">${d.nWellThought||'—'}</div><div class="purch-compare-lbl">Συνειδητή</div></div><div class="purch-compare-sep">+</div><div class="purch-compare-card rule48" style="min-width:46px;"><div class="purch-compare-num">${d.nRule48||'—'}</div><div class="purch-compare-lbl">48h Rule</div></div><div class="purch-compare-sep">+</div><div class="purch-compare-card short" style="min-width:46px;"><div class="purch-compare-num">${d.nShort||'—'}</div><div class="purch-compare-lbl">Σύντ. σκέψη</div></div><div class="purch-compare-sep">+</div><div class="purch-compare-card impulse" style="min-width:46px;"><div class="purch-compare-num">${d.nImpulse||'—'}</div><div class="purch-compare-lbl">Impulse</div></div></div>`;
+    const avgSc=d.nShort?d.short/d.nShort:0,avgCC=d.nConscious?d.conscious/d.nConscious:0,avgWTc=d.nWellThought?d.wellThought/d.nWellThought:0,avg48c=d.nRule48?d.rule48/d.nRule48:0,avgII=d.nImpulse?d.impulse/d.nImpulse:0,avgTotC=d.count?d.cost/d.count:0;
+    return`<div class="purch-compare-row" style="overflow:visible;"><div class="purch-compare-card total" style="min-width:46px;"><div class="purch-compare-num">${fC(avgTotC)}</div><div class="purch-compare-lbl">Μέσο</div></div><div class="purch-compare-sep">·</div><div class="purch-compare-card conscious" style="min-width:46px;"><div class="purch-compare-num">${fC(avgCC)}</div><div class="purch-compare-lbl">Fully Consc.</div></div><div class="purch-compare-sep">·</div><div class="purch-compare-card well-thought" style="min-width:46px;"><div class="purch-compare-num">${fC(avgWTc)}</div><div class="purch-compare-lbl">Συνειδητή</div></div><div class="purch-compare-sep">·</div><div class="purch-compare-card rule48" style="min-width:46px;"><div class="purch-compare-num">${fC(avg48c)}</div><div class="purch-compare-lbl">48h Rule</div></div><div class="purch-compare-sep">·</div><div class="purch-compare-card short" style="min-width:46px;"><div class="purch-compare-num">${fC(avgSc)}</div><div class="purch-compare-lbl">Σύντ. σκέψη</div></div><div class="purch-compare-sep">·</div><div class="purch-compare-card impulse" style="min-width:46px;"><div class="purch-compare-num">${fC(avgII)}</div><div class="purch-compare-lbl">Impulse</div></div></div>`;
   }
 
   document.getElementById('purch-by-category').innerHTML=sorted.length
@@ -2818,10 +2976,11 @@ function renderPurchases() {
   if(purchFilter==='conscious')filtered=conscious.slice().sort((a,b)=>(b.purchased_at||'').localeCompare(a.purchased_at||''));
   else if(purchFilter==='well-thought')filtered=wellThought.slice().sort((a,b)=>(b.purchased_at||'').localeCompare(a.purchased_at||''));
   else if(purchFilter==='small-thought')filtered=smallThought.slice().sort((a,b)=>(b.purchased_at||'').localeCompare(a.purchased_at||''));
+  else if(purchFilter==='short-thought')filtered=shortThought.slice().sort((a,b)=>(b.purchased_at||'').localeCompare(a.purchased_at||''));
   else if(purchFilter==='impulse')filtered=impulse.slice().sort((a,b)=>(b.purchased_at||'').localeCompare(a.purchased_at||''));
   else if(purchFilter==='replacement')filtered=replacements.slice().sort((a,b)=>(b.purchased_at||'').localeCompare(a.purchased_at||''));
 
-  const BADGE={'conscious':{cls:'conscious',label:'✅ Conscious'},'well-thought':{cls:'well-thought',label:'🌱 Well Thought'},'small-thought':{cls:'small-thought',label:'🤔 48h Rule'},'impulse':{cls:'impulse',label:'⚡ Impulse'},'replacement':{cls:'replacement',label:'🔄 Αντικατάσταση'}};
+  const BADGE={'conscious':{cls:'conscious',label:'✅ Fully Conscious'},'well-thought':{cls:'well-thought',label:'🌱 Συνειδητή'},'small-thought':{cls:'small-thought',label:'🤔 48h Rule'},'short-thought':{cls:'short-thought',label:'💭 Σύντομη σκέψη'},'impulse':{cls:'impulse',label:'⚡ Impulse'},'replacement':{cls:'replacement',label:'🔄 Αντικατάσταση'}};
   document.getElementById('purch-list').innerHTML=filtered.length
     ?filtered.map(item=>{
       const{cls,label}=BADGE[getPurchCat(item)]||BADGE.impulse;
@@ -2857,11 +3016,13 @@ async function loadArchive() {
     const nC=items.filter(i=>getPurchCat(i)==='conscious').length;
     const nWT=items.filter(i=>getPurchCat(i)==='well-thought').length;
     const n48=items.filter(i=>getPurchCat(i)==='small-thought').length;
+    const nS=items.filter(i=>getPurchCat(i)==='short-thought').length;
     const nI=items.filter(i=>getPurchCat(i)==='impulse').length;
     const nR=items.filter(i=>getPurchCat(i)==='replacement').length;
-    const cC=items.filter(i=>['conscious','replacement'].includes(getPurchCat(i))).reduce((s,i)=>s+(i.price||0),0);
+    const cC=items.filter(i=>getPurchCat(i)==='conscious').reduce((s,i)=>s+(i.price||0),0);
     const cWT=items.filter(i=>getPurchCat(i)==='well-thought').reduce((s,i)=>s+(i.price||0),0);
     const c48=items.filter(i=>getPurchCat(i)==='small-thought').reduce((s,i)=>s+(i.price||0),0);
+    const cS=items.filter(i=>getPurchCat(i)==='short-thought').reduce((s,i)=>s+(i.price||0),0);
     const cI=items.filter(i=>getPurchCat(i)==='impulse').reduce((s,i)=>s+(i.price||0),0);
     const cR=items.filter(i=>getPurchCat(i)==='replacement').reduce((s,i)=>s+(i.price||0),0);
     const nPatient = nC + nWT + nR;
@@ -2902,11 +3063,13 @@ async function loadArchive() {
       <div class="purch-compare-row" style="margin-bottom:8px;">
         <div class="purch-compare-card total" style="min-width:46px;"><div class="purch-compare-num">${total}</div><div class="purch-compare-lbl">Σύνολο</div></div>
         <div class="purch-compare-sep">=</div>
-        <div class="purch-compare-card conscious" style="min-width:46px;"><div class="purch-compare-num">${nC||'—'}</div><div class="purch-compare-lbl">Conscious</div></div>
+        <div class="purch-compare-card conscious" style="min-width:46px;"><div class="purch-compare-num">${nC||'—'}</div><div class="purch-compare-lbl">Fully Consc.</div></div>
         <div class="purch-compare-sep">+</div>
-        <div class="purch-compare-card well-thought" style="min-width:46px;"><div class="purch-compare-num">${nWT||'—'}</div><div class="purch-compare-lbl">Well Th.</div></div>
+        <div class="purch-compare-card well-thought" style="min-width:46px;"><div class="purch-compare-num">${nWT||'—'}</div><div class="purch-compare-lbl">Συνειδητή</div></div>
         <div class="purch-compare-sep">+</div>
         <div class="purch-compare-card rule48" style="min-width:46px;"><div class="purch-compare-num">${n48||'—'}</div><div class="purch-compare-lbl">48h Rule</div></div>
+        <div class="purch-compare-sep">+</div>
+        <div class="purch-compare-card short" style="min-width:46px;"><div class="purch-compare-num">${nS||'—'}</div><div class="purch-compare-lbl">Σύντ. σκέψη</div></div>
         <div class="purch-compare-sep">+</div>
         <div class="purch-compare-card impulse" style="min-width:46px;"><div class="purch-compare-num">${nI||'—'}</div><div class="purch-compare-lbl">Impulse</div></div>
         <div class="purch-compare-sep">+</div>
@@ -2916,11 +3079,13 @@ async function loadArchive() {
       <div class="purch-compare-row" style="margin-bottom:10px;">
         <div class="purch-compare-card total" style="min-width:46px;"><div class="purch-compare-num">${fmt(totalCost)}</div><div class="purch-compare-lbl">Σύνολο</div></div>
         <div class="purch-compare-sep">=</div>
-        <div class="purch-compare-card conscious" style="min-width:46px;"><div class="purch-compare-num">${fmt(cC)}</div><div class="purch-compare-lbl">Conscious</div></div>
+        <div class="purch-compare-card conscious" style="min-width:46px;"><div class="purch-compare-num">${fmt(cC)}</div><div class="purch-compare-lbl">Fully Consc.</div></div>
         <div class="purch-compare-sep">+</div>
-        <div class="purch-compare-card well-thought" style="min-width:46px;"><div class="purch-compare-num">${fmt(cWT)}</div><div class="purch-compare-lbl">Well Th.</div></div>
+        <div class="purch-compare-card well-thought" style="min-width:46px;"><div class="purch-compare-num">${fmt(cWT)}</div><div class="purch-compare-lbl">Συνειδητή</div></div>
         <div class="purch-compare-sep">+</div>
         <div class="purch-compare-card rule48" style="min-width:46px;"><div class="purch-compare-num">${fmt(c48)}</div><div class="purch-compare-lbl">48h Rule</div></div>
+        <div class="purch-compare-sep">+</div>
+        <div class="purch-compare-card short" style="min-width:46px;"><div class="purch-compare-num">${fmt(cS)}</div><div class="purch-compare-lbl">Σύντ. σκέψη</div></div>
         <div class="purch-compare-sep">+</div>
         <div class="purch-compare-card impulse" style="min-width:46px;"><div class="purch-compare-num">${fmt(cI)}</div><div class="purch-compare-lbl">Impulse</div></div>
         <div class="purch-compare-sep">+</div>

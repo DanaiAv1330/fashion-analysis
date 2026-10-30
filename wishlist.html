@@ -774,7 +774,7 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
         <div class="iform-group">
           <label>Κατηγορία CPW</label>
           <select id="f-cpw-cat" onchange="calcCPW()">
-            <option value="">— Επιλογή —</option>
+            <option value="" id="cpw-auto-opt">Αυτόματα (από το είδος)</option>
             <option value="5">Καθημερινό (&lt;5€)</option>
             <option value="10">Αξεσουάρ (&lt;10€)</option>
             <option value="8">Outerwear (&lt;8€)</option>
@@ -1376,6 +1376,7 @@ sb.auth.onAuthStateChange((event, session) => {
     loadBudgets();
     loadItems();
     loadUniforms();
+    refreshCpwTargets();
   }
 });
 
@@ -1971,8 +1972,9 @@ function getStatus(item) {
   const now = new Date();
   const created = new Date(item.created_at);
   const hoursDiff = item.is_replacement ? Infinity : (now - created) / (1000 * 60 * 60);
-  const cpwOk = item.price && item.times_per_week && item.cpw_category
-    ? (item.price / (item.times_per_week * 52)) <= parseFloat(item.cpw_category)
+  const tgt = itemCpwTarget(item);
+  const cpwOk = item.price && item.times_per_week && tgt
+    ? (item.price / (item.times_per_week * 52)) <= tgt
     : false;
   const outfits = [item.outfit_1, item.outfit_2, item.outfit_3].filter(Boolean);
   const outfitsOk = outfits.length >= 3;
@@ -2002,13 +2004,13 @@ function formatDate(iso) {
 function renderCard(item) {
   const status = getStatus(item);
   const cpw = getCPW(item);
-  const cpwCls = cpwClass(cpw, item.cpw_category);
+  const cpwCls = cpwClass(cpw, itemCpwTarget(item));
   const outfits = [item.outfit_1, item.outfit_2, item.outfit_3].filter(Boolean);
   const now = new Date();
   const created = new Date(item.created_at);
   const hoursDiff = (now - created) / (1000 * 60 * 60);
-  const cpwOk = cpw && item.cpw_category ? cpw <= parseFloat(item.cpw_category) : false;
-  const target = item.cpw_category ? parseFloat(item.cpw_category) : null;
+  const target = itemCpwTarget(item);
+  const cpwOk = cpw && target ? cpw <= target : false;
 
   const timeTier = item.is_replacement ? 'green' : waitTier(hoursDiff);
   const daysTo = h => Math.max(1, Math.ceil((h - hoursDiff) / 24));
@@ -2170,12 +2172,47 @@ function wearPlan(needed, cat1, cat2, season) {
   return { perWeek, months, weeksPerYear, perYear: Math.round(perYear * 10) / 10, years, wholeYears: Math.ceil(years), seasonal: months < 12, seasonLabel: season && months < 12 ? season : '' };
 }
 function yearsWord(n) { return n === 1 ? '1 χρόνο' : `${n} χρόνια`; }
+// ── Στόχοι CPW ανά κατηγορία — ίδιοι με τον Tracker (Dashboard → 🎯 Στόχοι CPW), διαβάζονται από τον λογαριασμό ──
+const DEFAULT_CPW_TARGETS = {
+  cat: { 'Tops':5, 'Dresses':5, 'Pants':5, 'Outwear':8, 'Shoes':5, 'Bags':10, 'Accessories':10 },
+  sub: { 'Tops|Special Occasion':20, 'Dresses|Special Occasion':20, 'Bags|Clutch':20, 'Shoes|Heels':10 }
+};
+function userCpwTargets() {
+  let t = currentUser && currentUser.user_metadata && currentUser.user_metadata.cpw_targets;
+  if (!t) { try { t = JSON.parse(localStorage.getItem('fa_cpw_targets') || 'null'); } catch (e) {} }
+  const out = { cat: { ...DEFAULT_CPW_TARGETS.cat }, sub: { ...DEFAULT_CPW_TARGETS.sub } };
+  if (t && t.cat) Object.entries(t.cat).forEach(([k, v]) => { const n = parseFloat(v); if (n > 0) out.cat[k] = n; });
+  if (t && t.sub) { out.sub = {}; Object.entries(t.sub).forEach(([k, v]) => { const n = parseFloat(v); if (n > 0) out.sub[k] = n; }); }
+  return out;
+}
+function defaultCpwTarget(cat1, cat2) {
+  if (!cat1 || !CATEGORIES[cat1]) return null;
+  const t = userCpwTargets();
+  if (cat2 && t.sub[cat1 + '|' + cat2] > 0) return t.sub[cat1 + '|' + cat2];
+  return t.cat[cat1] > 0 ? t.cat[cat1] : 5;
+}
+// χειροκίνητη επιλογή αν υπάρχει, αλλιώς αυτόματα από κατηγορία/υποκατηγορία
+function itemCpwTarget(item) {
+  const n = parseFloat(item.cpw_category);
+  return n > 0 ? n : defaultCpwTarget(item.category, item.subcategory);
+}
+// φέρνει τους πιο πρόσφατους στόχους από τον server (αν άλλαξαν σε άλλη συσκευή)
+async function refreshCpwTargets() {
+  try {
+    const { data } = await sb.auth.getUser();
+    if (data && data.user && currentUser) { currentUser.user_metadata = data.user.user_metadata || {}; renderItems(); updateStats(); }
+  } catch (e) {}
+}
 function excellentWears(price, target) { return (price > 0 && target > 0) ? Math.ceil(price / (target / 2)) : null; }
 function committedWearsOf(tpw) { const t = parseFloat(tpw); return t > 0 ? Math.round(t * 52) : 0; }
 function fmtPace(n) { return (Math.round(n * 10) / 10).toString().replace('.', ','); }
 function calcCPW() {
   const price = parseFloat(document.getElementById('f-price').value);
-  const target = parseFloat(document.getElementById('f-cpw-cat').value);
+  const cat1Now = document.getElementById('f-cat1').value, cat2Now = document.getElementById('f-cat2').value;
+  const autoTarget = defaultCpwTarget(cat1Now, cat2Now);
+  const autoOpt = document.getElementById('cpw-auto-opt');
+  if (autoOpt) autoOpt.textContent = autoTarget ? `Αυτόματα — <${autoTarget}€ (${cat2Now || cat1Now})` : 'Αυτόματα (διάλεξε κατηγορία)';
+  const target = parseFloat(document.getElementById('f-cpw-cat').value) || autoTarget;
   const tgtEl = document.getElementById('cpw-target');
   const needEl = document.getElementById('cpw-needed');
   const exEl = document.getElementById('cpw-excellent');
@@ -2823,6 +2860,7 @@ async function confirmPurchase() {
     length: item.item_length,   // the Tracker reads/writes «length»
     notes: item.notes,
     conscious_score: PURCH_CAT_TO_CONSCIOUS[purchCat] || null,
+    cpw_category: item.cpw_category || null,   // ο στόχος CPW περνάει στον Tracker (αγνοείται αν λείπει η στήλη)
     uniforms: item.uniform_ids || [],
     wishlist_id: item.id,  // back-reference (dropped automatically if the column doesn't exist)
     prev_worn: 0,

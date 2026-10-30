@@ -162,6 +162,19 @@ body{font-family:var(--font-sans);font-weight:300;background:var(--bg);color:var
 .auto-info{font-size:10px;line-height:1.5;color:var(--text-muted);padding:6px 9px;background:var(--surface2);border:1px solid var(--border-soft);border-radius:2px;margin-top:6px;}
 .auto-info.warn{background:rgba(232,184,75,0.15);border-color:rgba(196,149,106,0.4);color:#5a4020;}
 .auto-info.flag{background:rgba(140,58,44,0.08);border-color:rgba(140,58,44,0.3);color:#8c3a2c;}
+.ct-card{background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:11px 13px;margin-bottom:8px;}
+.ct-head{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.ct-name{font-family:var(--font-serif);font-size:15px;}
+.ct-input{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text-muted);}
+.ct-input input{width:68px;font-family:var(--font-sans);font-size:15px;text-align:right;border:1px solid var(--border);background:var(--surface2);padding:6px 8px;border-radius:2px;outline:none;-webkit-appearance:none;}
+.ct-input input:focus{border-color:var(--accent);}
+.ct-input input.changed{border-color:var(--accent);background:var(--accent-dim);}
+.ct-meta{font-size:9.5px;color:var(--text-dim);margin-top:4px;}
+.ct-subs summary{font-size:9px;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent-dark);cursor:pointer;margin-top:8px;list-style:none;}
+.ct-subs summary::-webkit-details-marker{display:none;}
+.ct-sub-row{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:5px 0;border-top:1px solid var(--border-soft);font-size:11px;}
+.ct-sub-row:first-of-type{margin-top:6px;}
+.ct-sub-row .ct-input input{width:60px;font-size:13px;padding:5px 7px;}
 .xts-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:12px;}
 .xts-table{width:100%;border-collapse:collapse;font-size:11px;}
 .xts-table th{font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);font-weight:400;text-align:right;padding:4px 4px 6px;border-bottom:1px solid var(--border);}
@@ -977,6 +990,7 @@ body{padding-bottom:0;}
         <button class="dash-subtab" onclick="showDashSub('total',this)">📈 Ανάλυση Περιόδου</button>
         <button class="dash-subtab" onclick="showDashSub('scores',this)">📊 Portfolio</button>
         <button class="dash-subtab" onclick="showDashSub('purchases',this)">🛍 Αγορές</button>
+        <button class="dash-subtab" onclick="showDashSub('targets',this)">🎯 Στόχοι CPW</button>
         <button class="dash-subtab" onclick="showDashSub('import',this)" id="import-tab-btn" style="display:none;">📥 Import</button>
       </div>
 
@@ -1308,6 +1322,18 @@ body{padding-bottom:0;}
         <div class="chart-card" style="margin-bottom:12px;"><div class="chart-title">Επένδυση (€) ανά Ύφασμα</div><div id="fabric-value-chart"></div></div>
       </div>
 
+      <!-- CPW TARGETS -->
+      <div class="dash-subpanel" id="dash-targets">
+        <div style="font-family:var(--font-serif);font-size:16px;font-weight:300;margin-bottom:6px;">🎯 Στόχοι <em style="color:var(--accent);font-style:italic">CPW</em></div>
+        <div style="font-size:10px;color:var(--text-dim);line-height:1.6;margin-bottom:12px;">Το <strong>target CPW</strong> είναι το μέγιστο κόστος ανά χρήση που θεωρείς «καλή αγορά» για κάθε είδος. Η <strong>εξαιρετική αγορά</strong> είναι στο μισό του. Ισχύει για όλα τα ρούχα με «Κατηγορία CPW: Αυτόματα». Στις υποκατηγορίες άφησε κενό για να ακολουθούν την κατηγορία.</div>
+        <div id="cpw-preview" class="auto-info" style="margin:0 0 12px;"></div>
+        <div id="cpw-targets-editor"></div>
+        <div style="display:flex;gap:8px;justify-content:space-between;align-items:center;position:sticky;bottom:calc(var(--bottom-nav-h) + 6px);background:var(--bg);padding:10px 0;margin-top:6px;">
+          <button class="btn-sm" onclick="resetCpwTargets()">↺ Προεπιλογές</button>
+          <button class="btn-sm primary" id="cpw-targets-save" onclick="saveCpwTargets()" style="padding:9px 22px;">Αποθήκευση</button>
+        </div>
+      </div>
+
       <!-- IMPORT -->
       <div class="dash-subpanel" id="dash-import">
         <div style="font-family:var(--font-serif);font-size:16px;font-weight:300;margin-bottom:14px;">Μαζική <em style="color:var(--accent);font-style:italic">Εισαγωγή</em></div>
@@ -1587,11 +1613,12 @@ async function handleAuth(){
 function showAuthMsg(txt,type){const el=document.getElementById('auth-msg');el.textContent=txt;el.className='auth-msg '+type;el.style.display='block';}
 async function handleLogout(){await sb.auth.signOut();document.getElementById('app-screen').style.display='none';document.getElementById('auth-screen').style.display='flex';allItems=[];wearLogs=[];}
 sb.auth.onAuthStateChange((event,session)=>{
+  if(event==='USER_UPDATED'){if(session?.user)currentUser=session.user;return;}
   if(session?.user){currentUser=session.user;document.getElementById('auth-screen').style.display='none';document.getElementById('app-screen').style.display='block';document.getElementById('user-display').textContent=session.user.email.split('@')[0];initApp();}
 });
 
 // INIT
-async function initApp(){initMaterialChips();await Promise.all([loadItems(),loadAllLogs(),loadArchivedItems(),loadOutfitUniforms()]);initColorFilterDropdown();renderWardrobe();renderActiveFilters();renderCalendar();loadMonthDash();initTotalDash();}
+async function initApp(){loadCpwTargets();initMaterialChips();await Promise.all([loadItems(),loadAllLogs(),loadArchivedItems(),loadOutfitUniforms()]);initColorFilterDropdown();renderWardrobe();renderActiveFilters();renderCalendar();loadMonthDash();initTotalDash();}
 async function loadItems(){const{data}=await sb.from('wardrobe').select('*').order('created_at',{ascending:false});allItems=(data||[]).map(i=>({...i,uniforms:i.uniforms||[],occasions:i.occasions||[]}));initColorFilterDropdown();_alignCache.clear();_favCache=null;}
 async function loadAllLogs(){
   let all=[],from=0,pageSize=1000,keepGoing=true;
@@ -1820,11 +1847,28 @@ const SEASON_MONTHS={'Άνοιξη / Καλοκαίρι':6,'Φθινόπωρο /
 const LONG_COMMIT_YEARS=3;
 function wearPerWeek(cat1,cat2){if(!cat1||!WEAR_PER_WEEK_DEFAULT[cat1])return null;const sub=WEAR_PER_WEEK[cat1]||{};return(cat2&&sub[cat2]!==undefined)?sub[cat2]:WEAR_PER_WEEK_DEFAULT[cat1];}
 // Κατηγορία CPW όταν δεν έχει οριστεί χειροκίνητα
+// Target CPW ανά κατηγορία / υποκατηγορία — επεξεργάσιμο στο Dashboard → 🎯 Στόχοι CPW
+// Αποθηκεύεται στον λογαριασμό του χρήστη (Supabase user metadata) → ίδιο σε κινητό & υπολογιστή, χωρίς αλλαγή στη βάση.
+const DEFAULT_CPW_TARGETS={
+  cat:{'Tops':5,'Dresses':5,'Pants':5,'Outwear':8,'Shoes':5,'Bags':10,'Accessories':10},
+  sub:{'Tops|Special Occasion':20,'Dresses|Special Occasion':20,'Bags|Clutch':20,'Shoes|Heels':10}
+};
+let cpwTargets=null;
+function normalizeCpwTargets(t){
+  const out={cat:{...DEFAULT_CPW_TARGETS.cat},sub:{...DEFAULT_CPW_TARGETS.sub}};
+  if(t&&t.cat)Object.entries(t.cat).forEach(([k,v])=>{const n=parseFloat(v);if(n>0)out.cat[k]=n;});
+  if(t&&t.sub){out.sub={};Object.entries(t.sub).forEach(([k,v])=>{const n=parseFloat(v);if(n>0)out.sub[k]=n;});}
+  return out;
+}
+function loadCpwTargets(){
+  let saved=currentUser&&currentUser.user_metadata&&currentUser.user_metadata.cpw_targets;
+  if(!saved){try{saved=JSON.parse(localStorage.getItem('fa_cpw_targets')||'null');}catch(e){}}
+  cpwTargets=normalizeCpwTargets(saved);
+}
 function defaultCpwTarget(cat1,cat2){
-  if(cat2==='Special Occasion'||cat2==='Clutch')return 20;
-  if(cat1==='Outwear')return 8;
-  if(cat1==='Bags'||cat1==='Accessories')return 10;
-  if(cat2==='Heels')return 10;
+  const t=cpwTargets||DEFAULT_CPW_TARGETS;
+  if(cat1&&cat2&&t.sub[cat1+'|'+cat2]>0)return t.sub[cat1+'|'+cat2];
+  if(cat1&&t.cat[cat1]>0)return t.cat[cat1];
   return 5;
 }
 function cpwCatOptionValue(v){const n=parseFloat(v);if(!n)return'';return n===10?'10':String(n);}
@@ -3349,13 +3393,14 @@ function renderTargetStats(){
     <div class="kpi-card score-k"><div class="kpi-label">Κοντά (75%+)</div><div class="kpi-value">${close}</div><div class="kpi-sub">${pct(close)}% · λίγες χρήσεις ακόμα</div></div>
     <div class="kpi-card alert"><div class="kpi-label">Μακριά</div><div class="kpi-value">${total-reached-close}</div><div class="kpi-sub">${pct(total-reached-close)}% των ρούχων</div></div>
   </div>`;
-  const table=(title,keyFn,sortFn)=>{
-    const g={};withT.forEach(r=>{const k=keyFn(r.item);if(!g[k])g[k]={n:0,r:0,c:0};g[k].n++;if(r.x.reached)g[k].r++;else if(isClose(r.x))g[k].c++;});
+  const table=(title,keyFn,sortFn,labelFn,headExtra,filterFn)=>{
+    const g={};withT.filter(r=>!filterFn||filterFn(r.item)).forEach(r=>{const k=keyFn(r.item);if(!g[k])g[k]={n:0,r:0,c:0};g[k].n++;if(r.x.reached)g[k].r++;else if(isClose(r.x))g[k].c++;});
     const entries=Object.entries(g).sort(sortFn);
-    return`<div class="chart-card" style="margin-bottom:12px;"><div class="chart-title">${title}</div>
+    if(!entries.length)return`<div class="chart-card" style="margin-bottom:12px;"><div style="display:flex;align-items:center;justify-content:space-between;gap:8px;"><div class="chart-title" style="margin:0;">${title}</div>${headExtra||''}</div><div style="font-size:10px;color:var(--text-dim);padding:10px 0;">Κανένα ρούχο σε αυτή την ομάδα.</div></div>`;
+    return`<div class="chart-card" style="margin-bottom:12px;"><div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px;"><div class="chart-title" style="margin:0;">${title}</div>${headExtra||''}</div>
       <table class="xts-table"><thead><tr><th></th><th>Πέτυχαν</th><th>Κοντά</th><th>Σύνολο</th><th>%</th><th></th></tr></thead><tbody>
       ${entries.map(([k,d])=>{const pr=Math.round(d.r/d.n*100),pc=Math.round(d.c/d.n*100);
-        return`<tr><td>${escHtml(k)}</td><td><strong>${d.r}</strong></td><td>${d.c||'—'}</td><td>${d.n}</td><td class="xts-pct" style="color:${pr>=50?'var(--green-text)':pr>=20?'var(--accent)':'var(--red-text)'}">${pr}%</td>
+        return`<tr><td>${labelFn?labelFn(k):escHtml(k)}</td><td><strong>${d.r}</strong></td><td>${d.c||'—'}</td><td>${d.n}</td><td class="xts-pct" style="color:${pr>=50?'var(--green-text)':pr>=20?'var(--accent)':'var(--red-text)'}">${pr}%</td>
         <td class="xts-bcell"><div class="xts-bar"><span class="r" style="width:${pr}%"></span><span class="c" style="width:${pc}%"></span></div></td></tr>`;}).join('')}
       </tbody></table>
       <div class="xts-legend"><span><i style="background:var(--green)"></i>Πέτυχαν</span><span><i style="background:var(--accent-light)"></i>Κοντά (75%+)</span></div></div>`;
@@ -3364,8 +3409,78 @@ function renderTargetStats(){
   const byCat=table('Ανά κατηγορία',i=>i.cat1||i.category||'—',(a,b)=>{const ia=CAT_ORDER.indexOf(a[0]),ib=CAT_ORDER.indexOf(b[0]);return(ia<0?99:ia)-(ib<0?99:ib);});
   const byYear=table('Ανά έτος αγοράς',i=>i.purchase_year?String(i.purchase_year):(i.purchased_at?String(new Date(i.purchased_at).getFullYear()):'Χωρίς έτος'),(a,b)=>{if(a[0]==='Χωρίς έτος')return 1;if(b[0]==='Χωρίς έτος')return -1;return b[0].localeCompare(a[0]);});
   const note=noPrice?`<div style="font-size:9px;color:var(--text-dim);margin:-4px 0 14px;">${noPrice} ρούχα χωρίς τιμή δεν μετράνε στα στατιστικά.</div>`:'';
-  el.innerHTML=kpis+byCat+byYear+note;
+  const grp=document.getElementById('xts-color-group')?.value||'';
+  const grpSel=`<select class="sort-select" id="xts-color-group" onchange="renderTargetStats()" style="font-size:9px;">
+    <option value="">Όλα</option><option value="clothing">Ρούχα</option><option value="outwear">Outwear</option><option value="accessories">Αξεσουάρ</option></select>`;
+  const byColor=table('Ανά χρώμα',i=>i.color||'—',(a,b)=>b[1].n-a[1].n||a[0].localeCompare(b[0]),
+    k=>`<span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:${COLOR_HEX[k]||'#ccc'};border:1px solid rgba(0,0,0,0.15);margin-right:6px;vertical-align:-1px;"></span>${escHtml(k)}`,
+    grpSel,i=>colorGroupMatch(i,grp));
+  el.innerHTML=kpis+byCat+byColor+byYear+note;
+  const gs=document.getElementById('xts-color-group');if(gs)gs.value=grp;
 }
+// ── 🎯 CPW TARGETS EDITOR ──
+let cpwDraft=null;
+function renderCpwTargetsEditor(){
+  if(!cpwTargets)loadCpwTargets();
+  cpwDraft=JSON.parse(JSON.stringify(cpwTargets));
+  const el=document.getElementById('cpw-targets-editor');if(!el)return;
+  const order=['Tops','Dresses','Pants','Outwear','Shoes','Bags','Accessories'];
+  el.innerHTML=order.map(c=>{
+    const items=allItems.filter(i=>(i.cat1||i.category)===c);
+    const manual=items.filter(i=>parseFloat(i.cpw_category)>0).length;
+    const subs=CATEGORIES[c]||[];
+    const subRows=subs.map(sc=>{const key=c+'|'+sc;const v=cpwDraft.sub[key];
+      return`<div class="ct-sub-row"><span>${escHtml(sc)}</span><span class="ct-input">&lt;<input type="number" min="0.5" step="0.5" inputmode="decimal" data-sub="${escHtml(key)}" value="${v||''}" placeholder="${cpwDraft.cat[c]}" oninput="onCpwDraftInput(this)">€</span></div>`;}).join('');
+    const overrides=subs.filter(sc=>cpwDraft.sub[c+'|'+sc]).length;
+    return`<div class="ct-card">
+      <div class="ct-head"><span class="ct-name">${c}</span><span class="ct-input">&lt;<input type="number" min="0.5" step="0.5" inputmode="decimal" data-cat="${c}" value="${cpwDraft.cat[c]}" oninput="onCpwDraftInput(this)">€ / χρήση</span></div>
+      <div class="ct-meta">${items.length} ρούχα${manual?` · ${manual} με δικό τους χειροκίνητο στόχο (δεν επηρεάζονται)`:''}</div>
+      <details class="ct-subs"><summary>Υποκατηγορίες${overrides?` · ${overrides} με διαφορετικό στόχο`:''} ▾</summary>${subRows}</details>
+    </div>`;
+  }).join('');
+  updateCpwPreview();
+}
+function onCpwDraftInput(inp){
+  const n=parseFloat(inp.value);
+  if(inp.dataset.cat){if(n>0)cpwDraft.cat[inp.dataset.cat]=n;
+    document.querySelectorAll(`#cpw-targets-editor input[data-sub^="${inp.dataset.cat}|"]`).forEach(s=>s.placeholder=n>0?n:'');}
+  else if(inp.dataset.sub){if(n>0)cpwDraft.sub[inp.dataset.sub]=n;else delete cpwDraft.sub[inp.dataset.sub];}
+  const orig=inp.dataset.cat?cpwTargets.cat[inp.dataset.cat]:cpwTargets.sub[inp.dataset.sub];
+  inp.classList.toggle('changed',(n>0?n:undefined)!==orig);
+  updateCpwPreview();
+}
+function countReached(targets){
+  const keep=cpwTargets;cpwTargets=targets;
+  let r=0,t=0;allItems.forEach(i=>{const x=getExcellentTarget(i);if(x){t++;if(x.reached)r++;}});
+  cpwTargets=keep;return{r,t};
+}
+function updateCpwPreview(){
+  const el=document.getElementById('cpw-preview');if(!el)return;
+  const now=countReached(cpwTargets),draft=countReached(cpwDraft);
+  const changed=JSON.stringify(normalizeCpwTargets(cpwDraft))!==JSON.stringify(cpwTargets);
+  el.innerHTML=changed
+    ?`🏆 Με τους νέους στόχους: <strong>${draft.r}/${draft.t}</strong> ρούχα είναι εξαιρετικές αγορές (τώρα: ${now.r}/${now.t}). Πάτα <strong>Αποθήκευση</strong> για να ισχύσουν.`
+    :`🏆 Τώρα: <strong>${now.r}/${now.t}</strong> ρούχα είναι εξαιρετικές αγορές.`;
+}
+function resetCpwTargets(){
+  cpwDraft=JSON.parse(JSON.stringify(DEFAULT_CPW_TARGETS));
+  document.querySelectorAll('#cpw-targets-editor input[data-cat]').forEach(i=>{i.value=cpwDraft.cat[i.dataset.cat];i.classList.toggle('changed',cpwDraft.cat[i.dataset.cat]!==cpwTargets.cat[i.dataset.cat]);});
+  document.querySelectorAll('#cpw-targets-editor input[data-sub]').forEach(i=>{const v=cpwDraft.sub[i.dataset.sub];i.value=v||'';i.placeholder=cpwDraft.cat[i.dataset.sub.split('|')[0]];i.classList.toggle('changed',v!==cpwTargets.sub[i.dataset.sub]);});
+  updateCpwPreview();showToast('Επαναφέρθηκαν οι προεπιλογές — πάτα Αποθήκευση');
+}
+async function saveCpwTargets(){
+  const t=normalizeCpwTargets(cpwDraft);
+  const btn=document.getElementById('cpw-targets-save');btn.disabled=true;btn.textContent='…';
+  try{localStorage.setItem('fa_cpw_targets',JSON.stringify(t));}catch(e){}
+  let synced=true;
+  try{const{data,error}=await sb.auth.updateUser({data:{cpw_targets:t}});if(error)throw error;if(data&&data.user)currentUser=data.user;}
+  catch(e){synced=false;console.warn('CPW targets sync:',e);}
+  cpwTargets=t;_favCache=null;
+  btn.disabled=false;btn.textContent='Αποθήκευση';
+  renderWardrobe();renderCpwTargetsEditor();
+  showToast(synced?'✓ Οι στόχοι CPW αποθηκεύτηκαν':'✓ Αποθηκεύτηκαν σε αυτή τη συσκευή (χωρίς συγχρονισμό)');
+}
+
 function loadPurchasesDash(){
   renderTargetStats();
   const byMonthAll={};allItems.forEach(i=>{if(i.purchase_month)byMonthAll[i.purchase_month]=(byMonthAll[i.purchase_month]||0)+1;});
@@ -3801,6 +3916,7 @@ function showDashSub(sub,btn){
   if(sub==='total')loadTotalDash();
   if(sub==='scores')loadScoresDash();
   if(sub==='purchases')loadPurchasesDash();
+  if(sub==='targets')renderCpwTargetsEditor();
 }
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200);}
 

@@ -6,26 +6,29 @@
 <link rel="icon" type="image/x-icon" href="favicon.ico" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Wardrobe Wishlist</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&family=Noto+Serif:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fira+Sans+Extra+Condensed:wght@400;500;600;700;800;900&family=Fira+Sans+Condensed:wght@300;400;500;600&family=Inter:wght@300;400;500;600&family=Great+Vibes&family=Noto+Serif:ital@1&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
 <style>
 :root {
-  --bg:#f2ede6;--surface:#faf7f2;--surface2:#f5f0e8;--surface3:#eee8de;
-  --border:#ddd7cc;--border-soft:#e8e2d8;
-  --text:#2a231a;--text-muted:#8a7d6e;--text-dim:#b5a898;
-  --accent:#c4956a;--accent-light:#d8b48a;--accent-dim:rgba(196,149,106,0.12);
-  --accent-dark:#9a7a4a;
+  /* Soft Sand #F0E5DB · Mocha Green #474329 · Watermelon Pink #FC75B4 */
+  --sand:#F0E5DB;--mocha:#474329;--pink:#FC75B4;
+  --bg:#F0E5DB;--surface:#F8F1EA;--surface2:#F3E9E0;--surface3:#E7DACD;
+  --border:#D9CBBC;--border-soft:#E6D9CC;
+  --text:#474329;--text-muted:#7A7558;--text-dim:#A9A287;
+  --accent:#F0609F;--accent-light:#FC75B4;--accent-dim:rgba(252,117,180,0.14);
+  --accent-dark:#C93F80;
   --green:#4a7c5a;--green-soft:rgba(74,124,90,0.09);--green-text:#2d5e3f;--green-border:rgba(74,124,90,0.25);
   --lightgreen:#7ba673;--lightgreen-soft:rgba(123,166,115,0.10);--lightgreen-text:#4a7c5a;--lightgreen-border:rgba(123,166,115,0.28);
   --yellow:#8a6e00;--yellow-soft:rgba(180,150,0,0.08);--yellow-text:#6b5200;--yellow-border:rgba(180,150,0,0.28);
   --red:#8c4a3a;--red-soft:rgba(140,74,58,0.08);--red-text:#7a3020;
   --amber:#9a6a1a;
   --orange:#b8703a;--orange-soft:rgba(184,112,58,0.08);--orange-text:#8a4f22;--orange-border:rgba(184,112,58,0.28);
-  --dark:#0a0a0a;
-  --font-display:'Cormorant Garamond','Noto Serif',Georgia,serif;
-  --font-serif:'Cormorant Garamond','Noto Serif',Georgia,serif;
-  --font-sans:'Jost','Noto Sans',system-ui,sans-serif;
+  --dark:#474329;
+  --font-display:'Fira Sans Extra Condensed','Arial Narrow',sans-serif;
+  --font-serif:'Fira Sans Condensed','Arial Narrow',sans-serif;
+  --font-sans:'Inter',system-ui,sans-serif;
+  --font-script:'Great Vibes','Noto Serif',cursive;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:var(--font-sans);font-weight:300;background:var(--bg);color:var(--text);min-height:100vh;font-size:13px;}
@@ -105,13 +108,13 @@ body{font-family:var(--font-sans);font-weight:300;background:var(--bg);color:var
 .app-panel{display:none;}.app-panel.active{display:block;}
 
 /* ── BUDGET BAR ── */
-.budget-bar{margin:14px 14px 0;background:linear-gradient(135deg,#c4956a 0%,#b58557 100%);border:none;border-radius:10px;padding:16px 18px;color:white;box-shadow:0 4px 14px rgba(196,149,106,0.25);position:relative;overflow:hidden;}
+.budget-bar{margin:14px 14px 0;background:linear-gradient(135deg,#FC75B4 0%,#F0609F 100%);border:none;border-radius:10px;padding:16px 18px;color:white;box-shadow:0 4px 14px rgba(252,117,180,0.25);position:relative;overflow:hidden;}
 .budget-bar::before{content:"";position:absolute;right:-40px;top:-40px;width:140px;height:140px;border:1px solid rgba(255,255,255,0.10);border-radius:50%;pointer-events:none;}
 .budget-bar::after{content:"";position:absolute;right:10px;top:10px;width:80px;height:80px;border:1px solid rgba(255,255,255,0.06);border-radius:50%;pointer-events:none;}
 @media(min-width:768px){.budget-bar{margin:18px 32px 0;}}
 .budget-bar-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;position:relative;z-index:1;}
 .budget-bar-title{font-family:var(--font-display);font-size:16px;font-weight:400;color:white;}
-.budget-bar-title em{font-style:italic;color:#fde8c8;}
+.budget-bar-title em{font-style:italic;color:#FC75B4;}
 .budget-edit-btn{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);color:white;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;padding:5px 11px;border-radius:14px;cursor:pointer;font-family:var(--font-sans);transition:all 0.15s;}
 .budget-edit-btn:hover{background:rgba(255,255,255,0.25);}
 .budget-track-outer{position:relative;height:24px;background:rgba(0,0,0,0.18);border-radius:6px;overflow:hidden;margin-bottom:10px;border:none;z-index:1;}
@@ -130,12 +133,12 @@ body{font-family:var(--font-sans);font-weight:300;background:var(--bg);color:var
 .budget-alert.warn{background:rgba(255,255,255,0.18);color:white;border:1px solid rgba(255,255,255,0.22);}
 .budget-alert.over{background:rgba(140,40,30,0.40);color:#ffe0d8;border:1px solid rgba(255,180,160,0.35);}
 .budget-alert.good{background:rgba(255,255,255,0.18);color:white;border:1px solid rgba(255,255,255,0.22);}
-.budget-alert strong{color:#fde8c8;}
+.budget-alert strong{color:#FC75B4;}
 .budget-alert-icon{font-size:14px;flex-shrink:0;line-height:1.1;}
 .budget-empty{text-align:center;padding:6px 0;font-size:11px;color:rgba(255,255,255,0.85);position:relative;z-index:1;}
 .budget-empty-link{color:white;cursor:pointer;text-decoration:underline;text-underline-offset:2px;font-weight:500;}
 .budget-split-note{margin-top:10px;padding:9px 12px;border-radius:8px;font-size:10.5px;line-height:1.5;background:rgba(255,255,255,0.14);color:rgba(255,255,255,0.92);border:1px solid rgba(255,255,255,0.18);position:relative;z-index:1;}
-.budget-split-note strong{color:#fde8c8;}
+.budget-split-note strong{color:#FC75B4;}
 
 /* ── SUMMARY TAB ── */
 .summary-header{padding:16px 14px 0;}
@@ -184,7 +187,7 @@ body{font-family:var(--font-sans);font-weight:300;background:var(--bg);color:var
 .item-limit-dot.over{background:#e8a895;border-color:#e8a895;}
 .item-limit-count{font-family:var(--font-display);font-size:15px;color:white;white-space:nowrap;}
 .item-limit-year{font-size:10.5px;color:rgba(255,255,255,0.85);margin-top:6px;}
-.item-limit-year strong{color:#fde8c8;font-weight:500;}
+.item-limit-year strong{color:#FC75B4;font-weight:500;}
 .item-limit .budget-alert{margin-top:10px;}
 .limit-warning{margin:-4px 0 16px;padding:10px 14px;border-radius:2px;font-size:11px;line-height:1.55;background:rgba(184,150,10,0.07);color:#6b5200;border:1px solid rgba(184,150,10,0.25);}
 .limit-warning.info{background:var(--accent-dim);color:var(--accent-dark);border-color:var(--border);}
@@ -284,14 +287,14 @@ body{font-family:var(--font-sans);font-weight:300;background:var(--bg);color:var
 .archive-year-title{font-family:var(--font-serif);font-size:18px;font-weight:300;margin-bottom:10px;color:var(--text);}
 .archive-year-title em{font-style:italic;color:var(--accent);}
 
-header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding:0 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,0.4);min-height:56px;}
+header{background:var(--mocha);border-bottom:1px solid rgba(255,255,255,0.10);padding:0 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,0.4);min-height:56px;}
 .logo{font-family:var(--font-display);font-size:17px;font-weight:400;letter-spacing:0.14em;text-transform:uppercase;color:white;font-style:italic;}
-.logo em{font-style:italic;color:#d8b48a;}
+.logo em{font-style:italic;color:#FC75B4;}
 .header-right{display:flex;align-items:center;gap:8px;}
 .user-info{font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.5);}
-.btn-logout{font-family:var(--font-sans);font-size:9px;letter-spacing:0.09em;text-transform:uppercase;background:#c4956a;border:none;color:white;padding:5px 10px;cursor:pointer;border-radius:6px;transition:opacity 0.2s;}
+.btn-logout{font-family:var(--font-sans);font-size:9px;letter-spacing:0.09em;text-transform:uppercase;background:#FC75B4;border:none;color:white;padding:5px 10px;cursor:pointer;border-radius:6px;transition:opacity 0.2s;}
 .btn-logout:hover{opacity:0.85;}
-.btn-new{font-family:var(--font-sans);font-size:9px;letter-spacing:0.09em;text-transform:uppercase;background:#c4956a;color:white;border:none;padding:7px 14px;cursor:pointer;border-radius:6px;transition:opacity 0.2s;}
+.btn-new{font-family:var(--font-sans);font-size:9px;letter-spacing:0.09em;text-transform:uppercase;background:#FC75B4;color:white;border:none;padding:7px 14px;cursor:pointer;border-radius:6px;transition:opacity 0.2s;}
 .btn-new:hover{opacity:0.85;}
 
 /* ── STATS ── */
@@ -481,6 +484,50 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
 ::-webkit-scrollbar{width:4px;}
 ::-webkit-scrollbar-track{background:transparent;}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+
+/* ══════════ POSTER THEME — Soft Sand · Mocha Green · Watermelon Pink ══════════ */
+body{font-weight:400;-webkit-font-smoothing:antialiased;}
+/* Accent words: pink script, like a signature over the poster type */
+em{font-family:var(--font-script) !important;font-style:normal !important;font-weight:400 !important;text-transform:none !important;letter-spacing:0 !important;color:var(--accent) !important;font-size:1.35em;line-height:0.8;}
+/* Big headlines: heavy condensed uppercase */
+.summary-header-title,.purchases-year-label,.archive-year-title,.empty-title,.modal-title,.inline-form-title,.pot-title,.pot-empty-title,.budget-bar-title{font-family:var(--font-display) !important;font-weight:800 !important;text-transform:uppercase;letter-spacing:0.01em;line-height:1;color:var(--mocha);}
+.summary-header-title,.purchases-year-label{font-size:30px !important;}
+.archive-year-title,.empty-title{font-size:26px !important;}
+.modal-title,.inline-form-title{font-size:24px !important;}
+/* Numbers: condensed, bold */
+.pot-amount,.stat-num,.purch-kpi-num,.purch-compare-num,.cat-card-total,.cpw-row-value,.purch-row-price,.cat-bar-val,.cpw-pill{font-family:var(--font-display) !important;font-weight:700 !important;letter-spacing:0.01em;}
+.pot-amount{font-size:38px !important;}
+.stat-num{font-size:24px !important;}
+.purch-kpi-num{font-size:28px !important;}
+.cat-card-total{color:var(--accent-dark) !important;}
+/* Names: condensed medium */
+.item-name,.purch-row-name,.cat-card-name,.uniform-card-name{font-family:var(--font-serif) !important;font-weight:500 !important;}
+/* Header & logo */
+header{border-bottom:none !important;box-shadow:none !important;}
+.logo{font-family:var(--font-display) !important;font-weight:900 !important;font-style:normal !important;letter-spacing:0.02em !important;font-size:22px !important;color:var(--sand) !important;}
+.logo em{font-size:1.25em;margin-left:2px;}
+.user-info{color:rgba(240,229,219,0.6) !important;}
+.btn-logout,.btn-new{background:var(--pink) !important;color:var(--mocha) !important;font-weight:600 !important;border-radius:0 !important;}
+/* Tabs: pink underline like the poster nav */
+.app-tab{font-weight:500;color:var(--text-muted);}
+.app-tab.active{color:var(--mocha) !important;border-bottom-color:var(--pink) !important;font-weight:600 !important;}
+.metric-tab.active,.btn-sm.primary{background:var(--mocha) !important;border-color:var(--mocha) !important;color:var(--sand) !important;}
+.filter-btn.active,.filter-btn:hover,.mat-chip.active,.mat-chip:has(input:checked){border-color:var(--pink) !important;color:var(--accent-dark) !important;background:var(--accent-dim) !important;}
+/* Budget card: mocha block, pink progress */
+.budget-bar{background:var(--mocha) !important;box-shadow:none !important;border-radius:4px !important;}
+.budget-bar-title{color:var(--sand) !important;}
+.budget-bar::before,.budget-bar::after{border-color:rgba(252,117,180,0.18) !important;}
+.budget-track-outer{background:rgba(240,229,219,0.14) !important;}
+.budget-track-spent{background:var(--pink) !important;}
+.budget-track-pending{background:repeating-linear-gradient(45deg,rgba(252,117,180,0.55),rgba(252,117,180,0.55) 5px,rgba(252,117,180,0.25) 5px,rgba(252,117,180,0.25) 10px) !important;}
+.budget-legend-sw.spent{background:var(--pink) !important;}
+.budget-legend-sw.pending{background:repeating-linear-gradient(45deg,rgba(252,117,180,0.6),rgba(252,117,180,0.6) 3px,rgba(252,117,180,0.25) 3px,rgba(252,117,180,0.25) 6px) !important;}
+.budget-track-label{color:var(--sand) !important;text-shadow:0 1px 2px rgba(0,0,0,0.35) !important;}
+.budget-legend-num,.item-limit-month,.item-limit-count{font-family:var(--font-display) !important;font-weight:700 !important;font-style:normal !important;color:var(--sand) !important;}
+.item-limit-dot.used{background:var(--pink) !important;border-color:var(--pink) !important;}
+.item-limit-dot{border-color:rgba(240,229,219,0.6) !important;}
+/* Sharper, editorial corners */
+.cat-card,.pot-card,.modal,.inline-form{border-radius:3px;}
 </style>
 
 </head>
@@ -488,44 +535,44 @@ header{background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.10);padding
 
 <!-- ══ AUTH ══ -->
 
-<div id="auth-screen" style="min-height:100vh;display:flex;flex-direction:column;background:#0a0a0a;position:relative;overflow:hidden;">
-  <div style="position:absolute;right:-80px;top:-80px;width:400px;height:400px;border:1px solid rgba(196,149,106,0.15);border-radius:50%;pointer-events:none;"></div>
-  <div style="position:absolute;right:40px;top:40px;width:240px;height:240px;border:1px solid rgba(196,149,106,0.10);border-radius:50%;pointer-events:none;"></div>
-  <div style="position:absolute;left:-60px;bottom:-60px;width:300px;height:300px;border:1px solid rgba(196,149,106,0.08);border-radius:50%;pointer-events:none;"></div>
+<div id="auth-screen" style="min-height:100vh;display:flex;flex-direction:column;background:var(--mocha);position:relative;overflow:hidden;">
+  <div style="position:absolute;right:-80px;top:-80px;width:400px;height:400px;border:1px solid rgba(252,117,180,0.15);border-radius:50%;pointer-events:none;"></div>
+  <div style="position:absolute;right:40px;top:40px;width:240px;height:240px;border:1px solid rgba(252,117,180,0.10);border-radius:50%;pointer-events:none;"></div>
+  <div style="position:absolute;left:-60px;bottom:-60px;width:300px;height:300px;border:1px solid rgba(252,117,180,0.08);border-radius:50%;pointer-events:none;"></div>
 
   <div style="padding:2.5rem 2.5rem 0;position:relative;z-index:1;">
-    <div style="font-family:'Cormorant Garamond',serif;font-size:0.9rem;font-style:italic;color:rgba(255,255,255,0.5);margin-bottom:0.5rem;">Fashion Analysis by Danai</div>
-    <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,6vw,3.2rem);font-weight:400;color:white;line-height:1.1;">
-      Wardrobe <em style="color:#d8b48a;font-style:italic;">Wishlist</em>
+    <div style="font-family:var(--font-sans);font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(240,229,219,0.6);margin-bottom:0.8rem;">Fashion Analysis by Danai</div>
+    <div style="font-family:var(--font-display);font-size:clamp(3rem,13vw,5rem);font-weight:900;text-transform:uppercase;color:var(--sand);line-height:0.95;">
+      Wardrobe <em style="color:#FC75B4;font-style:italic;">Wishlist</em>
     </div>
-    <div style="width:48px;height:1px;background:#c4956a;margin-top:1.2rem;"></div>
+    <div style="width:48px;height:1px;background:#FC75B4;margin-top:1.2rem;"></div>
   </div>
 
   <div style="flex:1;display:flex;align-items:center;justify-content:center;padding:2rem;position:relative;z-index:1;">
     <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.10);border-radius:16px;padding:2.5rem 2rem;width:100%;max-width:380px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);">
       <div style="display:flex;border-bottom:1px solid rgba(255,255,255,0.10);margin-bottom:1.8rem;">
         <button id="auth-tab-login" onclick="switchAuthTab('login',this)"
-          style="flex:1;font-family:'Jost',sans-serif;font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;background:none;border:none;border-bottom:2px solid #c4956a;color:white;padding:0.7rem 0;cursor:pointer;margin-bottom:-1px;transition:all 0.2s;">Σύνδεση</button>
+          style="flex:1;font-family:var(--font-sans);font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;background:none;border:none;border-bottom:2px solid #FC75B4;color:white;padding:0.7rem 0;cursor:pointer;margin-bottom:-1px;transition:all 0.2s;">Σύνδεση</button>
         <button id="auth-tab-signup" onclick="switchAuthTab('signup',this)"
-          style="flex:1;font-family:'Jost',sans-serif;font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;background:none;border:none;border-bottom:2px solid transparent;color:rgba(255,255,255,0.4);padding:0.7rem 0;cursor:pointer;margin-bottom:-1px;transition:all 0.2s;">Εγγραφή</button>
+          style="flex:1;font-family:var(--font-sans);font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;background:none;border:none;border-bottom:2px solid transparent;color:rgba(255,255,255,0.4);padding:0.7rem 0;cursor:pointer;margin-bottom:-1px;transition:all 0.2s;">Εγγραφή</button>
       </div>
 
   <div style="display:flex;flex-direction:column;gap:1rem;">
     <div>
-      <label style="display:block;font-size:0.68rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:#c4956a;margin-bottom:0.5rem;">Email</label>
+      <label style="display:block;font-size:0.68rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:#FC75B4;margin-bottom:0.5rem;">Email</label>
       <input type="email" id="auth-email" placeholder="email@example.com" autocomplete="email"
-        style="width:100%;padding:0.75rem 1rem;background:rgba(255,255,255,0.06);border:1.5px solid rgba(255,255,255,0.12);border-radius:8px;font-family:'Jost',sans-serif;font-size:0.9rem;color:white;outline:none;transition:border 0.2s;"
-        onfocus="this.style.borderColor='#c4956a'" onblur="this.style.borderColor='rgba(255,255,255,0.12)'">
+        style="width:100%;padding:0.75rem 1rem;background:rgba(255,255,255,0.06);border:1.5px solid rgba(255,255,255,0.12);border-radius:8px;font-family:var(--font-sans);font-size:0.9rem;color:white;outline:none;transition:border 0.2s;"
+        onfocus="this.style.borderColor='#FC75B4'" onblur="this.style.borderColor='rgba(255,255,255,0.12)'">
     </div>
     <div>
-      <label style="display:block;font-size:0.68rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:#c4956a;margin-bottom:0.5rem;">Κωδικός</label>
+      <label style="display:block;font-size:0.68rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:#FC75B4;margin-bottom:0.5rem;">Κωδικός</label>
       <input type="password" id="auth-password" placeholder="••••••••" autocomplete="current-password"
-        style="width:100%;padding:0.75rem 1rem;background:rgba(255,255,255,0.06);border:1.5px solid rgba(255,255,255,0.12);border-radius:8px;font-family:'Jost',sans-serif;font-size:0.9rem;color:white;outline:none;transition:border 0.2s;"
-        onfocus="this.style.borderColor='#c4956a'" onblur="this.style.borderColor='rgba(255,255,255,0.12)'"
+        style="width:100%;padding:0.75rem 1rem;background:rgba(255,255,255,0.06);border:1.5px solid rgba(255,255,255,0.12);border-radius:8px;font-family:var(--font-sans);font-size:0.9rem;color:white;outline:none;transition:border 0.2s;"
+        onfocus="this.style.borderColor='#FC75B4'" onblur="this.style.borderColor='rgba(255,255,255,0.12)'"
         onkeydown="if(event.key==='Enter')handleAuth()">
     </div>
     <button id="auth-btn" onclick="handleAuth()"
-      style="width:100%;padding:0.85rem;background:#c4956a;border:none;border-radius:8px;font-family:'Jost',sans-serif;font-size:0.72rem;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:white;cursor:pointer;margin-top:0.4rem;transition:opacity 0.2s;"
+      style="width:100%;padding:0.85rem;background:#FC75B4;border:none;border-radius:8px;font-family:var(--font-sans);font-size:0.72rem;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--mocha);font-weight:600;cursor:pointer;margin-top:0.4rem;transition:opacity 0.2s;"
       onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">Σύνδεση</button>
     <div id="auth-msg" class="auth-msg" style="display:none;"></div>
   </div>
@@ -1316,11 +1363,11 @@ function switchAuthTab(mode, btn) {
   const loginBtn = document.getElementById('auth-tab-login');
   const signupBtn = document.getElementById('auth-tab-signup');
   if (loginBtn) {
-    loginBtn.style.borderBottomColor = mode === 'login' ? '#c4956a' : 'transparent';
+    loginBtn.style.borderBottomColor = mode === 'login' ? '#FC75B4' : 'transparent';
     loginBtn.style.color = mode === 'login' ? 'white' : 'rgba(255,255,255,0.4)';
   }
   if (signupBtn) {
-    signupBtn.style.borderBottomColor = mode === 'signup' ? '#c4956a' : 'transparent';
+    signupBtn.style.borderBottomColor = mode === 'signup' ? '#FC75B4' : 'transparent';
     signupBtn.style.color = mode === 'signup' ? 'white' : 'rgba(255,255,255,0.4)';
   }
   document.getElementById('auth-btn').textContent = mode === 'login' ? 'Σύνδεση' : 'Εγγραφή';

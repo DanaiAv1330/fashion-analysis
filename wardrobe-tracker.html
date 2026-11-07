@@ -1422,6 +1422,7 @@ body{padding-bottom:0;}
     <button class="dash-subtab" onclick="showGoneSub('stats',this)">📊 Ανάλυση</button>
     <button class="dash-subtab" onclick="showGoneSub('opportunity',this)">💸 Κόστος</button>
   </div>
+  <div id="gone-year-bar" style="padding:10px 12px 0;"></div>
   <div id="gone-sub-list" style="padding:10px 12px 20px;">
     <div id="gone-list-content"><div class="loading"><div class="spinner"></div></div></div>
   </div>
@@ -1444,7 +1445,7 @@ body{padding-bottom:0;}
     <div class="chart-card" style="margin-bottom:12px;">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
         <div style="font-size:9px;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-dim);">Ανά ομάδα</div>
-        <select class="sort-select" id="g-color-group-filter" onchange="loadGoneDash()" style="font-size:9px;">
+        <select class="sort-select" id="g-color-group-filter" onchange="renderGoneStats()" style="font-size:9px;">
           <option value="">Όλα</option>
           <option value="clothing">Ρούχα</option>
           <option value="outwear">Outwear</option>
@@ -2806,15 +2807,78 @@ function showGoneSub(sub,btn){
   document.getElementById('gone-sub-list').style.display=sub==='list'?'block':'none';
   document.getElementById('gone-sub-stats').style.display=sub==='stats'?'block':'none';
   document.getElementById('gone-sub-opportunity').style.display=sub==='opportunity'?'block':'none';
+  goneActiveSub=sub;renderGoneYearBar();
   if(sub==='list')renderGoneList();else if(sub==='stats')renderGoneStats();else renderOpportunityCost();
+}
+// ── Gone: per-year view ──
+let goneSelectedYear=new Date().getFullYear(); // number or 'all'
+let goneActiveSub='list';
+function getPurchaseYearOf(i){
+  if(i.purchase_year)return parseInt(i.purchase_year);
+  if(i.purchased_at){const d=new Date(i.purchased_at);if(!isNaN(d))return d.getFullYear();}
+  return null;
+}
+function getArchiveYearOf(a){const d=new Date(a.archived_at);return isNaN(d)?null:d.getFullYear();}
+function getGoneYears(){
+  const curYear=new Date().getFullYear();
+  return[...new Set([curYear,...archivedItems.map(getArchiveYearOf).filter(Boolean)])].sort((a,b)=>b-a);
+}
+function getGoneFiltered(){
+  if(goneSelectedYear==='all')return archivedItems;
+  return archivedItems.filter(a=>getArchiveYearOf(a)===goneSelectedYear);
+}
+function renderGoneYearBar(){
+  const bar=document.getElementById('gone-year-bar');if(!bar)return;
+  const years=getGoneYears();
+  if(goneSelectedYear!=='all'&&!years.includes(goneSelectedYear))goneSelectedYear=years[0];
+  const pill=(val,label)=>{const on=val===goneSelectedYear;return`<button onclick="setGoneYear(${val==='all'?"'all'":val})" style="font-family:var(--font-sans);font-size:10px;letter-spacing:0.08em;padding:5px 12px;border-radius:12px;cursor:pointer;border:1px solid ${on?'var(--accent)':'var(--border)'};background:${on?'var(--accent)':'var(--surface)'};color:${on?'#fff':'var(--text-muted)'};">${label}</button>`;};
+  bar.innerHTML=`<div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;">${years.map(y=>pill(y,y)).join('')}${pill('all','Όλα')}</div>`;
+}
+function setGoneYear(y){
+  goneSelectedYear=y;renderGoneYearBar();
+  if(goneActiveSub==='stats')renderGoneStats();
+  else if(goneActiveSub==='opportunity')renderOpportunityCost();
+  else renderGoneList();
+}
+function renderGoneYearHeader(year){
+  // Added = pieces bought in that year (still in wardrobe + already gone)
+  const added=allItems.filter(i=>getPurchaseYearOf(i)===year).length
+             +archivedItems.filter(a=>getPurchaseYearOf(a)===year).length;
+  const removed=archivedItems.filter(a=>getArchiveYearOf(a)===year).length;
+  const net=added-removed;
+  let msg,bg,border,color,icon;
+  if(removed<added){
+    icon='⚠️';msg='Η ντουλάπα σου μεγαλώνει! Βεβαιώσου ότι φοράς όλα σου τα ρούχα.';
+    bg='var(--red-soft)';border='var(--red)';color='var(--red-text)';
+  }else if(removed===added){
+    icon='⚖️';msg='Μπράβο! Εφαρμόζεις τον κανόνα «ένα μέσα, ένα έξω».';
+    bg='var(--accent-dim)';border='var(--accent)';color='var(--text)';
+  }else{
+    icon='🌿';msg='Μπράβο! Είσαι πιο κοντά στην capsule ντουλάπα σου.';
+    bg='var(--green-soft)';border='var(--green)';color='var(--green-text)';
+  }
+  const isCurrent=year===new Date().getFullYear();
+  return`<div class="kpi-grid" style="grid-template-columns:repeat(3,1fr);margin-bottom:8px;">
+      <div class="kpi-card"><div class="kpi-label">Προστέθηκαν</div><div class="kpi-value">${added}</div><div class="kpi-sub">αγορές ${year}</div></div>
+      <div class="kpi-card"><div class="kpi-label">Αφαιρέθηκαν</div><div class="kpi-value">${removed}</div><div class="kpi-sub">αποχωρήσεις ${year}</div></div>
+      <div class="kpi-card"><div class="kpi-label">Καθαρή μεταβολή</div><div class="kpi-value" style="color:${net>0?'var(--red-text)':net<0?'var(--green-text)':'var(--text)'};">${net>0?'+':''}${net}</div><div class="kpi-sub">κομμάτια</div></div>
+    </div>
+    <div style="background:${bg};border-left:3px solid ${border};border-radius:2px;padding:10px 12px;margin-bottom:12px;font-size:11px;color:${color};line-height:1.4;">
+      ${icon} ${isCurrent?`Φέτος (${year}) πρόσθεσες <strong>${added}</strong> κομμάτια και αφαίρεσες <strong>${removed}</strong>.`:`Το ${year} πρόσθεσες <strong>${added}</strong> κομμάτια και αφαίρεσες <strong>${removed}</strong>.`} ${msg}
+    </div>`;
 }
 function renderGoneList(){
   const wrap=document.getElementById('gone-list-content');if(!wrap)return;
-  if(!archivedItems.length){wrap.innerHTML='<div class="empty-state"><div class="empty-title">Κανένα κομμάτι εδώ</div><div class="empty-sub">Όταν αποχωρεί ένα ρούχο, εμφανίζεται εδώ.</div></div>';return;}
+  renderGoneYearBar();
+  const isAll=goneSelectedYear==='all';
+  const header=isAll?'':renderGoneYearHeader(goneSelectedYear);
+  const yearItems=getGoneFiltered();
+  const periodLbl=isAll?'συνολικά':`το ${goneSelectedYear}`;
+  if(!yearItems.length){wrap.innerHTML=header+`<div class="empty-state"><div class="empty-title">Κανένα κομμάτι ${isAll?'εδώ':'για το '+goneSelectedYear}</div><div class="empty-sub">Όταν αποχωρεί ένα ρούχο, εμφανίζεται εδώ.</div></div>`;return;}
   const methodEmoji={'Sold':'💰','Donated':'🤝','Gifted':'🎁','Threw away':'🗑','Swapped':'🔄','Other':'✏️'};
   const now=new Date();
   const MN_GR=['Ιαν','Φεβ','Μαρ','Απρ','Μαΐ','Ιουν','Ιουλ','Αυγ','Σεπ','Οκτ','Νοε','Δεκ'];
-  wrap.innerHTML=archivedItems.map((a,idx)=>{
+  wrap.innerHTML=header+`<div style="font-size:9px;letter-spacing:0.11em;text-transform:uppercase;color:var(--text-dim);margin-bottom:6px;">${yearItems.length} κομμάτια αποχώρησαν ${periodLbl}</div>`+yearItems.map((a,idx)=>{
     const dArchive=new Date(a.archived_at);
     // Purchase date
     let purchaseDateStr='—';
@@ -2901,7 +2965,8 @@ function toggleGoneCard(idx){
   if(row){const arr=row.querySelector('[style*="▼"]')||row.querySelector('[style*="▲"]');if(arr)arr.textContent=isOpen?'▼ λεπτομέρειες':'▲ κλείσιμο';}
 }
 function renderGoneStats(){
-  const A=archivedItems;
+  renderGoneYearBar();
+  const A=getGoneFiltered();
   document.getElementById('g-total').textContent=A.length;
   const totalValue=A.reduce((s,a)=>s+(a.price||0),0);
   document.getElementById('g-value').textContent='€'+Math.round(totalValue);
@@ -2944,7 +3009,8 @@ function calcETFValue(principal,fromDate,toDate,annualRate){
 }
 
 function renderOpportunityCost(){
-  const A=archivedItems;
+  renderGoneYearBar();
+  const A=getGoneFiltered();
   const rate=parseFloat(document.getElementById('etf-rate-slider')?.value||10)/100;
   const now=new Date();
   const MN_GR=['Ιαν','Φεβ','Μαρ','Απρ','Μαΐ','Ιουν','Ιουλ','Αυγ','Σεπ','Οκτ','Νοε','Δεκ'];

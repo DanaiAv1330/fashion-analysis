@@ -1,0 +1,102 @@
+/* ═══════════════════════════════════════════════════════════
+   FASHION ANALYSIS BY DANAI — theme.css
+   Poster type system (same fonts as Wardrobe Tracker & Wishlist)
+   Base: Navy · Chocolate   —   Accents: Ivory · Gold
+   Load AFTER style.css:  <link rel="stylesheet" href="theme.css" />
+   ═══════════════════════════════════════════════════════════ */
+
+:root {
+  /* Palette */
+  --navy:         #1F2A44;
+  --chocolate:    #4A2E22;
+  --ivory:        #FBF7EC;
+  --gold-bright:  #C9A24A;   /* gold on dark backgrounds */
+
+  /* Remap the site's existing variables */
+  --cream:        #FBF7EC;   /* page background = ivory */
+  --warm-white:   #F4EEDF;
+  --parchment:    #EBE2CF;
+  --ink:          #1F2A44;   /* main text + dark blocks = navy */
+  --ink-light:    #4A2E22;   /* body copy = chocolate */
+  --warm-grey:    #7D7266;
+  --light-grey:   #E4DAC6;
+  --gold:         #A8842F;   /* gold readable on ivory */
+  --gold-deep:    #4A2E22;   /* hover states go chocolate */
+  --gold-light:   #F1E4BF;
+
+  /* Fonts */
+  --font-display: 'Fira Sans Extra Condensed', 'Arial Narrow', sans-serif;
+  --font-cond:    'Fira Sans Condensed', 'Arial Narrow', sans-serif;
+  --font-body:    'Inter', system-ui, sans-serif;
+  --font-script:  'Great Vibes', 'Noto Serif', cursive;
+}
+
+body { font-weight: 400; -webkit-font-smoothing: antialiased; }
+
+/* ── Headlines: heavy condensed uppercase ── */
+.section-title, .hero-title, .guide-card-title, .article-title,
+.guide-full-title, .value-title, .footer-brand-name,
+.journey-opener .opener-title, .step-title, .newsletter-cta .nl-title,
+.acct-modal h3 {
+  font-family: var(--font-display) !important;
+  font-weight: 800 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.005em !important;
+  line-height: 1.02 !important;
+}
+.hero-title { font-weight: 900 !important; line-height: 0.95 !important; }
+.guide-card-title, .article-title, .value-title, .guide-full-title { font-weight: 700 !important; }
+
+/* Script accent words inside headlines (gold signature) */
+.section-title em, .hero-title em, .journey-opener .opener-title em,
+.step-title em, .newsletter-cta .nl-title em, .guide-card-title em,
+.article-title em, .footer-brand-name em {
+  font-family: var(--font-script) !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+  color: var(--gold) !important;
+  font-size: 1.15em;
+  line-height: 0.8;
+}
+
+/* ── Big decorative numbers ── */
+.hero-bg-text, .step-number, .value-num, .img-initials {
+  font-family: var(--font-display) !important;
+  font-weight: 900 !important;
+  font-style: normal !important;
+}
+
+/* ── Readable condensed text (was italic serif) ── */
+.narration, .about-teaser-mini .mini-text, .yt-intro, .philosophy-quote {
+  font-family: var(--font-cond) !important;
+  font-style: normal !important;
+  font-weight: 300 !important;
+}
+.narration em, .about-teaser-mini .mini-text em, .yt-intro em, .philosophy-quote em {
+  font-style: normal !important;
+  font-weight: 600 !important;
+  color: var(--gold);
+}
+
+/* ── Nav brand ── */
+.brand-main {
+  font-family: var(--font-display) !important;
+  font-weight: 900 !important;
+  text-transform: uppercase;
+  font-size: 1.3rem !important;
+  letter-spacing: 0.01em !important;
+  color: var(--navy) !important;
+}
+.brand-sub {
+  font-family: var(--font-script) !important;
+  font-style: normal !important;
+  font-size: 1.15rem !important;
+  color: var(--gold) !important;
+  letter-spacing: 0 !important;
+}
+
+/* ── Buttons: navy, chocolate on hover; gold on dark backgrounds ── */
+.btn-primary, .nav-cta { background: var(--navy) !important; color: var(--ivory) !important; }
+.btn-primary:hover, .nav-cta:hover { background: var(--chocolate) !important; }

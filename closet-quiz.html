@@ -7,19 +7,19 @@
 <meta name="description" content="10 ψυχολογικά προφίλ ντουλάπας. Απάντησε 12 ερωτήσεις και ανακάλυψε το προφίλ σου — με συμβουλές βελτίωσης.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fira+Sans+Extra+Condensed:wght@400;500;600;700;800;900&family=Fira+Sans+Condensed:wght@300;400;500;600&family=Inter:wght@200;300;400;500;600&family=Great+Vibes&family=Noto+Serif:ital@1&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="style.css" />
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
   :root{
-    --cream:#f5f0e8;
-    --cream-deep:#efe7d6;
-    --ink:#1c1a17;
-    --ink-soft:#3a352e;
-    --gold:#9a7a4a;
-    --gold-deep:#8a6e3c;
-    --line:#d8ccb4;
-    --paper:#fbf8f1;
+    --cream:var(--warm-white);
+    --cream-deep:var(--parchment);
+    --ink:var(--navy);
+    --ink-soft:var(--chocolate);
+    --gold:var(--gold);
+    --gold-deep:var(--gold-dark);
+    --line:var(--light-grey);
+    --paper:var(--ivory);
     --shadow:rgba(40,33,22,.10);
   }
   *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
@@ -29,7 +29,7 @@
   body{
     background:var(--cream);
     color:var(--ink);
-    font-family:'Jost',sans-serif;
+    font-family:var(--font-body);
     font-weight:300;
     line-height:1.6;
     -webkit-font-smoothing:antialiased;
@@ -46,7 +46,7 @@
     padding:72px 24px 36px;
   }
   .kicker{
-    font-family:'Jost',sans-serif;
+    font-family:var(--font-body);
     font-weight:400;
     letter-spacing:.42em;
     text-transform:uppercase;
@@ -55,7 +55,7 @@
     margin-bottom:22px;
   }
   .quiz-hero h1{
-    font-family:'Cormorant Garamond',serif;
+    font-family:var(--font-cond);
     font-weight:600;
     font-size:clamp(38px,7vw,68px);
     line-height:1.04;
@@ -63,7 +63,7 @@
   }
   .quiz-hero h1 em{font-style:italic;color:var(--gold-deep);}
   .quiz-hero .sub{
-    font-family:'Cormorant Garamond',serif;
+    font-family:var(--font-cond);
     font-style:italic;
     font-size:clamp(18px,2.6vw,23px);
     color:var(--ink-soft);
@@ -103,7 +103,7 @@
   /* intro screen */
   .intro-list{list-style:none;margin:8px 0 30px;}
   .intro-list li{
-    font-family:'Cormorant Garamond',serif;font-size:20px;
+    font-family:var(--font-cond);font-size:20px;
     padding:11px 0 11px 32px;position:relative;border-bottom:1px solid var(--line);
     color:var(--ink-soft);
   }
@@ -116,7 +116,7 @@
   /* ---------- BUTTONS ---------- */
   .btn{
     display:inline-block;cursor:pointer;border:none;
-    font-family:'Jost',sans-serif;font-weight:400;
+    font-family:var(--font-body);font-weight:400;
     letter-spacing:.18em;text-transform:uppercase;font-size:12.5px;
     background:var(--ink);color:var(--cream);
     padding:16px 38px;border-radius:2px;
@@ -139,18 +139,18 @@
 
   /* ---------- QUESTION ---------- */
   .q-num{
-    font-family:'Cormorant Garamond',serif;font-style:italic;
+    font-family:var(--font-cond);font-style:italic;
     font-size:19px;color:var(--gold-deep);margin-bottom:6px;
   }
   .q-title{
-    font-family:'Cormorant Garamond',serif;font-weight:600;
+    font-family:var(--font-cond);font-weight:600;
     font-size:clamp(25px,4vw,33px);line-height:1.18;margin-bottom:26px;
   }
   .opt{
     display:block;width:100%;text-align:left;cursor:pointer;
     background:var(--cream);border:1px solid var(--line);
     border-radius:2px;padding:16px 18px;margin-bottom:12px;
-    font-family:'Jost',sans-serif;font-weight:300;font-size:16px;color:var(--ink-soft);
+    font-family:var(--font-body);font-weight:300;font-size:16px;color:var(--ink-soft);
     transition:all .25s ease;position:relative;
   }
   .opt:hover{border-color:var(--gold);background:#fff;color:var(--ink);transform:translateX(3px);}
@@ -160,12 +160,12 @@
   /* ---------- RESULT ---------- */
   .result-kicker{text-align:center;}
   .result-title{
-    font-family:'Cormorant Garamond',serif;font-weight:600;
+    font-family:var(--font-cond);font-weight:600;
     font-size:clamp(34px,6vw,52px);text-align:center;line-height:1.05;margin:4px 0 6px;
   }
   .result-emoji{font-size:46px;text-align:center;display:block;margin-bottom:6px;}
   .result-tag{
-    text-align:center;font-family:'Cormorant Garamond',serif;font-style:italic;
+    text-align:center;font-family:var(--font-cond);font-style:italic;
     font-size:21px;color:var(--ink-soft);margin-bottom:6px;
   }
   .match-line{
@@ -177,9 +177,9 @@
   .pbar{margin-bottom:16px;}
   .pbar .lab{
     display:flex;justify-content:space-between;align-items:baseline;
-    font-family:'Cormorant Garamond',serif;font-size:19px;margin-bottom:5px;
+    font-family:var(--font-cond);font-size:19px;margin-bottom:5px;
   }
-  .pbar .lab .pct{font-family:'Jost',sans-serif;font-size:13px;color:var(--gold-deep);letter-spacing:.05em;}
+  .pbar .lab .pct{font-family:var(--font-body);font-size:13px;color:var(--gold-deep);letter-spacing:.05em;}
   .pbar .track{height:7px;background:var(--cream-deep);border-radius:6px;overflow:hidden;}
   .pbar .fill{height:100%;width:0;border-radius:6px;background:linear-gradient(90deg,var(--gold),var(--gold-deep));transition:width 1s cubic-bezier(.2,.7,.3,1);}
   .pbar:nth-child(1) .fill{background:linear-gradient(90deg,#c8a35e,var(--gold-deep));}
@@ -190,7 +190,7 @@
     border-top:1px solid var(--line);padding-top:26px;margin-top:8px;
   }
   .detail h3{
-    font-family:'Cormorant Garamond',serif;font-weight:600;font-size:27px;margin-bottom:4px;
+    font-family:var(--font-cond);font-weight:600;font-size:27px;margin-bottom:4px;
   }
   .detail .micro{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:14px;}
   .detail p{margin-bottom:14px;color:var(--ink-soft);font-size:16px;}
@@ -199,7 +199,7 @@
     padding:18px 20px;border-radius:2px;margin-top:18px;
   }
   .coach .ctitle{
-    font-family:'Jost',sans-serif;font-weight:500;font-size:11px;letter-spacing:.2em;
+    font-family:var(--font-body);font-weight:500;font-size:11px;letter-spacing:.2em;
     text-transform:uppercase;color:var(--gold-deep);margin-bottom:7px;
   }
   .coach p{font-size:15.5px;margin-bottom:14px;}
@@ -211,26 +211,26 @@
     border-top:1px solid var(--line);padding-top:20px;margin-bottom:6px;
   }
   .secondary-detail .sd h4{
-    font-family:'Cormorant Garamond',serif;font-weight:600;font-size:22px;margin-bottom:4px;
+    font-family:var(--font-cond);font-weight:600;font-size:22px;margin-bottom:4px;
   }
   .secondary-detail .sd .tip{font-size:15px;color:var(--ink-soft);}
-  .secondary-detail .sd .tip b{font-weight:500;color:var(--gold-deep);font-family:'Jost';font-size:11px;letter-spacing:.18em;text-transform:uppercase;display:block;margin-bottom:5px;}
+  .secondary-detail .sd .tip b{font-weight:500;color:var(--gold-deep);font-family:var(--font-body);font-size:11px;letter-spacing:.18em;text-transform:uppercase;display:block;margin-bottom:5px;}
 
   /* ---------- CTA ---------- */
   .cta{
     margin-top:46px;border-top:1px solid var(--line);padding-top:34px;text-align:center;
   }
-  .cta h3{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:30px;line-height:1.1;margin-bottom:8px;}
+  .cta h3{font-family:var(--font-cond);font-weight:600;font-size:30px;line-height:1.1;margin-bottom:8px;}
   .cta p{color:var(--ink-soft);font-size:15.5px;max-width:440px;margin:0 auto 22px;}
   .subscribe{display:flex;gap:10px;max-width:440px;margin:0 auto 14px;flex-wrap:wrap;}
   .subscribe input{
     flex:1;min-width:200px;padding:14px 16px;border:1px solid var(--line);border-radius:2px;
-    font-family:'Jost';font-size:15px;background:var(--paper);color:var(--ink);
+    font-family:var(--font-body);font-size:15px;background:var(--paper);color:var(--ink);
   }
   .subscribe input:focus{outline:none;border-color:var(--gold);}
   .sub-note{font-size:12px;color:var(--ink-soft);opacity:.7;}
-  .sub-ok{color:var(--gold-deep);font-family:'Cormorant Garamond';font-style:italic;font-size:19px;margin-top:8px;display:none;}
-  .sub-ok .btn{font-style:normal;font-family:'Jost';}
+  .sub-ok{color:var(--gold-deep);font-family:var(--font-cond);font-style:italic;font-size:19px;margin-top:8px;display:none;}
+  .sub-ok .btn{font-style:normal;font-family:var(--font-body);}
   .video-cta{margin-top:6px;}
 
   .share-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:26px;}
@@ -239,7 +239,7 @@
   .restart{margin-top:30px;text-align:center;}
   .restart button{
     background:none;border:none;cursor:pointer;color:var(--ink-soft);
-    font-family:'Cormorant Garamond';font-style:italic;font-size:18px;
+    font-family:var(--font-cond);font-style:italic;font-size:18px;
     border-bottom:1px solid var(--line);padding-bottom:2px;transition:color .3s;
   }
   .restart button:hover{color:var(--gold-deep);}
@@ -256,28 +256,36 @@
 .acct-nav-icon:hover{background:rgba(200,169,106,0.18);}
 .acct-modal-overlay{position:fixed;inset:0;background:rgba(20,15,10,0.55);z-index:9999;display:none;align-items:center;justify-content:center;padding:20px;}
 .acct-modal-overlay.open{display:flex;}
-.acct-modal{background:#FAF7F2;border-radius:4px;max-width:380px;width:100%;padding:34px 30px;box-shadow:0 20px 60px rgba(0,0,0,0.25);font-family:'Jost',sans-serif;position:relative;}
-.acct-modal-close{position:absolute;top:14px;right:16px;cursor:pointer;font-size:22px;line-height:1;color:#9E8E7E;background:none;border:none;padding:4px;}
-.acct-modal h3{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.5rem;font-weight:400;color:#1A1410;margin:0 0 4px 0;}
-.acct-modal p.acct-sub{font-size:0.78rem;color:#9E8E7E;margin:0 0 20px 0;line-height:1.5;}
+.acct-modal{background:var(--ivory);border-radius:4px;max-width:380px;width:100%;padding:34px 30px;box-shadow:0 20px 60px rgba(0,0,0,0.25);font-family:var(--font-body);position:relative;}
+.acct-modal-close{position:absolute;top:14px;right:16px;cursor:pointer;font-size:22px;line-height:1;color:var(--warm-grey);background:none;border:none;padding:4px;}
+.acct-modal h3{font-family:var(--font-cond);font-size:1.5rem;font-weight:400;color:var(--navy);margin:0 0 4px 0;}
+.acct-modal p.acct-sub{font-size:0.78rem;color:var(--warm-grey);margin:0 0 20px 0;line-height:1.5;}
 .acct-tabs{display:flex;border-bottom:1px solid rgba(90,70,50,0.15);margin-bottom:18px;}
-.acct-tab{flex:1;background:none;border:none;font-family:'Jost',sans-serif;font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:#9E8E7E;padding:8px;cursor:pointer;border-bottom:2px solid transparent;}
-.acct-tab.active{color:#1A1410;border-bottom-color:#C8A96A;}
+.acct-tab{flex:1;background:none;border:none;font-family:var(--font-body);font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--warm-grey);padding:8px;cursor:pointer;border-bottom:2px solid transparent;}
+.acct-tab.active{color:var(--navy);border-bottom-color:var(--gold-bright);}
 .acct-field{margin-bottom:12px;}
-.acct-field label{display:block;font-size:0.65rem;letter-spacing:0.08em;text-transform:uppercase;color:#9E8E7E;margin-bottom:5px;}
-.acct-field input{width:100%;padding:10px 12px;border:1px solid rgba(90,70,50,0.2);border-radius:2px;background:#fff;font-family:'Jost',sans-serif;font-size:0.85rem;color:#1A1410;outline:none;box-sizing:border-box;}
-.acct-field input:focus{border-color:#C8A96A;}
-.acct-submit{width:100%;padding:11px;background:#1A1410;color:#FAF7F2;border:none;border-radius:2px;font-family:'Jost',sans-serif;font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;margin-top:4px;}
+.acct-field label{display:block;font-size:0.65rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--warm-grey);margin-bottom:5px;}
+.acct-field input{width:100%;padding:10px 12px;border:1px solid rgba(90,70,50,0.2);border-radius:2px;background:#fff;font-family:var(--font-body);font-size:0.85rem;color:var(--navy);outline:none;box-sizing:border-box;}
+.acct-field input:focus{border-color:var(--gold-bright);}
+.acct-submit{width:100%;padding:11px;background:var(--navy);color:var(--ivory);border:none;border-radius:2px;font-family:var(--font-body);font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;margin-top:4px;}
 .acct-submit:disabled{opacity:0.5;cursor:not-allowed;}
 .acct-msg{font-size:0.75rem;text-align:center;padding:8px;border-radius:2px;margin-top:10px;display:none;}
 .acct-msg.error{background:rgba(180,80,60,0.1);color:#a3452f;display:block;}
 .acct-msg.success{background:rgba(90,140,90,0.1);color:#3d7a45;display:block;}
-.acct-forgot{display:block;text-align:center;font-size:0.7rem;color:#9E8E7E;margin-top:12px;text-decoration:underline;cursor:pointer;}
+.acct-forgot{display:block;text-align:center;font-size:0.7rem;color:var(--warm-grey);margin-top:12px;text-decoration:underline;cursor:pointer;}
 .acct-loggedin{text-align:center;}
-.acct-loggedin .acct-email{font-size:0.85rem;color:#5C4A3A;margin-bottom:16px;line-height:1.5;}
-.acct-logout{font-size:0.7rem;color:#9E8E7E;text-decoration:underline;cursor:pointer;background:none;border:none;margin-top:14px;}
+.acct-loggedin .acct-email{font-size:0.85rem;color:var(--chocolate);margin-bottom:16px;line-height:1.5;}
+.acct-logout{font-size:0.7rem;color:var(--warm-grey);text-decoration:underline;cursor:pointer;background:none;border:none;margin-top:14px;}
 .acct-claim-note{font-size:0.72rem;color:#3d7a45;margin-top:10px;line-height:1.4;}
 </style>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-DBRDY0FNX7"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-DBRDY0FNX7');
+  </script>
+  <link rel="stylesheet" href="theme.css" />
 </head>
 <body>
 <!-- ACCOUNT MODAL: optional login / signup for cross-device profile -->
@@ -289,41 +297,44 @@
 </div>
 
 <nav id="navbar">
-  <a href="index.html" class="nav-brand">
-    <span class="brand-main">Fashion Analysis</span>
-    <span class="brand-sub">by Danai</span>
-  </a>
-  <button class="nav-toggle" onclick="toggleMenu()" aria-label="menu">
-    <span></span><span></span><span></span>
-  </button>
-  <ul class="nav-links" id="navLinks">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="https://dbvabydanai.wordpress.com" target="_blank">Articles</a></li>
-    <li class="nav-dropdown">
-      <a href="#" onclick="return false" class="nav-dropdown-toggle">Guides & Tools ▾</a>
-      <ul class="nav-dropdown-menu">
-        <li class="nav-dropdown-heading">Οδηγοί</li>
-        <li><a href="color-analysis-guide.html">🎨 Color Analysis Guide</a></li>
-        <li><a href="style-identity-guide.html">✨ Style Identity Guide</a></li>
-        <li><a href="body-type-quiz.html">👤 Body Type Quiz</a></li>
-        <li><a href="closet-quiz.html" class="active">🪞 Wardrobe Psychology Quiz</a></li>
-        <li><a href="shoe-quiz.html">👠 Shoe Matcher</a></li>
-        <li><a href="wardrobe-audit-workbook.html">📝 Wardrobe Audit Workbook</a></li>
-        <li><a href="capsule-workbook.html">👗 Capsule Wardrobe Workbook</a></li>
-        <li class="nav-dropdown-divider"></li>
-        <li class="nav-dropdown-heading">Εργαλεία</li>
-        <li><a href="fashion-budget.html">💰 Budget Planner</a></li>
-        <li><a href="wishlist.html">🛍 Wardrobe Wishlist</a></li>
-        <li><a href="wardrobe-tracker.html">📱 Wardrobe Tracker</a></li>
-        <li><a href="wardrobe-calculator.html">📊 KPIs Calculator</a></li>
+    <a href="index.html" class="nav-brand">
+      <span class="brand-main">Fashion Analysis</span>
+      <span class="brand-sub">by Danai</span>
+    </a>
+    <button class="nav-toggle" onclick="document.getElementById('navLinks').classList.toggle('open')" aria-label="menu" type="button">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="https://dbvabydanai.wordpress.com" target="_blank" rel="noopener">Articles</a></li>
+      <li class="site-dd">
+        <a href="guides.html" class="site-dd-toggle active" onclick="if(window.innerWidth<=860){this.parentElement.classList.toggle('open');return false;}">Guides &amp; Tools ▾</a>
+        <ul class="site-dd-menu">
+          <li class="site-dd-all"><a href="guides.html">Όλοι οι οδηγοί &amp; εργαλεία →</a></li>
+          <li class="site-dd-divider"></li>
+          <li class="site-dd-heading">Οδηγοί</li>
+          <li><a href="color-analysis-guide.html">🎨 Color Analysis Guide</a></li>
+          <li><a href="style-identity-guide.html">✨ Style Identity Guide</a></li>
+          <li><a href="body-type-quiz.html">👤 Body Type Quiz</a></li>
+          <li><a href="closet-quiz.html" class="active">🪞 Wardrobe Psychology Quiz</a></li>
+          <li><a href="shoe-quiz.html">👠 Shoe Matcher</a></li>
+          <li><a href="wardrobe-audit-workbook.html">📝 Wardrobe Audit Workbook</a></li>
+          <li><a href="capsule-workbook.html">👗 Capsule Wardrobe Workbook</a></li>
+          <li><a href="wardrobe-portfolio-guide.html">📈 Wardrobe Portfolio Guide</a></li>
+          <li class="site-dd-divider"></li>
+          <li class="site-dd-heading">Εργαλεία</li>
+          <li><a href="fashion-budget.html">💰 Budget Planner</a></li>
+          <li><a href="wishlist.html">🛍 Wardrobe Wishlist</a></li>
+          <li><a href="wardrobe-tracker.html">📱 Wardrobe Tracker</a></li>
+          <li><a href="wardrobe-calculator.html">📊 KPIs Calculator</a></li>
           <li><a href="wardrobe-profile.html">💎 Το Προφίλ μου</a></li>
-      </ul>
-    </li>
-    <li><a href="about.html">About</a></li>
-    <li><a href="newsletter.html" class="nav-cta">Newsletter</a></li>
-    <li><button class="acct-nav-icon" id="acct-nav-icon" onclick="acctOpenModal()" title="Ο λογαριασμός μου" type="button">👤</button></li>
-  </ul>
-</nav>
+        </ul>
+      </li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="newsletter.html" class="nav-cta">Newsletter</a></li>
+      <li><button class="acct-nav-icon" id="acct-nav-icon" onclick="acctOpenModal()" title="Ο λογαριασμός μου" type="button">👤</button></li>
+    </ul>
+  </nav>
 
 <div class="wrap">
 
@@ -397,20 +408,19 @@
 
       <!-- CTA -->
       <div class="cta">
-        <h3>Τώρα που ξέρεις το προφίλ σου — ποιο είναι το επόμενο βήμα;</h3>
-        <p>Μπες στη λίστα και κατέβασε δωρεάν τον οδηγό «Το Επόμενο Βήμα» — ένα βήμα-βήμα μονοπάτι για να ψωνίζεις πιο στοχευμένα, χωρίς να χάσεις το μοναδικό σου στυλ.</p>
+        <h3>Γράψου στο newsletter</h3>
+        <p>Νέα, fashion συμβουλές και νέοι δωρεάν οδηγοί — κατευθείαν στο email σου.</p>
         <form class="subscribe" id="closetSubForm" action="https://assets.mailerlite.com/jsonp/2295067/forms/185835026362926505/subscribe" method="post" target="ml-submit-frame">
           <input type="email" id="sub-email" name="fields[email]" placeholder="Το email σου" required>
-          <button type="submit" class="btn" id="sub-submit">Πάρε τον οδηγό</button>
+          <button type="submit" class="btn" id="sub-submit">Εγγραφή →</button>
           <input type="hidden" name="fields[source]" value="Closet Quiz">
-          <input type="hidden" name="fields[wardrobe_profile]" id="sw-profile" value="">
+          <input type="hidden" id="sw-profile" value="">
           <input type="hidden" name="ml-submit" value="1">
           <input type="hidden" name="anticsrf" value="true">
         </form>
         <p class="sub-note">Χωρίς spam. Μόνο fashion που βγάζει νόημα.</p>
         <div class="sub-ok" id="sub-ok">
-          <p style="margin-bottom:14px;">Ευχαριστώ! Ο οδηγός είναι δικός σου ✦<br><span style="font-size:14px;opacity:.8;">(σου τον στείλαμε και στο email)</span></p>
-          <a class="btn" id="download-btn" href="#" download>Κατέβασε τον οδηγό (PDF)</a>
+          <p>Ευχαριστώ! Τσέκαρε το inbox σου για να επιβεβαιώσεις την εγγραφή ✦</p>
         </div>
 
         <div class="video-cta" id="video-cta">
@@ -432,57 +442,48 @@
 
 </div>
 
-<footer>
-  <div class="container">
-    <div class="footer-grid">
-      <div class="footer-brand-col">
-        <div class="footer-brand-name">Fashion Analysis<br><span>by Danai</span></div>
-        <p class="footer-tagline">Fashion Education & Finance</p>
-        <a href="mailto:dbvabydanai@gmail.com" class="footer-email">dbvabydanai@gmail.com</a>
+<footer class="site-footer">
+    <div class="sf-inner">
+      <div class="sf-grid">
+        <div class="sf-brand-col">
+          <p class="sf-brand">Fashion Analysis<span>by Danai</span></p>
+          <p class="sf-tagline">Fashion Education &amp; Finance</p>
+          <a href="mailto:dbvabydanai@gmail.com" class="sf-email">dbvabydanai@gmail.com</a>
+        </div>
+        <div><p class="sf-title">Σελίδες</p><ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="https://dbvabydanai.wordpress.com" target="_blank" rel="noopener">Articles</a></li>
+            <li><a href="guides.html">Guides</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="newsletter.html">Newsletter</a></li>
+          </ul></div>
+        <div><p class="sf-title">Οδηγοί</p><ul>
+            <li><a href="color-analysis-guide.html">Color Analysis Guide</a></li>
+            <li><a href="style-identity-guide.html">Style Identity Guide</a></li>
+            <li><a href="body-type-quiz.html">Body Type Quiz</a></li>
+            <li><a href="closet-quiz.html">Wardrobe Psychology Quiz</a></li>
+            <li><a href="shoe-quiz.html">Shoe Matcher</a></li>
+            <li><a href="wardrobe-audit-workbook.html">Wardrobe Audit Workbook</a></li>
+            <li><a href="capsule-workbook.html">Capsule Wardrobe Workbook</a></li>
+            <li><a href="wardrobe-portfolio-guide.html">Wardrobe Portfolio Guide</a></li>
+          </ul></div>
+        <div><p class="sf-title">Εργαλεία</p><ul>
+            <li><a href="fashion-budget.html">Budget Planner</a></li>
+            <li><a href="wishlist.html">Wardrobe Wishlist</a></li>
+            <li><a href="wardrobe-tracker.html">Wardrobe Tracker</a></li>
+            <li><a href="wardrobe-calculator.html">KPIs Calculator</a></li>
+            <li><a href="wardrobe-profile.html">Το Προφίλ μου</a></li>
+          </ul></div>
+        <div><p class="sf-title">Follow</p><ul>
+            <li><a href="https://www.instagram.com/fashion.analysis.by.danai" target="_blank" rel="noopener">Instagram</a></li>
+            <li><a href="https://www.youtube.com/@danaiav12" target="_blank" rel="noopener">YouTube</a></li>
+            <li><a href="https://gr.pinterest.com/Danai12Av/" target="_blank" rel="noopener">Pinterest</a></li>
+            <li><a href="mailto:dbvabydanai@gmail.com">Email</a></li>
+          </ul></div>
       </div>
-      <div class="footer-nav-col">
-        <p class="footer-col-title">Σελίδες</p>
-        <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="https://dbvabydanai.wordpress.com" target="_blank">Articles</a></li>
-          <li><a href="guides.html">Guides</a></li>
-          <li><a href="about.html">About</a></li>
-          <li><a href="newsletter.html">Newsletter</a></li>
-        </ul>
-      </div>
-      <div class="footer-nav-col">
-        <p class="footer-col-title">Οδηγοί</p>
-        <ul>
-          <li><a href="color-analysis-guide.html">Color Analysis Guide</a></li>
-          <li><a href="capsule-workbook.html">Capsule Wardrobe Workbook</a></li>
-          <li><a href="body-type-quiz.html">Body Type Quiz</a></li>
-          <li><a href="shoe-quiz.html">Shoe Matcher</a></li>
-        </ul>
-      </div>
-      <div class="footer-nav-col">
-        <p class="footer-col-title">Εργαλεία</p>
-        <ul>
-          <li><a href="wishlist.html">Wardrobe Wishlist</a></li>
-          <li><a href="wardrobe-tracker.html">Wardrobe Tracker</a></li>
-          <li><a href="wardrobe-calculator.html">KPIs Calculator</a></li>
-          <li><a href="wardrobe-profile.html">Το Προφίλ μου</a></li>
-        </ul>
-      </div>
-      <div class="footer-nav-col">
-        <p class="footer-col-title">Follow</p>
-        <ul>
-          <li><a href="https://www.instagram.com/fashion.analysis.by.danai" target="_blank">Instagram</a></li>
-          <li><a href="https://www.youtube.com/@danaiav12" target="_blank">YouTube</a></li>
-          <li><a href="https://gr.pinterest.com/Danai12Av/" target="_blank">Pinterest</a></li>
-          <li><a href="mailto:dbvabydanai@gmail.com">Email</a></li>
-        </ul>
-      </div>
+      <p class="sf-bottom">© 2026 Fashion Analysis by Danai. All rights reserved.</p>
     </div>
-    <div class="footer-bottom">
-      <p>© 2026 Fashion Analysis by Danai. All rights reserved.</p>
-    </div>
-  </div>
-</footer>
+  </footer>
 
 <script src="main.js"></script>
 
@@ -504,7 +505,6 @@
    ⚙️ CONFIG — άλλαξε ΜΟΝΟ αυτές τις 2 γραμμές
    ========================================================= */
 const VIDEO_URL = "#";              // π.χ. "https://youtu.be/XXXXXXXX"
-const GUIDE_URL = "wardrobe-guide.pdf"; // το PDF στο ίδιο folder στο GitHub
 
 /* =========================================================
    PROFILES — 10 προφίλ με keys
@@ -853,7 +853,6 @@ if (closetSubForm) {
     saveToSupabase(email, 'closet_psychology', { top_profile: currentProfileName, top3: currentRankedResult }, answers);
     saveToLocalProfile('closet_psychology', { top_profile: currentProfileName, top3: currentRankedResult }, email);
     closetSubForm.style.display='none';
-    document.getElementById('download-btn').href = GUIDE_URL;
     document.getElementById('sub-ok').style.display='block';
   });
 }

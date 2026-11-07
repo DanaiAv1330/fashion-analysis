@@ -7,31 +7,31 @@
   <meta name="description" content="Βήμα-βήμα οδηγός για να οργανώσεις τη ντουλάπα σου και να ντύνεσαι εύκολα κάθε μέρα." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Sans+Extra+Condensed:wght@400;500;600;700;800;900&family=Fira+Sans+Condensed:wght@300;400;500;600&family=Inter:wght@200;300;400;500;600&family=Great+Vibes&family=Noto+Serif:ital@1&display=swap" rel="stylesheet" />
   <link rel="icon" type="image/x-icon" href="favicon.ico" />
 
   <style>
     :root {
-      --cream:       #FAF7F2;
-      --warm-white:  #F5F0E8;
-      --parchment:   #EDE8DF;
-      --ink:         #1C1814;
-      --ink-light:   #3A3530;
-      --warm-grey:   #8A857C;
-      --light-grey:  #E8E3DA;
-      --gold:        #C4956A;
-      --gold-deep:   #9B6F46;
-      --gold-light:  #F0DFC8;
+      --cream:       var(--ivory);
+      --warm-white:  var(--warm-white);
+      --parchment:   var(--parchment);
+      --ink:         var(--navy);
+      --ink-light:   var(--chocolate);
+      --warm-grey:   var(--warm-grey);
+      --light-grey:  var(--light-grey);
+      --gold:        var(--gold);
+      --gold-deep:   var(--gold-dark);
+      --gold-light:  var(--gold-light);
       --keep:        #5A8A6A;
       --keep-light:  #EAF3EC;
-      --maybe:       #C4956A;
+      --maybe:       var(--gold);
       --maybe-light: #FDF5EC;
       --remove:      #B85C5C;
       --remove-light:#FBF0F0;
       --repair:      #5B7A8E;
       --repair-light:#EBF0F4;
-      --serif:       'Cormorant Garamond', serif;
-      --sans:        'Jost', sans-serif;
+      --serif:       var(--font-cond);
+      --sans:        var(--font-body);
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -484,21 +484,49 @@
     gtag('js', new Date());
     gtag('config', 'G-DBRDY0FNX7');
   </script>
+  <link rel="stylesheet" href="theme.css" />
 </head>
 <body>
 
 <!-- HEADER -->
-<header>
-  <a href="index.html" class="brand">
-    Fashion Analysis
-    <span>by Danai</span>
-  </a>
-  <nav>
-    <a href="index.html">← Αρχική</a>
-    <a href="guides.html">Guides</a>
-    <a href="about.html">About</a>
+<nav id="navbar">
+    <a href="index.html" class="nav-brand">
+      <span class="brand-main">Fashion Analysis</span>
+      <span class="brand-sub">by Danai</span>
+    </a>
+    <button class="nav-toggle" onclick="document.getElementById('navLinks').classList.toggle('open')" aria-label="menu" type="button">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="https://dbvabydanai.wordpress.com" target="_blank" rel="noopener">Articles</a></li>
+      <li class="site-dd">
+        <a href="guides.html" class="site-dd-toggle active" onclick="if(window.innerWidth<=860){this.parentElement.classList.toggle('open');return false;}">Guides &amp; Tools ▾</a>
+        <ul class="site-dd-menu">
+          <li class="site-dd-all"><a href="guides.html">Όλοι οι οδηγοί &amp; εργαλεία →</a></li>
+          <li class="site-dd-divider"></li>
+          <li class="site-dd-heading">Οδηγοί</li>
+          <li><a href="color-analysis-guide.html">🎨 Color Analysis Guide</a></li>
+          <li><a href="style-identity-guide.html">✨ Style Identity Guide</a></li>
+          <li><a href="body-type-quiz.html">👤 Body Type Quiz</a></li>
+          <li><a href="closet-quiz.html">🪞 Wardrobe Psychology Quiz</a></li>
+          <li><a href="shoe-quiz.html">👠 Shoe Matcher</a></li>
+          <li><a href="wardrobe-audit-workbook.html" class="active">📝 Wardrobe Audit Workbook</a></li>
+          <li><a href="capsule-workbook.html">👗 Capsule Wardrobe Workbook</a></li>
+          <li><a href="wardrobe-portfolio-guide.html">📈 Wardrobe Portfolio Guide</a></li>
+          <li class="site-dd-divider"></li>
+          <li class="site-dd-heading">Εργαλεία</li>
+          <li><a href="fashion-budget.html">💰 Budget Planner</a></li>
+          <li><a href="wishlist.html">🛍 Wardrobe Wishlist</a></li>
+          <li><a href="wardrobe-tracker.html">📱 Wardrobe Tracker</a></li>
+          <li><a href="wardrobe-calculator.html">📊 KPIs Calculator</a></li>
+          <li><a href="wardrobe-profile.html">💎 Το Προφίλ μου</a></li>
+        </ul>
+      </li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="newsletter.html" class="nav-cta">Newsletter</a></li>
+    </ul>
   </nav>
-</header>
 
 <!-- HERO -->
 <section class="hero">
@@ -929,16 +957,50 @@
 </section>
 
 <!-- FOOTER -->
-<footer>
-  <div class="footer-brand">Fashion Analysis <span>by Danai</span></div>
-  <p>Wardrobe Audit Workbook · Fashion Education · Σε συνδυασμό με όλους τους οδηγούς</p>
-  <p><a href="/cdn-cgi/l/email-protection#fc989e8a9d9e85989d929d95bc9b919d9590d29f9391"><span class="__cf_email__" data-cfemail="d2b6b0a4b3b0abb6b3bcb3bb92b5bfb3bbbefcb1bdbf">[email&#160;protected]</span></a></p>
-  <div class="footer-back">
-    <a href="guides.html">← Πίσω στους Οδηγούς</a>
-  </div>
-</footer>
+<footer class="site-footer">
+    <div class="sf-inner">
+      <div class="sf-grid">
+        <div class="sf-brand-col">
+          <p class="sf-brand">Fashion Analysis<span>by Danai</span></p>
+          <p class="sf-tagline">Fashion Education &amp; Finance</p>
+          <a href="mailto:dbvabydanai@gmail.com" class="sf-email">dbvabydanai@gmail.com</a>
+        </div>
+        <div><p class="sf-title">Σελίδες</p><ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="https://dbvabydanai.wordpress.com" target="_blank" rel="noopener">Articles</a></li>
+            <li><a href="guides.html">Guides</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="newsletter.html">Newsletter</a></li>
+          </ul></div>
+        <div><p class="sf-title">Οδηγοί</p><ul>
+            <li><a href="color-analysis-guide.html">Color Analysis Guide</a></li>
+            <li><a href="style-identity-guide.html">Style Identity Guide</a></li>
+            <li><a href="body-type-quiz.html">Body Type Quiz</a></li>
+            <li><a href="closet-quiz.html">Wardrobe Psychology Quiz</a></li>
+            <li><a href="shoe-quiz.html">Shoe Matcher</a></li>
+            <li><a href="wardrobe-audit-workbook.html">Wardrobe Audit Workbook</a></li>
+            <li><a href="capsule-workbook.html">Capsule Wardrobe Workbook</a></li>
+            <li><a href="wardrobe-portfolio-guide.html">Wardrobe Portfolio Guide</a></li>
+          </ul></div>
+        <div><p class="sf-title">Εργαλεία</p><ul>
+            <li><a href="fashion-budget.html">Budget Planner</a></li>
+            <li><a href="wishlist.html">Wardrobe Wishlist</a></li>
+            <li><a href="wardrobe-tracker.html">Wardrobe Tracker</a></li>
+            <li><a href="wardrobe-calculator.html">KPIs Calculator</a></li>
+            <li><a href="wardrobe-profile.html">Το Προφίλ μου</a></li>
+          </ul></div>
+        <div><p class="sf-title">Follow</p><ul>
+            <li><a href="https://www.instagram.com/fashion.analysis.by.danai" target="_blank" rel="noopener">Instagram</a></li>
+            <li><a href="https://www.youtube.com/@danaiav12" target="_blank" rel="noopener">YouTube</a></li>
+            <li><a href="https://gr.pinterest.com/Danai12Av/" target="_blank" rel="noopener">Pinterest</a></li>
+            <li><a href="mailto:dbvabydanai@gmail.com">Email</a></li>
+          </ul></div>
+      </div>
+      <p class="sf-bottom">© 2026 Fashion Analysis by Danai. All rights reserved.</p>
+    </div>
+  </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
   // Checklist
   function toggleCheck(item) {
     item.classList.toggle('checked');

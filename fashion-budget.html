@@ -6,27 +6,27 @@
   <title>Budget Planner | Fashion Analysis by Danai</title>
   <meta name="description" content="Από το μηνιαίο εισόδημα στο πραγματικό budget ρούχων, και μετά στην κατανομή 70-20-10 — με τη λογική του CFO." />
 
-  <link rel="icon" type="image/png" href="favicon.png" />
-  <link rel="apple-touch-icon" href="favicon.png" />
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <link rel="apple-touch-icon" href="favicon.ico" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Sans+Extra+Condensed:wght@400;500;600;700;800;900&family=Fira+Sans+Condensed:wght@300;400;500;600&family=Inter:wght@200;300;400;500;600&family=Great+Vibes&family=Noto+Serif:ital@1&display=swap" rel="stylesheet" />
 
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --cream:#F5F0E8; --cream-dark:#EDE6D6; --cream-mid:#F9F5EE;
-      --gold:#B8965A; --gold-light:#D4AF7A; --gold-pale:#E8D8BC; --gold-dark:#8A6E3C;
-      --text-dark:#2C2416; --text-mid:#5A4A30; --text-light:#8A7A60;
-      --sage:#7A8C70; --rose:#C4826A; --ink:#3A2E1E;
+      --cream:var(--warm-white); --cream-dark:var(--parchment); --cream-mid:var(--warm-white);
+      --gold:var(--gold); --gold-light:var(--gold-bright); --gold-pale:var(--gold-light); --gold-dark:var(--gold-dark);
+      --text-dark:var(--navy); --text-mid:var(--chocolate); --text-light:var(--warm-grey);
+      --sage:#7A8C70; --rose:#C4826A; --ink:var(--chocolate);
     }
 
     html { scroll-behavior: smooth; }
     body {
       background: var(--cream); color: var(--text-dark);
-      font-family: 'Jost', sans-serif; font-weight: 400; line-height: 1.6;
+      font-family: var(--font-body); font-weight: 400; line-height: 1.6;
       min-height: 100vh; display: flex; flex-direction: column;
     }
 
@@ -35,7 +35,7 @@
       padding: 0 2rem; position: sticky; top: 0; z-index: 100;
       display: flex; align-items: center; justify-content: space-between; height: 60px;
     }
-    .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 500; color: var(--text-dark); text-decoration: none; letter-spacing: 0.02em; }
+    .nav-logo { font-family: var(--font-cond); font-size: 18px; font-weight: 500; color: var(--text-dark); text-decoration: none; letter-spacing: 0.02em; }
     .nav-logo span { font-style: italic; color: var(--gold-dark); }
     .nav-links { display: flex; gap: 2rem; list-style: none; }
     .nav-links a { font-size: 12px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-mid); text-decoration: none; transition: color 0.2s; }
@@ -43,21 +43,21 @@
 
     .hero { text-align: center; padding: 4rem 2rem 3rem; border-bottom: 0.5px solid var(--gold-pale); max-width: 720px; margin: 0 auto; width: 100%; }
     .eyebrow { font-size: 10px; font-weight: 500; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; }
-    .hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(32px,5vw,48px); font-weight: 400; color: var(--text-dark); line-height: 1.2; margin-bottom: 1rem; }
+    .hero h1 { font-family: var(--font-cond); font-size: clamp(32px,5vw,48px); font-weight: 400; color: var(--text-dark); line-height: 1.2; margin-bottom: 1rem; }
     .hero h1 em { font-style: italic; color: var(--gold-dark); }
     .hero-sub { font-size: 14px; font-weight: 300; color: var(--text-light); line-height: 1.7; max-width: 540px; margin: 0 auto; }
 
     main { flex: 1; max-width: 780px; margin: 0 auto; width: 100%; padding: 3rem 2rem 4rem; }
 
     .section-label { font-size: 10px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.5rem; }
-    .section-title { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 400; color: var(--text-dark); margin-bottom: 1.75rem; line-height: 1.3; }
+    .section-title { font-family: var(--font-cond); font-size: 28px; font-weight: 400; color: var(--text-dark); margin-bottom: 1.75rem; line-height: 1.3; }
     .section-title em { font-style: italic; color: var(--gold-dark); }
     .divider { border: none; border-top: 0.5px solid var(--gold-pale); margin: 3rem 0; }
 
     /* STAGE HEADER */
     .stage-head { text-align: center; margin: 0 0 2rem; }
-    .stage-badge { display: inline-block; font-family: 'Cormorant Garamond', serif; font-size: 15px; font-style: italic; color: var(--gold-dark); border: 0.5px solid var(--gold-pale); border-radius: 99px; padding: 4px 18px; margin-bottom: 1rem; background: var(--cream-mid); }
-    .stage-head h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(26px,4vw,34px); font-weight: 400; color: var(--text-dark); line-height: 1.25; }
+    .stage-badge { display: inline-block; font-family: var(--font-cond); font-size: 15px; font-style: italic; color: var(--gold-dark); border: 0.5px solid var(--gold-pale); border-radius: 99px; padding: 4px 18px; margin-bottom: 1rem; background: var(--cream-mid); }
+    .stage-head h2 { font-family: var(--font-cond); font-size: clamp(26px,4vw,34px); font-weight: 400; color: var(--text-dark); line-height: 1.25; }
     .stage-head h2 em { font-style: italic; color: var(--gold-dark); }
     .stage-head p { font-size: 13px; color: var(--text-light); max-width: 30rem; margin: 0.75rem auto 0; line-height: 1.6; }
 
@@ -65,12 +65,12 @@
     .input-card { background: var(--cream-mid); border: 0.5px solid var(--gold-pale); border-radius: 2px; padding: 1.75rem 1.5rem; margin-bottom: 2rem; }
     .input-label { font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-light); margin-bottom: 0.75rem; }
     .budget-input-row { display: flex; align-items: baseline; gap: 0.5rem; }
-    .cur-sign { font-family: 'Cormorant Garamond', serif; font-size: 38px; font-weight: 400; color: var(--gold-dark); }
-    #income { background: transparent; border: none; border-bottom: 1px solid var(--gold-pale); font-family: 'Cormorant Garamond', serif; font-size: 44px; font-weight: 500; color: var(--text-dark); width: 220px; padding: 0 0 4px; transition: border-color 0.2s; }
+    .cur-sign { font-family: var(--font-cond); font-size: 38px; font-weight: 400; color: var(--gold-dark); }
+    #income { background: transparent; border: none; border-bottom: 1px solid var(--gold-pale); font-family: var(--font-cond); font-size: 44px; font-weight: 500; color: var(--text-dark); width: 220px; padding: 0 0 4px; transition: border-color 0.2s; }
     #income:focus { outline: none; border-bottom-color: var(--gold); }
     .budget-hint { font-size: 12px; color: var(--text-light); margin-top: 0.75rem; font-style: italic; }
     .preset-row { display: flex; gap: 8px; margin-top: 1rem; flex-wrap: wrap; }
-    .preset { font-size: 11px; font-weight: 500; letter-spacing: 0.06em; color: var(--text-mid); background: var(--cream); border: 0.5px solid var(--gold-pale); border-radius: 99px; padding: 5px 14px; cursor: pointer; transition: all 0.2s; font-family: 'Jost', sans-serif; }
+    .preset { font-size: 11px; font-weight: 500; letter-spacing: 0.06em; color: var(--text-mid); background: var(--cream); border: 0.5px solid var(--gold-pale); border-radius: 99px; padding: 5px 14px; cursor: pointer; transition: all 0.2s; font-family: var(--font-body); }
     .preset:hover { border-color: var(--gold); color: var(--gold-dark); }
 
     /* WATERFALL LAYERS */
@@ -82,8 +82,8 @@
 
     .layer-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; margin-bottom: 4px; }
     .layer-step { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-light); font-weight: 500; }
-    .layer-name { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 600; color: var(--text-dark); }
-    .layer-amount { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 600; white-space: nowrap; }
+    .layer-name { font-family: var(--font-cond); font-size: 20px; font-weight: 600; color: var(--text-dark); }
+    .layer-amount { font-family: var(--font-cond); font-size: 24px; font-weight: 600; white-space: nowrap; }
     .l1 .layer-amount { color: var(--sage); }
     .l2 .layer-amount { color: var(--ink); }
     .l3 .layer-amount { color: var(--gold-dark); }
@@ -95,7 +95,7 @@
     input[type=range]::-moz-range-thumb { width: 16px; height: 16px; border-radius: 50%; background: var(--gold); cursor: pointer; border: 2px solid var(--cream); }
     .ctrl-val { font-size: 13px; color: var(--text-mid); width: 48px; text-align: right; font-weight: 500; }
 
-    .euro-input { width: 90px; background: var(--cream); border: 0.5px solid var(--gold-pale); border-radius: 2px; padding: 5px 8px; font-family: 'Jost', sans-serif; font-size: 14px; color: var(--text-dark); text-align: right; }
+    .euro-input { width: 90px; background: var(--cream); border: 0.5px solid var(--gold-pale); border-radius: 2px; padding: 5px 8px; font-family: var(--font-body); font-size: 14px; color: var(--text-dark); text-align: right; }
     .euro-input:focus { outline: none; border-color: var(--gold); }
     .input-mode-note { font-size: 10px; color: var(--text-light); letter-spacing: 0.04em; }
 
@@ -103,7 +103,7 @@
     .remain-card { background: var(--cream-dark); border: 0.5px solid var(--gold-pale); border-radius: 2px; padding: 1.5rem 1.25rem; margin-top: 4px; }
     .remain-head { display: flex; justify-content: space-between; align-items: baseline; }
     .remain-label { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-mid); }
-    .remain-amount { font-family: 'Cormorant Garamond', serif; font-size: 30px; font-weight: 600; color: var(--text-dark); }
+    .remain-amount { font-family: var(--font-cond); font-size: 30px; font-weight: 600; color: var(--text-dark); }
     .remain-amount.neg { color: var(--rose); }
     .remain-sub { font-size: 12px; color: var(--text-light); margin-top: 6px; font-style: italic; }
 
@@ -111,10 +111,10 @@
     .disc-cat { margin-bottom: 1.1rem; }
     .disc-cat:last-child { margin-bottom: 0; }
     .disc-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; gap: 1rem; }
-    .disc-name { font-family: 'Cormorant Garamond', serif; font-size: 17px; font-weight: 600; color: var(--text-dark); }
+    .disc-name { font-family: var(--font-cond); font-size: 17px; font-weight: 600; color: var(--text-dark); }
     .disc-name.fashion { color: var(--gold-dark); }
-    .disc-amount { font-family: 'Cormorant Garamond', serif; font-size: 19px; font-weight: 600; white-space: nowrap; }
-    .disc-pct { font-size: 11px; color: var(--text-light); margin-left: 4px; font-family: 'Jost', sans-serif; font-weight: 400; }
+    .disc-amount { font-family: var(--font-cond); font-size: 19px; font-weight: 600; white-space: nowrap; }
+    .disc-pct { font-size: 11px; color: var(--text-light); margin-left: 4px; font-family: var(--font-body); font-weight: 400; }
     .disc-track { height: 22px; background: var(--cream); border-radius: 1px; overflow: hidden; }
     .disc-fill { height: 100%; display: flex; align-items: center; padding: 0 9px; font-size: 10px; font-weight: 500; transition: width 0.4s ease; white-space: nowrap; overflow: hidden; }
     .disc-ctrl { display: flex; align-items: center; gap: 10px; margin-top: 5px; }
@@ -124,7 +124,7 @@
     /* FASHION RESULT (the bridge) */
     .fashion-result { background: var(--ink); border-radius: 2px; padding: 1.75rem 1.5rem; margin-top: 2rem; text-align: center; color: var(--cream); }
     .fashion-result .fr-label { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold-light); margin-bottom: 0.5rem; }
-    .fashion-result .fr-amount { font-family: 'Cormorant Garamond', serif; font-size: clamp(40px,10vw,56px); font-weight: 500; line-height: 1; color: #fff; }
+    .fashion-result .fr-amount { font-family: var(--font-cond); font-size: clamp(40px,10vw,56px); font-weight: 500; line-height: 1; color: #fff; }
     .fashion-result .fr-amount .small { font-size: 0.4em; color: var(--gold-light); }
     .fashion-result .fr-sub { font-size: 13px; color: #C9BCA3; margin-top: 0.75rem; max-width: 28rem; margin-left: auto; margin-right: auto; }
     .fr-annual { font-size: 12px; color: var(--gold-light); margin-top: 0.75rem; letter-spacing: 0.06em; }
@@ -135,22 +135,22 @@
     .insight-box.warn { border-left-color: var(--rose); background: #F2E8E2; }
     .insight-box strong { color: var(--text-dark); font-weight: 500; }
 
-    .reset-link { display: inline-block; margin-top: 1.25rem; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-dark); background: none; border: none; cursor: pointer; font-family: 'Jost', sans-serif; border-bottom: 0.5px solid var(--gold-pale); padding-bottom: 2px; }
+    .reset-link { display: inline-block; margin-top: 1.25rem; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-dark); background: none; border: none; cursor: pointer; font-family: var(--font-body); border-bottom: 0.5px solid var(--gold-pale); padding-bottom: 2px; }
     .reset-link:hover { color: var(--text-dark); }
 
     /* 70-20-10 ALLOCATION */
     .alloc-wrap { background: var(--cream-mid); border: 0.5px solid var(--gold-pale); border-radius: 2px; padding: 1.5rem 1.25rem; }
     .alloc-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1.25rem; padding-bottom: 0.75rem; border-bottom: 0.5px solid var(--gold-pale); }
     .alloc-head .lbl { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-light); }
-    .alloc-head .total { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 600; color: var(--text-dark); }
+    .alloc-head .total { font-family: var(--font-cond); font-size: 22px; font-weight: 600; color: var(--text-dark); }
 
     .alloc-cat { margin-bottom: 1.4rem; }
     .alloc-cat:last-child { margin-bottom: 0; }
     .alloc-cat-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; gap: 1rem; }
-    .cat-name { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 600; color: var(--text-dark); }
-    .cat-fin { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-light); display: block; margin-top: 1px; font-family: 'Jost', sans-serif; }
-    .cat-amount { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 600; white-space: nowrap; }
-    .cat-pct { font-size: 12px; color: var(--text-light); margin-left: 4px; font-family: 'Jost', sans-serif; font-weight: 400; }
+    .cat-name { font-family: var(--font-cond); font-size: 18px; font-weight: 600; color: var(--text-dark); }
+    .cat-fin { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-light); display: block; margin-top: 1px; font-family: var(--font-body); }
+    .cat-amount { font-family: var(--font-cond); font-size: 22px; font-weight: 600; white-space: nowrap; }
+    .cat-pct { font-size: 12px; color: var(--text-light); margin-left: 4px; font-family: var(--font-body); font-weight: 400; }
     .cat-track { height: 26px; background: var(--cream-dark); border-radius: 1px; overflow: hidden; position: relative; }
     .cat-fill { height: 100%; display: flex; align-items: center; padding: 0 10px; font-size: 11px; font-weight: 500; letter-spacing: 0.03em; transition: width 0.4s ease; white-space: nowrap; overflow: hidden; }
     .cat-desc { font-size: 12px; color: var(--text-mid); margin-top: 8px; line-height: 1.55; }
@@ -164,19 +164,19 @@
     .rule-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     @media (max-width: 600px) { .rule-grid { grid-template-columns: 1fr; } }
     .rule-card { background: var(--cream-mid); border: 0.5px solid var(--gold-pale); border-radius: 2px; padding: 1.25rem 1.1rem; }
-    .rule-num { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 300; opacity: 0.25; line-height: 1; margin-bottom: 6px; }
-    .rule-title { font-family: 'Cormorant Garamond', serif; font-size: 17px; font-weight: 600; margin-bottom: 6px; }
+    .rule-num { font-family: var(--font-cond); font-size: 32px; font-weight: 300; opacity: 0.25; line-height: 1; margin-bottom: 6px; }
+    .rule-title { font-family: var(--font-cond); font-size: 17px; font-weight: 600; margin-bottom: 6px; }
     .rule-desc { font-size: 13px; color: var(--text-mid); line-height: 1.6; }
 
     /* CTA */
     .cta-strip { background: var(--cream-dark); border: 0.5px solid var(--gold-pale); border-radius: 2px; padding: 1.25rem 1.5rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
     .cta-text { font-size: 13px; color: var(--text-mid); }
     .cta-text strong { color: var(--text-dark); font-weight: 500; }
-    .cta-btn { font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold-dark); text-decoration: none; border: 0.5px solid var(--gold); padding: 8px 18px; border-radius: 1px; transition: background 0.2s, color 0.2s; white-space: nowrap; font-family: 'Jost', sans-serif; }
+    .cta-btn { font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold-dark); text-decoration: none; border: 0.5px solid var(--gold); padding: 8px 18px; border-radius: 1px; transition: background 0.2s, color 0.2s; white-space: nowrap; font-family: var(--font-body); }
     .cta-btn:hover { background: var(--gold); color: var(--cream); }
 
     footer { border-top: 0.5px solid var(--gold-pale); padding: 2rem; text-align: center; }
-    .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 16px; font-weight: 400; color: var(--text-dark); margin-bottom: 0.5rem; }
+    .footer-logo { font-family: var(--font-cond); font-size: 16px; font-weight: 400; color: var(--text-dark); margin-bottom: 0.5rem; }
     .footer-logo em { font-style: italic; color: var(--gold-dark); }
     .footer-sub { font-size: 11px; letter-spacing: 0.1em; color: var(--text-light); margin-bottom: 1rem; }
     .footer-links { display: flex; justify-content: center; gap: 1.5rem; list-style: none; flex-wrap: wrap; }
@@ -189,16 +189,54 @@
       #income { width: 160px; font-size: 36px; }
     }
   </style>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-DBRDY0FNX7"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-DBRDY0FNX7');
+  </script>
+  <link rel="stylesheet" href="theme.css" />
 </head>
 
 <body>
 
-  <nav>
-    <a href="index.html" class="nav-logo">Fashion Analysis <span>by Danai</span></a>
-    <ul class="nav-links">
-      <li><a href="index.html">← Αρχική</a></li>
-      <li><a href="wardrobe-calculator.html">Calculator</a></li>
+  <nav id="navbar" class="nav-sticky">
+    <a href="index.html" class="nav-brand">
+      <span class="brand-main">Fashion Analysis</span>
+      <span class="brand-sub">by Danai</span>
+    </a>
+    <button class="nav-toggle" onclick="document.getElementById('navLinks').classList.toggle('open')" aria-label="menu" type="button">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="https://dbvabydanai.wordpress.com" target="_blank" rel="noopener">Articles</a></li>
+      <li class="site-dd">
+        <a href="guides.html" class="site-dd-toggle active" onclick="if(window.innerWidth<=860){this.parentElement.classList.toggle('open');return false;}">Guides &amp; Tools ▾</a>
+        <ul class="site-dd-menu">
+          <li class="site-dd-all"><a href="guides.html">Όλοι οι οδηγοί &amp; εργαλεία →</a></li>
+          <li class="site-dd-divider"></li>
+          <li class="site-dd-heading">Οδηγοί</li>
+          <li><a href="color-analysis-guide.html">🎨 Color Analysis Guide</a></li>
+          <li><a href="style-identity-guide.html">✨ Style Identity Guide</a></li>
+          <li><a href="body-type-quiz.html">👤 Body Type Quiz</a></li>
+          <li><a href="closet-quiz.html">🪞 Wardrobe Psychology Quiz</a></li>
+          <li><a href="shoe-quiz.html">👠 Shoe Matcher</a></li>
+          <li><a href="wardrobe-audit-workbook.html">📝 Wardrobe Audit Workbook</a></li>
+          <li><a href="capsule-workbook.html">👗 Capsule Wardrobe Workbook</a></li>
+          <li><a href="wardrobe-portfolio-guide.html">📈 Wardrobe Portfolio Guide</a></li>
+          <li class="site-dd-divider"></li>
+          <li class="site-dd-heading">Εργαλεία</li>
+          <li><a href="fashion-budget.html" class="active">💰 Budget Planner</a></li>
+          <li><a href="wishlist.html">🛍 Wardrobe Wishlist</a></li>
+          <li><a href="wardrobe-tracker.html">📱 Wardrobe Tracker</a></li>
+          <li><a href="wardrobe-calculator.html">📊 KPIs Calculator</a></li>
+          <li><a href="wardrobe-profile.html">💎 Το Προφίλ μου</a></li>
+        </ul>
+      </li>
       <li><a href="about.html">About</a></li>
+      <li><a href="newsletter.html" class="nav-cta">Newsletter</a></li>
     </ul>
   </nav>
 
@@ -307,7 +345,7 @@
           <span class="disc-name fashion">Ρούχα & Αξεσουάρ</span>
           <span class="disc-amount" id="d-amt-fash" style="color:var(--gold-dark);">€75<span class="disc-pct" id="d-pct-fash">38%</span></span>
         </div>
-        <div class="disc-track"><div class="disc-fill" id="d-bar-fash" style="width:38%;background:#C4B48A;color:#3A2E1E;">το πραγματικό fashion budget</div></div>
+        <div class="disc-track"><div class="disc-fill" id="d-bar-fash" style="width:38%;background:#C4B48A;color:var(--chocolate);">το πραγματικό fashion budget</div></div>
         <div class="disc-ctrl"><input type="range" id="d-s-fash" min="0" max="100" value="38" /><span class="ctrl-val" id="d-v-fash">38%</span></div>
       </div>
       <div class="disc-cat">
@@ -331,7 +369,7 @@
           <span class="disc-name">Δώρα (για άλλους)</span>
           <span class="disc-amount" id="d-amt-gift">€25<span class="disc-pct" id="d-pct-gift">12%</span></span>
         </div>
-        <div class="disc-track"><div class="disc-fill" id="d-bar-gift" style="width:12%;background:#C8BEB0;color:#2C2416;"></div></div>
+        <div class="disc-track"><div class="disc-fill" id="d-bar-gift" style="width:12%;background:#C8BEB0;color:var(--navy);"></div></div>
         <div class="disc-ctrl"><input type="range" id="d-s-gift" min="0" max="100" value="12" /><span class="ctrl-val" id="d-v-gift">12%</span></div>
       </div>
       <div class="disc-cat">
@@ -339,7 +377,7 @@
           <span class="disc-name">Buffer (απρόβλεπτα)</span>
           <span class="disc-amount" id="d-amt-buf">€25<span class="disc-pct" id="d-pct-buf">13%</span></span>
         </div>
-        <div class="disc-track"><div class="disc-fill" id="d-bar-buf" style="width:13%;background:#B8A890;color:#2C2416;"></div></div>
+        <div class="disc-track"><div class="disc-fill" id="d-bar-buf" style="width:13%;background:#B8A890;color:var(--navy);"></div></div>
         <div class="disc-ctrl"><input type="range" id="d-s-buf" min="0" max="100" value="13" /><span class="ctrl-val" id="d-v-buf">13%</span></div>
       </div>
       <button class="reset-link" id="reset-disc">↺ Επαναφορά στις προτεινόμενες αναλογίες</button>
@@ -384,7 +422,7 @@
           </div>
           <div class="cat-amount" id="a-amt-core">€53<span class="cat-pct" id="a-pct-core">70%</span></div>
         </div>
-        <div class="cat-track"><div class="cat-fill" id="a-bar-core" style="width:70%;background:#C4B48A;color:#3A2E1E;">σταθερά, αποδοτικά</div></div>
+        <div class="cat-track"><div class="cat-fill" id="a-bar-core" style="width:70%;background:#C4B48A;color:var(--chocolate);">σταθερά, αποδοτικά</div></div>
         <div class="slider-row"><input type="range" id="a-s-core" min="0" max="100" value="70" /><span class="slider-val" id="a-v-core">70%</span></div>
         <p class="cat-desc">Το καλό blazer, το denim που σου κάθεται, η λευκή μπλούζα ποιότητας, το trench. Δεν είναι glamorous — αλλά φτιάχνουν το 80% των συνόλων σου. Εδώ αξίζει η επένδυση.</p>
       </div>
@@ -410,7 +448,7 @@
           </div>
           <div class="cat-amount" id="a-amt-func">€8<span class="cat-pct" id="a-pct-func">10%</span></div>
         </div>
-        <div class="cat-track"><div class="cat-fill" id="a-bar-func" style="width:10%;background:#C8BEB0;color:#2C2416;"></div></div>
+        <div class="cat-track"><div class="cat-fill" id="a-bar-func" style="width:10%;background:#C8BEB0;color:var(--navy);"></div></div>
         <div class="slider-row"><input type="range" id="a-s-func" min="0" max="100" value="10" /><span class="slider-val" id="a-v-func">10%</span></div>
         <p class="cat-desc">Αθλητικά, αδιάβροχο, formal για γάμους. Δεν τα φοράς συχνά, αλλά όταν τα χρειάζεσαι, τα χρειάζεσαι απόλυτα. Συχνά ξεχνιούνται — και χτυπάνε εκτός budget.</p>
       </div>
@@ -460,16 +498,47 @@
 
   </main>
 
-  <footer>
-    <p class="footer-logo">Fashion Analysis <em>by Danai</em></p>
-    <p class="footer-sub">Wardrobe Intelligence &nbsp;·&nbsp; Style Education &nbsp;·&nbsp; Fashion Analysis</p>
-    <ul class="footer-links">
-      <li><a href="index.html">Αρχική</a></li>
-      <li><a href="wardrobe-calculator.html">KPIs Calculator</a></li>
-      <li><a href="wishlist.html">Wardrobe Wishlist</a></li>
-      <li><a href="wardrobe-tracker.html">Wardrobe Tracker</a></li>
-      <li><a href="about.html">About</a></li>
-    </ul>
+  <footer class="site-footer">
+    <div class="sf-inner">
+      <div class="sf-grid">
+        <div class="sf-brand-col">
+          <p class="sf-brand">Fashion Analysis<span>by Danai</span></p>
+          <p class="sf-tagline">Fashion Education &amp; Finance</p>
+          <a href="mailto:dbvabydanai@gmail.com" class="sf-email">dbvabydanai@gmail.com</a>
+        </div>
+        <div><p class="sf-title">Σελίδες</p><ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="https://dbvabydanai.wordpress.com" target="_blank" rel="noopener">Articles</a></li>
+            <li><a href="guides.html">Guides</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="newsletter.html">Newsletter</a></li>
+          </ul></div>
+        <div><p class="sf-title">Οδηγοί</p><ul>
+            <li><a href="color-analysis-guide.html">Color Analysis Guide</a></li>
+            <li><a href="style-identity-guide.html">Style Identity Guide</a></li>
+            <li><a href="body-type-quiz.html">Body Type Quiz</a></li>
+            <li><a href="closet-quiz.html">Wardrobe Psychology Quiz</a></li>
+            <li><a href="shoe-quiz.html">Shoe Matcher</a></li>
+            <li><a href="wardrobe-audit-workbook.html">Wardrobe Audit Workbook</a></li>
+            <li><a href="capsule-workbook.html">Capsule Wardrobe Workbook</a></li>
+            <li><a href="wardrobe-portfolio-guide.html">Wardrobe Portfolio Guide</a></li>
+          </ul></div>
+        <div><p class="sf-title">Εργαλεία</p><ul>
+            <li><a href="fashion-budget.html">Budget Planner</a></li>
+            <li><a href="wishlist.html">Wardrobe Wishlist</a></li>
+            <li><a href="wardrobe-tracker.html">Wardrobe Tracker</a></li>
+            <li><a href="wardrobe-calculator.html">KPIs Calculator</a></li>
+            <li><a href="wardrobe-profile.html">Το Προφίλ μου</a></li>
+          </ul></div>
+        <div><p class="sf-title">Follow</p><ul>
+            <li><a href="https://www.instagram.com/fashion.analysis.by.danai" target="_blank" rel="noopener">Instagram</a></li>
+            <li><a href="https://www.youtube.com/@danaiav12" target="_blank" rel="noopener">YouTube</a></li>
+            <li><a href="https://gr.pinterest.com/Danai12Av/" target="_blank" rel="noopener">Pinterest</a></li>
+            <li><a href="mailto:dbvabydanai@gmail.com">Email</a></li>
+          </ul></div>
+      </div>
+      <p class="sf-bottom">© 2026 Fashion Analysis by Danai. All rights reserved.</p>
+    </div>
   </footer>
 
   <script>

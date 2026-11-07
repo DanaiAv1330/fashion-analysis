@@ -8,7 +8,7 @@
   <meta name="description" content="Βρες το προσωπικό σου στυλ πέρα από τα trends. Δωρεάν Style Identity Guide με τις 3 λέξεις που ορίζουν το στυλ σου." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Sans+Extra+Condensed:wght@400;500;600;700;800;900&family=Fira+Sans+Condensed:wght@300;400;500;600&family=Inter:wght@200;300;400;500;600&family=Great+Vibes&family=Noto+Serif:ital@1&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <link rel="icon" type="image/x-icon" href="favicon.ico" />
@@ -22,17 +22,17 @@
 
   <style>
     .sig {
-      --sig-cream:    #f5f0e8;
+      --sig-cream:    var(--warm-white);
       --sig-warm-off: #f3ede6;
       --sig-latte:    #e8ddd3;
       --sig-taupe:    #c5b5a7;
       --sig-mocha:    #8b6f5e;
       --sig-espresso: #4a3028;
-      --sig-gold:     #9a7a4a;
+      --sig-gold:     var(--gold);
       --sig-ink:      #2a2018;
       background: var(--sig-cream);
       color: var(--sig-espresso);
-      font-family: 'Jost', sans-serif;
+      font-family: var(--font-body);
       font-weight: 300;
       font-size: 15px;
       line-height: 1.75;
@@ -51,7 +51,7 @@
       left: 50%;
       transform: translateX(-50%);
       background: #fff;
-      border: 1px solid #e8e2d8;
+      border: 1px solid var(--light-grey);
       border-radius: 3px;
       min-width: 210px;
       box-shadow: 0 8px 24px rgba(0,0,0,0.10);
@@ -64,25 +64,25 @@
       padding: 9px 18px;
       font-size: 12px;
       letter-spacing: 0.04em;
-      color: #2a231a;
+      color: var(--navy);
       text-decoration: none;
       transition: background 0.15s;
       white-space: nowrap;
     }
-    .nav-dropdown-menu li a:hover { background: #f5f0e8; color: #9a7a4a; }
+    .nav-dropdown-menu li a:hover { background: var(--warm-white); color: var(--gold); }
     .nav-dropdown-heading {
-      font-family: 'Jost', sans-serif;
+      font-family: var(--font-body);
       font-size: 9px;
       font-weight: 500;
       letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: #9a7a4a;
+      color: var(--gold);
       padding: 10px 18px 4px;
       pointer-events: none;
     }
     .nav-dropdown-divider {
       height: 1px;
-      background: #e8e2d8;
+      background: var(--light-grey);
       margin: 6px 14px;
       pointer-events: none;
     }
@@ -91,13 +91,13 @@
     @media (max-width: 768px) {
       .nav-dropdown-menu {
         position: static; transform: none; box-shadow: none;
-        border: none; border-left: 2px solid #e8e2d8;
+        border: none; border-left: 2px solid var(--light-grey);
         border-radius: 0; padding: 0 0 0 12px;
         margin: 4px 0 4px 8px; background: transparent;
       }
-      .nav-dropdown-menu li a { padding: 7px 8px; font-size: 12px; color: #8a7d6e; }
+      .nav-dropdown-menu li a { padding: 7px 8px; font-size: 12px; color: var(--warm-grey); }
       .nav-dropdown-heading { padding: 8px 8px 2px; font-size: 9px; }
-      .nav-dropdown-divider { margin: 4px 8px; background: #d4c4a8; }
+      .nav-dropdown-divider { margin: 4px 8px; background: var(--light-grey); }
       .nav-dropdown-menu { display: none; }
       .nav-dropdown.open .nav-dropdown-menu { display: block; }
     }
@@ -131,7 +131,7 @@
       animation: sigFadeUp .7s .1s forwards;
     }
     .sig h1 {
-      font-family: 'Cormorant Garamond', serif;
+      font-family: var(--font-cond);
       font-size: clamp(52px, 10vw, 96px);
       font-weight: 300;
       line-height: 1.05;
@@ -190,7 +190,7 @@
       margin-bottom: 16px;
     }
     .sig .section-title {
-      font-family: 'Cormorant Garamond', serif;
+      font-family: var(--font-cond);
       font-size: clamp(36px, 6vw, 58px);
       font-weight: 300;
       line-height: 1.1;
@@ -224,7 +224,7 @@
       align-items: flex-start;
       justify-content: center;
       padding: 36px 0 0;
-      font-family: 'Cormorant Garamond', serif;
+      font-family: var(--font-cond);
       font-size: 42px;
       font-weight: 300;
       color: var(--sig-taupe);
@@ -232,7 +232,7 @@
     }
     .step-body { padding: 32px 40px 32px 0; }
     .step-body h3 {
-      font-family: 'Cormorant Garamond', serif;
+      font-family: var(--font-cond);
       font-size: 22px;
       font-weight: 400;
       color: var(--sig-espresso);
@@ -314,7 +314,7 @@
       border-bottom: 1px solid var(--sig-latte);
     }
     .words-column-num {
-      font-family: 'Cormorant Garamond', serif;
+      font-family: var(--font-cond);
       font-size: 38px;
       font-weight: 300;
       color: var(--sig-gold);
@@ -322,7 +322,7 @@
       margin-bottom: 6px;
     }
     .words-column-title {
-      font-family: 'Cormorant Garamond', serif;
+      font-family: var(--font-cond);
       font-size: 18px;
       font-weight: 400;
       color: var(--sig-espresso);
@@ -339,7 +339,7 @@
       margin-bottom: 16px;
       padding: 10px 14px;
       border: 1px dashed var(--sig-taupe);
-      font-family: 'Cormorant Garamond', serif;
+      font-family: var(--font-cond);
       font-size: 20px;
       font-style: italic;
       color: var(--sig-espresso);
@@ -354,7 +354,7 @@
     .words-column-selected .placeholder-text {
       font-size: 11px;
       font-style: normal;
-      font-family: 'Jost', sans-serif;
+      font-family: var(--font-body);
       color: var(--sig-taupe);
       letter-spacing: .08em;
     }
@@ -418,7 +418,7 @@
       margin-bottom: 8px;
     }
     .words-result-word .word {
-      font-family: 'Cormorant Garamond', serif;
+      font-family: var(--font-cond);
       font-size: 28px;
       font-weight: 300;
       font-style: italic;
@@ -432,7 +432,7 @@
       line-height: 1.9;
     }
     .words-result h3 {
-      font-family: 'Cormorant Garamond', serif;
+      font-family: var(--font-cond);
       font-size: 30px;
       font-weight: 300;
       color: var(--sig-espresso);
@@ -447,7 +447,7 @@
       max-width: 600px;
     }
     .words-filter-rule h4 {
-      font-family: 'Cormorant Garamond', serif;
+      font-family: var(--font-cond);
       font-size: 22px;
       font-weight: 400;
       color: var(--sig-cream);
@@ -481,7 +481,7 @@
       text-align: left;
     }
     .email-form-wrap h4 {
-      font-family: 'Cormorant Garamond', serif;
+      font-family: var(--font-cond);
       font-size: 22px;
       font-weight: 400;
       color: var(--sig-espresso);
@@ -511,7 +511,7 @@
       background: #fff;
       border: 1px solid var(--sig-latte);
       padding: 10px 12px;
-      font-family: 'Jost', sans-serif;
+      font-family: var(--font-body);
       font-size: 13px;
       color: var(--sig-espresso);
       outline: none;
@@ -535,7 +535,7 @@
       background: var(--sig-espresso);
       color: var(--sig-cream);
       border: none;
-      font-family: 'Jost', sans-serif;
+      font-family: var(--font-body);
       font-size: 11px;
       font-weight: 500;
       letter-spacing: .18em;
@@ -555,7 +555,7 @@
     }
     .ef-success.show { display: block; animation: sigFadeUp .5s forwards; }
     .ef-success h5 {
-      font-family: 'Cormorant Garamond', serif;
+      font-family: var(--font-cond);
       font-size: 22px;
       font-weight: 400;
       color: var(--sig-espresso);
@@ -570,7 +570,7 @@
       padding: 14px 40px;
       background: var(--sig-gold);
       color: var(--sig-ink);
-      font-family: 'Jost', sans-serif;
+      font-family: var(--font-body);
       font-size: 10px;
       font-weight: 500;
       letter-spacing: .18em;
@@ -595,7 +595,7 @@
       cursor: pointer;
       background: transparent;
       transition: all .3s;
-      font-family: 'Jost', sans-serif;
+      font-family: var(--font-body);
     }
     .sig-btn-outline:hover { background: var(--sig-gold); color: var(--sig-ink); }
 
@@ -626,7 +626,7 @@
     }
     .formula-item:hover { background: rgba(255,255,255,.08); }
     .formula-percent {
-      font-family: 'Cormorant Garamond', serif;
+      font-family: var(--font-cond);
       font-size: 56px;
       font-weight: 300;
       color: var(--sig-gold);
@@ -634,7 +634,7 @@
       margin-bottom: 12px;
     }
     .formula-item h4 {
-      font-family: 'Cormorant Garamond', serif;
+      font-family: var(--font-cond);
       font-size: 20px;
       font-weight: 400;
       color: var(--sig-cream);
@@ -683,28 +683,29 @@
 .acct-nav-icon:hover{background:rgba(200,169,106,0.18);}
 .acct-modal-overlay{position:fixed;inset:0;background:rgba(20,15,10,0.55);z-index:9999;display:none;align-items:center;justify-content:center;padding:20px;}
 .acct-modal-overlay.open{display:flex;}
-.acct-modal{background:#FAF7F2;border-radius:4px;max-width:380px;width:100%;padding:34px 30px;box-shadow:0 20px 60px rgba(0,0,0,0.25);font-family:'Jost',sans-serif;position:relative;}
-.acct-modal-close{position:absolute;top:14px;right:16px;cursor:pointer;font-size:22px;line-height:1;color:#9E8E7E;background:none;border:none;padding:4px;}
-.acct-modal h3{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.5rem;font-weight:400;color:#1A1410;margin:0 0 4px 0;}
-.acct-modal p.acct-sub{font-size:0.78rem;color:#9E8E7E;margin:0 0 20px 0;line-height:1.5;}
+.acct-modal{background:var(--ivory);border-radius:4px;max-width:380px;width:100%;padding:34px 30px;box-shadow:0 20px 60px rgba(0,0,0,0.25);font-family:var(--font-body);position:relative;}
+.acct-modal-close{position:absolute;top:14px;right:16px;cursor:pointer;font-size:22px;line-height:1;color:var(--warm-grey);background:none;border:none;padding:4px;}
+.acct-modal h3{font-family:var(--font-cond);font-size:1.5rem;font-weight:400;color:var(--navy);margin:0 0 4px 0;}
+.acct-modal p.acct-sub{font-size:0.78rem;color:var(--warm-grey);margin:0 0 20px 0;line-height:1.5;}
 .acct-tabs{display:flex;border-bottom:1px solid rgba(90,70,50,0.15);margin-bottom:18px;}
-.acct-tab{flex:1;background:none;border:none;font-family:'Jost',sans-serif;font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:#9E8E7E;padding:8px;cursor:pointer;border-bottom:2px solid transparent;}
-.acct-tab.active{color:#1A1410;border-bottom-color:#C8A96A;}
+.acct-tab{flex:1;background:none;border:none;font-family:var(--font-body);font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--warm-grey);padding:8px;cursor:pointer;border-bottom:2px solid transparent;}
+.acct-tab.active{color:var(--navy);border-bottom-color:var(--gold-bright);}
 .acct-field{margin-bottom:12px;}
-.acct-field label{display:block;font-size:0.65rem;letter-spacing:0.08em;text-transform:uppercase;color:#9E8E7E;margin-bottom:5px;}
-.acct-field input{width:100%;padding:10px 12px;border:1px solid rgba(90,70,50,0.2);border-radius:2px;background:#fff;font-family:'Jost',sans-serif;font-size:0.85rem;color:#1A1410;outline:none;box-sizing:border-box;}
-.acct-field input:focus{border-color:#C8A96A;}
-.acct-submit{width:100%;padding:11px;background:#1A1410;color:#FAF7F2;border:none;border-radius:2px;font-family:'Jost',sans-serif;font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;margin-top:4px;}
+.acct-field label{display:block;font-size:0.65rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--warm-grey);margin-bottom:5px;}
+.acct-field input{width:100%;padding:10px 12px;border:1px solid rgba(90,70,50,0.2);border-radius:2px;background:#fff;font-family:var(--font-body);font-size:0.85rem;color:var(--navy);outline:none;box-sizing:border-box;}
+.acct-field input:focus{border-color:var(--gold-bright);}
+.acct-submit{width:100%;padding:11px;background:var(--navy);color:var(--ivory);border:none;border-radius:2px;font-family:var(--font-body);font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;margin-top:4px;}
 .acct-submit:disabled{opacity:0.5;cursor:not-allowed;}
 .acct-msg{font-size:0.75rem;text-align:center;padding:8px;border-radius:2px;margin-top:10px;display:none;}
 .acct-msg.error{background:rgba(180,80,60,0.1);color:#a3452f;display:block;}
 .acct-msg.success{background:rgba(90,140,90,0.1);color:#3d7a45;display:block;}
-.acct-forgot{display:block;text-align:center;font-size:0.7rem;color:#9E8E7E;margin-top:12px;text-decoration:underline;cursor:pointer;}
+.acct-forgot{display:block;text-align:center;font-size:0.7rem;color:var(--warm-grey);margin-top:12px;text-decoration:underline;cursor:pointer;}
 .acct-loggedin{text-align:center;}
-.acct-loggedin .acct-email{font-size:0.85rem;color:#5C4A3A;margin-bottom:16px;line-height:1.5;}
-.acct-logout{font-size:0.7rem;color:#9E8E7E;text-decoration:underline;cursor:pointer;background:none;border:none;margin-top:14px;}
+.acct-loggedin .acct-email{font-size:0.85rem;color:var(--chocolate);margin-bottom:16px;line-height:1.5;}
+.acct-logout{font-size:0.7rem;color:var(--warm-grey);text-decoration:underline;cursor:pointer;background:none;border:none;margin-top:14px;}
 .acct-claim-note{font-size:0.72rem;color:#3d7a45;margin-top:10px;line-height:1.4;}
 </style>
+  <link rel="stylesheet" href="theme.css" />
 </head>
 <body>
 <!-- ACCOUNT MODAL: optional login / signup for cross-device profile -->
@@ -720,38 +721,44 @@
 <!-- NAV (identical to homepage) -->
 
 <nav id="navbar">
-  <a href="index.html" class="nav-brand">
-    <span class="brand-main">Fashion Analysis</span>
-    <span class="brand-sub">by Danai</span>
-  </a>
-  <button class="nav-toggle" onclick="toggleMenu()" aria-label="menu">
-    <span></span><span></span><span></span>
-  </button>
-  <ul class="nav-links" id="navLinks">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="https://dbvabydanai.wordpress.com" target="_blank">Articles</a></li>
-    <li class="nav-dropdown">
-      <a href="#" onclick="return false" class="nav-dropdown-toggle">Guides & Tools ▾</a>
-      <ul class="nav-dropdown-menu">
-        <li class="nav-dropdown-heading">Οδηγοί</li>
-        <li><a href="color-analysis-guide.html">🎨 Color Analysis Guide</a></li>
-        <li><a href="style-identity-guide.html">✨ Style Identity Guide</a></li>
-        <li><a href="body-type-quiz.html">👤 Body Type Quiz</a></li>
-        <li><a href="wardrobe-audit-workbook.html">📝 Wardrobe Audit Workbook</a></li>
-        <li><a href="capsule-workbook.html">👗 Capsule Wardrobe Workbook</a></li>
-        <li class="nav-dropdown-divider"></li>
-        <li class="nav-dropdown-heading">Εργαλεία</li>
-        <li><a href="wishlist.html">🛍 Wardrobe Wishlist</a></li>
-        <li><a href="wardrobe-tracker.html">📱 Wardrobe Tracker</a></li>
-        <li><a href="wardrobe-calculator.html">📊 KPIs Calculator</a></li>
+    <a href="index.html" class="nav-brand">
+      <span class="brand-main">Fashion Analysis</span>
+      <span class="brand-sub">by Danai</span>
+    </a>
+    <button class="nav-toggle" onclick="document.getElementById('navLinks').classList.toggle('open')" aria-label="menu" type="button">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="https://dbvabydanai.wordpress.com" target="_blank" rel="noopener">Articles</a></li>
+      <li class="site-dd">
+        <a href="guides.html" class="site-dd-toggle active" onclick="if(window.innerWidth<=860){this.parentElement.classList.toggle('open');return false;}">Guides &amp; Tools ▾</a>
+        <ul class="site-dd-menu">
+          <li class="site-dd-all"><a href="guides.html">Όλοι οι οδηγοί &amp; εργαλεία →</a></li>
+          <li class="site-dd-divider"></li>
+          <li class="site-dd-heading">Οδηγοί</li>
+          <li><a href="color-analysis-guide.html">🎨 Color Analysis Guide</a></li>
+          <li><a href="style-identity-guide.html" class="active">✨ Style Identity Guide</a></li>
+          <li><a href="body-type-quiz.html">👤 Body Type Quiz</a></li>
+          <li><a href="closet-quiz.html">🪞 Wardrobe Psychology Quiz</a></li>
+          <li><a href="shoe-quiz.html">👠 Shoe Matcher</a></li>
+          <li><a href="wardrobe-audit-workbook.html">📝 Wardrobe Audit Workbook</a></li>
+          <li><a href="capsule-workbook.html">👗 Capsule Wardrobe Workbook</a></li>
+          <li><a href="wardrobe-portfolio-guide.html">📈 Wardrobe Portfolio Guide</a></li>
+          <li class="site-dd-divider"></li>
+          <li class="site-dd-heading">Εργαλεία</li>
+          <li><a href="fashion-budget.html">💰 Budget Planner</a></li>
+          <li><a href="wishlist.html">🛍 Wardrobe Wishlist</a></li>
+          <li><a href="wardrobe-tracker.html">📱 Wardrobe Tracker</a></li>
+          <li><a href="wardrobe-calculator.html">📊 KPIs Calculator</a></li>
           <li><a href="wardrobe-profile.html">💎 Το Προφίλ μου</a></li>
-      </ul>
-    </li>
-    <li><a href="about.html">About</a></li>
-    <li><a href="newsletter.html" class="nav-cta">Newsletter</a></li>
-    <li><button class="acct-nav-icon" id="acct-nav-icon" onclick="acctOpenModal()" title="Ο λογαριασμός μου" type="button">👤</button></li>
-  </ul>
-</nav>
+        </ul>
+      </li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="newsletter.html" class="nav-cta">Newsletter</a></li>
+      <li><button class="acct-nav-icon" id="acct-nav-icon" onclick="acctOpenModal()" title="Ο λογαριασμός μου" type="button">👤</button></li>
+    </ul>
+  </nav>
 
 <div class="sig">
 
@@ -851,7 +858,6 @@
       <p class="section-intro">Επίλεξε μία λέξη για κάθε στήλη. Αυτές οι τρεις λέξεις μαζί γίνονται ο κανόνας σου — για να αξιολογείς την τωρινή ντουλάπα και να φιλτράρεις κάθε νέα αγορά.</p>
     </div>
 
-```
 <div class="words-columns sig-reveal">
 
   <!-- COLUMN 1: LIFESTYLE -->
@@ -921,8 +927,8 @@
 
   <!-- EMAIL FORM -->
   <div class="email-form-wrap">
-    <h4>Στείλε τις 3 λέξεις στο email σου</h4>
-    <p class="ef-sub">Λάβε το style DNA σου με email για να το έχεις πάντα διαθέσιμο — και γράψου στο newsletter για νέους οδηγούς.</p>
+    <h4>Γράψου στο newsletter</h4>
+    <p class="ef-sub">Νέα, fashion συμβουλές και νέοι δωρεάν οδηγοί — κατευθείαν στο email σου.</p>
 
     <form id="styleWordsForm"
           action="https://assets.mailerlite.com/jsonp/2295067/forms/185835026362926505/subscribe"
@@ -939,34 +945,28 @@
         </div>
       </div>
 
-      <!-- Hidden fields with the 3 words -->
-      <input type="hidden" name="fields[lifestyle]" id="sw-lifestyle" value="" />
-      <input type="hidden" name="fields[moodboard]" id="sw-moodboard" value="" />
-      <input type="hidden" name="fields[feeling]" id="sw-feeling" value="" />
-      <input type="hidden" name="fields[style_dna]" id="sw-dna" value="" />
+      <!-- The 3 words stay on the page (not sent to MailerLite) -->
+      <input type="hidden" id="sw-lifestyle" value="" />
+      <input type="hidden" id="sw-moodboard" value="" />
+      <input type="hidden" id="sw-feeling" value="" />
+      <input type="hidden" id="sw-dna" value="" />
       <input type="hidden" name="fields[source]" value="Style Identity Guide" />
       <input type="hidden" name="ml-submit" value="1" />
       <input type="hidden" name="anticsrf" value="true" />
 
-      <label class="ef-checkbox">
-        <input type="checkbox" id="sw-newsletter" checked />
-        <span>Ναι, θέλω να γράφτω και στο newsletter για νέους οδηγούς και fashion insights.</span>
-      </label>
-
       <button type="submit" class="ef-submit" id="sw-submit">
-        Στείλε μου τις 3 λέξεις →
+        Εγγραφή →
       </button>
     </form>
 
     <div class="ef-success" id="sw-success">
-      <h5>✨ Έτοιμο!</h5>
-      <p>Έλεγξε το email σου σε λίγα λεπτά (μην ξεχάσεις τον φάκελο spam!).</p>
+      <h5>✨ Ευχαριστώ!</h5>
+      <p>Τσέκαρε το inbox σου για να επιβεβαιώσεις την εγγραφή (μην ξεχάσεις τον φάκελο spam).</p>
     </div>
   </div>
 
   <button class="sig-btn-outline" onclick="resetWords()" style="margin-top:32px;">Ξαναρχίζω</button>
 </div>
-```
 
   </div>
 </div>
@@ -1024,56 +1024,48 @@
 
 <!-- FOOTER (identical to homepage) -->
 
-<footer>
-  <div class="container">
-    <div class="footer-grid">
-      <div class="footer-brand-col">
-        <div class="footer-brand-name">Fashion Analysis<br><span>by Danai</span></div>
-        <p class="footer-tagline">Fashion Education & Finance</p>
-        <a href="mailto:dbvabydanai@gmail.com" class="footer-email">dbvabydanai@gmail.com</a>
+<footer class="site-footer">
+    <div class="sf-inner">
+      <div class="sf-grid">
+        <div class="sf-brand-col">
+          <p class="sf-brand">Fashion Analysis<span>by Danai</span></p>
+          <p class="sf-tagline">Fashion Education &amp; Finance</p>
+          <a href="mailto:dbvabydanai@gmail.com" class="sf-email">dbvabydanai@gmail.com</a>
+        </div>
+        <div><p class="sf-title">Σελίδες</p><ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="https://dbvabydanai.wordpress.com" target="_blank" rel="noopener">Articles</a></li>
+            <li><a href="guides.html">Guides</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="newsletter.html">Newsletter</a></li>
+          </ul></div>
+        <div><p class="sf-title">Οδηγοί</p><ul>
+            <li><a href="color-analysis-guide.html">Color Analysis Guide</a></li>
+            <li><a href="style-identity-guide.html">Style Identity Guide</a></li>
+            <li><a href="body-type-quiz.html">Body Type Quiz</a></li>
+            <li><a href="closet-quiz.html">Wardrobe Psychology Quiz</a></li>
+            <li><a href="shoe-quiz.html">Shoe Matcher</a></li>
+            <li><a href="wardrobe-audit-workbook.html">Wardrobe Audit Workbook</a></li>
+            <li><a href="capsule-workbook.html">Capsule Wardrobe Workbook</a></li>
+            <li><a href="wardrobe-portfolio-guide.html">Wardrobe Portfolio Guide</a></li>
+          </ul></div>
+        <div><p class="sf-title">Εργαλεία</p><ul>
+            <li><a href="fashion-budget.html">Budget Planner</a></li>
+            <li><a href="wishlist.html">Wardrobe Wishlist</a></li>
+            <li><a href="wardrobe-tracker.html">Wardrobe Tracker</a></li>
+            <li><a href="wardrobe-calculator.html">KPIs Calculator</a></li>
+            <li><a href="wardrobe-profile.html">Το Προφίλ μου</a></li>
+          </ul></div>
+        <div><p class="sf-title">Follow</p><ul>
+            <li><a href="https://www.instagram.com/fashion.analysis.by.danai" target="_blank" rel="noopener">Instagram</a></li>
+            <li><a href="https://www.youtube.com/@danaiav12" target="_blank" rel="noopener">YouTube</a></li>
+            <li><a href="https://gr.pinterest.com/Danai12Av/" target="_blank" rel="noopener">Pinterest</a></li>
+            <li><a href="mailto:dbvabydanai@gmail.com">Email</a></li>
+          </ul></div>
       </div>
-      <div class="footer-nav-col">
-        <p class="footer-col-title">Σελίδες</p>
-        <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="https://dbvabydanai.wordpress.com" target="_blank">Articles</a></li>
-          <li><a href="guides.html">Guides</a></li>
-          <li><a href="about.html">About</a></li>
-          <li><a href="newsletter.html">Newsletter</a></li>
-        </ul>
-      </div>
-      <div class="footer-nav-col">
-        <p class="footer-col-title">Οδηγοί</p>
-        <ul>
-          <li><a href="color-analysis-guide.html">Color Analysis Guide</a></li>
-          <li><a href="capsule-workbook.html">Capsule Wardrobe Workbook</a></li>
-          <li><a href="body-type-quiz.html">Body Type Quiz</a></li>
-        </ul>
-      </div>
-      <div class="footer-nav-col">
-        <p class="footer-col-title">Εργαλεία</p>
-        <ul>
-          <li><a href="wishlist.html">Wardrobe Wishlist</a></li>
-          <li><a href="wardrobe-tracker.html">Wardrobe Tracker</a></li>
-          <li><a href="wardrobe-calculator.html">KPIs Calculator</a></li>
-          <li><a href="wardrobe-profile.html">Το Προφίλ μου</a></li>
-        </ul>
-      </div>
-      <div class="footer-nav-col">
-        <p class="footer-col-title">Follow</p>
-        <ul>
-          <li><a href="https://www.instagram.com/fashion.analysis.by.danai" target="_blank">Instagram</a></li>
-          <li><a href="https://www.youtube.com/@danaiav12" target="_blank">YouTube</a></li>
-          <li><a href="https://gr.pinterest.com/Danai12Av/" target="_blank">Pinterest</a></li>
-          <li><a href="mailto:dbvabydanai@gmail.com">Email</a></li>
-        </ul>
-      </div>
+      <p class="sf-bottom">© 2026 Fashion Analysis by Danai. All rights reserved.</p>
     </div>
-    <div class="footer-bottom">
-      <p>© 2026 Fashion Analysis by Danai. All rights reserved.</p>
-    </div>
-  </div>
-</footer>
+  </footer>
 
 <script src="main.js"></script>
 
@@ -1191,7 +1183,7 @@
     document.getElementById('styleWordsForm').style.display = 'block';
     document.getElementById('sw-success').classList.remove('show');
     document.getElementById('sw-submit').disabled = false;
-    document.getElementById('sw-submit').innerHTML = 'Στείλε μου τις 3 λέξεις →';
+    document.getElementById('sw-submit').innerHTML = 'Εγγραφή →';
   }
 
   buildWordLists();
@@ -1229,11 +1221,7 @@
   if (swForm) {
     swForm.addEventListener('submit', function(e) {
       // Validate that 3 words are selected
-      if (!selectedWords.lifestyle || !selectedWords.moodboard || !selectedWords.feeling) {
-        e.preventDefault();
-        alert('Παρακαλώ επίλεξε μία λέξη από κάθε στήλη πρώτα.');
-        return;
-      }
+      const hasWords = selectedWords.lifestyle && selectedWords.moodboard && selectedWords.feeling;
 
       // Do NOT preventDefault — the form submits for real (into the hidden
       // iframe via target="ml-submit-frame"), matching what MailerLite expects.
@@ -1242,12 +1230,12 @@
       submitBtn.innerHTML = 'Αποστολή...';
 
       const email = document.getElementById('sw-email').value.trim();
-      saveToSupabase(email, 'style_identity', {
+      if (hasWords) saveToSupabase(email, 'style_identity', {
         lifestyle: selectedWords.lifestyle,
         moodboard: selectedWords.moodboard,
         feeling: selectedWords.feeling
       });
-      saveToLocalProfile('style_identity', {
+      if (hasWords) saveToLocalProfile('style_identity', {
         lifestyle: selectedWords.lifestyle,
         moodboard: selectedWords.moodboard,
         feeling: selectedWords.feeling

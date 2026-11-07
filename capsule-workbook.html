@@ -4,19 +4,20 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Capsule Wardrobe Workbook — Seasonal Guide</title>
+  <meta name="description" content="Δωρεάν Capsule Wardrobe Workbook: χτίσε μια ντουλάπα με βάση την εποχή σου — checklist, 8 φόρμουλες outfit και οδηγός για στοχευμένες αγορές." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Sans+Extra+Condensed:wght@400;500;600;700;800;900&family=Fira+Sans+Condensed:wght@300;400;500;600&family=Inter:wght@200;300;400;500;600&family=Great+Vibes&family=Noto+Serif:ital@1&display=swap" rel="stylesheet" />
 
   <style>
     :root {
-      --cream: #FAF7F2;
-      --warm-white: #F5F0E8;
-      --ink: #1C1814;
-      --warm-grey: #8A857C;
-      --light-grey: #E8E3DA;
-      --accent-warm: #C4956A;
-      --accent-deep: #6B4F3A;
+      --cream: var(--ivory);
+      --warm-white: var(--warm-white);
+      --ink: var(--navy);
+      --warm-grey: var(--warm-grey);
+      --light-grey: var(--light-grey);
+      --accent-warm: var(--gold);
+      --accent-deep: var(--chocolate);
       --spring: #D4A574;
       --summer: #9BB5C8;
       --autumn: #C4784A;
@@ -34,7 +35,7 @@
     body {
       background: var(--cream);
       color: var(--ink);
-      font-family: 'DM Sans', sans-serif;
+      font-family: var(--font-body);
       font-weight: 300;
       line-height: 1.7;
       overflow-x: hidden;
@@ -58,7 +59,7 @@
     }
 
     .nav-brand {
-      font-family: 'Cormorant Garamond', serif;
+      font-family: var(--font-cond);
       font-size: 1.1rem;
       font-weight: 500;
       letter-spacing: 0.02em;
@@ -134,7 +135,7 @@
     }
 
     .hero h1 {
-      font-family: 'Cormorant Garamond', serif;
+      font-family: var(--font-cond);
       font-size: clamp(3rem, 7vw, 6rem);
       font-weight: 300;
       line-height: 1.1;
@@ -205,7 +206,7 @@
     }
 
     .section-title {
-      font-family: 'Cormorant Garamond', serif;
+      font-family: var(--font-cond);
       font-size: clamp(2.2rem, 4.5vw, 3.8rem);
       font-weight: 300;
       line-height: 1.15;
@@ -245,7 +246,7 @@
     }
 
     .why-card h3 {
-      font-family: 'Cormorant Garamond', serif;
+      font-family: var(--font-cond);
       font-size: 1.4rem;
       font-weight: 500;
       margin-bottom: 0.5rem;
@@ -260,7 +261,7 @@
       background: var(--cream);
       border-radius: 0.5rem;
       padding: 2.5rem;
-      font-family: 'Cormorant Garamond', serif;
+      font-family: var(--font-cond);
       font-size: 1.5rem;
       font-style: italic;
       font-weight: 300;
@@ -276,7 +277,7 @@
       font-size: 6rem;
       color: var(--accent-warm);
       opacity: 0.3;
-      font-family: 'Cormorant Garamond', serif;
+      font-family: var(--font-cond);
       line-height: 1;
     }
 
@@ -299,7 +300,7 @@
     .num-card:hover { transform: translateY(-4px); box-shadow: 0 10px 30px rgba(0,0,0,0.06); }
 
     .num-card .big-num {
-      font-family: 'Cormorant Garamond', serif;
+      font-family: var(--font-cond);
       font-size: 4rem;
       font-weight: 300;
       color: var(--accent-warm);
@@ -308,7 +309,7 @@
     }
 
     .num-card h4 {
-      font-family: 'Cormorant Garamond', serif;
+      font-family: var(--font-cond);
       font-size: 1.2rem;
       font-weight: 500;
       margin-bottom: 0.5rem;
@@ -338,7 +339,7 @@
       border: none;
       color: var(--warm-grey);
       transition: all 0.2s;
-      font-family: 'DM Sans', sans-serif;
+      font-family: var(--font-body);
       font-weight: 400;
     }
 
@@ -361,7 +362,7 @@
     .season-emoji { font-size: 2.5rem; margin-bottom: 1rem; }
 
     .season-title {
-      font-family: 'Cormorant Garamond', serif;
+      font-family: var(--font-cond);
       font-size: 2.2rem;
       font-weight: 400;
       margin-bottom: 0.5rem;
@@ -452,7 +453,7 @@
     }
 
     .piece-name {
-      font-family: 'Cormorant Garamond', serif;
+      font-family: var(--font-cond);
       font-size: 1.15rem;
       font-weight: 500;
       margin-bottom: 0.4rem;
@@ -519,7 +520,7 @@
     }
 
     .checklist-group-title {
-      font-family: 'Cormorant Garamond', serif;
+      font-family: var(--font-cond);
       font-size: 1.3rem;
       font-weight: 500;
       margin-bottom: 1.25rem;
@@ -598,7 +599,7 @@
     .formula-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
 
     .formula-num {
-      font-family: 'Cormorant Garamond', serif;
+      font-family: var(--font-cond);
       font-size: 3.5rem;
       font-weight: 300;
       color: var(--accent-warm);
@@ -608,7 +609,7 @@
     }
 
     .formula-title {
-      font-family: 'Cormorant Garamond', serif;
+      font-family: var(--font-cond);
       font-size: 1.3rem;
       font-weight: 500;
       margin-bottom: 0.75rem;
@@ -661,7 +662,7 @@
     }
 
     .mistake-title {
-      font-family: 'Cormorant Garamond', serif;
+      font-family: var(--font-cond);
       font-size: 1.15rem;
       font-weight: 500;
       margin-bottom: 0.5rem;
@@ -689,7 +690,7 @@
     }
 
     .phase-num {
-      font-family: 'Cormorant Garamond', serif;
+      font-family: var(--font-cond);
       font-size: 0.8rem;
       letter-spacing: 0.15em;
       text-transform: uppercase;
@@ -698,7 +699,7 @@
     }
 
     .phase-title {
-      font-family: 'Cormorant Garamond', serif;
+      font-family: var(--font-cond);
       font-size: 1.3rem;
       font-weight: 500;
       margin-bottom: 1rem;
@@ -729,7 +730,7 @@
     }
 
     footer .footer-brand {
-      font-family: 'Cormorant Garamond', serif;
+      font-family: var(--font-cond);
       font-size: 1.5rem;
       font-weight: 300;
       color: white;
@@ -802,22 +803,50 @@
     gtag('config', 'G-DBRDY0FNX7');
   </script>
   <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <link rel="stylesheet" href="theme.css" />
 </head>
 <body>
 
 <!-- NAV -->
-<nav>
-  <a class="nav-brand" href="index.html">Fashion Analysis by Danai</a>
-  <ul class="nav-links">
-    <li><a href="index.html">← Αρχική</a></li>
-    <li><a href="guides.html">Guides</a></li>
-    <li><a href="#what">Τι είναι</a></li>
-    <li><a href="#seasons">Εποχές</a></li>
-    <li><a href="#checklist">Checklist</a></li>
-    <li><a href="#formulas">Φόρμουλες</a></li>
-    <li><a href="#shopping">Αγορές</a></li>
-  </ul>
-</nav>
+<nav id="navbar">
+    <a href="index.html" class="nav-brand">
+      <span class="brand-main">Fashion Analysis</span>
+      <span class="brand-sub">by Danai</span>
+    </a>
+    <button class="nav-toggle" onclick="document.getElementById('navLinks').classList.toggle('open')" aria-label="menu" type="button">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="https://dbvabydanai.wordpress.com" target="_blank" rel="noopener">Articles</a></li>
+      <li class="site-dd">
+        <a href="guides.html" class="site-dd-toggle active" onclick="if(window.innerWidth<=860){this.parentElement.classList.toggle('open');return false;}">Guides &amp; Tools ▾</a>
+        <ul class="site-dd-menu">
+          <li class="site-dd-all"><a href="guides.html">Όλοι οι οδηγοί &amp; εργαλεία →</a></li>
+          <li class="site-dd-divider"></li>
+          <li class="site-dd-heading">Οδηγοί</li>
+          <li><a href="color-analysis-guide.html">🎨 Color Analysis Guide</a></li>
+          <li><a href="style-identity-guide.html">✨ Style Identity Guide</a></li>
+          <li><a href="body-type-quiz.html">👤 Body Type Quiz</a></li>
+          <li><a href="closet-quiz.html">🪞 Wardrobe Psychology Quiz</a></li>
+          <li><a href="shoe-quiz.html">👠 Shoe Matcher</a></li>
+          <li><a href="wardrobe-audit-workbook.html">📝 Wardrobe Audit Workbook</a></li>
+          <li><a href="capsule-workbook.html" class="active">👗 Capsule Wardrobe Workbook</a></li>
+          <li><a href="wardrobe-portfolio-guide.html">📈 Wardrobe Portfolio Guide</a></li>
+          <li class="site-dd-divider"></li>
+          <li class="site-dd-heading">Εργαλεία</li>
+          <li><a href="fashion-budget.html">💰 Budget Planner</a></li>
+          <li><a href="wishlist.html">🛍 Wardrobe Wishlist</a></li>
+          <li><a href="wardrobe-tracker.html">📱 Wardrobe Tracker</a></li>
+          <li><a href="wardrobe-calculator.html">📊 KPIs Calculator</a></li>
+          <li><a href="wardrobe-profile.html">💎 Το Προφίλ μου</a></li>
+        </ul>
+      </li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="newsletter.html" class="nav-cta">Newsletter</a></li>
+    </ul>
+  </nav>
+  <div class="page-subnav"><a href="#what">Τι είναι</a><a href="#seasons">Εποχές</a><a href="#checklist">Checklist</a><a href="#formulas">Φόρμουλες</a><a href="#shopping">Αγορές</a></div>
 
 <!-- HERO -->
 <section class="hero" id="top">
@@ -1348,14 +1377,50 @@
 </section>
 
 <!-- FOOTER -->
-<footer>
-  <div class="footer-brand">Fashion Analysis by Danai</div>
-  <p style="margin-bottom:0.5rem;">Capsule Wardrobe Workbook · Seasonal Color System · Σε συνδυασμό με το <a href="color-analysis-guide.html" style="color:rgba(255,255,255,0.6);">Color Analysis Guide</a></p>
-  <p style="margin-bottom:1rem;"><a href="/cdn-cgi/l/email-protection#f99d9b8f989b809d98979890b99e94989095d79a9694" style="color:rgba(255,255,255,0.6);"><span class="__cf_email__" data-cfemail="b5d1d7c3d4d7ccd1d4dbd4dcf5d2d8d4dcd99bd6dad8">[email&#160;protected]</span></a></p>
-  <p><a href="guides.html" style="color:rgba(255,255,255,0.4);font-size:0.8rem;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;">← Πίσω στους Οδηγούς</a></p>
-</footer>
+<footer class="site-footer">
+    <div class="sf-inner">
+      <div class="sf-grid">
+        <div class="sf-brand-col">
+          <p class="sf-brand">Fashion Analysis<span>by Danai</span></p>
+          <p class="sf-tagline">Fashion Education &amp; Finance</p>
+          <a href="mailto:dbvabydanai@gmail.com" class="sf-email">dbvabydanai@gmail.com</a>
+        </div>
+        <div><p class="sf-title">Σελίδες</p><ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="https://dbvabydanai.wordpress.com" target="_blank" rel="noopener">Articles</a></li>
+            <li><a href="guides.html">Guides</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="newsletter.html">Newsletter</a></li>
+          </ul></div>
+        <div><p class="sf-title">Οδηγοί</p><ul>
+            <li><a href="color-analysis-guide.html">Color Analysis Guide</a></li>
+            <li><a href="style-identity-guide.html">Style Identity Guide</a></li>
+            <li><a href="body-type-quiz.html">Body Type Quiz</a></li>
+            <li><a href="closet-quiz.html">Wardrobe Psychology Quiz</a></li>
+            <li><a href="shoe-quiz.html">Shoe Matcher</a></li>
+            <li><a href="wardrobe-audit-workbook.html">Wardrobe Audit Workbook</a></li>
+            <li><a href="capsule-workbook.html">Capsule Wardrobe Workbook</a></li>
+            <li><a href="wardrobe-portfolio-guide.html">Wardrobe Portfolio Guide</a></li>
+          </ul></div>
+        <div><p class="sf-title">Εργαλεία</p><ul>
+            <li><a href="fashion-budget.html">Budget Planner</a></li>
+            <li><a href="wishlist.html">Wardrobe Wishlist</a></li>
+            <li><a href="wardrobe-tracker.html">Wardrobe Tracker</a></li>
+            <li><a href="wardrobe-calculator.html">KPIs Calculator</a></li>
+            <li><a href="wardrobe-profile.html">Το Προφίλ μου</a></li>
+          </ul></div>
+        <div><p class="sf-title">Follow</p><ul>
+            <li><a href="https://www.instagram.com/fashion.analysis.by.danai" target="_blank" rel="noopener">Instagram</a></li>
+            <li><a href="https://www.youtube.com/@danaiav12" target="_blank" rel="noopener">YouTube</a></li>
+            <li><a href="https://gr.pinterest.com/Danai12Av/" target="_blank" rel="noopener">Pinterest</a></li>
+            <li><a href="mailto:dbvabydanai@gmail.com">Email</a></li>
+          </ul></div>
+      </div>
+      <p class="sf-bottom">© 2026 Fashion Analysis by Danai. All rights reserved.</p>
+    </div>
+  </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
   // Season tabs
   // Checklist
   function toggleCheck(item) {

@@ -329,6 +329,14 @@ header{background:var(--mocha);border-bottom:1px solid rgba(255,255,255,0.10);pa
 .card-row{display:grid;grid-template-columns:44px 2fr 90px 70px 130px 80px;gap:8px;padding:12px 12px;align-items:center;}
 @media(max-width:600px){.card-row{grid-template-columns:34px 1fr auto auto;gap:6px;}.col-date,.col-cpw{display:none;}.col-price{font-weight:500;}}
 .item-name-row{display:flex;align-items:center;gap:8px;}
+.item-main{display:flex;align-items:center;gap:10px;min-width:0;}
+.item-main > div:last-child{min-width:0;}
+.item-thumb{width:42px;height:54px;flex-shrink:0;border-radius:3px;background:var(--surface3);border:1px solid var(--border-soft);overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--text-dim);}
+.item-thumb img{width:100%;height:100%;object-fit:cover;display:block;}
+.detail-photo{display:none;margin-bottom:12px;}
+.detail-photo.has-img{display:block;}
+.detail-photo img{max-width:220px;max-height:280px;width:auto;height:auto;border-radius:4px;border:1px solid var(--border);display:block;}
+@media(max-width:600px){.item-thumb{width:36px;height:46px;}.detail-photo img{max-width:100%;}}
 .link-icon{font-size:12px;text-decoration:none;flex-shrink:0;opacity:0.7;transition:opacity 0.15s;line-height:1;}
 .link-icon:hover{opacity:1;}
 .item-name{font-family:var(--font-serif);font-size:14px;font-weight:400;line-height:1.2;}
@@ -2040,6 +2048,58 @@ function renderItems() {
   });
   list.innerHTML = html;
   initSortableList();
+  hydrateLinkPhotos(list);
+}
+
+// ── PRODUCT PHOTO FROM LINK ──
+// Reads the shop page's preview image (og:image) through microlink.io and
+// caches the result on this device, so each link is looked up only once.
+const LINK_IMG_KEY = 'wl_link_images';
+const LINK_IMG_RETRY_DAYS = 7;      // links with no photo are retried after a week
+let _linkImgCache = null;
+const _linkImgPending = {};
+function linkImgCache() {
+  if (_linkImgCache) return _linkImgCache;
+  try { _linkImgCache = JSON.parse(localStorage.getItem(LINK_IMG_KEY) || '{}'); } catch (e) { _linkImgCache = {}; }
+  return _linkImgCache;
+}
+function saveLinkImgCache() {
+  try { localStorage.setItem(LINK_IMG_KEY, JSON.stringify(_linkImgCache || {})); } catch (e) {}
+}
+function getLinkImage(url) {
+  const cache = linkImgCache();
+  const hit = cache[url];
+  if (hit && (hit.img || Date.now() - hit.t < LINK_IMG_RETRY_DAYS * 864e5)) return Promise.resolve(hit.img || '');
+  if (_linkImgPending[url]) return _linkImgPending[url];
+  _linkImgPending[url] = fetch('https://api.microlink.io/?url=' + encodeURIComponent(url))
+    .then(r => r.json())
+    .then(j => {
+      const d = (j && j.data) || {};
+      const img = (d.image && d.image.url) || '';
+      if (j && j.status === 'success') { cache[url] = { img, t: Date.now() }; saveLinkImgCache(); }
+      return img;
+    })
+    .catch(() => '')
+    .finally(() => { delete _linkImgPending[url]; });
+  return _linkImgPending[url];
+}
+function hydrateLinkPhotos(root) {
+  (root || document).querySelectorAll('[data-link]').forEach(el => {
+    const url = el.getAttribute('data-link');
+    if (!/^https?:\/\//i.test(url || '')) return;
+    getLinkImage(url).then(img => {
+      if (!img || !el.isConnected) return;
+      const im = new Image();
+      im.alt = '';
+      im.referrerPolicy = 'no-referrer';
+      im.onload = () => {
+        el.innerHTML = '';
+        el.appendChild(im);
+        if (el.classList.contains('detail-photo')) el.classList.add('has-img');
+      };
+      im.src = img;
+    });
+  });
 }
 
 // ── STATUS LOGIC — same 5 tiers as the Wardrobe Tracker «Conscious Purchase Score» ──
@@ -2145,7 +2205,9 @@ function renderCard(item) {
           onclick="event.stopPropagation()" onfocus="event.stopPropagation()"
           onchange="changeRank('${item.id}', this.value)">
       </div>
-      <div>
+      <div class="item-main">
+        ${item.link ? `<div class="item-thumb" data-link="${escHtml(item.link)}">🔗</div>` : ''}
+        <div>
         <div class="item-name-row">
           <div class="item-name">${escHtml(item.title)}</div>
           ${item.link ? `<a href="${item.link}" target="_blank" rel="noopener" class="link-icon" onclick="event.stopPropagation()" title="Άνοιγμα link">🔗</a>` : ''}
@@ -2153,6 +2215,7 @@ function renderCard(item) {
         <div class="item-sub">${[item.brand, item.category, item.subcategory, item.color, formatMaterialDisplay(item.material)].filter(Boolean).join(' · ') || '—'}</div>
         ${item.is_replacement ? '<span class="badge-repl">Αντικατάσταση</span>' : ''}
         ${isDeferred(item) ? `<span class="badge-nextyear">📅 ${deferTarget(item)}</span>` : ''}
+        </div>
       </div>
       <div class="col-date">${formatDate(item.created_at)}</div>
       <div class="col-price">${item.price ? '€' + item.price : '—'}</div>
@@ -2160,6 +2223,7 @@ function renderCard(item) {
       <div class="col-status"><span class="status-dot"></span>${statusLabel}</div>
     </div>
     <div class="card-detail">
+      ${item.link ? `<div class="detail-photo" data-link="${escHtml(item.link)}"></div>` : ''}
       <div class="detail-grid">
         <div class="detail-item"><label>Σειρά προτεραιότητας</label><value>${item.rank ? '#' + item.rank : '—'}</value></div>
         ${item.brand ? `<div class="detail-item"><label>Μάρκα</label><value>${escHtml(item.brand)}</value></div>` : ''}

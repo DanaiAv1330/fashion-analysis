@@ -536,6 +536,36 @@ header{border-bottom:none !important;box-shadow:none !important;}
 .item-limit-dot{border-color:rgba(240,229,219,0.6) !important;}
 /* Sharper, editorial corners */
 .cat-card,.pot-card,.modal,.inline-form{border-radius:3px;}
+
+/* ══════════ NEVER AGAIN ══════════ */
+.na-toolbar{display:flex;gap:8px;flex-wrap:wrap;padding:14px 14px 0;}
+@media(min-width:768px){.na-toolbar{padding:16px 32px 0;}}
+.na-section-title{display:flex;align-items:baseline;justify-content:space-between;gap:8px;}
+.na-card{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--red);border-radius:3px;padding:12px 14px;margin-bottom:8px;}
+.na-card.rule{border-left-color:var(--mocha);background:var(--surface2);}
+.na-card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;}
+.na-card-title{font-family:var(--font-serif);font-weight:500;font-size:15px;line-height:1.25;color:var(--text);}
+.na-card.rule .na-card-title{font-family:var(--font-display);font-weight:800;text-transform:uppercase;font-size:18px;letter-spacing:0.01em;}
+.na-card-meta{font-size:10px;color:var(--text-muted);margin-top:3px;line-height:1.5;}
+.na-card-price{font-family:var(--font-display);font-weight:700;font-size:18px;color:var(--red-text);white-space:nowrap;text-align:right;}
+.na-card-price small{display:block;font-family:var(--font-sans);font-weight:400;font-size:9px;color:var(--text-dim);}
+.na-reasons{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px;}
+.na-reason-chip{font-size:9px;letter-spacing:0.04em;padding:3px 8px;border-radius:10px;background:var(--red-soft);color:var(--red-text);border:1px solid rgba(140,74,58,0.2);}
+.na-criteria-chip{font-size:9px;letter-spacing:0.04em;padding:3px 8px;border-radius:10px;background:rgba(71,67,41,0.08);color:var(--mocha);border:1px solid rgba(71,67,41,0.18);}
+.na-why{font-size:11px;color:var(--text-muted);line-height:1.55;margin-top:8px;font-style:italic;}
+.na-card-actions{display:flex;gap:6px;justify-content:flex-end;margin-top:10px;flex-wrap:wrap;align-items:center;}
+.na-hits{font-size:10px;color:var(--accent-dark);margin-right:auto;}
+.na-empty{border:1px dashed var(--border);border-radius:6px;padding:16px;text-align:center;font-size:11px;color:var(--text-muted);line-height:1.6;background:var(--surface2);}
+.na-kind-switch{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;}
+.na-warning{margin-top:12px;padding:11px 13px;border-radius:3px;background:var(--red-soft);border:1px solid rgba(140,74,58,0.28);color:var(--red-text);font-size:11px;line-height:1.55;}
+.na-warning strong{font-weight:600;}
+.na-warning-item{margin-top:6px;padding-top:6px;border-top:1px dashed rgba(140,74,58,0.2);}
+.na-warning-item:first-of-type{border-top:none;padding-top:0;}
+.na-warning-item small{display:block;color:var(--text-muted);font-size:10px;margin-top:1px;}
+.badge-never{display:inline-block;font-size:7px;letter-spacing:0.08em;text-transform:uppercase;padding:1px 6px;border-radius:1px;margin-top:3px;margin-left:5px;background:var(--red-soft);color:var(--red-text);border:1px solid rgba(140,74,58,0.3);}
+.regret-btn{font-size:10px;line-height:1;background:none;border:1px solid var(--border);border-radius:10px;padding:3px 7px;cursor:pointer;opacity:0.55;transition:all 0.15s;}
+.regret-btn:hover{opacity:1;border-color:var(--red);background:var(--red-soft);}
+.na-setup pre{white-space:pre-wrap;font-size:10px;background:var(--surface);border:1px solid var(--border);padding:10px;border-radius:3px;margin-top:8px;text-align:left;user-select:all;}
 </style>
 
 </head>
@@ -604,6 +634,7 @@ header{border-bottom:none !important;box-shadow:none !important;}
 
   <div style="background:var(--surface);border-bottom:1px solid var(--border);display:flex;overflow-x:auto;">
     <button class="app-tab active" onclick="showAppTab('wishlist',this)">📋 Wishlist</button>
+    <button class="app-tab" id="tab-neveragain" onclick="showAppTab('neveragain',this)">🚫 Never Again</button>
     <button class="app-tab" onclick="showAppTab('summary',this)">📊 Σύνοψη</button>
     <button class="app-tab" onclick="showAppTab('purchases',this)">🛍 Αγορές <span id="year-badge" style="font-size:9px;background:var(--accent-dim);color:var(--accent);border-radius:2px;padding:1px 5px;margin-left:4px;"></span></button>
     <button class="app-tab" onclick="showAppTab('archive',this)">📁 Αρχείο</button>
@@ -726,7 +757,7 @@ header{border-bottom:none !important;box-shadow:none !important;}
       <div class="iform-grid">
         <div class="iform-group full">
           <label>Τίτλος *</label>
-          <input type="text" id="f-title" placeholder="π.χ. Λευκό λινό πουκάμισο">
+          <input type="text" id="f-title" placeholder="π.χ. Λευκό λινό πουκάμισο" oninput="updateNeverFormWarning()">
         </div>
         <div class="iform-group">
           <label>Ημερομηνία εγγραφής</label>
@@ -760,7 +791,7 @@ header{border-bottom:none !important;box-shadow:none !important;}
 
         <div class="iform-group">
           <label>Κατηγορία</label>
-          <select id="f-cat1" onchange="updateWishlistCat2();calcCPW()">
+          <select id="f-cat1" onchange="updateWishlistCat2();calcCPW();updateNeverFormWarning()">
             <option value="">— Επιλογή —</option>
             <option>Tops</option>
             <option>Dresses</option>
@@ -774,16 +805,16 @@ header{border-bottom:none !important;box-shadow:none !important;}
 
         <div class="iform-group">
           <label>Υποκατηγορία</label>
-          <select id="f-cat2" onchange="calcCPW()"><option value="">— Επιλογή Κατηγορίας πρώτα —</option></select>
+          <select id="f-cat2" onchange="calcCPW();updateNeverFormWarning()"><option value="">— Επιλογή Κατηγορίας πρώτα —</option></select>
         </div>
 
         <div class="iform-group">
           <label>Χρώμα</label>
-          <select id="f-color" onchange="handleWishlistColorSelect(this)">
+          <select id="f-color" onchange="handleWishlistColorSelect(this);updateNeverFormWarning()">
             <option value="">— Επιλογή —</option>
           </select>
           <input type="text" id="f-color-other" placeholder="Γράψε χρώμα"
-            style="display:none;margin-top:6px;">
+            style="display:none;margin-top:6px;" oninput="updateNeverFormWarning()">
         </div>
 
         <div class="iform-group full">
@@ -795,6 +826,7 @@ header{border-bottom:none !important;box-shadow:none !important;}
           <input type="hidden" id="f-material">
         </div>
       </div>
+      <div id="na-form-warning" class="na-warning" style="display:none;"></div>
     </div>
 
     <div class="iform-section">
@@ -875,7 +907,7 @@ header{border-bottom:none !important;box-shadow:none !important;}
         <div class="iform-group full"><label>Συνδυασμός 1</label><input type="text" id="f-outfit1" placeholder="π.χ. Beige παντελόνι + λευκά sneakers"></div>
         <div class="iform-group full"><label>Συνδυασμός 2</label><input type="text" id="f-outfit2" placeholder="…"></div>
         <div class="iform-group full"><label>Συνδυασμός 3</label><input type="text" id="f-outfit3" placeholder="…"></div>
-        <div class="iform-group full"><label>Σημειώσεις</label><textarea id="f-notes" placeholder="…"></textarea></div>
+        <div class="iform-group full"><label>Σημειώσεις</label><textarea id="f-notes" placeholder="…" oninput="updateNeverFormWarning()"></textarea></div>
       </div>
       <div class="checkbox-row" style="margin-top:9px">
         <input type="checkbox" id="f-replacement">
@@ -894,6 +926,98 @@ header{border-bottom:none !important;box-shadow:none !important;}
   </div>
 </div>
 
+  </div>
+
+  <!-- ═══ TAB: NEVER AGAIN ═══ -->
+
+  <div class="app-panel" id="panel-neveragain">
+    <div class="summary-header">
+      <div class="summary-header-title">Never <em>again</em></div>
+      <div class="summary-header-sub">Ό,τι δεν δούλεψε για σένα — για να μην το ξαναπάρεις. Όταν βάζεις κάτι παρόμοιο στη wishlist, θα σου το θυμίζει.</div>
+    </div>
+    <div class="purch-kpi-grid" id="na-kpis"></div>
+    <div class="na-toolbar">
+      <button class="btn-sm primary" onclick="openNeverForm(null,'item')">+ Κομμάτι που μετάνιωσα</button>
+      <button class="btn-sm" onclick="openNeverForm(null,'rule')">+ Γενικός κανόνας</button>
+    </div>
+
+    <div class="list-container" style="padding-top:14px;">
+      <!-- NEVER AGAIN FORM -->
+      <div id="na-form-wrap" style="display:none;margin-bottom:18px;background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:18px 16px 16px;animation:slideDown 0.2s ease;">
+        <div class="inline-form-header">
+          <div class="inline-form-title" id="na-form-title">Never <em>again</em></div>
+          <button class="inline-form-close" onclick="closeNeverForm()">✕</button>
+        </div>
+        <div class="na-kind-switch">
+          <button type="button" class="metric-tab" id="na-kind-item" onclick="setNeverKind('item')">👗 Κομμάτι που πήρα</button>
+          <button type="button" class="metric-tab" id="na-kind-rule" onclick="setNeverKind('rule')">📏 Γενικός κανόνας</button>
+        </div>
+
+        <div class="iform-section">
+          <div class="iform-section-title" id="na-sec-basic">Τι ήταν</div>
+          <div class="iform-grid">
+            <div class="iform-group full">
+              <label id="na-title-label">Τίτλος *</label>
+              <input type="text" id="na-title" placeholder="π.χ. Μαύρες γόβες Zara">
+            </div>
+            <div class="iform-group na-only-item">
+              <label>Μάρκα</label>
+              <input type="text" id="na-brand" placeholder="π.χ. Zara">
+            </div>
+            <div class="iform-group na-only-item">
+              <label>Τιμή (€)</label>
+              <input type="number" id="na-price" placeholder="0.00" step="0.01" min="0">
+            </div>
+            <div class="iform-group">
+              <label>Κατηγορία</label>
+              <select id="na-cat1" onchange="updateNeverCat2()"></select>
+            </div>
+            <div class="iform-group">
+              <label>Υποκατηγορία</label>
+              <select id="na-cat2"><option value="">—</option></select>
+            </div>
+            <div class="iform-group">
+              <label>Χρώμα</label>
+              <select id="na-color"></select>
+            </div>
+            <div class="iform-group">
+              <label>Υλικό</label>
+              <select id="na-material"></select>
+            </div>
+            <div class="iform-group na-only-item">
+              <label>Πότε το αγόρασα</label>
+              <input type="date" id="na-date">
+            </div>
+            <div class="iform-group na-only-item">
+              <label>Πόσες φορές το φόρεσα</label>
+              <input type="number" id="na-worn" placeholder="π.χ. 2" min="0" step="1">
+            </div>
+            <div class="iform-group full na-only-rule">
+              <label>Λέξεις-κλειδιά (προαιρετικό)</label>
+              <input type="text" id="na-keywords" placeholder="π.χ. μίνι, mini">
+              <div class="iform-hint">Χωρισμένες με κόμμα. Ψάχνονται στον τίτλο και τις σημειώσεις της wishlist. Ο κανόνας «πιάνει» όταν ταιριάζουν όλα όσα συμπλήρωσες — π.χ. Pants · Skirts + «μίνι» = όχι μίνι φούστες· μόνο Shoes · Heels = όχι τακούνια.</div>
+            </div>
+          </div>
+          <div class="iform-hint na-only-item" style="margin-top:8px;">Η προειδοποίηση στη wishlist βγαίνει για κομμάτια ίδιας κατηγορίας & υποκατηγορίας.</div>
+        </div>
+
+        <div class="iform-section">
+          <div class="iform-section-title">Γιατί δεν δούλεψε</div>
+          <div id="na-reason-chips" class="material-chips-wrap"></div>
+          <div class="iform-group full" style="margin-top:10px;">
+            <label>Με δικά σου λόγια</label>
+            <textarea id="na-why" placeholder="π.χ. Με πονάνε μετά από μία ώρα, τελικά φοράω πάντα flats."></textarea>
+          </div>
+        </div>
+
+        <div class="iform-actions">
+          <button class="btn-sm" onclick="closeNeverForm()">Ακύρωση</button>
+          <button class="btn-sm primary" id="na-save-btn" onclick="saveNever()">Αποθήκευση</button>
+        </div>
+      </div>
+
+      <div id="na-content"><div class="loading"><div class="spinner"></div></div></div>
+    </div>
   </div>
 
   <!-- ═══ TAB: SUMMARY ═══ -->
@@ -1106,9 +1230,26 @@ header{border-bottom:none !important;box-shadow:none !important;}
       <div id="purchase-verdict" class="purchase-verdict" style="margin:12px 0 16px;"></div>
       <div id="purchase-budget-preview" class="limit-warning" style="display:none;"></div>
       <div id="purchase-limit-warning" class="limit-warning" style="display:none;"></div>
+      <div id="purchase-na-warning" class="na-warning" style="display:none;margin:0 0 16px;"></div>
       <div class="modal-actions">
         <button class="btn-sm" onclick="document.getElementById('purchase-modal').classList.remove('open');document.body.style.overflow='';">Ακύρωση</button>
         <button class="btn-sm primary" id="confirm-purchase-btn" onclick="confirmPurchase()">Καταγραφή</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ NEVER AGAIN CONFIRM MODAL ══ -->
+
+<div class="modal-overlay" id="na-confirm-modal" onclick="if(event.target===this){closeNeverConfirm();}">
+  <div class="modal-scroll-wrap">
+    <div class="modal" style="max-width:440px">
+      <div class="modal-title">Είσαι <em>σίγουρη;</em></div>
+      <div style="font-size:11.5px;color:var(--text-muted);line-height:1.6;margin-bottom:12px;">Στο παρελθόν κάτι παρόμοιο δεν δούλεψε για σένα:</div>
+      <div id="na-confirm-list"></div>
+      <div class="modal-actions">
+        <button class="btn-sm primary" onclick="closeNeverConfirm()">Το ξανασκέφτομαι</button>
+        <button class="btn-sm" id="na-confirm-go" onclick="confirmNeverAndSave()">Ναι, το θέλω</button>
       </div>
     </div>
   </div>
@@ -1421,6 +1562,7 @@ async function handleLogout() {
   budgetMap = {};
   limitMap = {};
   potMap = {};
+  allNever = []; naLoaded = false; itemsLoaded = false;
 }
 
 sb.auth.onAuthStateChange((event, session) => {
@@ -1432,6 +1574,7 @@ sb.auth.onAuthStateChange((event, session) => {
     loadBudgets();
     loadItems();
     loadUniforms();
+    loadNeverAgain();
     refreshCpwTargets();
   }
 });
@@ -1981,6 +2124,7 @@ async function loadItems() {
   const { data, error } = await sb.from('wishlist').select('*').eq('purchased', false).order('created_at', { ascending: false });
   if (error) { showToast('Σφάλμα φόρτωσης'); return; }
   allItems = data || [];
+  itemsLoaded = true;
   if (allItems.length) hasDeferredYearCol = Object.prototype.hasOwnProperty.call(allItems[0], 'deferred_year');
   await releaseArrivedDeferrals();
   refreshYearLabels();
@@ -1993,6 +2137,7 @@ async function loadItems() {
   updateStats();
   await loadPurchasesSilent();
   renderBudgetBars();
+  renderNeverAgain();
 }
 
 async function loadPurchasesSilent() {
@@ -2195,6 +2340,9 @@ function renderCard(item) {
     }
   }
 
+  const naMatches = findNeverAgainMatches(naCandidateFromItem(item));
+  const naDetail = naMatches.length ? `<div class="na-warning" style="margin:0 0 12px;">${naWarningHtml(naMatches, 'Never again — στο παρελθόν κάτι παρόμοιο δεν δούλεψε:')}</div>` : '';
+
   const rankDisplay = item.rank || '—';
   return `
   <div class="card ${status}${isDeferred(item) ? ' nextyear' : ''}" id="card-${item.id}" data-id="${item.id}" onclick="toggleCard('${item.id}')">
@@ -2215,6 +2363,7 @@ function renderCard(item) {
         <div class="item-sub">${[item.brand, item.category, item.subcategory, item.color, formatMaterialDisplay(item.material)].filter(Boolean).join(' · ') || '—'}</div>
         ${item.is_replacement ? '<span class="badge-repl">Αντικατάσταση</span>' : ''}
         ${isDeferred(item) ? `<span class="badge-nextyear">📅 ${deferTarget(item)}</span>` : ''}
+        ${naMatches.length ? '<span class="badge-never">🚫 Never again</span>' : ''}
         </div>
       </div>
       <div class="col-date">${formatDate(item.created_at)}</div>
@@ -2224,6 +2373,7 @@ function renderCard(item) {
     </div>
     <div class="card-detail">
       ${item.link ? `<div class="detail-photo" data-link="${escHtml(item.link)}"></div>` : ''}
+      ${naDetail}
       <div class="detail-grid">
         <div class="detail-item"><label>Σειρά προτεραιότητας</label><value>${item.rank ? '#' + item.rank : '—'}</value></div>
         ${item.brand ? `<div class="detail-item"><label>Μάρκα</label><value>${escHtml(item.brand)}</value></div>` : ''}
@@ -2481,6 +2631,10 @@ function openInlineForm(item = null) {
   document.querySelector('.app-tab').classList.add('active');
   document.getElementById('panel-wishlist').classList.add('active');
 
+  naAcknowledged = false;
+  naOrigMatchIds = item ? findNeverAgainMatches(naCandidateFromItem(item)).map(m => m.entry.id) : [];
+  updateNeverFormWarning();
+
   const wrap = document.getElementById('inline-form-wrap');
   wrap.style.display = 'block';
   setTimeout(() => wrap.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80);
@@ -2648,6 +2802,7 @@ function renderMaterialTotal() {
 function syncMaterialHidden() {
   const valid = materialRows.filter(r => r.name);
   document.getElementById('f-material').value = valid.length ? JSON.stringify(valid) : '';
+  updateNeverFormWarning();
 }
 
 function resetMaterialChips() {
@@ -2722,6 +2877,8 @@ async function saveItem() {
     showToast(`Δεσμεύσου για ${commitNeeded} χρήσεις για να αποθηκευτεί`);
     return;
   }
+  syncMaterialHidden();
+  if (!naCheckBeforeSave()) return;
 
   const btn = document.getElementById('save-btn');
   btn.disabled = true; btn.textContent = '…';
@@ -2839,6 +2996,10 @@ function markPurchased(id) {
   document.getElementById('purchase-date-input').value = new Date().toISOString().split('T')[0];
   document.getElementById('purchase-item-name').textContent = item.title;
   document.getElementById('purchase-big').checked = false;
+  const naEl = document.getElementById('purchase-na-warning');
+  const naM = findNeverAgainMatches(naCandidateFromItem(item));
+  naEl.style.display = naM.length ? 'block' : 'none';
+  naEl.innerHTML = naM.length ? naWarningHtml(naM, 'Πριν το πάρεις — στο παρελθόν κάτι παρόμοιο δεν δούλεψε:') : '';
   updatePurchaseVerdict(item);
   document.getElementById('purchase-modal').classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -3073,6 +3234,7 @@ function showAppTab(id, btn) {
   if (id === 'summary') renderBudgetBars();
   if (id === 'archive') loadArchive();
   if (id === 'uniforms') loadUniforms();
+  if (id === 'neveragain') renderNeverAgain();
 }
 
 // ── PURCHASES ──
@@ -3212,7 +3374,7 @@ function renderPurchases() {
   document.getElementById('purch-list').innerHTML=filtered.length
     ?filtered.map(item=>{
       const{cls,label}=BADGE[getPurchCat(item)]||BADGE.impulse;
-      return`<div class="purch-row"><div class="purch-row-body"><div class="purch-row-name">${escHtml(item.title)}</div><div class="purch-row-meta">${[item.brand,item.category,item.purchased_at?fmtDateShort(item.purchased_at):''].filter(Boolean).join(' · ')}</div></div><div class="purch-row-right"><div class="purch-row-price">${item.price?`€${item.price}`:'—'}</div><span class="purch-badge ${cls}">${label}</span>${potMap[item.purchase_year]&&potMap[item.purchase_year].big>0?`<button type="button" class="big-toggle${item.big_purchase?' on':''}" onclick="toggleBigPurchase('${item.id}')" title="${item.big_purchase?'Μεγάλη αγορά — πάτα για μηνιαίο budget':'Μηνιαίο budget — πάτα για μεγάλη αγορά'}">💎</button>`:''}</div></div>`;
+      return`<div class="purch-row"><div class="purch-row-body"><div class="purch-row-name">${escHtml(item.title)}</div><div class="purch-row-meta">${[item.brand,item.category,item.purchased_at?fmtDateShort(item.purchased_at):''].filter(Boolean).join(' · ')}</div></div><div class="purch-row-right"><div class="purch-row-price">${item.price?`€${item.price}`:'—'}</div><span class="purch-badge ${cls}">${label}</span>${potMap[item.purchase_year]&&potMap[item.purchase_year].big>0?`<button type="button" class="big-toggle${item.big_purchase?' on':''}" onclick="toggleBigPurchase('${item.id}')" title="${item.big_purchase?'Μεγάλη αγορά — πάτα για μηνιαίο budget':'Μηνιαίο budget — πάτα για μεγάλη αγορά'}">💎</button>`:''}<button type="button" class="regret-btn" onclick="regretPurchase('${item.id}')" title="Το μετάνιωσα — πρόσθεσέ το στη Never Again">🚫</button></div></div>`;
     }).join('')
     :'<div style="color:var(--text-dim);font-size:11px;padding:8px 0">Καμία αγορά σε αυτή την κατηγορία</div>';
 }
@@ -3442,6 +3604,340 @@ async function deleteUniform(id) {
   await sb.from('outfit_uniforms').delete().eq('id', id);
   showToast('Διαγράφηκε');
   await loadUniforms();
+}
+
+// ══════════ NEVER AGAIN ══════════
+// Two kinds of entries in the «never_again» table:
+//  • item — a piece I bought and regretted. Warns for wishlist items of the same category + subcategory.
+//  • rule — a general rule («όχι τακούνια», «όχι μίνι φούστες»). Warns when ALL the filled-in criteria match.
+const NA_SQL = `create table if not exists public.never_again (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null default auth.uid() references auth.users(id) on delete cascade,
+  kind text not null default 'item' check (kind in ('item','rule')),
+  title text not null,
+  brand text, category text, subcategory text, color text, material text,
+  keywords text,
+  price numeric, purchased_at date, times_worn integer,
+  reasons text[], reason_text text,
+  created_at timestamptz not null default now()
+);
+alter table public.never_again enable row level security;
+create policy "never_again own rows" on public.never_again
+  for all using (auth.uid() = user_id) with check (auth.uid() = user_id);`;
+
+const NA_REASONS = ['Δεν μου κάθεται καλά','Άβολο','Δεν ταιριάζει στο lifestyle μου','Χρώμα που δεν μου πάει','Κακή ποιότητα / ύφασμα','Δύσκολο στη συντήρηση','Δεν συνδυάζεται με τίποτα','Δεν είμαι «εγώ»','Το πήρα από hype / έκπτωση','Δεν το φόρεσα σχεδόν ποτέ'];
+
+let allNever = [];
+let itemsLoaded = false;
+let naTableMissing = false;
+let naLoaded = false;
+let editingNeverId = null;
+let neverKind = 'item';
+let neverReasonSel = new Set();
+let naAcknowledged = false;   // user already said «Ναι, το θέλω» for this form session
+let naOrigMatchIds = [];      // matches the item had when the edit form opened
+
+async function loadNeverAgain() {
+  if (!currentUser) return;
+  const { data, error } = await sb.from('never_again').select('*').order('created_at', { ascending: false });
+  naLoaded = true;
+  if (error) {
+    naTableMissing = /never_again|relation|schema cache|does not exist/i.test(error.message || '');
+    if (!naTableMissing) console.warn('Never again:', error.message);
+    allNever = [];
+  } else {
+    naTableMissing = false;
+    allNever = data || [];
+  }
+  renderNeverAgain();
+  if (itemsLoaded) renderItems();
+}
+
+// ── MATCHING ──
+function naNorm(s) { return String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim(); }
+function naKeywords(entry) { return String(entry.keywords || '').split(',').map(naNorm).filter(Boolean); }
+function naHasCriteria(entry) { return !!(entry.category || entry.subcategory || entry.color || entry.material || naKeywords(entry).length); }
+
+// candidate = { title, notes, category, subcategory, color, material }
+function findNeverAgainMatches(c) {
+  if (!allNever.length || !c) return [];
+  const text = naNorm([c.title, c.notes, c.subcategory].filter(Boolean).join(' '));
+  const mats = parseMaterialComposition(c.material).map(m => m.name);
+  const out = [];
+  allNever.forEach(e => {
+    if (e.kind === 'rule') {
+      if (!naHasCriteria(e)) return;
+      if (e.category && e.category !== c.category) return;
+      if (e.subcategory && e.subcategory !== c.subcategory) return;
+      if (e.color && e.color !== c.color) return;
+      if (e.material && !mats.includes(e.material)) return;
+      const kws = naKeywords(e);
+      if (kws.length && !kws.some(k => text.includes(k))) return;
+      out.push({ entry: e, extra: [] });
+    } else {
+      if (!e.category || e.category !== c.category) return;
+      if (e.subcategory && e.subcategory !== c.subcategory) return;
+      const extra = [];
+      if (e.color && e.color === c.color) extra.push('ίδιο χρώμα');
+      if (e.material && mats.includes(e.material)) extra.push('ίδιο υλικό');
+      out.push({ entry: e, extra });
+    }
+  });
+  return out;
+}
+function naCandidateFromItem(item) {
+  const { cat1, cat2 } = mapToTrackerCategory(item);
+  return { title: item.title, notes: item.notes, category: cat1, subcategory: cat2, color: item.color, material: item.material };
+}
+function naCandidateFromForm() {
+  return {
+    title: document.getElementById('f-title').value,
+    notes: document.getElementById('f-notes').value,
+    category: document.getElementById('f-cat1').value || null,
+    subcategory: document.getElementById('f-cat2').value || null,
+    color: getWishlistColorValue(),
+    material: document.getElementById('f-material').value,
+  };
+}
+
+function naMatchLine(m) {
+  const e = m.entry;
+  const why = [...(e.reasons || [])];
+  if (e.reason_text) why.push(e.reason_text);
+  const head = e.kind === 'rule'
+    ? `📏 Κανόνας: <strong>${escHtml(e.title)}</strong>`
+    : `🚫 <strong>${escHtml(e.title)}</strong>${e.price ? ` · €${e.price}` : ''}${m.extra.length ? ` · ${m.extra.join(', ')}` : ''}`;
+  return `<div class="na-warning-item">${head}${why.length ? `<small>${escHtml(why.join(' · '))}</small>` : ''}</div>`;
+}
+function naWarningHtml(matches, intro) {
+  return `<strong>🚫 ${intro}</strong>${matches.map(naMatchLine).join('')}`;
+}
+
+function updateNeverFormWarning() {
+  const el = document.getElementById('na-form-warning');
+  if (!el) return;
+  const matches = findNeverAgainMatches(naCandidateFromForm());
+  if (!matches.length) { el.style.display = 'none'; el.innerHTML = ''; return; }
+  el.innerHTML = naWarningHtml(matches, 'Είσαι σίγουρη; Στο παρελθόν κάτι παρόμοιο δεν δούλεψε:');
+  el.style.display = 'block';
+}
+
+// Returns true if saving can go ahead, false if the confirm modal was shown instead
+function naCheckBeforeSave() {
+  if (naAcknowledged) return true;
+  const matches = findNeverAgainMatches(naCandidateFromForm());
+  const fresh = matches.filter(m => !naOrigMatchIds.includes(m.entry.id));
+  if (!fresh.length) return true;
+  document.getElementById('na-confirm-list').innerHTML = `<div class="na-warning" style="margin:0;">${fresh.map(naMatchLine).join('')}</div>`;
+  document.getElementById('na-confirm-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  return false;
+}
+function closeNeverConfirm() {
+  document.getElementById('na-confirm-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function confirmNeverAndSave() {
+  naAcknowledged = true;
+  closeNeverConfirm();
+  saveItem();
+}
+
+// ── FORM ──
+function naFillSelect(id, values, placeholder, current) {
+  const sel = document.getElementById(id);
+  sel.innerHTML = `<option value="">${placeholder}</option>` + values.map(v => `<option value="${escHtml(v)}">${escHtml(v)}</option>`).join('');
+  if (current && !values.includes(current)) sel.insertAdjacentHTML('beforeend', `<option value="${escHtml(current)}">${escHtml(current)}</option>`);
+  sel.value = current || '';
+}
+function updateNeverCat2(current) {
+  const cat1 = document.getElementById('na-cat1').value;
+  const subs = CATEGORIES[cat1] || [];
+  naFillSelect('na-cat2', subs, cat1 ? (neverKind === 'rule' ? '— Όλες —' : '—') : '— Κατηγορία πρώτα —', subs.includes(current) ? current : '');
+}
+function setNeverKind(kind) {
+  neverKind = kind;
+  document.getElementById('na-kind-item').classList.toggle('active', kind === 'item');
+  document.getElementById('na-kind-rule').classList.toggle('active', kind === 'rule');
+  document.querySelectorAll('#na-form-wrap .na-only-item').forEach(el => el.style.display = kind === 'item' ? '' : 'none');
+  document.querySelectorAll('#na-form-wrap .na-only-rule').forEach(el => el.style.display = kind === 'rule' ? '' : 'none');
+  document.getElementById('na-title-label').textContent = kind === 'rule' ? 'Κανόνας *' : 'Τίτλος *';
+  document.getElementById('na-title').placeholder = kind === 'rule' ? 'π.χ. Όχι τακούνια' : 'π.χ. Μαύρες γόβες Zara';
+  document.getElementById('na-sec-basic').textContent = kind === 'rule' ? 'Τι να αποφεύγω' : 'Τι ήταν';
+  const any = kind === 'rule' ? '— Οποιαδήποτε —' : '—';
+  ['na-cat1','na-color','na-material'].forEach(id => { const s = document.getElementById(id); if (s && s.options[0]) s.options[0].textContent = any; });
+  updateNeverCat2(document.getElementById('na-cat2').value);
+}
+function renderNeverReasonChips() {
+  const wrap = document.getElementById('na-reason-chips');
+  const all = [...NA_REASONS, ...[...neverReasonSel].filter(r => !NA_REASONS.includes(r))];
+  wrap.innerHTML = all.map(r => `<button type="button" class="mat-chip${neverReasonSel.has(r) ? ' active' : ''}" data-r="${escHtml(r)}" onclick="toggleNeverReason(this.dataset.r)">${escHtml(r)}</button>`).join('');
+}
+function toggleNeverReason(r) {
+  if (neverReasonSel.has(r)) neverReasonSel.delete(r); else neverReasonSel.add(r);
+  renderNeverReasonChips();
+}
+
+// entry = existing row (edit) or a prefill object without id (e.g. from a purchase)
+function openNeverForm(entry, kind) {
+  const isEdit = !!(entry && entry.id && allNever.some(e => e.id === entry.id));
+  editingNeverId = isEdit ? entry.id : null;
+  const e = entry || {};
+  naFillSelect('na-cat1', Object.keys(CATEGORIES), '—', e.category && CATEGORIES[e.category] ? e.category : '');
+  naFillSelect('na-color', Object.keys(COLOR_HEX).sort((a, b) => a.localeCompare(b)), '—', e.color || '');
+  naFillSelect('na-material', FABRIC_OPTIONS.filter(f => f !== 'Άλλο'), '—', e.material || '');
+  document.getElementById('na-cat2').innerHTML = '<option value="">—</option>';
+  setNeverKind(e.kind || kind || 'item');
+  updateNeverCat2(e.subcategory || '');
+  document.getElementById('na-title').value = e.title || '';
+  document.getElementById('na-brand').value = e.brand || '';
+  document.getElementById('na-price').value = e.price || '';
+  document.getElementById('na-date').value = e.purchased_at ? String(e.purchased_at).slice(0, 10) : '';
+  document.getElementById('na-worn').value = (e.times_worn === 0 || e.times_worn) ? e.times_worn : '';
+  document.getElementById('na-keywords').value = e.keywords || '';
+  document.getElementById('na-why').value = e.reason_text || '';
+  neverReasonSel = new Set(e.reasons || []);
+  renderNeverReasonChips();
+  document.getElementById('na-form-title').innerHTML = isEdit ? 'Επεξεργασία <em>εγγραφής</em>' : (neverKind === 'rule' ? 'Νέος <em>κανόνας</em>' : 'Never <em>again</em>');
+  const wrap = document.getElementById('na-form-wrap');
+  wrap.style.display = 'block';
+  setTimeout(() => wrap.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80);
+}
+function closeNeverForm() {
+  document.getElementById('na-form-wrap').style.display = 'none';
+  editingNeverId = null;
+}
+
+async function saveNever() {
+  if (naTableMissing) { showToast('Τρέξε πρώτα το SQL για τον πίνακα never_again'); return; }
+  const title = document.getElementById('na-title').value.trim();
+  if (!title) { showToast(neverKind === 'rule' ? 'Γράψε τον κανόνα' : 'Ο τίτλος είναι υποχρεωτικός'); return; }
+  const isRule = neverKind === 'rule';
+  const payload = {
+    user_id: currentUser.id,
+    kind: neverKind,
+    title,
+    category: document.getElementById('na-cat1').value || null,
+    subcategory: document.getElementById('na-cat2').value || null,
+    color: document.getElementById('na-color').value || null,
+    material: document.getElementById('na-material').value || null,
+    keywords: isRule ? (document.getElementById('na-keywords').value.trim() || null) : null,
+    brand: isRule ? null : (document.getElementById('na-brand').value.trim() || null),
+    price: isRule ? null : (parseFloat(document.getElementById('na-price').value) || null),
+    purchased_at: isRule ? null : (document.getElementById('na-date').value || null),
+    times_worn: isRule ? null : (document.getElementById('na-worn').value === '' ? null : parseInt(document.getElementById('na-worn').value, 10)),
+    reasons: [...neverReasonSel],
+    reason_text: document.getElementById('na-why').value.trim() || null,
+  };
+  if (isRule && !naHasCriteria(payload)) {
+    showToast('Διάλεξε τουλάχιστον κατηγορία, χρώμα, υλικό ή λέξη-κλειδί');
+    return;
+  }
+  const btn = document.getElementById('na-save-btn');
+  btn.disabled = true; btn.textContent = '…';
+  const { error } = editingNeverId
+    ? await sb.from('never_again').update(payload).eq('id', editingNeverId)
+    : await sb.from('never_again').insert(payload);
+  btn.disabled = false; btn.textContent = 'Αποθήκευση';
+  if (error) { showToast('Σφάλμα: ' + error.message); return; }
+  showToast(editingNeverId ? '✓ Αποθηκεύτηκε' : '🚫 Προστέθηκε στη Never Again');
+  closeNeverForm();
+  await loadNeverAgain();
+}
+function editNever(id) {
+  const e = allNever.find(x => String(x.id) === String(id));
+  if (e) openNeverForm(e);
+}
+async function deleteNever(id) {
+  if (!confirm('Διαγραφή αυτής της εγγραφής;')) return;
+  const { error } = await sb.from('never_again').delete().eq('id', id);
+  if (error) { showToast('Σφάλμα διαγραφής'); return; }
+  showToast('✓ Διαγράφηκε');
+  await loadNeverAgain();
+}
+// From a purchase → prefill a regret entry
+function regretPurchase(id) {
+  const item = purchasedItems.find(i => String(i.id) === String(id));
+  if (!item) return;
+  const { cat1, cat2 } = mapToTrackerCategory(item);
+  const mats = parseMaterialComposition(item.material).sort((a, b) => (b.pct || 0) - (a.pct || 0));
+  const mainMat = mats.length && FABRIC_OPTIONS.includes(mats[0].name) && mats[0].name !== 'Άλλο' ? mats[0].name : '';
+  showAppTab('neveragain', document.getElementById('tab-neveragain'));
+  openNeverForm({ kind: 'item', title: item.title, brand: item.brand, category: cat1, subcategory: cat2, color: item.color, material: mainMat, price: item.price, purchased_at: item.purchased_at }, 'item');
+}
+
+// ── PANEL ──
+function renderNeverAgain() {
+  const el = document.getElementById('na-content');
+  const kpis = document.getElementById('na-kpis');
+  if (!el) return;
+  if (!naLoaded) return;
+  if (naTableMissing) {
+    kpis.innerHTML = '';
+    el.innerHTML = `<div class="na-empty na-setup">
+      <strong>Χρειάζεται ένας νέος πίνακας στο Supabase.</strong><br>
+      Άνοιξε Supabase → SQL Editor, τρέξε το παρακάτω μία φορά και κάνε refresh.
+      <pre>${escHtml(NA_SQL)}</pre>
+    </div>`;
+    return;
+  }
+  const items = allNever.filter(e => e.kind !== 'rule');
+  const rules = allNever.filter(e => e.kind === 'rule');
+  const lost = items.reduce((s, e) => s + (parseFloat(e.price) || 0), 0);
+  const reasonCounts = {};
+  items.forEach(e => (e.reasons || []).forEach(r => reasonCounts[r] = (reasonCounts[r] || 0) + 1));
+  const topReasons = Object.entries(reasonCounts).sort((a, b) => b[1] - a[1]);
+  const hitCount = allItems.filter(i => findNeverAgainMatches(naCandidateFromItem(i)).length).length;
+
+  kpis.innerHTML = `
+    <div class="purch-kpi bad"><div class="purch-kpi-num">${items.length}</div><div class="purch-kpi-label">Κομμάτια που μετάνιωσα</div></div>
+    <div class="purch-kpi bad"><div class="purch-kpi-num">${lost ? fmtMoney(lost) : '—'}</div><div class="purch-kpi-label">Χρήματα που δεν απέδωσαν</div></div>
+    <div class="purch-kpi"><div class="purch-kpi-num">${rules.length}</div><div class="purch-kpi-label">Κανόνες</div></div>
+    <div class="purch-kpi${hitCount ? ' bad' : ' good'}"><div class="purch-kpi-num">${hitCount}</div><div class="purch-kpi-label">Wishlist items που ταιριάζουν<small>${hitCount ? 'ξανασκέψου τα' : 'καθαρή wishlist ✨'}</small></div></div>`;
+
+  const hitsFor = e => allItems.filter(i => findNeverAgainMatches(naCandidateFromItem(i)).some(m => m.entry.id === e.id)).length;
+  const criteriaChips = e => {
+    const c = [e.subcategory ? `${e.category} · ${e.subcategory}` : e.category, e.color, e.material].filter(Boolean);
+    naKeywords(e).length && c.push('«' + String(e.keywords).split(',').map(s => s.trim()).filter(Boolean).join('», «') + '»');
+    return c.map(x => `<span class="na-criteria-chip">${escHtml(x)}</span>`).join('');
+  };
+  const reasonsBlock = e => `${(e.reasons || []).length ? `<div class="na-reasons">${e.reasons.map(r => `<span class="na-reason-chip">${escHtml(r)}</span>`).join('')}</div>` : ''}${e.reason_text ? `<div class="na-why">«${escHtml(e.reason_text)}»</div>` : ''}`;
+  const actions = e => { const h = hitsFor(e); return `<div class="na-card-actions">${h ? `<span class="na-hits">⚠️ ${h} ${h === 1 ? 'κομμάτι' : 'κομμάτια'} της wishlist ταιριάζ${h === 1 ? 'ει' : 'ουν'}</span>` : ''}<button class="btn-sm" onclick="editNever('${e.id}')">Επεξεργασία</button><button class="btn-sm danger" onclick="deleteNever('${e.id}')">Διαγραφή</button></div>`; };
+
+  let html = '';
+  html += `<div class="purch-section-title na-section-title"><span>📏 Γενικοί κανόνες</span><span>${rules.length || ''}</span></div>`;
+  html += rules.length ? rules.map(e => `<div class="na-card rule">
+      <div class="na-card-title">${escHtml(e.title)}</div>
+      <div class="na-reasons">${criteriaChips(e)}</div>
+      ${reasonsBlock(e)}
+      ${actions(e)}
+    </div>`).join('')
+    : `<div class="na-empty">Π.χ. «Όχι τακούνια» (Shoes · Heels) ή «Όχι μίνι φούστες» (Pants · Skirts + «μίνι»).</div>`;
+
+  html += `<div class="purch-section-title na-section-title" style="margin-top:22px;"><span>👗 Κομμάτια που μετάνιωσα</span><span>${items.length || ''}</span></div>`;
+  html += items.length ? items.map(e => {
+    const worn = (e.times_worn === 0 || e.times_worn) ? parseInt(e.times_worn, 10) : null;
+    const price = parseFloat(e.price) || 0;
+    const realCpw = price && worn ? price / worn : null;
+    const meta = [e.brand, e.subcategory ? `${e.category} · ${e.subcategory}` : e.category, e.color, e.material, e.purchased_at ? fmtDateShort(e.purchased_at) : ''].filter(Boolean).join(' · ');
+    const wornTxt = worn === null ? '' : worn === 0 ? 'δεν φορέθηκε ποτέ' : `${worn}× · €${realCpw.toFixed(2)}/χρήση`;
+    return `<div class="na-card">
+      <div class="na-card-head">
+        <div style="min-width:0;"><div class="na-card-title">${escHtml(e.title)}</div><div class="na-card-meta">${escHtml(meta) || '—'}</div></div>
+        ${price || wornTxt ? `<div class="na-card-price">${price ? '€' + price : ''}<small>${escHtml(wornTxt)}</small></div>` : ''}
+      </div>
+      ${reasonsBlock(e)}
+      ${actions(e)}
+    </div>`;
+  }).join('')
+    : `<div class="na-empty">Κανένα ακόμα. Μπορείς να προσθέσεις από εδώ ή από το 🛍 Αγορές με το κουμπί 🚫 δίπλα σε μια αγορά.</div>`;
+
+  if (topReasons.length) {
+    const max = topReasons[0][1];
+    html += `<div class="purch-section-title" style="margin-top:22px;">Οι πιο συχνοί λόγοι</div>`;
+    html += topReasons.slice(0, 6).map(([r, n]) => `<div class="cat-bar-row"><div class="cat-bar-label" title="${escHtml(r)}">${escHtml(r)}</div><div class="cat-bar-track" style="margin:0;flex:1;"><div class="cat-bar-fill" style="width:${n / max * 100}%;background:var(--red);"></div></div><div class="cat-bar-val">${n}</div></div>`).join('');
+  }
+  el.innerHTML = html + '<div style="height:40px"></div>';
 }
 
 // ── TOAST ──

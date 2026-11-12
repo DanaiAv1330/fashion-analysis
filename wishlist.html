@@ -537,6 +537,18 @@ header{border-bottom:none !important;box-shadow:none !important;}
 /* Sharper, editorial corners */
 .cat-card,.pot-card,.modal,.inline-form{border-radius:3px;}
 
+/* ══════════ OWNED-ITEMS NUDGE (from the Wardrobe Tracker) ══════════ */
+.owned-warning{margin-top:12px;padding:11px 13px;border-radius:3px;background:var(--yellow-soft);border:1px solid var(--yellow-border);color:var(--yellow-text);font-size:11px;line-height:1.55;}
+.owned-warning strong{font-weight:600;}
+.owned-row{display:flex;justify-content:space-between;gap:10px;margin-top:7px;padding-top:7px;border-top:1px dashed var(--yellow-border);}
+.owned-row-name{font-weight:500;color:var(--text);min-width:0;}
+.owned-row-meta{font-size:10px;color:var(--text-muted);margin-top:1px;}
+.owned-row-pct{font-family:var(--font-display);font-weight:700;font-size:14px;white-space:nowrap;color:var(--yellow-text);text-align:right;}
+.owned-row-pct small{display:block;font-family:var(--font-sans);font-weight:400;font-size:9px;color:var(--text-dim);}
+.owned-track{height:4px;background:rgba(180,150,0,0.15);border-radius:2px;overflow:hidden;margin-top:4px;}
+.owned-fill{height:100%;background:#b8960a;border-radius:2px;}
+.owned-actions{margin-top:9px;font-size:10.5px;color:var(--text-muted);}
+
 /* ══════════ NEVER AGAIN ══════════ */
 .na-toolbar{display:flex;gap:8px;flex-wrap:wrap;padding:14px 14px 0;}
 @media(min-width:768px){.na-toolbar{padding:16px 32px 0;}}
@@ -827,6 +839,7 @@ header{border-bottom:none !important;box-shadow:none !important;}
         </div>
       </div>
       <div id="na-form-warning" class="na-warning" style="display:none;"></div>
+      <div id="owned-form-warning" class="owned-warning" style="display:none;"></div>
     </div>
 
     <div class="iform-section">
@@ -1231,6 +1244,7 @@ header{border-bottom:none !important;box-shadow:none !important;}
       <div id="purchase-budget-preview" class="limit-warning" style="display:none;"></div>
       <div id="purchase-limit-warning" class="limit-warning" style="display:none;"></div>
       <div id="purchase-na-warning" class="na-warning" style="display:none;margin:0 0 16px;"></div>
+      <div id="purchase-owned-warning" class="owned-warning" style="display:none;margin:0 0 16px;"></div>
       <div class="modal-actions">
         <button class="btn-sm" onclick="document.getElementById('purchase-modal').classList.remove('open');document.body.style.overflow='';">Ακύρωση</button>
         <button class="btn-sm primary" id="confirm-purchase-btn" onclick="confirmPurchase()">Καταγραφή</button>
@@ -1563,6 +1577,7 @@ async function handleLogout() {
   limitMap = {};
   potMap = {};
   allNever = []; naLoaded = false; itemsLoaded = false;
+  ownedItems = []; ownedWearCounts = {};
 }
 
 sb.auth.onAuthStateChange((event, session) => {
@@ -1575,6 +1590,7 @@ sb.auth.onAuthStateChange((event, session) => {
     loadItems();
     loadUniforms();
     loadNeverAgain();
+    loadOwnedFromTracker();
     refreshCpwTargets();
   }
 });
@@ -3000,6 +3016,8 @@ function markPurchased(id) {
   const naM = findNeverAgainMatches(naCandidateFromItem(item));
   naEl.style.display = naM.length ? 'block' : 'none';
   naEl.innerHTML = naM.length ? naWarningHtml(naM, 'Πριν το πάρεις — στο παρελθόν κάτι παρόμοιο δεν δούλεψε:') : '';
+  const ownC = naCandidateFromItem(item);
+  showOwnedWarning(document.getElementById('purchase-owned-warning'), ownC.category, ownC.subcategory);
   updatePurchaseVerdict(item);
   document.getElementById('purchase-modal').classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -3606,6 +3624,73 @@ async function deleteUniform(id) {
   await loadUniforms();
 }
 
+// ══════════ OWNED ITEMS THAT HAVEN'T REACHED THEIR CPW GOAL (read from the Wardrobe Tracker) ══════════
+// Same logic as the Tracker: wears = prev_worn + wear_log entries · goal («🏆 Έπιασες τον στόχο») = price ÷ (target CPW / 2) wears.
+// Items in the Gone catalogue live in wardrobe_archive, so everything in «wardrobe» is still owned.
+let ownedItems = [];
+let ownedWearCounts = {};
+async function loadOwnedFromTracker() {
+  if (!currentUser) return;
+  const { data, error } = await sb.from('wardrobe').select('*');
+  if (error) { console.warn('Wardrobe (Tracker) δεν φορτώθηκε:', error.message); return; }
+  const counts = {};
+  for (let from = 0; ; from += 1000) {
+    const { data: logs, error: lErr } = await sb.from('wear_log').select('wardrobe_item_id').range(from, from + 999);
+    if (lErr) { console.warn('wear_log δεν φορτώθηκε:', lErr.message); break; }
+    (logs || []).forEach(l => { counts[l.wardrobe_item_id] = (counts[l.wardrobe_item_id] || 0) + 1; });
+    if (!logs || logs.length < 1000) break;
+  }
+  ownedItems = data || [];
+  ownedWearCounts = counts;
+  updateOwnedFormWarning();
+}
+function ownedProgress(w) {
+  const price = parseFloat(w.price);
+  if (!(price > 0)) return null;
+  const cat1 = w.cat1 || w.category, cat2 = w.cat2;
+  const manual = parseFloat(w.cpw_category);
+  const target = manual > 0 ? manual : (defaultCpwTarget(cat1, cat2) || 5);
+  const needed = Math.ceil(price / (target / 2));
+  const total = (parseInt(w.prev_worn, 10) || 0) + (ownedWearCounts[w.id] || 0);
+  return { target, needed, total, reached: total >= needed, pct: Math.min(100, Math.round(total / needed * 100)),
+           cpwNow: total ? price / total : null, goalCpw: price / needed };
+}
+function findUnderperformingOwned(cat1, cat2) {
+  if (!cat1 || !ownedItems.length) return [];
+  return ownedItems
+    .filter(w => (w.cat1 || w.category) === cat1 && (!cat2 || w.cat2 === cat2))
+    .map(w => ({ w, p: ownedProgress(w) }))
+    .filter(x => x.p && !x.p.reached)
+    .sort((a, b) => a.p.pct - b.p.pct);
+}
+function showOwnedWarning(el, cat1, cat2) {
+  if (!el) return;
+  const list = findUnderperformingOwned(cat1, cat2);
+  if (!list.length) { el.style.display = 'none'; el.innerHTML = ''; return; }
+  const n = list.length;
+  const where = cat2 ? `${cat1} · ${cat2}` : cat1;
+  const shown = list.slice(0, 5);
+  const rows = shown.map(({ w, p }) => {
+    const meta = p.total === 0
+      ? 'δεν έχει φορεθεί ποτέ'
+      : `CPW τώρα €${p.cpwNow.toFixed(2)} → στόχος €${p.goalCpw.toFixed(2)}`;
+    return `<div class="owned-row"><div style="min-width:0;flex:1;">
+        <div class="owned-row-name">${escHtml(w.title || '—')}${w.brand ? ` <span style="font-weight:300;color:var(--text-muted)">· ${escHtml(w.brand)}</span>` : ''}</div>
+        <div class="owned-row-meta">${meta}</div>
+        <div class="owned-track"><div class="owned-fill" style="width:${p.pct}%"></div></div>
+      </div><div class="owned-row-pct">${p.total}/${p.needed}<small>χρήσεις</small></div></div>`;
+  }).join('');
+  el.innerHTML = `<strong>👗 Έχεις ${n} ${n === 1 ? 'κομμάτι' : 'κομμάτια'} στο Wardrobe Tracker σε αυτή την κατηγορία (${escHtml(where)}) που δεν ${n === 1 ? 'έχει' : 'έχουν'} πιάσει τον στόχο CPW.</strong>
+    ${rows}${n > shown.length ? `<div class="owned-row-meta" style="margin-top:6px;">…και ${n - shown.length} ακόμα</div>` : ''}
+    <div class="owned-actions">Μήπως να αξιοποιήσεις πρώτα αυτά που έχεις; Ή, αν δεν τα θες, μήπως να δώσεις ή να πουλήσεις ${n === 1 ? 'το' : 'κάποιο'};</div>`;
+  el.style.display = 'block';
+}
+function updateOwnedFormWarning() {
+  const c1 = document.getElementById('f-cat1'), c2 = document.getElementById('f-cat2');
+  if (!c1 || !c2) return;
+  showOwnedWarning(document.getElementById('owned-form-warning'), c1.value || null, c2.value || null);
+}
+
 // ══════════ NEVER AGAIN ══════════
 // Two kinds of entries in the «never_again» table:
 //  • item — a piece I bought and regretted. Warns for wishlist items of the same category + subcategory.
@@ -3714,6 +3799,7 @@ function naWarningHtml(matches, intro) {
 }
 
 function updateNeverFormWarning() {
+  updateOwnedFormWarning();
   const el = document.getElementById('na-form-warning');
   if (!el) return;
   const matches = findNeverAgainMatches(naCandidateFromForm());

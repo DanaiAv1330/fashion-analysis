@@ -130,6 +130,7 @@ body{font-family:var(--font-sans);font-weight:300;background:var(--bg);color:var
 .list-body{flex:1;min-width:0;}
 .list-name{font-family:var(--font-serif);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .list-meta-s{font-size:9px;color:var(--text-muted);margin-top:1px;}
+.acq-badge{font-size:11px;margin-left:4px;}
 .list-right{display:flex;flex-direction:column;align-items:flex-end;gap:2px;flex-shrink:0;}
 .list-cpw{font-family:var(--font-serif);font-size:14px;}
 .list-cpw.good{color:var(--green-text);}.list-cpw.warn{color:var(--amber);}.list-cpw.bad{color:var(--red-text);}
@@ -719,9 +720,18 @@ em{font-family:var(--font-script) !important;font-style:normal !important;font-w
               <div id="mat-total-label" class="mat-total-label">0% / 100%</div>
               <input type="hidden" id="f-material">
             </div>
-            <div class="form-group"><label>Τιμή (€)</label><input type="number" id="f-price" step="0.01" oninput="renderExcellentBox()"></div>
-            <div class="form-group"><label>Χρονιά Αγοράς</label><input type="number" id="f-purchase-year" placeholder="2024" min="2000" max="2030"></div>
-            <div class="form-group"><label>Μήνας Αγοράς</label>
+            <div class="form-group"><label>Τρόπος απόκτησης</label>
+              <select id="f-acq" onchange="updateAcqLabels()">
+                <option value="purchase">🛍 Αγορά</option>
+                <option value="secondhand">♻️ Second-hand (αγορά)</option>
+                <option value="gift">🎁 Δώρο</option>
+                <option value="family">👭 Από οικογένεια / φίλους</option>
+                <option value="swap">🔄 Swap</option>
+              </select>
+            </div>
+            <div class="form-group"><label id="f-price-label">Τιμή (€)</label><input type="number" id="f-price" step="0.01" oninput="renderExcellentBox()"><div id="f-price-hint" style="display:none;font-size:9px;color:var(--text-dim);margin-top:3px;line-height:1.4;">Προαιρετικό: πόσο περίπου θα κόστιζε. Μετράει για CPW και αξία ντουλάπας, όχι στα χρήματα που ξόδεψες.</div></div>
+            <div class="form-group"><label id="f-year-label">Χρονιά Αγοράς</label><input type="number" id="f-purchase-year" placeholder="2024" min="2000" max="2030"></div>
+            <div class="form-group"><label id="f-month-label">Μήνας Αγοράς</label>
               <select id="f-purchase-month">
                 <option value="">—</option>
                 <option value="1">Ιανουάριος</option><option value="2">Φεβρουάριος</option>
@@ -1866,6 +1876,21 @@ function getTotalWear(item){return(item.prev_worn||0)+getWearCount(item.id);}
 function getLastWorn(id){const logs=wearLogs.filter(l=>l.wardrobe_item_id===id).sort((a,b)=>b.worn_date.localeCompare(a.worn_date));return logs.length?logs[0].worn_date:null;}
 function getDaysSinceWorn(item){const last=getLastWorn(item.id);if(!last)return item.prev_worn>0?null:Infinity;return Math.floor((new Date()-new Date(last))/86400000);}
 function isDormant(item){const d=getDaysSinceWorn(item);if(d===null)return false;return d>30;}
+// ── ACQUISITION ── purchase / secondhand cost money; gift / family / swap don't.
+const ACQ_LABELS={purchase:'Αγορά',secondhand:'Second-hand',gift:'Δώρο',family:'Από οικογένεια / φίλους',swap:'Swap'};
+const ACQ_ICONS={purchase:'🛍',secondhand:'♻️',gift:'🎁',family:'👭',swap:'🔄'};
+function acqType(item){return (item&&item.acquisition_type)||'purchase';}
+function isPaid(item){const t=acqType(item);return t==='purchase'||t==='secondhand';}
+function paidPrice(item){return isPaid(item)?(item.price||0):0;}
+function acqBadge(item){return isPaid(item)?'':`<span class="acq-badge" title="${ACQ_LABELS[acqType(item)]}">${ACQ_ICONS[acqType(item)]}</span>`;}
+function updateAcqLabels(){
+  const sel=document.getElementById('f-acq');if(!sel)return;
+  const paid=sel.value==='purchase'||sel.value==='secondhand';
+  document.getElementById('f-price-label').textContent=paid?'Τιμή (€)':'Εκτιμώμενη αξία (€)';
+  document.getElementById('f-price-hint').style.display=paid?'none':'block';
+  document.getElementById('f-year-label').textContent=paid?'Χρονιά Αγοράς':'Χρονιά που το απέκτησες';
+  document.getElementById('f-month-label').textContent=paid?'Μήνας Αγοράς':'Μήνας που το απέκτησες';
+}
 function getCPW(item){const t=getTotalWear(item);if(!item.price||!t)return null;return item.price/t;}
 
 // ── EXCELLENT TARGET (ίδια λογική με το Wishlist) ──
@@ -2409,7 +2434,7 @@ function renderWardrobe(){
         <span class="score-badge" style="background:rgba(42,35,26,0.85);">${getWPS(item)}</span>
       </div>
       <div class="item-info">
-        <div class="item-title">${escHtml(item.title)}</div>
+        <div class="item-title">${escHtml(item.title)}${acqBadge(item)}</div>
         <div class="item-meta">${[item.brand,item.cat2||item.cat1].filter(Boolean).join(' · ')}</div>
         <div class="item-stats"><span>${total}×${(()=>{const x=getExcellentTarget(item);return x?(x.reached?' 🏆':`/${x.needed}`):'';})()}</span><span>${last?fmtDate(last):'Ποτέ'}</span></div>
         ${(()=>{const x=getExcellentTarget(item);return x?`<div class="item-xt" title="Στόχος εξαιρετικής αγοράς: ${x.needed} χρήσεις"><div class="xt-fill${x.reached?' done':''}" style="width:${x.pct}%"></div></div>`:'';})()}
@@ -2431,7 +2456,7 @@ function renderWardrobe(){
     return`<div class="list-row" onclick="openItemModal('${item.id}')">
       <div class="list-thumb">${item.photo_url?`<img src="${escHtml(item.photo_url)}" onerror="this.outerHTML='👗'">`:'👗'}</div>
       <div class="list-body">
-        <div class="list-name">${isFavorite(item)?'<span style="color:#b55a4a">♥</span> ':''}${escHtml(item.title)}${ptypeTag}</div>
+        <div class="list-name">${isFavorite(item)?'<span style="color:#b55a4a">♥</span> ':''}${escHtml(item.title)}${acqBadge(item)}${ptypeTag}</div>
         <div class="list-meta-s">${[item.brand,item.cat2||item.cat1,item.color].filter(Boolean).join(' · ')}${item.purchase_year?` · <span style="color:var(--text-dim)">${MN_SHORT[(item.purchase_month||1)-1]} ${item.purchase_year}</span>`:''}</div>
         ${ss?`<div class="list-score">${ss}</div>`:''}
         ${(()=>{const x=getExcellentTarget(item);if(!x)return'';
@@ -2509,6 +2534,7 @@ function openItemModal(id){
   document.getElementById('item-delete-btn-top').style.display=id?'inline-block':'none';
   ['f-title','f-brand','f-pattern','f-size','f-notes'].forEach(f=>document.getElementById(f).value='');
   resetMaterialChips();
+  document.getElementById('f-acq').value='purchase';updateAcqLabels();
   ['f-price','f-prev-worn','f-purchase-year','f-purchase-month','f-season','f-cat1','f-cat2','f-sleeve','f-length','f-feeling','f-face-effect','f-cpw-cat'].forEach(f=>document.getElementById(f).value='');
   document.getElementById('f-prev-worn').value='0';
   document.getElementById('f-fav').checked=false;
@@ -2528,6 +2554,7 @@ function openItemModal(id){
       document.getElementById('f-pattern').value=item.pattern||'';
       fillMaterialChips(item.material||'');
       document.getElementById('f-size').value=item.size||'';
+      document.getElementById('f-acq').value=item.acquisition_type||'purchase';updateAcqLabels();
       document.getElementById('f-price').value=item.price||'';
       document.getElementById('f-prev-worn').value=item.prev_worn||0;
       document.getElementById('f-purchase-year').value=item.purchase_year||'';
@@ -2588,6 +2615,7 @@ async function saveItem(){
     material:document.getElementById('f-material').value.trim()||null,
     size:document.getElementById('f-size').value.trim()||null,
     price:parseFloat(document.getElementById('f-price').value)||null,
+    acquisition_type:document.getElementById('f-acq').value||'purchase',
     prev_worn:parseInt(document.getElementById('f-prev-worn').value)||0,
     purchase_year:py?parseInt(py):null,
     purchase_month:pm?parseInt(pm):null,
@@ -2808,7 +2836,7 @@ async function confirmArchive(){
   const cpw=getCPW(item);const total=getTotalWear(item);
   const rec={
     user_id:currentUser.id,original_id:item.id,title:item.title,brand:item.brand,cat1:item.cat1,cat2:item.cat2,
-    category:item.category,color:item.color,price:item.price,photo_url:item.photo_url,
+    category:item.category,color:item.color,price:item.price,acquisition_type:item.acquisition_type||'purchase',photo_url:item.photo_url,
     purchase_year:item.purchase_year,purchase_month:item.purchase_month,purchased_at:item.purchased_at,
     conscious_score:item.conscious_score,portfolio_type:item.portfolio_type,
     total_wear_at_archive:total,cpw_at_archive:cpw,
@@ -2817,7 +2845,8 @@ async function confirmArchive(){
     archive_notes:document.getElementById('arch-notes').value.trim()||null,
     archived_at:new Date().toISOString()
   };
-  const{error}=await sb.from('wardrobe_archive').insert(rec);
+  let{error}=await sb.from('wardrobe_archive').insert(rec);
+  if(error&&/acquisition_type/i.test((error.message||'')+(error.details||''))){delete rec.acquisition_type;({error}=await sb.from('wardrobe_archive').insert(rec));}
   if(error){showArchiveMsg('Σφάλμα: '+error.message,'error');btn.disabled=false;btn.textContent='📦 Αποχώρηση';return;}
   await sb.from('wardrobe').delete().eq('id',item.id);
   btn.disabled=false;btn.textContent='📦 Αποχώρηση';
@@ -2895,7 +2924,7 @@ function renderGoneYearHeader(year){
   }
   const isCurrent=year===new Date().getFullYear();
   return`<div class="kpi-grid" style="grid-template-columns:repeat(3,1fr);margin-bottom:8px;">
-      <div class="kpi-card"><div class="kpi-label">Προστέθηκαν</div><div class="kpi-value">${added}</div><div class="kpi-sub">αγορές ${year}</div></div>
+      <div class="kpi-card"><div class="kpi-label">Προστέθηκαν</div><div class="kpi-value">${added}</div><div class="kpi-sub">νέα κομμάτια ${year}</div></div>
       <div class="kpi-card"><div class="kpi-label">Αφαιρέθηκαν</div><div class="kpi-value">${removed}</div><div class="kpi-sub">αποχωρήσεις ${year}</div></div>
       <div class="kpi-card"><div class="kpi-label">Καθαρή μεταβολή</div><div class="kpi-value" style="color:${net>0?'var(--red-text)':net<0?'var(--green-text)':'var(--text)'};">${net>0?'+':''}${net}</div><div class="kpi-sub">κομμάτια</div></div>
     </div>
@@ -2964,9 +2993,9 @@ function renderGoneList(){
       <div class="gone-card-detail" id="gone-detail-${idx}" style="display:none;border-top:1px solid var(--border-soft);padding:10px 12px;background:var(--surface2);">
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
           <div style="background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:9px 10px;">
-            <div style="font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);margin-bottom:4px;">🛒 Αγοράστηκε</div>
+            <div style="font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);margin-bottom:4px;">${isPaid(a)?'🛒 Αγοράστηκε':ACQ_ICONS[acqType(a)]+' '+ACQ_LABELS[acqType(a)]}</div>
             <div style="font-size:13px;font-weight:400;color:var(--text);">${purchaseDateStr}</div>
-            <div style="font-size:10px;color:var(--text-muted);margin-top:1px;">${a.price?'€'+a.price:''}</div>
+            <div style="font-size:10px;color:var(--text-muted);margin-top:1px;">${a.price?(isPaid(a)?'€':'αξία ~€')+a.price:''}</div>
           </div>
           <div style="background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:9px 10px;">
             <div style="font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);margin-bottom:4px;">⏱ Χρόνια στη ντουλάπα</div>
@@ -2984,7 +3013,7 @@ function renderGoneList(){
             <div style="font-size:10px;color:var(--text-muted);margin-top:1px;">${a.price?'από €'+a.price:''}</div>
           </div>
         </div>
-        ${purchaseDate&&a.price?`<div style="margin-top:8px;padding:8px 10px;background:rgba(212,162,58,0.08);border:1px solid rgba(212,162,58,0.25);border-radius:3px;font-size:9px;color:var(--text-muted);">
+        ${purchaseDate&&a.price&&isPaid(a)?`<div style="margin-top:8px;padding:8px 10px;background:rgba(212,162,58,0.08);border:1px solid rgba(212,162,58,0.25);border-radius:3px;font-size:9px;color:var(--text-muted);">
           💡 Αν αντί για αυτό το ρούχο επένδυες €${a.price} σε ETF (10%/έτος) τον ${purchaseDateStr}, σήμερα θα είχες <strong style="color:var(--accent);">€${calcETFValue(a.price,purchaseDate,dArchive,0.10).toFixed(0)}</strong>
         </div>`:''}
       </div>
@@ -3004,11 +3033,11 @@ function renderGoneStats(){
   renderGoneYearBar();
   const A=getGoneFiltered();
   document.getElementById('g-total').textContent=A.length;
-  const totalValue=A.reduce((s,a)=>s+(a.price||0),0);
+  const totalValue=A.reduce((s,a)=>s+paidPrice(a),0);
   document.getElementById('g-value').textContent='€'+Math.round(totalValue);
   const soldItems=A.filter(a=>a.archive_method==='Sold');
   const soldTotal=soldItems.reduce((s,a)=>s+(a.sold_price||0),0);
-  const soldOriginal=soldItems.reduce((s,a)=>s+(a.price||0),0);
+  const soldOriginal=soldItems.reduce((s,a)=>s+paidPrice(a),0);
   document.getElementById('g-sold').textContent='€'+Math.round(soldTotal);
   if(soldItems.length){
     const recoveryPct=soldOriginal>0?Math.round(soldTotal/soldOriginal*100):0;
@@ -3018,7 +3047,7 @@ function renderGoneStats(){
   }
   const cpws=A.map(a=>a.cpw_at_archive).filter(v=>v!=null);
   document.getElementById('g-avg-cpw').textContent=cpws.length?'€'+(cpws.reduce((x,y)=>x+y,0)/cpws.length).toFixed(2):'—';
-  const prices=A.map(a=>a.price).filter(v=>v!=null);
+  const prices=A.filter(isPaid).map(a=>a.price).filter(v=>v!=null);
   document.getElementById('g-avg-price').textContent=prices.length?'€'+Math.round(prices.reduce((x,y)=>x+y,0)/prices.length):'—';
   const cons=A.map(a=>a.conscious_score).filter(v=>v);
   document.getElementById('g-conscious').textContent=cons.length?(cons.reduce((x,y)=>x+y,0)/cons.length).toFixed(1):'—';
@@ -3075,7 +3104,7 @@ function renderOpportunityCost(){
       yearsStr=yrs>0&&mos>0?`${yrs}χρ ${mos}μ`:yrs>0?`${yrs}χρ`:`${mos}μ`;
     }
     return{...a,price,purchaseDate,purchaseDateStr,etfNow,etfAtArchive,oppCost,yearsStr};
-  }).filter(a=>a.price>0);
+  }).filter(a=>a.price>0&&isPaid(a));
 
   // KPIs
   const totalSpent=items.reduce((s,a)=>s+a.price,0);

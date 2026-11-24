@@ -1155,15 +1155,11 @@ em{font-family:var(--font-script) !important;font-style:normal !important;font-w
           <div class="kpi-card"><div class="kpi-label">Avg Cost Worn μήνα</div><div class="kpi-value" id="kpi-cost-worn">—</div><div class="kpi-sub">μέσο κόστος φορεμένων</div></div>
           <div class="kpi-card alert"><div class="kpi-label">Avg Cost Unworn μήνα</div><div class="kpi-value" id="kpi-cost-unworn">—</div><div class="kpi-sub">μέσο κόστος αφόρετων</div></div>
           <div class="kpi-card"><div class="kpi-label">Avg CPW φορεμένων</div><div class="kpi-value" id="kpi-cpw">—</div><div class="kpi-sub">ρούχα που φορέθηκαν</div></div>
-          <div class="kpi-card"><div class="kpi-label">Cost / Μήνα</div><div class="kpi-value" id="kpi-cost">—</div></div>
           <div class="kpi-card"><div class="kpi-label">Αξία ντουλάπας</div><div class="kpi-value" id="kpi-value">—</div><div class="kpi-sub" id="kpi-value-sub">—</div></div>
           <div class="kpi-card"><div class="kpi-label">Μέση ηλικία φορεμένων</div><div class="kpi-value" id="kpi-avg-age">—</div></div>
         </div>
         <div class="kpi-grid" style="margin-bottom:12px;">
           <div class="kpi-card score-k"><div class="kpi-label">Avg Χρήσεις/Ρούχο μήνα</div><div class="kpi-value" id="kpi-usage-rate">—</div><div class="kpi-sub">raw count</div></div>
-          <div class="kpi-card score-k"><div class="kpi-label">Avg Ευελιξία μήνα</div><div class="kpi-value" id="kpi-versatility">—</div><div class="kpi-sub">/10</div></div>
-          <div class="kpi-card score-k"><div class="kpi-label">Avg Συνέπεια μήνα</div><div class="kpi-value" id="kpi-alignment">—</div><div class="kpi-sub">/10</div></div>
-          <div class="kpi-card score-k"><div class="kpi-label">Avg Conscious (γενικό)</div><div class="kpi-value" id="kpi-conscious">—</div><div class="kpi-sub">/10</div></div>
           <div class="kpi-card score-k"><div class="kpi-label">Avg ΔΑΝ™ φορεμένων</div><div class="kpi-value" id="kpi-avg-score">—</div><div class="kpi-sub">/100</div></div>
         </div>
         <div style="display:flex;flex-direction:column;gap:9px;margin-bottom:12px;">
@@ -1173,13 +1169,34 @@ em{font-family:var(--font-script) !important;font-style:normal !important;font-w
             <div id="week-bars"></div>
           </div>
           <div class="chart-card">
-            <div class="chart-title">Κατηγορίες (τεμάχια που φορέθηκαν)</div>
-            <div class="chart-formula">📐 Μοναδικά κομμάτια ανά κατηγορία που εμφανίζονται σε wear logs του μήνα</div>
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px;">
+              <div class="chart-title" style="margin:0;" id="cat-chart-title">Κατηγορίες</div>
+              <select class="sort-select" id="month-cat-metric" onchange="loadMonthDash()" style="font-size:9px;">
+                <option value="items">Τεμάχια</option>
+                <option value="wears">Χρήσεις</option>
+              </select>
+            </div>
+            <div class="chart-formula" id="cat-chart-formula"></div>
             <div id="cat-legend"></div>
           </div>
           <div class="chart-card">
-            <div class="chart-title">Χρώματα (τεμάχια που φορέθηκαν)</div>
-            <div class="chart-formula">📐 Μοναδικά κομμάτια ανά χρώμα που εμφανίζονται σε wear logs του μήνα</div>
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px;flex-wrap:wrap;">
+              <div class="chart-title" style="margin:0;" id="color-chart-title">Χρώματα</div>
+              <div style="display:flex;gap:5px;">
+                <select class="sort-select" id="month-color-metric" onchange="loadMonthDash()" style="font-size:9px;">
+                <option value="items">Τεμάχια</option>
+                <option value="wears">Χρήσεις</option>
+              </select>
+                <select class="sort-select" id="month-color-group" onchange="loadMonthDash()" style="font-size:9px;">
+                  <option value="">Όλες οι κατηγορίες</option>
+                  <option value="clothing">Ρούχα (Tops/Παντελόνια/Φορέματα)</option>
+                  <option value="outwear">Outwear</option>
+                  <option value="accessories">Αξεσουάρ (Παπούτσια/Τσάντες/Αξεσ.)</option>
+                  <optgroup label="Ανά κατηγορία"><option value="cat:Tops">Tops</option><option value="cat:Pants">Παντελόνια</option><option value="cat:Dresses">Φορέματα</option><option value="cat:Outwear">Outwear</option><option value="cat:Shoes">Παπούτσια</option><option value="cat:Bags">Τσάντες</option><option value="cat:Accessories">Αξεσουάρ</option></optgroup>
+                </select>
+              </div>
+            </div>
+            <div class="chart-formula" id="color-chart-formula"></div>
             <div id="color-legend"></div>
           </div>
         </div>
@@ -1193,19 +1210,6 @@ em{font-family:var(--font-script) !important;font-style:normal !important;font-w
         </div>
         <div class="cpw-table" id="cpw-table-month"></div>
         <div style="display:flex;flex-direction:column;gap:9px;margin-bottom:12px;">
-          <div class="chart-card">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-              <div class="chart-title" style="margin:0;">Χρωματική Παλέτα (Αριθμός Χρήσεων)</div>
-              <select class="sort-select" id="color-wears-filter" onchange="loadMonthDash()" style="font-size:9px;">
-                <option value="">Όλα</option>
-                <option value="accessories">Αξεσουάρ</option>
-                <option value="clothing">Ρούχα</option>
-                <optgroup label="Ανά κατηγορία"><option value="cat:Tops">Tops</option><option value="cat:Pants">Παντελόνια</option><option value="cat:Dresses">Φορέματα</option><option value="cat:Outwear">Outwear</option><option value="cat:Shoes">Παπούτσια</option><option value="cat:Bags">Τσάντες</option><option value="cat:Accessories">Αξεσουάρ</option></optgroup>
-              </select>
-            </div>
-            <div class="chart-formula">📐 Σύνολο wear logs του μήνα ομαδοποιημένα ανά χρώμα (μετράει κάθε φορά που φορέθηκε)</div>
-            <div id="color-wears-legend"></div>
-          </div>
           <div class="chart-card">
             <div class="chart-title">Υλικά (Αριθμός Χρήσεων)</div>
             <div class="chart-formula">📐 Σύνολο wear logs του μήνα ομαδοποιημένα ανά υλικό (μετράει κάθε φορά που φορέθηκε ρούχο με αυτό το υλικό)</div>
@@ -1240,9 +1244,6 @@ em{font-family:var(--font-script) !important;font-style:normal !important;font-w
         </div>
         <div class="kpi-grid" style="margin-bottom:12px;">
           <div class="kpi-card score-k"><div class="kpi-label">Avg Χρήσεις/Ρούχο περιόδου</div><div class="kpi-value" id="t-usage-rate">—</div><div class="kpi-sub">raw count</div></div>
-          <div class="kpi-card score-k"><div class="kpi-label">Avg Ευελιξία περιόδου</div><div class="kpi-value" id="t-versatility">—</div><div class="kpi-sub">/10</div></div>
-          <div class="kpi-card score-k"><div class="kpi-label">Avg Συνέπεια περιόδου</div><div class="kpi-value" id="t-alignment">—</div><div class="kpi-sub">/10</div></div>
-          <div class="kpi-card score-k"><div class="kpi-label">Avg Conscious (γενικό)</div><div class="kpi-value" id="t-conscious">—</div><div class="kpi-sub">/10</div></div>
           <div class="kpi-card score-k"><div class="kpi-label">Avg ΔΑΝ™ φορεμένων</div><div class="kpi-value" id="t-avg-score">—</div><div class="kpi-sub">/100</div></div>
         </div>
         <div style="display:flex;flex-direction:column;gap:9px;margin-bottom:12px;">
@@ -1252,40 +1253,57 @@ em{font-family:var(--font-script) !important;font-style:normal !important;font-w
             <div id="monthly-bars"></div>
           </div>
           <div class="chart-card">
-            <div class="chart-title">Κατηγορίες (τεμάχια που φορέθηκαν)</div>
-            <div class="chart-formula">📐 Μοναδικά κομμάτια ανά κατηγορία που εμφανίζονται σε wear logs της περιόδου</div>
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px;">
+              <div class="chart-title" style="margin:0;" id="t-cat-chart-title">Κατηγορίες</div>
+              <select class="sort-select" id="period-cat-metric" onchange="loadTotalDash()" style="font-size:9px;">
+                <option value="items">Τεμάχια</option>
+                <option value="wears">Χρήσεις</option>
+              </select>
+            </div>
+            <div class="chart-formula" id="t-cat-chart-formula"></div>
             <div id="t-cat-legend"></div>
           </div>
           <div class="chart-card">
-            <div class="chart-title">Χρώματα (τεμάχια που φορέθηκαν)</div>
-            <div class="chart-formula">📐 Μοναδικά κομμάτια ανά χρώμα που εμφανίζονται σε wear logs της περιόδου</div>
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px;flex-wrap:wrap;">
+              <div class="chart-title" style="margin:0;" id="t-color-chart-title">Χρώματα</div>
+              <div style="display:flex;gap:5px;">
+                <select class="sort-select" id="period-color-metric" onchange="loadTotalDash()" style="font-size:9px;">
+                <option value="items">Τεμάχια</option>
+                <option value="wears">Χρήσεις</option>
+              </select>
+                <select class="sort-select" id="period-color-group" onchange="loadTotalDash()" style="font-size:9px;">
+                  <option value="">Όλες οι κατηγορίες</option>
+                  <option value="clothing">Ρούχα (Tops/Παντελόνια/Φορέματα)</option>
+                  <option value="outwear">Outwear</option>
+                  <option value="accessories">Αξεσουάρ (Παπούτσια/Τσάντες/Αξεσ.)</option>
+                  <optgroup label="Ανά κατηγορία"><option value="cat:Tops">Tops</option><option value="cat:Pants">Παντελόνια</option><option value="cat:Dresses">Φορέματα</option><option value="cat:Outwear">Outwear</option><option value="cat:Shoes">Παπούτσια</option><option value="cat:Bags">Τσάντες</option><option value="cat:Accessories">Αξεσουάρ</option></optgroup>
+                </select>
+              </div>
+            </div>
+            <div class="chart-formula" id="t-color-chart-formula"></div>
             <div id="t-color-legend"></div>
           </div>
         </div>
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
-          <div class="section-title" style="margin:0;">🏆 Top 5 χρήσεις περιόδου</div>
+          <div class="section-title" style="margin:0;">🏆 Top 10 χρήσεις περιόδου</div>
           <select class="sort-select" id="period-top5-cat" onchange="loadTotalDash()" style="font-size:9px;">
             <option value="">Όλα</option>
-            <option>Tops</option><option>Dresses</option><option>Pants</option>
-            <option>Outwear</option><option>Shoes</option><option>Bags</option><option>Accessories</option>
+            <option value="Tops">Tops</option><option value="Dresses">Φορέματα</option><option value="Pants">Παντελόνια</option>
+            <option value="Outwear">Outwear</option><option value="Shoes">Παπούτσια</option><option value="Bags">Τσάντες</option><option value="Accessories">Αξεσουάρ</option>
           </select>
         </div>
         <div class="cpw-table" id="cpw-table-total"></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+          <div class="section-title" style="margin:0;">🔻 Bottom 10 χρήσεις περιόδου</div>
+          <select class="sort-select" id="period-bottom-cat" onchange="loadTotalDash()" style="font-size:9px;">
+            <option value="">Όλα</option>
+            <option value="Tops">Tops</option><option value="Dresses">Φορέματα</option><option value="Pants">Παντελόνια</option>
+            <option value="Outwear">Outwear</option><option value="Shoes">Παπούτσια</option><option value="Bags">Τσάντες</option><option value="Accessories">Αξεσουάρ</option>
+          </select>
+        </div>
+        <div style="font-size:9px;color:var(--text-dim);margin:-2px 0 6px;">Τα λιγότερο φορεμένα κομμάτια της περιόδου — μαζί και όσα δεν φορέθηκαν καθόλου (δεν μετράνε όσα αγοράστηκαν μετά το τέλος της περιόδου).</div>
+        <div class="cpw-table" id="cpw-table-bottom"></div>
         <div style="display:flex;flex-direction:column;gap:9px;margin-bottom:12px;">
-          <div class="chart-card">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-              <div class="chart-title" style="margin:0;">Χρωματική Παλέτα (Αριθμός Χρήσεων)</div>
-              <select class="sort-select" id="t-color-wears-filter" onchange="loadTotalDash()" style="font-size:9px;">
-                <option value="">Όλα</option>
-                <option value="clothing">Ρούχα</option>
-                <option value="outwear">Outwear</option>
-                <option value="accessories">Αξεσουάρ</option>
-                <optgroup label="Ανά κατηγορία"><option value="cat:Tops">Tops</option><option value="cat:Pants">Παντελόνια</option><option value="cat:Dresses">Φορέματα</option><option value="cat:Outwear">Outwear</option><option value="cat:Shoes">Παπούτσια</option><option value="cat:Bags">Τσάντες</option><option value="cat:Accessories">Αξεσουάρ</option></optgroup>
-              </select>
-            </div>
-            <div class="chart-formula">📐 Σύνολο wear logs της περιόδου ομαδοποιημένα ανά χρώμα</div>
-            <div id="t-color-wears-legend"></div>
-          </div>
           <div class="chart-card">
             <div class="chart-title">Υλικά (Αριθμός Χρήσεων)</div>
             <div class="chart-formula">📐 Σύνολο wear logs της περιόδου ομαδοποιημένα ανά υλικό (μετράει κάθε φορά που φορέθηκε ρούχο με αυτό το υλικό)</div>
@@ -3396,18 +3414,11 @@ function loadMonthDash(){
   document.getElementById('kpi-cost-unworn').textContent=unwornPrices.length?'€'+Math.round(unwornPrices.reduce((x,y)=>x+y,0)/unwornPrices.length):'—';
   const cpws=wornItems.map(i=>getCPW(i)).filter(v=>v!=null);
   document.getElementById('kpi-cpw').textContent=cpws.length?'€'+(cpws.reduce((x,y)=>x+y,0)/cpws.length).toFixed(2):'—';
-  document.getElementById('kpi-cost').textContent='€'+Math.round(activeCapital);
   document.getElementById('kpi-value').textContent='€'+Math.round(totalCapital);
   document.getElementById('kpi-value-sub').textContent=totalItems+' κομμάτια';
   document.getElementById('kpi-avg-age').textContent=formatAge(getAvgAgeMonths(wornItems));
   const urs=wornItems.map(i=>getUsageRate(i)).filter(v=>v!=null);
   document.getElementById('kpi-usage-rate').textContent=monthLogs.length&&wornIds.length?(monthLogs.length/wornIds.length).toFixed(1):'—';
-  const vers=wornItems.map(i=>getVersatilityScore(i)).filter(v=>v!=null);
-  document.getElementById('kpi-versatility').textContent=vers.length?(vers.reduce((x,y)=>x+y,0)/vers.length).toFixed(1):'—';
-  const aligns=wornItems.map(i=>getAlignmentScore(i));
-  document.getElementById('kpi-alignment').textContent=aligns.length?(aligns.reduce((x,y)=>x+y,0)/aligns.length).toFixed(1):'—';
-  const agg=computeAggKPIs();
-  document.getElementById('kpi-conscious').textContent=agg.avgCons!=null?agg.avgCons.toFixed(1):'—';
   const scores=wornItems.map(i=>getWPS(i));
   document.getElementById('kpi-avg-score').textContent=scores.length?Math.round(scores.reduce((x,y)=>x+y,0)/scores.length):'—';
   // week bars
@@ -3415,13 +3426,26 @@ function loadMonthDash(){
   const maxW=Math.max(...weeks,1);
   document.getElementById('week-bars').innerHTML=weeks.map((v,i)=>renderHBar(['1-7','8-14','15-21','22-28','29-31'][i],v,maxW,String(v),'var(--accent)')).join('');
   // categories
-  const catCounts={};wornItems.forEach(i=>{const c=i.cat1||i.category||'—';catCounts[c]=(catCounts[c]||0)+1;});
-  const catSorted=Object.entries(catCounts).sort((a,b)=>b[1]-a[1]);const maxCat=catSorted[0]?.[1]||1;
-  document.getElementById('cat-legend').innerHTML=catSorted.length?catSorted.map(([k,v])=>renderHBar(k,v,maxCat,String(v),catColor(k))).join(''):'<div style="font-size:10px;color:var(--text-dim);">—</div>';
-  // colors (items)
-  const colCounts={};wornItems.forEach(i=>{if(i.color)colCounts[i.color]=(colCounts[i.color]||0)+1;});
-  const colSorted=Object.entries(colCounts).sort((a,b)=>b[1]-a[1]);const maxCol=colSorted[0]?.[1]||1;
-  document.getElementById('color-legend').innerHTML=colSorted.length?colSorted.map(([k,v])=>renderHBar(k,v,maxCol,String(v),COLOR_HEX[k]||'#aaa')).join(''):'<div style="font-size:10px;color:var(--text-dim);">—</div>';
+  // categories & colors — εναλλαγή Τεμάχια / Χρήσεις
+  const empty='<div style="font-size:10px;color:var(--text-dim);">—</div>';
+  const tally=(metric,keyFn,filterFn)=>{
+    const out={};
+    if(metric==='wears'){monthLogs.forEach(l=>{const it=allItems.find(i=>i.id===l.wardrobe_item_id);if(!it||(filterFn&&!filterFn(it)))return;const k=keyFn(it);if(k)out[k]=(out[k]||0)+1;});}
+    else{wornItems.forEach(it=>{if(filterFn&&!filterFn(it))return;const k=keyFn(it);if(k)out[k]=(out[k]||0)+1;});}
+    return Object.entries(out).sort((a,b)=>b[1]-a[1]);
+  };
+  const catMetric=document.getElementById('month-cat-metric')?.value||'items';
+  const catSorted=tally(catMetric,i=>i.cat1||i.category||'—');const maxCat=catSorted[0]?.[1]||1;
+  document.getElementById('cat-chart-title').textContent=catMetric==='wears'?'Κατηγορίες (χρήσεις)':'Κατηγορίες (τεμάχια που φορέθηκαν)';
+  document.getElementById('cat-chart-formula').textContent=catMetric==='wears'?'📐 Σύνολο wear logs του μήνα ανά κατηγορία (μετράει κάθε φορά που φορέθηκε)':'📐 Μοναδικά κομμάτια ανά κατηγορία που φορέθηκαν τον μήνα';
+  document.getElementById('cat-legend').innerHTML=catSorted.length?catSorted.map(([k,v])=>renderHBar(k,v,maxCat,catMetric==='wears'?v+' χρ.':v+' τεμ.',catColor(k))).join(''):empty;
+  const colMetric=document.getElementById('month-color-metric')?.value||'items';
+  const colGroup=document.getElementById('month-color-group')?.value||'';
+  const colSorted=tally(colMetric,i=>i.color,i=>colorGroupMatch(i,colGroup));const maxCol=colSorted[0]?.[1]||1;
+  const grpSel=document.getElementById('month-color-group');const grpLbl=colGroup&&grpSel?' · '+grpSel.options[grpSel.selectedIndex].text.replace(/ \(.*\)$/,''):'';
+  document.getElementById('color-chart-title').textContent=(colMetric==='wears'?'Χρώματα (χρήσεις)':'Χρώματα (τεμάχια)')+grpLbl;
+  document.getElementById('color-chart-formula').textContent=colMetric==='wears'?'📐 Σύνολο wear logs του μήνα ανά χρώμα (μετράει κάθε φορά που φορέθηκε)':'📐 Μοναδικά κομμάτια ανά χρώμα που φορέθηκαν τον μήνα';
+  document.getElementById('color-legend').innerHTML=colSorted.length?colSorted.map(([k,v])=>renderHBar(k,v,maxCol,colMetric==='wears'?v+' χρ.':v+' τεμ.',COLOR_HEX[k]||'#aaa')).join(''):empty;
   // top5
   const top5Cat=document.getElementById('month-top5-cat').value;
   const wearCountMonth={};monthLogs.forEach(l=>{wearCountMonth[l.wardrobe_item_id]=(wearCountMonth[l.wardrobe_item_id]||0)+1;});
@@ -3429,11 +3453,6 @@ function loadMonthDash(){
   if(top5Cat)top5=top5.filter(x=>(x.item.cat1||x.item.category)===top5Cat);
   top5.sort((a,b)=>b.count-a.count);top5=top5.slice(0,5);
   document.getElementById('cpw-table-month').innerHTML=top5.length?top5.map(({item,count})=>{const cpw=getCPW(item);return`<div class="cpw-row" onclick="openItemModal('${item.id}')"><div class="cpw-row-thumb">${item.photo_url?`<img src="${escHtml(item.photo_url)}">`:'👗'}</div><div class="cpw-row-body"><div class="cpw-row-name">${escHtml(item.title)}</div><div class="cpw-row-sub">${[item.brand,item.cat2||item.cat1].filter(Boolean).join(' · ')}</div></div><div class="cpw-row-right"><div class="cpw-v ${cpwClass(cpw)}">${count}× μήνα</div>${cpw?`<div class="cpw-row-sub">CPW €${cpw.toFixed(2)}</div>`:''}</div></div>`;}).join(''):'<div style="padding:14px;font-size:11px;color:var(--text-dim);text-align:center;">Καμία χρήση αυτόν τον μήνα</div>';
-  // color wears
-  const cwFilter=document.getElementById('color-wears-filter').value;
-  const colorWears={};monthLogs.forEach(l=>{const item=allItems.find(i=>i.id===l.wardrobe_item_id);if(!item||!item.color)return;if(cwFilter.startsWith('cat:')){if((item.cat1||item.category)!==cwFilter.slice(4))return;colorWears[item.color]=(colorWears[item.color]||0)+1;return;}const isAcc=(item.cat1||item.category)==='Accessories'||(item.cat1||item.category)==='Bags';if(cwFilter==='accessories'&&!isAcc)return;if(cwFilter==='clothing'&&isAcc)return;colorWears[item.color]=(colorWears[item.color]||0)+1;});
-  const cwSorted=Object.entries(colorWears).sort((a,b)=>b[1]-a[1]);const maxCW=cwSorted[0]?.[1]||1;
-  document.getElementById('color-wears-legend').innerHTML=cwSorted.length?cwSorted.map(([k,v])=>renderHBar(k,v,maxCW,v+' χρ.',COLOR_HEX[k]||'#aaa')).join(''):'<div style="font-size:10px;color:var(--text-dim);">—</div>';
   // material wears
   const materialWears={};monthLogs.forEach(l=>{const item=allItems.find(i=>i.id===l.wardrobe_item_id);if(!item)return;const comp=parseMaterialComposition(item.material);if(!comp.length)return;const names=new Set(comp.map(c=>(c.name==='Άλλο'&&c.note)?`Άλλο (${c.note})`:c.name));names.forEach(name=>{materialWears[name]=(materialWears[name]||0)+1;});});
   const mwSorted=Object.entries(materialWears).sort((a,b)=>b[1]-a[1]);const maxMW=mwSorted[0]?.[1]||1;
@@ -3442,8 +3461,9 @@ function loadMonthDash(){
 
 // TOTAL DASH
 function initTotalDash(){
-  const now=new Date();const from=new Date(now.getFullYear(),now.getMonth()-5,1);
-  document.getElementById('range-from').value=`${from.getFullYear()}-${String(from.getMonth()+1).padStart(2,'0')}`;
+  // Default: Ιανουάριος του τρέχοντος έτους → τρέχων μήνας
+  const now=new Date();
+  document.getElementById('range-from').value=`${now.getFullYear()}-01`;
   document.getElementById('range-to').value=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
 }
 function loadTotalDash(){
@@ -3474,32 +3494,48 @@ function loadTotalDash(){
   document.getElementById('t-invest-sub').textContent=totalItems+' κομμάτια';
   document.getElementById('t-avg-age').textContent=formatAge(getAvgAgeMonths(wornItems));
   document.getElementById('t-usage-rate').textContent=logs.length&&wornIds.length?(logs.length/wornIds.length).toFixed(1):'—';
-  const vers=wornItems.map(i=>getVersatilityScore(i)).filter(v=>v!=null);
-  document.getElementById('t-versatility').textContent=vers.length?(vers.reduce((x,y)=>x+y,0)/vers.length).toFixed(1):'—';
-  const aligns=wornItems.map(i=>getAlignmentScore(i));
-  document.getElementById('t-alignment').textContent=aligns.length?(aligns.reduce((x,y)=>x+y,0)/aligns.length).toFixed(1):'—';
-  const agg=computeAggKPIs();document.getElementById('t-conscious').textContent=agg.avgCons!=null?agg.avgCons.toFixed(1):'—';
   const scores=wornItems.map(i=>getWPS(i));document.getElementById('t-avg-score').textContent=scores.length?Math.round(scores.reduce((x,y)=>x+y,0)/scores.length):'—';
   // monthly bars
   const byMonth={};logs.forEach(l=>{const k=l.worn_date.slice(0,7);byMonth[k]=(byMonth[k]||0)+1;});
   const sortedM=Object.entries(byMonth).sort((a,b)=>a[0].localeCompare(b[0]));const maxM=Math.max(...sortedM.map(m=>m[1]),1);
   document.getElementById('monthly-bars').innerHTML=sortedM.length?sortedM.map(([k,v])=>{const[y,mo]=k.split('-');return renderHBar(MN_SHORT[parseInt(mo)-1]+' '+y.slice(2),v,maxM,String(v),'var(--accent)');}).join(''):'<div style="font-size:10px;color:var(--text-dim);">—</div>';
-  const catCounts={};wornItems.forEach(i=>{const c=i.cat1||i.category||'—';catCounts[c]=(catCounts[c]||0)+1;});
-  const catSorted=Object.entries(catCounts).sort((a,b)=>b[1]-a[1]);const maxCat=catSorted[0]?.[1]||1;
-  document.getElementById('t-cat-legend').innerHTML=catSorted.length?catSorted.map(([k,v])=>renderHBar(k,v,maxCat,String(v),catColor(k))).join(''):'<div style="font-size:10px;color:var(--text-dim);">—</div>';
-  const colCounts={};wornItems.forEach(i=>{if(i.color)colCounts[i.color]=(colCounts[i.color]||0)+1;});
-  const colSorted=Object.entries(colCounts).sort((a,b)=>b[1]-a[1]);const maxCol=colSorted[0]?.[1]||1;
-  document.getElementById('t-color-legend').innerHTML=colSorted.length?colSorted.map(([k,v])=>renderHBar(k,v,maxCol,String(v),COLOR_HEX[k]||'#aaa')).join(''):'<div style="font-size:10px;color:var(--text-dim);">—</div>';
-  const top5Cat=document.getElementById('period-top5-cat').value;
+  // categories & colors — εναλλαγή Τεμάχια / Χρήσεις
+  const empty='<div style="font-size:10px;color:var(--text-dim);">—</div>';
+  const tally=(metric,keyFn,filterFn)=>{
+    const out={};
+    if(metric==='wears'){logs.forEach(l=>{const it=allItems.find(i=>i.id===l.wardrobe_item_id);if(!it||(filterFn&&!filterFn(it)))return;const k=keyFn(it);if(k)out[k]=(out[k]||0)+1;});}
+    else{wornItems.forEach(it=>{if(filterFn&&!filterFn(it))return;const k=keyFn(it);if(k)out[k]=(out[k]||0)+1;});}
+    return Object.entries(out).sort((a,b)=>b[1]-a[1]);
+  };
+  const catMetric=document.getElementById('period-cat-metric')?.value||'items';
+  const catSorted=tally(catMetric,i=>i.cat1||i.category||'—');const maxCat=catSorted[0]?.[1]||1;
+  document.getElementById('t-cat-chart-title').textContent=catMetric==='wears'?'Κατηγορίες (χρήσεις)':'Κατηγορίες (τεμάχια που φορέθηκαν)';
+  document.getElementById('t-cat-chart-formula').textContent=catMetric==='wears'?'📐 Σύνολο wear logs της περιόδου ανά κατηγορία (μετράει κάθε φορά που φορέθηκε)':'📐 Μοναδικά κομμάτια ανά κατηγορία που φορέθηκαν στην περίοδο';
+  document.getElementById('t-cat-legend').innerHTML=catSorted.length?catSorted.map(([k,v])=>renderHBar(k,v,maxCat,catMetric==='wears'?v+' χρ.':v+' τεμ.',catColor(k))).join(''):empty;
+  const colMetric=document.getElementById('period-color-metric')?.value||'items';
+  const colGroup=document.getElementById('period-color-group')?.value||'';
+  const colSorted=tally(colMetric,i=>i.color,i=>colorGroupMatch(i,colGroup));const maxCol=colSorted[0]?.[1]||1;
+  const grpSel=document.getElementById('period-color-group');const grpLbl=colGroup&&grpSel?' · '+grpSel.options[grpSel.selectedIndex].text.replace(/ \(.*\)$/,''):'';
+  document.getElementById('t-color-chart-title').textContent=(colMetric==='wears'?'Χρώματα (χρήσεις)':'Χρώματα (τεμάχια)')+grpLbl;
+  document.getElementById('t-color-chart-formula').textContent=colMetric==='wears'?'📐 Σύνολο wear logs της περιόδου ανά χρώμα (μετράει κάθε φορά που φορέθηκε)':'📐 Μοναδικά κομμάτια ανά χρώμα που φορέθηκαν στην περίοδο';
+  document.getElementById('t-color-legend').innerHTML=colSorted.length?colSorted.map(([k,v])=>renderHBar(k,v,maxCol,colMetric==='wears'?v+' χρ.':v+' τεμ.',COLOR_HEX[k]||'#aaa')).join(''):empty;
+  // Top 10 / Bottom 10
   const wearCount={};logs.forEach(l=>{wearCount[l.wardrobe_item_id]=(wearCount[l.wardrobe_item_id]||0)+1;});
-  let top5=Object.entries(wearCount).map(([id,c])=>({item:allItems.find(i=>i.id===id),count:c})).filter(x=>x.item);
-  if(top5Cat)top5=top5.filter(x=>(x.item.cat1||x.item.category)===top5Cat);
-  top5.sort((a,b)=>b.count-a.count);top5=top5.slice(0,5);
-  document.getElementById('cpw-table-total').innerHTML=top5.length?top5.map(({item,count})=>{const cpw=getCPW(item);return`<div class="cpw-row" onclick="openItemModal('${item.id}')"><div class="cpw-row-thumb">${item.photo_url?`<img src="${escHtml(item.photo_url)}">`:'👗'}</div><div class="cpw-row-body"><div class="cpw-row-name">${escHtml(item.title)}</div><div class="cpw-row-sub">${[item.brand,item.cat2||item.cat1].filter(Boolean).join(' · ')}</div></div><div class="cpw-row-right"><div class="cpw-v ${cpwClass(cpw)}">${count}× περίοδο</div>${cpw?`<div class="cpw-row-sub">CPW €${cpw.toFixed(2)}</div>`:''}</div></div>`;}).join(''):'<div style="padding:14px;font-size:11px;color:var(--text-dim);text-align:center;">Καμία χρήση</div>';
-  const cwFilter=document.getElementById('t-color-wears-filter').value;
-  const colorWears={};logs.forEach(l=>{const item=allItems.find(i=>i.id===l.wardrobe_item_id);if(!item||!item.color)return;if(!colorGroupMatch(item,cwFilter))return;colorWears[item.color]=(colorWears[item.color]||0)+1;});
-  const cwSorted=Object.entries(colorWears).sort((a,b)=>b[1]-a[1]);const maxCW=cwSorted[0]?.[1]||1;
-  document.getElementById('t-color-wears-legend').innerHTML=cwSorted.length?cwSorted.map(([k,v])=>renderHBar(k,v,maxCW,v+' χρ.',COLOR_HEX[k]||'#aaa')).join(''):'<div style="font-size:10px;color:var(--text-dim);">—</div>';
+  const rowHtml=({item,count})=>{const cpw=getCPW(item);const last=getLastWorn(item.id);
+    const sub=count?[item.brand,item.cat2||item.cat1].filter(Boolean).join(' · '):`${[item.brand,item.cat2||item.cat1].filter(Boolean).join(' · ')} · τελευταία: ${last?fmtFullDate(last):'ποτέ'}`;
+    return`<div class="cpw-row" onclick="openItemModal('${item.id}')"><div class="cpw-row-thumb">${item.photo_url?`<img src="${escHtml(item.photo_url)}">`:'👗'}</div><div class="cpw-row-body"><div class="cpw-row-name">${escHtml(item.title)}</div><div class="cpw-row-sub">${escHtml(sub)}</div></div><div class="cpw-row-right"><div class="cpw-v ${count?cpwClass(cpw):'bad'}">${count?count+'× περίοδο':(getTotalWear(item)>0?'0× περίοδο':'0× · ποτέ')}</div>${cpw?`<div class="cpw-row-sub">CPW €${cpw.toFixed(2)}</div>`:''}</div></div>`;};
+  const topCat=document.getElementById('period-top5-cat').value;
+  let top=Object.entries(wearCount).map(([id,c])=>({item:baseItems.find(i=>i.id===id),count:c})).filter(x=>x.item);
+  if(topCat)top=top.filter(x=>(x.item.cat1||x.item.category)===topCat);
+  top.sort((a,b)=>b.count-a.count);top=top.slice(0,10);
+  document.getElementById('cpw-table-total').innerHTML=top.length?top.map(rowHtml).join(''):'<div style="padding:14px;font-size:11px;color:var(--text-dim);text-align:center;">Καμία χρήση</div>';
+  const botCat=document.getElementById('period-bottom-cat').value;
+  const ownedByEnd=i=>{const d=i.purchased_at?new Date(i.purchased_at):(i.purchase_year?new Date(i.purchase_year,(i.purchase_month||1)-1,1):null);return !d||isNaN(d)||d<=new Date(toD);};
+  let bottom=baseItems.filter(ownedByEnd).map(i=>({item:i,count:wearCount[i.id]||0}));
+  if(botCat)bottom=bottom.filter(x=>(x.item.cat1||x.item.category)===botCat);
+  bottom.sort((a,b)=>a.count-b.count||(getLastWorn(a.item.id)||'').localeCompare(getLastWorn(b.item.id)||'')||(b.item.price||0)-(a.item.price||0));
+  bottom=bottom.slice(0,10);
+  document.getElementById('cpw-table-bottom').innerHTML=bottom.length?bottom.map(rowHtml).join(''):'<div style="padding:14px;font-size:11px;color:var(--text-dim);text-align:center;">Κανένα κομμάτι</div>';
   // material wears
   const materialWears={};logs.forEach(l=>{const item=allItems.find(i=>i.id===l.wardrobe_item_id);if(!item)return;const comp=parseMaterialComposition(item.material);if(!comp.length)return;const names=new Set(comp.map(c=>(c.name==='Άλλο'&&c.note)?`Άλλο (${c.note})`:c.name));names.forEach(name=>{materialWears[name]=(materialWears[name]||0)+1;});});
   const mwSorted=Object.entries(materialWears).sort((a,b)=>b[1]-a[1]);const maxMW=mwSorted[0]?.[1]||1;

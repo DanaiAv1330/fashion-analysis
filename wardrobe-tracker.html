@@ -459,6 +459,40 @@ body{font-family:var(--font-sans);font-weight:300;background:var(--bg);color:var
 .set-base-tag{font-size:7px;letter-spacing:0.05em;text-transform:uppercase;color:var(--accent);font-weight:500;padding:3px 4px 0;}
 .set-empty{text-align:center;padding:30px 16px;color:var(--text-muted);font-size:11px;}
 .set-color-dot{display:inline-block;width:8px;height:8px;border-radius:50%;border:1px solid var(--border);vertical-align:middle;margin-right:2px;}
+/* SAVED SETS (library + history) */
+.sset-count{font-family:var(--font-display);font-weight:800;font-size:24px;color:var(--burgundy);line-height:1;text-align:right;flex-shrink:0;}
+.sset-count small{display:block;font-family:var(--font-sans);font-weight:400;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);margin-top:2px;}
+.sset-meta{display:flex;gap:5px;flex-wrap:wrap;align-items:center;font-size:9.5px;color:var(--text-muted);margin:4px 0 8px;}
+.sset-tag{font-size:8px;letter-spacing:0.06em;text-transform:uppercase;padding:2px 7px;border-radius:10px;background:var(--surface2);border:1px solid var(--border);color:var(--text-muted);white-space:nowrap;}
+.sset-tag.hot{background:var(--accent-dim);border-color:var(--accent);color:var(--burgundy);font-weight:600;}
+.sset-tag.cold{background:var(--red-soft);border-color:rgba(140,74,58,0.3);color:var(--red-text);}
+.sset-notes{font-size:10px;color:var(--text-muted);font-style:italic;line-height:1.5;margin:0 0 10px;padding:6px 9px;background:var(--surface2);border-left:2px solid var(--camel);}
+.sset-bar{height:4px;background:var(--surface3);border-radius:2px;overflow:hidden;margin:2px 0 10px;}
+.sset-bar span{display:block;height:100%;background:var(--mustard);border-radius:2px;}
+.sset-actions{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:10px;padding-top:10px;border-top:1px solid var(--border-soft);}
+.sset-actions input[type=date],.sets-toolbar select,.sets-form input,.sets-form select,.sets-form textarea{font-family:var(--font-sans);font-size:12px;border:1px solid var(--border);background:var(--surface2);padding:7px 9px;border-radius:1px;color:var(--text);outline:none;}
+.sset-actions input[type=date]{font-size:11px;padding:5px 7px;}
+.sset-missing{font-size:9px;color:var(--red-text);margin-top:4px;}
+.sset-hist{margin-top:8px;}
+.sset-hist summary{font-size:9px;letter-spacing:0.08em;text-transform:uppercase;color:var(--olive);cursor:pointer;list-style:none;font-weight:500;}
+.sset-hist summary::-webkit-details-marker{display:none;}
+.sset-hist-row{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:5px 0;border-top:1px solid var(--border-soft);font-size:11px;}
+.sset-hist-row:first-of-type{margin-top:6px;}
+.sset-hist-row button{background:none;border:none;color:var(--red-text);cursor:pointer;font-size:11px;padding:0 4px;}
+.sets-toolbar{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-bottom:12px;}
+.sets-toolbar select{font-size:11px;padding:6px 8px;flex:1;min-width:110px;}
+.sets-form{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:12px;}
+.sets-form .full{grid-column:1/-1;}
+.sets-form label{display:block;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px;}
+.sets-form input,.sets-form select,.sets-form textarea{width:100%;}
+.sets-form textarea{resize:vertical;min-height:44px;}
+@media(max-width:480px){.sets-form{grid-template-columns:1fr;}}
+.sets-setup{font-size:11px;line-height:1.6;color:var(--text);background:rgba(232,184,75,0.15);border:1px solid rgba(212,162,58,0.4);border-radius:3px;padding:12px 14px;margin-bottom:14px;}
+.day-sets-wrap{margin-bottom:11px;}
+.day-set-chip{display:inline-flex;align-items:center;gap:5px;font-size:10px;padding:4px 6px 4px 10px;border-radius:12px;background:var(--accent-dim);border:1px solid var(--accent);color:var(--burgundy);margin:0 4px 6px 0;font-weight:500;}
+.day-set-chip button{background:none;border:none;color:var(--red-text);cursor:pointer;font-size:10px;padding:0 2px;}
+.day-set-add{display:flex;gap:5px;}
+.day-set-add select{flex:1;min-width:0;font-family:var(--font-sans);font-size:11px;border:1px solid var(--border);background:var(--surface2);padding:6px 7px;border-radius:1px;color:var(--text);outline:none;}
 
 /* LOADING / TOAST */
 .loading{text-align:center;padding:40px;color:var(--text-muted);font-size:12px;}
@@ -926,6 +960,8 @@ em{font-family:var(--font-script) !important;font-style:normal !important;font-w
         <div class="section-label">Ρούχα ημέρας</div>
         <div class="worn-grid" id="worn-grid"></div>
         <button class="btn-add-wear" onclick="openPickModal()">+ Πρόσθεσε ρούχο</button>
+        <div class="section-label">✨ Σετ ημέρας</div>
+        <div class="day-sets-wrap" id="day-sets-wrap"></div>
         <div class="section-label">Στατιστικά μήνα</div>
         <div class="month-stats-grid">
           <div class="mstat"><div class="mstat-num" id="ms-days">—</div><div class="mstat-label">Ημέρες με log</div></div>
@@ -953,81 +989,136 @@ em{font-family:var(--font-script) !important;font-style:normal !important;font-w
   <!-- SETS / OUTFIT BUILDER TAB -->
   <div class="panel" id="tab-sets">
     <div style="padding:14px 12px 24px;max-width:760px;margin:0 auto;">
-      <div style="margin-bottom:14px;">
-        <div style="font-family:var(--font-serif);font-size:18px;font-weight:300;">Προτεινόμενα <em style="font-style:italic;color:var(--accent)">Σετ</em></div>
-        <div style="font-size:10px;color:var(--text-dim);margin-top:3px;line-height:1.6;">Διάλεξε ένα κομμάτι και εποχή — θα φτιάξω 3 σετ (Καθημερινό · Γραφείο · Βραδινό) από τη ντουλάπα σου, με βάση χρώμα, εποχή & ευελιξία.</div>
+      <div class="dash-subtabs" id="sets-subtabs">
+        <button class="dash-subtab active" data-sub="mine" onclick="showSetsSub('mine',this)">💾 Τα σετ μου</button>
+        <button class="dash-subtab" data-sub="build" onclick="showSetsSub('build',this)">✂️ Νέο σετ</button>
+        <button class="dash-subtab" data-sub="suggest" onclick="showSetsSub('suggest',this)">✨ Προτάσεις</button>
       </div>
-      <div style="background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:14px 16px;margin-bottom:16px;">
-        <div style="display:flex;flex-direction:column;gap:12px;">
-          <div class="form-group">
-            <label style="font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);display:block;margin-bottom:6px;">Κομμάτι για styling *</label>
-            <input type="hidden" id="set-base-item" value="">
-            <div id="set-base-display" onclick="openSetPicker()" style="display:flex;align-items:center;gap:10px;border:1px solid var(--border);background:var(--surface2);padding:8px 10px;border-radius:2px;cursor:pointer;min-height:54px;">
-              <div id="set-base-thumb" style="width:38px;height:46px;border-radius:2px;background:var(--surface3);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;overflow:hidden;">👗</div>
-              <div style="flex:1;min-width:0;">
-                <div id="set-base-name" style="font-family:var(--font-serif);font-size:13px;color:var(--text-dim);">Πάτησε για να διαλέξεις κομμάτι</div>
-                <div id="set-base-meta" style="font-size:9px;color:var(--text-dim);margin-top:2px;"></div>
-              </div>
-              <div style="font-size:14px;color:var(--accent);flex-shrink:0;">🔽</div>
+
+      <div id="sets-setup-msg" class="sets-setup" style="display:none;">
+        ⚙️ <strong>Χρειάζεται μια φορά ρύθμιση στη βάση.</strong> Για να σώζονται τα σετ, τρέξε το αρχείο <code>outfit_sets.sql</code> στο Supabase → SQL Editor και κάνε refresh τη σελίδα.
+      </div>
+
+      <!-- MY SETS (library) -->
+      <div id="sets-sub-mine">
+        <div style="margin-bottom:12px;">
+          <div style="font-family:var(--font-serif);font-size:18px;font-weight:300;">Τα <em style="font-style:italic;color:var(--accent)">Σετ</em> μου</div>
+          <div style="font-size:10px;color:var(--text-dim);margin-top:3px;line-height:1.6;">Έτοιμα συνδυασμένα looks για έμπνευση. Πάτα «📅 Φόρεσέ το» για να μπουν όλα τα κομμάτια σε μια μέρα — το ίδιο σετ μπαίνει σε όσες μέρες θες και μετράει πόσες φορές το φόρεσες.</div>
+        </div>
+        <div id="sets-stats"></div>
+        <div class="sets-toolbar">
+          <select id="sets-sort" onchange="setsSort=this.value;renderSavedSets()">
+            <option value="most_worn">Περισσότερο φορεμένα</option>
+            <option value="recent">Πρόσφατα φορεμένα</option>
+            <option value="least_worn">Λιγότερο φορεμένα</option>
+            <option value="newest">Νεότερα σετ</option>
+            <option value="name">Όνομα (Α→Ω)</option>
+          </select>
+          <select id="sets-occ-filter" onchange="setsOccFilter=this.value;renderSavedSets()"></select>
+          <select id="sets-season-filter" onchange="setsSeasonFilter=this.value;renderSavedSets()">
+            <option value="">Όλες οι εποχές</option>
+            <option value="summer">☀️ Άνοιξη / Καλοκαίρι</option>
+            <option value="winter">❄️ Φθινόπωρο / Χειμώνας</option>
+            <option value="all">🔁 4 εποχές</option>
+          </select>
+        </div>
+        <div id="saved-sets-list"></div>
+      </div>
+
+      <!-- BUILD / EDIT SET -->
+      <div id="sets-sub-build" style="display:none;">
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:14px 16px;margin-bottom:16px;">
+          <div style="font-family:var(--font-serif);font-size:18px;font-weight:300;" id="custom-set-title">Φτιάξε το δικό σου <em style="font-style:italic;color:var(--accent)">Σετ</em></div>
+          <div style="font-size:10px;color:var(--text-dim);margin:3px 0 12px;line-height:1.6;">Διάλεξε κομμάτια από τη ντουλάπα σου και σώσ' τα ως σετ. Το σετ μένει στη λίστα «Τα σετ μου» και το βάζεις σε όποια μέρα θες, όσες φορές θες.</div>
+          <div class="sets-form">
+            <div class="full"><label>Όνομα σετ</label><input type="text" id="custom-set-name" placeholder="π.χ. Navy blazer + τζιν για γραφείο"></div>
+            <div><label>Περίσταση</label><select id="custom-set-occasion"></select></div>
+            <div><label>Εποχή</label>
+              <select id="custom-set-season">
+                <option value="">—</option>
+                <option value="summer">☀️ Άνοιξη / Καλοκαίρι</option>
+                <option value="winter">❄️ Φθινόπωρο / Χειμώνας</option>
+                <option value="all">🔁 4 εποχές</option>
+              </select>
             </div>
+            <div class="full"><label>Σημειώσεις (προαιρετικό)</label><textarea id="custom-set-notes" placeholder="π.χ. με χρυσά σκουλαρίκια, για meetings με πελάτες…"></textarea></div>
           </div>
-          <div class="form-group">
-            <label style="font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);display:block;margin-bottom:4px;">Εποχή *</label>
-            <select id="set-season" style="font-family:var(--font-sans);font-size:12px;border:1px solid var(--border);background:var(--surface2);padding:8px 9px;border-radius:1px;color:var(--text);outline:none;width:100%;">
-              <option value="summer">☀️ Άνοιξη / Καλοκαίρι</option>
-              <option value="winter">❄️ Φθινόπωρο / Χειμώνας</option>
-            </select>
+          <input type="text" id="custom-set-search" placeholder="🔎 Αναζήτηση ρούχου…" oninput="renderCustomSetGrid()" style="width:100%;font-family:var(--font-sans);font-size:12px;border:1px solid var(--border);background:var(--surface2);padding:7px 9px;border-radius:1px;color:var(--text);outline:none;margin-bottom:8px;">
+          <div class="pick-cats" id="custom-set-cats" style="padding:0 0 8px;"></div>
+          <div class="pick-grid" id="custom-set-grid" style="max-height:40vh;padding:8px 0;"></div>
+          <div id="custom-set-empty-hint" style="display:none;font-size:10px;color:var(--text-dim);padding:4px 0 2px;">Δεν έχεις επιλέξει ακόμα κομμάτια.</div>
+          <div id="custom-set-selected-wrap" style="margin-top:6px;"></div>
+          <div style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;margin-top:14px;">
+            <div class="form-group" style="flex:1;min-width:160px;">
+              <label style="font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);display:block;margin-bottom:4px;">Το φόρεσα κιόλας στις (προαιρετικό)</label>
+              <input type="date" id="custom-set-date" style="font-family:var(--font-sans);font-size:12px;border:1px solid var(--border);background:var(--surface2);padding:8px 9px;border-radius:1px;color:var(--text);outline:none;width:100%;">
+            </div>
+            <button class="btn-sm" onclick="resetCustomSetForm()" style="padding:9px 14px;white-space:nowrap;" id="custom-set-cancel">✕ Καθάρισμα</button>
+            <button class="btn-sm primary" onclick="saveCustomSet()" style="padding:9px 20px;white-space:nowrap;" id="custom-set-save">💾 Αποθήκευση σετ</button>
           </div>
-          <div class="form-group">
-            <label style="font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);display:block;margin-bottom:4px;">Περίσταση</label>
-            <select id="set-occasion-filter" style="font-family:var(--font-sans);font-size:12px;border:1px solid var(--border);background:var(--surface2);padding:8px 9px;border-radius:1px;color:var(--text);outline:none;width:100%;">
-              <option value="auto">🎯 Αυτόματα (βάσει του κομματιού)</option>
-              <option value="all">Όλες οι περιστάσεις</option>
-              <option value="casual">🚶‍♀️ Καθημερινό</option>
-              <option value="office">💼 Γραφείο</option>
-              <option value="evening">🌙 Βραδινό</option>
-              <option value="formal">🎩 Επίσημο</option>
-              <option value="sport">🏃‍♀️ Σπορ</option>
-              <option value="vacation">🏖️ Διακοπές</option>
-              <option value="travel">✈️ Ταξίδι</option>
-            </select>
-          </div>
-          <button class="btn-sm primary" onclick="generateSets()" style="align-self:flex-start;padding:9px 20px;">✨ Φτιάξε σετ</button>
         </div>
       </div>
 
-      <!-- CUSTOM SET BUILDER -->
-      <div style="background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:14px 16px;margin-bottom:16px;">
-        <div style="font-family:var(--font-serif);font-size:18px;font-weight:300;">Φτιάξε το δικό σου <em style="font-style:italic;color:var(--accent)">Σετ</em></div>
-        <div style="font-size:10px;color:var(--text-dim);margin:3px 0 12px;line-height:1.6;">Διάλεξε όσα κομμάτια θες από τη ντουλάπα σου και πέρασέ τα μαζί, ως ένα σετ, σε μια ημερομηνία του ημερολογίου — έτσι ξέρουμε ρητά ποια κομμάτια συνδύασες.</div>
-        <div class="pick-cats" id="custom-set-cats" style="padding:0 0 8px;"></div>
-        <div class="pick-grid" id="custom-set-grid" style="max-height:40vh;padding:8px 0;"></div>
-        <div id="custom-set-empty-hint" style="display:none;font-size:10px;color:var(--text-dim);padding:4px 0 2px;">Δεν έχεις επιλέξει ακόμα κομμάτια.</div>
-        <div id="custom-set-selected-wrap" style="margin-top:6px;"></div>
-        <div style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;margin-top:14px;">
-          <div class="form-group" style="flex:1;min-width:140px;">
-            <label style="font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);display:block;margin-bottom:4px;">Ημερομηνία</label>
-            <input type="date" id="custom-set-date" style="font-family:var(--font-sans);font-size:12px;border:1px solid var(--border);background:var(--surface2);padding:8px 9px;border-radius:1px;color:var(--text);outline:none;width:100%;">
+      <!-- SUGGESTIONS -->
+      <div id="sets-sub-suggest" style="display:none;">
+        <div style="margin-bottom:14px;">
+          <div style="font-family:var(--font-serif);font-size:18px;font-weight:300;">Προτεινόμενα <em style="font-style:italic;color:var(--accent)">Σετ</em></div>
+          <div style="font-size:10px;color:var(--text-dim);margin-top:3px;line-height:1.6;">Διάλεξε ένα κομμάτι και εποχή — θα φτιάξω σετ από τη ντουλάπα σου, με βάση χρώμα, εποχή & ευελιξία. Όποιο σου αρέσει, πάτα «💾 Σώσ' το» για να μπει στα σετ σου.</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:14px 16px;margin-bottom:16px;">
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <div class="form-group">
+              <label style="font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);display:block;margin-bottom:6px;">Κομμάτι για styling *</label>
+              <input type="hidden" id="set-base-item" value="">
+              <div id="set-base-display" onclick="openSetPicker()" style="display:flex;align-items:center;gap:10px;border:1px solid var(--border);background:var(--surface2);padding:8px 10px;border-radius:2px;cursor:pointer;min-height:54px;">
+                <div id="set-base-thumb" style="width:38px;height:46px;border-radius:2px;background:var(--surface3);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;overflow:hidden;">👗</div>
+                <div style="flex:1;min-width:0;">
+                  <div id="set-base-name" style="font-family:var(--font-serif);font-size:13px;color:var(--text-dim);">Πάτησε για να διαλέξεις κομμάτι</div>
+                  <div id="set-base-meta" style="font-size:9px;color:var(--text-dim);margin-top:2px;"></div>
+                </div>
+                <div style="font-size:14px;color:var(--accent);flex-shrink:0;">🔽</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label style="font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);display:block;margin-bottom:4px;">Εποχή *</label>
+              <select id="set-season" style="font-family:var(--font-sans);font-size:12px;border:1px solid var(--border);background:var(--surface2);padding:8px 9px;border-radius:1px;color:var(--text);outline:none;width:100%;">
+                <option value="summer">☀️ Άνοιξη / Καλοκαίρι</option>
+                <option value="winter">❄️ Φθινόπωρο / Χειμώνας</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label style="font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);display:block;margin-bottom:4px;">Περίσταση</label>
+              <select id="set-occasion-filter" style="font-family:var(--font-sans);font-size:12px;border:1px solid var(--border);background:var(--surface2);padding:8px 9px;border-radius:1px;color:var(--text);outline:none;width:100%;">
+                <option value="auto">🎯 Αυτόματα (βάσει του κομματιού)</option>
+                <option value="all">Όλες οι περιστάσεις</option>
+                <option value="casual">🚶‍♀️ Καθημερινό</option>
+                <option value="office">💼 Γραφείο</option>
+                <option value="evening">🌙 Βραδινό</option>
+                <option value="formal">🎩 Επίσημο</option>
+                <option value="sport">🏃‍♀️ Σπορ</option>
+                <option value="vacation">🏖️ Διακοπές</option>
+                <option value="travel">✈️ Ταξίδι</option>
+              </select>
+            </div>
+            <button class="btn-sm primary" onclick="generateSets()" style="align-self:flex-start;padding:9px 20px;">✨ Φτιάξε σετ</button>
           </div>
-          <button class="btn-sm" onclick="clearCustomSet()" style="padding:9px 14px;white-space:nowrap;">✕ Καθάρισμα</button>
-          <button class="btn-sm primary" onclick="logCustomSetToCalendar()" style="padding:9px 20px;white-space:nowrap;">📅 Στο ημερολόγιο</button>
         </div>
-      </div>
 
-      <!-- SET ITEM PICKER PANEL -->
-      <div id="set-picker-panel" style="display:none;background:var(--surface);border:1px solid var(--border);border-radius:3px;margin-bottom:16px;">
-        <div style="display:flex;align-items:center;justify-content:space-between;padding:11px 13px 8px;">
-          <div style="font-family:var(--font-serif);font-size:14px;font-weight:300;">Διάλεξε <em style="font-style:italic;color:var(--accent)">κομμάτι</em></div>
-          <button onclick="closeSetPicker()" style="background:none;border:1px solid var(--border);color:var(--text-muted);width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:11px;">✕</button>
+        <!-- SET ITEM PICKER PANEL -->
+        <div id="set-picker-panel" style="display:none;background:var(--surface);border:1px solid var(--border);border-radius:3px;margin-bottom:16px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:11px 13px 8px;">
+            <div style="font-family:var(--font-serif);font-size:14px;font-weight:300;">Διάλεξε <em style="font-style:italic;color:var(--accent)">κομμάτι</em></div>
+            <button onclick="closeSetPicker()" style="background:none;border:1px solid var(--border);color:var(--text-muted);width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:11px;">✕</button>
+          </div>
+          <div class="pick-cats" id="set-pick-cats"></div>
+          <div class="pick-grid" id="set-pick-grid" style="max-height:48vh;"></div>
         </div>
-        <div class="pick-cats" id="set-pick-cats"></div>
-        <div class="pick-grid" id="set-pick-grid" style="max-height:48vh;"></div>
-      </div>
 
-      <div id="sets-result"></div>
+        <div id="sets-result"></div>
+      </div>
     </div>
   </div>
-
+ 
   <!-- DASHBOARD -->
   <div class="panel" id="tab-dashboard">
     <div class="dashboard">
@@ -1665,7 +1756,7 @@ sb.auth.onAuthStateChange((event,session)=>{
 });
 
 // INIT
-async function initApp(){loadCpwTargets();initMaterialChips();await Promise.all([loadItems(),loadAllLogs(),loadArchivedItems(),loadOutfitUniforms()]);initColorFilterDropdown();renderWardrobe();renderActiveFilters();renderCalendar();loadMonthDash();initTotalDash();}
+async function initApp(){loadCpwTargets();initMaterialChips();await Promise.all([loadItems(),loadAllLogs(),loadArchivedItems(),loadOutfitUniforms(),loadSavedSets()]);initColorFilterDropdown();renderWardrobe();renderActiveFilters();renderCalendar();loadMonthDash();initTotalDash();}
 async function loadItems(){const{data}=await sb.from('wardrobe').select('*').order('created_at',{ascending:false});allItems=(data||[]).map(i=>({...i,uniforms:i.uniforms||[],occasions:i.occasions||[]}));initColorFilterDropdown();_alignCache.clear();_favCache=null;}
 async function loadAllLogs(){
   let all=[],from=0,pageSize=1000,keepGoing=true;
@@ -3201,6 +3292,7 @@ function renderDaySidebar(){
   const grid=document.getElementById('worn-grid');
   if(!logs.length){grid.innerHTML='<div style="grid-column:1/-1;color:var(--text-dim);font-size:10px;padding:8px 0;">Δεν φόρεσες κάτι (καταγεγραμμένο).</div>';}
   else grid.innerHTML=logs.map(l=>{const item=allItems.find(i=>i.id===l.wardrobe_item_id);if(!item)return'';return`<div class="worn-item"><button class="worn-remove" onclick="removeWearLog('${l.id}',event)">✕</button><div class="worn-photo">${item.photo_url?`<img src="${escHtml(item.photo_url)}">`:'👗'}</div><div class="worn-label">${escHtml(item.title)}</div></div>`;}).join('');
+  renderDaySets();
 }
 function renderMonthStats(){
   const monthLogs=wearLogs.filter(l=>{const d=new Date(l.worn_date);return d.getFullYear()===calYear&&d.getMonth()===calMonth;});
@@ -3840,7 +3932,7 @@ function setWhyText(base,pieces,occasion){
   if(!reasons.length)reasons.push('ισορροπημένος συνδυασμός για '+occasion.label.toLowerCase());
   return 'Γιατί ταιριάζει: '+reasons.join(' · ')+'.';
 }
-function renderSetCard(base,occasion,pieces){
+function renderSetCard(base,occasion,pieces,season){
   const ids=pieces.map(p=>p.id).join(',');
   const piecesHtml=pieces.map(p=>{
     const isBase=p.id===base.id;
@@ -3856,7 +3948,10 @@ function renderSetCard(base,occasion,pieces){
   return`<div class="set-card">
     <div class="set-card-head">
       <div class="set-card-title">${occasion.emoji} <em>${occasion.label}</em></div>
-      <button class="btn-sm primary" style="font-size:9px;padding:5px 11px;" onclick="logSetToCalendar('${ids}')">📅 Στο ημερολόγιο</button>
+      <div style="display:flex;gap:5px;flex-shrink:0;">
+        <button class="btn-sm" style="font-size:9px;padding:5px 11px;" onclick="saveGeneratedSet('${ids}','${occasion.key}','${season||''}','${base.id}')">💾 Σώσ' το</button>
+        <button class="btn-sm primary" style="font-size:9px;padding:5px 11px;" onclick="logSetToCalendar('${ids}')">📅 Στο ημερολόγιο</button>
+      </div>
     </div>
     <div class="set-why">${escHtml(setWhyText(base,pieces,occasion))}</div>
     <div class="set-items-row">${piecesHtml}</div>
@@ -3927,7 +4022,7 @@ function generateSets(){
     const usedClothingIds=new Set();
     const pieces=buildSetForOccasion(base,occasion,season,usedClothingIds);
     if(pieces.length<=1){html+=`<div class="set-card"><div class="set-card-head"><div class="set-card-title">${occasion.emoji} <em>${occasion.label}</em></div></div><div style="font-size:11px;color:var(--text-dim);padding:8px 0;">Δεν βρέθηκαν αρκετά κομμάτια για αυτή την περίσταση/εποχή. Δοκίμασε άλλη εποχή, ή πρόσθεσε «Περιστάσεις» & «Εποχή» σε περισσότερα ρούχα.</div></div>`;}
-    else html+=renderSetCard(base,occasion,pieces);
+    else html+=renderSetCard(base,occasion,pieces,season);
   });
   result.innerHTML=baseInfo+html;
   result.scrollIntoView({behavior:'smooth',block:'nearest'});
@@ -3945,11 +4040,211 @@ async function logSetToCalendar(idsStr){
   showToast(`📅 Καταχωρήθηκε στις ${d.getDate()} ${MN_SHORT[d.getMonth()]}`);
 }
 
-// ============ CUSTOM SET BUILDER ============
+// ============ SAVED SETS (library · builder · wear history) ============
+// Supabase tables: outfit_sets (το σετ) + outfit_set_wears (κάθε φορά που φορέθηκε). Βλ. outfit_sets.sql
+let savedSets=[],setWears=[],setsTableMissing=false,editingSetId=null;
+let setsSort='most_worn',setsOccFilter='',setsSeasonFilter='';
 let customSetSelectedIds=[],customSetPickCat='all';
+const SET_SEASON_LABELS={summer:'☀️ Άνοιξη/Καλοκαίρι',winter:'❄️ Φθιν./Χειμώνας',all:'🔁 4 εποχές'};
+
+async function fetchAllRows(table,orderCol){
+  let all=[],from=0;const size=1000;
+  while(true){
+    const{data,error}=await sb.from(table).select('*').order(orderCol,{ascending:false}).range(from,from+size-1);
+    if(error)return{error};
+    all=all.concat(data||[]);
+    if(!data||data.length<size)break;
+    from+=size;
+  }
+  return{data:all};
+}
+async function loadSavedSets(){
+  const[s,w]=await Promise.all([fetchAllRows('outfit_sets','created_at'),fetchAllRows('outfit_set_wears','worn_date')]);
+  if(s.error||w.error){
+    console.warn('Saved sets unavailable:',s.error||w.error);
+    setsTableMissing=true;savedSets=[];setWears=[];
+  }else{
+    setsTableMissing=false;
+    savedSets=(s.data||[]).map(x=>({...x,item_ids:x.item_ids||[]}));
+    setWears=w.data||[];
+  }
+  const msg=document.getElementById('sets-setup-msg');if(msg)msg.style.display=setsTableMissing?'block':'none';
+}
+function setWearsOf(id){return setWears.filter(w=>w.set_id===id).sort((a,b)=>b.worn_date.localeCompare(a.worn_date));}
+function setWearCount(id){return setWears.filter(w=>w.set_id===id).length;}
+function setLastWorn(id){const w=setWearsOf(id);return w.length?w[0].worn_date:null;}
+function setItemsOf(set){return(set.item_ids||[]).map(id=>allItems.find(i=>i.id===id)).filter(Boolean);}
+function occLabel(key){const o=OCCASION_LIST.find(x=>x.key===key);return o?`${o.emoji} ${o.label}`:'';}
+function fmtFullDate(iso){const d=new Date(iso);return`${d.getDate()} ${MN_SHORT[d.getMonth()]} ${d.getFullYear()}`;}
+function daysAgoText(iso){
+  const days=Math.floor((new Date(todayStr())-new Date(iso))/86400000);
+  if(days<=0)return'σήμερα';if(days===1)return'χθες';if(days<30)return`πριν ${days} μέρες`;
+  const m=Math.floor(days/30.44);if(m<12)return`πριν ${m} ${m===1?'μήνα':'μήνες'}`;
+  const y=Math.floor(days/365.25);return`πριν ${y} ${y===1?'χρόνο':'χρόνια'}`;
+}
+function sameItems(a,b){const x=[...a].sort().join(','),y=[...b].sort().join(',');return x===y;}
+function autoSetName(items){
+  const names=items.slice(0,2).map(i=>i.title);
+  return names.join(' + ')+(items.length>2?` +${items.length-2}`:'');
+}
+function refreshAfterSetChange(){
+  renderSavedSets();renderWardrobe();renderCalendar();
+}
+
+// ── SUB-TABS ──
+function showSetsSub(sub,btn){
+  document.querySelectorAll('#sets-subtabs .dash-subtab').forEach(b=>b.classList.toggle('active',b.dataset.sub===sub));
+  ['mine','build','suggest'].forEach(s=>{const el=document.getElementById('sets-sub-'+s);if(el)el.style.display=s===sub?'block':'none';});
+  if(sub==='mine')renderSavedSets();
+  if(sub==='build')initCustomSetBuilder();
+  if(sub==='suggest')populateSetItemDropdown();
+}
+function fillOccasionSelects(){
+  const f=document.getElementById('sets-occ-filter');
+  if(f){const v=setsOccFilter;f.innerHTML='<option value="">Όλες οι περιστάσεις</option>'+OCCASION_LIST.map(o=>`<option value="${o.key}">${o.emoji} ${o.label}</option>`).join('')+'<option value="__none__">Χωρίς περίσταση</option>';f.value=v;}
+  const c=document.getElementById('custom-set-occasion');
+  if(c&&!c.options.length)c.innerHTML='<option value="">—</option>'+OCCASION_LIST.map(o=>`<option value="${o.key}">${o.emoji} ${o.label}</option>`).join('');
+}
+
+// ── LIBRARY ──
+function renderSetsStats(){
+  const el=document.getElementById('sets-stats');if(!el)return;
+  if(!savedSets.length){el.innerHTML='';return;}
+  const counts=savedSets.map(s=>({s,n:setWearCount(s.id)}));
+  const totalWears=counts.reduce((a,b)=>a+b.n,0);
+  const never=counts.filter(c=>c.n===0).length;
+  const top=[...counts].filter(c=>c.n>0).sort((a,b)=>b.n-a.n);
+  // ανά περίσταση (σε χρήσεις)
+  const byOcc={};counts.forEach(({s,n})=>{if(!n)return;const k=s.occasion?occLabel(s.occasion):'Χωρίς περίσταση';byOcc[k]=(byOcc[k]||0)+n;});
+  const occSorted=Object.entries(byOcc).sort((a,b)=>b[1]-a[1]);
+  const share=top.length&&totalWears?Math.round(top.slice(0,3).reduce((a,b)=>a+b.n,0)/totalWears*100):0;
+  let insight='';
+  if(!totalWears)insight='Δεν έχεις φορέσει ακόμα κανένα σετ. Πάτα «📅 Φόρεσέ το» όταν φοράς ένα για να ξεκινήσει το ιστορικό.';
+  else if(top.length>=3&&share>=60)insight=`💡 Τα 3 αγαπημένα σου σετ κάνουν το <strong>${share}%</strong> των χρήσεων — έχεις ξεκάθαρες προτιμήσεις.`;
+  else if(top[0])insight=`💡 Το πιο αγαπημένο σου σετ είναι το <strong>«${escHtml(top[0].s.name)}»</strong> (${top[0].n}×).`;
+  if(never&&totalWears)insight+=` ${never} ${never===1?'σετ δεν έχει':'σετ δεν έχουν'} φορεθεί ποτέ.`;
+  el.innerHTML=`<div class="kpi-grid" style="grid-template-columns:repeat(3,1fr);margin-bottom:10px;">
+      <div class="kpi-card"><div class="kpi-label">Σωσμένα σετ</div><div class="kpi-value">${savedSets.length}</div></div>
+      <div class="kpi-card good-k"><div class="kpi-label">Χρήσεις σετ</div><div class="kpi-value">${totalWears}</div></div>
+      <div class="kpi-card${never?' alert':''}"><div class="kpi-label">Ποτέ φορεμένα</div><div class="kpi-value">${never}</div></div>
+    </div>
+    ${top.length?`<div class="chart-card" style="margin-bottom:10px;"><div class="chart-title">🏆 Top σετ (φορές)</div>${top.slice(0,5).map(c=>renderHBar(c.s.name,c.n,top[0].n,c.n+'×','var(--burgundy)')).join('')}</div>`:''}
+    ${occSorted.length>1?`<div class="chart-card" style="margin-bottom:10px;"><div class="chart-title">Χρήσεις σετ ανά περίσταση</div>${occSorted.map(([k,v])=>renderHBar(k,v,occSorted[0][1],v+'×','var(--mustard)')).join('')}</div>`:''}
+    ${insight?`<div class="auto-info" style="margin:0 0 12px;">${insight}</div>`:''}`;
+}
+function renderSavedSets(){
+  fillOccasionSelects();
+  const list=document.getElementById('saved-sets-list');if(!list)return;
+  renderSetsStats();
+  if(setsTableMissing){list.innerHTML='';return;}
+  if(!savedSets.length){
+    list.innerHTML=`<div class="empty-state"><div class="empty-title">Κανένα σετ ακόμα</div><div class="empty-sub">Φτιάξε το πρώτο σου σετ ή σώσε ένα από τις προτάσεις.</div><button class="btn-sm primary" onclick="showSetsSub('build')" style="padding:9px 18px;">✂️ Νέο σετ</button></div>`;
+    return;
+  }
+  let sets=[...savedSets];
+  if(setsOccFilter)sets=sets.filter(s=>setsOccFilter==='__none__'?!s.occasion:s.occasion===setsOccFilter);
+  if(setsSeasonFilter)sets=sets.filter(s=>s.season===setsSeasonFilter||(setsSeasonFilter!=='all'&&s.season==='all'));
+  const cnt=s=>setWearCount(s.id),last=s=>setLastWorn(s.id)||'';
+  if(setsSort==='most_worn')sets.sort((a,b)=>cnt(b)-cnt(a)||last(b).localeCompare(last(a)));
+  else if(setsSort==='least_worn')sets.sort((a,b)=>cnt(a)-cnt(b)||last(a).localeCompare(last(b)));
+  else if(setsSort==='recent')sets.sort((a,b)=>last(b).localeCompare(last(a)));
+  else if(setsSort==='name')sets.sort((a,b)=>(a.name||'').localeCompare(b.name||''));
+  else sets.sort((a,b)=>(b.created_at||'').localeCompare(a.created_at||''));
+  if(!sets.length){list.innerHTML='<div class="set-empty">Κανένα σετ με αυτά τα φίλτρα.</div>';return;}
+  const maxCount=Math.max(...savedSets.map(s=>setWearCount(s.id)),1);
+  // ♥ Αγαπημένο = top 3 σε χρήσεις, μόνο αν υπάρχουν 4+ σετ για σύγκριση και έχει φορεθεί 2+ φορές
+  const topIds=savedSets.length<4?new Set():new Set([...savedSets].filter(s=>setWearCount(s.id)>=2).sort((a,b)=>setWearCount(b.id)-setWearCount(a.id)).slice(0,3).map(s=>s.id));
+  const today=todayStr();
+  list.innerHTML=sets.map(set=>{
+    const items=setItemsOf(set);
+    const missing=(set.item_ids||[]).length-items.length;
+    const wears=setWearsOf(set.id);
+    const n=wears.length;
+    const tags=[];
+    if(topIds.has(set.id))tags.push('<span class="sset-tag hot">♥ Αγαπημένο</span>');
+    if(!n)tags.push('<span class="sset-tag cold">Ποτέ φορεμένο</span>');
+    if(set.occasion)tags.push(`<span class="sset-tag">${occLabel(set.occasion)}</span>`);
+    if(set.season)tags.push(`<span class="sset-tag">${SET_SEASON_LABELS[set.season]||escHtml(set.season)}</span>`);
+    tags.push(`<span>${n?`Τελευταία: ${fmtFullDate(wears[0].worn_date)} (${daysAgoText(wears[0].worn_date)})`:'Δεν έχει φορεθεί ακόμα'}</span>`);
+    const pieces=items.map(p=>{
+      const colorDot=p.color?`<span class="set-color-dot" style="background:${COLOR_HEX[p.color]||'#ccc'}"></span>`:'';
+      return`<div class="set-piece">
+        ${p.photo_url?`<img src="${escHtml(p.photo_url)}" class="set-piece-photo" onerror="this.outerHTML='<div class=\\'set-piece-photo-ph\\'>👗</div>'">`:'<div class="set-piece-photo-ph">👗</div>'}
+        <div class="set-piece-label">${colorDot}${escHtml(p.title)}</div>
+        <div class="set-piece-cat">${escHtml(p.cat2||p.cat1||p.category||'')}</div>
+      </div>`;}).join('');
+    const hist=n?`<details class="sset-hist"><summary>📜 Ιστορικό (${n}) ▾</summary>${wears.map(w=>`<div class="sset-hist-row"><span>${fmtFullDate(w.worn_date)} <span style="color:var(--text-dim);font-size:9px;">· ${daysAgoText(w.worn_date)}</span></span><button title="Αφαίρεση" onclick="removeSetWear('${w.id}')">✕</button></div>`).join('')}</details>`:'';
+    return`<div class="set-card">
+      <div class="set-card-head" style="align-items:flex-start;">
+        <div class="set-card-title" style="font-size:17px;">${escHtml(set.name)}</div>
+        <div class="sset-count">${n}×<small>φορέθηκε</small></div>
+      </div>
+      <div class="sset-meta">${tags.join('')}</div>
+      <div class="sset-bar"><span style="width:${Math.round(n/maxCount*100)}%"></span></div>
+      ${set.notes?`<div class="sset-notes">${escHtml(set.notes)}</div>`:''}
+      <div class="set-items-row">${pieces||'<div style="font-size:10px;color:var(--text-dim);">Τα κομμάτια αυτού του σετ δεν υπάρχουν πια στη ντουλάπα.</div>'}</div>
+      ${missing>0?`<div class="sset-missing">⚠ ${missing} ${missing===1?'κομμάτι έχει':'κομμάτια έχουν'} φύγει από τη ντουλάπα.</div>`:''}
+      <div class="sset-actions">
+        <input type="date" id="sw-date-${set.id}" value="${today}">
+        <button class="btn-sm primary" onclick="wearSetFromCard('${set.id}')" style="padding:6px 12px;">📅 Φόρεσέ το</button>
+        <div style="flex:1"></div>
+        <button class="btn-sm" onclick="editSet('${set.id}')" title="Επεξεργασία">✏️</button>
+        <button class="btn-sm danger" onclick="deleteSet('${set.id}')" title="Διαγραφή">🗑</button>
+      </div>
+      ${hist}
+    </div>`;
+  }).join('');
+}
+
+// ── WEAR A SET ──
+async function wearSet(setId,date,silent){
+  if(setsTableMissing){showToast('Τρέξε πρώτα το outfit_sets.sql στο Supabase');return false;}
+  const set=savedSets.find(s=>s.id===setId);if(!set)return false;
+  date=date||todayStr();
+  if(setWears.some(w=>w.set_id===setId&&w.worn_date===date)){if(!silent)showToast('Το σετ είναι ήδη καταχωρημένο σε αυτή τη μέρα');return false;}
+  const ids=setItemsOf(set).map(i=>i.id);
+  if(!ids.length){showToast('Το σετ δεν έχει κομμάτια στη ντουλάπα');return false;}
+  const existing=wearLogs.filter(l=>l.worn_date===date).map(l=>l.wardrobe_item_id);
+  const toAdd=ids.filter(id=>!existing.includes(id));
+  if(toAdd.length){
+    const{error}=await sb.from('wear_log').insert(toAdd.map(id=>({user_id:currentUser.id,wardrobe_item_id:id,worn_date:date})));
+    if(error){showToast('Σφάλμα: '+error.message);return false;}
+  }
+  const{error}=await sb.from('outfit_set_wears').insert({user_id:currentUser.id,set_id:setId,worn_date:date});
+  if(error){showToast('Σφάλμα: '+error.message);return false;}
+  await Promise.all([loadAllLogs(),loadSavedSets()]);
+  if(!silent){refreshAfterSetChange();const d=new Date(date);showToast(`📅 «${set.name}» στις ${d.getDate()} ${MN_SHORT[d.getMonth()]} · ${setWearCount(setId)}η φορά`);}
+  return true;
+}
+function wearSetFromCard(setId){
+  const inp=document.getElementById('sw-date-'+setId);
+  wearSet(setId,(inp&&inp.value)||todayStr());
+}
+async function removeSetWear(wearId){
+  const w=setWears.find(x=>x.id===wearId);if(!w)return;
+  const set=savedSets.find(s=>s.id===w.set_id);
+  if(!confirm(`Αφαίρεση του σετ από τις ${fmtFullDate(w.worn_date)};\nΤα κομμάτια του σετ θα βγουν και από το ημερολόγιο εκείνης της μέρας.`))return;
+  // μην σβήσεις κομμάτια που ανήκουν και σε άλλο σετ της ίδιας μέρας
+  const otherIds=new Set(setWears.filter(x=>x.worn_date===w.worn_date&&x.id!==w.id).flatMap(x=>(savedSets.find(s=>s.id===x.set_id)||{}).item_ids||[]));
+  const removeIds=((set&&set.item_ids)||[]).filter(id=>!otherIds.has(id));
+  const logs=wearLogs.filter(l=>l.worn_date===w.worn_date&&removeIds.includes(l.wardrobe_item_id));
+  if(logs.length){const{error}=await sb.from('wear_log').delete().in('id',logs.map(l=>l.id));if(error){showToast('Σφάλμα: '+error.message);return;}}
+  const{error}=await sb.from('outfit_set_wears').delete().eq('id',wearId);
+  if(error){showToast('Σφάλμα: '+error.message);return;}
+  await Promise.all([loadAllLogs(),loadSavedSets()]);
+  refreshAfterSetChange();showToast('Αφαιρέθηκε');
+}
+async function deleteSet(setId){
+  const set=savedSets.find(s=>s.id===setId);if(!set)return;
+  if(!confirm(`Διαγραφή του σετ «${set.name}»;\nΤα ρούχα που έχεις ήδη περάσει στο ημερολόγιο μένουν όπως είναι.`))return;
+  const{error}=await sb.from('outfit_sets').delete().eq('id',setId);
+  if(error){showToast('Σφάλμα: '+error.message);return;}
+  await loadSavedSets();refreshAfterSetChange();showToast('Το σετ διαγράφηκε');
+}
+
+// ── BUILDER (new / edit) ──
 function initCustomSetBuilder(){
-  const dateInput=document.getElementById('custom-set-date');
-  if(dateInput&&!dateInput.value)dateInput.value=selectedDate||todayStr();
+  fillOccasionSelects();
   renderCustomSetCats();renderCustomSetGrid();renderCustomSetSelected();
 }
 function renderCustomSetCats(){
@@ -3963,6 +4258,8 @@ function renderCustomSetGrid(){
   const grid=document.getElementById('custom-set-grid');if(!grid)return;
   let items=[...allItems];
   if(customSetPickCat!=='all')items=items.filter(i=>(i.cat1||i.category)===customSetPickCat);
+  const q=(document.getElementById('custom-set-search')?.value||'').trim().toLowerCase();
+  if(q)items=items.filter(i=>[i.title,i.brand,i.color,i.cat2].filter(Boolean).join(' ').toLowerCase().includes(q));
   items.sort((a,b)=>a.title.localeCompare(b.title));
   if(!items.length){grid.innerHTML='<div class="pick-empty">Κανένα ρούχο</div>';return;}
   grid.innerHTML=items.map(item=>`<div class="pick-item ${customSetSelectedIds.includes(item.id)?'selected':''}" onclick="toggleCustomSetItem('${item.id}')"><div class="pick-check">✓</div><div class="pick-photo">${item.photo_url?`<img src="${escHtml(item.photo_url)}">`:'👗'}</div><div class="pick-label">${escHtml(item.title)}</div></div>`).join('');
@@ -3977,19 +4274,94 @@ function renderCustomSetSelected(){
   if(!customSetSelectedIds.length){wrap.innerHTML='';if(hint)hint.style.display='block';return;}
   if(hint)hint.style.display='none';
   const items=customSetSelectedIds.map(id=>allItems.find(i=>i.id===id)).filter(Boolean);
-  wrap.innerHTML=`<div style="font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);margin-bottom:6px;">Επιλεγμένα (${items.length})</div><div class="worn-grid">`+items.map(item=>`<div class="worn-item"><button class="worn-remove" onclick="toggleCustomSetItem('${item.id}');event.stopPropagation();">✕</button><div class="worn-photo">${item.photo_url?`<img src="${escHtml(item.photo_url)}">`:'👗'}</div><div class="worn-label">${escHtml(item.title)}</div></div>`).join('')+'</div>';
+  wrap.innerHTML=`<div style="font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);margin-bottom:6px;">Στο σετ (${items.length})</div><div class="worn-grid">`+items.map(item=>`<div class="worn-item"><button class="worn-remove" onclick="toggleCustomSetItem('${item.id}');event.stopPropagation();">✕</button><div class="worn-photo">${item.photo_url?`<img src="${escHtml(item.photo_url)}">`:'👗'}</div><div class="worn-label">${escHtml(item.title)}</div></div>`).join('')+'</div>';
 }
 function clearCustomSet(){customSetSelectedIds=[];renderCustomSetGrid();renderCustomSetSelected();}
-async function logCustomSetToCalendar(){
-  if(!customSetSelectedIds.length){showToast('Διάλεξε τουλάχιστον ένα κομμάτι');return;}
-  const date=document.getElementById('custom-set-date').value||selectedDate||todayStr();
-  const existing=wearLogs.filter(l=>l.worn_date===date).map(l=>l.wardrobe_item_id);
-  const toAdd=customSetSelectedIds.filter(id=>!existing.includes(id));
-  for(const id of toAdd)await sb.from('wear_log').insert({user_id:currentUser.id,wardrobe_item_id:id,worn_date:date});
-  await loadAllLogs();renderWardrobe();
-  const d=new Date(date);
-  showToast(`📅 Το σετ καταχωρήθηκε στις ${d.getDate()} ${MN_SHORT[d.getMonth()]}`);
-  clearCustomSet();
+function resetCustomSetForm(){
+  editingSetId=null;customSetSelectedIds=[];
+  ['custom-set-name','custom-set-notes','custom-set-date','custom-set-search'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  ['custom-set-occasion','custom-set-season'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  document.getElementById('custom-set-title').innerHTML='Φτιάξε το δικό σου <em style="font-style:italic;color:var(--accent)">Σετ</em>';
+  document.getElementById('custom-set-save').textContent='💾 Αποθήκευση σετ';
+  document.getElementById('custom-set-cancel').textContent='✕ Καθάρισμα';
+  renderCustomSetGrid();renderCustomSetSelected();
+}
+function editSet(setId){
+  const set=savedSets.find(s=>s.id===setId);if(!set)return;
+  showSetsSub('build');
+  editingSetId=setId;
+  customSetSelectedIds=setItemsOf(set).map(i=>i.id);
+  document.getElementById('custom-set-name').value=set.name||'';
+  document.getElementById('custom-set-occasion').value=set.occasion||'';
+  document.getElementById('custom-set-season').value=set.season||'';
+  document.getElementById('custom-set-notes').value=set.notes||'';
+  document.getElementById('custom-set-date').value='';
+  document.getElementById('custom-set-title').innerHTML='Επεξεργασία <em style="font-style:italic;color:var(--accent)">Σετ</em>';
+  document.getElementById('custom-set-save').textContent='💾 Αποθήκευση αλλαγών';
+  document.getElementById('custom-set-cancel').textContent='✕ Ακύρωση';
+  renderCustomSetGrid();renderCustomSetSelected();
+  window.scrollTo(0,0);
+}
+async function saveCustomSet(){
+  if(setsTableMissing){showToast('Τρέξε πρώτα το outfit_sets.sql στο Supabase');return;}
+  const items=customSetSelectedIds.map(id=>allItems.find(i=>i.id===id)).filter(Boolean);
+  if(items.length<2){showToast('Διάλεξε τουλάχιστον 2 κομμάτια');return;}
+  const ids=items.map(i=>i.id);
+  const dup=savedSets.find(s=>s.id!==editingSetId&&sameItems(s.item_ids||[],ids));
+  if(dup&&!confirm(`Υπάρχει ήδη σετ με ακριβώς τα ίδια κομμάτια: «${dup.name}».\nΝα σωθεί κι αυτό ξεχωριστά;`))return;
+  const rec={
+    user_id:currentUser.id,
+    name:document.getElementById('custom-set-name').value.trim()||autoSetName(items),
+    item_ids:ids,
+    occasion:document.getElementById('custom-set-occasion').value||null,
+    season:document.getElementById('custom-set-season').value||null,
+    notes:document.getElementById('custom-set-notes').value.trim()||null,
+    updated_at:new Date().toISOString()
+  };
+  const btn=document.getElementById('custom-set-save');btn.disabled=true;
+  let setId=editingSetId,error;
+  if(editingSetId)({error}=await sb.from('outfit_sets').update(rec).eq('id',editingSetId));
+  else{const r=await sb.from('outfit_sets').insert(rec).select().single();error=r.error;setId=r.data&&r.data.id;}
+  btn.disabled=false;
+  if(error){showToast('Σφάλμα: '+error.message);return;}
+  const wornDate=document.getElementById('custom-set-date').value;
+  const wasEditing=!!editingSetId;
+  await loadSavedSets();
+  if(wornDate&&setId)await wearSet(setId,wornDate,true);
+  resetCustomSetForm();
+  showSetsSub('mine');refreshAfterSetChange();
+  showToast(wasEditing?'✓ Το σετ ενημερώθηκε':(wornDate?'✓ Σώθηκε και μπήκε στο ημερολόγιο':'✓ Το σετ σώθηκε στα «Σετ μου»'));
+}
+async function saveGeneratedSet(idsStr,occKey,season,baseId){
+  if(setsTableMissing){showToast('Τρέξε πρώτα το outfit_sets.sql στο Supabase');return;}
+  const ids=idsStr.split(',').filter(Boolean);
+  const dup=savedSets.find(s=>sameItems(s.item_ids||[],ids));
+  if(dup){showToast(`Υπάρχει ήδη ως «${dup.name}»`);return;}
+  const base=allItems.find(i=>i.id===baseId);
+  const occ=OCCASION_LIST.find(o=>o.key===occKey);
+  const suggested=`${occ?occ.label:'Σετ'} με ${base?base.title:'…'}`;
+  const name=prompt('Όνομα για το σετ:',suggested);
+  if(name===null)return;
+  const{error}=await sb.from('outfit_sets').insert({user_id:currentUser.id,name:name.trim()||suggested,item_ids:ids,occasion:occKey||null,season:season||null});
+  if(error){showToast('Σφάλμα: '+error.message);return;}
+  await loadSavedSets();renderSavedSets();showToast('✓ Σώθηκε στα «Σετ μου»');
+}
+
+// ── CALENDAR: sets of the selected day ──
+function renderDaySets(){
+  const wrap=document.getElementById('day-sets-wrap');if(!wrap)return;
+  if(setsTableMissing){wrap.innerHTML='<div style="font-size:10px;color:var(--text-dim);">Τα σετ δεν έχουν ρυθμιστεί ακόμα.</div>';return;}
+  const dayWears=setWears.filter(w=>w.worn_date===selectedDate);
+  const chips=dayWears.map(w=>{const s=savedSets.find(x=>x.id===w.set_id);return s?`<span class="day-set-chip">${escHtml(s.name)} <button title="Αφαίρεση" onclick="removeSetWear('${w.id}')">✕</button></span>`:'';}).join('');
+  if(!savedSets.length){wrap.innerHTML=(chips?`<div>${chips}</div>`:'')+'<div style="font-size:10px;color:var(--text-dim);">Δεν έχεις σωσμένα σετ ακόμα — φτιάξε από το tab ✨ Sets.</div>';return;}
+  const usedIds=new Set(dayWears.map(w=>w.set_id));
+  const options=[...savedSets].filter(s=>!usedIds.has(s.id)).sort((a,b)=>setWearCount(b.id)-setWearCount(a.id)||(a.name||'').localeCompare(b.name||''));
+  wrap.innerHTML=(chips?`<div>${chips}</div>`:'')+(options.length?`<div class="day-set-add"><select id="day-set-select"><option value="">✨ Διάλεξε από τα σετ σου…</option>${options.map(s=>`<option value="${s.id}">${escHtml(s.name)} (${setWearCount(s.id)}×)</option>`).join('')}</select><button class="btn-sm primary" onclick="addSetToSelectedDay()" style="padding:6px 12px;">+</button></div>`:'');
+}
+function addSetToSelectedDay(){
+  const sel=document.getElementById('day-set-select');
+  if(!sel||!sel.value){showToast('Διάλεξε ένα σετ');return;}
+  wearSet(sel.value,selectedDate);
 }
 
 // BULK IMPORT
@@ -4030,7 +4402,7 @@ function showTab(tab,btn){
   else{document.querySelectorAll('.desktop-tab-btn').forEach(b=>{if(b.getAttribute('onclick')&&b.getAttribute('onclick').includes("'"+tab+"'"))b.classList.add('active');});}
   if(tab==='calendar'){renderCalendar();applyCalLayout();}
   if(tab==='dashboard')loadMonthDash();
-  if(tab==='sets'){populateSetItemDropdown();initCustomSetBuilder();}
+  if(tab==='sets'){populateSetItemDropdown();initCustomSetBuilder();renderSavedSets();}
   if(tab==='gone')renderGoneList();
   if(tab==='uniforms')renderUniformsList();
   window.scrollTo(0,0);
